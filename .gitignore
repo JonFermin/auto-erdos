@@ -1,0 +1,24 @@
+# Per-branch state — gitignored on purpose. Each worktree has its own.
+results.tsv
+run.log
+verifier_results.tsv
+
+# Per-session scratch
+CLAUDE.md.local
+*.local.md
+
+# Worktrees live inside the repo for convenience but never get committed
+worktrees/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+.pytest_cache/
+
+# uv
+.uv/
+
+# OS
+.DS_Store
+Thumbs.db

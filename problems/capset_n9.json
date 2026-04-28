@@ -1,0 +1,7 @@
+{
+  "name": "capset_n9",
+  "family": "capset",
+  "n": 9,
+  "baseline": 1082,
+  "note": "Best known lower bound: a_9(F_3) >= 1082 (Edel). Upper bound open and far. Lots of headroom."
+}

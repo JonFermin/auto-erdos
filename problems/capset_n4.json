@@ -1,0 +1,7 @@
+{
+  "name": "capset_n4",
+  "family": "capset",
+  "n": 4,
+  "baseline": 20,
+  "note": "Exact value: a_4(F_3) = 20. Beating the baseline is impossible — included as a sanity check that the loop terminates without false positives."
+}

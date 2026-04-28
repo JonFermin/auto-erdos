@@ -1,0 +1,7 @@
+{
+  "name": "capset_n7",
+  "family": "capset",
+  "n": 7,
+  "baseline": 236,
+  "note": "Best known lower bound: a_7(F_3) >= 236 (Edel construction). Upper bound is open (around 291). The headroom is real."
+}

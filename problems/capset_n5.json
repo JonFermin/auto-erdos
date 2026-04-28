@@ -1,0 +1,7 @@
+{
+  "name": "capset_n5",
+  "family": "capset",
+  "n": 5,
+  "baseline": 45,
+  "note": "Exact value: a_5(F_3) = 45 (Pellegrino, 1970). Beating the baseline is impossible — sanity check."
+}

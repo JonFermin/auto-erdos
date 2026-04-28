@@ -1,0 +1,7 @@
+{
+  "name": "capset_n8",
+  "family": "capset",
+  "n": 8,
+  "baseline": 496,
+  "note": "Best known lower bound: a_8(F_3) >= 496 (Edel, product/cyclic construction). Upper bound open. Default problem — the hello world."
+}

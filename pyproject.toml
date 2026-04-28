@@ -1,0 +1,16 @@
+[project]
+name = "auto-erdos"
+version = "0.1.0"
+description = "Autonomous Erdős-style combinatorial research loop. Port 1: bound-improvement (cap sets in F_3^n)."
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "numpy>=2.0",
+    "pandas>=2.2",
+    "pyarrow>=17",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8",
+]
