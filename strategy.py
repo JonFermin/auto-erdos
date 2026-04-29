@@ -47,6 +47,7 @@ import itertools
 import random
 
 from library import capset, sidon
+from library.sat_extensions import extend_sidon_by_one
 from prepare import (
     TimeBudget,
     load_best_so_far,
@@ -99,7 +100,12 @@ def _seed_sidon(spec):
 
     candidates.append(_randomized_greedy_sidon(N))
 
-    return max(candidates, key=len)
+    base = max(candidates, key=len)
+    # Try a +1 SAT-free linear scan extension on the best-so-far/singer base.
+    extended = extend_sidon_by_one(base, N)
+    if extended is not None:
+        return extended
+    return base
 
 
 def _randomized_greedy_capset(n):
