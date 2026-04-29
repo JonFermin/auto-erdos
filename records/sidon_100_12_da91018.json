@@ -1,0 +1,28 @@
+{
+  "baseline": 11.0,
+  "branch": "erdos-research/0429-081623",
+  "candidate": [
+    1,
+    2,
+    4,
+    8,
+    17,
+    28,
+    40,
+    59,
+    69,
+    77,
+    94,
+    99
+  ],
+  "candidate_available": true,
+  "commit": "da91018",
+  "family": "sidon",
+  "improvement_over_baseline": 1.0,
+  "is_valid": 1,
+  "problem": "sidon_100",
+  "score": 12.0,
+  "thesis": "thesis: [DFS] randomized branch-order DFS for size-13 over anchors {1..5}; expect failure given prior anchor-1 DFS proof",
+  "verifier_seconds": 0.0,
+  "written_at": "2026-04-29T14:29:11+00:00"
+}
