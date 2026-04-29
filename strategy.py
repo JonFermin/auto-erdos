@@ -46,7 +46,7 @@ from __future__ import annotations
 import itertools
 import random
 
-from library import capset, sidon
+from library import capset, sat_extensions, sidon
 from prepare import (
     TimeBudget,
     load_best_so_far,
@@ -97,9 +97,66 @@ def _seed_sidon(spec):
     if singer:
         candidates.append(singer)
 
+    # NEW: GF(2^5) prime-power Singer. The library blocks q=32 but the
+    # construction generalises to prime powers — for q=32 it gives a
+    # 33-element perfect difference set in Z/1057, which we sweep through
+    # all 1057 cyclic translates and restrict to [1,1000].
+    gf32 = _gf32_singer_window(N)
+    if gf32:
+        candidates.append(gf32)
+
     candidates.append(_randomized_greedy_sidon(N))
 
     return max(candidates, key=len)
+
+
+def _gf32_singer_window(N: int) -> list[int]:
+    """Singer Sidon set over GF(2^5): 33-element perfect difference set in
+    Z/1057, swept through all cyclic translates restricted to [1, N].
+
+    GF(2^5) is built as F_2[x] / (x^5 + x^2 + 1), where x is primitive.
+    The Singer set is the set of indices i in [0, 2^10 + 2^5 + 1) such that
+    x^i lies in span_{F_2}(1, x) (i.e., the {x^2, x^3, x^4} coefficients
+    are zero). Equivalent to ``library.sidon.singer`` but over GF(2^5)
+    rather than F_p prime.
+
+    We then sweep through all 1057 cyclic translates and pick the densest
+    subset fitting in [1, N]. Augment by SAT (+1) at the end.
+    """
+    # Multiplication by x in F_2[x] / (x^5 + x^2 + 1):
+    #   x * (e0, e1, e2, e3, e4) = (e1 x + e2 x^2 + ... + e4 x^5)
+    #   x^5 = x^2 + 1, so:
+    #     e4 x^5 = e4 x^2 + e4 (in F_2)
+    #     result = (e4, e0, e1 + e4, e2, e3) (mod 2)
+    period = 2**10 + 2**5 + 1  # 1057
+    state = [1, 0, 0, 0, 0]
+    base: list[int] = []
+    for i in range(period):
+        # Singer condition: only e0 and e1 nonzero, e2=e3=e4=0.
+        if state[2] == 0 and state[3] == 0 and state[4] == 0:
+            base.append(i)
+        e0, e1, e2, e3, e4 = state
+        state = [e4, e0, (e1 + e4) % 2, e2, e3]
+    if len(base) != 33:
+        return []  # encoding bug — bail
+    base_set = set(base)
+    # Sweep all cyclic translates t in [0, period); for each, count elements
+    # falling in [0, N-1] (shifted by 1 to land in [1, N]).
+    best_size = 0
+    best_set: list[int] = []
+    for t in range(period):
+        translated = sorted((x + t) % period for x in base_set)
+        fit = [y + 1 for y in translated if y < N]
+        if len(fit) > best_size:
+            best_size = len(fit)
+            best_set = fit
+    if not best_set:
+        return []
+    # SAT augment by 1 to push toward 33+1.
+    extended = sat_extensions.extend_sidon_by_one(best_set, N)
+    if extended is not None:
+        return extended
+    return best_set
 
 
 def _randomized_greedy_capset(n):
