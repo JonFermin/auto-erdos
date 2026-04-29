@@ -17,4 +17,4 @@ Typical usage in ``strategy.py``::
 The keep rule still requires score > running_best, so returning a library
 set verbatim discards (it equals the literature baseline by construction).
 """
-from library import capset, sidon  # noqa: F401  (re-export)
+from library import capset, sat_extensions, sidon  # noqa: F401  (re-export)

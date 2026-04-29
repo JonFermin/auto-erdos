@@ -39,6 +39,7 @@ from __future__ import annotations
 import argparse
 import ast
 import hashlib
+import json
 import math
 import os
 import platform
@@ -50,7 +51,13 @@ from pathlib import Path
 
 import pandas as pd
 
-from prepare import PROBLEM_TAG, REPO_ROOT, VERIFIER_RESULTS_TSV, load_spec
+from prepare import (
+    PROBLEM_TAG,
+    REPO_ROOT,
+    VERIFIER_RESULTS_TSV,
+    append_hypothesis_log,
+    load_spec,
+)
 
 if platform.system() == "Windows":
     import msvcrt
@@ -376,6 +383,113 @@ def _running_best(results: pd.DataFrame, baseline: float) -> float:
 
 
 # --------------------------------------------------------------------------- #
+# Records — committed snapshot of every keep that beats the literature LB.
+# --------------------------------------------------------------------------- #
+
+RECORDS_DIR = REPO_ROOT / "records"
+
+
+def _read_last_candidate(tag: str, commit: str) -> list | None:
+    """Read this run's candidate from prepare.py's per-run cache. Returns
+    None if the cache is missing, malformed, or written for a different
+    commit (defensive — the cache is overwritten every strategy.py run).
+    """
+    path = _CACHE_DIR / f"last_candidate_{tag}.json"
+    if not path.exists() or path.stat().st_size == 0:
+        return None
+    try:
+        with open(path, encoding="utf-8") as f:
+            payload = json.load(f)
+    except (json.JSONDecodeError, OSError):
+        return None
+    if str(payload.get("commit", "")).strip() != commit:
+        return None
+    cand = payload.get("candidate")
+    return cand if isinstance(cand, list) else None
+
+
+def _write_record(
+    commit: str,
+    score: float,
+    is_valid: int,
+    verifier_seconds: float,
+    desc: str,
+    spec: dict,
+    branch_tag: str,
+) -> None:
+    """Write a committed record snapshot for a kept trial.
+
+    Filename: records/<tag>_<score>_<commit>.json. The commit suffix
+    guarantees uniqueness — two distinct strategies that hit the same
+    score get separate records.
+
+    Best-effort auto-commit: if `git add && git commit` succeeds, the
+    record lands as a follow-up commit (the kept strategy commit is its
+    parent). If the commit step fails, the file remains as untracked and
+    the agent can pick it up on its next commit. The keep itself is
+    unaffected — bookkeeping failures must not undo a real result.
+    """
+    tag = spec.get("name", "unknown")
+    baseline = float(spec.get("baseline", 0))
+    candidate = _read_last_candidate(tag, commit)
+
+    record = {
+        "problem": tag,
+        "family": spec.get("family", ""),
+        "score": score,
+        "baseline": baseline,
+        "improvement_over_baseline": score - baseline,
+        "is_valid": is_valid,
+        "verifier_seconds": verifier_seconds,
+        "commit": commit,
+        "branch": f"erdos-research/{branch_tag}",
+        "thesis": desc,
+        "candidate": candidate,
+        "candidate_available": candidate is not None,
+        "written_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+    }
+
+    score_int = int(score) if math.isfinite(score) else 0
+    filename = f"{tag}_{score_int}_{commit}.json"
+    path = RECORDS_DIR / filename
+    try:
+        RECORDS_DIR.mkdir(parents=True, exist_ok=True)
+        if path.exists():
+            print(
+                f"WARNING: record {filename} already exists; refusing to overwrite. "
+                f"Keep is logged but record was not refreshed.",
+                file=sys.stderr,
+            )
+            return
+        with open(path, "w", encoding="utf-8") as f:
+            json.dump(record, f, indent=2, sort_keys=True)
+            f.write("\n")
+    except OSError as e:
+        print(f"WARNING: failed to write record {filename}: {e}", file=sys.stderr)
+        return
+
+    rel = path.relative_to(REPO_ROOT).as_posix()
+    try:
+        subprocess.check_call(
+            ["git", "-C", str(REPO_ROOT), "add", rel],
+            stderr=subprocess.DEVNULL,
+        )
+        subprocess.check_call(
+            ["git", "-C", str(REPO_ROOT), "commit", "-m",
+             f"record: {tag} score={score_int} ({branch_tag})"],
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+        )
+        print(f"record: committed {rel}", file=sys.stderr)
+    except subprocess.CalledProcessError as e:
+        print(
+            f"WARNING: record {rel} written but auto-commit failed ({e}); "
+            f"file is staged/untracked and can be committed by hand.",
+            file=sys.stderr,
+        )
+
+
+# --------------------------------------------------------------------------- #
 # Main
 # --------------------------------------------------------------------------- #
 
@@ -430,8 +544,12 @@ def main() -> int:
     if v_row is None:
         # The run never reached print_summary — crash row, free-form description.
         _append_results_row(commit, float("nan"), float("nan"), float("nan"), "crash", desc)
+        branch_tag = _current_branch_tag()
         if ast_hash is not None:
-            _append_cache(ast_hash, _current_branch_tag(), commit, float("nan"), "crash")
+            _append_cache(ast_hash, branch_tag, commit, float("nan"), "crash")
+        append_hypothesis_log(
+            branch_tag, commit, float("nan"), float("nan"), "crash", desc,
+        )
         return 5
 
     if not desc.lower().startswith("thesis:"):
@@ -468,8 +586,15 @@ def main() -> int:
 
     print(f"grader: {status} ({reason})", file=sys.stderr)
     _append_results_row(commit, score, is_valid, verifier_seconds, status, desc)
+    branch_tag = _current_branch_tag()
     if ast_hash is not None:
-        _append_cache(ast_hash, _current_branch_tag(), commit, score, status)
+        _append_cache(ast_hash, branch_tag, commit, score, status)
+    append_hypothesis_log(branch_tag, commit, score, is_valid, status, desc)
+    if keep:
+        _write_record(
+            commit, score, is_valid, verifier_seconds, desc,
+            spec, branch_tag,
+        )
     return 0
 
 

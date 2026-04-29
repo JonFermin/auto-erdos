@@ -42,9 +42,11 @@ to `verify()`, and prints the metric block:
   the branch.
 - Modify `library/*.py`. The constructions are part of the fixed environment.
 - Install new packages. Use only what's in `pyproject.toml`.
-- Read `verifier_results.tsv` or the trial cache directly — those are
-  harness-side audit trails. The only things you may read are `run.log`
-  (your own stdout) and `results.tsv` (your own log).
+- Read `verifier_results.tsv` or the AST trial cache directly — those are
+  harness-side audit trails. The sanctioned cross-branch reads are
+  `prepare.load_best_so_far()` (warm-start) and `prepare.load_hypothesis_log()`
+  (cross-branch trial log; see "Cross-branch hypothesis memory" below).
+  You may also read `run.log` (your own stdout) and `results.tsv` (your own log).
 
 **The goal**: improve the score above the running best. For Port 1 (cap
 sets), score = |S|, larger is better. The keep rule:
@@ -62,19 +64,40 @@ and see what happens," skip it. The AST-dedup will reject pure no-ops, but
 it cannot tell the difference between an honest experiment and 19 vacuous
 restarts of the same algorithm — that judgment is on you.
 
-**The first (seed) run.** Run `strategy.py` as-is. The seed (randomized greedy)
-gives a baseline score that is honest but well below the literature LB —
-your job is to close that gap.
+**The first (seed) run.** Run `strategy.py` as-is. The shipped seed already
+combines three layers and returns the largest:
+
+  1. **Warm-start** — `prepare.load_best_so_far()` for this problem (highest
+     valid score across all branches; None on a fresh machine).
+  2. **Library** — `library.capset.best_seed(n)` (uses the shipped 20-cap
+     building block) for capset; `library.sidon.singer_for_n(N)` (Singer
+     perfect difference set) for Sidon.
+  3. **Randomized greedy** — fallback, deterministic.
+
+So the seed is at-or-above the literature LB on every Sidon problem out of
+the box (e.g. sidon_500: 24 vs LB 23; sidon_1000: 33 vs LB 32) and at LB
+exactly for capset n in {1, 2, 3, 4}. For capset n >= 5 the seed is below
+LB but materially stronger than a plain greedy. Your job is to push above
+the seed — the problem is, at minimum, no harder than that starting point.
 
 **CRITICAL — the seed run is non-committing.** `strategy.py` already exists
 at HEAD; you do NOT make a git commit before running the seed. After
-`log_result.py` grades the seed (almost always `discard`, since the seed
-is below the literature LB), **DO NOT `git reset --hard HEAD~1`** — there
-is no agent-made commit to reset, and resetting would move HEAD off the
-current scaffold/fix commit onto its parent, silently downgrading the
-verifier and other harness code under your feet. Just proceed straight to
-the experiment loop with HEAD untouched. The `git reset` rule in the loop
-applies only to commits *you* made (steps 2–3 below).
+`log_result.py` grades the seed (`discard` if score == LB; `keep` if
+warm-start has lifted you above LB), **DO NOT `git reset --hard HEAD~1`**
+— there is no agent-made commit to reset, and resetting would move HEAD
+off the current scaffold/fix commit onto its parent, silently downgrading
+the verifier and other harness code under your feet. Just proceed straight
+to the experiment loop with HEAD untouched. The `git reset` rule in the
+loop applies only to commits *you* made (steps 2–3 below).
+
+**CRITICAL — your first commit must make a real change to `strategy.py`.**
+The AST dedup hash strips docstrings, comments, and whitespace before
+hashing, so a "first commit" that only edits comments or docstrings will
+hash identically to the seed and trigger exit code 3 against either the
+seed row (any prior branch's seed has the same hash and a different commit
+than yours) or against an earlier branch's identical first commit. Adding
+imports or new top-level functions DOES change the AST. The point is: have
+a real hypothesis, not a no-op.
 
 ## Output format
 
@@ -129,6 +152,13 @@ The baseline is the problem's literature lower bound and is fixed for the
 duration of the branch. The bar ratchets upward with each kept row, so
 later trials must keep beating the most recent kept score, not just the
 starting line.
+
+**On every keep**, `log_result.py` writes `records/<tag>_<score>_<commit>.json`
+(candidate, score, baseline, branch, thesis, verifier_seconds) and auto-commits
+it as a follow-up commit. This is the permanent, committed proof of a result —
+unlike `results.tsv` (gitignored). `git reset --hard HEAD~1` after a *later*
+discard will land on this record-commit, leaving strategy.py at the kept
+version; semantics for the agent are unchanged.
 
 The TSV has 6 columns:
 
@@ -223,10 +253,16 @@ three things happens:
 
 **Timeout**: Verifiers themselves are cheap (well under a second for
 capset n≤8 and sidon up to N~10000). The wall-clock cap inside
-`prepare.TimeBudget` is **15 minutes** (`AUTOERDOS_TIME_BUDGET_S=900`) —
-that budget is yours to spend on DFS, SA, GA, exact sub-routines, etc.
-inside `generate_candidate`. Runs that exceed it should bail gracefully
-(check `tb.expired`) and return whatever valid candidate you have so far;
+`prepare.TimeBudget` is per-problem (`time_budget_s` in `problems/<tag>.json`,
+default 900s; env `AUTOERDOS_TIME_BUDGET_S` overrides). Per-problem budgets
+range from 60s (sanity checks) to 2400s (capset_n10 where the verifier
+itself is non-trivial). Sidon at N=1000 / 3000 is set to 1200s / 1800s for
+exploitative search.
+
+That budget is yours to spend on DFS, SA, GA, SAT, exact sub-routines, etc.
+inside `generate_candidate`. The shipped seed plumbs the `TimeBudget` into
+the function signature: `generate_candidate(tb=None)`. Use `tb.expired`
+to bail gracefully and return whatever valid candidate you have so far;
 hard-killed runs are treated as crashes.
 
 ## Warm-starting from prior trials
@@ -237,18 +273,54 @@ ever been logged). The cache is written automatically by `print_summary`
 whenever a run's score beats the prior best — agents do not write it.
 
 ```python
-from prepare import load_best_so_far
+from prepare import TimeBudget, load_best_so_far, print_summary, verify
 
-prior = load_best_so_far()
-if prior is not None:
-    seed = prior["candidate"]   # list[int] for sidon, list[list[int]] for capset
-    # ... extend / swap-move from seed ...
+def generate_candidate(tb=None):
+    spec = load_spec()
+    prior = load_best_so_far()
+    if prior is not None:
+        seed = prior["candidate"]   # list[int] for sidon, list[list[int]] for capset
+        # ... extend / swap-move from seed; check tb.expired for budget ...
+    return seed
+
+if __name__ == "__main__":
+    with TimeBudget() as tb:
+        candidate = generate_candidate(tb)
+        result = verify(candidate)
+    print_summary(candidate, result)
 ```
 
-This is **strictly optional**. A trial that ignores the warm-start cache
-and starts from scratch is just as legitimate — the cache is a resource,
-not a requirement. Useful when you want to compose on top of the highest
-valid set seen so far rather than rediscover it.
+The shipped `strategy.py` already calls `load_best_so_far()` in its seed
+path and returns the largest of (warm-start, library construction,
+randomized greedy). Reading the cache directly is just one of several
+ways to leverage it.
+
+## Cross-branch hypothesis memory
+
+`prepare.load_hypothesis_log(tag=None, *, since_utc=None)` returns every
+prior trial on the current `PROBLEM_TAG` across all branches as a list of
+dicts:
+
+    {written_at, branch_tag, commit, score, is_valid, status, thesis}
+
+```python
+from prepare import load_hypothesis_log
+
+prior_trials = load_hypothesis_log()
+sa_attempts = [t for t in prior_trials if "annealing" in t["thesis"].lower()]
+if sa_attempts and all(t["status"] == "discard" for t in sa_attempts):
+    # Skip another SA variant — the family has already failed.
+    pass
+```
+
+The thesis strings are stored verbatim — there is no automatic family
+classification, so consumers grep / regex / LLM-summarize as needed.
+`since_utc` (ISO 8601) optionally filters to recent trials. The log is
+append-only; to retire history, `rm` `~/.cache/auto-erdos/hypothesis_log_<TAG>.tsv`.
+
+This is the one sanctioned channel for cross-branch *failure* memory
+(successes leak via `load_best_so_far`). It's deliberately separate from
+the AST trial cache (which remains harness-internal and forbidden).
 
 ## Constructions library
 
@@ -260,16 +332,17 @@ starting points. Calling a library function is normal Python — no special
 augment the library output with greedy / SA / swap-moves, etc.
 
 ```python
-from library import sidon, capset
+from library import sidon, capset, sat_extensions
 
-# Sidon: try the best Singer translate, then extend
-seed = sidon.singer_for_n(spec["N"])              # largest fit in [1, N]
-# ... try to add points to seed ...
+# Sidon: try the best Singer translate, then SAT-extend by 1
+seed = sidon.singer_for_n(spec["N"])
+extended = sat_extensions.extend_sidon_by_one(seed, spec["N"])
+seed = extended if extended is not None else seed
 
-# Capset: start from product-lift, augment in time budget
-seed = capset.recursive_product(spec["n"])         # 4^(n//2) * 2^(n%2)
-# ... or pull random_greedy as comparison baseline ...
-greedy = capset.random_greedy(spec["n"], seed=0)
+# Capset: start from the strongest shipped seed (uses 20-cap × ...)
+seed = capset.best_seed(spec["n"])
+# ... try to augment seed via swap-moves / SA / SAT ...
+greedy = capset.random_greedy(spec["n"], seed=0)   # comparison baseline
 ```
 
 Public API:
@@ -279,17 +352,25 @@ Public API:
 | `library.sidon` | `singer(q)` | q+1-element Singer set in [0, q²+q] (q prime). |
 | `library.sidon` | `erdos_turan(p)` | p-element ET set in [0, 2p²-p] (p prime). |
 | `library.sidon` | `singer_for_n(N, base=1)` | Best translated Singer set in [base, base+N-1]. |
-| `library.capset` | `random_greedy(n, seed=0)` | Randomized greedy cap (current strategy.py default). |
-| `library.capset` | `cap_n1()` / `cap_n2_size4()` | Maximum caps in F_3^1 and F_3^2. |
+| `library.capset` | `random_greedy(n, seed=0)` | Randomized greedy cap (deterministic). |
+| `library.capset` | `cap_n1()` / `cap_n2_size4()` | Maximum caps in F_3^1 / F_3^2 (sizes 2 / 4). |
+| `library.capset` | `cap_n3_size9()` | Maximum cap in F_3^3 (size 9, exact DFS). |
+| `library.capset` | `cap_n4_size20()` | Maximum cap in F_3^4 (size 20, exact DFS, disk-cached). |
 | `library.capset` | `product_lift(A, n_a, B, n_b)` | A × B as cap in F_3^{n_a+n_b}. |
 | `library.capset` | `lift_to_dim(cap, src, tgt)` | Zero-pad embedding. |
-| `library.capset` | `recursive_product(n)` | Cap in F_3^n via repeated product-lift. |
+| `library.capset` | `recursive_product(n)` | Cap in F_3^n via repeated cap_n1/cap_n2 product-lift. |
+| `library.capset` | `best_seed(n)` | Strongest shipped cap: uses cap_n4_size20 × small-cap by product-lift. |
+| `library.sat_extensions` | `extend_sidon_by_one(seed, N)` | +1 extension (linear scan). |
+| `library.sat_extensions` | `extend_sidon_by_k(seed, N, k)` | +k extension (SAT, k>=2; raises if N>2000). |
+| `library.sat_extensions` | `swap_remove1_add2(seed, N)` | Remove-1-add-2 net +1 swap (SAT). |
 
-**Note on size**: for sidon_500 / 1000 / 3000, `singer_for_n` already
-beats the literature baseline (24 / 33 / 58 vs 23 / 32 / 53). For capset
-problems, `recursive_product` is below baseline at all n>=4 — it's a
-building block, not a solution. To beat capset baselines you need
-better constructions or a smart augmentation of the library output.
+**Note on size**: for sidon_100 / 500 / 1000 / 3000, `singer_for_n` already
+matches or beats the literature baseline (11 / 24 / 33 / 53 vs 10 / 23 / 32 / 53).
+For capset, `best_seed(n)` matches the literature LB for n in {1, 2, 3, 4}
+exactly; for n >= 5 it's below LB but materially stronger than `recursive_product(n)`
+(e.g. n=8: 400 vs 256, n=10: 1600 vs 1024). To push capset above LB at any
+n >= 5 you need a real new construction or a smart augmentation of the
+shipped seed.
 
 ## Sidon-specific hypothesis ideas
 
@@ -317,4 +398,10 @@ Frame each idea with a one-line thesis *before* you run.
   encode "exists x in [1, N] \ S with S ∪ {x} Sidon" as a SAT instance
   (variable per candidate x, clauses forbidding sum collisions). Solve
   with `pysat.solvers.Glucose3`. UNSAT ⇒ S is locally maximal; SAT ⇒ a
-  +1 augmentation exists, repeat.
+  +1 augmentation exists, repeat. **Use `library.sat_extensions.extend_sidon_by_one`**
+  — it does the linear scan version (no SAT needed for +1) and returns
+  None if locally maximal.
+- **SAT for +k or swap moves**: `library.sat_extensions.extend_sidon_by_k(seed, N, k)`
+  and `swap_remove1_add2(seed, N)` ship the SAT formulations with a CEGAR
+  loop. They hard-guard at N>2000 for k>1 (encoding too large); for big N
+  do bisection or use repeated +1 calls.

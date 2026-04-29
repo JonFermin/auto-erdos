@@ -264,6 +264,7 @@ def print_summary(candidate, result: VerifyResult) -> None:
 
     _append_audit_row(spec, result, hint)
     _save_best_if_better(candidate, result, spec)
+    _save_last_candidate(candidate, result, spec)
 
 
 def _append_audit_row(spec: dict, result: VerifyResult, hint: str) -> None:
@@ -404,6 +405,175 @@ def _save_best_if_better(candidate, result: VerifyResult, spec: dict) -> None:
     except OSError:
         # Saving best_so_far is best-effort; never crash the verifier on it.
         return
+
+
+def _save_last_candidate(candidate, result: VerifyResult, spec: dict) -> None:
+    """Snapshot this run's candidate to ``last_candidate_<TAG>.json``.
+
+    Unlike ``_save_best_if_better`` (which only writes on cross-branch
+    improvement), this overwrites every run so ``log_result.py`` can read
+    back the candidate for the current commit when promoting a keep into a
+    committed ``records/<tag>_<score>_<commit>.json`` entry. Transient by
+    design — the audit trail of record is the committed records/ tree.
+    """
+    score = float(result.score) if math.isfinite(float(result.score)) else 0.0
+    family = spec.get("family", "")
+    tag = spec.get("name", PROBLEM_TAG)
+    serialized = _serialize_candidate(candidate, family) if result.is_valid else []
+    path = _CACHE_DIR / f"last_candidate_{tag}.json"
+    payload = {
+        "problem": tag,
+        "family": family,
+        "commit": _short_commit(),
+        "score": score,
+        "is_valid": 1 if result.is_valid else 0,
+        "candidate": serialized,
+        "written_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+    }
+    try:
+        _CACHE_DIR.mkdir(parents=True, exist_ok=True)
+        tmp_path = path.with_suffix(".json.tmp")
+        with open(tmp_path, "w", encoding="utf-8") as f:
+            json.dump(payload, f, separators=(",", ":"))
+        os.replace(tmp_path, path)
+    except OSError:
+        return
+
+
+# --------------------------------------------------------------------------- #
+# Hypothesis log — public cross-branch trial memory.
+#
+# The harness already writes a per-trial AST cache (`trial_cache_<TAG>.tsv`)
+# that's forbidden to agents. The hypothesis log is the SANCTIONED public
+# channel: every trial appends a row (status, score, thesis) here, and any
+# agent may read via load_hypothesis_log. This lets a new branch see which
+# hypothesis families already failed on the problem without leaking the
+# AST-dedup mechanism.
+# --------------------------------------------------------------------------- #
+
+_HYPOTHESIS_LOG_HEADER = [
+    "written_at", "branch_tag", "commit", "score", "is_valid", "status", "thesis",
+]
+
+
+def _hypothesis_log_path(tag: str | None = None) -> Path:
+    return _CACHE_DIR / f"hypothesis_log_{tag or PROBLEM_TAG}.tsv"
+
+
+@contextmanager
+def _hypothesis_log_lock(tag: str | None = None):
+    """Cross-process lock via a sidecar .lock file on the hypothesis log."""
+    path = _hypothesis_log_path(tag)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    lock_path = path.with_suffix(".tsv.lock")
+    f = open(lock_path, "a+", encoding="utf-8")
+    try:
+        if platform.system() == "Windows":
+            f.seek(0)
+            msvcrt.locking(f.fileno(), msvcrt.LK_LOCK, 1)
+        else:
+            fcntl.flock(f.fileno(), fcntl.LOCK_EX)
+        yield
+    finally:
+        try:
+            if platform.system() == "Windows":
+                try:
+                    f.seek(0)
+                    msvcrt.locking(f.fileno(), msvcrt.LK_UNLCK, 1)
+                except OSError:
+                    pass
+            else:
+                fcntl.flock(f.fileno(), fcntl.LOCK_UN)
+        finally:
+            f.close()
+
+
+def append_hypothesis_log(
+    branch_tag: str,
+    commit: str,
+    score: float,
+    is_valid,
+    status: str,
+    thesis: str,
+    *,
+    tag: str | None = None,
+) -> None:
+    """Append one row to ~/.cache/auto-erdos/hypothesis_log_<TAG>.tsv.
+
+    Called by log_result.py on every trial (keep, discard, or crash). Agents
+    do NOT call this directly — they read via load_hypothesis_log.
+    """
+    if isinstance(score, (int, float)) and math.isfinite(float(score)):
+        score_str = f"{float(score):.6f}"
+    else:
+        score_str = "nan"
+    if isinstance(is_valid, bool):
+        is_valid_str = "1" if is_valid else "0"
+    elif isinstance(is_valid, (int, float)):
+        if isinstance(is_valid, float) and not math.isfinite(is_valid):
+            is_valid_str = "nan"
+        else:
+            is_valid_str = "1" if int(is_valid) == 1 else "0"
+    else:
+        is_valid_str = "nan"
+    written_at = datetime.now(timezone.utc).isoformat(timespec="seconds")
+    thesis_clean = str(thesis).replace("\t", " ").replace("\n", " ")
+    row = [written_at, branch_tag, commit, score_str, is_valid_str, status, thesis_clean]
+    path = _hypothesis_log_path(tag)
+    try:
+        with _hypothesis_log_lock(tag):
+            needs_header = (not path.exists()) or path.stat().st_size == 0
+            with open(path, "a", encoding="utf-8", newline="") as f:
+                if needs_header:
+                    f.write("\t".join(_HYPOTHESIS_LOG_HEADER) + "\n")
+                f.write("\t".join(row) + "\n")
+    except OSError:
+        # Best-effort logging — never crash a trial because the log couldn't write.
+        return
+
+
+def load_hypothesis_log(
+    tag: str | None = None,
+    *,
+    since_utc: str | None = None,
+) -> list[dict]:
+    """Public read of the cross-branch hypothesis log for a problem.
+
+    Returns rows (oldest first) as dicts with keys:
+      written_at, branch_tag, commit, score, is_valid, status, thesis.
+
+    Agents may use this to learn which hypothesis families have already been
+    tried (and their outcome) on this problem across all branches. Thesis
+    strings are stored verbatim — no automatic family classification.
+
+    ``since_utc`` (ISO 8601 string) optionally filters to rows with
+    ``written_at >= since_utc``.
+
+    Returns ``[]`` if the log file does not exist yet. To retire history,
+    ``rm`` ~/.cache/auto-erdos/hypothesis_log_<TAG>.tsv.
+    """
+    path = _hypothesis_log_path(tag)
+    if not path.exists() or path.stat().st_size == 0:
+        return []
+    try:
+        with _hypothesis_log_lock(tag):
+            with open(path, encoding="utf-8") as f:
+                lines = f.readlines()
+    except OSError:
+        return []
+    if not lines:
+        return []
+    header = lines[0].rstrip("\n").split("\t")
+    rows: list[dict] = []
+    for line in lines[1:]:
+        parts = line.rstrip("\n").split("\t")
+        if len(parts) != len(header):
+            continue
+        row = dict(zip(header, parts))
+        if since_utc is not None and row.get("written_at", "") < since_utc:
+            continue
+        rows.append(row)
+    return rows
 
 
 def load_best_so_far(tag: str | None = None) -> dict | None:

@@ -3,6 +3,7 @@
   "family": "sidon",
   "N": 1000,
   "baseline": 32,
-  "time_budget_s": 600,
-  "note": "Singer over GF(31) gives a 32-element Sidon set in [0,992]. Beating 32 in [1,1000] would be a real result — the next Singer prime power above 31 is 32 (=2^5), giving 33 in [0,1056], so a 33-element set in [1,1000] is the natural target."
+  "time_budget_s": 1200,
+  "trial_cap": 25,
+  "note": "Singer over GF(31) gives a 32-element Sidon set in [0,992]. Beating 32 in [1,1000] would be a real result — the next Singer prime power above 31 is 32 (=2^5), giving 33 in [0,1056], so a 33-element set in [1,1000] is the natural target. SAT-extend (library.sat_extensions.extend_sidon_by_one) is the simplest route; prime-power Singer is the algebraic alternative."
 }

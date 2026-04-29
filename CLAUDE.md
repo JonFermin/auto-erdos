@@ -22,6 +22,13 @@ no sample noise to deflate against).
 `run.log` is transient stdout, `verifier_results.tsv` is the harness audit
 trail.
 
+`records/` is the **only** committed artifact of a successful trial.
+`log_result.py` writes `records/<tag>_<score>_<commit>.json` (and auto-commits
+it as a follow-up commit) on every keep — the record carries the candidate
+set, score, baseline, branch, thesis, and verifier_seconds. This is the
+permanent claim that a problem's literature LB was beaten; everything else
+(`results.tsv`, the trial cache, `best_so_far_*.json`) is local scratch.
+
 ## The one rule that matters
 
 - **`strategy.py` is the ONLY file the agent edits.** Everything inside
