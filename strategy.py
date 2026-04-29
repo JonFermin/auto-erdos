@@ -80,7 +80,108 @@ def _seed_capset(spec):
     candidates.append(capset.best_seed(n))
     candidates.append(_randomized_greedy_capset(n))
 
+    # Hyp [SAT]: search F_3^6 for a cap of size > 121. cap_n3_size9 ⊗ cap_n6
+    # gives 9 * size in F_3^9. To beat 1082, need size >= 121 in F_3^6.
+    # Lit LB n=6 is 112. Try SAT(112) first as feasibility check, then SA
+    # to push higher.
+    if n == 9:
+        cap6 = _sat_then_sa_v2(n=6, sat_target=100, sa_target=121,
+                                time_limit_s=900, restart_seed=0)
+        if cap6 is not None and len(cap6) >= 121:
+            cap3 = capset.cap_n3_size9()
+            lifted = capset.product_lift(cap6, 6, cap3, 3)
+            candidates.append(lifted)
+
     return max(candidates, key=len)
+
+
+def _sat_then_sa_v2(n, sat_target, sa_target, time_limit_s, restart_seed=0):
+    """SAT-warm + SA hill-climb in F_3^n."""
+    import math
+    import time
+    from pysat.card import CardEnc, EncType
+    from pysat.formula import IDPool
+    from pysat.solvers import Glucose3
+
+    t0 = time.time()
+    points = list(itertools.product((0, 1, 2), repeat=n))
+    point_to_idx = {p: i for i, p in enumerate(points)}
+
+    pool = IDPool()
+    var = [pool.id(("p", i)) for i in range(len(points))]
+    solver = Glucose3()
+    for i in range(len(points)):
+        a = points[i]
+        for j in range(i + 1, len(points)):
+            b = points[j]
+            c = tuple((-(a[d] + b[d])) % 3 for d in range(n))
+            if c == a or c == b:
+                continue
+            k = point_to_idx[c]
+            if k <= j:
+                continue
+            solver.add_clause([-var[i], -var[j], -var[k]])
+    cnf = CardEnc.atleast(lits=var, bound=sat_target, encoding=EncType.seqcounter, vpool=pool)
+    for cl in cnf.clauses:
+        solver.add_clause(cl)
+    if restart_seed > 0:
+        solver.add_clause([var[restart_seed % len(points)]])
+    if not solver.solve():
+        solver.delete()
+        return None
+    model = solver.get_model()
+    solver.delete()
+    if model is None:
+        return None
+    ms = set(model)
+    cap = [points[i] for i in range(len(points)) if var[i] in ms]
+    best = list(cap)
+    if len(best) >= sa_target:
+        return best
+
+    rng = random.Random(31415 + restart_seed * 7)
+    cap_set = set(cap)
+    forbid_count: dict[tuple[int, ...], int] = {}
+    for i in range(len(cap)):
+        a = cap[i]
+        for j in range(i + 1, len(cap)):
+            b = cap[j]
+            r = tuple((-(a[d] + b[d])) % 3 for d in range(n))
+            if r != a and r != b:
+                forbid_count[r] = forbid_count.get(r, 0) + 1
+    iters = 0
+    while time.time() - t0 < time_limit_s:
+        iters += 1
+        frac = (time.time() - t0) / time_limit_s
+        T = max(0.05, 2.5 * (1.0 - frac))
+        if rng.random() < 0.5 and len(cap) > 0:
+            x = cap[rng.randrange(len(cap))]
+            if rng.random() < math.exp(-1.0 / T):
+                cap.remove(x)
+                cap_set.discard(x)
+                for c in cap:
+                    r = tuple((-(c[d] + x[d])) % 3 for d in range(n))
+                    if r != c and r != x:
+                        forbid_count[r] -= 1
+                        if forbid_count[r] == 0:
+                            del forbid_count[r]
+        else:
+            for _ in range(40):
+                q = points[rng.randrange(len(points))]
+                if q in cap_set or q in forbid_count:
+                    continue
+                for c in cap:
+                    r = tuple((-(c[d] + q[d])) % 3 for d in range(n))
+                    if r != c and r != q:
+                        forbid_count[r] = forbid_count.get(r, 0) + 1
+                cap.append(q)
+                cap_set.add(q)
+                break
+        if len(cap) > len(best):
+            best = list(cap)
+            if len(best) >= sa_target:
+                return best
+    return best
 
 
 def _seed_sidon(spec):
