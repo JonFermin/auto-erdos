@@ -93,6 +93,16 @@ def _seed_sidon(spec):
         if prior_set and all(1 <= x <= N for x in prior_set):
             candidates.append(prior_set)
 
+    # [augmentation-mod] Search for B_2 sets that are images of mod-m Sidon
+    # sets for m in {N+1, N, N-1, ..., 2N}, lifted to integers via "stay
+    # in [1,N] and don't wrap". A mod-m Sidon set of size k lifted with no
+    # wraparound is automatically integer-Sidon. New axis vs prior trials:
+    # explicitly search Z/m structure, not just Singer/E-T canonical forms.
+    for m in range(N + 1, 2 * N + 1):
+        modular = _greedy_modular_sidon(N, m)
+        if modular and len(modular) > 11:
+            candidates.append(modular)
+
     singer = sidon.singer_for_n(N)
     if singer:
         candidates.append(singer)
@@ -100,6 +110,33 @@ def _seed_sidon(spec):
     candidates.append(_randomized_greedy_sidon(N))
 
     return max(candidates, key=len)
+
+
+def _greedy_modular_sidon(N, m):
+    """Ascending greedy for B_2 in Z/m, restricted to [1, N]. Distinct
+    integer pairs (a,b)<(c,d) with a+b == c+d in Z/m get rejected, which
+    is *stricter* than integer-Sidon when 2N > m. So output is always
+    integer-Sidon. Different selection topology than ascending integer-
+    greedy because residue collisions kick in earlier.
+    """
+    chosen: list[int] = []
+    sums_mod: set[int] = set()
+    for x in range(1, N + 1):
+        s_2x = (2 * x) % m
+        if s_2x in sums_mod:
+            continue
+        new_sums: list[int] = [s_2x]
+        ok = True
+        for c in chosen:
+            s = (x + c) % m
+            if s in sums_mod or s in new_sums:
+                ok = False
+                break
+            new_sums.append(s)
+        if ok:
+            chosen.append(x)
+            sums_mod.update(new_sums)
+    return sorted(chosen)
 
 
 def _randomized_greedy_capset(n):
