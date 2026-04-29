@@ -120,10 +120,58 @@ def _seed_sidon(spec):
     candidates.append(_randomized_greedy_sidon(N))
 
     base = max(candidates, key=len)
+    singer37 = _singer37_multiplier_window(N)
+    if singer37 is not None and len(singer37) > len(base):
+        base = singer37
     swapped = _remove2_add3_hill_climb(base, N, attempts=400)
     if swapped is not None and len(swapped) > len(base):
         return swapped
     return base
+
+
+def _singer37_multiplier_window(N):
+    """Singer-37 multiplier-orbit + window-restriction.
+
+    The Singer-37 perfect difference set lives in Z/1407 with 38 elements.
+    Vanilla translates of it fit at most 33 elements in [0, N-1] for
+    N=1000. But for each unit u in (Z/1407)*, the set u*S mod 1407 is
+    *also* a perfect difference set (multiplier theorem). Different u's
+    give genuinely different gap distributions, and some translates of
+    some multiplier-shifted variants pack more elements into a length-N
+    window than the canonical translate does.
+
+    A subset of a Sidon set is automatically Sidon — no augmentation
+    needed. The score is the number of elements of (u*S + t) mod 1407
+    falling in [0, N-1].
+
+    Sweep: all multipliers in (Z/1407)* / <37> (order(37)=3, so 1404/3 =
+    468 representative cosets), all 1407 translates per multiplier. Total
+    work is small (no inner SAT, just modular arithmetic + sorting).
+    """
+    from math import gcd
+    s = sidon.singer(37)
+    M = 37 * 37 + 37 + 1  # 1407
+    best = []
+    best_size = 0
+    # multiplier reps: one per coset of <37> (size 3) in (Z/M)*
+    seen_cosets: set[frozenset[int]] = set()
+    for u in range(1, M):
+        if gcd(u, M) != 1:
+            continue
+        coset = frozenset({u, (u * 37) % M, (u * 37 * 37) % M})
+        if coset in seen_cosets:
+            continue
+        seen_cosets.add(coset)
+        scaled = sorted((u * x) % M for x in s)
+        for t in range(M):
+            translated = sorted((y + t) % M for y in scaled)
+            fit = [y for y in translated if y < N]
+            if len(fit) > best_size:
+                best_size = len(fit)
+                best = [y + 1 for y in fit]  # shift to [1, N]
+    if best_size <= 32:
+        return None
+    return sorted(best)
 
 
 def _remove2_add3_hill_climb(seed, N, *, attempts=400):
