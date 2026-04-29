@@ -59,9 +59,19 @@ and see what happens," skip it. The AST-dedup will reject pure no-ops, but
 it cannot tell the difference between an honest experiment and 19 vacuous
 restarts of the same algorithm — that judgment is on you.
 
-**The first run.** Run `strategy.py` as-is. The seed (randomized greedy)
+**The first (seed) run.** Run `strategy.py` as-is. The seed (randomized greedy)
 gives a baseline score that is honest but well below the literature LB —
 your job is to close that gap.
+
+**CRITICAL — the seed run is non-committing.** `strategy.py` already exists
+at HEAD; you do NOT make a git commit before running the seed. After
+`log_result.py` grades the seed (almost always `discard`, since the seed
+is below the literature LB), **DO NOT `git reset --hard HEAD~1`** — there
+is no agent-made commit to reset, and resetting would move HEAD off the
+current scaffold/fix commit onto its parent, silently downgrading the
+verifier and other harness code under your feet. Just proceed straight to
+the experiment loop with HEAD untouched. The `git reset` rule in the loop
+applies only to commits *you* made (steps 2–3 below).
 
 ## Output format
 
@@ -138,6 +148,7 @@ uv run running_best.py --trials     # rows logged / trial cap, e.g. "7/20"
 
 ## The experiment loop
 
+The loop starts AFTER the seed run; each iteration is one agent commit.
 LOOP until `log_result.py` exits 4 (trial cap) or the human stops you:
 
 1. Look at git state: current branch/commit.
