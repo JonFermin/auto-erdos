@@ -62,9 +62,10 @@ def _seed_capset(spec):
 
 
 def _seed_sidon(spec):
-    """Randomized greedy: shuffle [1, N], walk in order, accept x if
-    every new sum x+c (c in chosen) is unique among existing pairwise
-    sums. Deterministic via fixed seed.
+    """Randomized B_2-aware greedy: shuffle [1, N], walk in order, accept x
+    if (a) 2x is not already a pairwise sum AND (b) every x+c for c in
+    chosen is also not an existing sum. Tracks the degenerate 2c sums
+    that B_2 (canonical Sidon) requires. Deterministic via fixed seed.
     """
     N = int(spec["N"])
     rng = random.Random(0)
@@ -73,11 +74,14 @@ def _seed_sidon(spec):
     chosen: list[int] = []
     sums: set[int] = set()
     for x in candidates:
-        new_sums: list[int] = []
+        s_2x = 2 * x
+        if s_2x in sums:
+            continue
         ok = True
+        new_sums: list[int] = [s_2x]
         for c in chosen:
             s = x + c
-            if s in sums or s in new_sums:
+            if s in sums:
                 ok = False
                 break
             new_sums.append(s)

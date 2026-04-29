@@ -117,9 +117,16 @@ def _verify_capset(candidate: Iterable[Sequence[int]], spec: dict) -> VerifyResu
 
 
 def _verify_sidon(candidate, spec: dict) -> VerifyResult:
-    """Verify candidate ⊂ [1, N] is a Sidon (B_2) set: all pairwise sums
-    a+b with a < b are distinct. Equivalently, all positive differences
-    are distinct. O(k^2) where k = |candidate|.
+    """Verify candidate ⊂ [1, N] is a canonical Sidon (B_2) set: all sums
+    a+b with a, b ∈ S, a ≤ b are distinct — INCLUDING the degenerate case
+    a = b (sum = 2a). Equivalently, all nonzero positive differences are
+    distinct. O(k^2) where k = |candidate|.
+
+    Strict B_2 / canonical Sidon: a+b = c+d with a≤b, c≤d implies (a,b)=(c,d).
+    Note the difference from the weaker "all sums of distinct elements (a<b)
+    distinct" condition — under the weak version, {1,2,3} is Sidon (sums
+    3,4,5 distinct) but under B_2 it is not (1+3 = 2+2 = 4). The literature
+    LBs in problems/sidon_*.json are Singer-construction-based and are B_2.
     """
     N = int(spec["N"])
     t0 = time.time()
@@ -141,21 +148,22 @@ def _verify_sidon(candidate, spec: dict) -> VerifyResult:
 
     pts.sort()
     sums: dict[int, tuple[int, int]] = {}
+    # j ranges from i (inclusive) to capture the 2a degenerate case required by B_2.
     for i in range(k):
         a = pts[i]
-        for j in range(i + 1, k):
+        for j in range(i, k):
             b = pts[j]
             s = a + b
             prev = sums.get(s)
             if prev is not None:
                 return VerifyResult(
                     False, 0.0,
-                    f"duplicate sum {s}: ({a},{b}) collides with ({prev[0]},{prev[1]})",
+                    f"duplicate sum {s}: ({a},{b}) collides with ({prev[0]},{prev[1]}) — B_2 violated",
                     time.time() - t0,
                 )
             sums[s] = (a, b)
 
-    return VerifyResult(True, float(k), f"valid Sidon set of size {k} in [1,{N}]", time.time() - t0)
+    return VerifyResult(True, float(k), f"valid B_2 Sidon set of size {k} in [1,{N}]", time.time() - t0)
 
 
 VERIFIERS = {
