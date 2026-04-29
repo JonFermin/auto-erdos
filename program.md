@@ -224,6 +224,27 @@ inside `generate_candidate`. Runs that exceed it should bail gracefully
 (check `tb.expired`) and return whatever valid candidate you have so far;
 hard-killed runs are treated as crashes.
 
+## Warm-starting from prior trials
+
+`prepare.load_best_so_far()` returns the best valid candidate seen across
+all branches of the current `PROBLEM_TAG` (or `None` if nothing valid has
+ever been logged). The cache is written automatically by `print_summary`
+whenever a run's score beats the prior best — agents do not write it.
+
+```python
+from prepare import load_best_so_far
+
+prior = load_best_so_far()
+if prior is not None:
+    seed = prior["candidate"]   # list[int] for sidon, list[list[int]] for capset
+    # ... extend / swap-move from seed ...
+```
+
+This is **strictly optional**. A trial that ignores the warm-start cache
+and starts from scratch is just as legitimate — the cache is a resource,
+not a requirement. Useful when you want to compose on top of the highest
+valid set seen so far rather than rediscover it.
+
 ## Constructions library
 
 `library/` ships literature-grade baselines that the agent can import as

@@ -58,6 +58,12 @@ to it on every trial (AST hash + score + status) and reads from it to
 reject AST-duplicate trials across all branches of the problem. To retire a
 problem's accumulated history, `rm` the file.
 
+A per-problem **best_so_far cache** lives at
+`~/.cache/auto-erdos/best_so_far_<PROBLEM_TAG>.json`. `print_summary` writes
+the highest-scoring valid candidate seen across all branches; agents may
+read it via `prepare.load_best_so_far()` to warm-start swap-moves / SA from
+the prior best. The agent does NOT write it — only the verifier path does.
+
 ## Experiment loop (from program.md)
 
 1. Each run gets its own branch: `erdos-research/<tag>` (e.g. `erdos-research/apr28`).

@@ -6,6 +6,8 @@ The agent never edits this file. It exposes:
   - print_summary(candidate, result): emits the metric block parsed by log_result.py
         and appends a row to verifier_results.tsv (the harness-side audit trail
         log_result.py reads to compute keep/discard).
+  - load_best_so_far(): public read of the cross-branch best-valid candidate
+        for this PROBLEM_TAG (warm-start helper for agents).
   - constants: REPO_ROOT, VERIFIER_RESULTS_TSV, PROBLEM_TAG, TIME_BUDGET_S
 
 To add a new Port-1 problem family, register a verifier in VERIFIERS and add
@@ -21,12 +23,21 @@ Cap-set background (capset family):
 from __future__ import annotations
 
 import json
+import math
 import os
+import platform
 import subprocess
 import time
+from contextlib import contextmanager
 from dataclasses import dataclass
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Iterable, Sequence
+
+if platform.system() == "Windows":
+    import msvcrt
+else:
+    import fcntl  # type: ignore[unused-ignore]
 
 REPO_ROOT = Path(__file__).resolve().parent
 PROBLEM_TAG = os.environ.get("PROBLEM_TAG", "capset_n8")
@@ -228,7 +239,12 @@ def _status_hint(spec: dict, result: VerifyResult) -> str:
 
 
 def print_summary(candidate, result: VerifyResult) -> None:
-    """Emit the fixed metric block and append a row to verifier_results.tsv."""
+    """Emit the fixed metric block and append a row to verifier_results.tsv.
+
+    Also updates ``best_so_far_<TAG>.json`` in the user cache when the
+    candidate is valid AND scores higher than any prior valid candidate
+    seen for this problem (across all branches).
+    """
     spec = load_spec()
     hint = _status_hint(spec, result)
 
@@ -247,6 +263,7 @@ def print_summary(candidate, result: VerifyResult) -> None:
     print(f"reason:            {reason}")
 
     _append_audit_row(spec, result, hint)
+    _save_best_if_better(candidate, result, spec)
 
 
 def _append_audit_row(spec: dict, result: VerifyResult, hint: str) -> None:
@@ -270,6 +287,151 @@ def _append_audit_row(spec: dict, result: VerifyResult, hint: str) -> None:
         if needs_header:
             f.write("commit\tproblem\tscore\tis_valid\tverifier_seconds\tstatus_hint\treason\n")
         f.write("\t".join(row) + "\n")
+
+
+# --------------------------------------------------------------------------- #
+# best_so_far cache — cross-branch persistence of the best valid candidate.
+# --------------------------------------------------------------------------- #
+
+_CACHE_DIR = Path.home() / ".cache" / "auto-erdos"
+
+
+def _best_so_far_path(tag: str | None = None) -> Path:
+    return _CACHE_DIR / f"best_so_far_{tag or PROBLEM_TAG}.json"
+
+
+@contextmanager
+def _best_so_far_lock(tag: str | None = None):
+    """Cross-process lock for the best_so_far cache, via a sidecar .lock
+    file so the JSON read/write doesn't entangle with the lock target."""
+    path = _best_so_far_path(tag)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    lock_path = path.with_suffix(".json.lock")
+    f = open(lock_path, "a+", encoding="utf-8")
+    try:
+        if platform.system() == "Windows":
+            f.seek(0)
+            msvcrt.locking(f.fileno(), msvcrt.LK_LOCK, 1)
+        else:
+            fcntl.flock(f.fileno(), fcntl.LOCK_EX)
+        yield
+    finally:
+        try:
+            if platform.system() == "Windows":
+                try:
+                    f.seek(0)
+                    msvcrt.locking(f.fileno(), msvcrt.LK_UNLCK, 1)
+                except OSError:
+                    pass
+            else:
+                fcntl.flock(f.fileno(), fcntl.LOCK_UN)
+        finally:
+            f.close()
+
+
+def _serialize_candidate(candidate, family: str) -> list:
+    """Convert candidate to JSON-serializable form. Tuples become lists,
+    numpy ints become Python ints. Returns [] on iteration error."""
+    out: list = []
+    try:
+        if family == "capset":
+            for p in candidate:
+                out.append([int(c) for c in p])
+        elif family == "sidon":
+            for x in candidate:
+                out.append(int(x))
+        else:
+            for item in candidate:
+                if hasattr(item, "__iter__"):
+                    out.append([int(c) for c in item])
+                else:
+                    out.append(int(item))
+    except (TypeError, ValueError):
+        return []
+    return out
+
+
+def _save_best_if_better(candidate, result: VerifyResult, spec: dict) -> None:
+    """Update best_so_far_<TAG>.json if this run's valid score beats prior."""
+    if not result.is_valid:
+        return
+    score = float(result.score)
+    if not math.isfinite(score) or score <= 0:
+        return
+    family = spec.get("family", "")
+    tag = spec.get("name", PROBLEM_TAG)
+    serialized = _serialize_candidate(candidate, family)
+    if not serialized:
+        return
+    path = _best_so_far_path(tag)
+    try:
+        with _best_so_far_lock(tag):
+            prior_score = -math.inf
+            if path.exists() and path.stat().st_size > 0:
+                try:
+                    with open(path, encoding="utf-8") as f:
+                        prior = json.load(f)
+                    prior_score = float(prior.get("score", -math.inf))
+                except (json.JSONDecodeError, OSError):
+                    prior_score = -math.inf
+            if score <= prior_score:
+                return
+            try:
+                out = subprocess.check_output(
+                    ["git", "-C", str(REPO_ROOT), "rev-parse", "--abbrev-ref", "HEAD"],
+                    stderr=subprocess.DEVNULL,
+                )
+                branch = out.decode().strip()
+                prefix = "erdos-research/"
+                branch_tag = branch[len(prefix):] if branch.startswith(prefix) else (branch or "unknown")
+            except subprocess.CalledProcessError:
+                branch_tag = "unknown"
+            payload = {
+                "problem": tag,
+                "family": family,
+                "score": score,
+                "is_valid": 1,
+                "verifier_reason": result.reason[:500],
+                "branch_tag": branch_tag,
+                "commit": _short_commit(),
+                "written_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+                "candidate": serialized,
+            }
+            tmp_path = path.with_suffix(".json.tmp")
+            with open(tmp_path, "w", encoding="utf-8") as f:
+                json.dump(payload, f, separators=(",", ":"))
+            os.replace(tmp_path, path)
+    except OSError:
+        # Saving best_so_far is best-effort; never crash the verifier on it.
+        return
+
+
+def load_best_so_far(tag: str | None = None) -> dict | None:
+    """Public read helper for ``best_so_far_<TAG>.json``.
+
+    Returns dict with keys:
+      problem, family, score, is_valid, verifier_reason, branch_tag,
+      commit, written_at, candidate.
+    For capset, ``candidate`` is list[list[int]] (each list of length n).
+    For sidon, ``candidate`` is list[int].
+    Returns None if no valid candidate has been logged yet for this PROBLEM_TAG.
+
+    Agents may use this to warm-start swap-moves / SA from the best valid
+    set seen across any branch — strictly optional. The cache is updated
+    by ``print_summary`` when a run's score beats the prior best.
+    """
+    path = _best_so_far_path(tag)
+    if not path.exists() or path.stat().st_size == 0:
+        return None
+    try:
+        with _best_so_far_lock(tag):
+            try:
+                with open(path, encoding="utf-8") as f:
+                    return json.load(f)
+            except (json.JSONDecodeError, OSError):
+                return None
+    except OSError:
+        return None
 
 
 # --------------------------------------------------------------------------- #
