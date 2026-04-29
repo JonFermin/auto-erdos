@@ -11,9 +11,10 @@ starting any experimental loop**. `README.md` covers the design rationale.
 
 This is a port of `karpathy-quant-auto-research` to Erdős-style problems.
 The harness shape is the same — branch per run, edit one file, AST-dedup,
-20-trial cap, gatekeeper script computes status — but the statistics layer
-is removed (the verifier is deterministic; there's no sample noise to
-deflate against).
+trial cap (default 20, per-problem override in `problems/*.json:trial_cap`
+or env `AUTOERDOS_TRIAL_CAP`), gatekeeper script computes status — but
+the statistics layer is removed (the verifier is deterministic; there's
+no sample noise to deflate against).
 
 `CLAUDE.md`, `results.tsv`, `run.log`, `verifier_results.tsv`, and
 `worktrees/` are all gitignored — `CLAUDE.md` is per-session scratch,

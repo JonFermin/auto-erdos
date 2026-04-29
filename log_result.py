@@ -70,7 +70,21 @@ CACHE_HEADER = [
     "written_at",
 ]
 
-TRIAL_CAP = int(os.environ.get("AUTOERDOS_TRIAL_CAP", "20"))
+DEFAULT_TRIAL_CAP = 20
+TRIAL_CAP = int(os.environ.get("AUTOERDOS_TRIAL_CAP", str(DEFAULT_TRIAL_CAP)))
+
+
+def _resolve_trial_cap(spec: dict) -> int:
+    """Per-call resolution: env AUTOERDOS_TRIAL_CAP > spec.trial_cap > 20.
+
+    Default stays at 20 — the cap is a discipline mechanism, not a knob.
+    Override individual problems via "trial_cap" in problems/<tag>.json
+    only after a 20-trial branch shows real progression but ran out.
+    """
+    env = os.environ.get("AUTOERDOS_TRIAL_CAP")
+    if env is not None:
+        return int(env)
+    return int(spec.get("trial_cap", DEFAULT_TRIAL_CAP))
 
 
 # --------------------------------------------------------------------------- #
@@ -382,12 +396,13 @@ def main() -> int:
     commit = _short_commit()
     spec = load_spec()
     baseline = float(spec.get("baseline", 0))
+    trial_cap = _resolve_trial_cap(spec)
 
     # Trial cap (crashes count: cognitive budget).
     results = _read_results_tsv()
-    if len(results) >= TRIAL_CAP:
+    if len(results) >= trial_cap:
         print(
-            f"ERROR: trial cap {TRIAL_CAP} reached on this branch "
+            f"ERROR: trial cap {trial_cap} reached on this branch "
             f"(set AUTOERDOS_TRIAL_CAP to override, or start a new branch).",
             file=sys.stderr,
         )
