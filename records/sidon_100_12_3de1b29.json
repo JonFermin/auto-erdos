@@ -1,0 +1,28 @@
+{
+  "baseline": 11.0,
+  "branch": "erdos-research/0428-235847",
+  "candidate": [
+    1,
+    2,
+    4,
+    8,
+    17,
+    28,
+    40,
+    59,
+    69,
+    77,
+    94,
+    99
+  ],
+  "candidate_available": true,
+  "commit": "3de1b29",
+  "family": "sidon",
+  "improvement_over_baseline": 1.0,
+  "is_valid": 1,
+  "problem": "sidon_100",
+  "score": 12.0,
+  "thesis": "thesis: [DFS] exact branch-and-bound anchored at x=1 \u2014 search for size-12 Sidon set in [1,100]; sums-set pruning",
+  "verifier_seconds": 0.0,
+  "written_at": "2026-04-29T06:05:40+00:00"
+}
