@@ -3,5 +3,6 @@
   "family": "sidon",
   "N": 3000,
   "baseline": 53,
+  "time_budget_s": 900,
   "note": "Singer over GF(53) gives a 54-element Sidon set in [0,2862]; over GF(47) gives 48 in [0,2256]. The exact best in [1,3000] is unclear in the literature — mid-fame range with real headroom."
 }

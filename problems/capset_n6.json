@@ -3,5 +3,6 @@
   "family": "capset",
   "n": 6,
   "baseline": 112,
+  "time_budget_s": 300,
   "note": "Exact value: a_6(F_3) = 112 (Edel, 2004). Beating the baseline is impossible — sanity check."
 }

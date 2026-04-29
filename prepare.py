@@ -39,7 +39,22 @@ VERIFIER_RESULTS_TSV = REPO_ROOT / "verifier_results.tsv"
 # Bumped from 300 -> 900 (2026-04-28) after the apr28 cap-set batch showed
 # greedy/SA hitting a hard ceiling because exact-DFS sub-routines couldn't
 # finish their warm-start (e.g., Edel-112 in F_3^6) inside 5 minutes.
-TIME_BUDGET_S = int(os.environ.get("AUTOERDOS_TIME_BUDGET_S", "900"))
+#
+# Resolution order: env AUTOERDOS_TIME_BUDGET_S > problems/<tag>.json
+# "time_budget_s" > 900s default. The legacy module constant is kept for
+# any code that still imports it directly; it does NOT see per-problem
+# overrides — call _resolve_time_budget(spec) for that.
+DEFAULT_TIME_BUDGET_S = 900
+TIME_BUDGET_S = int(os.environ.get("AUTOERDOS_TIME_BUDGET_S", str(DEFAULT_TIME_BUDGET_S)))
+
+
+def _resolve_time_budget(spec: dict | None = None) -> int:
+    env = os.environ.get("AUTOERDOS_TIME_BUDGET_S")
+    if env is not None:
+        return int(env)
+    if spec is None:
+        spec = load_spec()
+    return int(spec.get("time_budget_s", DEFAULT_TIME_BUDGET_S))
 
 
 @dataclass
@@ -264,9 +279,12 @@ def _append_audit_row(spec: dict, result: VerifyResult, hint: str) -> None:
 class TimeBudget:
     """Soft wall-clock wrapper. Strategies that loop should check `tb.expired`
     and bail gracefully; the verifier itself does not interrupt user code.
+
+    Default budget is per-problem: env AUTOERDOS_TIME_BUDGET_S overrides
+    problems/<tag>.json's "time_budget_s", which falls back to 900s.
     """
-    def __init__(self, seconds: int = TIME_BUDGET_S):
-        self.seconds = seconds
+    def __init__(self, seconds: int | None = None):
+        self.seconds = _resolve_time_budget() if seconds is None else seconds
         self._t0 = 0.0
 
     def __enter__(self):

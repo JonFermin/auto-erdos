@@ -3,5 +3,6 @@
   "family": "sidon",
   "N": 100,
   "baseline": 11,
+  "time_budget_s": 60,
   "note": "Max Sidon size in [1,100]. Almost certainly exact via brute-force enumeration. Sanity-check problem — agent should not produce a kept row."
 }

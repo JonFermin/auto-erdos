@@ -3,5 +3,6 @@
   "family": "capset",
   "n": 10,
   "baseline": 2474,
+  "time_budget_s": 2400,
   "note": "Best known lower bound: a_10(F_3) >= 2474 (Edel). Verifier is O(k^2) with k ~ 2500, so each candidate takes a few seconds — keep that in mind for the 5-minute cap."
 }

@@ -82,9 +82,12 @@ problem's accumulated history, `rm` the file.
 - Score: |S| (Sidon / B₂ set size).
 - Verifier complexity: O(k²). Fast for any practical k.
 
-**Wall-clock cap**: `AUTOERDOS_TIME_BUDGET_S=900` (15 min) per `strategy.py` run.
-Bumped from 300 after the apr28 cap-set batch showed exact-DFS sub-routines
-couldn't warm-start in 5 minutes.
+**Wall-clock cap**: per-problem, set in `problems/<tag>.json:time_budget_s`.
+Default 900s (15 min) when the field is absent. `AUTOERDOS_TIME_BUDGET_S`
+env var overrides both. Per-problem defaults span 60s (sanity checks like
+capset_n4, sidon_100) to 2400s (capset_n10, where the verifier alone is
+non-trivial). Bumped from a flat 300s after the apr28 cap-set batch showed
+exact-DFS sub-routines couldn't warm-start in 5 minutes.
 
 ## Output format (what `print_summary` emits)
 
