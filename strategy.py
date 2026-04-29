@@ -63,7 +63,7 @@ def generate_candidate(tb=None):
     if family == "capset":
         return _seed_capset(spec)
     if family == "sidon":
-        return _seed_sidon(spec)
+        return _seed_sidon(spec, tb)
     raise ValueError(f"no seed registered for family={family!r}")
 
 
@@ -83,7 +83,7 @@ def _seed_capset(spec):
     return max(candidates, key=len)
 
 
-def _seed_sidon(spec):
+def _seed_sidon(spec, tb=None):
     N = int(spec["N"])
     candidates: list[list] = []
 
@@ -97,9 +97,66 @@ def _seed_sidon(spec):
     if singer:
         candidates.append(singer)
 
+    # [DFS] exact branch-and-bound looking for any size-12 Sidon set in [1,N].
+    # Branch on the smallest unused x; sums-set pruning kills most branches.
+    # Anchor at x=1 (translation-invariance) to halve the search space; under
+    # the time budget this either finds a 12-set or exhausts in-time.
+    target = (max((len(c) for c in candidates), default=0)) + 1
+    target = max(target, 12)
+    found = _dfs_sidon(N, target, tb)
+    if found:
+        candidates.append(found)
+
     candidates.append(_randomized_greedy_sidon(N))
 
     return max(candidates, key=len)
+
+
+def _dfs_sidon(N, target, tb=None):
+    """Try to find any Sidon set of size `target` in [1, N]. Anchors at 1.
+    Returns the set if found, [] otherwise / on timeout.
+    """
+    chosen = [1]
+    sums = {2}
+    out: list[int] = []
+
+    def expired():
+        return tb is not None and getattr(tb, "expired", False)
+
+    def recurse(start: int) -> bool:
+        if len(chosen) == target:
+            out[:] = list(chosen)
+            return True
+        # Bound: even if we add one element per remaining slot starting at
+        # `start`, we cannot exceed N.
+        remaining = target - len(chosen)
+        if start + remaining - 1 > N:
+            return False
+        for x in range(start, N + 1):
+            if expired():
+                return False
+            new_sums = [2 * x]
+            ok = 2 * x not in sums
+            if ok:
+                for c in chosen:
+                    s = x + c
+                    if s in sums or s in new_sums:
+                        ok = False
+                        break
+                    new_sums.append(s)
+            if not ok:
+                continue
+            chosen.append(x)
+            sums.update(new_sums)
+            if recurse(x + 1):
+                return True
+            chosen.pop()
+            for s in new_sums:
+                sums.discard(s)
+        return False
+
+    recurse(2)
+    return out
 
 
 def _randomized_greedy_capset(n):
