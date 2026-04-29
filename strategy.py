@@ -107,31 +107,29 @@ def _seed_sidon(spec):
     if singer:
         candidates.append(singer)
 
+    # Trial: bi-anchor SAT for size-25 with both endpoints fixed.
+    # Anchor {1, N}, then SAT-extend by 23. Prior runs anchored max alone or
+    # min alone but never the simultaneous endpoint pair — the pair fixes
+    # both edge sums (1+1=2, N+N=2N, 1+N=N+1) and forbids one large class
+    # of collisions, hopefully shrinking the SAT search basin enough to
+    # find a 25-element set that escapes the Singer multiplier orbit.
+    bi_anchor = _bi_anchor_sat_extend(N)
+    if bi_anchor is not None and len(bi_anchor) > 24:
+        candidates.append(bi_anchor)
+
     candidates.append(_randomized_greedy_sidon(N))
 
     return max(candidates, key=len)
 
 
-def _augment_one(base: list[int], N: int) -> list[int] | None:
-    """Linear scan for a single Sidon-preserving extension."""
-    base_set = set(base)
-    sums = set()
-    for i, a in enumerate(base):
-        for b in base[i:]:
-            sums.add(a + b)
-    for y in range(1, N + 1):
-        if y in base_set:
-            continue
-        ok = True
-        if 2 * y in sums:
-            continue
-        for a in base:
-            if y + a in sums:
-                ok = False
-                break
-        if ok:
-            return sorted(base + [y])
-    return None
+def _bi_anchor_sat_extend(N):
+    """Fix endpoints {1, N}, SAT-extend by 23 to size 25."""
+    from library.sat_extensions import extend_sidon_by_k
+    seed = [1, N]
+    try:
+        return extend_sidon_by_k(seed, N, 23, time_limit_s=240.0)
+    except Exception:
+        return None
 
 
 def _randomized_greedy_capset(n):
