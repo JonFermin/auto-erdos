@@ -119,7 +119,86 @@ def _seed_sidon(spec):
 
     candidates.append(_randomized_greedy_sidon(N))
 
-    return max(candidates, key=len)
+    base = max(candidates, key=len)
+    swapped = _remove2_add3_hill_climb(base, N, attempts=400)
+    if swapped is not None and len(swapped) > len(base):
+        return swapped
+    return base
+
+
+def _remove2_add3_hill_climb(seed, N, *, attempts=400):
+    """Direct remove-2 add-3 net +1 search: drop two seed elements, scan for
+    three new elements that fit. Larger removal budget than the SAT-based
+    swap_remove1_add2 (remove-1 add-2): freeing two seed members opens more
+    sums for a triple to land in.
+
+    Bounded by `attempts` random pair-removals. Each pair check is roughly
+    O(N) for candidate filtering plus O(C^3) for the triple scan over
+    surviving candidates C, which is small after pre-filtering.
+    """
+    rng = random.Random(20260429)
+    seed_list = sorted(int(x) for x in seed)
+    if len(seed_list) < 2:
+        return None
+    pairs = [(i, j) for i in range(len(seed_list))
+             for j in range(i + 1, len(seed_list))]
+    rng.shuffle(pairs)
+    excl = set(seed_list)
+    for i, j in pairs[:attempts]:
+        a, b = seed_list[i], seed_list[j]
+        smaller = [x for x in seed_list if x != a and x != b]
+        base_sums: set[int] = set()
+        for ii, x in enumerate(smaller):
+            for y in smaller[ii:]:
+                base_sums.add(x + y)
+        cands: list[int] = []
+        for x in range(1, N + 1):
+            if x in excl:
+                continue
+            if (2 * x) in base_sums:
+                continue
+            if any((x + s) in base_sums for s in smaller):
+                continue
+            cands.append(x)
+        if len(cands) < 3:
+            continue
+        for ai in range(len(cands)):
+            x = cands[ai]
+            for bi in range(ai + 1, len(cands)):
+                y = cands[bi]
+                if (x + y) in base_sums:
+                    continue
+                for ci in range(bi + 1, len(cands)):
+                    z = cands[ci]
+                    if (x + z) in base_sums or (y + z) in base_sums:
+                        continue
+                    triple_pair_sums = [
+                        2 * x, 2 * y, 2 * z, x + y, x + z, y + z,
+                    ]
+                    if len(set(triple_pair_sums)) != 6:
+                        continue
+                    sums_so_far = set(base_sums)
+                    bad = False
+                    for new_pt in (x, y, z):
+                        for s in smaller:
+                            v = new_pt + s
+                            if v in sums_so_far:
+                                bad = True
+                                break
+                            sums_so_far.add(v)
+                        if bad:
+                            break
+                    if bad:
+                        continue
+                    for v in triple_pair_sums:
+                        if v in sums_so_far:
+                            bad = True
+                            break
+                        sums_so_far.add(v)
+                    if bad:
+                        continue
+                    return sorted(smaller + [x, y, z])
+    return None
 
 
 def _ogr26_marks(N):
