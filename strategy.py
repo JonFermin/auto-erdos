@@ -80,7 +80,45 @@ def _seed_capset(spec):
     candidates.append(capset.best_seed(n))
     candidates.append(_randomized_greedy_capset(n))
 
+    if n == 5:
+        candidates.append(_exact_dfs_capset_n5())
+
     return max(candidates, key=len)
+
+
+def _exact_dfs_capset_n5():
+    """[DFS] Exact branch-and-bound on F_3^5 (243 points).
+
+    The known maximum is a_5(F_3) = 45 (Pellegrino 1970). Warm-start with
+    best_seed(5) (40-cap) and B&B-search for any size > 40 we can find.
+    """
+    n = 5
+    points = list(itertools.product((0, 1, 2), repeat=n))
+    warm = capset.best_seed(n)
+    best = list(warm)
+    state = {"best": best}
+
+    def dfs(idx, chosen, forbidden):
+        if len(chosen) + (len(points) - idx) <= len(state["best"]):
+            return
+        if idx == len(points):
+            if len(chosen) > len(state["best"]):
+                state["best"] = list(chosen)
+            return
+        p = points[idx]
+        if p not in forbidden:
+            new_forbidden = set(forbidden)
+            for c in chosen:
+                r = tuple((-(c[d] + p[d])) % 3 for d in range(n))
+                if r != c and r != p:
+                    new_forbidden.add(r)
+            chosen.append(p)
+            dfs(idx + 1, chosen, new_forbidden)
+            chosen.pop()
+        dfs(idx + 1, chosen, forbidden)
+
+    dfs(0, [], set())
+    return state["best"]
 
 
 def _seed_sidon(spec):
