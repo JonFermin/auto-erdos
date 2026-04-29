@@ -67,15 +67,24 @@ problem's accumulated history, `rm` the file.
 6. **NEVER STOP** once the loop has begun — no "should I keep going?" prompts.
    Run until `log_result.py` exits 4 (trial cap) or you're manually interrupted.
 
-## Verifier contract (capset family)
+## Verifier contracts
 
+**capset family** (problems `capset_n4` … `capset_n10`):
 - Input: iterable of length-n integer tuples, each coord in {0, 1, 2}.
-- Validity: pairwise distinct, well-formed, AND no three distinct points
+- Validity: pairwise distinct AND no three distinct points
   a, b, c with a+b+c == 0 mod 3 elementwise.
-- Score: |S| (the size of the cap set).
-- Verifier complexity: O(k² · n) where k = |candidate|. Fast for n≤8;
-  gets noticeable around k=2500 (n=10).
-- 5-minute wall-clock cap (`AUTOERDOS_TIME_BUDGET_S=300`).
+- Score: |S| (cap set size).
+- Verifier complexity: O(k² · n). Fast for n≤8; noticeable around k=2500 (n=10).
+
+**sidon family** (problems `sidon_100` … `sidon_3000`):
+- Input: iterable of distinct ints in [1, N].
+- Validity: all pairwise sums a+b (a<b) distinct.
+- Score: |S| (Sidon / B₂ set size).
+- Verifier complexity: O(k²). Fast for any practical k.
+
+**Wall-clock cap**: `AUTOERDOS_TIME_BUDGET_S=900` (15 min) per `strategy.py` run.
+Bumped from 300 after the apr28 cap-set batch showed exact-DFS sub-routines
+couldn't warm-start in 5 minutes.
 
 ## Output format (what `print_summary` emits)
 

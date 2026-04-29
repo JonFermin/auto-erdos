@@ -41,8 +41,7 @@ of-truth, gatekeeper computes status.
 
 ## Currently shipped problems
 
-All in the `capset` family (cap sets in F_3^n: subsets with no 3-term
-arithmetic progression, scored by size).
+### capset family (cap sets in F_3^n: no 3-term AP, scored by |S|)
 
 | Tag | n | Baseline | Notes |
 |---|---|---|---|
@@ -54,9 +53,18 @@ arithmetic progression, scored by size).
 | `capset_n9` | 9 | 1082 | Lower bound, far from upper bound |
 | `capset_n10` | 10 | 2474 | Lower bound. Verifier is slow at this size |
 
+### sidon family (Sidon / B₂ sets in [1, N]: all pairwise sums distinct)
+
+| Tag | N | Baseline | Notes |
+|---|---|---|---|
+| `sidon_100`  |   100 |  11 | Almost certainly exact — sanity check |
+| `sidon_500`  |   500 |  23 | Singer-23 baseline; mild headroom |
+| `sidon_1000` |  1000 |  32 | Singer-31 gives 32; 33 in [1,1000] would be a real result |
+| `sidon_3000` |  3000 |  53 | Singer-53 baseline; real headroom |
+
 The "sanity check" problems exist so you can confirm the loop terminates
 without false positives — the agent should never produce a `keep` row on
-n=4, 5, 6.
+small / exact-known sizes.
 
 ## Commands
 

@@ -33,10 +33,13 @@ PROBLEM_TAG = os.environ.get("PROBLEM_TAG", "capset_n8")
 PROBLEMS_DIR = REPO_ROOT / "problems"
 VERIFIER_RESULTS_TSV = REPO_ROOT / "verifier_results.tsv"
 
-# Wall-clock cap inside a single strategy.py run. Most cap-set verifiers
-# finish in well under a second; the cap is a safety rail against runaway
-# generators or pathological O(k^3) verification on huge candidates.
-TIME_BUDGET_S = int(os.environ.get("AUTOERDOS_TIME_BUDGET_S", "300"))
+# Wall-clock cap inside a single strategy.py run. Verifiers themselves are
+# cheap (under a second for capset n<=8 and sidon up to N~10000); the budget
+# is the agent's search room — DFS, SA, GA, etc. inside generate_candidate.
+# Bumped from 300 -> 900 (2026-04-28) after the apr28 cap-set batch showed
+# greedy/SA hitting a hard ceiling because exact-DFS sub-routines couldn't
+# finish their warm-start (e.g., Edel-112 in F_3^6) inside 5 minutes.
+TIME_BUDGET_S = int(os.environ.get("AUTOERDOS_TIME_BUDGET_S", "900"))
 
 
 @dataclass
@@ -113,8 +116,51 @@ def _verify_capset(candidate: Iterable[Sequence[int]], spec: dict) -> VerifyResu
     return VerifyResult(True, float(k), f"valid cap set of size {k} in F_3^{n}", time.time() - t0)
 
 
+def _verify_sidon(candidate, spec: dict) -> VerifyResult:
+    """Verify candidate ⊂ [1, N] is a Sidon (B_2) set: all pairwise sums
+    a+b with a < b are distinct. Equivalently, all positive differences
+    are distinct. O(k^2) where k = |candidate|.
+    """
+    N = int(spec["N"])
+    t0 = time.time()
+
+    pts: list[int] = []
+    seen: set[int] = set()
+    for raw in candidate:
+        x = int(raw)
+        if not (1 <= x <= N):
+            return VerifyResult(False, 0.0, f"point {x} out of [1,{N}]", time.time() - t0)
+        if x in seen:
+            return VerifyResult(False, 0.0, f"duplicate point {x} in candidate", time.time() - t0)
+        seen.add(x)
+        pts.append(x)
+
+    k = len(pts)
+    if k <= 1:
+        return VerifyResult(True, float(k), f"trivially Sidon (size {k}) in [1,{N}]", time.time() - t0)
+
+    pts.sort()
+    sums: dict[int, tuple[int, int]] = {}
+    for i in range(k):
+        a = pts[i]
+        for j in range(i + 1, k):
+            b = pts[j]
+            s = a + b
+            prev = sums.get(s)
+            if prev is not None:
+                return VerifyResult(
+                    False, 0.0,
+                    f"duplicate sum {s}: ({a},{b}) collides with ({prev[0]},{prev[1]})",
+                    time.time() - t0,
+                )
+            sums[s] = (a, b)
+
+    return VerifyResult(True, float(k), f"valid Sidon set of size {k} in [1,{N}]", time.time() - t0)
+
+
 VERIFIERS = {
     "capset": _verify_capset,
+    "sidon": _verify_sidon,
 }
 
 

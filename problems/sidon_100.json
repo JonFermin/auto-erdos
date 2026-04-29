@@ -1,0 +1,7 @@
+{
+  "name": "sidon_100",
+  "family": "sidon",
+  "N": 100,
+  "baseline": 11,
+  "note": "Max Sidon size in [1,100]. Almost certainly exact via brute-force enumeration. Sanity-check problem — agent should not produce a kept row."
+}

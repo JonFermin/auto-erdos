@@ -1,0 +1,7 @@
+{
+  "name": "sidon_500",
+  "family": "sidon",
+  "N": 500,
+  "baseline": 23,
+  "note": "Singer construction over GF(23) gives a 24-element Sidon set in [0,552]; restricting to [1,500] usually yields 22 or 23. Beating 23 in [1,500] is plausibly open."
+}

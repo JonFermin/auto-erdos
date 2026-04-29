@@ -202,7 +202,33 @@ three things happens:
    micro-variant of something already tried. Stop, write a one-paragraph
    summary, do NOT fabricate a 19th trial just to fill the cap.
 
-**Timeout**: Each verifier call finishes in well under a second for n<=8.
-For n=9, n=10, candidate sizes can push the O(k^2) verifier to a few
-seconds. The hard cap inside `prepare.TimeBudget` is 5 minutes; runs that
-exceed it are killed and treated as crashes.
+**Timeout**: Verifiers themselves are cheap (well under a second for
+capset n≤8 and sidon up to N~10000). The wall-clock cap inside
+`prepare.TimeBudget` is **15 minutes** (`AUTOERDOS_TIME_BUDGET_S=900`) —
+that budget is yours to spend on DFS, SA, GA, exact sub-routines, etc.
+inside `generate_candidate`. Runs that exceed it should bail gracefully
+(check `tb.expired`) and return whatever valid candidate you have so far;
+hard-killed runs are treated as crashes.
+
+## Sidon-specific hypothesis ideas
+
+Frame each idea with a one-line thesis *before* you run.
+
+- **Translated Singer set**: for prime power q, the Singer construction
+  gives a (q+1)-element Sidon set in [0, q²+q]. Translate or restrict to
+  fit [1, N]. Establishes the known LB cleanly.
+- **Erdős–Turán construction**: {2pa + (a² mod p) : 0 ≤ a < p} is Sidon
+  in [1, 2p²-p+1] for prime p. Variant baseline.
+- **Greedy + augmentation**: start from a known Singer/E–T set and try
+  to greedily add additional points from [1, N] that don't break Sidon.
+- **Local search (swap moves)**: start from a Singer-base of size k, try
+  remove-1 / add-2 swaps. Hill-climb on size.
+- **Simulated annealing**: same swap moves, decaying acceptance for
+  downhill moves. Restart from best every K iters.
+- **Difference-set parameterization**: a Sidon set of size k corresponds
+  to a perfect difference family in the additive group. Search over
+  small-modulus structures.
+- **Concatenation / direct sum**: join two disjoint Sidon sets in
+  [1, M] and [M+1, N] — but check the cross-sums don't collide.
+- **Kotzig-array / Costas-style constructions**: more exotic algebraic
+  bases that occasionally beat Singer for specific N.
