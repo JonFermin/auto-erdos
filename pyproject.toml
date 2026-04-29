@@ -5,9 +5,11 @@ description = "Autonomous Erdős-style combinatorial research loop. Port 1: boun
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
+    "networkx>=3.4.2",
     "numpy>=2.0",
     "pandas>=2.2",
     "pyarrow>=17",
+    "python-sat>=1.9.dev2",
 ]
 
 [dependency-groups]

@@ -202,6 +202,11 @@ if the idea itself is fundamentally broken.
   "good" subset (e.g., last kept solution if you serialized it — note
   that's only allowed via files outside the repo or via the strategy
   generating the same construction deterministically).
+- **MaxSAT / partial-MaxSAT encoding**: variables x_p for each p in F_3^n,
+  hard clauses "for every 3-AP (a,b,c), at most 2 of x_a, x_b, x_c," soft
+  unit clauses x_p with weight 1. Solve with `pysat.examples.RC2` for an
+  exact answer at small n, or use it as a swap-oracle inside SA at larger
+  n. `pysat.solvers.Glucose3` for plain SAT feasibility on threshold k.
 
 Frame each idea with a one-line thesis *before* you run. If the thesis is
 "I have no idea, just trying stuff," reconsider.
@@ -308,3 +313,8 @@ Frame each idea with a one-line thesis *before* you run.
   [1, M] and [M+1, N] — but check the cross-sums don't collide.
 - **Kotzig-array / Costas-style constructions**: more exotic algebraic
   bases that occasionally beat Singer for specific N.
+- **SAT feasibility for "+1 extension"**: take a Singer set S of size k,
+  encode "exists x in [1, N] \ S with S ∪ {x} Sidon" as a SAT instance
+  (variable per candidate x, clauses forbidding sum collisions). Solve
+  with `pysat.solvers.Glucose3`. UNSAT ⇒ S is locally maximal; SAT ⇒ a
+  +1 augmentation exists, repeat.
