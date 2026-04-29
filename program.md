@@ -33,12 +33,15 @@ to `verify()`, and prints the metric block:
 **What you CAN do:**
 - Modify `strategy.py` — only the body of `generate_candidate()` plus any
   helpers it calls. Imports from `prepare` are fixed.
+- Import from `library/` — pre-shipped constructions. See "Constructions
+  library" below.
 
 **What you CANNOT do:**
 - Modify `prepare.py`. It contains the verifier and is the ground truth.
 - Modify any `problems/*.json`. The baseline is fixed for the duration of
   the branch.
-- Install new packages. Use only what's in `pyproject.toml` (numpy, pandas).
+- Modify `library/*.py`. The constructions are part of the fixed environment.
+- Install new packages. Use only what's in `pyproject.toml`.
 - Read `verifier_results.tsv` or the trial cache directly — those are
   harness-side audit trails. The only things you may read are `run.log`
   (your own stdout) and `results.tsv` (your own log).
@@ -220,6 +223,47 @@ that budget is yours to spend on DFS, SA, GA, exact sub-routines, etc.
 inside `generate_candidate`. Runs that exceed it should bail gracefully
 (check `tb.expired`) and return whatever valid candidate you have so far;
 hard-killed runs are treated as crashes.
+
+## Constructions library
+
+`library/` ships literature-grade baselines that the agent can import as
+starting points. Calling a library function is normal Python — no special
+"used the library" gate; the keep rule still requires
+`score > running_best`, so returning a library set verbatim discards
+(it equals the running best by construction). The win is composition:
+augment the library output with greedy / SA / swap-moves, etc.
+
+```python
+from library import sidon, capset
+
+# Sidon: try the best Singer translate, then extend
+seed = sidon.singer_for_n(spec["N"])              # largest fit in [1, N]
+# ... try to add points to seed ...
+
+# Capset: start from product-lift, augment in time budget
+seed = capset.recursive_product(spec["n"])         # 4^(n//2) * 2^(n%2)
+# ... or pull random_greedy as comparison baseline ...
+greedy = capset.random_greedy(spec["n"], seed=0)
+```
+
+Public API:
+
+| Module | Function | Returns |
+|---|---|---|
+| `library.sidon` | `singer(q)` | q+1-element Singer set in [0, q²+q] (q prime). |
+| `library.sidon` | `erdos_turan(p)` | p-element ET set in [0, 2p²-p] (p prime). |
+| `library.sidon` | `singer_for_n(N, base=1)` | Best translated Singer set in [base, base+N-1]. |
+| `library.capset` | `random_greedy(n, seed=0)` | Randomized greedy cap (current strategy.py default). |
+| `library.capset` | `cap_n1()` / `cap_n2_size4()` | Maximum caps in F_3^1 and F_3^2. |
+| `library.capset` | `product_lift(A, n_a, B, n_b)` | A × B as cap in F_3^{n_a+n_b}. |
+| `library.capset` | `lift_to_dim(cap, src, tgt)` | Zero-pad embedding. |
+| `library.capset` | `recursive_product(n)` | Cap in F_3^n via repeated product-lift. |
+
+**Note on size**: for sidon_500 / 1000 / 3000, `singer_for_n` already
+beats the literature baseline (24 / 33 / 58 vs 23 / 32 / 53). For capset
+problems, `recursive_product` is below baseline at all n>=4 — it's a
+building block, not a solution. To beat capset baselines you need
+better constructions or a smart augmentation of the library output.
 
 ## Sidon-specific hypothesis ideas
 

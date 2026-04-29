@@ -30,7 +30,10 @@ trail.
   the per-problem cache assume the verifier is part of the fixed environment.
 - **`problems/*.json` are READ-ONLY.** The literature baseline is fixed for
   the duration of the branch.
-- Do not add dependencies beyond `pyproject.toml` (numpy, pandas, pyarrow).
+- **`library/` is READ-ONLY.** Importable constructions (Singer, Erdős–Turán,
+  product-lifts) — call them, don't modify them. They're part of the fixed
+  environment alongside the verifier.
+- Do not add dependencies beyond `pyproject.toml`.
 - Do not read `verifier_results.tsv` or the harness trial cache directly.
 
 ## Commands
