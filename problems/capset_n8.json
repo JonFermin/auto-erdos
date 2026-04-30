@@ -4,5 +4,6 @@
   "n": 8,
   "baseline": 496,
   "time_budget_s": 1500,
-  "note": "Best known lower bound: a_8(F_3) >= 496 (Edel, product/cyclic construction). Upper bound open. Default problem — the hello world."
+  "trial_cap": 100,
+  "note": "Best known lower bound: a_8(F_3) >= 496 (Edel, product/cyclic construction). Upper bound open. Default problem — the hello world. trial_cap raised to 100 to support deeper exploration of literature-grade seeds."
 }

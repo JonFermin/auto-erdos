@@ -1,6 +1,6 @@
 ---
 name: erdos-autoresearch-all
-description: Use when the user asks to run autoresearch across ALL problems (capset_n4 through capset_n10 plus sidon_100/500/1000/3000) or any multi-problem subset in parallel. Spawns one general-purpose subagent per problem, each running the `erdos-autoresearch` skill end-to-end in its own git worktree with a pre-assigned unique timestamp tag. Default is all 11 shipped problems; pass a comma-separated subset to narrow. Triggers on phrases like "all possible problems", "run autoresearch on all problems", "every capset/sidon in parallel", "fan out across the whole problem set".
+description: Use when the user asks to run autoresearch across ALL problems (capset_n7 through capset_n10 plus sidon_100/500/1000/3000) or any multi-problem subset in parallel. Spawns one general-purpose subagent per problem, each running the `erdos-autoresearch` skill end-to-end in its own git worktree with a pre-assigned unique timestamp tag. Default is the 8 open problems (capset_n4/n5/n6 are proven optimal and excluded — re-include explicitly if running null-control regression checks); pass a comma-separated subset to narrow. Triggers on phrases like "all possible problems", "run autoresearch on all problems", "every capset/sidon in parallel", "fan out across the whole problem set".
 ---
 
 # erdos-autoresearch-all
@@ -9,28 +9,30 @@ Fan out the `erdos-autoresearch` skill across multiple problems in parallel. One
 
 ## Default problem set
 
-Unless the invoker names a subset, run all 11 shipped problems:
+Unless the invoker names a subset, run the **8 open problems** (counterexample-eligible):
 
 **capset family** (cap sets in F_3^n: no 3-term AP, score = |S|):
-- `capset_n4` (LB 20, exact — sanity-check / null-control)
-- `capset_n5` (LB 45, exact — sanity-check)
-- `capset_n6` (LB 112, exact — sanity-check)
 - `capset_n7` (LB 236 — open at top)
 - `capset_n8` (LB 496 — default, open at top)
 - `capset_n9` (LB 1082 — open, far from upper bound)
 - `capset_n10` (LB 2474 — slowest verifier, open)
 
 **sidon family** (B₂ sets in [1, N]: pairwise sums distinct, score = |S|):
-- `sidon_100`  (LB 11 — almost certainly exact, sanity-check)
+- `sidon_100`  (LB 11 — almost certainly exact, sanity-check; included so seed-run regression is caught)
 - `sidon_500`  (LB 23 — Singer-23, mild headroom)
 - `sidon_1000` (LB 32 — Singer gives 32, real result would be 33)
 - `sidon_3000` (LB 53 — Singer-53, real headroom)
 
-The canonical list is whatever `problems/*.json` files are present in the repo root — if the human adds a new problem JSON, treat it as part of the default set going forward.
+**Excluded from the default fan-out (proven optimal — counterexample impossible):**
+- `capset_n4` (a_4 = 20, exact)
+- `capset_n5` (a_5 = 45, Pellegrino 1970)
+- `capset_n6` (a_6 = 112, Edel 2004)
 
-A subset can be passed as a comma-separated list (e.g. `capset_n8,capset_n9,sidon_3000`, or just `capset_n8,sidon_3000`). If the invoker says "the open ones" or "skip sanity-checks", drop `capset_n{4,5,6}` and `sidon_100` and run the remaining 7.
+These three retain `trial_cap: 1` in their problem JSONs so an explicit `capset_n4,capset_n5,capset_n6` invocation still serves as a null-control regression check (one seed run per problem, immediate exit). Don't pull them into the default set — every trial there is wasted compute.
 
-The "sanity-check" problems (exact-known LBs) are useful as null controls — a kept row on `capset_n4` would indicate a bug in the verifier or harness, not a real result. Including them by default catches such regressions.
+The canonical list of **available** problems is whatever `problems/*.json` files are present in the repo root. The default fan-out is the subset above (open problems only). If the human adds a new problem JSON, decide based on whether its baseline is open or proven-optimal.
+
+A subset can be passed as a comma-separated list (e.g. `capset_n8,capset_n9,sidon_3000`, or just `capset_n8,sidon_3000`). To re-include the proven-optimal sanity checks, the invoker must name them explicitly: `capset_n4,capset_n5,capset_n6,...`.
 
 ## Step 1 — Preflight
 
@@ -56,7 +58,7 @@ Build N tags by incrementing the current epoch one second at a time, then format
 ```bash
 git fetch origin --prune                          # pull remote branches so collision check sees sister CC instances
 BASE_EPOCH=$(date +%s)
-N=11                                              # replace with actual number of problems requested (default 11)
+N=8                                               # replace with actual number of problems requested (default 8 — the open problems)
 TAGS=()
 for i in $(seq 0 $((N-1))); do
   TAGS+=("$(date -d "@$((BASE_EPOCH + i))" +%m%d-%H%M%S)")

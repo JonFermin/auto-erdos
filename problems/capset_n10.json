@@ -3,6 +3,7 @@
   "family": "capset",
   "n": 10,
   "baseline": 2474,
-  "time_budget_s": 2400,
-  "note": "Best known lower bound: a_10(F_3) >= 2474 (Edel). Verifier is O(k^2) with k ~ 2500, so each candidate takes a few seconds — keep that in mind for the 5-minute cap."
+  "time_budget_s": 5400,
+  "trial_cap": 100,
+  "note": "Best known lower bound: a_10(F_3) >= 2474 (Edel). Verifier is O(k^2 * n) ~= 62M ops at k=2474, n=10 -> ~5s per call. time_budget_s bumped 2400->5400 and trial_cap raised to 100 so SAT-extend-by-1 gets a meaningful budget against a 2474-seed."
 }
