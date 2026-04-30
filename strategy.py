@@ -47,6 +47,7 @@ import itertools
 import random
 
 from library import capset, sidon
+from library.sat_extensions import extend_sidon_by_one
 from prepare import (
     TimeBudget,
     load_best_so_far,
@@ -102,6 +103,24 @@ def _seed_sidon(spec):
             extended = _augment_one(reflected, N)
             if extended is not None:
                 candidates.append(extended)
+
+    # Multiplier-coset sweep on Singer-q. Each prime q with q^2+q+1
+    # near N yields a perfect difference set; multiplication by m
+    # coprime to q^2+q+1 produces another. For each, slide a non-wrap
+    # window of length min(N, M-1) and pick the best fit.
+    multiplier_bests = _sidon_multiplier_sweep(N)
+    candidates.extend(multiplier_bests)
+
+    # Augmentation chain on each multiplier-sweep result: greedy +1
+    # extension repeated until none fits.
+    for base in multiplier_bests:
+        extended = list(base)
+        while True:
+            nxt = extend_sidon_by_one(extended, N)
+            if nxt is None:
+                break
+            extended = nxt
+        candidates.append(extended)
 
     singer = sidon.singer_for_n(N)
     if singer:
@@ -265,6 +284,67 @@ def _ogr26_marks(N):
     if shifted[-1] > N:
         return None
     return shifted
+
+
+def _sidon_multiplier_sweep(N: int) -> list[list[int]]:
+    """For each prime q with q^2+q+1 close to N, compute the Singer base
+    in Z/M (M = q^2+q+1), sweep all multipliers m coprime to M.
+    Each (q, m) is a perfect diff set; for each, find the best non-wrap
+    window of length min(N, M-1) via O(k) two-pointer.
+
+    Non-wrap is required because wrapping introduces both x and x+M into
+    the same window, which violates Sidon (sums collide).
+
+    Returns one (1-indexed) candidate per prime q.
+    """
+    import math as _math
+
+    out: list[list[int]] = []
+    q_center = max(2, int(_math.isqrt(N)))
+    primes = [q for q in range(max(2, q_center - 6), q_center + 9) if _is_prime(q)]
+    for q in primes:
+        try:
+            base = sidon.singer(q)
+        except (ValueError, RuntimeError):
+            continue
+        M = q * q + q + 1
+        win = min(N, M - 1)
+        best_size = 0
+        best_set: list[int] = []
+        for m in range(1, M):
+            if _math.gcd(m, M) != 1:
+                continue
+            scaled = sorted((m * x) % M for x in base)
+            k = len(scaled)
+            j = 0
+            for i in range(k):
+                start = scaled[i]
+                end = start + win
+                while j < k and scaled[j] < end:
+                    j += 1
+                cnt = j - i
+                if cnt > best_size:
+                    best_size = cnt
+                    best_set = [scaled[t] - start for t in range(i, j)]
+        if best_set:
+            shifted = sorted(y + 1 for y in best_set)
+            out.append(shifted)
+    return out
+
+
+def _is_prime(n: int) -> bool:
+    if n < 2:
+        return False
+    if n < 4:
+        return True
+    if n % 2 == 0:
+        return False
+    d = 3
+    while d * d <= n:
+        if n % d == 0:
+            return False
+        d += 2
+    return True
 
 
 def _randomized_greedy_capset(n):
