@@ -360,17 +360,30 @@ Public API:
 | `library.capset` | `lift_to_dim(cap, src, tgt)` | Zero-pad embedding. |
 | `library.capset` | `recursive_product(n)` | Cap in F_3^n via repeated cap_n1/cap_n2 product-lift. |
 | `library.capset` | `best_seed(n)` | Strongest shipped cap: uses cap_n4_size20 × small-cap by product-lift. |
+| `library.capset_lifts` | `cap_n6_size112()` | Edel's 112-cap in F_3^6 (literature LB), if disk cache present (else None). |
+| `library.capset_lifts` | `best_seed_v2(n)` | Strongest available product-lift; uses cap_n6_size112 when cached. n=10: 2240 (vs 1600 from `capset.best_seed`). |
+| `library.capset_lifts` | `best_decomposition_size(n)` | Size of the best product-lift the library can build for F_3^n. |
+| `library.capset_sat` | `extend_capset_by_one(seed, n)` | +1 extension (linear scan). |
+| `library.capset_sat` | `extend_capset_by_k(seed, n, k)` | +k extension (SAT, k>=2; hard guard 3^n>20000). |
+| `library.capset_sat` | `swap_remove_k_add_kplus1(seed, n, k)` | Drop-k add-k+1 net +1 swap (SAT). |
+| `library.capset_orbit_sweep` | `random_invertible(n, rng)` | Uniformly random invertible n×n F_3-matrix. |
+| `library.capset_orbit_sweep` | `apply_linear(A, cap)` / `apply_translate(t, cap)` | GL(n,3) and affine actions; both preserve cap-freeness. |
+| `library.capset_orbit_sweep` | `best_orbit_extension(seed, n, extender, ...)` | Sweep orbit reps × translates × extender; track largest valid. |
 | `library.sat_extensions` | `extend_sidon_by_one(seed, N)` | +1 extension (linear scan). |
 | `library.sat_extensions` | `extend_sidon_by_k(seed, N, k)` | +k extension (SAT, k>=2; raises if N>2000). |
 | `library.sat_extensions` | `swap_remove1_add2(seed, N)` | Remove-1-add-2 net +1 swap (SAT). |
 
 **Note on size**: for sidon_100 / 500 / 1000 / 3000, `singer_for_n` already
 matches or beats the literature baseline (11 / 24 / 33 / 53 vs 10 / 23 / 32 / 53).
-For capset, `best_seed(n)` matches the literature LB for n in {1, 2, 3, 4}
-exactly; for n >= 5 it's below LB but materially stronger than `recursive_product(n)`
-(e.g. n=8: 400 vs 256, n=10: 1600 vs 1024). To push capset above LB at any
-n >= 5 you need a real new construction or a smart augmentation of the
-shipped seed.
+For capset, `capset_lifts.best_seed_v2(n)` is the strongest available
+product-lift. With `cap_n6_size112` cached on disk (built via
+`scripts/find_cap_n6_size112.py`), it reaches: n=6: 112 (LB matched),
+n=8: 448, n=9: 1008, n=10: 2240. Without that cache it falls back to
+existing primitives and produces small wins over `capset.best_seed` —
+n=6: 81 (vs 80), n=10: 1620 (vs 1600). To push capset *above* LB at
+n>=7 you need a real new construction or a smart augmentation of
+`best_seed_v2` (e.g., orbit-sweep + extend_capset_by_one, or
+swap_remove_k_add_kplus1 from `capset_sat`).
 
 ## Sidon-specific hypothesis ideas
 

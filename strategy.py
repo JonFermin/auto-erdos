@@ -33,8 +33,25 @@ Affordances available to your edits (all importable):
   - ``prepare.load_hypothesis_log()`` — every prior trial's (status, score,
     thesis) on this problem across all branches. Use to avoid re-trying a
     hypothesis family that has already failed.
-  - ``library.capset.best_seed`` / ``cap_n4_size20`` / ``product_lift`` —
-    build stronger capset seeds.
+
+  Cap-set primitives (F_3^n):
+  - ``library.capset.best_seed`` / ``cap_n4_size20`` / ``cap_n3_size9``
+    / ``product_lift`` / ``lift_to_dim`` — build stronger capset seeds
+    from exact small-n caps.
+  - ``library.capset_lifts.best_seed_v2`` — strongest available product-
+    lift, including ``cap_n6_size112`` (Edel) when its disk cache
+    is present. Already used in this seed.
+  - ``library.capset_lifts.cap_n6_size112`` — 112-cap in F_3^6 (literature
+    LB), or None if not cached. Build via
+    ``scripts/find_cap_n6_size112.py``.
+  - ``library.capset_sat.extend_capset_by_one`` (linear scan +1),
+    ``extend_capset_by_k`` (SAT, k>=2; hard guard 3^n>20000),
+    ``swap_remove_k_add_kplus1`` (drop-k add-k+1 SAT swap).
+  - ``library.capset_orbit_sweep.random_invertible``,
+    ``apply_linear`` / ``apply_translate`` (preserve cap-freeness),
+    ``best_orbit_extension`` (orbits × translates × extender; tb-aware).
+
+  Sidon primitives ([1, N]):
   - ``library.sidon.singer`` / ``erdos_turan`` / ``singer_for_n`` —
     algebraic Sidon constructions.
   - ``library.sat_extensions.extend_sidon_by_one`` (linear scan +1),
@@ -46,7 +63,7 @@ from __future__ import annotations
 import itertools
 import random
 
-from library import capset, sidon
+from library import capset, capset_lifts, sidon
 from library.sat_extensions import extend_sidon_by_one
 from prepare import (
     TimeBudget,
@@ -78,6 +95,7 @@ def _seed_capset(spec):
         if prior_cap and all(len(p) == n for p in prior_cap):
             candidates.append(prior_cap)
 
+    candidates.append(capset_lifts.best_seed_v2(n))
     candidates.append(capset.best_seed(n))
     candidates.append(_randomized_greedy_capset(n))
 
