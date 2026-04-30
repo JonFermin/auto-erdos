@@ -92,6 +92,16 @@ def _seed_sidon(spec):
         prior_set = [int(x) for x in prior.get("candidate", [])]
         if prior_set and all(1 <= x <= N for x in prior_set):
             candidates.append(prior_set)
+            # Reflected variant: x -> N+1-x preserves Sidon validity (sums shift
+            # by 2(N+1) - which is a uniform constant, so distinctness is
+            # preserved). Try as alternate base for +1 augmentation.
+            reflected = sorted(N + 1 - x for x in prior_set)
+            candidates.append(reflected)
+            # On reflected base, scan for any y not in set that doesn't break
+            # Sidon; if found, +1 over best_so_far.
+            extended = _augment_one(reflected, N)
+            if extended is not None:
+                candidates.append(extended)
 
     singer = sidon.singer_for_n(N)
     if singer:
@@ -100,6 +110,28 @@ def _seed_sidon(spec):
     candidates.append(_randomized_greedy_sidon(N))
 
     return max(candidates, key=len)
+
+
+def _augment_one(base: list[int], N: int) -> list[int] | None:
+    """Linear scan for a single Sidon-preserving extension."""
+    base_set = set(base)
+    sums = set()
+    for i, a in enumerate(base):
+        for b in base[i:]:
+            sums.add(a + b)
+    for y in range(1, N + 1):
+        if y in base_set:
+            continue
+        ok = True
+        if 2 * y in sums:
+            continue
+        for a in base:
+            if y + a in sums:
+                ok = False
+                break
+        if ok:
+            return sorted(base + [y])
+    return None
 
 
 def _randomized_greedy_capset(n):
