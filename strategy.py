@@ -119,7 +119,134 @@ def _seed_sidon(spec):
 
     candidates.append(_randomized_greedy_sidon(N))
 
-    return max(candidates, key=len)
+    base = max(candidates, key=len)
+    singer37 = _singer37_multiplier_window(N)
+    if singer37 is not None and len(singer37) > len(base):
+        base = singer37
+    swapped = _remove2_add3_hill_climb(base, N, attempts=400)
+    if swapped is not None and len(swapped) > len(base):
+        return swapped
+    return base
+
+
+def _singer37_multiplier_window(N):
+    """Singer-37 multiplier-orbit + window-restriction.
+
+    The Singer-37 perfect difference set lives in Z/1407 with 38 elements.
+    Vanilla translates of it fit at most 33 elements in [0, N-1] for
+    N=1000. But for each unit u in (Z/1407)*, the set u*S mod 1407 is
+    *also* a perfect difference set (multiplier theorem). Different u's
+    give genuinely different gap distributions, and some translates of
+    some multiplier-shifted variants pack more elements into a length-N
+    window than the canonical translate does.
+
+    A subset of a Sidon set is automatically Sidon — no augmentation
+    needed. The score is the number of elements of (u*S + t) mod 1407
+    falling in [0, N-1].
+
+    Sweep: all multipliers in (Z/1407)* / <37> (order(37)=3, so 1404/3 =
+    468 representative cosets), all 1407 translates per multiplier. Total
+    work is small (no inner SAT, just modular arithmetic + sorting).
+    """
+    from math import gcd
+    s = sidon.singer(37)
+    M = 37 * 37 + 37 + 1  # 1407
+    best = []
+    best_size = 0
+    # multiplier reps: one per coset of <37> (size 3) in (Z/M)*
+    seen_cosets: set[frozenset[int]] = set()
+    for u in range(1, M):
+        if gcd(u, M) != 1:
+            continue
+        coset = frozenset({u, (u * 37) % M, (u * 37 * 37) % M})
+        if coset in seen_cosets:
+            continue
+        seen_cosets.add(coset)
+        scaled = sorted((u * x) % M for x in s)
+        for t in range(M):
+            translated = sorted((y + t) % M for y in scaled)
+            fit = [y for y in translated if y < N]
+            if len(fit) > best_size:
+                best_size = len(fit)
+                best = [y + 1 for y in fit]  # shift to [1, N]
+    if best_size <= 32:
+        return None
+    return sorted(best)
+
+
+def _remove2_add3_hill_climb(seed, N, *, attempts=400):
+    """Direct remove-2 add-3 net +1 search: drop two seed elements, scan for
+    three new elements that fit. Larger removal budget than the SAT-based
+    swap_remove1_add2 (remove-1 add-2): freeing two seed members opens more
+    sums for a triple to land in.
+
+    Bounded by `attempts` random pair-removals. Each pair check is roughly
+    O(N) for candidate filtering plus O(C^3) for the triple scan over
+    surviving candidates C, which is small after pre-filtering.
+    """
+    rng = random.Random(20260429)
+    seed_list = sorted(int(x) for x in seed)
+    if len(seed_list) < 2:
+        return None
+    pairs = [(i, j) for i in range(len(seed_list))
+             for j in range(i + 1, len(seed_list))]
+    rng.shuffle(pairs)
+    excl = set(seed_list)
+    for i, j in pairs[:attempts]:
+        a, b = seed_list[i], seed_list[j]
+        smaller = [x for x in seed_list if x != a and x != b]
+        base_sums: set[int] = set()
+        for ii, x in enumerate(smaller):
+            for y in smaller[ii:]:
+                base_sums.add(x + y)
+        cands: list[int] = []
+        for x in range(1, N + 1):
+            if x in excl:
+                continue
+            if (2 * x) in base_sums:
+                continue
+            if any((x + s) in base_sums for s in smaller):
+                continue
+            cands.append(x)
+        if len(cands) < 3:
+            continue
+        for ai in range(len(cands)):
+            x = cands[ai]
+            for bi in range(ai + 1, len(cands)):
+                y = cands[bi]
+                if (x + y) in base_sums:
+                    continue
+                for ci in range(bi + 1, len(cands)):
+                    z = cands[ci]
+                    if (x + z) in base_sums or (y + z) in base_sums:
+                        continue
+                    triple_pair_sums = [
+                        2 * x, 2 * y, 2 * z, x + y, x + z, y + z,
+                    ]
+                    if len(set(triple_pair_sums)) != 6:
+                        continue
+                    sums_so_far = set(base_sums)
+                    bad = False
+                    for new_pt in (x, y, z):
+                        for s in smaller:
+                            v = new_pt + s
+                            if v in sums_so_far:
+                                bad = True
+                                break
+                            sums_so_far.add(v)
+                        if bad:
+                            break
+                    if bad:
+                        continue
+                    for v in triple_pair_sums:
+                        if v in sums_so_far:
+                            bad = True
+                            break
+                        sums_so_far.add(v)
+                    if bad:
+                        continue
+                    return sorted(smaller + [x, y, z])
+    return None
 
 
 def _ogr26_marks(N):
