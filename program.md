@@ -160,6 +160,15 @@ unlike `results.tsv` (gitignored). `git reset --hard HEAD~1` after a *later*
 discard will land on this record-commit, leaving strategy.py at the kept
 version; semantics for the agent are unchanged.
 
+**Paper writeup is OFF by default in the loop.** `log_result.py` reads
+`AUTOERDOS_WRITEUP`; unset / `0` / `off` skips paper generation entirely.
+Set it to `1` (or `opus,codex`) only outside the wall-clock-sensitive
+autoresearch loop — model calls cost minutes per keep. To generate
+papers retroactively from any record, run
+`uv run write_paper.py records/<file>` after the loop completes.
+`prompts/paper_writeup.md` is the frozen template; do not edit it
+mid-loop.
+
 The TSV has 6 columns:
 
     commit  score  is_valid  verifier_seconds  status  description

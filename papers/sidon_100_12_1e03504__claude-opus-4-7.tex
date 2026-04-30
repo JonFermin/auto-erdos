@@ -1,0 +1,226 @@
+\documentclass[a4paper,11pt]{amsart}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+
+\title{A Sidon set of size 12 in $[1,100]$}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+A \emph{Sidon set} in a set of integers is one whose pairwise sums are all
+distinct. We exhibit an explicit Sidon set of cardinality $12$ contained in
+the interval $[1,100]$, namely
+$\{1,2,4,8,17,28,40,59,69,77,94,99\}$. Validity is reduced via a short
+lemma to the claim that all $\binom{12}{2}=66$ positive pairwise
+differences are distinct, which is verified by displaying the entire
+difference table and observing that the resulting $66$ integers in
+$[1,98]$ contain no repetition. Consequently, the maximum cardinality of
+a Sidon set in $[1,100]$ is at least $12$, improving on the value $11$
+previously recorded for this instance.
+\end{abstract}
+
+\section{Setting and result}
+
+\begin{definition}
+For an integer $N\geq 1$ let $[1,N]:=\{1,2,\dots,N\}$. A finite set
+$S\subseteq\mathbb{Z}$ is a \emph{Sidon set} (or $B_2$\nobreakdash-set) if
+\[
+a+b=c+d\quad\text{with}\quad a,b,c,d\in S\quad\Longrightarrow\quad
+\{a,b\}=\{c,d\}.
+\]
+Equivalently, the map $\{a,b\}\mapsto a+b$ from two\nobreakdash-element
+subsets of $S$ to $\mathbb{Z}$ is injective. Define
+\[
+F(N):=\max\{|S| : S\subseteq[1,N]\text{ is a Sidon set}\}.
+\]
+\end{definition}
+
+The aim of this note is to prove the following.
+
+\begin{theorem}\label{thm:main}
+$F(100)\geq 12$.
+\end{theorem}
+
+\section{The construction}
+
+Let
+\begin{equation}\label{eq:S}
+S:=\{1,\,2,\,4,\,8,\,17,\,28,\,40,\,59,\,69,\,77,\,94,\,99\}.
+\end{equation}
+We list its elements in increasing order as $a_1<a_2<\cdots<a_{12}$, that
+is
+\[
+(a_1,a_2,\dots,a_{12})=(1,2,4,8,17,28,40,59,69,77,94,99).
+\]
+
+\begin{proposition}\label{prop:size}
+$|S|=12$ and $S\subseteq[1,100]$.
+\end{proposition}
+
+\begin{proof}
+The display \eqref{eq:S} consists of $12$ strictly increasing positive
+integers, so $S$ has exactly $12$ pairwise distinct elements. Its
+smallest element is $1\geq 1$ and its largest is $99\leq 100$, hence
+$S\subseteq[1,100]$.
+\end{proof}
+
+\section{Reduction to differences}
+
+We use the following standard equivalence between distinctness of sums
+and distinctness of positive differences.
+
+\begin{lemma}\label{lem:diff}
+Let $S\subseteq\mathbb{Z}$ be a finite set. Then $S$ is a Sidon set if
+and only if, for any two two\nobreakdash-element subsets
+$\{a,b\},\{c,d\}\subseteq S$ with $a<b$ and $c<d$,
+\[
+\{a,b\}\neq\{c,d\}\quad\Longrightarrow\quad b-a\neq d-c.
+\]
+\end{lemma}
+
+\begin{proof}
+We prove the contrapositive of each implication.
+
+\smallskip
+\noindent\emph{(Sidon $\Rightarrow$ differences distinct.)}
+Suppose $\{a,b\}\neq\{c,d\}$ are two\nobreakdash-element subsets of $S$
+with $a<b$, $c<d$, and $b-a=d-c$. Then
+\begin{equation}\label{eq:starsum}
+a+d=b+c.
+\end{equation}
+If $a=c$ then $b=d$, contradicting $\{a,b\}\neq\{c,d\}$, so $a\neq c$.
+Renaming the two pairs if necessary, we may assume $a<c$. Combined
+with $b-a=d-c$ this gives $b=a+(d-c)<c+(d-c)=d$, hence $b<d$.
+Therefore
+\[
+a<c,\qquad a<b,\qquad b<d,\qquad c<d,
+\]
+so $a$ is strictly smaller than each of $b,c,d$, and $d$ is strictly
+larger than each of $a,b,c$. The two pairs $\{a,d\}$ and $\{b,c\}$
+are therefore disjoint, and in particular distinct. By
+\eqref{eq:starsum} they have the same sum, contradicting the Sidon
+property.
+
+\smallskip
+\noindent\emph{(Differences distinct $\Rightarrow$ Sidon.)}
+Suppose $\{a,b\}\neq\{c,d\}$ are two\nobreakdash-element subsets of $S$
+with $a<b$, $c<d$, and $a+b=c+d$. If $a=c$ then $b=d$, contradiction;
+hence $a\neq c$, and after renaming we may assume $a<c$. Subtracting
+from $a+b=c+d$ gives $b-d=c-a>0$, so $b>d$. Combined with $c<d$ we
+obtain
+\[
+a<c<d<b,
+\]
+and the pairs $\{a,c\}$ and $\{d,b\}$ are disjoint and hence distinct.
+They realise the common positive difference
+\[
+c-a=b-d,
+\]
+contradicting the assumption that the positive differences of $S$ are
+pairwise distinct.
+\end{proof}
+
+\section{Verification of the Sidon property}
+
+By Lemma~\ref{lem:diff}, to show that the set $S$ of \eqref{eq:S} is
+Sidon it suffices to verify that the $\binom{12}{2}=66$ positive
+differences
+\[
+d_{ij}:=a_j-a_i,\qquad 1\leq i<j\leq 12,
+\]
+are pairwise distinct. The full difference table follows; the entry in
+row~$i$, column~$j$ is $d_{ij}=a_j-a_i$, and each entry is verified by
+direct subtraction from
+$(a_1,\dots,a_{12})=(1,2,4,8,17,28,40,59,69,77,94,99)$.
+
+\medskip
+\begin{center}
+\renewcommand{\arraystretch}{1.05}
+\begin{tabular}{c|rrrrrrrrrrr}
+$i\,\backslash\,j$ & $2$ & $3$ & $4$ & $5$ & $6$ & $7$ & $8$ & $9$ & $10$ & $11$ & $12$\\
+\hline
+$1$  & $1$ & $3$ & $7$ & $16$ & $27$ & $39$ & $58$ & $68$ & $76$ & $93$ & $98$\\
+$2$  &     & $2$ & $6$ & $15$ & $26$ & $38$ & $57$ & $67$ & $75$ & $92$ & $97$\\
+$3$  &     &     & $4$ & $13$ & $24$ & $36$ & $55$ & $65$ & $73$ & $90$ & $95$\\
+$4$  &     &     &     & $9$  & $20$ & $32$ & $51$ & $61$ & $69$ & $86$ & $91$\\
+$5$  &     &     &     &      & $11$ & $23$ & $42$ & $52$ & $60$ & $77$ & $82$\\
+$6$  &     &     &     &      &      & $12$ & $31$ & $41$ & $49$ & $66$ & $71$\\
+$7$  &     &     &     &      &      &      & $19$ & $29$ & $37$ & $54$ & $59$\\
+$8$  &     &     &     &      &      &      &      & $10$ & $18$ & $35$ & $40$\\
+$9$  &     &     &     &      &      &      &      &      & $8$  & $25$ & $30$\\
+$10$ &     &     &     &      &      &      &      &      &      & $17$ & $22$\\
+$11$ &     &     &     &      &      &      &      &      &      &      & $5$
+\end{tabular}
+\end{center}
+\medskip
+
+Every entry is a positive integer in $[1,98]$; indeed
+$d_{ij}\geq d_{j-1,j}\geq 1$ and $d_{ij}\leq d_{1,12}=a_{12}-a_1=98$.
+Sorting the $66$ tabulated values in increasing order yields
+\begin{equation}\label{eq:diffs-sorted}
+\begin{aligned}
+&1,\,2,\,3,\,4,\,5,\,6,\,7,\,8,\,9,\,10,\,11,\,12,\,13,\,15,\,16,\,17,\,18,\,19,\,20,\,22,\\
+&23,\,24,\,25,\,26,\,27,\,29,\,30,\,31,\,32,\,35,\,36,\,37,\,38,\,39,\,40,\,41,\,42,\\
+&49,\,51,\,52,\,54,\,55,\,57,\,58,\,59,\,60,\,61,\,65,\,66,\,67,\,68,\,69,\,71,\,73,\\
+&75,\,76,\,77,\,82,\,86,\,90,\,91,\,92,\,93,\,95,\,97,\,98.
+\end{aligned}
+\end{equation}
+The sequence \eqref{eq:diffs-sorted} is strictly increasing and
+contains $66$ distinct integers (one may verify the cardinality by
+counting, for example as $13+6+6+4+8+1+2+2+5+5+1+1+3+1+1+4+1+2=66$).
+Therefore the positive differences of $S$ are pairwise distinct.
+
+A few features of the table merit a comment, since they could
+superficially appear suspicious. The element $40=a_7$ also appears as
+a difference: $40=99-59=a_{12}-a_8$, so $a_7+a_8=a_{12}$. Likewise
+$a_4+a_9=8+69=77=a_{10}$ and $a_5+a_{10}=17+77=94=a_{11}$. The Sidon
+condition forbids only the coincidence of two distinct two\nobreakdash-element
+subset sums; it does \emph{not} forbid an element of $S$ from being the
+sum of two other elements of $S$, nor does it forbid an element of $S$
+from equalling a difference of two other elements. Each of the
+relations $a_7+a_8=a_{12}$, $a_4+a_9=a_{10}$, $a_5+a_{10}=a_{11}$
+involves three distinct elements of $S$, and so corresponds to a
+\emph{single} pairwise sum (namely $a_7+a_8$, $a_4+a_9$, or
+$a_5+a_{10}$ respectively). It would only contradict Sidonicity if the
+same value were also expressible as a different pairwise sum
+$a_i+a_j$ with $\{i,j\}$ disjoint from the original pair, and
+\eqref{eq:diffs-sorted} (via Lemma~\ref{lem:diff}) rules this out.
+
+By Lemma~\ref{lem:diff}, $S$ is a Sidon set.
+
+\section{Conclusion}
+
+\begin{proof}[Proof of Theorem~\ref{thm:main}]
+Proposition~\ref{prop:size} gives $S\subseteq[1,100]$ with $|S|=12$, and
+the verification of Section~4 shows that $S$ is a Sidon set. Hence
+$F(100)\geq|S|=12$.
+\end{proof}
+
+The bound $F(100)\geq 12$ improves on the previously recorded
+$F(100)\geq 11$ by one. The argument is entirely elementary: it consists
+of the explicit witness $S$, the equivalence between sum\nobreakdash-collisions
+and difference\nobreakdash-collisions (Lemma~\ref{lem:diff}), and the
+inspection of the $66$\nobreakdash-entry difference table summarised in
+\eqref{eq:diffs-sorted}.
+
+\begin{remark}
+Equivalently, one could verify the Sidon property of $S$ directly from
+the definition by listing the $66$ pairwise sums $a_i+a_j$
+($1\leq i<j\leq 12$), all of which lie in $[3,193]$, and checking that
+they are pairwise distinct. The two checks are equivalent by
+Lemma~\ref{lem:diff}; the difference formulation is presented because
+its entries are smaller, fit comfortably within $[1,98]$, and are
+therefore more readily inspected.
+\end{remark}
+
+\end{document}

@@ -1,0 +1,35 @@
+{
+  "cli_invocation": [
+    "claude",
+    "-p",
+    "--model",
+    "claude-opus-4-7",
+    "--output-format",
+    "text",
+    "--disallowedTools",
+    "Bash Edit Write Glob Grep Read WebFetch WebSearch Skill Agent NotebookEdit TaskCreate"
+  ],
+  "duration_seconds": 293.34,
+  "exit_code": 0,
+  "extraction_mode": "fenced-tagged",
+  "model_alias": "opus",
+  "model_id_requested": "claude-opus-4-7",
+  "prompt_template_path": "prompts/paper_writeup.md",
+  "prompt_template_sha256": "67722a0cda185bc38bfedd1fde12d8c25eee2c77c7134a9ee664933c295d9f6d",
+  "record": "sidon_100_12_1e03504.json",
+  "record_branch": "erdos-research/0429-132739",
+  "record_commit": "1e03504",
+  "record_problem": "sidon_100",
+  "record_score": 12,
+  "render_meta": {
+    "baseline": 11,
+    "candidate_sha256": "0f83ed64776ff36fb6ce2e6d5f43538df8ccde9f8d1287792fc7a59fd2c99b6c",
+    "improvement": 1,
+    "n_or_N": 100,
+    "rendered_prompt_chars": 3349,
+    "score": 12
+  },
+  "rendered_prompt_sha256": "e5ac768b8ec1ce55629fcdca9b019e90fd65376430a70fbff58bb9f89e0fb2cd",
+  "response_sha256": "f763df9e72d8689b569c2837a66bd5ad803476a92e27a636f4c80b67684b73ee",
+  "written_at": "2026-04-30T16:01:32+00:00"
+}

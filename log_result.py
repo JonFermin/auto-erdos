@@ -488,6 +488,64 @@ def _write_record(
             file=sys.stderr,
         )
 
+    _maybe_write_papers(path)
+
+
+def _maybe_write_papers(record_path: Path) -> None:
+    """Optionally invoke write_paper.py for one or more model presets.
+
+    Triggered by env AUTOERDOS_WRITEUP. Default is unset/'0'/'off' — no
+    paper generation, no extra wall-clock cost on the autoresearch loop.
+
+    Accepted values:
+      unset / '' / '0' / 'off' / 'false' → skip
+      '1' / 'on' / 'true' / 'all'        → both opus and codex
+      comma-list (e.g. 'opus' or 'opus,codex') → that subset
+
+    Failures are logged to stderr and swallowed — paper generation must
+    NEVER undo a kept record. Output goes to papers/ alongside records/
+    and gets auto-committed as a follow-up by write_paper.py? No — it
+    does not auto-commit. Whoever invokes the keep can `git add papers/`
+    on their next commit, or run write_paper.py later from any record.
+    """
+    raw = os.environ.get("AUTOERDOS_WRITEUP", "").strip().lower()
+    if not raw or raw in ("0", "off", "false", "no"):
+        return
+    if raw in ("1", "on", "true", "yes", "all"):
+        models = ["opus", "codex"]
+    else:
+        models = [m.strip() for m in raw.split(",") if m.strip()]
+        valid = {"opus", "codex"}
+        bad = [m for m in models if m not in valid]
+        if bad:
+            print(
+                f"WARNING: AUTOERDOS_WRITEUP={raw!r} contains unknown model(s) {bad}; "
+                f"skipping paper generation. Valid: {sorted(valid)}.",
+                file=sys.stderr,
+            )
+            return
+        if not models:
+            return
+
+    cmd = [
+        sys.executable, str(REPO_ROOT / "write_paper.py"),
+        str(record_path), "--models", ",".join(models),
+    ]
+    print(f"writeup: invoking {' '.join(cmd)}", file=sys.stderr)
+    try:
+        rc = subprocess.call(cmd, cwd=str(REPO_ROOT))
+        if rc != 0:
+            print(
+                f"WARNING: write_paper.py exited {rc}; record is still kept. "
+                f"Inspect papers/ for partial output.",
+                file=sys.stderr,
+            )
+    except OSError as e:
+        print(
+            f"WARNING: could not launch write_paper.py ({e}); record is still kept.",
+            file=sys.stderr,
+        )
+
 
 # --------------------------------------------------------------------------- #
 # Main

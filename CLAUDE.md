@@ -22,12 +22,22 @@ no sample noise to deflate against).
 `run.log` is transient stdout, `verifier_results.tsv` is the harness audit
 trail.
 
-`records/` is the **only** committed artifact of a successful trial.
+`records/` is the **primary** committed artifact of a successful trial.
 `log_result.py` writes `records/<tag>_<score>_<commit>.json` (and auto-commits
 it as a follow-up commit) on every keep — the record carries the candidate
 set, score, baseline, branch, thesis, and verifier_seconds. This is the
 permanent claim that a problem's literature LB was beaten; everything else
 (`results.tsv`, the trial cache, `best_so_far_*.json`) is local scratch.
+
+`papers/` is the optional second committed artifact: an amsart LaTeX writeup
+of a kept record, generated post-loop by `write_paper.py`. The paper is
+downstream of the verifier — the construction itself is whatever
+`records/<tag>_<score>_<commit>.json:candidate` says — so the paper cannot
+fabricate a bound. Each `.tex` ships with a `.meta.json` sidecar capturing
+the prompt-template hash, rendered-prompt hash, response hash, and full CLI
+invocation, so a future reader can audit which prompt + record + model
+produced which writeup. Paper generation is OFF by default in the autoresearch
+loop (it's wall-clock-expensive and paid); see "Paper writeups" below.
 
 ## The one rule that matters
 
@@ -41,6 +51,10 @@ permanent claim that a problem's literature LB was beaten; everything else
 - **`library/` is READ-ONLY.** Importable constructions (Singer, Erdős–Turán,
   product-lifts) — call them, don't modify them. They're part of the fixed
   environment alongside the verifier.
+- **`prompts/` is READ-ONLY at runtime.** `prompts/paper_writeup.md` is the
+  frozen amsart template fed to `write_paper.py`; its sha256 lands in every
+  generated paper's meta sidecar. Edit it deliberately and check in the
+  change — casual edits silently break reproducibility.
 - Do not add dependencies beyond `pyproject.toml` (numpy, pandas, pyarrow,
   python-sat, networkx). Use them deliberately — adding new deps mid-run
   isn't supported and breaks AST dedup if it changes the import graph.
@@ -123,3 +137,45 @@ reason:            <verifier's one-line summary>
 ```
 
 Empty grep output ⇒ the run crashed before reaching `print_summary`.
+
+## Paper writeups
+
+After a kept record, `write_paper.py` can render the frozen template at
+`prompts/paper_writeup.md` against that record and shell out to one or
+more model CLIs to generate a publishable amsart LaTeX paper. The model
+gets the verified construction (the candidate set), the literature
+baseline, and a strict rubric: prove validity, prove the size, state the
+bound. It cannot fabricate the bound — the candidate is fixed.
+
+```bash
+# One record, both models (default):
+uv run write_paper.py records/capset_n8_137_a1b2c3d.json
+
+# Just Opus, with overwrite:
+uv run write_paper.py records/sidon_500_26_a1c1c6b.json --models opus --force
+
+# Process every record without an existing paper:
+uv run write_paper.py --all
+```
+
+Backends: `opus` shells out to `claude -p --model claude-opus-4-7` with
+filesystem and web tools disabled. `codex` shells out to `codex exec
+--sandbox read-only` (model id from codex's config by default; override
+with `--codex-model`). Both CLIs must be on PATH; missing CLIs fail one
+backend without affecting the other.
+
+Outputs land in `papers/<tag>_<score>_<commit>__<model_id>.tex` plus a
+`.meta.json` sidecar. Both files are intended to be committed alongside
+the parent record.
+
+**Auto-trigger.** `log_result.py` reads `AUTOERDOS_WRITEUP` after every
+keep:
+- unset / `0` / `off` / `false` → no paper generation (the default — the
+  autoresearch loop's wall-clock budget is for search, not writing)
+- `1` / `on` / `all` → invoke both `opus` and `codex`
+- comma list (e.g. `opus`, `opus,codex`) → that subset
+
+Failures from `write_paper.py` are logged to stderr and swallowed; a
+broken paper backend never undoes a kept record. The autoresearch and
+deep-autoresearch skills do not set this env var, so paper generation
+stays out of their hot path.
