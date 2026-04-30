@@ -527,9 +527,20 @@ def _maybe_write_papers(record_path: Path) -> None:
         if not models:
             return
 
+    mode = os.environ.get("AUTOERDOS_WRITEUP_MODE", "paper").strip().lower() or "paper"
+    if mode not in ("paper", "proof"):
+        print(
+            f"WARNING: AUTOERDOS_WRITEUP_MODE={mode!r} is not 'paper' or 'proof'; "
+            f"defaulting to 'paper'.",
+            file=sys.stderr,
+        )
+        mode = "paper"
+
     cmd = [
         sys.executable, str(REPO_ROOT / "write_paper.py"),
-        str(record_path), "--models", ",".join(models),
+        str(record_path),
+        "--mode", mode,
+        "--models", ",".join(models),
     ]
     print(f"writeup: invoking {' '.join(cmd)}", file=sys.stderr)
     try:

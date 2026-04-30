@@ -56,7 +56,23 @@ RECORDS_DIR = REPO_ROOT / "records"
 PAPERS_DIR = REPO_ROOT / "papers"
 PROBLEMS_DIR = REPO_ROOT / "problems"
 
-PROMPT_TEMPLATE_PATH = PROMPTS_DIR / "paper_writeup.md"
+# Available output modes. Each maps to (template path, output extension,
+# extraction strategy). `paper` produces a full amsart writeup; `proof`
+# produces a leaner plain-markdown proof. Adding a mode is a deliberate
+# code change — keep this dict small and stable.
+MODES: dict[str, dict] = {
+    "paper": {
+        "template": PROMPTS_DIR / "paper_writeup.md",
+        "ext": ".tex",
+        "extract": "fenced_latex",
+    },
+    "proof": {
+        "template": PROMPTS_DIR / "proof_only.md",
+        "ext": ".md",
+        "extract": "verbatim",
+    },
+}
+DEFAULT_MODE = "paper"
 
 # Model preset registry. Each preset maps a short alias the user types
 # (`opus`, `codex`) to: the CLI invocation builder, the default model id,
@@ -146,10 +162,12 @@ def _problem_statement(spec: dict) -> str:
 
 
 def render_prompt(record: dict, spec: dict, template: str) -> tuple[str, dict]:
-    """Render the frozen template with values from a record + spec.
+    """Render a frozen template with values from a record + spec.
 
-    Returns (rendered_prompt, debug_meta). The meta dict is plumbed
-    into the .meta.json sidecar so we know exactly what was substituted.
+    The template's leading instruction line distinguishes modes (paper vs
+    proof); the substituted body is identical. Returns
+    (rendered_prompt, debug_meta). The meta dict is plumbed into the
+    .meta.json sidecar so we know exactly what was substituted.
     """
     family = spec.get("family")
     candidate = record.get("candidate")
@@ -284,13 +302,47 @@ def _run_with_stdin(cmd: list[str], stdin_text: str) -> tuple[str, list[str], in
 # LaTeX extraction
 # --------------------------------------------------------------------------- #
 
-def extract_latex(response: str) -> tuple[str, str]:
+def extract_body(response: str, strategy: str) -> tuple[str, str]:
+    """Extract the writeup body from a model response.
+
+    Strategies:
+      - "fenced_latex" (paper mode): look for a fenced ```latex/```tex
+        block; fall back to any fenced block containing \\documentclass;
+        last resort, return the raw response.
+      - "verbatim" (proof mode): take the response as-is, after stripping
+        a leading/trailing fence if the model wrapped its proof in one.
+
+    Returns (body, mode) where `mode` describes what extraction path was
+    taken — recorded in the .meta.json sidecar for audit.
+    """
+    if strategy == "verbatim":
+        return _extract_verbatim(response)
+    if strategy == "fenced_latex":
+        return _extract_fenced_latex(response)
+    raise ValueError(f"unknown extraction strategy: {strategy!r}")
+
+
+def _extract_verbatim(response: str) -> tuple[str, str]:
+    """Take the response as-is. If the model wrapped the whole thing in
+    a single fenced block, unwrap it."""
+    stripped = response.strip()
+    lines = stripped.splitlines()
+    if (
+        len(lines) >= 2
+        and lines[0].lstrip().startswith("```")
+        and lines[-1].strip() == "```"
+    ):
+        body = "\n".join(lines[1:-1]).strip() + "\n"
+        return body, "verbatim-unwrapped"
+    return stripped + "\n", "verbatim"
+
+
+def _extract_fenced_latex(response: str) -> tuple[str, str]:
     """Extract a LaTeX block from a model response.
 
-    Strategy: look for a fenced code block whose tag is `latex` or `tex`.
-    If none, look for a fenced block whose contents start with
-    `\\documentclass`. If none, return the raw response and a `mode`
-    string telling the caller what happened.
+    Look for a fenced code block whose tag is `latex` or `tex`. If none,
+    look for a fenced block whose contents start with `\\documentclass`.
+    If none, return the raw response.
     """
     lines = response.splitlines(keepends=True)
     in_block = False
@@ -346,33 +398,44 @@ def _load_spec(tag: str) -> dict:
         return json.load(f)
 
 
-def _paper_paths(record: dict, model_id: str) -> tuple[Path, Path]:
+def _paper_paths(record: dict, model_id: str, mode: str) -> tuple[Path, Path]:
     tag = record["problem"]
     score = int(record["score"])
     commit = str(record["commit"])
     safe_model = model_id.replace("/", "-").replace(" ", "-")
-    base = f"{tag}_{score}_{commit}__{safe_model}"
-    return PAPERS_DIR / f"{base}.tex", PAPERS_DIR / f"{base}.meta.json"
+    # Paper mode keeps the legacy filename (no mode suffix) so existing
+    # writeups don't move; proof mode adds `.proof` before the extension.
+    if mode == "paper":
+        base = f"{tag}_{score}_{commit}__{safe_model}"
+        ext = MODES[mode]["ext"]
+        return PAPERS_DIR / f"{base}{ext}", PAPERS_DIR / f"{base}.meta.json"
+    base = f"{tag}_{score}_{commit}__{safe_model}.proof"
+    ext = MODES[mode]["ext"]
+    return PAPERS_DIR / f"{base}{ext}", PAPERS_DIR / f"{base}.meta.json"
 
 
 def write_paper(
     record_path: Path,
     *,
     model_alias: str,
+    mode: str,
     opus_model: str,
     codex_model: str | None,
     force: bool,
 ) -> tuple[bool, str]:
-    """Generate one paper for one model. Returns (ok, message).
+    """Generate one writeup (paper or proof) for one model.
 
-    Failures (CLI missing, non-zero exit, etc.) return ok=False with a
-    message; the caller decides whether to abort or skip to the next
-    model.
+    Returns (ok, message). Failures (CLI missing, non-zero exit, etc.)
+    return ok=False with a message; the caller decides whether to abort
+    or skip to the next model.
     """
+    if mode not in MODES:
+        return False, f"unknown mode: {mode!r} (valid: {sorted(MODES)})"
     record = _load_record(record_path)
     spec = _load_spec(record["problem"])
 
-    template_text = PROMPT_TEMPLATE_PATH.read_text(encoding="utf-8")
+    template_path = MODES[mode]["template"]
+    template_text = template_path.read_text(encoding="utf-8")
     template_sha = hashlib.sha256(template_text.encode("utf-8")).hexdigest()
     rendered, render_meta = render_prompt(record, spec, template_text)
     prompt_sha = hashlib.sha256(rendered.encode("utf-8")).hexdigest()
@@ -384,15 +447,15 @@ def write_paper(
     else:
         return False, f"unknown model alias: {model_alias!r}"
 
-    tex_path, meta_path = _paper_paths(record, model_id)
-    if tex_path.exists() and not force:
-        return False, f"skip: {tex_path.name} exists (use --force to overwrite)"
+    body_path, meta_path = _paper_paths(record, model_id, mode)
+    if body_path.exists() and not force:
+        return False, f"skip: {body_path.name} exists (use --force to overwrite)"
 
     PAPERS_DIR.mkdir(parents=True, exist_ok=True)
 
     print(
-        f"write_paper: {record_path.name} → {tex_path.name} "
-        f"(model={model_id}, prompt={len(rendered)}c)",
+        f"write_paper: {record_path.name} → {body_path.name} "
+        f"(mode={mode}, model={model_id}, prompt={len(rendered)}c)",
         file=sys.stderr,
     )
 
@@ -408,11 +471,11 @@ def write_paper(
     if rc != 0:
         return False, (
             f"{model_alias} CLI exited {rc} after {dur:.1f}s "
-            f"(stdout sha256 {response_sha[:12]}, no paper written)"
+            f"(stdout sha256 {response_sha[:12]}, no writeup written)"
         )
 
-    latex, mode = extract_latex(stdout)
-    tex_path.write_text(latex, encoding="utf-8")
+    body, extraction_mode = extract_body(stdout, MODES[mode]["extract"])
+    body_path.write_text(body, encoding="utf-8")
 
     meta = {
         "record": record_path.name,
@@ -420,14 +483,15 @@ def write_paper(
         "record_score": int(record["score"]),
         "record_commit": record["commit"],
         "record_branch": record.get("branch"),
+        "writeup_mode": mode,
         "model_alias": model_alias,
         "model_id_requested": model_id,
         "cli_invocation": cmd,
-        "prompt_template_path": PROMPT_TEMPLATE_PATH.relative_to(REPO_ROOT).as_posix(),
+        "prompt_template_path": template_path.relative_to(REPO_ROOT).as_posix(),
         "prompt_template_sha256": template_sha,
         "rendered_prompt_sha256": prompt_sha,
         "response_sha256": response_sha,
-        "extraction_mode": mode,
+        "extraction_mode": extraction_mode,
         "duration_seconds": round(dur, 2),
         "exit_code": rc,
         "written_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
@@ -439,7 +503,7 @@ def write_paper(
     )
 
     return True, (
-        f"wrote {tex_path.name} ({len(latex)}c, extraction={mode}, "
+        f"wrote {body_path.name} ({len(body)}c, extraction={extraction_mode}, "
         f"{dur:.1f}s, exit={rc})"
     )
 
@@ -461,7 +525,14 @@ def _parse_models(s: str) -> list[str]:
     return raw
 
 
-def _records_without_papers() -> list[Path]:
+def _records_without_writeups(mode: str) -> list[Path]:
+    """Return records that have no writeup for this mode yet.
+
+    Looks at the actual extension for the mode, so `--all --mode proof`
+    re-processes records that have a paper but no proof.
+    """
+    ext = MODES[mode]["ext"]
+    pattern_suffix = ".proof" if mode == "proof" else ""
     out: list[Path] = []
     for p in sorted(RECORDS_DIR.glob("*.json")):
         record = _load_record(p)
@@ -470,8 +541,8 @@ def _records_without_papers() -> list[Path]:
         tag = record.get("problem", "")
         if not (tag and commit):
             continue
-        # If at least one paper exists for this record, consider it covered.
-        if any(PAPERS_DIR.glob(f"{tag}_{score}_{commit}__*.tex")):
+        glob = f"{tag}_{score}_{commit}__*{pattern_suffix}{ext}"
+        if any(PAPERS_DIR.glob(glob)):
             continue
         out.append(p)
     return out
@@ -481,7 +552,10 @@ def main() -> int:
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("record", nargs="?", help="path to records/*.json")
     p.add_argument("--all", action="store_true",
-                   help="process every record without an existing paper")
+                   help="process every record without an existing writeup for the chosen mode")
+    p.add_argument("--mode", choices=sorted(MODES), default=DEFAULT_MODE,
+                   help=f"output mode (default {DEFAULT_MODE}). 'paper' = full amsart; "
+                        f"'proof' = lean plain-markdown proof (cheaper, faster)")
     p.add_argument("--models", type=_parse_models, default=["opus", "codex"],
                    help="comma-separated model aliases (opus, codex). default: opus,codex")
     p.add_argument("--opus-model", default=DEFAULT_OPUS_MODEL,
@@ -489,7 +563,7 @@ def main() -> int:
     p.add_argument("--codex-model", default=DEFAULT_CODEX_MODEL,
                    help="OpenAI Codex model id (default: codex's configured default)")
     p.add_argument("--force", action="store_true",
-                   help="overwrite existing papers")
+                   help="overwrite existing writeups")
     args = p.parse_args()
 
     if args.all and args.record:
@@ -500,11 +574,14 @@ def main() -> int:
         return 2
 
     if args.all:
-        targets = _records_without_papers()
+        targets = _records_without_writeups(args.mode)
         if not targets:
-            print("write_paper: no records without papers found.")
+            print(f"write_paper: no records without {args.mode} writeups found.")
             return 0
-        print(f"write_paper: {len(targets)} record(s) to process.", file=sys.stderr)
+        print(
+            f"write_paper: {len(targets)} record(s) to process (mode={args.mode}).",
+            file=sys.stderr,
+        )
     else:
         path = Path(args.record)
         if not path.is_absolute():
@@ -520,6 +597,7 @@ def main() -> int:
             ok, msg = write_paper(
                 record_path,
                 model_alias=model_alias,
+                mode=args.mode,
                 opus_model=args.opus_model,
                 codex_model=args.codex_model,
                 force=args.force,

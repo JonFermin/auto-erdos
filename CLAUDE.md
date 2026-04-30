@@ -140,22 +140,32 @@ Empty grep output ⇒ the run crashed before reaching `print_summary`.
 
 ## Paper writeups
 
-After a kept record, `write_paper.py` can render the frozen template at
-`prompts/paper_writeup.md` against that record and shell out to one or
-more model CLIs to generate a publishable amsart LaTeX paper. The model
-gets the verified construction (the candidate set), the literature
-baseline, and a strict rubric: prove validity, prove the size, state the
-bound. It cannot fabricate the bound — the candidate is fixed.
+After a kept record, `write_paper.py` can render a frozen template
+against that record and shell out to one or more model CLIs to generate
+a writeup. The model gets the verified construction (the candidate set),
+the literature baseline, and a strict rubric: prove validity, prove the
+size, state the bound. It cannot fabricate the bound — the candidate is
+fixed.
+
+Two output modes:
+
+| Mode | Template | Output | What it produces |
+|---|---|---|---|
+| `paper` (default) | `prompts/paper_writeup.md` | `.tex` | Full amsart writeup — title, abstract, theorem environments, ready to compile. ~5 min/call (Opus). |
+| `proof` | `prompts/proof_only.md` | `.proof.md` | Lean plain-markdown proof with embedded LaTeX math — no preamble or section ceremony. ~30–60% cheaper. |
 
 ```bash
-# One record, both models (default):
+# Default: full paper, both models:
 uv run write_paper.py records/capset_n8_137_a1b2c3d.json
 
-# Just Opus, with overwrite:
-uv run write_paper.py records/sidon_500_26_a1c1c6b.json --models opus --force
+# Lean proof from Opus only:
+uv run write_paper.py records/sidon_500_26_a1c1c6b.json --mode proof --models opus
 
-# Process every record without an existing paper:
+# Process every record without a paper:
 uv run write_paper.py --all
+
+# Process every record without a proof (re-runs even those with papers):
+uv run write_paper.py --all --mode proof
 ```
 
 Backends: `opus` shells out to `claude -p --model claude-opus-4-7` with
@@ -170,12 +180,13 @@ the parent record.
 
 **Auto-trigger.** `log_result.py` reads `AUTOERDOS_WRITEUP` after every
 keep:
-- unset / `0` / `off` / `false` → no paper generation (the default — the
+- unset / `0` / `off` / `false` → no writeup generation (the default — the
   autoresearch loop's wall-clock budget is for search, not writing)
 - `1` / `on` / `all` → invoke both `opus` and `codex`
 - comma list (e.g. `opus`, `opus,codex`) → that subset
 
-Failures from `write_paper.py` are logged to stderr and swallowed; a
-broken paper backend never undoes a kept record. The autoresearch and
-deep-autoresearch skills do not set this env var, so paper generation
-stays out of their hot path.
+`AUTOERDOS_WRITEUP_MODE` controls the mode (`paper` or `proof`, default
+`paper`). Failures from `write_paper.py` are logged to stderr and
+swallowed; a broken backend never undoes a kept record. The autoresearch
+and deep-autoresearch skills do not set these env vars, so writeups stay
+out of their hot path.
