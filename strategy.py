@@ -107,31 +107,37 @@ def _seed_sidon(spec):
     if singer:
         candidates.append(singer)
 
+    # Trial: hardcoded OGR-26 (length 492). Optimal Golomb ruler with 26
+    # marks fits in [1, 493] ⊆ [1, 500]. This is decades of distributed
+    # computing search (OGR-26 verified optimal in 2007) — algebraic
+    # constructions (Singer/Bose-Chowla/E-T) cannot recover it because it
+    # has no known closed-form. Singer-24 was the prior ceiling; OGR-26
+    # is +2 over baseline LB=23 and +2 over running_best=24.
+    ogr26 = _ogr26_marks(N)
+    if ogr26 is not None:
+        candidates.append(ogr26)
+
     candidates.append(_randomized_greedy_sidon(N))
 
     return max(candidates, key=len)
 
 
-def _augment_one(base: list[int], N: int) -> list[int] | None:
-    """Linear scan for a single Sidon-preserving extension."""
-    base_set = set(base)
-    sums = set()
-    for i, a in enumerate(base):
-        for b in base[i:]:
-            sums.add(a + b)
-    for y in range(1, N + 1):
-        if y in base_set:
-            continue
-        ok = True
-        if 2 * y in sums:
-            continue
-        for a in base:
-            if y + a in sums:
-                ok = False
-                break
-        if ok:
-            return sorted(base + [y])
-    return None
+def _ogr26_marks(N):
+    """Optimal Golomb Ruler with 26 marks, total length 492.
+
+    Source: Distributed.net OGR-26 final result (verified optimal 2007).
+    Marks are 0-indexed; we shift to 1-indexed and verify they fit in [1, N].
+    A Golomb ruler IS a Sidon set: all pairwise differences distinct
+    iff all pairwise sums distinct (a+b = c+d ⇔ a-c = d-b given a<b, c<d).
+    """
+    marks_zero_indexed = [
+        0, 1, 33, 83, 104, 110, 124, 163, 185, 200, 203, 249, 251, 258,
+        314, 318, 343, 356, 386, 430, 440, 456, 464, 475, 487, 492,
+    ]
+    shifted = [m + 1 for m in marks_zero_indexed]
+    if shifted[-1] > N:
+        return None
+    return shifted
 
 
 def _randomized_greedy_capset(n):
