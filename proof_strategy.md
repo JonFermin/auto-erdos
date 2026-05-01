@@ -268,4 +268,79 @@ outline.
 
 (End of Section 3.)
 
+## Section 4 — Witness search at $x_\star \in \{100, 1000, 10^4\}$
+
+**Goal.** Search for a primitive $A^\star \subset [x_\star, \infty)$
+with rigorously-verified $S(A^\star) > 1$. The harness verifier is
+`library.primitive_set_witness.verify_witness` with
+`witness_threshold = 1.0`; the verifier uses stdlib `decimal` with a
+ULP-bumped `math.log` for a rigorous lower bound to ~50 d.p.
+
+**Constructions tried.** All sums computed with `math.log` in float
+(the verifier independently re-bounds them rigorously):
+
+(C1) **Interval $A = (x, 2x] \cap \mathbb{N}$.** Always primitive
+because for $a < b$ in $(x, 2x]$, $a | b$ would force $b \ge 2a > 2x$.
+
+| $x$ | $|A|$ | $S(A)$ |
+|---:|---:|---:|
+| $100$ | $100$ | $0.1396$ |
+| $10^3$ | $10^3$ | $0.0956$ |
+| $10^4$ | $10^4$ | $0.0726$ |
+| $10^5$ | $10^5$ | $0.0585$ |
+
+$S \to 0$ since $\sum_{n=x+1}^{2x} 1/(n \log n) \to \log 2 / \log x$
+by integral comparison.
+
+(C2) **Primes in $[x, 10^7]$.** Already analysed in Section 3.
+Maxes at $S = 0.153$ for $x = 100$.
+
+(C3) **Greedy primitive sieve over $[x, N]$.** Scan $n = x, x+1,
+\ldots, N$; add $n$ to $A$ unless some earlier $a \in A$ divides $n$;
+when adding, mark all multiples of $n$ as covered. This produces the
+unique "smallest-first" maximal primitive set in $[x, N]$. Behaviour:
+
+| $x_\star$ | $N$ | $|A|$ | $S(A)$ |
+|---:|---:|---:|---:|
+| $100$ | $10^4$ | $1566$ | $0.2775$ |
+| $100$ | $10^5$ | $9929$ | $0.2991$ |
+| $100$ | $10^6$ | $78835$ | $0.3136$ |
+| $100$ | $10^7$ | $664916$ | $0.3239$ |
+| $10^3$ | $10^5$ | $16348$ | $0.1978$ |
+| $10^4$ | $10^6$ | $163235$ | $0.1536$ |
+
+(C4) **Sanity check at $x = 2$.** Greedy from $n = 2$ recovers
+*exactly* the primes (every composite has a prime divisor that has
+already been added), so $S$-values match Section 3's
+$S_\mathcal{P}(2, N)$.
+
+**Rigorous verifier call.** The largest-$S$ candidate
+($x = 100$, $N = 10^6$) was passed through
+`verify_witness` directly:
+
+```text
+|A| = 78835
+S(A) float          = 0.313605
+rigorous lower bound = 0.31360479208190448348...
+threshold            = 1.0
+is_valid             = False  (rigorous lb ≤ threshold)
+```
+
+**Conclusion of Q4.** No witness was found at any of the requested
+$x$-floors. The natural primitive constructions all saturate at $S
+\le 0.33$ for $x \ge 100$ over $N \le 10^7$. The growth pattern is
+*sub-logarithmic* in $N$: doubling $N$ adds $\sim 0.01$ to $S(A)$,
+suggesting $S(A^\star)$ would not reach $1$ even for astronomically
+large $N$ at fixed $x \ge 100$. (Compare F1's predicted ceiling of
+$\sim 1.399 + o(1)$, which itself decays in $x$.)
+
+This negative result is consistent with the conjecture and supplies
+the proof body's empirical baseline: any analytical proof must
+explain why $S(A)$ is bounded *below* $1$ uniformly for primitive $A
+\subset [x, \infty)$ as $x \to \infty$, despite the fact that the
+unrestricted $A_1 = \mathcal{P}$ already achieves $S \approx 1.6366$.
+
+(End of Section 4.)
+
+
 

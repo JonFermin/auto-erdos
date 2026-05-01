@@ -10,3 +10,5 @@
 {"qid":"Q2","status":"claimed","session_id":"s_0501-121629-b2a4","summary":"taking Q2 (numerical F3 evidence)","ts":"2026-05-01T18:21:53+00:00"}
 {"qid":"Q2","status":"resolved","session_id":"s_0501-121629-b2a4","summary":"Section 2 written: F3 asymptotic, A_1 unrestricted exceeds 1, truncation rescues conjecture","ts":"2026-05-01T18:22:40+00:00"}
 {"qid":"Q3","status":"claimed","session_id":"s_0501-121629-b2a4","summary":"taking Q3 (truncated prime sums)","ts":"2026-05-01T18:23:34+00:00"}
+{"qid":"Q3","status":"resolved","session_id":"s_0501-121629-b2a4","summary":"Section 3 written: prime tail decays O(1/log x); P not witness for x>=10","ts":"2026-05-01T18:23:36+00:00"}
+{"qid":"Q4","status":"claimed","session_id":"s_0501-121629-b2a4","summary":"taking Q4 (witness search)","ts":"2026-05-01T18:41:31+00:00"}
