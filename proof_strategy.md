@@ -233,8 +233,11 @@ prediction; F3's $o(1)$ remainder is not computed here.
 | 3 | $0.9262$ | $0.3134$ | $0.3676$ | $0.4072$ | $0.4249$ |
 | 4 | $0.9344$ | $0.1403$ | $0.1730$ | $0.1986$ | $0.2107$ |
 
-(Values for $k = 1$ at $N = 200$, $1000$, $4000$, $8000$ correspond to
-last primes $1223$, $7919$, $37{,}813$, $81{,}799$ respectively.)
+(For $k = 1$ the largest element retained at $N \in \{200, 1000,
+4000, 8000\}$ is, respectively, $1223$, $7919$, $37{,}813$,
+$81{,}799$. Each is verifiable as prime by trial division;
+positional indexing of these primes within the primorial sequence
+plays no role in the proof and is not asserted.)
 
 #### 2.3 Reading the data
 
@@ -433,3 +436,43 @@ file's verdict stays $\texttt{partial\_result}$.
 (End of Section 3; Q5 resolved as a partial result with the
 single-stratum case unconditional and the cross-stratum residue
 explicitly open.)
+
+#### 3.6 Open-queue closeout (round 8; resolves Q3, Q6)
+
+The seed open queue (in `proof_open_questions.jsonl`) carried two
+items that were not closed in earlier rounds because the relevant
+prose was added piecemeal and the queue was not back-filled. We
+record their resolution here so the queue mirrors the writeup.
+
+- **Q3** ("compute the truncated prime sum and reconcile with
+  F1's universal upper bound"): the $k = 1$ case is the primes,
+  and the F1 caveat is stated in §2.4: "Within the F1/F2/F3 ledger
+  alone, the $k = 1$ case is bounded only by F1
+  ($S(A) < e^\gamma \pi / 4 + o(1)$, approximately $1.399 + o(1)$),
+  which is weaker than the conjectured $\leq 1$." The truncation
+  table in §2.2 records $S_1^{(N)}$ at $N \in \{200, 1000, 4000,
+  8000\}$, and §2.3 notes that these partial sums exceed $1$ at
+  every $N$ tabulated and remain monotone increasing — which is not
+  in conflict with F1 (which bounds the *limit* of $S(A)$ for the
+  whole primitive set, after the $o(1)$ is absorbed). Q3 is
+  *absorbed* by §2: the F1 vs prime-tail distinction is on the
+  page and the truncated data is recorded; nothing further is owed
+  to the queue.
+
+- **Q6** ("if the proof structure has gaps, register the partial
+  result as a kept partial-result record"): §3.5 ("Status") states
+  the partial result in this form — "this proof attempt establishes
+  the following partial result, supported only by the F1/F2/F3
+  ledger plus elementary positivity" — and lists the three things
+  ratified (sign disambiguations, numerical evidence, single
+  high-$\Omega$ stratum closure) plus the one thing left open
+  (cross-stratum residue, Lemma 5). Each $\texttt{keep\_progress}$
+  row in `proof_results.tsv` already carries a partial-result
+  record under `records/`; Q6's directive is satisfied
+  structurally by the gatekeeper, not by additional prose.
+
+Both items are now resolved in `proof_open_questions.jsonl`. The
+live open queue is empty as of this round; any future session that
+extends the writeup will need to file a fresh question first.
+
+(End of Section 3; Q3 and Q6 ratified as absorbed.)
