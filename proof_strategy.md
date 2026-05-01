@@ -242,10 +242,13 @@ last primes $1223$, $7919$, $37{,}813$, $81{,}799$ respectively.)
    exceeding $1$ already at $N = 200$. This is *not* in conflict with
    F3: F3 is an asymptotic statement as $k \to \infty$, and at $k = 1$
    the leading-correction expression $1 - c \cdot 1 / 2 = 0.9672$ is
-   far from the actual full-stratum value
-   $\sum_{p} 1/(p \log p) \approx 1.6366$. F3's $o(1)$ remainder is
-   bounded only as $k \to \infty$, so finite-$k$ pointwise agreement
-   is not asserted.
+   far from the empirical truncated value $S_1^{(8000)} \approx 1.548$
+   (which is itself a lower bound on the full-stratum sum, the latter
+   being a slowly convergent series whose limit lies above the
+   empirical $S_1^{(8000)}$ but below F1's universal ceiling
+   $e^\gamma \pi/4 + o(1)$ once the $o(1)$ at floor $x = 2$ is
+   absorbed). F3's $o(1)$ remainder is bounded only as $k \to \infty$,
+   so finite-$k$ pointwise agreement is not asserted.
 
    Crucially, the $k = 1$ stratum (primes) does *not* refute the
    conjecture either: the conjecture concerns primitive sets contained
@@ -253,8 +256,9 @@ last primes $1223$, $7919$, $37{,}813$, $81{,}799$ respectively.)
    $\sum_{p \geq x} 1/(p \log p) \to 0$, because the series
    $\sum_p 1/(p \log p)$ converges (a classical consequence of
    $\pi(t) \sim t / \log t$ via integral comparison against
-   $\int dt / (t \log^2 t)$). The $\sim 1.64$ figure is for primes
-   from $2$, not from $x$.
+   $\int dt / (t \log^2 t)$). The empirical $S_1^{(8000)} \approx
+   1.55$ in §2.2 is for primes from $2$, not from $x$, so it does not
+   contradict the tail going to zero as $x \to \infty$.
 
 2. **For $k \in \{2, 3, 4\}$**, every truncated sum satisfies
    $S_k^{(N)} < \widehat{S}_k < 1$, monotone increasing in $N$, with
@@ -303,8 +307,8 @@ because the series $\sum_{p} 1/(p \log p)$ converges (its convergence
 is a classical consequence of the prime-counting estimate
 $\pi(t) \sim t / \log t$, via integral comparison
 against $\int dt / (t \log^2 t)$). So the $k=1$ stratum, despite its
-notorious $\sim 1.6366$ full sum from $p = 2$, contributes
-asymptotically $0$ when restricted to $[x, \infty)$.
+notorious empirical full sum (well above $1$) from $p = 2$,
+contributes asymptotically $0$ when restricted to $[x, \infty)$.
 
 The open part of the conjecture is the *cross-stratum* /
 *non-stratified* case: a primitive $A \subset [x, \infty)$ that does

@@ -11,3 +11,6 @@
 {"qid":"Q7","status":"open","parent_qid":null,"summary":"Address round-2 critic warns: state A_k primitive lemma; fix F3-on-truncation drift in §2.4; replace Mertens citation with convergence argument; soften from-beneath overclaim","ts":"2026-05-01T01:53:28+00:00","session_id":"s_0430-193839-eb6d"}
 {"qid":"Q7","status":"claimed","session_id":"s_0430-193839-eb6d","summary":"round 3: tighten §2 per round-2 critic warns","ts":"2026-05-01T01:53:28+00:00"}
 {"qid":"Q7","status":"resolved","session_id":"s_0430-193839-eb6d","summary":"Lemma 1 (A_k primitive) added; F3-on-truncation drift fixed; Mertens replaced by convergence; from-beneath softened","ts":"2026-05-01T01:54:46+00:00"}
+{"qid":"Q8","status":"open","parent_qid":null,"summary":"Round 4: drop precise 1.6366 figure (critic sandbox can't reach convergence in 5s); anchor §2 contrasts to truncated S_1^{(8000)} ≈ 1.55 instead","ts":"2026-05-01T01:56:52+00:00","session_id":"s_0430-193839-eb6d"}
+{"qid":"Q8","status":"claimed","session_id":"s_0430-193839-eb6d","summary":"round 4: re-anchor §2 prose to verifiable partial sums","ts":"2026-05-01T01:56:52+00:00"}
+{"qid":"Q8","status":"resolved","session_id":"s_0430-193839-eb6d","summary":"replaced precise 1.6366 figures with truncation-anchored language; full-prime-sum referenced only as 'well above 1'","ts":"2026-05-01T01:58:50+00:00"}
