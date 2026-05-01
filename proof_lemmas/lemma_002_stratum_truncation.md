@@ -20,8 +20,13 @@ $$
 In particular there exists $k_0 \geq 1$ such that for every
 $k \geq k_0$ and every $x \geq 2$,
 $$
-\sum_{a \in A_k \cap [x, \infty)} \frac{1}{a \log a} \;<\; 1.
+\sum_{a \in A_k \cap [x, \infty)} \frac{1}{a \log a}
+\;\leq\; S_k \;\leq\; 1 - \tfrac{c}{2}\,\frac{k^2}{2^k} \;<\; 1.
 $$
+The quantitative form $S_k \leq 1 - (c/2)\, k^2 / 2^k$ for
+$k \geq k_0$ is what is actually used in §3.3 of
+`proof_strategy.md`; the weaker form $S_k < 1$ stated in earlier
+drafts is an immediate consequence ($c, k^2, 2^{-k} > 0$).
 
 **Proof.**
 *Primitivity.* By Lemma `lemma_001_omega_k_is_primitive`, $A_k$ is a
@@ -42,16 +47,30 @@ $$
 to make the partial sum $\sum_{a \in A_k \cap [2,x)}$ well-defined as
 a part of $S_k$ — is established below.)
 
-*Existence of $k_0$.* By F3 there is a function $\varepsilon(k) \to 0$
-as $k \to \infty$ such that
-$|S_k - 1 + c k^2 / 2^k| \leq \varepsilon(k) \cdot k^2 / 2^k$. Choose
-$k_0$ so large that $\varepsilon(k_0) \leq c / 2$. Then for all
-$k \geq k_0$,
+*Existence of $k_0$ and the quantitative bound.* By F3 there is a
+function $\varepsilon \colon \mathbb{N} \to \mathbb{R}_{\geq 0}$
+with $\varepsilon(k) \to 0$ as $k \to \infty$ such that
 $$
-S_k \;\leq\; 1 - \tfrac{c}{2} \cdot k^2 / 2^k \;<\; 1,
+\bigl| S_k \;-\; \bigl(1 - c\, k^2 / 2^k\bigr) \bigr|
+\;\leq\; \varepsilon(k) \cdot k^2 / 2^k.
 $$
-and the truncation inequality above gives the displayed claim.
-$\square$
+Define $k_0$ as the smallest positive integer such that
+$\varepsilon(k_0) \leq c/2$ (such $k_0$ exists since
+$\varepsilon \to 0$ and $c > 0$ is a fixed positive constant from
+the F3 ledger; the value of $k_0$ depends on the effective form
+of $\varepsilon$, which the F1/F2/F3 ledger does not pin down
+beyond its asymptotic decay, so we do not assign a numerical
+value to $k_0$ inside the strict ledger-only writeup). Then for
+all $k \geq k_0$,
+$$
+S_k
+\;\leq\; \bigl(1 - c\, k^2 / 2^k\bigr) + \varepsilon(k)\, k^2/2^k
+\;\leq\; 1 - c\, k^2 / 2^k + \tfrac{c}{2}\, k^2 / 2^k
+\;=\; 1 - \tfrac{c}{2}\, k^2 / 2^k
+\;<\; 1.
+$$
+Combining with the truncation inequality above gives the
+displayed quantitative bound. $\square$
 
 **Remark on $S_k$ convergence.** F3's exact-asymptotic statement
 implicitly assumes $S_k$ exists (is finite); convergence of

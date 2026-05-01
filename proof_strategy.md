@@ -367,20 +367,28 @@ ledger is extended; they are not invoked anywhere in §§3.3–3.6.
 #### 3.3 What the proof does close (unconditional, ledger-only)
 
 *Single high-$\Omega$ stratum case.* By Lemma 1, each $A_k$ is a
-primitive set; by Lemma 2 plus F3,
+primitive set; by Lemma 2 plus F3, there exists a threshold
+$k_0 \geq 1$ (defined inside Lemma 2 as the smallest positive
+integer where F3's o(1) error term, after absorbing the $k^2/2^k$
+weight, is bounded by $c/2$) such that for every $k \geq k_0$ and
+every $x \geq 2$,
 $$
-\sum_{a \in A_k \cap [x, \infty)} \frac{1}{a \log a} \;\leq\; S_k
-\;=\; 1 - (c + o(1)) \frac{k^2}{2^k} \quad (k \to \infty).
+\sum_{a \in A_k \cap [x, \infty)} \frac{1}{a \log a}
+\;\leq\; S_k
+\;\leq\; 1 - \tfrac{c}{2}\,\frac{k^2}{2^k}
+\;<\; 1,
+\qquad c \approx 0.0656.
 $$
-Hence there exists $k_0$ such that for every $k \geq k_0$ and every
-$x \geq 2$,
-$$
-\sum_{a \in A_k \cap [x, \infty)} \frac{1}{a \log a} \;<\; 1.
-$$
-**No primitive $A \subset [x, \infty)$ contained in a single $A_k$
-with $k \geq k_0$ can violate the conjecture**, regardless of $x$.
+The quantitative gap to $1$ at this stratum is therefore at least
+$(c/2)\, k^2 / 2^k$ — exponentially small in $k$ but strictly
+positive for every fixed $k \geq k_0$. **No primitive
+$A \subset [x, \infty)$ contained in a single $A_k$ with
+$k \geq k_0$ can violate the conjecture**, regardless of $x$.
 This is the strongest unconditional statement we extract from the
-ledger.
+ledger; the value of $k_0$ depends on the effective form of F3's
+o(1), which is not pinned down by the strict F1/F2/F3 ledger and
+is therefore not assigned a numerical value inside this writeup
+(see Lemma 2 for the threshold definition).
 
 *Cross-stratum, ledger-only.* For a primitive $A$ that draws from
 multiple strata, F3 (which controls one stratum at a time) is not
