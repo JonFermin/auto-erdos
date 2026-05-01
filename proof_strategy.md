@@ -250,8 +250,11 @@ last primes $1223$, $7919$, $37{,}813$, $81{,}799$ respectively.)
    Crucially, the $k = 1$ stratum (primes) does *not* refute the
    conjecture either: the conjecture concerns primitive sets contained
    in $[x, \infty)$, and as $x \to \infty$ the truncation
-   $\sum_{p \geq x} 1/(p \log p) \to 0$ by Mertens' second theorem.
-   The $\sim 1.64$ figure is for primes from $2$, not from $x$.
+   $\sum_{p \geq x} 1/(p \log p) \to 0$, because the series
+   $\sum_p 1/(p \log p)$ converges (a classical consequence of
+   $\pi(t) \sim t / \log t$ via integral comparison against
+   $\int dt / (t \log^2 t)$). The $\sim 1.64$ figure is for primes
+   from $2$, not from $x$.
 
 2. **For $k \in \{2, 3, 4\}$**, every truncated sum satisfies
    $S_k^{(N)} < \widehat{S}_k < 1$, monotone increasing in $N$, with
@@ -260,27 +263,58 @@ last primes $1223$, $7919$, $37{,}813$, $81{,}799$ respectively.)
    expected behavior of partial sums of a slowly convergent series
    (the heavy tail is uncaptured by any finite-$N$ truncation).
 
-3. The data are **consistent with** F3's signed claim: the full
-   $S_k$ for $k \geq 2$ lies below $1$, and the truncated partial sums
-   approach a limit below $\widehat{S}_k < 1$ from beneath. The data
-   are *not* a quantitative verification of $\widehat{S}_k$ — they are
-   far from convergent at the truncations probed — but they rule out
-   the misreading of F3 as predicting $S_k > 1$ for some $k$.
+3. The data are **consistent with** F3's signed claim: each full
+   $S_k$ for $k \geq 2$ lies below $1$ asymptotically. The truncated
+   partial sums probed here are uniformly below $\widehat{S}_k$, and
+   monotone increasing in $N$. We do *not* assert anything about how
+   the limit $S_k = \lim_{N\to\infty} S_k^{(N)}$ is positioned relative
+   to $\widehat{S}_k$ — F3's $o(1)$ remainder has unsigned width and
+   could push the actual $S_k$ either above or below $\widehat{S}_k$,
+   though F3 does pin $S_k < 1$ for $k$ large. The data are *not* a
+   quantitative verification of $\widehat{S}_k$ — they are far from
+   convergent at the truncations probed — but they rule out the
+   misreading of F3 as predicting $S_k > 1$ for some $k$.
 
 #### 2.4 Bearing on the conjecture
 
-F3 controls the contribution of any *single* $A_k$: for $k$ large
-enough that $2^k \geq x$, the entire stratum $A_k \subset [x, \infty)$
-contributes at most $S_k = 1 - (c + o(1)) k^2 / 2^k < 1$. So no single
-stratum is a counterexample. The open part of the conjecture is the
-*cross-stratum* / *non-stratified* case: a primitive $A \subset [x,
-\infty)$ that does not coincide with any single $A_k$ but draws
-elements from several strata, and conceivably accumulates a sum that
-exceeds $\sup_k S_k$. Section 3 (forthcoming) will sketch why naive
-multi-stratum constructions cannot exceed $1$, and where the
-hard residual case lies.
+By Lemma `lemma_001_omega_k_is_primitive`, the stratum $A_k$ is itself
+a primitive set, and any subset $A_k \cap [x, \infty)$ inherits
+primitivity. F3 bounds the *full* stratum sum
+$S_k = \sum_{a \in A_k} 1/(a \log a) = 1 - (c + o(1)) k^2 / 2^k$;
+since every term $1/(a \log a)$ is positive, restricting the sum to
+$A_k \cap [x, \infty)$ can only decrease it. Hence
+$$
+\sum_{a \in A_k \cap [x, \infty)} \frac{1}{a \log a}
+\;\leq\; S_k \;=\; 1 - (c + o(1)) \frac{k^2}{2^k}
+\qquad (k \to \infty).
+$$
+For $k$ large enough that this asymptotic places $S_k$ strictly below
+$1$, no subset of a single stratum can violate the conjecture. (For
+small $k$ where the asymptotic is loose, F1 alone — $S_k \leq S(A) <
+e^\gamma \pi/4 + o(1)$ for any primitive $A$ — does not refine F3
+below $1$, so this argument leaves a finite-$k$ gap that we do not
+attempt to close here.)
 
-(End of Section 2; this section confirms the *direction* of F3 and
-charts truncation-rate behavior. Q2 resolved as a partial result. The
-conjecture remains open; Section 3 onward will continue to establish
-what we can rule out.)
+For $k = 1$ the relevant primitive set is the primes, and a primitive
+$A \subset [x, \infty)$ that lives entirely in $A_1$ has its sum
+controlled by the tail
+$\sum_{p \geq x} 1/(p \log p)$, which tends to $0$ as $x \to \infty$
+because the series $\sum_{p} 1/(p \log p)$ converges (its convergence
+is a classical consequence of the prime-counting estimate
+$\pi(t) \sim t / \log t$, via integral comparison
+against $\int dt / (t \log^2 t)$). So the $k=1$ stratum, despite its
+notorious $\sim 1.6366$ full sum from $p = 2$, contributes
+asymptotically $0$ when restricted to $[x, \infty)$.
+
+The open part of the conjecture is the *cross-stratum* /
+*non-stratified* case: a primitive $A \subset [x, \infty)$ that does
+not coincide with any single $A_k$ but draws elements from several
+strata, and conceivably accumulates a sum that exceeds $\sup_k S_k$.
+Section 3 (forthcoming) will sketch why naive multi-stratum
+constructions cannot exceed $1$, and where the hard residual case
+lies.
+
+(End of Section 2; this section confirms the *direction* of F3 on the
+truncated data and charts truncation-rate behavior. Q2 resolved as a
+partial result. The conjecture remains open; Section 3 onward will
+continue to establish what we can rule out.)

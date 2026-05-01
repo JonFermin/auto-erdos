@@ -8,3 +8,6 @@
 {"qid":"Q1","status":"resolved","session_id":"s_0430-193839-eb6d","summary":"Section 1 Setup committed; ledger restated with sign-disambiguations; witness contract documented","ts":"2026-05-01T01:46:20+00:00"}
 {"qid":"Q2","status":"claimed","session_id":"s_0430-193839-eb6d","summary":"taking Q2: numerical F3 verification for k=1..4 over first 200 elements","ts":"2026-05-01T01:47:52+00:00"}
 {"qid":"Q2","status":"resolved","session_id":"s_0430-193839-eb6d","summary":"numerical truncation table k=1..4 at N=200/1000/4000/8000 + F3 leading prediction; consistent with F3 direction","ts":"2026-05-01T01:50:00+00:00"}
+{"qid":"Q7","status":"open","parent_qid":null,"summary":"Address round-2 critic warns: state A_k primitive lemma; fix F3-on-truncation drift in §2.4; replace Mertens citation with convergence argument; soften from-beneath overclaim","ts":"2026-05-01T01:53:28+00:00","session_id":"s_0430-193839-eb6d"}
+{"qid":"Q7","status":"claimed","session_id":"s_0430-193839-eb6d","summary":"round 3: tighten §2 per round-2 critic warns","ts":"2026-05-01T01:53:28+00:00"}
+{"qid":"Q7","status":"resolved","session_id":"s_0430-193839-eb6d","summary":"Lemma 1 (A_k primitive) added; F3-on-truncation drift fixed; Mertens replaced by convergence; from-beneath softened","ts":"2026-05-01T01:54:46+00:00"}
