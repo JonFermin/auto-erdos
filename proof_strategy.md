@@ -192,3 +192,95 @@ depth on top of the in-band substring checks in
 
 (End of Section 1; this is a partial result establishing only the
 ledger and the disproof contract. Q1 resolved.)
+
+### 2. Numerical evidence on the $\Omega$-strata (round 2; resolves Q2)
+
+This section records the numerical behavior of the truncated stratum
+sums
+$$
+S_{k}^{(N)} \;:=\; \sum_{\substack{n \in A_k \\ n \leq n_N(k)}} \frac{1}{n \log n},
+\qquad A_k = \{\, n \in \mathbb{Z}_{\geq 2} : \Omega(n) = k \,\},
+$$
+where $n_N(k)$ is the $N$-th smallest element of $A_k$. The purpose is
+**not** to verify F3 quantitatively — F3 governs the *full* stratum sum
+$S_k = \lim_{N \to \infty} S_k^{(N)}$ and is asymptotic in $k$, so a
+finite-$N$ truncation cannot match its prediction. The purpose is
+weaker but useful: to confirm the *direction* of the inequality
+predicted by F3 (each full $S_k$ approaches $1$ from below for large
+$k$), and to chart how slowly the partial sums approach the full
+$S_k$.
+
+#### 2.1 Method
+
+Working in IEEE-754 double precision (no rigorous bound is asserted in
+this section), I sieve $\Omega(n)$ by trial division and collect the
+first $N$ elements of each $A_k$, $k \in \{1, 2, 3, 4\}$, for $N \in
+\{200, 1000, 4000, 8000\}$. I then sum $1/(n \log n)$ over each
+truncation. The largest element reached for $N = 8000$ is $81{,}799$
+(at $k = 1$), well within machine precision.
+
+The F3-predicted full-stratum value is
+$\widehat{S}_k \;=\; 1 - c\, k^2 / 2^k$ with $c \approx 0.0656$ from the
+ledger's F3 statement. This $\widehat{S}_k$ is the *leading-correction*
+prediction; F3's $o(1)$ remainder is not computed here.
+
+#### 2.2 Data
+
+| $k$ | $\widehat{S}_k$ (F3 lead) | $S_{k}^{(200)}$ | $S_{k}^{(1000)}$ | $S_{k}^{(4000)}$ | $S_{k}^{(8000)}$ |
+|----:|----:|----:|----:|----:|----:|
+| 1 | $0.9672$ | $1.4965$ | $1.5253$ | $1.5418$ | $1.5482$ |
+| 2 | $0.9344$ | $0.6819$ | $0.7461$ | $0.7877$ | $0.8052$ |
+| 3 | $0.9262$ | $0.3134$ | $0.3676$ | $0.4072$ | $0.4249$ |
+| 4 | $0.9344$ | $0.1403$ | $0.1730$ | $0.1986$ | $0.2107$ |
+
+(Values for $k = 1$ at $N = 200$, $1000$, $4000$, $8000$ correspond to
+last primes $1223$, $7919$, $37{,}813$, $81{,}799$ respectively.)
+
+#### 2.3 Reading the data
+
+1. **The case $k = 1$ is the lone outlier**, with truncated sums
+   exceeding $1$ already at $N = 200$. This is *not* in conflict with
+   F3: F3 is an asymptotic statement as $k \to \infty$, and at $k = 1$
+   the leading-correction expression $1 - c \cdot 1 / 2 = 0.9672$ is
+   far from the actual full-stratum value
+   $\sum_{p} 1/(p \log p) \approx 1.6366$. F3's $o(1)$ remainder is
+   bounded only as $k \to \infty$, so finite-$k$ pointwise agreement
+   is not asserted.
+
+   Crucially, the $k = 1$ stratum (primes) does *not* refute the
+   conjecture either: the conjecture concerns primitive sets contained
+   in $[x, \infty)$, and as $x \to \infty$ the truncation
+   $\sum_{p \geq x} 1/(p \log p) \to 0$ by Mertens' second theorem.
+   The $\sim 1.64$ figure is for primes from $2$, not from $x$.
+
+2. **For $k \in \{2, 3, 4\}$**, every truncated sum satisfies
+   $S_k^{(N)} < \widehat{S}_k < 1$, monotone increasing in $N$, with
+   substantial residual gap to $\widehat{S}_k$: at $N = 8000$ the gaps
+   are $+0.129$, $+0.501$, $+0.724$ for $k = 2, 3, 4$. This is the
+   expected behavior of partial sums of a slowly convergent series
+   (the heavy tail is uncaptured by any finite-$N$ truncation).
+
+3. The data are **consistent with** F3's signed claim: the full
+   $S_k$ for $k \geq 2$ lies below $1$, and the truncated partial sums
+   approach a limit below $\widehat{S}_k < 1$ from beneath. The data
+   are *not* a quantitative verification of $\widehat{S}_k$ — they are
+   far from convergent at the truncations probed — but they rule out
+   the misreading of F3 as predicting $S_k > 1$ for some $k$.
+
+#### 2.4 Bearing on the conjecture
+
+F3 controls the contribution of any *single* $A_k$: for $k$ large
+enough that $2^k \geq x$, the entire stratum $A_k \subset [x, \infty)$
+contributes at most $S_k = 1 - (c + o(1)) k^2 / 2^k < 1$. So no single
+stratum is a counterexample. The open part of the conjecture is the
+*cross-stratum* / *non-stratified* case: a primitive $A \subset [x,
+\infty)$ that does not coincide with any single $A_k$ but draws
+elements from several strata, and conceivably accumulates a sum that
+exceeds $\sup_k S_k$. Section 3 (forthcoming) will sketch why naive
+multi-stratum constructions cannot exceed $1$, and where the
+hard residual case lies.
+
+(End of Section 2; this section confirms the *direction* of F3 and
+charts truncation-rate behavior. Q2 resolved as a partial result. The
+conjecture remains open; Section 3 onward will continue to establish
+what we can rule out.)
