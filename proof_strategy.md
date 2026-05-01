@@ -34,10 +34,12 @@ against it, and decides keep/discard via `proof_log_result.py`.
   the sum approaches $1$ from BELOW. Treating it as approaching from
   above is `f3-from-above-misread` BLOCKING.
 - **Open claim asserted resolved without witness**. The conjecture is open.
-  Phrases like "the conjecture is false" / "we disprove" trigger
-  `critic_openness`'s `open-claim-asserted-resolved-without-witness`
-  BLOCKING — unless a verifier-accepted `<!-- WITNESS -->` block is
-  committed and `witness_valid == 1`.
+  Explicit refutation phrasing (asserting that the bound fails, that the
+  agent has refuted or settled the claim, or `q.e.d.`-style finality)
+  triggers `critic_openness`'s
+  `open-claim-asserted-resolved-without-witness` BLOCKING — unless a
+  verifier-accepted `<!-- WITNESS -->` block is committed and
+  `witness_valid == 1`.
 
 ## Witness format (the only path to a counterexample claim)
 
@@ -62,9 +64,131 @@ block ⇒ `witness_valid = 0` ⇒ no counterexample claim is possible.
 
 ## Body
 
-(The agent fills in the body. Sketch a structure, prove what you can,
-hedge the rest. Lemmas live in `proof_lemmas/lemma_*.md` and are cited
-by id from this file.)
+### 1. Setup (round 1; resolves Q1)
 
-This proof attempt is currently a stub. Pick the lowest-numbered open
-qid from `proof_open_questions.jsonl` and start.
+The purpose of this section is to restate the problem precisely, fix the
+ledger of facts the proof is allowed to cite, and note the contract that
+any disproof claim must satisfy. This section is purely expository — no
+inequality of the proof is asserted here. Subsequent sections may cite
+this Setup but may not weaken any of its sign disambiguations. Until a
+verifier-accepted `<!-- WITNESS -->` is committed and the deterministic
+verifier accepts it, no resolution claim may appear in this file: the
+problem is treated as open, and the writeup remains a partial result
+that may at most rule out specific lines of attack.
+
+#### 1.1 The conjecture (status: open, partial result only)
+
+For a positive real $x$, write $A \subset [x, \infty) \cap \mathbb{Z}$
+for a *primitive set*: a set of integers all $\geq x$ such that for any
+two distinct $a, b \in A$, neither $a \mid b$ nor $b \mid a$. Define
+$$
+S(A) \;:=\; \sum_{a \in A} \frac{1}{a \log a}.
+$$
+The conjecture under attempt is the assertion
+$$
+S(A) \;<\; 1 + o(1) \qquad (x \to \infty),
+$$
+to be read as: there exists a function $\eta(x) \to 0$ as $x \to \infty$
+such that $\sup_A S(A) \leq 1 + \eta(x)$, where the supremum runs over
+primitive $A \subset [x, \infty)$. The $o(1)$ slack means the bound is
+not strict at finite $x$: a finite-$x$ value of $S(A)$ slightly above
+$1$ is not, by itself, a refutation — it must outpace the implicit
+$\eta(x)$ at the relevant $x$.
+
+The conjecture is *open*. It is strictly tighter than the
+established Erdős–Zhang upper bound (a different constant; see F1
+below), and remains open at the time of writing. No resolution claim
+may appear in this file unless backed by a verified witness in the
+sense of §1.3.
+
+#### 1.2 Given-facts ledger (the only external citations allowed)
+
+These are the facts I am allowed to cite. Each is paired with a
+sign-disambiguation that pins down how its asymptotic / inequality is
+read. Misreading a sign is the canonical failure mode of this problem
+(see `tests/fixtures/chatgpt_primitive_set_round0.md`); the ledger
+exists to forestall it.
+
+**F1 — Erdős–Zhang upper bound.** *For every primitive
+$A \subseteq \mathbb{N}$ (no $x$-floor restriction needed),*
+$$
+S(A) \;<\; e^{\gamma} \frac{\pi}{4} + o(1) \;\approx\; 1.399 + o(1).
+$$
+*Sign disambiguation.* The right-hand side is an **upper bound**, and
+the inequality is **strict** before the $o(1)$ slack. The constant
+$e^\gamma \pi / 4 \approx 1.399$ is positive and exceeds $1$, so F1 is
+**consistent with** the conjecture — F1 is weaker than what we are
+trying to prove. F1 must never be cited as a *lower* bound; doing so is
+a sign error.
+
+**F2 — Stratum lower bound (UNSIGNED big-O).** *Let
+$\Omega(n)$ count the prime factors of $n$ with multiplicity, and let
+$A_k = \{ n \in \mathbb{N} : \Omega(n) = k \}$ for $k \geq 1$. Then*
+$$
+\sum_{a \in A_k} \frac{1}{a \log a} \;\geq\; 1 + O\!\bigl( k^{-1/2 + o(1)} \bigr).
+$$
+*Sign disambiguation.* The error term $O(k^{-1/2 + o(1)})$ is
+**unsigned** — its sign is not asserted by F2. The correct reading is
+"the sum is at least $1$ minus some quantity bounded in absolute value
+by $k^{-1/2 + o(1)}$", **not** "at least $1$ plus a positive quantity".
+In particular, F2 by itself does **not** imply $\sum_{a \in A_k} 1/(a \log a) > 1$
+for any $k$. Concluding "sum $> 1$" from F2 alone is the
+`unsigned-O-sign-confusion` failure mode and is BLOCKING for the
+sign-critic. To conclude the sum strictly exceeds $1$ for some specific
+$k$, an additional positive lower bound on the error term — independent
+of F2 — would be required.
+
+**F3 — Stratum exact asymptotic (signed).** *With $A_k$ as above,*
+$$
+\sum_{a \in A_k} \frac{1}{a \log a} \;=\; 1 - (c + o(1)) \frac{k^2}{2^k},
+\qquad c \approx 0.0656,
+$$
+*as $k \to \infty$, with $c > 0$ explicit.*
+
+*Sign disambiguation.* The leading correction is $-(c + o(1)) k^2 / 2^k$
+with $c > 0$, so the right-hand side is **strictly less than $1$** for
+all sufficiently large $k$, and approaches $1$ **from below** as
+$k \to \infty$. Equivalently: the canonical "extremal-looking" primitive
+set $A_k$ — the integers with exactly $k$ prime factors — does **not**
+violate the conjecture. Reading F3 as "$A_k$ approaches $1$ from above"
+is the `f3-from-above-misread` BLOCKING failure mode.
+
+*F2 + F3 reconciled.* F3 is a refinement of F2: F2 puts a $\pm$ envelope
+of width $k^{-1/2 + o(1)}$ around $1$; F3 fixes the sign of the leading
+correction to negative and gives the exact rate $k^2 / 2^k$. F3 is
+strictly stronger than F2 on the signed direction and trumps it on
+sign questions. F2 is not contradicted by F3 — both are consistent and
+apply to the same $A_k$.
+
+#### 1.3 Witness contract (the only path to a disproof claim)
+
+A disproof claim requires committing a `<!-- WITNESS ... WITNESS -->`
+JSON block in this file conforming to
+$$
+\{\, \texttt{x\_floor},\ \texttt{elements},\ \texttt{claimed\_sum\_lower\_bound}\,\}
+$$
+where `x_floor` is an integer $\geq 2$, `elements` is a list of pairwise
+non-divisible integers each $\geq$ `x_floor`, and
+`claimed_sum_lower_bound` is the agent's claimed lower bound on $S(A)$.
+At parse time `proof_prepare.py` runs
+`library.primitive_set_witness.verify_witness`, which recomputes a
+rigorous lower bound on $S(A)$ in stdlib `decimal` arithmetic with
+ULP-bumped `math.log` (so the verifier is correct to $\sim 50$ digits
+with a 4-ULP slack documented in the verifier source).
+
+Only a witness whose recomputed lower bound *strictly* exceeds
+`witness_threshold = 1.0` and which satisfies the primitive-set
+property under independent verification produces `witness_valid = 1`.
+In that case the loop exits with code 7 (counterexample produced) —
+and even then the convention of this repo is that a human re-runs the
+verifier independently and checks the $o(1)$ caveat at the witness's
+`x_floor` before treating the candidate as a real result.
+
+Until such a witness is committed, the file's verdict stays in
+$\{ \texttt{partial\_result}, \texttt{open} \}$ and no resolution
+phrasing is permitted (the openness critic enforces this — defense in
+depth on top of the in-band substring checks in
+`_compute_verdict_hint`).
+
+(End of Section 1; this is a partial result establishing only the
+ledger and the disproof contract. Q1 resolved.)
