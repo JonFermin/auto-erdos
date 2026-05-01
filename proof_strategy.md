@@ -547,8 +547,21 @@ only by the F1/F2/F3 ledger plus elementary positivity:
 - *Sign disambiguations* of F1, F2, F3 are stated and reconciled (§1.2);
 - *Numerical evidence* for the F3 direction across $k \in \{1, 2, 3,
   4\}$ is recorded (§2);
+- *Witness-search negative result* at $x_{\text{floor}} \in \{1000,
+  10000\}$ is recorded (§2.5): every multi-stratum construction
+  probed through the rigorous helper
+  `library.primitive_set_witness._rigorous_sum_lower_bound` stays
+  an order of magnitude below the threshold, so no automated
+  counterexample lies in the union-of-strata constructions accessible
+  at that floor;
 - *Unconditional, ledger-only*: the *single high-$\Omega$ stratum
   case* is ruled out for $k \geq k_0$ as in §3.3 (Lemmas 1, 2);
+- *Per-stratum decomposition strictly weaker than F1* (§3.4): the
+  sum of F3-derived per-stratum lower bounds across three consecutive
+  strata $k \geq k_1$ already exceeds the F1 universal ceiling, which
+  shows the per-stratum decomposition alone cannot recover F1, let
+  alone the conjectured tightening to $1$ — any closure of the
+  residual must invoke cross-stratum primitivity;
 - The *cross-stratum residue* (Lemma 5) is **open** and is the
   conjecture itself.
 
