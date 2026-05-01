@@ -342,5 +342,71 @@ unrestricted $A_1 = \mathcal{P}$ already achieves $S \approx 1.6366$.
 
 (End of Section 4.)
 
+## Section 5 — Proof structure: stratify by $\Omega(a)$
+
+**Setup.** Any set $A \subset \mathbb{N}$ partitions as
+$A = \bigsqcup_{k \ge 1} A^{(k)}$ where $A^{(k)} := A \cap A_k$
+(elements with exactly $k$ prime factors counted with multiplicity).
+This decomposition is canonical (no choices) and respects primitivity:
+$A$ is primitive iff each $A^{(k)}$ is primitive AND no element of
+$A^{(k)}$ divides any element of $A^{(k')}$ for $k < k'$.
+
+**Decomposition of $S$.** $S(A) = \sum_k S(A^{(k)})$.
+
+**Lemmas (see `proof_lemmas/`).**
+
+- **Lemma 1 (`truncated_low_strata`, status: open).** For fixed
+  $k \ge 1$, $S(A_k \cap [x, \infty)) = O((\log\log x)^{k-1}/\log x)
+  \to 0$ as $x \to \infty$. *Easy*: Landau's count + partial summation.
+  Folds the small-$k$ contribution to $0$ as $x \to \infty$.
+- **Lemma 2 (`high_strata_below_one`, status: open).** There exist
+  $K_0$ and $\delta > 0$ with $S(A_k) \le 1 - \delta k^2/2^k$ for all
+  $k \ge K_0$. *Citation*: F3 with explicit $K_0$. Forces every
+  individual large-$k$ stratum below $1$.
+- **Lemma 3 (`cross_stratum_primitivity`, status: open — HARD).** For
+  every $\varepsilon > 0$ exists $x_0$ such that primitive $A \subset
+  [x_0, \infty)$ has $S(A) \le 1 + \varepsilon$. *This is the
+  conjecture.* Per-stratum bounds (Lemmas 1, 2) cannot prove it
+  because $\sum_k S(A_k)$ is divergent — primitivity must be exploited
+  cross-stratum. Erdős–Zhang's argument saturates at $1.399$;
+  sharpening to $1$ needs a new ingredient. See the lemma file for
+  the candidate plan (a stratum-aware weighting using F3's
+  $-c k^2/2^k$ deficit).
+
+**Conditional conjecture proof (assuming Lemma 3).** Trivial: Lemma 3
+is the conjecture.
+
+**Unconditional partial result.** Combining Lemmas 1 and 2 (and the
+truncated $A_1$ bound from Section 3) we have, for any primitive
+$A \subset [x, \infty)$:
+
+\[
+S(A) \;=\; \sum_{k=1}^{K_0 - 1} S(A^{(k)})
+       \;+\; \sum_{k = K_0}^\infty S(A^{(k)}),
+\]
+
+with $S(A^{(k)}) \le S(A_k \cap [x, \infty))$ for $k < K_0$ (Lemma 1
+sums to $o(1)$ over a fixed-size $\{1, \ldots, K_0 - 1\}$) and
+$S(A^{(k)}) \le S(A_k) \le 1 - \delta k^2/2^k$ for $k \ge K_0$
+(Lemma 2). The second sum, **without primitivity exploitation across
+strata**, is bounded only by $\sum_{k \ge K_0} 1 = \infty$. So the
+partial result through Lemmas 1+2 is
+
+\[
+S(A) \;\le\; o(1) \;+\; \sum_{k \ge K_0}^{??} S(A^{(k)}),
+\]
+
+which is *not* a finite bound without Lemma 3 or a Erdős–Zhang-style
+weighting. The conjecture is therefore **conditional on Lemma 3**;
+the unconditional Erdős–Zhang result F1 stands at $1.399 + o(1)$.
+
+**Status.** This is the partial result the loop has reached: a clean
+decomposition, two settled per-stratum lemmas, and a single hard
+cross-stratum lemma (Lemma 3) that subsumes the conjecture itself.
+The loop cannot close Lemma 3 with the techniques explored so far.
+
+(End of Section 5.)
+
+
 
 
