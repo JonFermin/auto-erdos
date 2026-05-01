@@ -49,6 +49,22 @@ DEFAULT_TIME_BUDGET_S = 1800  # 30 min default for proof verification
 CRITIC_NAMES = ("ledger", "sign", "openness", "numerical", "internal")
 CRITIC_TIMEOUT_S = 240  # per critic; 4 minutes is generous for opus
 
+# AUTOERDOS_PROOF_CRITICS controls the LLM critic pass.
+#   unset / "1" / "on" / "true" / "yes" → critics run (default)
+#   "0" / "off" / "false" / "no"        → critics skipped; witness verifier
+#                                          still runs and the resolution-string
+#                                          defense-in-depth in
+#                                          ``_compute_verdict_hint`` still fires.
+# Use the off mode to favor speculative exploration over conservative gating.
+_CRITICS_OFF_VALUES = {"0", "off", "false", "no"}
+
+
+def _critics_enabled() -> bool:
+    raw = os.environ.get("AUTOERDOS_PROOF_CRITICS")
+    if raw is None:
+        return True
+    return raw.strip().lower() not in _CRITICS_OFF_VALUES
+
 # Witness block markers in proof_strategy.md.
 _WITNESS_RE = re.compile(
     r"<!--\s*WITNESS\s*\n(.*?)\nWITNESS\s*-->",
@@ -356,7 +372,29 @@ def verify_proof(
     else:
         witness_valid, witness_score, witness_reason = _run_witness_verifier(payload, spec)
 
-    # 2. Run all five critics in parallel via the cache helper.
+    # 2. Critics — gated by AUTOERDOS_PROOF_CRITICS. When off, we skip the
+    #    LLM pass entirely and rely on (a) the witness verifier above and
+    #    (b) the resolution-string defense-in-depth in _compute_verdict_hint.
+    #    This is the speculative-exploration mode: fewer wall-clock seconds
+    #    per round, no critic-driven BLOCKING flags, but a falsified
+    #    disproof still cannot keep_disproof without a real witness.
+    if not _critics_enabled():
+        critic_metas["_critics"] = {"status": "off", "reason": "AUTOERDOS_PROOF_CRITICS disabled"}
+        verdict = _compute_verdict_hint(spec, witness_valid, 0, proof_md)
+        return ProofVerifyResult(
+            claim_status=spec.get("claim_status", "unknown"),
+            witness_valid=witness_valid,
+            witness_score=witness_score,
+            critic_blocking_count=0,
+            critic_warn_count=0,
+            verdict_hint=verdict,
+            verifier_seconds=time.time() - t0,
+            findings=findings,
+            witness_reason=witness_reason,
+            proof_hash=_proof_hash(proof_md),
+            critic_metas=critic_metas,
+        )
+
     try:
         from library._critic_subprocess import call_critics_parallel, CriticUnavailable  # noqa: F401
     except ImportError as e:
@@ -482,11 +520,17 @@ def print_summary(proof_md: str, result: ProofVerifyResult) -> None:
         (f for f in result.findings if f.flag == "BLOCKING"),
         None,
     )
+    critics_off = (
+        isinstance(result.critic_metas.get("_critics"), dict)
+        and result.critic_metas["_critics"].get("status") == "off"
+    )
     reason = result.witness_reason
     if first_blocking is not None:
         reason = f"BLOCKING({first_blocking.critic}): {first_blocking.evidence}"
     elif result.witness_valid == 1:
         reason = f"witness verified: {result.witness_reason}"
+    elif critics_off:
+        reason = f"critics_off: {result.witness_reason}"
     if len(reason) > 200:
         reason = reason[:197] + "..."
     reason = reason.replace("\t", " ").replace("\n", " ")

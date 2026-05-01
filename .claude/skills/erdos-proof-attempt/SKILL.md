@@ -25,6 +25,8 @@ You start in the repo root (the main checkout).
 
 **First, resolve the proof tag.** If the launch prompt names a non-default proof (e.g. "on primitive_set_erdos", `PROOF_TAG=primitive_set_erdos`), `export PROOF_TAG=<tag>` **before** any preflight check, any loop command, and any helper invocation. Default is `primitive_set_erdos`. Every helper (`proof_prepare.py`, `proof_log_result.py`, `proof_session_start.py`) reads this env var at import time, so the export must persist for the whole session.
 
+**Resolve the critic mode.** If the launch prompt asks for "critics off", "speculative mode", or "explore without critics", `export AUTOERDOS_PROOF_CRITICS=0` for the session. In that mode `proof_prepare.py` skips the five LLM critics; the witness verifier and the resolution-string defense-in-depth still run. This favors novel directions over conservative gating — see the "Critics-off mode" section in `proof_program.md` for the exact gates that remain.
+
 Then run these checks in parallel:
 
 ```bash

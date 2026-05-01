@@ -212,3 +212,32 @@ should run session_end and archive the branch.
 - Don't run `proof_prepare.py` every round. It's wall-clock expensive
   (~5 critic calls × ~30s each on a cold cache). Run it every K=5
   rounds, or at a logical milestone.
+
+## Critics-off mode (`AUTOERDOS_PROOF_CRITICS=0`)
+
+Set `AUTOERDOS_PROOF_CRITICS=0` (or `off` / `false` / `no`) before the
+loop to skip the LLM critic pass entirely. `proof_prepare.py` then:
+
+- Still runs the deterministic witness verifier (a `keep_disproof`
+  always requires a real verifier-accepted witness).
+- Still applies the `_compute_verdict_hint` defense-in-depth — a proof
+  on an `open` claim that contains resolution phrasing (`the conjecture
+  is false`, `we disprove`, `qed`, …) without a witness is forced to
+  `verdict_hint=blocked` regardless.
+- Skips the five `claude -p` critic calls and emits
+  `critic_blocking=0`, `critic_warn=0`, `reason=critics_off: …`.
+
+Trade-off: faster rounds (~30× wall-clock under cold cache), more raw
+exploration, no critic-driven WARN findings to nudge the agent.
+Speculative directions that the openness/sign critics would have flagged
+slip through into the body — the agent must self-police more carefully.
+
+The conservative gates that DO still apply:
+- Witness verifier on any `<!-- WITNESS -->` block.
+- Resolution-string defense-in-depth (above).
+- proof_hash dedup in `proof_log_result.py` (no real change ⇒ exit 3).
+- Round cap and convergence detection.
+
+Recommended use: bursts of speculative work; flip back to `AUTOERDOS_PROOF_CRITICS=1`
+(or unset) at consolidation milestones to re-screen the body with the
+full critic panel before claiming convergence.
