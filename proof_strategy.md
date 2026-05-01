@@ -489,6 +489,43 @@ $$
 diverges (each $S_k \to 1$, so $\sum_{k > K} S_k = \infty$); hence
 F3 alone cannot bound $S_{\text{high}}$.
 
+*Quantitative looseness vs. F1.* We can sharpen this remark with an
+explicit lower bound on the per-stratum partial sum. By F3 there
+is some $k_1 \geq 1$ at which the o(1) error in F3's asymptotic is
+already bounded by $c$ in absolute value (the same $\varepsilon$
+function used inside Lemma 2; $k_1$ is some threshold beyond
+$k_0$, depending on F3's effective o(1) which the strict ledger
+does not pin down numerically). For every $k \geq k_1$,
+$$
+S_k \;\geq\; 1 - 2c\,\frac{k^2}{2^k}.
+$$
+The standard generating-function identity
+$\sum_{k \geq 1} k^2 / 2^k = 6$ (verified by differentiating
+$\sum_k x^k = 1/(1-x)$ twice and evaluating at $x = 1/2$) gives
+the absolutely-convergent bound
+$\sum_{k \geq k_1} k^2 / 2^k \leq 6$. Summing the per-stratum
+lower bound across $K + 1$ consecutive strata starting at $k_1$
+therefore yields
+$$
+\sum_{j=0}^{K} S_{k_1 + j}
+\;\geq\;
+(K + 1) \;-\; 2 c \cdot 6
+\;=\;
+(K + 1) - 12 c
+\;\approx\;
+(K + 1) - 0.79
+\qquad (c \approx 0.0656).
+$$
+For $K = 2$ — that is, summing only *three* consecutive strata's
+per-stratum F3 lower bounds — this gives a partial sum exceeding
+$2.2$, which is strictly larger than F1's universal ceiling
+$e^\gamma \pi/4 \approx 1.399$. The naïve per-stratum upper bound
+$S(A) \leq \sum_k S_k$ is therefore *strictly looser than F1*
+already at three strata's resolution: F1 cannot be derived by
+combining per-stratum F3 estimates additively, and any proof that
+recovers (let alone tightens) F1's ceiling must use information
+beyond the per-stratum ledger.
+
 To close the gap, the cross-stratum primitivity of $A$ must be used:
 the constraint that $a \mid b$ is forbidden when $a \in A \cap A_k$
 and $b \in A \cap A_{k+j}$ for any $j \geq 1$ is much stronger than
