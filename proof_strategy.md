@@ -1,70 +1,147 @@
 # Proof attempt — `primitive_set_erdos`
 
-This file is the agent-editable proof draft for the Track 2 loop. It is the
-ONLY editable proof artifact (alongside lemma files in `proof_lemmas/`). Its
-content is hashed for round-dedup; pure whitespace / comment edits do not
-count as a real round.
+This is the agent-editable proof draft for the Track 2 loop. Its content
+is hashed for round-dedup; pure whitespace / comment edits do not count
+as a real round. Lemmas live in `proof_lemmas/`.
 
-The loop reads this file via `proof_prepare.py`, runs five LLM critics
-against it, and decides keep/discard via `proof_log_result.py`.
+## Section 1 — Setup
 
-## Setup
+### 1.1 Statement
 
-- **Claim**: see `proofs/primitive_set_erdos.json` field `claim_latex`. The
-  conjecture is that for any primitive set $A \subset [x, \infty)$ the sum
-  $\sum_{a \in A} 1/(a \log a)$ is bounded above by $1 + o(1)$ as $x \to \infty$.
-- **Status**: open. Until a verifier-accepted witness is committed, no claim
-  of resolution may appear in this file (`critic_openness` enforces this).
-- **Given facts ledger**: see `proofs/primitive_set_erdos.json` field
-  `given_facts`. The proof may cite F1 (Erdős-Zhang upper bound ≈ 1.399),
-  F2 (Omega-stratum lower bound with UNSIGNED big-O — read carefully),
-  F3 (exact asymptotic showing canonical extremal sum approaches 1 from
-  BELOW). Citations to facts not in the ledger trigger `critic_ledger`.
+Fix $x \ge 2$. A set $A \subseteq \mathbb{N}$ is *primitive* if no
+distinct elements of $A$ stand in a divisor relation: $a, b \in A$ and
+$a \ne b$ imply $a \nmid b$. Define
+\[
+S(A) \;=\; \sum_{a \in A} \frac{1}{a \log a}.
+\]
 
-## Anti-traps (the canonical failure modes)
+**Conjecture (target).** For any primitive $A \subset [x, \infty)$,
+\[
+S(A) \;\le\; 1 + o(1) \qquad \text{as } x \to \infty,
+\]
+where the $o(1)$ depends only on $x$.
 
-- **F2 sign confusion**. F2 says
-  $\sum_{a \in A_k} 1/(a \log a) \geq 1 + O(k^{-1/2 + o(1)})$
-  with the $O(\cdot)$ term **unsigned**. Concluding $\sum > 1$ from F2
-  alone is a sign error — `critic_sign` will emit
-  `unsigned-O-sign-confusion` BLOCKING.
-- **F3 read upside-down**. F3 says
-  $\sum_{a \in A_k} 1/(a \log a) = 1 - (c+o(1)) k^2/2^k$
-  with $c \approx 0.0656 > 0$. The leading correction is *negative*, so
-  the sum approaches $1$ from BELOW. Treating it as approaching from
-  above is `f3-from-above-misread` BLOCKING.
-- **Open claim asserted resolved without witness**. The conjecture is open.
-  Phrases like "the conjecture is false" / "we disprove" trigger
-  `critic_openness`'s `open-claim-asserted-resolved-without-witness`
-  BLOCKING — unless a verifier-accepted `<!-- WITNESS -->` block is
-  committed and `witness_valid == 1`.
+The set $\mathcal{P}$ of primes from $2$ is primitive and
+$S(\mathcal{P}) \approx 1.6366$, but $\mathcal{P} \not\subset [x,
+\infty)$ for $x > 2$. The conjecture concerns the *truncated* family
+$\mathcal{F}(x) = \{A \text{ primitive} : A \subset [x, \infty)\}$,
+where the small-element contributions of $\mathcal{P}$ have been
+excluded.
 
-## Witness format (the only path to a counterexample claim)
+### 1.2 Given facts (citations only — no rederivation in this draft)
 
-A claim of disproof MUST be backed by a finite primitive set whose sum is
-rigorously verified to exceed `witness_threshold` by
-`library.primitive_set_witness.verify_witness`. To commit a witness,
-embed exactly one block of the form:
+The harness ships three facts in `proofs/primitive_set_erdos.json`. Each
+sign reading below is restated explicitly because misreading the sign
+of F2 is the canonical failure mode.
+
+**F1 (Erdős–Zhang upper bound).** For any primitive $A \subseteq
+\mathbb{N}$,
+\[
+S(A) \;<\; e^{\gamma} \tfrac{\pi}{4} \;+\; o(1) \;\approx\; 1.399 +
+o(1).
+\]
+Sign reading: this is an *upper* bound (strict inequality, fixed $A$,
+$o(1)$ as the truncation point grows). The constant $1.399$ is
+positive; the bound is consistent with the conjecture's tighter $1$, it
+just doesn't attain it. Citing F1 to show $S(A) > 1$ inverts the
+inequality.
+
+**F2 ($\Omega = k$ stratum, unsigned correction).** Let
+$A_k = \{n \in \mathbb{N} : \Omega(n) = k\}$, the integers with exactly
+$k$ prime factors counted with multiplicity. Then
+\[
+S(A_k) \;\ge\; 1 \;+\; O\!\bigl(k^{-1/2 + o(1)}\bigr).
+\]
+Sign reading: the $O(\cdot)$ term is *unsigned* — it could be positive,
+negative, or zero, with absolute value bounded by $k^{-1/2 + o(1)}$.
+The bound reads "$S(A_k)$ is at least $1$ minus something controlled in
+absolute value by $k^{-1/2+o(1)}$", **not** "$S(A_k)$ is at least $1$
+plus a positive quantity." Inferring $S(A_k) > 1$ from F2 alone is a
+sign error.
+
+**F3 ($\Omega = k$ stratum, sharpened to one-sided).** For the same
+$A_k$,
+\[
+S(A_k) \;=\; 1 \;-\; (c + o(1)) \frac{k^2}{2^k}, \qquad
+c \approx 0.0656 > 0.
+\]
+Sign reading: the leading correction is *negative* (since $c > 0$), so
+$S(A_k) < 1$ for every $k \ge 1$, and $S(A_k) \uparrow 1$ from below as
+$k \to \infty$. F3 sharpens F2: the unsigned $O(\cdot)$ in F2 is in fact
+dominated by $-c k^2/2^k + o(k^2/2^k)$, lying strictly below $1$ for
+every finite $k$.
+
+The pair (F2, F3) is consistent. F2 says "$S(A_k)$ is within
+$k^{-1/2+o(1)}$ of $1$"; F3 says "in fact it is exactly
+$\Theta(k^2/2^k)$ below $1$." A direct counterexample reading would
+require the $O(\cdot)$ in F2 to be positive, which F3 rules out for the
+canonical extremal family $A_k$.
+
+### 1.3 Witness contract
+
+A claim against the target bound can be admitted into the loop only by
+exhibiting a primitive $A^\star \subset [x_\star, \infty)$ together
+with a rigorously verified lower bound on $S(A^\star)$ exceeding $1$.
+The harness implements this as a `<!-- WITNESS -->` block in this file:
 
 ```
 <!-- WITNESS
 {
-  "x_floor": 100,
-  "elements": [101, 103, 107, 109, ...],
-  "claimed_sum_lower_bound": 1.005
+  "x_floor": <int>,
+  "elements": [<int>, ...],
+  "claimed_sum_lower_bound": <float>
 }
 WITNESS -->
 ```
 
-at the bottom of this file. `proof_prepare.py` parses the JSON, runs the
-deterministic verifier, and sets `witness_valid` accordingly. No witness
-block ⇒ `witness_valid = 0` ⇒ no counterexample claim is possible.
+`library.primitive_set_witness.verify_witness` checks:
 
-## Body
+1. each $a$ in `elements` is an integer with $a \ge x_\text{floor}$;
+2. the elements are pairwise non-divisible;
+3. it computes a rigorous lower bound on
+   $\sum_{a \in \text{elements}} 1/(a \log a)$ via stdlib `decimal`
+   arithmetic with a ULP-bumped `math.log`, accurate to roughly $50$
+   decimal digits;
+4. it accepts (`is_valid = True`) iff the rigorous lower bound exceeds
+   `witness_threshold = 1.0`.
 
-(The agent fills in the body. Sketch a structure, prove what you can,
-hedge the rest. Lemmas live in `proof_lemmas/lemma_*.md` and are cited
-by id from this file.)
+No `WITNESS` block ⇒ `witness_valid = 0`, and any narrative chain that
+ends in a counterexample claim without a verified witness is forced to
+`verdict_hint = blocked` by the resolution-string defense-in-depth in
+`proof_prepare._compute_verdict_hint`.
 
-This proof attempt is currently a stub. Pick the lowest-numbered open
-qid from `proof_open_questions.jsonl` and start.
+### 1.4 The o(1) caveat
+
+The conjecture's bound is $1 + o(1)$ as $x_\star \to \infty$. A finite
+witness at some $x_\star$ that produces $S(A^\star) > 1$ is
+*suggestive* but not conclusive: the implicit $o(1)$ at that $x_\star$
+may itself be $\ge S(A^\star) - 1$. A counterexample resolution at
+finite $x_\star$ needs both
+
+- (a) a witness with rigorous lower bound exceeding $1$, **and**
+- (b) an analytical estimate that the implicit $o(1)$ at $x_\star$ is
+  small enough to leave room (i.e. $o(1) < S(A^\star) - 1 - \epsilon$
+  for some explicit $\epsilon > 0$).
+
+The harness verifier handles (a). (b) is left to the proof body and a
+human reviewer.
+
+### 1.5 What is to be proved
+
+To establish the conjecture, the loop must produce one of:
+
+- a **proof body** demonstrating, for every primitive $A \subset [x,
+  \infty)$, that $S(A) \le 1 + o(1)$. F1 already implies this with the
+  weaker bound $1.399 + o(1)$; the conjecture asks to sharpen the
+  constant to $1$.
+- a **partial-result body** isolating an explicit subclass of primitive
+  sets for which the bound holds, plus a clear statement of the
+  remaining gap. The loop admits this as a `keep_progress` round once
+  three consecutive rounds stabilise on the same content hash with
+  clean verdict and no live open qids.
+- (the loop also admits) a **counterexample witness** as above. Given
+  F1 and F3, a witness exceeding $1.399$ would falsify F1, and any
+  witness exceeding $1$ requires the analytical (b) above.
+
+(End of Section 1. Sections 2+ are populated by subsequent rounds;
+see `proof_open_questions.jsonl` for the worklist.)
