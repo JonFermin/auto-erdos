@@ -143,5 +143,63 @@ To establish the conjecture, the loop must produce one of:
   F1 and F3, a witness exceeding $1.399$ would falsify F1, and any
   witness exceeding $1$ requires the analytical (b) above.
 
-(End of Section 1. Sections 2+ are populated by subsequent rounds;
-see `proof_open_questions.jsonl` for the worklist.)
+## Section 2 — Numerical evidence: F3 is asymptotic in $k$
+
+F3 reads $S(A_k) = 1 - (c + o(1)) k^2/2^k$ with $c \approx 0.0656$, with
+the implicit $o(1)$ a function of $k \to \infty$. Direct computation
+(first $1000$ elements of $A_k$ in increasing order, $k = 1, 2, 3, 4$;
+elements found by sieving $\Omega(n) = k$) shows that for small $k$
+the partial sum is far from F3's leading-order estimate
+$1 - c k^2 / 2^k$, in two qualitatively different ways:
+
+| $k$ | first-200 partial $S$ | first-1000 partial $S$ | F3 leading $1 - ck^2/2^k$ | $\le 1$? |
+|---:|---:|---:|---:|:---:|
+| 1 | $1.49645$ | $1.52534$ | $0.96720$ | **no** |
+| 2 | $0.68194$ | $0.74609$ | $0.93440$ | yes |
+| 3 | $0.31340$ | $0.36755$ | $0.92620$ | yes |
+| 4 | $0.14034$ | $0.17295$ | $0.93440$ | yes |
+
+(Computed in stdlib `math.log` floats; values rounded to 5 d.p.; full
+elements lists deferred to `proof_lemmas/lemma_001_f3_asymptotic.md`
+in a later round.)
+
+Two observations are load-bearing for the proof structure:
+
+**(O1) F3 is asymptotic, not exact at small $k$.** For $k = 1$,
+$A_1 = \mathcal{P}$ (the primes), and $S(A_1) \approx 1.6366$ (an
+unconditionally proven constant of Erdős). This **exceeds** F3's
+leading-order estimate $0.967$, so F3 plainly does not hold as an exact
+identity at $k = 1$. F3 must therefore be read as "$S(A_k) = 1 +
+\varepsilon(k)$ with $\varepsilon(k) \to 0$ from below, and the leading
+term of $\varepsilon$ for $k \to \infty$ is $-c k^2/2^k$", **not** as a
+finite-$k$ identity. Citing F3 to bound $S(A_k)$ for fixed small $k$
+is invalid.
+
+**(O2) The conjecture is not refuted by $A_1$.** Although the unrestricted
+prime sum exceeds $1$, the conjecture is about $A \subset [x, \infty)$
+with $x \to \infty$. The truncated prime sum
+$\sum_{p \ge x} 1/(p \log p) \to 0$ as $x \to \infty$ (this is the
+standard $\sum_p 1/p$ divergence rate, which is logarithmic, sharper
+than $1/(p \log p)$); concretely, by Mertens' second theorem
+$\sum_{p \le y} 1/p = \log \log y + M + o(1)$, so by partial summation
+$\sum_{p > x} 1/(p \log p) = O(1/\log x) \to 0$. So $A_1$ alone, once
+truncated, contributes vanishing mass. The conjecture stays alive.
+
+**(O3) Slow convergence at $k \ge 2$.** The first-1000 partial sums for
+$k = 2, 3, 4$ are far from the F3 leading-order estimate (e.g. $0.746$
+vs. $0.934$ at $k = 2$). The reason is that $|A_k \cap [1, y]|$ grows
+like $y (\log\log y)^{k-1} / ((k-1)! \log y)$ (Landau), so the heavy
+mass of $A_k$ lives at large $y$. A first-1000 truncation captures only
+the very thin head; the bulk of $S(A_k)$ accumulates over astronomical
+ranges of $n$. Numerical verification of F3's leading term thus
+requires sums over enormous truncations of $A_k$, not the naïve first
+$N$ elements.
+
+**Implication.** F3 is a *deep* asymptotic, not an obvious bound. Its
+leading correction $- c k^2 / 2^k$ is proved via Sathe–Selberg-style
+analysis of the count of integers with exactly $k$ prime factors, not
+by direct computation. The proof body cannot rely on numerically
+"checking" F3 at small $k$.
+
+(End of Section 2.)
+

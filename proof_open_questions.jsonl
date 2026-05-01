@@ -6,3 +6,5 @@
 {"qid": "Q6", "status": "open", "parent_qid": null, "summary": "If after Q5 the proof structure has gaps that look genuinely hard, write the partial result to proof_strategy.md as 'this remains open; here is what was ruled out'. Then call proof_session_end with reason='converged on partial result' so the loop registers it as a kept partial-result record.", "ts": "2026-04-30T00:00:00+00:00", "session_id": "seed"}
 {"qid":"Q1","status":"claimed","session_id":"","summary":"taking Q1 (Section 1 Setup writeup)","ts":""}
 {"qid":"Q1","status":"claimed","session_id":"s_0501-121629-b2a4","summary":"taking Q1 (Section 1 Setup writeup)","ts":"2026-05-01T18:17:49+00:00"}
+{"qid":"Q1","status":"resolved","session_id":"s_0501-121629-b2a4","summary":"Section 1 written: claim/F1/F2/F3/witness/o(1) caveat/what-to-prove","ts":"2026-05-01T18:20:22+00:00"}
+{"qid":"Q2","status":"claimed","session_id":"s_0501-121629-b2a4","summary":"taking Q2 (numerical F3 evidence)","ts":"2026-05-01T18:21:53+00:00"}
