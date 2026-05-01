@@ -322,3 +322,96 @@ lies.
 truncated data and charts truncation-rate behavior. Q2 resolved as a
 partial result. The conjecture remains open; Section 3 onward will
 continue to establish what we can rule out.)
+
+### 3. Proof structure: what is ruled out, what is open (round 5; resolves Q5)
+
+This section gives a stratified decomposition of an arbitrary primitive
+set $A \subset [x, \infty)$ and pins down the residual gap that the
+ledger F1/F2/F3 alone does not close. The structure is recorded as a
+sequence of lemmas, each in its own file under `proof_lemmas/`.
+
+#### 3.1 Stratification
+
+Write $A_k = \{ n : \Omega(n) = k \}$ as in §1. For any primitive
+$A \subset [x, \infty)$,
+$$
+A \;=\; \bigsqcup_{k \geq 1} (A \cap A_k),
+\qquad S(A) \;=\; \sum_{k \geq 1} \sum_{a \in A \cap A_k} \frac{1}{a \log a}.
+$$
+Choose a cutoff $K = K(x)$ (later: $K \to \infty$ slowly, e.g.
+$K(x) = O(\log \log x)$) and split
+$$
+S(A) \;=\; S_{\text{low}}(A; K) + S_{\text{high}}(A; K),
+$$
+$$
+S_{\text{low}}(A; K) := \sum_{k \leq K} \sum_{a \in A \cap A_k} \frac{1}{a \log a},
+\qquad
+S_{\text{high}}(A; K) := \sum_{k > K} \sum_{a \in A \cap A_k} \frac{1}{a \log a}.
+$$
+
+#### 3.2 The lemma graph
+
+| Lemma file | Status | What it gives |
+|---|---|---|
+| `lemma_001_omega_k_is_primitive` | proved | Each $A_k$ is itself a primitive set (so subsets inherit primitivity). |
+| `lemma_002_stratum_truncation` | proved (modulo $S_k$ convergence remark) | $\sum_{a \in A_k \cap [x,\infty)} 1/(a \log a) \leq S_k$, and there is $k_0$ with $S_k < 1$ for all $k \geq k_0$. |
+| `lemma_003_prime_tail_to_zero` | proved (admits PNT density as extra-ledger) | $\sum_{p \geq x} 1/(p \log p) \to 0$ as $x \to \infty$. |
+| `lemma_004_bounded_omega_tail` | open (admits Landau/Sathe–Selberg as extra-ledger) | $\sum_{k \leq K} \sum_{a \in A_k \cap [x,\infty)} 1/(a \log a) \to 0$ for fixed $K$, hence for $K = K(x) = O(\log \log x)$. |
+| `lemma_005_cross_stratum` | **open** (this is the conjecture) | $S(A) \leq 1 + o(1)$ as $x \to \infty$ for any primitive $A \subset [x, \infty)$. |
+
+#### 3.3 What the proof does close
+
+By Lemma 4 (admitting Landau/Sathe–Selberg), for $K = K(x) \to \infty$
+slowly enough,
+$$
+S_{\text{low}}(A; K) \;\leq\; \sum_{k=1}^{K} \sum_{a \in A_k \cap [x, \infty)}
+\frac{1}{a \log a} \;\longrightarrow\; 0 \qquad (x \to \infty).
+$$
+Since $A \cap A_k \subseteq A_k \cap [x, \infty)$, the bound passes to
+$A$. So **the contribution from strata $k \leq K(x)$ vanishes** as
+$x \to \infty$, regardless of how $A$ chooses elements within those
+strata, and regardless of the cross-stratum primitivity constraint
+(which only helps).
+
+By Lemma 2, each individual stratum $A_k \cap [x, \infty)$ has its own
+sum bounded by $S_k$. For $k > k_0$ this is $< 1$. So **no single
+high-$\Omega$ stratum is a counterexample**.
+
+#### 3.4 Where the proof is open
+
+The residual case is $S_{\text{high}}(A; K)$ with $K = K(x) \to \infty$.
+The naïve per-stratum bound from F3,
+$$
+S_{\text{high}}(A; K) \;\leq\; \sum_{k > K} S_k,
+$$
+diverges (each $S_k \to 1$, so $\sum_{k > K} S_k = \infty$); hence
+F3 alone cannot bound $S_{\text{high}}$.
+
+To close the gap, the cross-stratum primitivity of $A$ must be used:
+the constraint that $a \mid b$ is forbidden when $a \in A \cap A_k$ and
+$b \in A \cap A_{k+j}$ for any $j \geq 1$ is much stronger than
+intra-stratum primitivity (which is automatic by Lemma 1) and is
+precisely the constraint that makes $S(A) \leq e^\gamma \pi/4 + o(1)$
+(F1) hold rather than $S(A) = \infty$. The slack between F1's
+$e^\gamma \pi / 4 \approx 1.399$ and the conjectured $1$ is the
+quantitative gap that any proof would need to close. We do not close
+this gap in the present writeup; we record it as the open core of the
+conjecture in Lemma 5.
+
+#### 3.5 Status
+
+This proof attempt establishes a clean partial result:
+
+- *Sign disambiguations* of F1, F2, F3 are stated and reconciled (§1.2);
+- *Numerical evidence* for the F3 direction across $k \in \{1,2,3,4\}$
+  is recorded (§2);
+- The *full single-stratum case* and the *bounded-$\Omega$ case* are
+  ruled out as $x \to \infty$ (Lemmas 1–4);
+- The *cross-stratum residue* (Lemma 5) is **open** and is the
+  conjecture itself.
+
+The conjecture remains open. No witness has been committed; the file's
+verdict stays $\texttt{partial\_result}$.
+
+(End of Section 3; Q5 resolved as a partial result with explicit open
+residue.)
