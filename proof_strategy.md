@@ -250,15 +250,14 @@ last primes $1223$, $7919$, $37{,}813$, $81{,}799$ respectively.)
    absorbed). F3's $o(1)$ remainder is bounded only as $k \to \infty$,
    so finite-$k$ pointwise agreement is not asserted.
 
-   Crucially, the $k = 1$ stratum (primes) does *not* refute the
-   conjecture either: the conjecture concerns primitive sets contained
-   in $[x, \infty)$, and as $x \to \infty$ the truncation
-   $\sum_{p \geq x} 1/(p \log p) \to 0$ — see Lemma
-   `lemma_003_prime_tail_to_zero`, *conditional* on the extra-ledger
-   admission $\pi(t) \sim t / \log t$. The empirical $S_1^{(8000)}
-   \approx 1.55$ in §2.2 is for primes from $2$, not from $x$, so it
-   does not contradict the tail going to zero as $x \to \infty$ under
-   that conditional admission.
+   Crucially, the $k = 1$ stratum (primes) is itself constrained
+   independently by F1: any primitive $A$ (and in particular
+   $A \subseteq A_1$) satisfies $S(A) < e^\gamma \pi/4 + o(1) \approx
+   1.399 + o(1)$. F1 alone does not give the tighter conjectural
+   bound $\leq 1$ for the $k = 1$ case, and the F1/F2/F3 ledger by
+   itself does not derive the sharper tail-to-zero behavior; we leave
+   this to the optional, extra-ledger Lemma
+   `lemma_003_prime_tail_to_zero` (filed under future work).
 
 2. **For $k \in \{2, 3, 4\}$**, every truncated sum satisfies
    $S_k^{(N)} < \widehat{S}_k < 1$, monotone increasing in $N$, with
@@ -299,16 +298,14 @@ e^\gamma \pi/4 + o(1)$ for any primitive $A$ — does not refine F3
 below $1$, so this argument leaves a finite-$k$ gap that we do not
 attempt to close here.)
 
-For $k = 1$ the relevant primitive set is the primes, and a primitive
-$A \subset [x, \infty)$ that lives entirely in $A_1$ has its sum
-controlled by the tail
-$\sum_{p \geq x} 1/(p \log p)$. Lemma `lemma_003_prime_tail_to_zero`
-records that this tail tends to $0$ as $x \to \infty$, *conditional*
-on the extra-ledger admission $\pi(t) \sim t / \log t$ (the Prime
-Number Theorem). Under that admission, the $k = 1$ stratum, despite
-its empirical full sum well above $1$ from $p = 2$, contributes
-asymptotically $0$ when restricted to $[x, \infty)$. We mark this
-result conditional throughout.
+For $k = 1$ the relevant primitive set is the primes. Within the
+F1/F2/F3 ledger alone, the $k = 1$ case is bounded only by F1
+($S(A) < e^\gamma \pi/4 + o(1) \approx 1.399 + o(1)$), which is
+weaker than the conjectured $\leq 1$. Sharper tail-to-zero behavior
+of $\sum_{p \geq x} 1/(p \log p)$ as $x \to \infty$ requires
+extra-ledger admissions (PNT-density) and is filed under future
+work in Lemma `lemma_003_prime_tail_to_zero`; we do not invoke it
+here.
 
 The open part of the conjecture is the *cross-stratum* /
 *non-stratified* case: a primitive $A \subset [x, \infty)$ that does
@@ -355,14 +352,14 @@ $$
 |---|---|---|
 | `lemma_001_omega_k_is_primitive` | proved (uses only complete additivity of $\Omega$) | Each $A_k$ is a primitive set (subsets inherit primitivity). |
 | `lemma_002_stratum_truncation` | proved (uses only F3 + positivity + Lemma 1) | $\sum_{a \in A_k \cap [x,\infty)} 1/(a \log a) \leq S_k$, and there is $k_0$ with $S_k < 1$ for all $k \geq k_0$. |
-| `lemma_003_prime_tail_to_zero` | **conditional** on extra-ledger PNT $\pi(t) \sim t/\log t$ | $\sum_{p \geq x} 1/(p \log p) \to 0$ as $x \to \infty$. |
-| `lemma_004_bounded_omega_tail` | **conditional** on extra-ledger Landau/Sathe–Selberg density of $A_k$ | $\sum_{k \leq K} \sum_{a \in A_k \cap [x,\infty)} 1/(a \log a) \to 0$ for fixed $K$, hence for $K(x) = O(\log\log x)$. |
 | `lemma_005_cross_stratum` | **open** (this is the conjecture itself) | $S(A) \leq 1 + o(1)$ as $x \to \infty$ for any primitive $A \subset [x, \infty)$. |
+| `lemma_003_prime_tail_to_zero` | future work (admits PNT extra-ledger) | not used in the main writeup; filed for future strengthening. |
+| `lemma_004_bounded_omega_tail` | future work (admits Landau/Sathe–Selberg extra-ledger) | not used in the main writeup; filed for future strengthening. |
 
 The unconditional partial result (§3.3 below) uses only Lemmas 1, 2,
-which are derived from the F1/F2/F3 ledger plus elementary facts. The
-conditional addendum (§3.4) uses Lemmas 3, 4 and is flagged as such
-throughout.
+both of which are derived from the F1/F2/F3 ledger plus elementary
+positivity. Lemmas 3, 4 are filed for future strengthening once the
+ledger is extended; they are not invoked anywhere in §§3.3–3.6.
 
 #### 3.3 What the proof does close (unconditional, ledger-only)
 
@@ -389,24 +386,7 @@ their unrestricted sum across $k$ diverges and the per-stratum F3
 estimate cannot close the bound on $S(A)$. The unconditional partial
 result therefore stops at the single-stratum case.
 
-#### 3.4 Conditional addendum (admits PNT-density / Landau)
-
-If we admit the prime-counting estimate $\pi(t) \sim t/\log t$
-(extra-ledger) and Landau's $|A_k \cap [2, t]| \sim t (\log\log
-t)^{k-1} / ((k-1)! \log t)$ (extra-ledger; Lemma 4 records the
-strategy), then by Lemmas 3 and 4 (both *conditional*),
-$$
-S_{\text{low}}(A; K) \;\leq\; \sum_{k=1}^{K} \sum_{a \in A_k \cap [x,
-\infty)} \frac{1}{a \log a} \;\longrightarrow\; 0 \qquad (x \to \infty)
-$$
-for $K = K(x) = O(\log\log x)$. Conditionally on those admissions,
-**the bounded-$\Omega$ part of any primitive $A \subset [x, \infty)$
-vanishes** as $x \to \infty$.
-
-This addendum is conditional. Without admitting PNT-density and
-Landau, only the *single-stratum* result of §3.3 is unconditional.
-
-#### 3.5 Where the proof is open
+#### 3.4 Where the proof is open
 
 The residual case (in either §3.3's unconditional or §3.4's
 conditional framing) is $S_{\text{high}}(A; K)$ with $K = K(x) \to
@@ -428,23 +408,28 @@ quantitative gap that any proof would need to close. We do not close
 this gap in the present writeup; we record it as the open core of the
 conjecture in Lemma 5.
 
-#### 3.6 Status
+#### 3.5 Status
 
-This proof attempt establishes the following partial result:
+This proof attempt establishes the following partial result, supported
+only by the F1/F2/F3 ledger plus elementary positivity:
 
 - *Sign disambiguations* of F1, F2, F3 are stated and reconciled (§1.2);
 - *Numerical evidence* for the F3 direction across $k \in \{1, 2, 3,
   4\}$ is recorded (§2);
 - *Unconditional, ledger-only*: the *single high-$\Omega$ stratum
   case* is ruled out for $k \geq k_0$ as in §3.3 (Lemmas 1, 2);
-- *Conditional* on PNT and Landau density: the *bounded-$\Omega$
-  case* is ruled out as $x \to \infty$ as in §3.4 (Lemmas 3, 4);
 - The *cross-stratum residue* (Lemma 5) is **open** and is the
   conjecture itself.
+
+Lemmas 3 (prime tail) and 4 (bounded-$\Omega$ tail) are filed under
+`proof_lemmas/` as future-work placeholders that would extend the
+partial result once the ledger is extended to admit PNT-density
+and/or Landau-style estimates; neither is invoked in the main
+writeup.
 
 The conjecture remains open. No witness has been committed; the
 file's verdict stays $\texttt{partial\_result}$.
 
 (End of Section 3; Q5 resolved as a partial result with the
-single-stratum case unconditional, the bounded-$\Omega$ case
-conditional, and the cross-stratum residue explicitly open.)
+single-stratum case unconditional and the cross-stratum residue
+explicitly open.)
