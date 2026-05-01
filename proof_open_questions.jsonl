@@ -16,3 +16,4 @@
 {"qid":"Q5","status":"claimed","session_id":"s_0501-121629-b2a4","summary":"taking Q5 (proof structure)","ts":"2026-05-01T18:43:50+00:00"}
 {"qid":"Q5","status":"resolved","session_id":"s_0501-121629-b2a4","summary":"Section 5 + lemma_001/002/003 written; Lemma 3 marked as the load-bearing gap","ts":"2026-05-01T18:43:52+00:00"}
 {"qid":"Q6","status":"claimed","session_id":"s_0501-121629-b2a4","summary":"taking Q6 (final partial result + session close)","ts":"2026-05-01T18:45:24+00:00"}
+{"qid":"Q6","status":"resolved","session_id":"s_0501-121629-b2a4","summary":"Section 6 written: explicit partial-result framing","ts":"2026-05-01T18:45:26+00:00"}

@@ -1,0 +1,8 @@
+{"event":"session_open","session_id":"s_0501-121629-b2a4","ts":"2026-05-01T18:16:29+00:00","commit":"c0ac4e9","proof_tag":"primitive_set_erdos","stashed_ref":null,"detected_orphan":null,"released_orphan_qids":[]}
+{"event":"round","session_id":"s_0501-121629-b2a4","ts":"2026-05-01T18:20:22+00:00","summary":"Q1 resolved: Section 1 Setup written","qid":"Q1","status":"keep_progress","commit":"f6e17ec"}
+{"event":"round","session_id":"s_0501-121629-b2a4","ts":"2026-05-01T18:22:40+00:00","summary":"Q2 resolved: numerical evidence F3 is asymptotic","qid":"Q2","status":"keep_progress","commit":"3ec406e"}
+{"event":"round","session_id":"s_0501-121629-b2a4","ts":"2026-05-01T18:23:36+00:00","summary":"Q3 resolved: prime tail decay numerical","qid":"Q3","status":"keep_progress","commit":"ee4055a"}
+{"event":"round","session_id":"s_0501-121629-b2a4","ts":"2026-05-01T18:41:33+00:00","summary":"Q4 resolved: witness search negative","qid":"Q4","status":"keep_progress","commit":"1b9e820"}
+{"event":"round","session_id":"s_0501-121629-b2a4","ts":"2026-05-01T18:43:52+00:00","summary":"Q5 resolved: stratification proof structure","qid":"Q5","status":"keep_progress","commit":"b18a333"}
+{"event":"round","session_id":"s_0501-121629-b2a4","ts":"2026-05-01T18:45:26+00:00","summary":"Q6 resolved: partial result hardened","qid":"Q6","status":"keep_progress","commit":"b4bafe1"}
+{"event":"session_close","session_id":"s_0501-121629-b2a4","ts":"2026-05-01T18:46:56+00:00","commit":"b4bafe1","reason":"reason: partial result reached on Q1-Q6; conjecture remains open with Lemma 3 as the gap; critics-off mode tested end-to-end"}
