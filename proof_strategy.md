@@ -407,6 +407,63 @@ The loop cannot close Lemma 3 with the techniques explored so far.
 
 (End of Section 5.)
 
+## Section 6 — Status and partial result
+
+**Conjecture status: open.** The loop has not produced an unconditional
+proof of $S(A) \le 1 + o(1)$ for primitive $A \subset [x, \infty)$,
+nor has it produced a verifier-accepted witness against the bound.
+The conjecture remains open after this attempt.
+
+**What was established.**
+
+- *(Sections 1–3, settled.)* The claim, the three given facts (F1, F2,
+  F3) with their sign disambiguations, the witness contract, and the
+  $o(1)$ caveat at finite $x$. Numerical evidence that F3 is
+  asymptotic in $k$ and that the prime tail
+  $S_\mathcal{P}(x, \infty) = O(1/\log x) \to 0$.
+- *(Section 4, settled negatively.)* No counterexample witness exists
+  among the natural primitive constructions tested at
+  $x_\star \in \{100, 10^3, 10^4\}$: $(x, 2x] \cap \mathbb{N}$,
+  primes in $[x, 10^7]$, and the smallest-first greedy primitive
+  sieve over $[x, 10^7]$. The largest sum observed was
+  $S \approx 0.324$ (greedy at $x = 100$, $N = 10^7$), rigorously
+  verified by `library.primitive_set_witness` to be
+  $0.31360479\ldots < 1$.
+- *(Section 5, partial.)* Decomposition $A = \bigsqcup_k A^{(k)}$ by
+  $\Omega$ reduces the conjecture to Lemma 3
+  (`cross_stratum_primitivity`). Lemmas 1 and 2 are reductions to
+  Landau and F3 respectively and are routinely closeable with more
+  bookkeeping; Lemma 3 we have not been able to rule out as the
+  cross-stratum case the canonical Erdős–Zhang weighting saturates at
+  $1.399$.
+
+**What was ruled out.**
+
+- The ChatGPT-style reading "F2 says $\sum > 1 + (\text{positive}) \Rightarrow$
+  conjecture fails" is a sign error (Section 1.2 + F3 sharpening in
+  Section 1.2 / 2).
+- $A_1 = \mathcal{P}$ as a witness — the prime tail decays.
+- Per-stratum-only argument as a proof technique — $\sum_k S(A_k)$
+  diverges; primitivity must be exploited cross-stratum.
+
+**Remaining gap.**
+
+Lemma 3 (`cross_stratum_primitivity`). The candidate plan in the
+lemma file is a stratum-aware weighting that converts F3's
+$-c k^2/2^k$ deficit into a global deficit; this is conjectural and
+has not been carried out. Closing Lemma 3 is equivalent to closing
+the conjecture, which is a famous open problem and likely requires a
+new technique beyond Erdős–Zhang's log-Mertens weighting.
+
+**Loop verdict.** Partial result. The kept records under
+`records/proof_primitive_set_erdos_*.json` from this branch document
+the Sections 1–4 settled material plus the structural reduction to
+Lemma 3. The unconditional bound on $S(A)$ remains $1.399 + o(1)$
+(F1); sharpening to $1 + o(1)$ remains for future work.
+
+(End of Section 6 — final.)
+
+
 
 
 
