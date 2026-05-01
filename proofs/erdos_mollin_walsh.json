@@ -1,0 +1,47 @@
+{
+  "name": "erdos_mollin_walsh",
+  "family": "powerful_triple",
+  "track": "proof",
+  "claim_status": "open",
+  "claim_latex": "There do not exist three consecutive positive integers $(n, n+1, n+2)$ all of which are powerful (a positive integer $m$ is powerful iff every prime $p \\mid m$ satisfies $p^2 \\mid m$).",
+  "given_facts": [
+    {
+      "id": "F1_emw_exhaustive_search",
+      "statement": "For all $n \\leq 10^{14}$, no triple $(n, n+1, n+2)$ has all three powerful.",
+      "sign_disambiguation": "POSITIVE existence claim about the *non-existence* of triples up to a finite bound. The bound is an UPPER bound on $n$ (the smallest possibly-powerful triple, if any exists, has $n > 10^{14}$). Treating this as a proof of the conjecture is a sign error: it only rules out small witnesses.",
+      "citation": "stated as F1 in the project prompt; matches Mollin–Walsh-style computational searches",
+      "warns": [
+        "F1 only rules out small $n$. A witness must have $n > 10^{14}$. Any chain that concludes 'EMW is proved' from F1 alone is BLOCKING."
+      ]
+    },
+    {
+      "id": "F2_abc_finiteness",
+      "statement": "Granville–Mollin–Walsh: the abc conjecture implies that the set of $n$ with $(n, n+1, n+2)$ all powerful is *finite*.",
+      "sign_disambiguation": "FINITENESS, not non-existence. Even under abc, finitely many counterexamples may exist. F2 does NOT imply EMW; it conditionally implies a quantitative version (an explicit upper bound on $n$).",
+      "citation": "Granville 2002 (consequence of abc); Mollin–Walsh 1986",
+      "warns": [
+        "Reading F2 as 'abc implies EMW' is a sign error: abc gives finiteness but not zero counterexamples."
+      ]
+    },
+    {
+      "id": "F3_emw_gap_analysis",
+      "statement": "If $(n, n+1, n+2)$ are all powerful with $n+1 = a^2 b$ ($b$ squarefree), then the gap structure forces $a, b$ to satisfy a Pell-type equation $X^2 - DY^2 = \\pm 1$ for $D$ depending on the squarefree parts of $n, n+1, n+2$. The number of solutions to such Pell equations is finite for each fixed $D$.",
+      "sign_disambiguation": "FINITELY MANY per Pell instance, but $D$ ranges over infinitely many squarefree triples. F3 does NOT imply finiteness of the union over all $D$. Concluding 'finitely many EMW triples' from F3 alone is a sign error.",
+      "citation": "Mollin–Walsh 1986; Erdős 1976 (informal)",
+      "warns": [
+        "F3 controls Pell solutions for fixed squarefree parts. The aggregate over varying $D$ is unbounded; F3 alone is not enough to close EMW."
+      ]
+    }
+  ],
+  "witness_type": "consecutive_powerful_triple",
+  "witness_threshold": 1.0,
+  "witness_verifier_module": "library.powerful_triple_witness",
+  "witness_schema": {
+    "n": "int >= 2 — the candidate smallest element; verifier checks n, n+1, n+2 are all powerful",
+    "claimed_smallest": "int (optional) — agent's claim for the smallest powerful triple; verifier recomputes"
+  },
+  "round_cap": 50,
+  "time_budget_s": 1800,
+  "writeup_models": ["opus"],
+  "note": "Erdős–Mollin–Walsh conjecture. Two-track problem: Track 1 search loop hunts for a witness $n$ via sieving; Track 2 proof loop attempts a proof under the F1+F2+F3 ledger. Witness is a single integer $n$ with $n, n+1, n+2$ all powerful — verifier factors all three by trial division up to sqrt(max), checks every prime factor has multiplicity >= 2. Score = the smallest such $n$ (chosen so larger witnesses don't strictly outrank smaller ones — a single witness suffices). Computer-verified up to ~10^14 via Heath-Brown / Mollin–Walsh; any witness has $n > 10^{14}$, so the verifier must accept arbitrary-precision integers."
+}

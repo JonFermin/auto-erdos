@@ -1,0 +1,48 @@
+{
+  "name": "erdos_primitive_set_basic",
+  "family": "primitive_set",
+  "track": "proof",
+  "claim_status": "open",
+  "claim_latex": "For every primitive set $A \\subseteq \\mathbb{N}$ (no $x$-floor restriction), $\\sum_{a \\in A} \\frac{1}{a \\log a} \\leq \\sum_{p \\text{ prime}} \\frac{1}{p \\log p}$, where the right-hand side is the all-primes sum $\\approx 1.6366$.",
+  "given_facts": [
+    {
+      "id": "F1_erdos_zhang_upper",
+      "statement": "For any primitive set $A \\subseteq \\mathbb{N}$, $\\sum_{a \\in A} \\frac{1}{a \\log a} < e^{\\gamma} \\frac{\\pi}{4} + o(1) \\approx 1.399 + o(1)$ as the minimum element of $A$ tends to infinity.",
+      "sign_disambiguation": "UPPER bound on the sum, STRICTLY LESS THAN, with $o(1) \\to 0$ as $\\min(A) \\to \\infty$. The constant $e^\\gamma \\pi / 4 \\approx 1.399$ is positive and below the conjectured ceiling $\\sum_p 1/(p \\log p) \\approx 1.6366$. F1 is therefore CONSISTENT WITH the conjecture (and weaker, since 1.399 < 1.6366). Note that for finite $\\min(A)$ — e.g. the all-primes set with $\\min(A) = 2$ — the $o(1)$ term is non-trivial and the all-primes sum $\\approx 1.6366$ does not contradict F1.",
+      "citation": "Erdős 1935; Zhang 1993",
+      "warns": [
+        "F1 has $o(1) \\to 0$ only as $\\min(A) \\to \\infty$. The all-primes sum $\\sum_p 1/(p \\log p) \\approx 1.6366$ uses $\\min(A) = 2$, so F1 does not bound it by 1.399 + 0. Reading F1 as giving $1.399$ unconditionally is a sign error."
+      ]
+    },
+    {
+      "id": "F2_omega_k_lower_unsigned",
+      "statement": "If $A_k = \\{n \\in \\mathbb{N} : \\Omega(n) = k\\}$ (integers with exactly $k$ prime factors counted with multiplicity), then $\\sum_{a \\in A_k} \\frac{1}{a \\log a} \\geq 1 + O(k^{-1/2 + o(1)})$.",
+      "sign_disambiguation": "The big-O term $O(k^{-1/2 + o(1)})$ is UNSIGNED — it could be positive or negative. The inequality reads: the sum is at least $1$ minus some quantity bounded in absolute value by $k^{-1/2+o(1)}$, NOT $1$ plus a positive quantity. Concluding $\\text{sum} > 1$ from this fact is a SIGN ERROR. Note that $1 < \\sum_p 1/(p \\log p) \\approx 1.6366$, so even $S_k > 1$ would not refute the basic conjecture by itself — it must EXCEED 1.6366 to refute.",
+      "citation": "shared with seed problem primitive_set_erdos",
+      "warns": [
+        "F2's unsigned-O is the canonical sign-confusion failure mode. Any chain that concludes 'sum > 1' or 'sum > 1.6366' from F2 alone, without an additional positivity argument for the big-O term, MUST be flagged BLOCKING."
+      ]
+    },
+    {
+      "id": "F3_omega_k_exact_below_one",
+      "statement": "For $A_k = \\{n \\in \\mathbb{N} : \\Omega(n) = k\\}$, $\\sum_{a \\in A_k} \\frac{1}{a \\log a} = 1 - (c + o(1)) \\frac{k^2}{2^k}$ where $c \\approx 0.0656$.",
+      "sign_disambiguation": "The leading correction is $-(c+o(1)) k^2 / 2^k$ with $c > 0$, so the stratum sum is STRICTLY LESS THAN 1 for $k$ large, approaching 1 from BELOW. Since $1 < 1.6366$, F3 confirms each $A_k$ stratum is not a counterexample to the BASIC conjecture either. Reading F3 as 'sum approaches from above' is the `f3-from-above-misread` BLOCKING failure mode.",
+      "citation": "shared with seed problem primitive_set_erdos",
+      "warns": [
+        "F3 directly contradicts any claim that A_k is a counterexample. F3 is consistent with F2 once F2's unsigned-O is read correctly."
+      ]
+    }
+  ],
+  "witness_type": "primitive_set_with_threshold_sum",
+  "witness_threshold": 1.637,
+  "witness_verifier_module": "library.primitive_set_witness",
+  "witness_schema": {
+    "x_floor": "int >= 2 — every element of `elements` must be >= x_floor",
+    "elements": "list[int], pairwise non-divisible, each >= x_floor",
+    "claimed_sum_lower_bound": "float — agent's own claim of a lower bound on sum 1/(a log a); the verifier recomputes it rigorously"
+  },
+  "round_cap": 50,
+  "time_budget_s": 1800,
+  "writeup_models": ["opus"],
+  "note": "Erdős's primitive-set conjecture in its BASIC form (the original 1935 form): the all-primes sum is the maximum over primitive sets. Sister problem to primitive_set_erdos, which conjectures the much tighter bound 1 + o(1) at $x \\to \\infty$. The basic form has more headroom (1.6366 vs 1.0) and is plausibly more tractable. Witness threshold is 1.637, a tight rigorous upper bound on $\\sum_p 1/(p \\log p) \\approx 1.6366$ (so any witness exceeding 1.637 is guaranteed to exceed the true conjectured ceiling). The verifier is reused verbatim from primitive_set_erdos (`library.primitive_set_witness`); the sign-disambiguation discipline of F1/F2/F3 is identical, with the basic-form ceiling 1.6366 substituted for the tightened 1.0. Track 1 search loop also fits — hunt for primitive A with sum > 1.637."
+}

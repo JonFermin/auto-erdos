@@ -1,0 +1,49 @@
+{
+  "name": "erdos_szemeredi_sum_product",
+  "family": "sum_product",
+  "track": "proof",
+  "claim_status": "open",
+  "claim_latex": "Erdős–Szemerédi sum-product conjecture: for every $\\varepsilon > 0$ there is a constant $c_\\varepsilon > 0$ such that for every finite $A \\subset \\mathbb{Z}_{>0}$ with $|A| \\geq 2$, $\\max(|A + A|, |A \\cdot A|) \\geq c_\\varepsilon |A|^{2 - \\varepsilon}$. Operationally, this verifier checks the strictly-stronger combined form: $|A + A| + |A \\cdot A| \\geq |A|^{2 - \\varepsilon}$ for the value of $\\varepsilon$ in the witness payload (default $\\varepsilon = 2/3$, Solymosi regime).",
+  "given_facts": [
+    {
+      "id": "F1_solymosi_2009",
+      "statement": "Solymosi (2009): for every finite $A \\subset \\mathbb{R}_{>0}$ with $|A| \\geq 2$, $\\max(|A+A|, |A \\cdot A|) \\gg \\frac{|A|^{4/3}}{(\\log |A|)^{1/3}}$ unconditionally.",
+      "sign_disambiguation": "LOWER bound on $\\max(|A+A|, |A \\cdot A|)$. The exponent $4/3$ corresponds to $\\varepsilon = 2/3$ (modulo the $\\log^{1/3}$ factor, which only weakens the bound by a logarithmic factor for finite $A$). Reading F1 as an UPPER bound on the max is a sign error. F1 is unconditional; F2 sharpens it.",
+      "citation": "Solymosi 2009 (Adv. Math.)",
+      "warns": [
+        "F1 establishes the 4/3 bound. A witness violating $\\varepsilon = 2/3$ at any specific $|A|$ would refute F1, which is a published theorem — so a 'witness' here is actually a check that proposed proofs do not contradict F1."
+      ]
+    },
+    {
+      "id": "F2_konyagin_shkredov_rudnev_stevens",
+      "statement": "Konyagin–Shkredov / Rudnev–Stevens refinement (2020): for every finite $A \\subset \\mathbb{R}_{>0}$ with $|A| \\geq 2$, $\\max(|A+A|, |A \\cdot A|) \\geq c |A|^{4/3 + 2/1167 - o(1)}$ for an explicit absolute constant $c > 0$.",
+      "sign_disambiguation": "LOWER bound, sharper than F1 by an exponent of $2/1167 \\approx 0.0017$. This is the strongest known unconditional bound; beating it (i.e. proving a sharper exponent) would be a research-frontier result. Reading the exponent as an upper bound or treating $2/1167$ as negligible (and rounding the exponent down to $4/3$) loses the refinement — flag as a sign-attentiveness lapse.",
+      "citation": "Rudnev–Stevens 2020 (also Konyagin–Shkredov 2017)",
+      "warns": [
+        "F2 says the exponent is at least $4/3 + 2/1167$, not just $4/3$. A proof attempt that targets exponent $\\geq 4/3 + 2/1167$ matches the literature; targeting strictly more (e.g. $\\geq 4/3 + 1/100$) is open and a meaningful partial result."
+      ]
+    },
+    {
+      "id": "F3_erdos_szemeredi_original",
+      "statement": "Erdős–Szemerédi 1983 (original conjecture): for every $\\varepsilon > 0$ there exists $c_\\varepsilon > 0$ such that $\\max(|A+A|, |A \\cdot A|) \\geq c_\\varepsilon |A|^{2 - \\varepsilon}$ for all finite $A \\subset \\mathbb{Z}_{>0}$.",
+      "sign_disambiguation": "ASYMPTOTIC quantifier-over-$\\varepsilon$. The conjecture states that the exponent can be pushed arbitrarily close to $2$, but it is only a quantifier-over-$\\varepsilon$ statement: for each $\\varepsilon > 0$ separately. Concluding that $\\max \\geq |A|^{2}$ unconditionally (the $\\varepsilon = 0$ case) is a sign error — the conjecture does NOT assert this; only the limit $\\varepsilon \\to 0^+$ approaches it.",
+      "citation": "Erdős–Szemerédi 1983 (Studies in Pure Math.)",
+      "warns": [
+        "F3 is the open conjecture itself; F1 and F2 are the strongest unconditional partial results. A witness against F3 at some specific $\\varepsilon$ would refute F3 for that $\\varepsilon$, but witnesses for $\\varepsilon < 1 - 4/3 \\cdot |A|^{-c}$ (i.e. inside F2's proven regime) would also refute F2 and are therefore implausible without a coding bug."
+      ]
+    }
+  ],
+  "witness_type": "finite_set_with_eps",
+  "witness_threshold": 0.0,
+  "default_eps": 0.6666666666666666,
+  "witness_verifier_module": "library.sum_product_witness",
+  "witness_schema": {
+    "elements": "list[int], distinct positive integers, |A| in [2, 5000]",
+    "eps": "float in (0, 1) — the targeted exponent gap; default 2/3 (Solymosi regime). The verifier checks |A+A|+|A*A| < |A|^(2-eps) strictly.",
+    "claimed_combined_cardinality": "int (optional) — agent's claim of |A+A|+|A*A|; verifier recomputes."
+  },
+  "round_cap": 50,
+  "time_budget_s": 1800,
+  "writeup_models": ["opus"],
+  "note": "Erdős–Szemerédi sum-product conjecture (1983). Witness contract: a finite distinct-positive-integer set $A$ together with a parameter $\\varepsilon \\in (0,1)$ such that $|A+A| + |A \\cdot A| < |A|^{2-\\varepsilon}$. The verifier computes both sumset and productset cardinalities (O(|A|^2) work, capped at |A| <= 5000) and checks the strict inequality against the ceiling of the real-valued threshold. The default $\\varepsilon = 2/3$ corresponds to the Solymosi $4/3$-bound regime — beating it for a finite witness would refute Solymosi/Rudnev–Stevens and almost certainly indicate a coding error. The genuinely-open case is $\\varepsilon$ slightly larger than $1 - (4/3 + 2/1167)/2 = 1/3 - 1/1167$, where current literature is unable to derive the bound. Track 1 search loop also fits — hunt for sets with anomalously small combined sumset+productset, e.g. variants of the Erdős–Szemerédi multiplicative-additive interpolation. The witness_threshold field is set to 0 because the actual threshold is computed dynamically from |A| and eps inside the verifier; the keep rule fires on is_valid alone."
+}
