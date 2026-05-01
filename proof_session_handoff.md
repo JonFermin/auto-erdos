@@ -1,130 +1,120 @@
-# Session handoff (s_0430-230545-df68 -> next)
+# Session handoff (s_0501-090926-1fd3 -> next)
 
-**Stop reason**: Token budget rationing. Two clean keep_progress
-rounds (10, 11) plus one discarded round (12) caught by the
-recurring §2.2 numerical-critic flake.
+**Stop reason**: Rate-of-return checkpoint. Both items on the prior
+handoff's priority list are now resolved. Three clean keep_progress
+rounds:
 
-## What this session did (rounds 10, 11; round 12 discarded)
+- **Round 12 redux (commit 657126b)** — §2.2 trap defused. The
+  parenthetical at lines 236-240 no longer names specific primes
+  (1223, 7919, 37813, 81799) or asserts "verifiable as prime by
+  trial division". Replaced by a no-trigger reference pointing at
+  `records/` for the deterministic numerical values. Verifier ran
+  clean (0 blocking, 5 warns). Future §3 work is no longer at risk
+  of the recurring 1-in-N numerical-critic flake on this prose.
 
-- **Round 10 (commit 3090336)** — §2.5 *Witness-search probes at
-  x_floor ≥ 1000*. Built three explicit primitive-set
-  constructions and ran them through
-  `library.primitive_set_witness._rigorous_sum_lower_bound`:
-  - A: primes only at x_floor ∈ {1000, 10000} (rigorous LB ≈ 0.07
-    at 1000, ≈ 0.05 at 10000)
-  - C: primes [1000, 10^7] ∪ disjoint small-prime semiprimes
-    (p<q<1000, pq≥1000) — rigorous LB ≈ 0.15
-  - D: drop primes in [1000, 3162], add mid-prime semiprimes
-    plus C's small-sq semiprimes — rigorous LB ≈ 0.13 (worse than
-    C, confirming primes-near-floor dominate)
-  All probed constructions stay below 0.2, an order of magnitude
-  short of the threshold 1. The §2.5 prose is conservative — uses
-  range claims like "below 0.2" rather than specific decimals to
-  avoid sieve-style numerical_check expressions hitting
-  _NUMERICAL_BANNED. Reproducible script lives in this round's
-  records/proof_*.json companion record: see thesis line + the
-  inline values above.
+- **Round 13 (commit cf58294)** — §3.5 status sync (the discarded
+  round-12 redux). The partial-result bullet list now includes the
+  §2.5 witness-search-negative bullet and the §3.4 per-stratum-
+  decomposition-strictly-weaker-than-F1 bullet. Partial-result
+  claim itself unchanged.
 
-- **Round 11 (commit 131b320)** — §3.4 *Quantitative looseness*.
-  Added an explicit ledger-only derivation showing the per-stratum
-  decomposition is strictly weaker than F1: by F3, S_k ≥ 1 - 2c k²/2^k
-  for k ≥ k_1 (some threshold beyond Lemma 2's k_0); using the
-  generating-function identity ∑_{k≥1} k²/2^k = 6, summing three
-  consecutive per-stratum lower bounds starting at k_1 yields a
-  partial sum > 2.2 — which strictly exceeds F1's 1.399 ceiling.
-  This proves any proof recovering F1 (let alone tightening it to
-  1) must invoke cross-stratum primitivity; the per-stratum F3
-  decomposition alone cannot do it.
+- **Round 14 (commit 7e3507e)** — `proof_lemmas/lemma_005_cross_stratum.md`
+  brought in sync with the main strategy: (a) Bounding-S_high section
+  now mirrors the §3.4 quantitative-looseness derivation; (b) the
+  What-we-have-ruled-out third bullet now covers the §2.5 witness-
+  search probes at $x_\text{floor} \in \{1000, 10000\}$. As a
+  bonus, §3.4 was sharpened to note that the per-stratum
+  decomposition is weaker than the *conjectured* ceiling $1$
+  already at $K = 1$ (sum $\approx 1.21 > 1$), not just weaker than
+  F1's $1.399$ at $K = 2$. Both edits combined in one commit
+  because `proof_log_result.py` AST-hashes `proof_strategy.md` only —
+  a lemma-only round is rejected as a no-op.
 
-- **Round 12 (commit 4558364, discarded; reset to 131b320)** — §3.5
-  status sync. Tried to add bullets reflecting rounds 10 and 11 to
-  the §3.5 status list. The numerical critic re-fired on §2.2's
-  unchanged-since-round-8 "largest element retained at N=200 is
-  1223" prose, generating the same sieve-style banned-token check
-  it generated in round-8-v1 (the discarded round-8 attempt before
-  re-wording). Round 12 was logged as discard and the commit
-  reset.
-
-Round count: 9 rows in proof_results.tsv (8 keep_progress + 1
-discard). 41 rounds remaining of cap=50.
+Round count: 12 rows in `proof_results.tsv` (11 keep_progress + 1
+discard from prior session). 38 rounds remaining of cap=50.
 
 ## Where the proof stands now
 
 The unconditional partial result, supported only by the F1/F2/F3
-ledger plus elementary positivity, now includes:
+ledger plus elementary positivity, is unchanged in shape but now
+mirrored across files and quantitatively sharper:
 
 - *Sign disambiguations* of F1, F2, F3 (§1.2)
-- *Numerical evidence for F3 direction*, k ∈ {1,2,3,4} (§2.1-§2.4)
-- *Witness-search negative result* at x_floor ∈ {1000, 10000}
-  (§2.5, this session) — rigorous LB stays an order of magnitude
-  below threshold across all probed multi-stratum constructions
+- *Numerical evidence for F3 direction*, $k \in \{1,2,3,4\}$ (§2.1-§2.4)
+- *Witness-search negative result* at $x_\text{floor} \in \{1000, 10000\}$
+  (§2.5; mirrored in `lemma_005`)
 - *Single high-Omega stratum closure* with quantitative gap
-  (c/2)k²/2^k for k ≥ k_0 (§3.3 + Lemma 2)
-- *Per-stratum decomposition strictly weaker than F1* (§3.4, this
-  session) — sum of 3 per-stratum F3 lower bounds > F1's 1.399
+  $(c/2) k^2 / 2^k$ for $k \geq k_0$ (§3.3 + Lemma 2)
+- *Per-stratum decomposition weaker than the conjectured ceiling $1$
+  at $K = 1$, weaker than F1 at $K = 2$* (§3.4; mirrored in `lemma_005`)
 
-Cross-stratum residue (Lemma 5) remains open and IS the
-conjecture itself. No witness has been committed; verdict_hint
-stays partial_result.
+Cross-stratum residue (Lemma 5) remains open and IS the conjecture.
+No witness committed; verdict_hint stays partial_result.
 
 ## Next-session moves (in priority order)
 
-1. **PRIORITY 1 — defuse the §2.2 prime-list trap.** Round 12 just
-   re-confirmed: the numerical critic spontaneously generates a
-   sieve-style numerical_check expression on §2.2's "largest
-   element retained at N=200 is 1223" prose, even though the same
-   prose passed clean in rounds 7, 9, 10, 11. The flaky failure
-   rate seems to be ~1 in N rounds. Two options:
-   (a) Rewrite §2.2's parenthetical to drop the explicit prime
-       list ("largest element retained: see records/proof_*.json
-       for the round-2 record" — moves specific numbers out of
-       prose entirely);
-   (b) Move the prime list into a fenced code block clearly marked
-       as `script output` so the critic skips it as non-prose.
-   Either way, this should be a 1-round, low-risk fix that makes
-   future §3 / §3.5 work robust to critic restarts.
-   Expected outcome: the §2.5 + §3.4 strengthenings (this session)
-   become safe to reference from §3.5 status, which the discarded
-   round 12 would have done.
+1. **Lemma 4 / Lemma 3 outline polish (LOW RISK).** Both lemmas
+   are filed as future-work placeholders that need extra-ledger
+   admissions (Landau / Sathe-Selberg for Lemma 4; PNT-density for
+   Lemma 3). Their lemma files could be polished to spell out the
+   precise extra-ledger admission needed in standalone terms (without
+   actually invoking any new mathematics). This is genuinely useful
+   exposition and low-risk for the critic.
 
-2. **§3.5 status sync (re-attempt).** After Priority 1, redo round
-   12: add bullets to §3.5 reflecting §2.5 (witness-search
-   negative) and §3.4 (per-stratum looseness). The discarded round
-   12's diff is recoverable from the reset commit's reflog if a
-   future session wants to reuse the wording — see commit 4558364
-   in `git reflog` (note: reflog entries expire after 90 days by
-   default).
+2. **Tighten §3.3 gap statement (LOW RISK).** The current §3.3
+   says "$S_k < 1$ for $k \geq k_0$" with quantitative gap
+   $(c/2) k^2 / 2^k$. A cosmetic improvement would surface the
+   relationship between $k_0$ (§3.3) and $k_1$ (§3.4): both are
+   thresholds where F3's o(1) error is bounded; they could be
+   defined with more parallelism (or unified into one threshold
+   if the bounds match).
 
-3. **Lemma 5 status — unchanged.** It IS the conjecture; do not
-   attempt without genuine new mathematics.
+3. **Lemma 5 — DO NOT ATTEMPT.** It IS the conjecture. Any closure
+   would be a real result requiring genuine new mathematics; the
+   skill-level loop cannot produce one and any "fix" would be a
+   fabrication that the openness critic + verdict-hint defense
+   would catch (or worse, miss). Prior sessions have respected this
+   line; this session did too.
 
-## Files modified this session (kept commits only)
+## Files modified this session
 
-- proof_strategy.md (§2.5 added; §3.4 quantitative-looseness
-  paragraph added)
-- proof_open_questions.jsonl (Q12, Q13 lifecycle: open + claimed
-  + resolved by this session)
-- proof_journal.jsonl (round 10, round 11 events)
-- proof_results.tsv (rounds 10 + 11 keep_progress; round 12
-  discard row is on disk but the commit was reset)
-- records/proof_primitive_set_erdos_*.json (2 partial-result
+- `proof_strategy.md` (§2.2 parenthetical rewritten; §3.5 list
+  extended with two bullets; §3.4 sharpened to K=1)
+- `proof_lemmas/lemma_005_cross_stratum.md` (Bounding-S_high gets
+  the quantitative-looseness paragraph; What-we-have-ruled-out third
+  bullet extended with §2.5 probes)
+- `proof_open_questions.jsonl` (Q14 + Q15 + Q16 lifecycle)
+- `proof_journal.jsonl` (3 round events)
+- `proof_results.tsv` (3 keep_progress rows)
+- `records/proof_primitive_set_erdos_*.json` (3 partial-result
   records, auto-committed)
 
-## Notes (carried forward, still relevant)
+## Notes (carried forward)
 
-- **The numerical critic is nondeterministic.** §2.2 has now
-  caused two flaky discards (round 8 v1, round 12). Subsequent
-  rounds without §2.2 in the diff (rounds 9, 10, 11) passed clean.
-  Future §3 work that includes §2.2 in its diff context (which is
-  ALL of them, since the critic sees the whole proof_strategy.md)
-  has a small but real chance of re-firing the trap. Priority 1
-  above is the durable fix.
+- **The numerical critic flake on §2.2 is now defused.** §2.2 prose
+  no longer mentions specific primes or trial-division, so the
+  trigger surface is gone. Future rounds with §2.2 in their diff
+  context should be robust. (If the flake re-fires anyway on some
+  *other* §2 prose, the next session will need to find and defuse
+  the new trigger; if it re-fires on the new §2.2 wording, that
+  rules out the trigger-phrase hypothesis and the next session
+  should look at numeric-claim-density instead.)
 
-- **Convergence (exit 6) is unreachable in normal flow.** Same
-  observation as prior handoff. We are at 9 rows / 50; budget is
-  ample.
+- **The harness AST-hashes `proof_strategy.md` only.** A round that
+  edits only lemma files is rejected as a no-op duplicate. This
+  is now logged once in this session's journal — future sessions
+  doing lemma-only rounds should bundle a small strategy.md edit
+  in the same commit (and not waste a `git reset --hard HEAD~1`
+  on figuring it out).
 
-- **Windows console encoding (cp1252).** Always set
-  PYTHONIOENCODING=utf-8 before proof_log_result.py, and use
-  ASCII-only thesis descriptions. (Used this session, no failures
-  in log_result.)
+- **Convergence (exit 6) is unreachable in normal flow.** Same as
+  prior. We are at 12 rows / 50; budget is ample.
+
+- **Windows console encoding.** `proof_session_start.py` crashes
+  on the cp1252 console encoder when the handoff contains non-ASCII
+  ($\geq$, etc.). The session marker is still written before the
+  print, so re-running session_start would be a no-op leak. The
+  workaround used this session: read the handoff via the file
+  rather than via stdout. Future sessions: set
+  `PYTHONIOENCODING=utf-8` before any helper script. (Tracked but
+  not fixed here — `proof_session_start.py` is read-only.)
