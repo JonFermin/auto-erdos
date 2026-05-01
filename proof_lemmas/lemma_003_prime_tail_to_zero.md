@@ -1,10 +1,17 @@
 ---
 id: lemma_003_prime_tail_to_zero
-status: proved
+status: conditional
 depends_on: []
 discharged_by_round: 5
 introduced_at_round: 5
 ---
+
+> **Conditional.** This lemma admits the prime-counting estimate
+> $\pi(t) \sim t / \log t$ (the Prime Number Theorem) as an
+> extra-ledger fact. The F1/F2/F3 ledger does not include PNT, so
+> this lemma is not unconditional under the project's ledger
+> discipline; it is a *conditional* result, and §3.3 of the main
+> writeup uses it only to derive a *conditional* partial result.
 
 # Lemma 3 — The prime tail $\sum_{p \geq x} 1/(p \log p) \to 0$
 

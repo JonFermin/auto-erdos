@@ -1,10 +1,17 @@
 ---
 id: lemma_004_bounded_omega_tail
-status: open
+status: conditional
 depends_on: [lemma_001_omega_k_is_primitive, lemma_002_stratum_truncation, lemma_003_prime_tail_to_zero]
 discharged_by_round: null
 introduced_at_round: 5
 ---
+
+> **Conditional.** The proof sketch below admits Landau's
+> density estimate $|A_k \cap [2, t]| \sim t (\log\log t)^{k-1} /
+> ((k-1)! \log t)$ — sharpened by Sathe–Selberg — as an
+> extra-ledger fact. As with Lemma 3, this lemma is not unconditional
+> under the F1/F2/F3 ledger; the main writeup invokes it only inside
+> a clearly-flagged conditional subsection.
 
 # Lemma 4 — Tail of bounded-$\Omega$ stratum sums
 
