@@ -1,0 +1,14 @@
+[
+  {
+    "flag": "WARN",
+    "line_ref": 27,
+    "evidence": "the Sathe-Selberg theorem provides asymptotic expansions for the count of integers with k prime factors",
+    "suggestion": "Sathe-Selberg theorem is not in the given_facts ledger; either add it or derive the needed estimate from F2/F3."
+  },
+  {
+    "flag": "WARN",
+    "line_ref": 13,
+    "evidence": "f(P) = sum 1/(p log p) approx 1.6366",
+    "suggestion": "This numerical estimate over the primes is not in the ledger; see also F1 which gives an upper bound 1.399 over ANY primitive set, including the primes."
+  }
+]

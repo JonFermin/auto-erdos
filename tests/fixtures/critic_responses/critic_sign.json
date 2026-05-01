@@ -1,0 +1,20 @@
+[
+  {
+    "flag": "BLOCKING",
+    "line_ref": 31,
+    "evidence": "unsigned-O-sign-confusion",
+    "suggestion": "F2's big-O is unsigned; cannot conclude sum > 1 from F2 alone without a positivity argument."
+  },
+  {
+    "flag": "BLOCKING",
+    "line_ref": 25,
+    "evidence": "for k in the range near log log x, the sum exceeds 1",
+    "suggestion": "This claim contradicts F3 which gives sum = 1 - (c+o(1)) k^2/2^k < 1 for every k. Reverse the direction or remove the claim."
+  },
+  {
+    "flag": "BLOCKING",
+    "line_ref": 34,
+    "evidence": "f3-from-above-misread",
+    "suggestion": "F3 has a leading correction -(c+o(1)) k^2/2^k with c > 0, meaning A_k sums approach 1 from BELOW. Treating this as approaching from above is a sign error."
+  }
+]

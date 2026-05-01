@@ -3,6 +3,15 @@ results.tsv
 run.log
 verifier_results.tsv
 
+# Track 2 (proof loop) per-branch state — same gitignore rationale as Track 1.
+# proof_journal.jsonl, proof_open_questions.jsonl, proof_critic_log.jsonl,
+# proof_session_handoff.md, proof_strategy.md, proof_lemmas/ ARE tracked
+# (they carry forward across sessions and form the audit trail). Only
+# transient scratch / per-branch results are excluded:
+proof_results.tsv
+proof_verifier_results.tsv
+.proof_session_active
+
 # Per-session scratch
 CLAUDE.md.local
 *.local.md

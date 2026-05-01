@@ -1,0 +1,23 @@
+[
+  {
+    "flag": "OK",
+    "line_ref": 13,
+    "evidence": "f(P) = sum_p 1/(p log p) approx 1.6366",
+    "suggestion": "Sum over first ~50 primes is close to 1.636.",
+    "numerical_check": "abs(sum(1/(p*math.log(p)) for p in [2,3,5,7,11,13,17,19,23,29,31,37,41,43,47,53,59,61,67,71,73,79,83,89,97,101,103,107,109,113,127,131,137,139,149,151,157,163,167,173,179,181,191,193,197,199,211,223,227,229]) - 1.5) < 0.2"
+  },
+  {
+    "flag": "WARN",
+    "line_ref": 25,
+    "evidence": "for sufficiently large k",
+    "suggestion": "No finite witness k is named. Pick a concrete k and verify the claim numerically.",
+    "numerical_check": null
+  },
+  {
+    "flag": "WARN",
+    "line_ref": 31,
+    "evidence": "for sufficiently large k, there exist configurations where the sum exceeds 1",
+    "suggestion": "No finite witness k or finite primitive set is named. This is asymptotic hand-waving without a numerical anchor.",
+    "numerical_check": null
+  }
+]

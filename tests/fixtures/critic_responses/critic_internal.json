@@ -1,0 +1,20 @@
+[
+  {
+    "flag": "BLOCKING",
+    "line_ref": 33,
+    "evidence": "section quotes 'sum = 1 - (c+o(1)) k^2/2^k' and immediately claims 'for sufficiently large k, there exist configurations where the sum exceeds 1'",
+    "suggestion": "These two claims are directly contradictory. The leading correction -(c+o(1)) k^2/2^k makes the sum strictly less than 1 for every finite k, so it cannot exceed 1 by the same identity."
+  },
+  {
+    "flag": "BLOCKING",
+    "line_ref": 37,
+    "evidence": "directly contradicts the requirement that the sum must be strictly less than 1+o(1)",
+    "suggestion": "The cited inequality '>= 1 + O(k^{-1/2+o(1)})' with unsigned big-O does NOT contradict the conjecture; this implication is unjustified. See critic_sign for the canonical sign error."
+  },
+  {
+    "flag": "WARN",
+    "line_ref": 39,
+    "evidence": "f(A) is significantly greater than 1 or approaches 1 from above",
+    "suggestion": "Two distinct claims joined by 'or'; neither is justified by the cited facts. Tighten the language or drop."
+  }
+]

@@ -1,0 +1,14 @@
+[
+  {
+    "flag": "BLOCKING",
+    "line_ref": 11,
+    "evidence": "open-claim-asserted-resolved-without-witness",
+    "suggestion": "The claim_status is 'open' and no verified WITNESS block exists. Rephrase as 'we explore evidence relevant to the conjecture' or supply a finite primitive set with rigorously verified sum > 1."
+  },
+  {
+    "flag": "BLOCKING",
+    "line_ref": 39,
+    "evidence": "the statement that f(A) < 1 + o(1) for all A in [x, infty) is false",
+    "suggestion": "Same canonical trap: open conjecture asserted resolved without a witness. Hedge to 'this remains open' or supply a verified counterexample."
+  }
+]
