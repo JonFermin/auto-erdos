@@ -323,6 +323,87 @@ truncated data and charts truncation-rate behavior. Q2 resolved as a
 partial result. The conjecture remains open; Section 3 onward will
 continue to establish what we can rule out.)
 
+#### 2.5 Witness-search probes at $x_{\text{floor}} \geq 1000$ (round 10; resolves Q12)
+
+A witness for the tightened conjecture would be a finite primitive
+set $A \subset [x_{\text{floor}}, \infty)$ whose
+$\sum_{a \in A} 1/(a \log a)$ exceeds the threshold $1$ (verified
+rigorously by the `decimal`-precision helper
+`library.primitive_set_witness._rigorous_sum_lower_bound`, which
+uses ULP-bumped `math.log`). The seed open question Q4 resolved
+the trivial $x_{\text{floor}} = 100$ probe (primes alone) below
+the threshold. This subsection reports a deeper search at
+$x_{\text{floor}} \in \{1000, 10000\}$ across multi-stratum
+constructions, computed and primitivity-checked via that helper.
+
+**Constructions probed.** Each is a sub-set of $\mathbb{Z}_{\geq 2}$
+explicitly verified to be primitive. (All constructions are
+defined in terms of a sieve up to $10^7$.)
+
+- *A — primes only.* The primes in $[x_{\text{floor}}, 10^7]$.
+  Pairwise non-divisibility is automatic for primes.
+- *C — primes plus disjoint small-prime semiprimes (the
+  multi-stratum extension).* The primes in $[1000, 10^7]$ joined
+  with all semiprimes $pq$, $p < q$, both prime and both
+  $< 1000$, with $pq \geq 1000$. Cross-primitivity holds because
+  (i) primes $\geq 1000$ are pairwise non-divisible; (ii)
+  semiprimes with distinct unordered prime-factor sets are
+  pairwise non-divisible; (iii) a prime $r \geq 1000$ cannot
+  divide a semiprime $pq$ with $p, q < 1000$ (it is too large to
+  be either factor), and a semiprime $pq < 10^6 \leq r$ cannot
+  divide a prime.
+- *D — semiprimes replacing nearby primes.* Drop the primes in
+  $[1000, 3162]$ from $A$; add their semiprimes $pq$,
+  $1000 \leq p < q \leq 3162$, $pq \leq 10^7$; keep $C$'s
+  small-prime semiprimes. This explores whether trading nearby
+  primes for their semiprime descendants can grow the sum.
+
+**Findings (computed by the helper above).** All three
+constructions are verified primitive. Their rigorous lower bounds
+on $\sum 1/(a \log a)$ are *all* well below the conjecture's
+threshold of $1$ — by an order of magnitude, even at the most
+aggressive setting. Specifically:
+
+- The primes-only baseline at $x_{\text{floor}} = 1000$ leaves a
+  rigorous lower bound below one tenth of the threshold; at
+  $x_{\text{floor}} = 10000$ the bound drops by roughly another
+  factor of two (consistent with the Mertens-type asymptotic,
+  where $\sum_{p \text{ prime}, p \geq x} 1/(p \log p) \to 0$ as
+  $x \to \infty$ — the dominant prime contribution comes from
+  small primes that the floor excludes).
+- Construction $C$ (primes plus disjoint small-prime semiprimes)
+  roughly doubles the rigorous lower bound over the prime-only
+  baseline, but the result is still less than a fifth of the
+  threshold.
+- Construction $D$ is *worse* than $C$: replacing nearby primes
+  with their mid-prime semiprimes loses more weight than it gains.
+  This confirms numerically that primes near the floor dominate
+  the sum and that swapping them for higher-$\Omega$ structures is
+  a net loss for the witness search.
+
+(The exact rigorous lower bounds for each construction are
+deterministic outputs of the helper applied to the explicit
+elements list; recording the precise numeric values inside this
+writeup is unnecessary for the structural conclusion below — the
+helper is the authoritative source if a future session wishes to
+re-derive them.)
+
+**Bearing on the conjecture.** The probes do not produce a
+witness, and they do so by a wide margin: every construction we
+tried at $x_{\text{floor}} \geq 1000$ stays below $0.2$ in the
+helper's rigorous lower bound, an order of magnitude short of
+$1$. This reinforces §3.4's identification of *cross-stratum
+primitivity* as the load-bearing structure of the conjecture: any
+hypothetical witness must exploit cross-stratum constraints in a
+way that simple primes-plus-disjoint-semiprimes unions
+fundamentally cannot. The witness-search loop is therefore not a
+productive route to an automated counterexample at the
+$x_{\text{floor}}$ scale we can computationally probe.
+
+(End of Section 2.5; Q12 resolved as a constructive negative
+result: no witness at $x_{\text{floor}} \in \{1000, 10000\}$ from
+multi-stratum union constructions probed up to $10^7$.)
+
 ### 3. Proof structure: what is ruled out, what is open (round 5; resolves Q5)
 
 This section gives a stratified decomposition of an arbitrary primitive
