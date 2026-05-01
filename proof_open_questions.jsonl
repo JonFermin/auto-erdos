@@ -8,3 +8,5 @@
 {"qid":"Q1","status":"claimed","session_id":"s_0501-121629-b2a4","summary":"taking Q1 (Section 1 Setup writeup)","ts":"2026-05-01T18:17:49+00:00"}
 {"qid":"Q1","status":"resolved","session_id":"s_0501-121629-b2a4","summary":"Section 1 written: claim/F1/F2/F3/witness/o(1) caveat/what-to-prove","ts":"2026-05-01T18:20:22+00:00"}
 {"qid":"Q2","status":"claimed","session_id":"s_0501-121629-b2a4","summary":"taking Q2 (numerical F3 evidence)","ts":"2026-05-01T18:21:53+00:00"}
+{"qid":"Q2","status":"resolved","session_id":"s_0501-121629-b2a4","summary":"Section 2 written: F3 asymptotic, A_1 unrestricted exceeds 1, truncation rescues conjecture","ts":"2026-05-01T18:22:40+00:00"}
+{"qid":"Q3","status":"claimed","session_id":"s_0501-121629-b2a4","summary":"taking Q3 (truncated prime sums)","ts":"2026-05-01T18:23:34+00:00"}

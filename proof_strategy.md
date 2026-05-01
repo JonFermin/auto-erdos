@@ -203,3 +203,69 @@ by direct computation. The proof body cannot rely on numerically
 
 (End of Section 2.)
 
+## Section 3 — Numerical evidence: prime tails decay as $O(1/\log x)$
+
+The truncated prime sum is the sharpest small-$x$ obstruction to the
+conjecture: $\mathcal{P}$ is primitive, so $\mathcal{P} \cap [x,
+\infty)$ lies in the conjecture's domain for every $x$. We tabulate
+
+\[
+S_\mathcal{P}(x, N) \;=\; \sum_{p \in \mathcal{P}, \; x \le p \le N}
+\frac{1}{p \log p}.
+\]
+
+Direct computation (sieve, stdlib `math.log`):
+
+**Approach to the prime constant** (no lower truncation, $x = 2$):
+
+| $N$ | $|\mathcal{P} \cap [2, N]|$ | $S_\mathcal{P}(2, N)$ |
+|---:|---:|---:|
+| $10^2$ | $25$ | $1.42157$ |
+| $10^3$ | $168$ | $1.49232$ |
+| $10^4$ | $1229$ | $1.52816$ |
+| $10^5$ | $9592$ | $1.54978$ |
+| $10^6$ | $78498$ | $1.56424$ |
+| $10^7$ | $664579$ | $1.57458$ |
+
+Slow logarithmic approach to the limit $\sum_p 1/(p \log p) \approx
+1.6366$ (cf. Erdős's prime-sum constant). Every entry exceeds $1.399$
+already; this is consistent with F1 once F1's $o(1)$ is read as a
+function of the truncation point $x$ — F1 promises $S(A) \le 1.399 +
+o(1)$ as $x \to \infty$, **not** $S(A) \le 1.399$ uniformly in $x$.
+
+**Tail decay** (truncate primes to $[x, 10^7]$, $x$ varying):
+
+| $x$ | $S_\mathcal{P}(x, 10^7)$ | $1 / \log x$ |
+|---:|---:|---:|
+| $2$ | $1.57458$ | $1.4427$ |
+| $10$ | $0.35213$ | $0.4343$ |
+| $10^2$ | $0.15301$ | $0.2171$ |
+| $10^3$ | $0.08226$ | $0.1448$ |
+| $10^4$ | $0.04641$ | $0.1086$ |
+| $10^5$ | $0.02479$ | $0.0869$ |
+
+The tail $S_\mathcal{P}(x, \infty)$ decays like a constant fraction
+of $1/\log x$, in line with the standard partial-summation estimate
+
+\[
+\sum_{p > x} \frac{1}{p \log p}
+\;=\; \int_{x}^{\infty} \frac{1}{u (\log u)^2} \, d\pi(u)
+\;\le\; \frac{1}{\log x} \sum_{p > x} \frac{1}{p \log p}
+\;+\; O\!\left(\frac{1}{\log^2 x}\right),
+\]
+
+so by Mertens' second theorem (or direct Abel summation against
+$\pi(u) = u/\log u + O(u/\log^2 u)$),
+$\sum_{p > x} \frac{1}{p \log p} = \frac{1}{\log x} + O(1/\log^2 x)
+= O(1/\log x) \to 0$.
+
+**Implication.** $\mathcal{P} \cap [x, \infty)$ is *not* a witness
+against the conjecture for any $x \ge 10$ (its sum is already $< 1$).
+The hard cases for the conjecture are not the primes themselves but
+primitive sets that capture *cumulatively* much of the mass of the
+$\Omega = k$ strata for many $k$ simultaneously — see Section 5
+outline.
+
+(End of Section 3.)
+
+
