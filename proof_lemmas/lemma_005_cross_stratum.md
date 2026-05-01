@@ -57,6 +57,18 @@ is **not finite**: $\sum_{k > K} S_k \approx \sum_{k > K} 1$ diverges.
 So the per-stratum bound from F3 cannot be summed naïvely across
 strata to give the conjecture.
 
+A quantitative form of this looseness is recorded in §3.4 of
+`proof_strategy.md`. By F3 there is some $k_1$ at which the o(1)
+error is bounded by $c$ in absolute value, giving
+$S_k \geq 1 - 2c\,k^2/2^k$ for every $k \geq k_1$. Using
+$\sum_{k \geq 1} k^2/2^k = 6$, the partial sum across just two
+consecutive strata starting at $k_1$ already exceeds the
+conjectured ceiling $1$, and across three strata it exceeds F1's
+universal ceiling $e^\gamma \pi/4 \approx 1.399$ — so the
+per-stratum decomposition alone is strictly weaker than both
+targets, and any closure of this lemma must invoke cross-stratum
+primitivity in a non-trivial way.
+
 **The residual gap (open).** What we need is *not* an upper bound
 on each stratum's contribution to a generic primitive set; it is an
 upper bound on the *combined* contribution of a primitive set across
@@ -86,7 +98,15 @@ have to close.
 - A small numerical probe at $x_\text{floor} = 100$ found no
   counterexample using all primes in $[100, 10^5]$ (sum $\approx
   0.13$), nor any naïve union of primes plus low-$\Omega$ composites
-  (such unions either fail primitivity or stay below $1$).
+  at that floor (such unions either fail primitivity or stay below
+  $1$). A deeper search at $x_\text{floor} \in \{1000, 10000\}$
+  through the rigorous helper
+  `library.primitive_set_witness._rigorous_sum_lower_bound` extends
+  the negative result: across primes-only baselines and primes-plus-
+  disjoint-small-prime-semiprime unions (constructions $A$, $C$, $D$
+  of §2.5), every probed primitive set yields a rigorous lower bound
+  on $\sum 1/(a \log a)$ that is an order of magnitude below the
+  threshold $1$.
 
 **Where the proof is open.** A primitive $A \subset [x, \infty)$
 that draws elements from arbitrarily-many strata, none of them

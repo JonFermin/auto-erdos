@@ -528,6 +528,14 @@ combining per-stratum F3 estimates additively, and any proof that
 recovers (let alone tightens) F1's ceiling must use information
 beyond the per-stratum ledger.
 
+In fact the same arithmetic shows the per-stratum decomposition is
+already weaker than the *conjectured* ceiling $1$ at $K = 1$
+(just two consecutive strata): the partial-sum lower bound is then
+$2 - 12 c \approx 1.21 > 1$. So the per-stratum decomposition is
+not merely looser than F1 by some narrow slack — even the lossier
+target of the conjecture ($\leq 1$) cannot be derived by summing
+per-stratum F3 lower bounds across as few as two strata.
+
 To close the gap, the cross-stratum primitivity of $A$ must be used:
 the constraint that $a \mid b$ is forbidden when $a \in A \cap A_k$
 and $b \in A \cap A_{k+j}$ for any $j \geq 1$ is much stronger than
