@@ -233,11 +233,13 @@ prediction; F3's $o(1)$ remainder is not computed here.
 | 3 | $0.9262$ | $0.3134$ | $0.3676$ | $0.4072$ | $0.4249$ |
 | 4 | $0.9344$ | $0.1403$ | $0.1730$ | $0.1986$ | $0.2107$ |
 
-(For $k = 1$ the largest element retained at $N \in \{200, 1000,
-4000, 8000\}$ is, respectively, $1223$, $7919$, $37{,}813$,
-$81{,}799$. Each is verifiable as prime by trial division;
-positional indexing of these primes within the primorial sequence
-plays no role in the proof and is not asserted.)
+(For $k = 1$ the largest element retained at each truncation is
+the $N$-th smallest prime, output deterministically by the
+$\Omega = 1$ sieve. The specific numerical values are part of the
+deterministic record artifact for round 2 under `records/` and play
+no role in the proof beyond reading the table above; primality of
+these elements is implicit in the $\Omega = 1$ sieve definition and
+is not separately asserted here.)
 
 #### 2.3 Reading the data
 
