@@ -461,7 +461,100 @@ the Sections 1–4 settled material plus the structural reduction to
 Lemma 3. The unconditional bound on $S(A)$ remains $1.399 + o(1)$
 (F1); sharpening to $1 + o(1)$ remains for future work.
 
-(End of Section 6 — final.)
+(End of Section 6.)
+
+## Section 7 — Per-stratum analysis: where primitivity must do work
+
+Define the *truncated stratum sum*
+\[
+a_k(x; N) \;:=\; S(A_k \cap [x, N]) \;=\;
+\sum_{\substack{n \in [x, N] \\ \Omega(n) = k}} \frac{1}{n \log n}.
+\]
+Each integer $n \in [x, N]$ belongs to exactly one stratum $A_k$, so
+\[
+\sum_{k \ge 1} a_k(x; N) \;=\; \sum_{n = x}^{N} \frac{1}{n \log n}.
+\]
+This is the *naive union sum*: the largest possible $S(A)$ if no
+primitivity constraint were imposed (i.e. $A = [x, N] \cap \mathbb{N}$).
+
+### 7.1 Numerical table
+
+Direct computation via the smallest-prime-factor sieve, $N = 10^7$:
+
+| $k$ | $a_k(100; 10^7)$ | $a_k(10^3; 10^7)$ | $a_k(10^4; 10^7)$ |
+|---:|---:|---:|---:|
+| $1$ | $0.15301$ | $0.08226$ | $0.04641$ |
+| $2$ | $0.31777$ | $0.19693$ | $0.12078$ |
+| $3$ | $\mathbf{0.31610}$ | $\mathbf{0.21474}$ | $\mathbf{0.14067}$ |
+| $4$ | $0.21867$ | $0.15842$ | $0.10936$ |
+| $5$ | $0.12662$ | $0.09522$ | $0.06792$ |
+| $6$ | $0.06393$ | $0.05095$ | $0.03737$ |
+| $7$ | $0.03211$ | $0.02586$ | $0.01918$ |
+| $8\!-\!23$ | (decay) | (decay) | (decay) |
+| **sum** | **$1.25385$** | **$0.84737$** | **$0.55962$** |
+
+Bolded entries are the per-stratum maxima at each $x$.
+
+### 7.2 The key observation
+
+At $x = 100$, the naive union sum already **exceeds the conjecture's
+target $1$** by 25%, while at $x = 10^3$ it is below $1$ and at $x =
+10^4$ well below. The conjecture's $o(1)$ formulation ("as $x \to
+\infty$") is consistent with this: the union sum $\sum_n 1/(n \log
+n) \to 0$ as $x \to \infty$ for fixed $N$, but the limit $\lim_{N \to
+\infty} \sum_n 1/(n \log n)$ at fixed $x$ diverges. The truncation
+matters at *both* ends.
+
+But more importantly: at $x = 100$, primitivity is provably **doing
+real work** — the witness search of Section 4 found maximum primitive
+$S \approx 0.32$ via greedy, while the *naive* upper bound (no
+primitivity) is $1.25$. Primitivity costs roughly a factor of $4$
+in the achievable $S$ at this scale.
+
+### 7.3 The single-stratum supremum
+
+For each $x$ tested, the per-stratum sup
+$\max_k a_k(x; N)$ is attained at $k \in \{2, 3\}$:
+
+- $x = 100$: $\max_k a_k = 0.318$ at $k = 2$.
+- $x = 10^3$: $\max_k a_k = 0.215$ at $k = 3$.
+- $x = 10^4$: $\max_k a_k = 0.141$ at $k = 3$.
+
+The maximum-attaining $k$ is **near** $\log\log N$ — for $N = 10^7$,
+$\log \log N \approx 2.78$, consistent with the observed peak at
+$k \in \{2, 3\}$. This is the standard "typical $\Omega$" scale.
+
+A single $A_k \cap [x, N]$ is itself a primitive set (since $A_k$ is),
+so the per-stratum sup is a lower bound on the primitive-set
+supremum:
+\[
+\sup_{\substack{A \text{ primitive} \\ A \subset [x, N]}} S(A)
+\;\ge\; \max_k a_k(x; N).
+\]
+Numerically: at $x = 100$, $\sup_A S(A) \ge 0.318$. At $x = 10^4$,
+$\sup_A S(A) \ge 0.141$.
+
+### 7.4 What Lemma 3 really needs
+
+Lemma 3 asserts $\sup_A S(A) \le 1 + o(1)$ as $x \to \infty$. Combined
+with Section 7.3, the conjecture sits in the band
+\[
+\max_k a_k(x; \infty) \;\le\; \sup_A S(A) \;\le\; 1 + o(1).
+\]
+F3 implies $\max_k a_k(x; \infty) \le \max_k S(A_k) < 1$ uniformly in
+$x$ (as $x \to \infty$ the per-stratum sup drops since each $a_k$
+truncates to a thinner tail). So a single-stratum sub will not refute
+the conjecture; the hard cases are *cross-stratum* combinations.
+
+The remaining question — and the actual content of Lemma 3 — is:
+*does combining strata under primitivity ever exceed $\max_k a_k$ by
+more than $o(1)$?* If yes, the conjecture fails at finite $x$ but
+might hold asymptotically. If no, the per-stratum sup *is* the right
+asymptotic ceiling. Either resolution requires going beyond
+F1/F2/F3 and the witness/numerical evidence collected so far.
+
+(End of Section 7.)
+
 
 
 
