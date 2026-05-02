@@ -555,6 +555,124 @@ F1/F2/F3 and the witness/numerical evidence collected so far.
 
 (End of Section 7.)
 
+## Section 8 — Empirical max-$S$ search: per-stratum bound is tight
+
+To probe Section 7.4's question — *can a cross-stratum primitive set
+exceed $\max_k a_k$?* — we ran four heuristics for the maximum-$S$
+primitive subset of $[x, N]$:
+
+(H1) **smallest-first greedy** (used in §4): scan $n$ from $x$ up;
+  add $n$ if no current element of $A$ divides $n$; mark all
+  multiples of $n$ as covered.
+(H2) **largest-first greedy**: scan $n$ from $N$ down; add $n$ if no
+  current $a \in A$ has $n \mid a$ (i.e. $n$ is not a divisor of any
+  added element); mark all *divisors* of $n$ in $[x, n)$ as forbidden.
+(H3) **single-stratum** $A_k \cap [x, N]$ for $k = 2, \ldots, 6$.
+(H4) **random-shuffle greedy**: random permutation of $[x, N]$, then
+  add greedily, marking both multiples and divisors.
+
+Results at $x = 100$, $N = 10^6$:
+
+| Heuristic | $|A|$ | $S(A)$ |
+|---|---:|---:|
+| H1 (smallest-first) | $78\,835$ | $\mathbf{0.31361}$ |
+| H2 (largest-first) | $500\,000$ | $0.05153$ |
+| H3 with $k = 2$ | $210\,001$ | $0.28823$ |
+| H3 with $k = 3$ | $250\,831$ | $0.27834$ |
+| H3 with $k = 4$ | $198\,051$ | $0.18708$ |
+| H4 (random, best of 5 seeds) | $\sim 4.3 \times 10^5$ | $0.07820$ |
+
+For sanity, at $x = 2$, $N = 10^6$:
+
+| Heuristic | $|A|$ | $S(A)$ |
+|---|---:|---:|
+| H1 (= primes) | $78\,498$ | $\mathbf{1.56423}$ |
+| H2 | $500\,000$ | $0.05153$ |
+| H3 with $k = 2$ | $210\,035$ | $0.86742$ |
+| H3 with $k = 3$ | $250\,853$ | $0.49801$ |
+
+### 8.1 Two empirical conclusions
+
+**(E1) At $x = 100$, the best primitive set found barely beats the
+per-stratum max.** H1's $S = 0.314$ vs. the per-stratum maximum
+$a_2(100; 10^6) = 0.288$: a margin of just $0.026$ in absolute terms
+(or 9% in relative terms). The "winner" H1 is greedy from $x$, which
+contains all primes $\ge 100$ plus a thin shell of composites; its
+mass is split across strata $k = 1, 2, 3, \ldots$ roughly as
+$0.153 + \text{(partial $A_2$)} + \text{(partial $A_3$)} + \cdots$
+$= 0.314$. Each stratum-partial slot is much smaller than the full
+$a_k$, so the "cross-stratum gain" from primitively combining strata
+is bounded by the largest single stratum plus a small bonus.
+
+**(E2) At $x = 2$, primes dominate by a large margin.** $S(\mathcal{P})
+\approx 1.56$ at $N = 10^6$; the next-best is $A_2$ at $0.87$.
+Cross-stratum boost is irrelevant because primes alone saturate the
+F1-style bound. (And the tail of primes at $x \to \infty$ vanishes
+per §3, killing this dominance.)
+
+### 8.2 What this empirical evidence supports
+
+Within the explored heuristic family, the conjecture
+\[
+\sup_{A \text{ primitive}, A \subset [x, N]} S(A) \;\le\; 1 + o(1)
+\]
+holds *with substantial margin* at $x \ge 100$ for $N \le 10^6$. The
+explored heuristics include the natural "obvious" candidates and a
+randomized baseline. None come close to $1$ at $x \ge 100$.
+
+What this evidence does **not** establish:
+
+- Heuristics may miss the actual maximum. An LP relaxation of "max
+  weighted antichain in the divisibility poset on $[100, 10^6]$"
+  would give the exact maximum and is tractable (~$10^6$ variables);
+  not run yet.
+- The empirical separation $\sup_A S(A) \approx 0.31$ vs. the
+  conjecture's $1$ is a 3-fold safety factor at $x = 100$. We have
+  no analytical control on how this gap closes (or doesn't) as
+  $N \to \infty$, $x$ fixed. F1 caps it at $1.399 + o(1)$ in the
+  $x \to \infty$ limit, but for any fixed finite $(x, N)$ the gap
+  could be different.
+
+### 8.3 Plan refinement for Lemma 3
+
+The candidate weighting plan in `proof_lemmas/lemma_003_cross_stratum.md`
+(§(a)) is now sharper:
+
+- The empirical evidence (8.1, 8.2) suggests primitivity collapses
+  cross-stratum mass to *roughly* the per-stratum maximum
+  $\max_k a_k(x; \infty) \to 1^-$.
+- A Lichtman-style proof of $S(A) \le S(\mathcal{P})$ (the
+  *untruncated* Erdős conjecture, settled $\sim 2022$) does *not*
+  directly give $1 + o(1)$ for the truncated form, since
+  $S(\mathcal{P}) \approx 1.6366 > 1$.
+- The truncated form ($A \subset [x, \infty)$) is what we want.
+  It needs an additional gain factor of $\sim 0.6$ over Lichtman's
+  bound, presumably by exploiting that the "head" $\mathcal{P} \cap
+  [2, x)$ has been removed.
+
+A naive tightening conjecture *(falsified)*:
+**(LC')** For any primitive $A$,
+$S(A) \le S(\mathcal{P} \cap [\min A, \infty)) + o(1)$.
+Falsified by $A = A_k$ for large $k$: the prime tail
+$S(\mathcal{P} \cap [\min A_k, \infty)) = S(\mathcal{P} \cap [2^k,
+\infty)) = O(1/k) \to 0$ (Mertens), but $S(A_k) \to 1$. So a
+stratum-aware proof of Lemma 3 cannot be reduced to a prime-tail
+inequality; the "extremal primitive sets" change character as
+$\min A$ grows — primes dominate at small $\min A$, and large-$k$
+strata $A_k$ dominate at large $\min A$.
+
+This rules out the simplest possible reduction. The actual proof of
+Lemma 3 will need to handle BOTH regimes: a prime-tail bound for
+the small-$\Omega$ contribution to $A$, and an F3-style bound for
+the large-$\Omega$ contribution. The Erdős–Zhang technique handles
+the *combined* sum but only with a $1.399$ ceiling. The conjecture's
+$1$ ceiling presumably emerges from a tighter version of Erdős–Zhang
+that accounts for F3's stratum-by-stratum deficit.
+
+(End of Section 8.)
+
+
+
 
 
 

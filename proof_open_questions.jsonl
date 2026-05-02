@@ -19,3 +19,6 @@
 {"qid":"Q6","status":"resolved","session_id":"s_0501-121629-b2a4","summary":"Section 6 written: explicit partial-result framing","ts":"2026-05-01T18:45:26+00:00"}
 {"qid":"Q7","status":"open","parent_qid":null,"summary":"Quantify the cross-stratum primitivity 'cost'. Compute a_k(x;N) for k=1..log_2(N) at x in {100, 1000, 10^4}, N=10^7. Compare sum_k a_k (the naive union upper bound) to (i) the F1 bound 1.399, (ii) the conjectured 1, (iii) numerical max S over primitive A in [x, N]. Find where primitivity is doing work.","ts":"2026-05-02T22:07:40+00:00","session_id":"seed-resume-1"}
 {"qid":"Q7","status":"claimed","session_id":"s_0502-160436-9903","summary":"taking Q7 (per-stratum analysis)","ts":"2026-05-02T22:07:40+00:00"}
+{"qid":"Q7","status":"resolved","session_id":"s_0502-160436-9903","summary":"Section 7 written: per-stratum sums tabulated; cross-stratum is the open question","ts":"2026-05-02T22:08:37+00:00"}
+{"qid":"Q8","status":"open","parent_qid":"Q7","summary":"Empirical max-S primitive-set search at x in {2, 100}, N=10^6. Compare against per-stratum max from Q7. Test the conjecture sup_A S(A) ≈ max_k a_k(x;N).","ts":"2026-05-02T22:11:24+00:00","session_id":"seed-resume-2"}
+{"qid":"Q8","status":"claimed","session_id":"s_0502-160436-9903","summary":"taking Q8 (max-S empirical search)","ts":"2026-05-02T22:11:24+00:00"}
