@@ -1,54 +1,74 @@
-# Session handoff (s_0501-121629-b2a4)
+# Session handoff (s_0502-160436-9903)
 
-**Stop reason**: Partial result reached on the worklist's full Q1-Q6.
-The conjecture status remains **open**. This was the first-session
-test of `AUTOERDOS_PROOF_CRITICS=0` (critics-off, witness-only mode).
+**Stop reason**: Session token budget. Session 2 added 4 sections to
+proof_strategy.md and updated Lemma 3 with the CST conjecture.
+The conjecture itself remains **open**.
 
 **What this session produced**
 
-- proof_strategy.md, Sections 1-6 (final partial-result form):
-  setup, F3 numerical evidence, prime-tail decay, witness search,
-  Omega-stratification structure with three lemmas, status & gap
-  summary.
-- proof_lemmas/lemma_001_truncated_low_strata.md (status: open)
-- proof_lemmas/lemma_002_high_strata_below_one.md (status: open)
-- proof_lemmas/lemma_003_cross_stratum.md (status: open) â€” the gap.
-- 6 keep_progress rows in proof_results.tsv (one crash row at tail
-  from a convergence-detection probe; ignore on resume).
-- 6 records under records/proof_primitive_set_erdos_*.json.
+- **Section 7 â€” per-stratum analysis**: tabulated $a_k(x; 10^7)$ for
+  $x \in \{100, 1000, 10^4\}$, $k = 1\ldots23$. The naive union sum
+  $\sum_k a_k(100; 10^7) = 1.254$ already EXCEEDS the conjecture's
+  $1$ ceiling at $x = 100$ â€” primitivity must do real work even at
+  finite $x$. Per-stratum max is at $k \approx \log\log N$.
 
-**Key findings worth remembering**
+- **Section 8 â€” empirical max-S search**: tested smallest-first
+  greedy, largest-first greedy, single-stratum $A_k$, random-shuffle
+  greedy at $x = 100, N = 10^6$. Best achieved was $S = 0.314$
+  (smallest-first greedy), barely above the per-stratum max
+  $a_2 = 0.288$. Cross-stratum gain is tiny in observable cases.
+  Naive prime-tail tightening LC' falsified by $A_k$ for large $k$.
 
-- F3 ($S(A_k) = 1 - (c+o(1)) k^2/2^k$) is **asymptotic in $k$**, not
-  a finite-$k$ identity. At $k=1$, $S(A_1) = S(\mathcal{P})
-  \approx 1.6366$, the prime constant â€” completely violating the
-  formula. The conjecture survives because truncation to $[x,
-  \infty)$ kills the small-prime tail at rate $O(1/\log x)$.
-- Witness search is empirically negative at $x \in \{100, 10^3,
-  10^4\}$: largest sum found was $S \approx 0.32$ via a
-  smallest-first greedy primitive sieve over $[100, 10^7]$.
-- The conjecture reduces to **Lemma 3** (`cross_stratum_primitivity`),
-  which IS the conjecture itself. Per-stratum bounds (Lemmas 1, 2)
-  cannot close it because $\sum_k S(A_k)$ diverges â€” primitivity must
-  be exploited cross-stratum, and the standard ErdÅ‘s-Zhang
-  log-Mertens weighting saturates at $1.399$, not $1$.
+- **Section 9 â€” the $6c$ identity**: $\sum_{k \ge 1} k^2/2^k = 6$
+  exactly. Total F3 deficit $6c \approx 0.394$. F1 gap
+  $e^{\gamma} \pi/4 - 1 \approx 0.399$. Difference $0.005$ â€” could
+  be analytic equality with literature $c \approx 0.0656$ being
+  rounded.
 
-**Critics-off mode tested**
+- **Lemma 3 update â€” CST conjecture**: a stratum-aware refinement of
+  ErdÅ‘sâ€“Zhang that loses $c k^2/2^k$ per stratum used would directly
+  yield the conjecture's $1$ ceiling. Concrete plan recorded in
+  `proof_lemmas/lemma_003_cross_stratum.md`.
 
-Every round ran in <0.001s wall-clock through `proof_prepare.py`
-(skipping the five LLM critics). The witness verifier and the
-resolution-string defense-in-depth in `_compute_verdict_hint` both
-remained active and behaved as expected: every commit-without-witness
-got `witness_valid=0`; the body never tripped resolution-strings, so
-verdict was `open` or `partial_result` throughout.
+**State at session close**
 
-**Suggested next move (on resume)**
+- 10 keep_progress rows in proof_results.tsv from this branch (one
+  crash from session 1's convergence probe + one from session 2's
+  unicode print error in proof_log_result.py â€” both cosmetic).
+- 10 records under records/proof_primitive_set_erdos_*.json.
+- Q1-Q9 all resolved. Next session can either:
+  - claim Q10 = "literature lookup: is c = (e^gamma pi/4 - 1)/6?",
+  - claim Q11 = "LP relaxation of max-weighted-antichain at small N",
+  - or attempt to derive the stratum-aware EZ refinement directly.
 
-If extending: attack the candidate weighting plan in
-`proof_lemmas/lemma_003_cross_stratum.md` â€” a stratum-aware weight
-that rescales each $a \in A^{(k)}$ by the F3 deficit $(1 - c k^2/2^k)$
-and seeks a global bound. This is the most promising opening, though
-likely the missing technique is more subtle.
+**Critics-off mode (continuing test)**
 
-If declaring done: run the archive block in the skill's Step 5. The
-partial-result records are kept under records/.
+10/10 rounds in <0.005s wall-clock through proof_prepare.py. Witness
+verifier and resolution-string defense-in-depth both stayed active.
+Verdict transitions: open -> partial_result around round 5 (when
+"this remains open" hedge phrases entered the body), and stable at
+partial_result through round 10. No false claims of resolution slipped
+through.
+
+**Known harness issues (session 2)**
+
+- proof_log_result.py crashes on Windows cp1252 stdout when a thesis
+  contains 'ErdÅ‘s' (U+0151) or 'â€“' (U+2013). The row gets written to
+  proof_results.tsv (utf-8) but the followup print/cache/record-write
+  never run. Workaround: avoid these characters in thesis lines until
+  the print is fixed to use 'errors=replace'.
+- Convergence-by-stable-hash (exit 6) is unreachable: re-logging the
+  same proof_strategy.md on a different commit hits AST-dedup -> exit 3.
+
+**Suggested next move**
+
+The CST conjecture (lemma_003 update) is the most concrete lead. To
+attack:
+1. Look up the analytical value of c in F3 (Sathe-Selberg). Is
+   c = (e^gamma pi/4 - 1)/6 exactly?
+2. If yes: a stratum-aware EZ refinement is the route. Try to derive
+   it from the standard EZ proof structure.
+3. If no: the F1-gap and F3-total-deficit equality is coincidental,
+   and the conjecture's mechanism is something else.
+
+Step 1 needs literature; the autonomous loop cannot do it alone.

@@ -11,3 +11,4 @@
 {"event":"round","session_id":"s_0502-160436-9903","ts":"2026-05-02T22:12:49+00:00","summary":"Q8 resolved: max-S empirical","qid":"Q8","status":"keep_progress","commit":"ebaad49"}
 {"event":"round","session_id":"s_0502-160436-9903","ts":"2026-05-02T22:14:58+00:00","summary":"Q9 resolved: F1/F3 gap coincidence","qid":"Q9","status":"keep_progress","commit":"7430ef4"}
 {"event":"round","session_id":"s_0502-160436-9903","ts":"2026-05-02T22:16:21+00:00","summary":"round 10: CST conjecture documented in lemma_003 + cited from Section 9","qid":"Q9","status":"keep_progress","commit":"27b53b9"}
+{"event":"session_close","session_id":"s_0502-160436-9903","ts":"2026-05-02T22:16:59+00:00","commit":"493e375","reason":"reason: session 2 token budget \u2014 substantive Lemma 3 attack rounds 7-10; CST conjecture identified as concrete lead"}
