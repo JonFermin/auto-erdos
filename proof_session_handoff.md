@@ -1,39 +1,43 @@
-# Session handoff (s_0502-171208-b80e)
+# Session handoff (s_0502-174202-ad99)
 
-**Stop reason**: Session 4 budget. One round (12) added Section 11 â€”
-the rigorous single-stratum calculation.
+**Stop reason**: Session 5 budget. Round 13 derived the exact
+incomplete-Gamma representation for truncated stratum sums.
 
-**Round 12 main finding**
+**Round 13 main finding**
 
-Sigma_{A_k}(t) ~ (log log t)^k / k!  (from Landau + partial summation,
-substitution v = log log u). By Stirling, max over k attained at
-k* = log log t, giving max = (log t) / sqrt(2 pi log log t) â€” exactly
-Behrend's bound. So A_k saturates Behrend at the unique t where
-log log t = k, and is sub-Behrend by a Gaussian factor exp(-xi^2/(2k))
-elsewhere.
+S(A_k cap [x, infty)) ~ Gamma(k, loglog x) / (k-1)!  =  P(Poisson(loglog x) < k)
 
-This SHARPENS the picture from session 3 (Section 10): single-stratum
-primitive sets cannot saturate Behrend at multiple t. The
-"stratum-aware" picture is rigorous on the single-stratum case; the
-open question is whether multi-stratum primitive sets, after
-primitivity exclusion (Section 11.4), still fail to saturate
-Behrend uniformly.
+This is exact (modulo standard Hardy-Ramanujan / Sathe-Selberg
+uniformity), and validated numerically against direct sums for
+k in main range. The probabilistic interpretation aligns with
+Erdos-Kac.
+
+Consequence: the single-stratum supremum
+max_k S(A_k cap [x, infty))  ~  max_k P(Poisson(loglog x) < k)
+tends to 1 from below as x -> infty, matching the conjecture's
+ceiling. So Lemma 3's single-stratum case is now rigorous via Section
+11 + 12 â€” the truncated stratum sup IS the conjecture's bound.
+
+The cross-stratum case is still open; Sections 11.3-11.4 sketched but
+didn't quantify the primitivity deficit.
 
 **State at close**
 
-- 12 keep_progress rounds total. Sections 1-11 in proof_strategy.md.
-- Q1-Q11 resolved. lemma_003 has the CST conjecture.
-- 12 records under records/.
+- 13 keep_progress rounds. Sections 1-12 in proof_strategy.md.
+- 13 records under records/.
+- Q1-Q12 resolved.
 
 **Suggested next move**
 
-The most useful single next step would be a calculation of the
-multi-stratum case: take A = A_{k_1} âˆª (A_{k_2} restricted by
-p_min(b) <= x^{1/k_1}), compute Sigma_A(t), see if it saturates
-Behrend at any t. Likely answer: no â€” the p_min restriction prunes
-A_{k_2} so heavily that the union is still sub-Behrend everywhere.
+Quantify the cross-stratum deficit. Take A primitive with
+contributions in two strata k_1, k_2 (k_1 < k_2). By the analysis in
+11.4: the b in A^{(k_2)} is restricted to b < x p_min(b). Estimate
+S(A^{(k_2)}) under this restriction. Compare to
+S(A^{(k_2)} unrestricted) = Gamma(k_2, loglog x)/(k_2-1)!.
 
-Failing that: accept that this is at the edge of what the autonomous
-loop can do without literature. Document the Section-11 partial
-result as the loop's stopping point. Run exit-4 by hitting the round
-cap (currently 50; 12 used).
+If the restriction reduces S(A^{(k_2)}) by a factor f(k_1) such that
+S(A^{(k_1)}) + f(k_1) * S(A^{(k_2)}) <= max(S(A^{(k_1)}), S(A^{(k_2)})) + o(1),
+the cross-stratum part of Lemma 3 follows.
+
+This is a doable computation; primitive obstacle is Mertens-type
+estimates on smooth-numbers density.
