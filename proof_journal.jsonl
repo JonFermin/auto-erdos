@@ -18,3 +18,7 @@
 {"event":"session_open","session_id":"s_0502-171208-b80e","ts":"2026-05-02T23:12:08+00:00","commit":"d2fc476","proof_tag":"primitive_set_erdos","stashed_ref":null,"detected_orphan":null,"released_orphan_qids":[]}
 {"event":"round","session_id":"s_0502-171208-b80e","ts":"2026-05-02T23:13:44+00:00","summary":"Q11 resolved: A_k saturation calculation","qid":"Q11","status":"keep_progress","commit":"cdb47bf"}
 {"event":"session_close","session_id":"s_0502-171208-b80e","ts":"2026-05-02T23:14:05+00:00","commit":"ed42c4a","reason":"reason: session 4 short \u2014 round 12 added Section 11 with rigorous single-stratum Behrend saturation calculation"}
+{"event":"session_open","session_id":"s_0502-174202-ad99","ts":"2026-05-02T23:42:02+00:00","commit":"65b888f","proof_tag":"primitive_set_erdos","stashed_ref":null,"detected_orphan":null,"released_orphan_qids":[]}
+{"event":"session_abandoned","session_id":"s_0502-174202-ad99","ts":"2026-05-02T23:42:03+00:00","detected_by":"s_0502-174203-7184","reason":"no session_close found in journal \u2014 assumed crashed/interrupted"}
+{"event":"session_open","session_id":"s_0502-174203-7184","ts":"2026-05-02T23:42:03+00:00","commit":"65b888f","proof_tag":"primitive_set_erdos","stashed_ref":null,"detected_orphan":"s_0502-174202-ad99","released_orphan_qids":[]}
+{"event":"round","session_id":"s_0502-174202-ad99","ts":"2026-05-02T23:44:00+00:00","summary":"Q12 resolved: Gamma representation","qid":"Q12","status":"keep_progress","commit":"29765aa"}

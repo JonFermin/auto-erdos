@@ -34,3 +34,4 @@
 {"qid":"Q11","status":"resolved","session_id":"s_0502-171208-b80e","summary":"Section 11 written: single-stratum A_k saturates Behrend uniquely at k=loglog t; cross-stratum exclusion sketched","ts":"2026-05-02T23:13:44+00:00"}
 {"qid":"Q12","status":"open","parent_qid":"Q11","summary":"Derive exact integral representation S(A_k cap [x, infty)) = Gamma(k, loglog x) / (k-1)! using Landau density and substitution v=loglog u. Connects truncated stratum sums to the upper incomplete Gamma function.","ts":"2026-05-02T23:42:17+00:00","session_id":"seed-resume-6"}
 {"qid":"Q12","status":"claimed","session_id":"s_0502-174202-ad99","summary":"taking Q12 (Gamma representation)","ts":"2026-05-02T23:42:17+00:00"}
+{"qid":"Q12","status":"resolved","session_id":"s_0502-174202-ad99","summary":"Section 12 written: incomplete-Gamma / Poisson representation","ts":"2026-05-02T23:44:00+00:00"}
