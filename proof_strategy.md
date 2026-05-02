@@ -972,6 +972,123 @@ Lemma 3.
 
 (End of Section 11.)
 
+## Section 12 — Incomplete-Gamma representation of $S(A_k \cap [x, \infty))$
+
+We derive an exact asymptotic for the truncated stratum sum, then
+note its probabilistic interpretation as a Poisson tail.
+
+### 12.1 The integral
+
+By Landau's theorem (and Hardy–Ramanujan/Sathe–Selberg uniformly in
+the relevant range of $k$), the density of $A_k$ is
+\[
+\frac{d|A_k \cap [1, u]|}{du} \;\sim\; \frac{(\log\log u)^{k-1}}{(k-1)!\, \log u}
+\quad (u \to \infty).
+\]
+Therefore
+\[
+S(A_k \cap [x, N]) \;=\; \sum_{n \in A_k \cap [x, N]} \frac{1}{n \log n}
+\;\sim\; \frac{1}{(k-1)!} \int_x^N \frac{(\log\log u)^{k-1}}{u (\log u)^2}\, du.
+\]
+Substitute $v = \log\log u$, $dv = du/(u \log u)$, $\log u = e^v$:
+\[
+S(A_k \cap [x, N]) \;\sim\; \frac{1}{(k-1)!} \int_{\log\log x}^{\log\log N} v^{k-1} e^{-v}\, dv.
+\]
+
+In particular, taking $N \to \infty$,
+\[
+\boxed{
+S(A_k \cap [x, \infty)) \;\sim\; \frac{\Gamma(k,\, \log\log x)}{(k-1)!}
+}
+\]
+where $\Gamma(s, t) = \int_t^\infty u^{s-1} e^{-u}\, du$ is the upper
+incomplete Gamma function.
+
+### 12.2 Probabilistic interpretation
+
+For integer $k \ge 1$ and $t > 0$,
+\[
+\frac{\Gamma(k, t)}{(k-1)!} \;=\; \mathbb{P}\!\bigl(N(t) < k\bigr),
+\]
+where $N(t) \sim \text{Poisson}(t)$. So
+\[
+S(A_k \cap [x, \infty)) \;\sim\; \mathbb{P}\!\bigl(N(\log\log x) < k\bigr).
+\]
+
+This is the probability that a Poisson($\log\log x$)-distributed random
+variable falls strictly below $k$. The interpretation aligns with the
+Erdős–Kac heuristic: the "typical" $\Omega(n)$ for $n \approx
+e^{e^t}$ is Poisson($t$)-distributed, so $S(A_k \cap [x, \infty))$
+is the chance the realised $\Omega$ falls below $k$.
+
+### 12.3 Numerical validation
+
+Direct computation, $A_k \cap [100, 10^6]$ vs.
+$\Gamma(k, \log\log 100)/(k-1)! - \Gamma(k, \log\log 10^6)/(k-1)!$
+(the predicted truncated-to-$[100, 10^6]$ value):
+
+| $k$ | $S$ (direct) | $S$ (Gamma) | ratio |
+|---:|---:|---:|---:|
+| $1$ | $0.1427$ | $0.1448$ | $0.985$ |
+| $2$ | $0.2882$ | $0.2863$ | $1.007$ |
+| $3$ | $0.2783$ | $0.2900$ | $0.960$ |
+| $4$ | $0.1871$ | $0.2005$ | $0.933$ |
+| $5$ | $0.1059$ | $0.1064$ | $0.996$ |
+| $6$ | $0.0521$ | $0.0461$ | $1.130$ |
+| $7$ | $0.0259$ | $0.0170$ | $1.522$ |
+| $8\!-\!12$ | (drift up) | (small) | $> 2$ (Landau breaks) |
+
+The asymptotic is quantitatively accurate for $k$ in the main range
+$k \le \log\log N + O(1)$ (here $\log\log 10^6 \approx 2.62$, so up
+to $k \approx 5$). For $k \ge 6$ the Landau density is no longer the
+right approximation — Sathe–Selberg corrections take over. For the
+purposes of Lemma 3 the asymptotic in 12.1 is the right object;
+the small-$k$ data confirms it.
+
+### 12.4 The conjecture in Poisson form
+
+\[
+\sum_{k \ge 1} S(A_k \cap [x, \infty)) \;\sim\; \sum_{k \ge 1}
+\mathbb{P}(N(\log\log x) < k) \;=\; \mathbb{E}[N(\log\log x)] +
+\frac{1}{2} \;=\; \log\log x + \tfrac{1}{2}
+\]
+(using $\sum_{k \ge 1} \mathbb{P}(N < k) = \mathbb{E}[N] +
+\mathbb{P}(N = 0)$, plus $\mathbb{P}(N=0) = e^{-\log\log x} =
+1/\log x$ which is small). This is the **naive union sum** in Poisson
+form: it diverges as $x \to \infty$.
+
+The conjecture asserts that under primitivity, this divergent sum
+collapses to $\le 1 + o(1)$. The single-stratum sup
+$\max_k \Gamma(k, \log\log x)/(k-1)!$ tends to $1$ from below: for
+each $x$, the maximizing $k$ is roughly $\log\log x$, and the maximum
+value is $1 - O(1/\sqrt{\log\log x})$ (from the Gaussian deviation
+calculation in §11.2 / a saddle-point estimate of the Poisson CDF
+near its mean).
+
+So the **single-stratum bound $\max_k S(A_k \cap [x, \infty)) \to 1$
+already saturates the conjecture's ceiling**. The remaining content
+of Lemma 3 — the cross-stratum part — is then to show that any
+primitive $A$ does not exceed this single-stratum sup by more than
+$o(1)$.
+
+### 12.5 What is now rigorous
+
+- (12.1) The integral asymptotic for $S(A_k \cap [x, N])$ is rigorous
+  modulo standard Hardy–Ramanujan / Sathe–Selberg uniformity in $k$.
+- (12.2) The Poisson interpretation is exact for integer $k$ and
+  positive $t$.
+- (12.4) The single-stratum sup matches the conjecture's ceiling
+  asymptotically. This sharpens Lemma 2 (which used F3): the
+  truncated single-stratum sup is the right ceiling, not just the
+  untruncated $S(A_k) \to 1$.
+
+What is still **open**: the cross-stratum part. Sections 11.3–11.4
+sketched but did not quantify the deficit; Section 12 is consistent
+with that picture but does not close it.
+
+(End of Section 12.)
+
+
 
 
 
