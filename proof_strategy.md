@@ -671,6 +671,81 @@ that accounts for F3's stratum-by-stratum deficit.
 
 (End of Section 8.)
 
+## Section 9 — A suggestive arithmetic identity: $6c \approx e^\gamma \pi/4 - 1$
+
+The sum $\sum_{k=1}^\infty k^2 / 2^k$ equals exactly $6$ (standard
+generating-function identity: $\sum k(k-1) x^{k-2} = 2/(1-x)^3$,
+$\sum k x^{k-1} = 1/(1-x)^2$, evaluate at $x = 1/2$). Hence the
+total F3 deficit, summed over all strata, is
+
+\[
+\sum_{k=1}^\infty c \cdot \frac{k^2}{2^k} \;=\; 6c \;\approx\; 6
+\cdot 0.0656 \;=\; 0.3936.
+\]
+
+Independently, the F1 ceiling minus the conjectured ceiling is
+
+\[
+e^{\gamma} \frac{\pi}{4} \;-\; 1 \;\approx\; 0.3989.
+\]
+
+The two quantities differ by $0.005$. Setting them equal would
+require $c = (e^\gamma \pi/4 - 1)/6 \approx 0.0665$ rather than the
+literature's $\approx 0.0656$. Numerically the difference is small
+enough that the literature constant is plausibly an approximation,
+and the two could be analytically equal.
+
+### 9.1 Why this matters for Lemma 3
+
+If $6c = e^\gamma \pi/4 - 1$ holds exactly, then
+
+\[
+\underbrace{e^{\gamma} \frac{\pi}{4}}_{\text{F1 ceiling}}
+\;-\;
+\underbrace{6c}_{\text{F3 total deficit}}
+\;=\; 1,
+\]
+
+and the conjecture's bound $1$ would be precisely the F1 bound minus
+the cumulative F3 stratum deficit. The candidate proof structure is
+then crystallised: a *single* weighted argument that
+
+(a) recovers the Erdős–Zhang bound $e^\gamma \pi/4$ for the *unweighted*
+sum, and
+(b) loses $c k^2/2^k$ for each used stratum from the F3 expansion,
+
+would yield the full conjecture.
+
+### 9.2 What is to be checked
+
+This near-coincidence is plausibly known to specialists. The
+relevant references would be:
+
+- The Sathe–Selberg derivation of $S(A_k) = 1 - (c+o(1)) k^2/2^k$
+  with $c$ as an explicit constant (Selberg 1954; Sathe 1953–54).
+- Erdős–Zhang's $e^\gamma \pi/4$ proof and any post-1993 sharpenings
+  (Lichtman 2022/23 — bounds $S(A) \le S(\mathcal{P})$, also
+  involving the $e^{\gamma}$ factor in its constants).
+
+If the literature confirms $6c = e^{\gamma} \pi/4 - 1$ analytically,
+this is essentially a roadmap to the conjecture: prove a
+"stratum-aware Erdős–Zhang" that retains the F3 deficit
+stratum-by-stratum.
+
+If the two quantities are merely numerically close but analytically
+distinct, this is a coincidence and the conjecture's $1$ bound
+arises from a different mechanism.
+
+This loop cannot resolve which case obtains without consulting the
+literature on the Sathe–Selberg constant. **Status: identified as a
+key open question.** Future sessions (or a human reviewer) should
+check whether the literature derivation of $c$ in F3 yields
+$c = (e^\gamma \pi/4 - 1)/6$ exactly, or whether $c$ is an
+independent constant.
+
+(End of Section 9.)
+
+
 
 
 
