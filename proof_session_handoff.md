@@ -1,51 +1,39 @@
-# Session handoff (s_0502-164339-cf5f)
+# Session handoff (s_0502-171208-b80e)
 
-**Stop reason**: Session 3 token budget. One substantive analytical
-round (round 11) added Section 10 â€” Erdos-Zhang structural sketch.
+**Stop reason**: Session 4 budget. One round (12) added Section 11 â€”
+the rigorous single-stratum calculation.
 
-**Round 11 main finding**
+**Round 12 main finding**
 
-The standard Erdos-Zhang (EZ) chain has FOUR steps:
+Sigma_{A_k}(t) ~ (log log t)^k / k!  (from Landau + partial summation,
+substitution v = log log u). By Stirling, max over k attained at
+k* = log log t, giving max = (log t) / sqrt(2 pi log log t) â€” exactly
+Behrend's bound. So A_k saturates Behrend at the unique t where
+log log t = k, and is sub-Behrend by a Gaussian factor exp(-xi^2/(2k))
+elsewhere.
 
-1. (EZ-1) Integral representation 1/log(a) = int_a^inf dt/(t log^2 t).
-2. (EZ-2) Switch sum/integral (Tonelli â€” exact).
-3. (EZ-3) Apply Behrend's theorem on Sigma_A(t) = sum_{a in A, a<=t} 1/a.
-4. (EZ-4) Integrate the bound â€” yields e^gamma pi/4.
-
-Steps 1, 2, 4 are exact. Step 3 is the only locus of potential slack:
-Behrend's bound is sharp pointwise, but a single primitive A cannot
-saturate it at EVERY t simultaneously. F3 quantifies this:
-S(A_k) = 1 - c k^2/2^k is BELOW Behrend's pointwise integral.
-
-**Restated CST conjecture (stratum-aware Behrend)**
-
-For primitive A, t |-> Sigma_A(t) cannot saturate Behrend's worst case
-at every t. If it saturates near t_0 with stratum A_{k_0}, it is
-sub-saturated by at least c k_0^2/2^{k_0} at all relevant t.
-
-If true, integrating through (EZ-4) replaces the EZ ceiling 1.399 by
-1.399 - 6c * (integration_weight) â‰ˆ 1 â€” exactly the conjecture.
+This SHARPENS the picture from session 3 (Section 10): single-stratum
+primitive sets cannot saturate Behrend at multiple t. The
+"stratum-aware" picture is rigorous on the single-stratum case; the
+open question is whether multi-stratum primitive sets, after
+primitivity exclusion (Section 11.4), still fail to saturate
+Behrend uniformly.
 
 **State at close**
 
-- 11 keep_progress rounds total (sessions 1+2+3).
-- 11 records under records/proof_primitive_set_erdos_*.json.
-- Q1-Q10 all resolved. Sections 1-10 in proof_strategy.md.
-- proof_lemmas/lemma_003_cross_stratum.md has the CST conjecture.
+- 12 keep_progress rounds total. Sections 1-11 in proof_strategy.md.
+- Q1-Q11 resolved. lemma_003 has the CST conjecture.
+- 12 records under records/.
 
-**Suggested next move (specific now)**
+**Suggested next move**
 
-The next session has a narrow target: try to either
+The most useful single next step would be a calculation of the
+multi-stratum case: take A = A_{k_1} âˆª (A_{k_2} restricted by
+p_min(b) <= x^{1/k_1}), compute Sigma_A(t), see if it saturates
+Behrend at any t. Likely answer: no â€” the p_min restriction prunes
+A_{k_2} so heavily that the union is still sub-Behrend everywhere.
 
-(a) PROVE stratum-aware Behrend for a tractable special case (e.g.
-    A = single stratum A_k truncated to [x, N]; verify the saturation
-    bound holds), or
-
-(b) REFUTE it by constructing a primitive A whose Sigma_A(t) does
-    saturate Behrend at MULTIPLE t simultaneously across strata.
-
-(a) is structural; (b) is empirical (a search with multi-t saturation
-as the objective).
-
-If neither pans out, document the impasse and call exit 4 round-cap
-or a manual session_end "pivot to literature search needed".
+Failing that: accept that this is at the edge of what the autonomous
+loop can do without literature. Document the Section-11 partial
+result as the loop's stopping point. Run exit-4 by hitting the round
+cap (currently 50; 12 used).
