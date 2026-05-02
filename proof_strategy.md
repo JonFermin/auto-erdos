@@ -730,7 +730,9 @@ relevant references would be:
 If the literature confirms $6c = e^{\gamma} \pi/4 - 1$ analytically,
 this is essentially a roadmap to the conjecture: prove a
 "stratum-aware Erdős–Zhang" that retains the F3 deficit
-stratum-by-stratum.
+stratum-by-stratum. This direction is recorded as the **CST
+conjecture** in `proof_lemmas/lemma_003_cross_stratum.md` (round 10
+update).
 
 If the two quantities are merely numerically close but analytically
 distinct, this is a coincidence and the conjecture's $1$ bound
