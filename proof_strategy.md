@@ -734,6 +734,104 @@ stratum-by-stratum. This direction is recorded as the **CST
 conjecture** in `proof_lemmas/lemma_003_cross_stratum.md` (round 10
 update).
 
+(End of Section 9.)
+
+## Section 10 — Where Erdős–Zhang loses to $1.399$
+
+The Erdős–Zhang argument bounds $S(A)$ for primitive $A$ by an
+integral-comparison technique. Sketch (with steps named so the lossy
+ones are identifiable):
+
+**(EZ-1) Integral representation of $1/\log a$.** For $a \ge 2$,
+\[
+\frac{1}{\log a} \;=\; \int_a^\infty \frac{dt}{t (\log t)^2},
+\]
+hence
+\[
+\frac{1}{a \log a} \;=\; \frac{1}{a}\int_a^\infty \frac{dt}{t(\log
+t)^2}.
+\]
+
+**(EZ-2) Switching summation and integration.** For primitive
+$A \subset [2, \infty)$,
+\[
+S(A) \;=\; \sum_{a \in A} \frac{1}{a} \int_a^\infty \frac{dt}{t (\log
+t)^2}
+\;=\; \int_2^\infty \frac{dt}{t (\log t)^2} \cdot
+\Sigma_A(t),
+\]
+where $\Sigma_A(t) := \sum_{a \in A,\, a \le t} \frac{1}{a}$.
+
+**(EZ-3) Bounding $\Sigma_A(t)$ for primitive $A$.** Behrend's theorem:
+for any primitive $A \subset [1, t]$,
+\[
+\Sigma_A(t) \;\le\; \frac{\log t}{\sqrt{2 \pi \log\log t}}\,(1 +
+o(1)).
+\]
+This is the *primitivity content* of the bound. Tightness is attained
+roughly by $A_k$ for $k = \log\log t + O(\sqrt{\log\log t})$.
+
+**(EZ-4) Substituting and integrating.**
+\[
+S(A) \;\le\; \int_2^\infty \frac{1}{t (\log t)^2} \cdot
+\frac{\log t}{\sqrt{2\pi \log\log t}} \, dt \;+\; o(1).
+\]
+The integral evaluates (via $u = \log t$, $du = dt/t$, then
+$v = \log u$) to a constant whose value gives the EZ ceiling
+$e^{\gamma} \pi/4 \approx 1.399$.
+
+### 10.1 Where is the slack?
+
+In the chain (EZ-1) → (EZ-2) → (EZ-3) → (EZ-4):
+
+- **(EZ-1) is exact.** No slack.
+- **(EZ-2) is exact** (Tonelli on a non-negative summand).
+- **(EZ-3) is exact in the worst case** (Behrend's bound is sharp,
+  attained by $\Omega = k$ strata).
+- **(EZ-4) integration is exact.**
+
+So the EZ chain has *no slack* in any single step — the bound
+$1.399$ is the *correct* bound for the integrand
+$\frac{1}{t(\log t)^2} \cdot \Sigma_A(t)$ when $\Sigma_A(t)$ is replaced
+by Behrend's worst case at every $t$.
+
+**The structural loss is here:** Behrend's worst case is *not*
+attained simultaneously at every $t$. A primitive $A$ that saturates
+Behrend at $t = T_1$ (i.e. $\Sigma_A(T_1) \approx \log T_1 /
+\sqrt{2\pi \log\log T_1}$) will have $A$ concentrated in a single
+stratum $A_{k(T_1)}$, but then $\Sigma_A(T_2)$ for $T_2 \neq T_1$
+involves only the *truncated* part of that single stratum, which is
+sub-Behrend.
+
+So the correct bound is *not* the integral of the pointwise
+worst-case $\Sigma$; it is the integral of the actually-attained
+$\Sigma$ for any single $A$. F3 quantifies the gap: when $A = A_k$,
+$S(A_k) = 1 - c k^2/2^k$, the deficit from the pointwise-worst-case
+integral.
+
+### 10.2 The path to $1$
+
+The conjecture's $1$ ceiling presumably emerges from a "stratum-aware
+Behrend" — a strengthening of (EZ-3) that says:
+
+> For primitive $A$, the function $t \mapsto \Sigma_A(t)$ is not free
+> to attain Behrend's worst case at every $t$. Specifically, if it
+> saturates near $t_0$ with stratum $A_{k_0}$, it is sub-saturated by
+> at least $c k_0^2/2^{k_0}$ at all $t$ where the contribution is
+> non-trivial.
+
+Integrating such a bound through (EZ-4) would replace the EZ ceiling
+$1.399$ by $1.399 - 6c \cdot (\text{integration weight}) \approx 1$.
+
+This is the same CST conjecture from Section 9, restated in the EZ
+framework. The remaining content is the *stratum-aware Behrend*
+inequality. It does not appear in the standard literature (to the
+best of this loop's knowledge); whether it is provable is the heart
+of the open problem.
+
+(End of Section 10.)
+
+
 If the two quantities are merely numerically close but analytically
 distinct, this is a coincidence and the conjecture's $1$ bound
 arises from a different mechanism.

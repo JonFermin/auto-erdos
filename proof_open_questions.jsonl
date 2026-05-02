@@ -26,3 +26,5 @@
 {"qid":"Q9","status":"open","parent_qid":"Q8","summary":"Investigate the near-coincidence between F1's gap (e^gamma pi/4 - 1 = 0.399) and F3's total stratum-deficit (6c = 0.394). Is this structural or accidental? Implication for Lemma 3.","ts":"2026-05-02T22:14:15+00:00","session_id":"seed-resume-3"}
 {"qid":"Q9","status":"claimed","session_id":"s_0502-160436-9903","summary":"taking Q9 (F1-gap vs F3-deficit coincidence)","ts":"2026-05-02T22:14:15+00:00"}
 {"qid":"Q9","status":"resolved","session_id":"s_0502-160436-9903","summary":"Section 9 written: F1-gap vs F3-total-deficit numerical coincidence","ts":"2026-05-02T22:14:58+00:00"}
+{"qid":"Q10","status":"open","parent_qid":"Q9","summary":"Analytical sketch of Erdos-Zhang's bound. Identify the specific step that costs the gap from 1 to 1.399. This guides where the CST-style refinement must intervene.","ts":"2026-05-02T22:44:36+00:00","session_id":"seed-resume-4"}
+{"qid":"Q10","status":"claimed","session_id":"s_0502-164339-cf5f","summary":"taking Q10 (EZ analytical structure)","ts":"2026-05-02T22:44:36+00:00"}
