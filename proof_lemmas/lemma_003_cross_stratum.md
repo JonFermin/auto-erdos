@@ -71,3 +71,34 @@ $\sum_k \sum_{a \in A^{(k)}} 1/(a \log a)$ is split correctly.
 (b) Concede: this is a famous open problem; the loop produces a
 *partial result* (Sections 1–4 + Lemma 1 + Lemma 2 + the statement of
 Lemma 3 as the gap) and the convergence rule fires.
+
+## Update from Round 9 — the $6c$ identity
+
+Standard generating-function identity: $\sum_{k \ge 1} k^2 / 2^k = 6$
+exactly. Hence the *total* F3 deficit summed over all strata is
+$6c \approx 0.394$ (with $c \approx 0.0656$). The F1 gap from
+the conjectured ceiling is $e^{\gamma} \pi/4 - 1 \approx 0.399$.
+
+**These two quantities differ by $0.005$.** If they are analytically
+equal — i.e. if $c = (e^{\gamma} \pi/4 - 1)/6 \approx 0.0665$
+exactly, with the literature's $0.0656$ being a rounded value —
+then the conjecture's $1$ ceiling = F1 ceiling minus the cumulative
+F3 deficit. This crystallises plan (a) above into a concrete claim:
+
+> **Conjecture (CST — Conjecture-via-Stratum-aware-Tightening).**
+> A stratum-aware refinement of Erdős–Zhang exists that loses
+> $c k^2/2^k$ per stratum used, recovering the ceiling
+> $e^{\gamma} \pi/4 - \sum_k c k^2/2^k = 1$ for any primitive
+> $A \subset [x, \infty)$ as $x \to \infty$.
+
+To validate or refute CST one needs:
+
+1. The exact analytical value of $c$ in F3 (Sathe–Selberg). Confirm
+   whether $c = (e^{\gamma} \pi/4 - 1)/6$ holds.
+2. A "weighted version" of Erdős–Zhang's proof that preserves the
+   per-stratum F3 deficit. The standard proof presumably loses the
+   stratum information; a refinement that retains it would likely
+   yield CST directly.
+
+Neither step is in scope for the present autonomous loop. Documented
+as the most concrete open lead from the loop's run.
