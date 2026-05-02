@@ -831,19 +831,147 @@ of the open problem.
 
 (End of Section 10.)
 
+## Section 11 — $A_k$ saturates Behrend exactly at $k = \log\log t$
 
-If the two quantities are merely numerically close but analytically
-distinct, this is a coincidence and the conjecture's $1$ bound
-arises from a different mechanism.
+This section makes the "stratum-aware Behrend" picture rigorous on a
+single-stratum case: for $A = A_k$ (a single $\Omega = k$ level), we
+exhibit the function $t \mapsto \Sigma_{A_k}(t) := \sum_{n \in A_k,\,
+n \le t} 1/n$ explicitly and locate the unique $t$ at which it
+saturates Behrend.
 
-This loop cannot resolve which case obtains without consulting the
-literature on the Sathe–Selberg constant. **Status: identified as a
-key open question.** Future sessions (or a human reviewer) should
-check whether the literature derivation of $c$ in F3 yields
-$c = (e^\gamma \pi/4 - 1)/6$ exactly, or whether $c$ is an
-independent constant.
+### 11.1 Asymptotic of $\Sigma_{A_k}(t)$
 
-(End of Section 9.)
+By Landau's theorem,
+\[
+N_k(u) \;:=\; |A_k \cap [1, u]| \;\sim\; \frac{u}{\log u} \cdot
+\frac{(\log\log u)^{k-1}}{(k-1)!}
+\qquad (u \to \infty),
+\]
+uniformly in $k$ on a slowly growing range $k \le K(u)$
+(Hardy–Ramanujan / Sathe–Selberg). Partial summation:
+\[
+\Sigma_{A_k}(t) \;=\; \int_1^t \frac{1}{u} \, dN_k(u)
+\;=\; \frac{N_k(t)}{t} \;+\; \int_1^t \frac{N_k(u)}{u^2} \, du,
+\]
+and substituting Landau,
+\[
+\Sigma_{A_k}(t) \;\sim\; \frac{1}{(k-1)!}
+\int_1^t \frac{(\log\log u)^{k-1}}{u \log u}\, du.
+\]
+
+Substitute $v = \log\log u$ (so $u = e^{e^v}$,
+$du/u = e^v\, dv = \log u \cdot dv$, hence $du/(u \log u) = dv$):
+\[
+\Sigma_{A_k}(t) \;\sim\; \frac{1}{(k-1)!}
+\int_{\log\log 1}^{\log\log t} v^{k-1} \, dv
+\;=\; \frac{(\log\log t)^k}{k!} \;+\; o(\cdot).
+\]
+
+So
+\[
+\boxed{\Sigma_{A_k}(t) \;\sim\; \frac{(\log\log t)^k}{k!}.}
+\]
+
+### 11.2 Saturating Behrend
+
+Behrend's bound for primitive $A \subset [1, t]$ is
+\[
+\Sigma_A(t) \;\le\; \frac{\log t}{\sqrt{2\pi \log\log t}}
+\,(1 + o(1)).
+\]
+
+Maximise $(\log\log t)^k/k!$ over $k$. By Stirling,
+$k! \sim \sqrt{2\pi k}\, (k/e)^k$, so
+\[
+\frac{(\log\log t)^k}{k!}
+\;\sim\; \frac{1}{\sqrt{2\pi k}}
+\left(\frac{e \log\log t}{k}\right)^k.
+\]
+The maximum over $k$ is attained at $k^* = \log\log t$ (where
+$e \log\log t / k^* = e$ but the $k^*$-th power balances), giving the
+maximum value
+\[
+\max_k \Sigma_{A_k}(t) \;\sim\; \frac{e^{\log\log t}}{\sqrt{2\pi
+\log\log t}} \;=\; \frac{\log t}{\sqrt{2\pi \log\log t}},
+\]
+exactly Behrend's bound.
+
+**Conclusion.** $A_k$ saturates Behrend at $t$ if and only if $k =
+\log\log t$ (within the precision of the asymptotic).
+
+### 11.3 The $A_k$ stratum cannot saturate at multiple $t$
+
+If $A = A_{k_0}$ is fixed, $\Sigma_A(t) = (\log\log t)^{k_0}/k_0!$.
+This saturates Behrend at $t = e^{e^{k_0}}$ (where $\log\log t = k_0$)
+and is strictly *less than* Behrend at all other $t$. Quantitatively,
+for $t$ with $\log\log t = k_0 + \xi$,
+\[
+\frac{\Sigma_{A_{k_0}}(t)}{\text{Behrend}(t)}
+\;\sim\; \exp\!\left(- \frac{\xi^2}{2 k_0} \right) \cdot
+\sqrt{\frac{k_0}{k_0 + \xi}}
+\]
+(Gaussian deviation by saddle-point analysis).
+
+So a single-stratum primitive set is sub-Behrend by a Gaussian factor
+in $\xi^2 / k_0$ — a substantial deficit at any $t$ off the saturating
+$t$.
+
+### 11.4 Cross-stratum primitivity exclusion
+
+What if $A$ uses both $A_{k_1} \cap [x, N]$ and $A_{k_2} \cap [x, N]$
+for $k_1 < k_2$? Primitivity forbids any $a \in A^{(k_1)}$ from
+dividing any $b \in A^{(k_2)}$.
+
+For $b \in A_{k_2}$, the divisors $d \mid b$ with $\Omega(d) = k_1$
+are products of $k_1$-element multisets of $b$'s prime factorization;
+there are $\binom{k_2}{k_1}$ such divisors (with multiplicity, taking
+into account repeated primes via multinomial coefficients).
+
+If $A^{(k_1)} = A_{k_1} \cap [x, N]$ (full stratum), then
+$A^{(k_2)} \subset \{b \in A_{k_2} \cap [x, N] : \text{every}
+\binom{k_2}{k_1}\text{-divisor of } b \text{ in } [x, N] \text{ is}
+\notin A_{k_1}\}$. But $A^{(k_1)} = A_{k_1} \cap [x, N]$ contains
+every such divisor, so $A^{(k_2)}$ is restricted to $b$ whose every
+$k_1$-divisor is *outside* $[x, N]$ — i.e. $< x$ (all "subset
+products" of $b$'s factorization fall below the floor).
+
+For $b \approx N$ with $\Omega(b) = k_2$, the smallest $k_1$-divisor
+is $\ge p_{\min}(b)^{k_1}$. The condition "$<x$" demands
+$p_{\min}(b) \le x^{1/k_1}$ — an upper bound on the smallest prime
+factor of $b$. In Erdős' "smooth numbers" notation, this restricts
+$b$ to a thin set of small-smooth-factor integers.
+
+The mass loss from this restriction is the structural slack the
+conjecture exploits. Quantifying it in closed form is the essence of
+the CST conjecture / stratum-aware Behrend strengthening. We have not
+done so here.
+
+### 11.5 What this single-stratum analysis gives Lemma 3
+
+Section 11 makes the following rigorous:
+
+- For $A = A_k$ (single stratum), $\Sigma_A(t) \le
+  \min\!\bigl(\text{Behrend}(t),\,(\log\log t)^k/k!\bigr) =
+  (\log\log t)^k/k!$, *strictly less than* Behrend except at $t =
+  e^{e^k}$.
+- Plugging into (EZ-4) gives $S(A_k) \le \int_2^\infty \frac{(\log\log
+  t)^k}{k! \cdot t (\log t)^2} \, dt$, and a direct calculation (via
+  the same $v = \log\log u$ substitution) shows this integral equals
+  $1$ in the leading order. So the EZ chain *correctly recovers*
+  $S(A_k) \le 1 + o(1)$ for any single $A_k$, **without F3**.
+
+This is Lemma 2's content sharpened: F3's $1 - c k^2/2^k$ refines $1$
+to $1$-minus-deficit, but the bare bound $S(A_k) \le 1 + o(1)$ via
+EZ + Section 11 is already known.
+
+The *open* part is whether Sections 11.3 + 11.4 can be combined into
+a quantitative bound on $\Sigma_A(t)$ for arbitrary primitive $A$
+(not single-stratum) that is sub-Behrend uniformly enough to drop the
+EZ ceiling from $1.399$ to $1$. That is the unresolved heart of
+Lemma 3.
+
+(End of Section 11.)
+
 
 
 

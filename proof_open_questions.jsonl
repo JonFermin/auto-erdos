@@ -29,3 +29,5 @@
 {"qid":"Q10","status":"open","parent_qid":"Q9","summary":"Analytical sketch of Erdos-Zhang's bound. Identify the specific step that costs the gap from 1 to 1.399. This guides where the CST-style refinement must intervene.","ts":"2026-05-02T22:44:36+00:00","session_id":"seed-resume-4"}
 {"qid":"Q10","status":"claimed","session_id":"s_0502-164339-cf5f","summary":"taking Q10 (EZ analytical structure)","ts":"2026-05-02T22:44:36+00:00"}
 {"qid":"Q10","status":"resolved","session_id":"s_0502-164339-cf5f","summary":"Section 10 written: EZ pointwise-vs-attained slack identified; stratum-aware Behrend is the candidate strengthening","ts":"2026-05-02T22:45:28+00:00"}
+{"qid":"Q11","status":"open","parent_qid":"Q10","summary":"Show that A_k saturates Behrend exactly at log log t = k via Sigma_{A_k}(t) ~ (loglog t)^k / k!. Use this to make the stratum-aware Behrend strengthening rigorous on a single-stratum case.","ts":"2026-05-02T23:12:19+00:00","session_id":"seed-resume-5"}
+{"qid":"Q11","status":"claimed","session_id":"s_0502-171208-b80e","summary":"taking Q11 (single-stratum Behrend saturation calc)","ts":"2026-05-02T23:12:19+00:00"}
