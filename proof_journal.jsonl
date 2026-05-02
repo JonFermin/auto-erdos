@@ -6,3 +6,6 @@
 {"event":"round","session_id":"s_0501-121629-b2a4","ts":"2026-05-01T18:43:52+00:00","summary":"Q5 resolved: stratification proof structure","qid":"Q5","status":"keep_progress","commit":"b18a333"}
 {"event":"round","session_id":"s_0501-121629-b2a4","ts":"2026-05-01T18:45:26+00:00","summary":"Q6 resolved: partial result hardened","qid":"Q6","status":"keep_progress","commit":"b4bafe1"}
 {"event":"session_close","session_id":"s_0501-121629-b2a4","ts":"2026-05-01T18:46:56+00:00","commit":"b4bafe1","reason":"reason: partial result reached on Q1-Q6; conjecture remains open with Lemma 3 as the gap; critics-off mode tested end-to-end"}
+{"event":"session_open","session_id":"s_0502-160436-9903","ts":"2026-05-02T22:04:36+00:00","commit":"930da23","proof_tag":"primitive_set_erdos","stashed_ref":null,"detected_orphan":null,"released_orphan_qids":[]}
+{"event":"round","session_id":"s_0502-160436-9903","ts":"2026-05-02T22:08:37+00:00","summary":"Q7 resolved: per-stratum analysis","qid":"Q7","status":"keep_progress","commit":"8e20685"}
+{"event":"round","session_id":"s_0502-160436-9903","ts":"2026-05-02T22:12:49+00:00","summary":"Q8 resolved: max-S empirical","qid":"Q8","status":"keep_progress","commit":"ebaad49"}

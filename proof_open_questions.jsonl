@@ -22,3 +22,4 @@
 {"qid":"Q7","status":"resolved","session_id":"s_0502-160436-9903","summary":"Section 7 written: per-stratum sums tabulated; cross-stratum is the open question","ts":"2026-05-02T22:08:37+00:00"}
 {"qid":"Q8","status":"open","parent_qid":"Q7","summary":"Empirical max-S primitive-set search at x in {2, 100}, N=10^6. Compare against per-stratum max from Q7. Test the conjecture sup_A S(A) ≈ max_k a_k(x;N).","ts":"2026-05-02T22:11:24+00:00","session_id":"seed-resume-2"}
 {"qid":"Q8","status":"claimed","session_id":"s_0502-160436-9903","summary":"taking Q8 (max-S empirical search)","ts":"2026-05-02T22:11:24+00:00"}
+{"qid":"Q8","status":"resolved","session_id":"s_0502-160436-9903","summary":"Section 8 written: empirical max-S search; LC' naive tightening falsified","ts":"2026-05-02T22:12:49+00:00"}
