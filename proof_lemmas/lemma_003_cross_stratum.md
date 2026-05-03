@@ -122,3 +122,19 @@ of $c$ from the Sathe–Selberg formula (Tenenbaum §II.6.1), the
 autonomous loop cannot settle this. The open question is now
 **concretely scoped**: is the explicit Sathe–Selberg constant equal
 to $0.06647516766\ldots$?
+
+## Update from Round 18 — numerical-sieve route is infeasible
+
+Direct SPF sieve at $N = 10^7$ gives $S_k(N)$ for $k=1\ldots10$
+(see proof_strategy.md §17). The implied $c$ grows monotonically
+with $k$ — far from the asymptotic constant. Reason: $A_k$ mass
+saturates at $u_k = e^{e^k}$. For $k=5$, $u_k \sim 10^{65}$;
+for $k=8$, $u_k \sim 10^{1295}$. No feasible sieve reaches the
+regime where the asymptotic kicks in.
+
+Therefore the §16 dichotomy ($c_\text{lit} = 0.0656$ vs
+$c_\star = 0.06647517$) cannot be resolved autonomously by direct
+numerical experiment. Three remaining paths: (a) literature
+lookup, (b) first-principles re-derivation of $c$ via Mertens
+integrals, (c) side-step §9 via the §11.4 cross-stratum
+exclusion route — option (c) is the most autonomous-tractable.

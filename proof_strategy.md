@@ -1499,6 +1499,118 @@ approximation?" — a much more focused question.
 
 (End of Section 16.)
 
+## Section 17 — The numerical-sieve route to estimating $c$ is infeasible
+
+The §16.5 handoff recommended a direct sieve estimate of $c$ as
+the cleanest autonomous next move. This section runs that
+experiment and finds the route does not work at any feasible
+compute scale — the convergence is logarithmically slow in
+$\log\log N$, and the relevant $N$ at which $S(A_k)$ approaches its
+limiting value $1 - c k^2/2^k$ is astronomical for any $k$ where
+the leading term dominates.
+
+### 17.1 Direct sieve, $N = 10^7$
+
+Smallest-prime-factor sieve over $[2, N]$, $N = 10^7$, computing
+\[
+S_k(N) \;:=\; \sum_{\substack{n \le N \\ \Omega(n) = k}}
+\frac{1}{n \log n}.
+\]
+
+| $k$ | $S_k(10^7)$ | $1 - S_k$ | $k^2/2^k$ | implied $c$ |
+|---:|---:|---:|---:|---:|
+| $1$ | $1.5746$ | $-0.5746$ | $0.500$ | $-1.149$ |
+| $2$ | $0.8969$ | $+0.1031$ | $1.000$ | $+0.103$ |
+| $3$ | $0.5358$ | $+0.4642$ | $1.125$ | $+0.413$ |
+| $4$ | $0.2925$ | $+0.7075$ | $1.000$ | $+0.708$ |
+| $5$ | $0.1471$ | $+0.8529$ | $0.781$ | $+1.092$ |
+| $6$ | $0.0700$ | $+0.9300$ | $0.563$ | $+1.653$ |
+| $7$ | $0.0321$ | $+0.9679$ | $0.383$ | $+2.528$ |
+| $8$ | $0.0144$ | $+0.9856$ | $0.250$ | $+3.942$ |
+| $9$ | $0.0064$ | $+0.9936$ | $0.158$ | $+6.281$ |
+| $10$ | $0.0028$ | $+0.9972$ | $0.098$ | $+10.21$ |
+
+Total $\sum_k S_k(10^7) = 3.5746$.
+
+The implied-$c$ column should asymptote to a single constant $c
+\approx 0.0656$ (or $0.0665$, the §16 alternative) if the
+$1 - c k^2/2^k$ asymptotic held at this $N$. Instead the implied
+$c$ grows monotonically with $k$ by orders of magnitude — the
+asymptotic does **not** even approximately hold at $N = 10^7$ for
+any single $k$ in the table.
+
+### 17.2 Why convergence is hopeless at any practical $N$
+
+The mass of stratum $A_k$ is concentrated at integers $n$ where
+$\log\log n \approx k$ (saddle-point, §11.1–11.2). The relevant
+scale is $u_k := e^{e^k}$:
+
+| $k$ | $u_k = e^{e^k}$ | $\log_{10} u_k$ |
+|---:|---|---:|
+| $2$ | $\sim 10^{3.2}$ | $3.2$ |
+| $3$ | $\sim 10^{8.7}$ | $8.7$ |
+| $4$ | $\sim 10^{23.7}$ | $23.7$ |
+| $5$ | $\sim 10^{64.5}$ | $64.5$ |
+| $6$ | $\sim 10^{175.2}$ | $175.2$ |
+| $7$ | $\sim 10^{476.3}$ | $476.3$ |
+| $8$ | $\sim 10^{1295}$ | $1295$ |
+| $9$ | $\sim 10^{3519}$ | $3519$ |
+| $10$ | $\sim 10^{9566}$ | $9566$ |
+
+For the leading-order asymptotic $S(A_k) \approx 1 - c k^2/2^k$ to
+be tight at finite $N$, we need $N \gg u_k$. Concretely, the
+truncation residual $S(A_k \cap [1, N]) \to S(A_k)$ requires
+several decades past $u_k$.
+
+For $k = 5$ — the smallest $k$ at which $c k^2/2^k = c \cdot 0.78$
+gives a clean main term — this means $N \ge 10^{75}$ or so, vastly
+beyond any direct sieve.
+
+### 17.3 The honest conclusion
+
+The §16 dichotomy ("is the literature value $c \approx 0.0656$ the
+exact $c_\star = 0.06647517\ldots$, or only a $1\%$
+approximation?") **cannot be settled by direct numerical sieve at
+any feasible $N$**. The convergence rate of $S(A_k \cap [1, N])
+\to S(A_k)$ is so slow that even $N = 10^{50}$ would be inadequate
+to discriminate the two candidate $c$ values, which differ by $1\%$
+of the leading term.
+
+This closes off **option (1)** from the §16/handoff dichotomy: an
+autonomous numerical resolution of the §9 closing route's
+plausibility is not on offer. The remaining paths to settling the
+identity are:
+
+(a) **Literature lookup** of the explicit Sathe–Selberg constant
+    formula (Selberg 1954 §3; Tenenbaum *Introduction to Analytic
+    and Probabilistic Number Theory* §II.6.1) — outside the
+    autonomous loop.
+(b) **First-principles re-derivation** of $c$ as a specific Mertens
+    integral or Euler-product expression — a research-paper-scale
+    contribution that the loop has not produced in 17 rounds.
+(c) **Side-stepping** the §9 identity: pursue a different proof
+    strategy that does not depend on whether $6c = e^{\gamma}\pi/4
+    - 1$ holds exactly. The §11.4 cross-stratum exclusion approach
+    is one such side-step — it could in principle close Lemma 3
+    without ever computing $c$.
+
+### 17.4 What's recorded for future sessions
+
+The §9 identity, having survived only a $1\%$ numerical agreement
+test (§16) and now declared not-numerically-settleable (§17), is
+not load-bearing for any rigorous step. The §15.2 candidate route
+(stratum-aware Behrend with deficit $c k^2/2^k$ per stratum) is
+*structurally* suggestive but its required identity remains
+unverified. Future sessions that want to keep the §9 line live
+need either an analytic derivation of $c$ or an external citation.
+
+The §11.4 cross-stratum exclusion direction (option (c)) is more
+promising for autonomous progress: it is a structural
+combinatorial argument rather than a numerical one, and the
+existing Sections 11.4 and 13 already lay the groundwork.
+
+(End of Section 17.)
+
 
 
 
