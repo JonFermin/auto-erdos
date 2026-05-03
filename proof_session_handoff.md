@@ -1,43 +1,44 @@
-# Session handoff (s_0502-181121-0140)
+# Session handoff (s_0502-184222-1387)
 
-**Stop reason**: Session 6 budget. Round 14 added Section 13 â€” the
-cross-stratum exclusion threshold.
+**Stop reason**: Session 7. Round 15 added Section 14 â€” multi-stratum
+empirical max-S.
 
-**Round 14 main finding**
+**Round 15 main finding**
 
-For primitive A = A^(k1) âˆª A^(k2) with A^(k1) full (= A_{k1} cap [x, N]),
-the constraint on A^(k2) (no element of A^(k1) divides any element of
-A^(k2)) reduces to: every b in A^(k2) has its k1 smallest prime
-factors product < x.
+At x=100, N=10^6:
+- best single-stratum K={k}: K={2}, S=0.288
+- best pair: K={2,4}, S=0.337
+- best multi-stratum: K={2,3,4,5}, S=0.366
 
-By an Erdos-Kac heuristic (prime factor logs ~ uniform order
-statistics), E[log delta_{k1}(b)] ~ (k1^2 / 2 k2) log u. The constraint
-delta_{k1}(b) < x at scale u = x becomes k1 < sqrt(2 k2).
+So multi-stratum gain over single is 27%. Including k=1 (primes) hurts
+because each prime excludes a large downward cone of higher-stratum
+multiples.
 
-**Empirical validation** at x=100, N=10^7:
-
-  k1=1, k2=2: kept frac = 0.94 (k1 < sqrt(4)=2)
-  k1=2, k2=3: kept frac = 0.80 (k1 < sqrt(6)=2.45 borderline)
-  k1=3, k2=4: kept frac = 0.64 (k1 > sqrt(8)=2.83)
-
-Threshold is empirically clean.
+Empirical sup_A S(A) >= 0.366 at x=100, N=10^6. Conjecture ceiling
+is 1+o(1), so safe by 3x at this scale.
 
 **State at close**
 
-- 14 keep_progress rounds. Sections 1-13 in proof_strategy.md.
-- 14 records under records/.
-- Q1-Q13 resolved. Round cap is 50; ~36 rounds left.
+- 15 keep_progress rounds. Sections 1-14 in proof_strategy.md.
+- 15 records under records/.
+- Q1-Q14 resolved. Round cap 50; ~35 left.
 
-**Suggested next move (concrete)**
+**Suggested next move**
 
-Multi-stratum experiment: take A primitive supported on strata
-K = {k_min, k_min+1, ..., k_max} simultaneously, each "fully" present
-modulo cross-stratum primitivity. Compute S(A) numerically at x=100,
-N=10^7 for various K. See if max S over K ever reaches 1.
+Two viable directions:
 
-A subtler version: for each (k, k') pair, the "kept fraction" depends
-on both. The overall max-S problem is to find the optimal K that
-maximises sum_k (kept frac_k) * Gamma(k, loglog x)/(k-1)!.
+(a) Push N larger (currently 10^6 sieve cap; with more memory could
+    do 10^8). See if multi-stratum sup grows. Conjectured: sup grows
+    slowly toward 1 from below.
 
-This is computable. If max stays below 1, that's strong empirical
-evidence for the conjecture.
+(b) Try simulated annealing or ILP to tighten the lower bound from
+    0.366 above. If SA finds something significantly larger (e.g.,
+    > 0.5), that would suggest greedy is far from optimal.
+
+If neither pans out within a session, document the empirical envelope
+and consider this branch's loop has plateaued â€” call exit-4 by
+hitting the round cap or a manual session_end "loop plateau".
+
+Status: the loop has produced rich material on Lemma 3 (Sections
+7-14) but cannot close the open conjecture without a new analytical
+ingredient (CST conjecture / stratum-aware Behrend).
