@@ -60,11 +60,92 @@ at the bottom of this file. `proof_prepare.py` parses the JSON, runs the
 deterministic verifier, and sets `witness_valid` accordingly. No witness
 block ⇒ `witness_valid = 0` ⇒ no counterexample claim is possible.
 
-## Body
+---
 
-(The agent fills in the body. Sketch a structure, prove what you can,
-hedge the rest. Lemmas live in `proof_lemmas/lemma_*.md` and are cited
-by id from this file.)
+## Section 1: Setup
 
-This proof attempt is currently a stub. Pick the lowest-numbered open
-qid from `proof_open_questions.jsonl` and start.
+### 1.1 The Claim
+
+A **primitive set** is a set $A \subseteq \mathbb{N}$ of distinct integers such
+that no element of $A$ divides any other distinct element of $A$.
+
+**Erdős's conjecture (tightened form):** For any $x \geq 2$ and any primitive
+set $A \subseteq [x, \infty)$,
+$$
+\sum_{a \in A} \frac{1}{a \log a} < 1 + o(1),
+$$
+where the $o(1)$ term tends to $0$ as $x \to \infty$.
+
+In other words: the sum $f(A) := \sum_{a \in A} \frac{1}{a \log a}$ is
+bounded above by $1$ in the limit of large $x$. The conjecture says no
+primitive set (restricted to integers $\geq x$) can make this weighted sum
+exceed $1 + o(1)$.
+
+**Status:** Open. The claim is an unresolved conjecture. This attempt may
+establish a partial result or discover a counterexample, but no resolution
+can be asserted until verifier-accepted.
+
+### 1.2 Given Facts (with sign disambiguations)
+
+**F1 (Erdős-Zhang upper bound, 1935/1993):** For ANY primitive set
+$A \subseteq \mathbb{N}$ (no restriction to $[x, \infty)$),
+$$
+\sum_{a \in A} \frac{1}{a \log a} < e^{\gamma} \frac{\pi}{4} + o(1) \approx 1.399 + o(1).
+$$
+*Sign note*: This is an **UPPER** bound, strictly less than $\approx 1.399$.
+It is entirely consistent with the conjecture (which posits a tighter bound
+of $1$). It does **NOT** contradict the conjecture.
+
+**F2 (Omega-stratum lower bound):** For $A_k := \{n \in \mathbb{N} : \Omega(n) = k\}$
+(integers with exactly $k$ prime factors counted with multiplicity),
+$$
+\sum_{a \in A_k} \frac{1}{a \log a} \geq 1 + O\!\left(k^{-1/2 + o(1)}\right).
+$$
+*Sign note*: The $O(\cdot)$ term here is **UNSIGNED** — it could be positive
+or negative. This fact tells us the sum is at least $1$ minus a quantity
+bounded in absolute value by $k^{-1/2+o(1)}$. Concluding that the sum
+exceeds $1$ from F2 alone is a **sign error**; it contradicts F3.
+
+**F3 (Exact asymptotic for $A_k$):** For $A_k := \{n \in \mathbb{N} : \Omega(n) = k\}$,
+$$
+\sum_{a \in A_k} \frac{1}{a \log a} = 1 - (c + o(1))\frac{k^2}{2^k},
+\quad c \approx 0.0656 > 0.
+$$
+*Sign note*: The leading correction $-(c+o(1))k^2/2^k$ is **negative** (since
+$c > 0$). The sum approaches $1$ from **BELOW** as $k \to \infty$, and is
+**strictly less than $1$** for every finite $k \geq 1$. F3 is consistent
+with F2 once F2's unsigned-$O$ is read correctly: F2 gives a lower bound
+of roughly $1 - k^{-1/2}$, and F3 pins the exact value as $1 - ck^2/2^k$
+(which is also roughly $1 - k^{-1/2}$ for the relevant range of $k$ in the
+ sense that $k^2/2^k$ decays to $0$, so $\sum > 1 - \varepsilon$ for large $k$).
+
+### 1.3 Witness Contract
+
+A counterexample to the conjecture would be a primitive set $A \subseteq
+[x_{\text{floor}}, \infty)$ for some $x_{\text{floor}} \geq 2$ with
+$\sum_{a \in A} \frac{1}{a \log a} > 1$. The harness verifier uses:
+
+- **x\_floor** (int $\geq 2$): every element of $A$ must be $\geq x_{\text{floor}}$.
+- **elements** (list of ints, pairwise non-divisible, each $\geq x_{\text{floor}}$).
+- **claimed\_sum\_lower\_bound** (float): the agent's claim; the verifier
+  recomputes the exact sum independently.
+
+The verifier uses high-precision `decimal` arithmetic to compute
+$\sum_{a \in A} 1/(a \log a)$ and checks: (a) elements are distinct,
+(b) elements are pairwise non-divisible (primitive), (c) each element
+$\geq x_{\text{floor}}$, and (d) the rigorous lower bound exceeds
+`witness_threshold = 1.0`.
+
+### 1.4 Roadmap
+
+The proof attempt will proceed in the following phases:
+
+1. **Numerical evidence** (Q2, Q3): verify F3 numerically; check prime-set sums.
+2. **Witness search** (Q4): systematically search for a primitive set in
+   $[x_{\text{floor}}, \infty)$ with sum $> 1.0$.
+3. **Proof structure** (Q5): stratify by $\Omega(a)$; write lemma files for
+   the key inequalities.
+4. **Partial result or counterexample**: depending on the witness search and
+   the lemma proofs, either establish a partial result or commit a witness.
+
+This section (Q1) is complete. Next: Q2 (numerical evidence for F3).
