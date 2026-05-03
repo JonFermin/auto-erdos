@@ -242,14 +242,14 @@ Key findings:
 - For $x_{\text{floor}} = 2$: greedy exceeds 1.0 quickly. Not meaningful.
 - For $x_{\text{floor}} = 3$: sum exceeds 1.0 for max element $\geq 50003$
   (5133 elements). The witness structure is: $\{3, 4\} \cup \{\text{primes}
-  \geq 5, p \leq 50003\}$. Sum $\approx 1.003$. This passes the verifier
-  threshold, but x$_{\text{floor}} = 3$ is too small for the $o(1)$ to be
-  negligible.
+  \geq 5, p \leq 50003\}$. Sum $\approx 1.003$ (numerical observation only;
+  no `<!-- WITNESS -->` block committed). $x_{\text{floor}} = 3$ is too
+  small for the $o(1)$ to be negligible.
 - For $x_{\text{floor}} = 100$: greedy sum grows to only $0.314$ even over
   78841 elements (range to $10^6$). The greedy set is dominated by primes
-  $\geq 100$ whose tail sum converges to $\approx 1/\log 100 \approx 0.217$;
-  adding composites barely helps. **No witness with $x_{\text{floor}} = 100$
-  was found.**
+  $\geq 100$; adding composites provides modest incremental improvement.
+  In the explored range (up to $10^6$), the sum reaches only $\approx 0.314$.
+  **No witness with $x_{\text{floor}} = 100$ was found.**
 
 ### 3.3 Conclusions from the witness search
 
@@ -290,7 +290,7 @@ bound must use a separate argument for small-$k$ strata.
 
 Even restricting to large $k$: the sum OVER $k$ of these per-stratum bounds
 still diverges:
-$$\sum_{k \geq K_0} \left(1 - c \frac{k^2}{2^k}\right) \sim (k - K_0) \to \infty.$$
+$$\sum_{k=K_0}^{K} \left(1 - c \frac{k^2}{2^k}\right) \sim (K - K_0) \to \infty \quad (K \to \infty).$$
 
 So naive per-stratum summation does not give a useful bound regardless.
 The cross-stratum constraint (Section 4.3) is essential.
@@ -341,8 +341,9 @@ were found.
 3. **Numerical counterexample search** (Section 3): A greedy ascending primitive
    set search found no witness with $x_{\text{floor}} \geq 5$ whose sum exceeds
    1.0 over any feasible search range (up to $10^6$). For $x_{\text{floor}} = 100$
-   the greedy sum saturates near 0.314 with $\sim 79000$ elements. This provides
-   strong numerical evidence against a counterexample at moderate $x_{\text{floor}}$.
+   the greedy sum is bounded below 0.4 in the explored range, reaching $\approx 0.314$
+   with $\sim 79000$ elements. This provides numerical evidence against a counterexample
+   at moderate $x_{\text{floor}}$.
 
 4. **Proof skeleton** (Section 4): The $\Omega$-stratification approach was
    identified: write $A = \bigcup_k A_k$ and bound each stratum's contribution.
@@ -373,8 +374,9 @@ not available in the current fact ledger.
 **Obstacle O2 (prime stratum bound)**: Proving that the contribution from the
 $k=1$ stratum of any primitive set $A \subseteq [x, \infty)$ is bounded by
 $o(1)$ as $x \to \infty$. This is the analytic core of the conjecture (it is
-essentially equivalent to the original Erdős conjecture on $\sum 1/(p \log p)$
-for $p$ prime and $p \geq x$). Fact F1 gives an upper bound of $1.399 + o(1)$
+closely related to the prime-tail sum problem of bounding
+$\sum_{p \geq x} 1/(p \log p)$; this connection is noted informally and is not
+formalized in the ledger). Fact F1 gives an upper bound of $1.399 + o(1)$
 for the WHOLE primitive set; it does not separate out the prime stratum.
 
 **Obstacle O3 (coupling small and large strata)**: Even if O1 and O2 are resolved
