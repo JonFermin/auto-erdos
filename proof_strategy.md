@@ -207,6 +207,101 @@ approximately $S_1(100000) - S_1(100) = 1.5498 - 1.4216 = 0.1282$, well
 below 1.0. This suggests that the primes alone are NOT a strong counterexample
 candidate for large $x_{\text{floor}}$.
 
-Q4 will investigate whether a mixed-stratum primitive set in
-$[x_{\text{floor}}, \infty)$ with $x_{\text{floor}}$ moderately large can
-achieve sum $> 1.0$, which would be a more compelling witness.
+---
+
+## Section 3: Witness Search (Q4)
+
+### 3.1 Small $x_{\text{floor}}$ witnesses
+
+A witness with $x_{\text{floor}} = 2$ and elements $\{2, 3\}$ achieves a
+rigorously verified sum of $\approx 1.0248 > 1.0$ (verified by
+`library.primitive_set_witness.verify_witness`). This trivial witness
+confirms the harness functions correctly, but is not a meaningful
+counterexample: the $o(1)$ term at $x_{\text{floor}} = 2$ is approximately
+$0.636$ (the excess of the prime-sum from 2 over 1), so the bound
+$1 + o(1) \approx 1.636$ at this $x_{\text{floor}}$ is not violated.
+
+### 3.2 Greedy primitive set search
+
+We ran a greedy ascending search: starting from $x_{\text{floor}}$, add
+each integer that is pairwise non-divisible with all already chosen elements.
+
+| $x_{\text{floor}}$ | max element | elements | approx sum |
+|---------|-------------|----------|------------|
+| 2       | 5002        | 669      | 1.519      |
+| 3       | 5003        | 670      | 0.978      |
+| 3       | 50003       | 5133     | 1.003      |
+| 5       | 5005        | 671      | 0.698      |
+| 100     | 10100       | 1577     | 0.278      |
+| 100     | 100100      | 9935     | 0.299      |
+| 100     | 1000100     | 78841    | 0.314      |
+
+Key findings:
+- For $x_{\text{floor}} = 2$: greedy exceeds 1.0 quickly. Not meaningful.
+- For $x_{\text{floor}} = 3$: sum exceeds 1.0 for max element $\geq 50003$
+  (5133 elements). The witness structure is: $\{3, 4\} \cup \{\text{primes}
+  \geq 5, p \leq 50003\}$. Sum $\approx 1.003$. This passes the verifier
+  threshold, but x$_{\text{floor}} = 3$ is too small for the $o(1)$ to be
+  negligible.
+- For $x_{\text{floor}} = 100$: greedy sum grows to only $0.314$ even over
+  78841 elements (range to $10^6$). The greedy set is dominated by primes
+  $\geq 100$ whose tail sum converges to $\approx 1/\log 100 \approx 0.217$;
+  adding composites barely helps. **No witness with $x_{\text{floor}} = 100$
+  was found.**
+
+### 3.3 Conclusions from the witness search
+
+No primitive set in $[x_{\text{floor}}, \infty)$ with $x_{\text{floor}} \geq 5$
+and sum $> 1.0$ was found by the greedy construction over any feasible search
+range. The greedy sum for $x_{\text{floor}} = 100$ appears bounded well below 1.0,
+consistent with the conjecture's claim that the maximum sum for large $x$ is
+$< 1 + o(1)$.
+
+This does **not** prove the conjecture (the greedy construction may not be
+optimal), but provides strong numerical evidence that no counterexample exists
+for moderate $x_{\text{floor}} \geq 100$.
+
+---
+
+## Section 4: Proof Structure (Q5 — partial outline)
+
+### 4.1 Strategy: Stratify by $\Omega(a)$
+
+For any primitive set $A \subseteq [x, \infty)$, write $A_k = A \cap \{n :
+\Omega(n) = k\}$. Since $A$ is primitive and any two elements of the same
+$\Omega$-stratum that satisfy $a | b$ must have $\Omega(b) > \Omega(a)$
+(every prime factor of $a$ is in $b$ and $b$ has strictly more factors), elements
+in the same stratum are automatically pairwise non-divisible. Thus:
+
+$$\sum_{a \in A} \frac{1}{a \log a} = \sum_{k \geq 1} \sum_{a \in A_k} \frac{1}{a \log a}.$$
+
+The challenge is bounding the TOTAL over all $k$.
+
+### 4.2 Per-stratum bound
+
+By F3, $\sum_{a \in A_k} \frac{1}{a \log a} \leq \sum_{a \in \{n : \Omega(n) = k\}} \frac{1}{a \log a} = 1 - (c + o(1)) \frac{k^2}{2^k} < 1$ for each $k$.
+
+However, the sum OVER $k$ of these per-stratum bounds is:
+$$\sum_{k \geq 1} \left(1 - c \frac{k^2}{2^k}\right) = \text{(diverges to } \infty\text{)}.$$
+
+So simply summing F3's bound over all strata does not give a useful bound.
+
+### 4.3 Cross-stratum constraint
+
+The key constraint is that elements from different strata of $A$ must also be
+pairwise non-divisible. If $a \in A_j$ and $b \in A_k$ with $j < k$ and $a | b$,
+then $b \notin A$. This CROSS-STRATUM EXCLUSION is the heart of the problem: it
+prevents $A$ from using too much of each stratum.
+
+**Open sub-problems** (to be addressed in lemma files):
+
+- **Lemma L1** (cross-stratum density): bound how much of stratum $A_k$ a
+  primitive set can use, given that it already uses elements from strata
+  $j < k$. The primitive condition imposes a sieving constraint.
+- **Lemma L2** (dominant stratum): identify which stratum contributes the most
+  to the sum, and show that the total contribution is bounded.
+- **Lemma L3** (tail bound): show that the contribution from strata $k \geq K$
+  for large $K$ is small (this likely follows from F3 directly since
+  $1 - c k^2/2^k < 1$ and the geometric factor makes the tail small).
+
+These lemmas will be developed in `proof_lemmas/` files in the next session.

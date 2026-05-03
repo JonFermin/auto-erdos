@@ -7,3 +7,9 @@
 {"qid":"Q1","status":"claimed","session_id":"s_0503-080541-df09","summary":"taking Q1: write Section 1 Setup in proof_strategy.md","ts":"2026-05-03T08:06:00+00:00"}
 {"qid":"Q2","status":"claimed","session_id":"s_0503-080541-df09","summary":"computing numerical evidence for F3 (k=1..4) and prime sums","ts":"2026-05-03T08:18:43Z"}
 {"qid":"Q3","status":"claimed","session_id":"s_0503-080541-df09","summary":"compute prime sum and reconcile with F1/F3 asymptotics","ts":"2026-05-03T08:18:43Z"}
+{"qid":"Q1","status":"resolved","session_id":"s_0503-080541-df09","summary":"Section 1 (claim, F1/F2/F3 with sign notes, witness contract, roadmap) written and critic-approved","ts":"2026-05-03T08:30:24Z"}
+{"qid":"Q2","status":"resolved","session_id":"s_0503-080541-df09","summary":"Partial sums for k=1..4 up to N=100000 computed; k=2,3,4 all < 1; k=1 exceeds 1 at small N","ts":"2026-05-03T08:30:24Z"}
+{"qid":"Q3","status":"resolved","session_id":"s_0503-080541-df09","summary":"Prime-set sum partial values documented, consistent with expected ~1.6366 limit and F1/F3","ts":"2026-05-03T08:30:24Z"}
+{"qid":"Q4","status":"claimed","session_id":"s_0503-080541-df09","summary":"witness search: greedy primitive sets for x_floor=2,3,100; x_floor=2 {2,3} verified; x_floor=3 sum>1 for large range","ts":"2026-05-03T08:35:24Z"}
+{"qid":"Q4","status":"resolved","session_id":"s_0503-080541-df09","summary":"No witness found for x_floor>=5; x_floor=3 gives sum>1 for large ranges but o(1) not small; documented Section 3","ts":"2026-05-03T08:37:52Z"}
+{"qid":"Q5","status":"claimed","session_id":"s_0503-080541-df09","summary":"writing proof structure: Omega stratification, per-stratum bounds via F3, cross-stratum constraint","ts":"2026-05-03T08:37:52Z"}
