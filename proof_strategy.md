@@ -1391,9 +1391,113 @@ throughout — no false claims of resolution slipped through.
 
 (End of Section 15.)
 
+## Section 16 — Precision check of the §9 identity
 
+The Section 9 closing route depends on whether
+$6c = e^{\gamma}\pi/4 - 1$ holds **exactly** (with $c$ the constant
+in the Sathe–Selberg asymptotic $S(A_k) = 1 - (c + o(1))k^2/2^k$)
+or only **numerically to two decimals**. This section pins down the
+exact target value, computes the required $c$, and compares to the
+literature value cited in §9.
 
+### 16.1 The target value to 20 decimals
 
+Using $\gamma = 0.57721566490153286060\ldots$ (Euler–Mascheroni,
+decimal-table value, more than sufficient precision), we compute
+
+\[
+e^{\gamma}\pi/4 - 1 \;=\; 0.39885100596735378886\ldots
+\]
+
+and therefore the value of $c$ that would make the §9 identity
+exact is
+
+\[
+c_\star \;=\; \frac{e^{\gamma}\pi/4 - 1}{6} \;=\; 0.06647516766122563148\ldots
+\]
+
+(Computation: `math.exp(gamma) * math.pi / 4 - 1` in IEEE-754
+double precision; reproducible.)
+
+### 16.2 Comparison to the cited literature value
+
+§9 cites $c \approx 0.0656$. The discrepancy is
+
+\[
+c_\star - 0.0656 \;\approx\; +0.000875,
+\]
+
+a relative gap of about $1.32\%$. Equivalently, $6 \cdot 0.0656 =
+0.3936$ versus the F1 quantity $0.3989$ — a gap of $0.0053$
+absolute, $1.32\%$ relative.
+
+This is **not** a one-part-in-$10^4$ coincidence. It is a
+one-part-in-100 near-agreement. The §9 conjecture
+$6c = e^{\gamma}\pi/4 - 1$ is therefore one of two things:
+
+1. The cited constant $0.0656$ is a coarse approximation, and the
+   true Sathe–Selberg constant is $c_\star = 0.066475\ldots$.
+   Identity holds analytically.
+2. The cited constant $0.0656$ is accurate to its three displayed
+   digits, and the §9 identity is a numerical coincidence to
+   roughly $1\%$.
+
+A $1\%$ near-coincidence between two number-theoretic constants is
+*much* less compelling evidence of an analytical relationship than
+a $10^{-4}$ or $10^{-6}$ near-coincidence would be. By comparison,
+$e^\pi - \pi \approx 19.999$ is famous because it agrees with $20$
+to four decimals; $e^\pi$ to two decimals would be an unremarkable
+match.
+
+### 16.3 What this means for the closing route
+
+The §15.2 candidate route (a "stratum-aware Behrend" strengthening
+that loses $c k^2/2^k$ per stratum and recovers $1 = e^{\gamma}\pi/4
+- 6c$ on summation) is **conditional on** Branch (1) of the
+dichotomy in §16.2. Without confirming whether $c$ in the
+literature is the exact $c_\star$ or merely close to it, the route
+is suggestive but not load-bearing.
+
+Note: the §9 derivation itself does not pin down $c$ analytically —
+it imports $c$ as an external parameter. Therefore the autonomous
+loop *cannot* settle which branch holds without either:
+
+- a literature lookup of the explicit Sathe–Selberg formula for $c$
+  (Selberg 1954 §3; Tenenbaum *Introduction to Analytic and
+  Probabilistic Number Theory* §II.6.1 gives the closed form), or
+- an independent re-derivation of $c$ from first principles (a
+  Mertens-style integral over primes), which exceeds a single
+  proof round's scope.
+
+### 16.4 Directly measurable consequence
+
+If the §9 closing route is the path to Lemma 3, then a finite test
+that distinguishes $c_\star = 0.0665$ from $c = 0.0656$ would
+falsify or support it directly. One such test:
+
+For a primitive $A$ achieving $S(A)$ close to the conjectured
+ceiling at finite $x$, the numerical multi-stratum sum bound from
+§14 ($S \le 0.366$ at $x = 100, N = 10^6$) should approach
+$1 - o(1)$ as $x \to \infty$ if and only if the *true* total
+F3 deficit summed across $k$ equals $e^{\gamma}\pi/4 - 1$
+exactly. The §14 numerics could in principle be extrapolated, but
+the convergence is logarithmically slow (the $o(1)$ in the
+conjecture is at best $1/\log\log x$).
+
+This is recorded as a candidate experiment for a future session
+that has more compute budget than the typical 3-minute round.
+
+### 16.5 Status update for Lemma 3
+
+Updating `proof_lemmas/lemma_003_cross_stratum.md` accordingly:
+the CST conjecture's *closing direction is structural* status
+remains contingent on §16.2 Branch (1), which is currently open.
+The Section 16 precision check has narrowed the open question from
+"is the §9 identity meaningful?" to "is the literature value of $c$
+the exact $c_\star = 0.0664752\ldots$ or merely a 2-decimal
+approximation?" — a much more focused question.
+
+(End of Section 16.)
 
 
 

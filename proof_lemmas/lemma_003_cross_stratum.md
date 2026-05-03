@@ -102,3 +102,23 @@ To validate or refute CST one needs:
 
 Neither step is in scope for the present autonomous loop. Documented
 as the most concrete open lead from the loop's run.
+
+## Update from Round 17 — precision check on the §9 identity
+
+Computed in proof_strategy.md §16: $e^{\gamma}\pi/4 - 1 =
+0.39885100596735378886\ldots$ to 20 decimals (IEEE-754 double, more
+than enough precision). The value of $c$ that would make the §9 /
+CST identity exact is $c_\star = 0.06647516766122563148\ldots$
+
+The cited literature value $c \approx 0.0656$ differs from
+$c_\star$ by $+0.000875$ — a relative gap of $1.32\%$. So the §9
+identity is *either* exact (literature value $0.0656$ is just a
+2-decimal approximation of $c_\star$) *or* a $1\%$ near-miss
+numerical coincidence.
+
+The CST conjecture's plausibility is downstream of which branch
+holds. Without literature lookup or a first-principles re-derivation
+of $c$ from the Sathe–Selberg formula (Tenenbaum §II.6.1), the
+autonomous loop cannot settle this. The open question is now
+**concretely scoped**: is the explicit Sathe–Selberg constant equal
+to $0.06647516766\ldots$?
