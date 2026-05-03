@@ -37,3 +37,4 @@
 {"qid":"Q12","status":"resolved","session_id":"s_0502-174202-ad99","summary":"Section 12 written: incomplete-Gamma / Poisson representation","ts":"2026-05-02T23:44:00+00:00"}
 {"qid":"Q13","status":"open","parent_qid":"Q12","summary":"Cross-stratum exclusion under primitivity: threshold k_1 ~ sqrt(2 k_2) for full-A_{k_1} excluding most of A_{k_2}.","ts":"2026-05-03T00:15:03+00:00","session_id":"seed-resume-7"}
 {"qid":"Q13","status":"claimed","session_id":"s_0502-181121-0140","summary":"taking Q13","ts":"2026-05-03T00:15:03+00:00"}
+{"qid":"Q13","status":"resolved","session_id":"s_0502-181121-0140","summary":"Section 13 written: cross-stratum threshold sqrt(2 k_2) heuristic + numerical","ts":"2026-05-03T00:15:56+00:00"}

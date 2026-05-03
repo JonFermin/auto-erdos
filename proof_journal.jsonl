@@ -23,3 +23,5 @@
 {"event":"session_open","session_id":"s_0502-174203-7184","ts":"2026-05-02T23:42:03+00:00","commit":"65b888f","proof_tag":"primitive_set_erdos","stashed_ref":null,"detected_orphan":"s_0502-174202-ad99","released_orphan_qids":[]}
 {"event":"round","session_id":"s_0502-174202-ad99","ts":"2026-05-02T23:44:00+00:00","summary":"Q12 resolved: Gamma representation","qid":"Q12","status":"keep_progress","commit":"29765aa"}
 {"event":"session_close","session_id":"s_0502-174203-7184","ts":"2026-05-02T23:44:20+00:00","commit":"f9fd825","reason":"reason: session 5 short \u2014 round 13 added Section 12 with rigorous incomplete-Gamma representation"}
+{"event":"session_open","session_id":"s_0502-181121-0140","ts":"2026-05-03T00:11:21+00:00","commit":"7551c45","proof_tag":"primitive_set_erdos","stashed_ref":null,"detected_orphan":null,"released_orphan_qids":[]}
+{"event":"round","session_id":"s_0502-181121-0140","ts":"2026-05-03T00:15:56+00:00","summary":"Q13 resolved: cross-stratum threshold","qid":"Q13","status":"keep_progress","commit":"ae6d615"}
