@@ -1,60 +1,63 @@
-# Session handoff (session s_0503-161057-f50c)
+# Session handoff (session s_0503-163730-1b00)
 
-**Stop reason**: One round logged in this session. Returning control
-to the /loop driver; next iteration will resume.
+**Stop reason**: One round logged. Returning control to /loop driver.
 
-**This session's contribution**
+**This session's contribution (Round 18, Â§17)**
 
-Round 17 added Section 16 to `proof_strategy.md`: a 20-decimal
-precision check on the Â§9 identity $6c = e^{\gamma}\pi/4 - 1$.
+Direct SPF sieve at $N = 10^7$, computing $S_k(N)$ for $k=1\ldots10$.
+The asymptotic $1 - S_k \approx c k^2/2^k$ does NOT approximately
+hold at this $N$ â€” implied $c$ grows from $0.10$ at $k=2$ to $10.2$
+at $k=10$. Reason: $A_k$ mass saturates at $u_k = e^{e^k}$, which
+is $\sim 10^{65}$ at $k=5$ and $\sim 10^{1295}$ at $k=8$. No feasible
+sieve reaches the regime.
 
-Result: $e^{\gamma}\pi/4 - 1 = 0.39885100596735378886\ldots$ exactly
-(double precision, more than sufficient). The implied $c_\star =
-0.06647516766122563148\ldots$ The literature value $c \approx
-0.0656$ cited in Â§9 differs from $c_\star$ by $+0.000875$, a
-$1.32\%$ relative gap. So Â§9 is *either* exact (and the literature
-value is a 2-decimal approximation) *or* a $1\%$ near-miss
-coincidence. A $1\%$ near-miss is much weaker evidence than a
-$10^{-4}$ near-miss â€” the Â§9 closing route's plausibility is
-correspondingly downgraded.
+Conclusion: the Â§16 dichotomy (whether literature $c \approx 0.0656$
+is the exact $c_\star = 0.06647517\ldots$) **cannot be settled
+autonomously by numerical experiment**. Option (1) from the prior
+handoff is closed.
 
-Lemma 3's open question is now narrowed from "is the Â§9 identity
-meaningful?" to "is the explicit Satheâ€“Selberg constant equal to
-$0.06647516766\ldots$?"
+**Three remaining paths to close Â§9**
 
-**For the next session**
+(a) Literature lookup of explicit Satheâ€“Selberg formula â€” outside
+    autonomous scope.
+(b) First-principles re-derivation via Mertens integrals â€” research
+    paper scale.
+(c) Side-step Â§9 entirely: pursue Â§11.4 cross-stratum exclusion as
+    the route to Lemma 3, without needing the Â§9 identity.
 
-Two productive moves available:
+**For the next session: pursue (c)**
 
-1. **Numerical re-derivation of $c$** from a direct sieve. Extend
-   `proof_strategy.md` Â§7's table to $N = 10^8$ and back out $c$
-   from $1 - S(A_k)$ at $k \in \{6,7,8\}$ (where the
-   $1 - c k^2/2^k$ asymptotic should be cleanest). This would
-   resolve the Â§16.2 dichotomy autonomously without a literature
-   lookup. Costs maybe 1â€“2 minutes of compute per $N$.
+Section 11.4 sketches that cross-stratum primitivity excludes
+$b \in A_{k_2}$ unless every $k_1$-divisor of $b$ falls below the
+floor $x$. The Â§13 ErdÅ‘sâ€“Kac analysis already gives the threshold
+$k_1 < \sqrt{2 k_2}$. The unfinished step is **quantifying the
+mass loss** â€” showing that the cross-stratum-restricted sum is
+sub-Behrend by enough to drop the EZ ceiling from $1.399$ to $1$.
 
-2. **Stratum-aware Behrend sketch**. Pick up Lemma 3 directly:
-   write a candidate "weighted EZ" argument that produces a
-   $-c k^2/2^k$ deficit per used stratum. Even a heuristic sketch
-   would clarify what the missing analytic ingredient is.
-
-Recommendation: do (1) first. It's a compute experiment with a
-clean pass/fail criterion (does the data prefer $c = 0.0656$ or
-$c = 0.0665$?), and the outcome materially shifts the proof's
-prospects.
+Concrete next move: write a candidate Section 18 attempting an
+explicit bound on
+\[
+S\!\left(\bigsqcup_{k_1 < k_2} A^{(k_1)} \cup A^{(k_2)}\right)
+\]
+using the Â§13.2 mass-loss estimate. If even a heuristic
+calculation gives the right $\sim 1$ asymptotic, that's a strong
+sign the Lemma 3 closing direction is via Â§11.4 / Â§13 rather than
+Â§9.
 
 **Files modified this session**
 
-- `proof_strategy.md` â€” added Section 16 (~85 lines).
-- `proof_lemmas/lemma_003_cross_stratum.md` â€” appended Round 17
-  update.
-- `proof_open_questions.jsonl` â€” Q16 claimed and resolved.
-- `proof_journal.jsonl` â€” round 17 entry.
-- 1 new record under `records/proof_primitive_set_erdos_*.json`.
+- `proof_strategy.md` â€” added Section 17 (~95 lines).
+- `proof_lemmas/lemma_003_cross_stratum.md` â€” Round 18 update.
+- `proof_open_questions.jsonl` â€” Q17 claimed and resolved.
+- `proof_journal.jsonl` â€” round 18 entry.
+- 1 new record in `records/`.
 
-**qid in flight**: none. Q16 resolved.
+**qid in flight**: none. Q17 resolved. Next qid is Q18.
 
-**No outstanding work-in-progress**.
+**Status of partial result**
 
-The /loop driver will reinvoke this skill via ScheduleWakeup. The
-new session_id should pick (1) above as Q17.
+The Â§9 closing route is downgraded (was: contingent on literature
+lookup; now: also confirmed not-resolvable-by-sieve). The Â§11.4
+cross-stratum exclusion route remains the most promising
+autonomous direction. 18 rounds across 9 sessions; 18 keeps;
+0 disproofs; conjecture remains open with no false claim.
