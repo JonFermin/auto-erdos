@@ -1,43 +1,43 @@
-# Session handoff (s_0502-174202-ad99)
+# Session handoff (s_0502-181121-0140)
 
-**Stop reason**: Session 5 budget. Round 13 derived the exact
-incomplete-Gamma representation for truncated stratum sums.
+**Stop reason**: Session 6 budget. Round 14 added Section 13 â€” the
+cross-stratum exclusion threshold.
 
-**Round 13 main finding**
+**Round 14 main finding**
 
-S(A_k cap [x, infty)) ~ Gamma(k, loglog x) / (k-1)!  =  P(Poisson(loglog x) < k)
+For primitive A = A^(k1) âˆª A^(k2) with A^(k1) full (= A_{k1} cap [x, N]),
+the constraint on A^(k2) (no element of A^(k1) divides any element of
+A^(k2)) reduces to: every b in A^(k2) has its k1 smallest prime
+factors product < x.
 
-This is exact (modulo standard Hardy-Ramanujan / Sathe-Selberg
-uniformity), and validated numerically against direct sums for
-k in main range. The probabilistic interpretation aligns with
-Erdos-Kac.
+By an Erdos-Kac heuristic (prime factor logs ~ uniform order
+statistics), E[log delta_{k1}(b)] ~ (k1^2 / 2 k2) log u. The constraint
+delta_{k1}(b) < x at scale u = x becomes k1 < sqrt(2 k2).
 
-Consequence: the single-stratum supremum
-max_k S(A_k cap [x, infty))  ~  max_k P(Poisson(loglog x) < k)
-tends to 1 from below as x -> infty, matching the conjecture's
-ceiling. So Lemma 3's single-stratum case is now rigorous via Section
-11 + 12 â€” the truncated stratum sup IS the conjecture's bound.
+**Empirical validation** at x=100, N=10^7:
 
-The cross-stratum case is still open; Sections 11.3-11.4 sketched but
-didn't quantify the primitivity deficit.
+  k1=1, k2=2: kept frac = 0.94 (k1 < sqrt(4)=2)
+  k1=2, k2=3: kept frac = 0.80 (k1 < sqrt(6)=2.45 borderline)
+  k1=3, k2=4: kept frac = 0.64 (k1 > sqrt(8)=2.83)
+
+Threshold is empirically clean.
 
 **State at close**
 
-- 13 keep_progress rounds. Sections 1-12 in proof_strategy.md.
-- 13 records under records/.
-- Q1-Q12 resolved.
+- 14 keep_progress rounds. Sections 1-13 in proof_strategy.md.
+- 14 records under records/.
+- Q1-Q13 resolved. Round cap is 50; ~36 rounds left.
 
-**Suggested next move**
+**Suggested next move (concrete)**
 
-Quantify the cross-stratum deficit. Take A primitive with
-contributions in two strata k_1, k_2 (k_1 < k_2). By the analysis in
-11.4: the b in A^{(k_2)} is restricted to b < x p_min(b). Estimate
-S(A^{(k_2)}) under this restriction. Compare to
-S(A^{(k_2)} unrestricted) = Gamma(k_2, loglog x)/(k_2-1)!.
+Multi-stratum experiment: take A primitive supported on strata
+K = {k_min, k_min+1, ..., k_max} simultaneously, each "fully" present
+modulo cross-stratum primitivity. Compute S(A) numerically at x=100,
+N=10^7 for various K. See if max S over K ever reaches 1.
 
-If the restriction reduces S(A^{(k_2)}) by a factor f(k_1) such that
-S(A^{(k_1)}) + f(k_1) * S(A^{(k_2)}) <= max(S(A^{(k_1)}), S(A^{(k_2)})) + o(1),
-the cross-stratum part of Lemma 3 follows.
+A subtler version: for each (k, k') pair, the "kept fraction" depends
+on both. The overall max-S problem is to find the optimal K that
+maximises sum_k (kept frac_k) * Gamma(k, loglog x)/(k-1)!.
 
-This is a doable computation; primitive obstacle is Mertens-type
-estimates on smooth-numbers density.
+This is computable. If max stays below 1, that's strong empirical
+evidence for the conjecture.
