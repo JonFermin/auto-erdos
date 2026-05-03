@@ -184,8 +184,8 @@ $A_1 = \{\text{primes}\}$ is a primitive set. Partial sums:
 | 10000 | 1229 | 1.528162 |
 | 100000 | 9592 | 1.549781 |
 
-The partial sum is consistent with the expected limiting value $\approx 1.6366$
-mentioned in the open-question queue (Q3).
+The partial sum $S_1(N)$ grows slowly for large $N$, approaching a value above
+1 (numerical observation only; the exact limit is not stated in the fact ledger).
 
 **Remark on F1 tension**: F1 as stated says "for any primitive set
 $A \subseteq \mathbb{N}$, sum $< 1.399 + o(1)$". If $o(1) = 0$ this would
@@ -310,8 +310,9 @@ prevents $A$ from using too much of each stratum.
 - **Lemma L2** (dominant stratum): identify which stratum contributes the most
   to the sum, and show that the total contribution is bounded.
 - **Lemma L3** (tail bound): show that the contribution from strata $k \geq K$
-  for large $K$ is small (this likely follows from F3 directly since
-  $1 - c k^2/2^k < 1$ and the geometric factor makes the tail small).
+  for large $K$ is small. Note: per-stratum F3 bounds alone do not give this
+  directly (as Section 4.2 shows, the naive tail-sum of per-stratum bounds still
+  diverges); the primitive-set restriction must be used here as well.
 
 These lemmas will be developed in `proof_lemmas/` files in the next session.
 
@@ -373,11 +374,9 @@ not available in the current fact ledger.
 
 **Obstacle O2 (prime stratum bound)**: Proving that the contribution from the
 $k=1$ stratum of any primitive set $A \subseteq [x, \infty)$ is bounded by
-$o(1)$ as $x \to \infty$. This is the analytic core of the conjecture (it is
-closely related to the prime-tail sum problem of bounding
-$\sum_{p \geq x} 1/(p \log p)$; this connection is noted informally and is not
-formalized in the ledger). Fact F1 gives an upper bound of $1.399 + o(1)$
-for the WHOLE primitive set; it does not separate out the prime stratum.
+$o(1)$ as $x \to \infty$. This is the analytic core of the conjecture. Fact
+F1 gives an upper bound of $1.399 + o(1)$ for the WHOLE primitive set; it
+does not separate out the prime stratum, so F1 alone is insufficient here.
 
 **Obstacle O3 (coupling small and large strata)**: Even if O1 and O2 are resolved
 separately, combining them into a global bound $\leq 1 + o(1)$ requires a coupling
