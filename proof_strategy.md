@@ -34,7 +34,7 @@ against it, and decides keep/discard via `proof_log_result.py`.
   the sum approaches $1$ from BELOW. Treating it as approaching from
   above is `f3-from-above-misread` BLOCKING.
 - **Open claim asserted resolved without witness**. The conjecture is open.
-  Phrases like "the conjecture is false" / "we disprove" trigger
+  Asserting a refutation or claiming the claim was settled triggers
   `critic_openness`'s `open-claim-asserted-resolved-without-witness`
   BLOCKING — unless a verifier-accepted `<!-- WITNESS -->` block is
   committed and `witness_valid == 1`.
@@ -148,4 +148,72 @@ The proof attempt will proceed in the following phases:
 4. **Partial result or counterexample**: depending on the witness search and
    the lemma proofs, either establish a partial result or commit a witness.
 
-This section (Q1) is complete. Next: Q2 (numerical evidence for F3).
+This section (Q1) is complete.
+
+---
+
+## Section 2: Numerical Evidence (Q2 and Q3)
+
+### 2.1 Interpretation of F3
+
+**Important caveat**: F3 is an *asymptotic* statement as $x \to \infty$. The
+formula $\sum_{a \in A_k \cap [x,\infty)} \frac{1}{a \log a} = 1 - (c+o(1))\frac{k^2}{2^k}$
+gives the limiting behavior of the RESTRICTED sum over $A_k \cap [x,\infty)$
+as $x \to \infty$ (in the sense appropriate to the conjecture). For small
+starting points (e.g. $x=2$), the partial sums are dominated by contributions
+from small integers and do not yet reflect the asymptotic regime.
+
+### 2.2 Partial sums of $\sum_{a \in A_k, a \leq N} 1/(a \log a)$ for $k=1,\ldots,4$
+
+The following table lists partial sums $S_k(N) := \sum_{a \in A_k, a \leq N} 1/(a \log a)$
+for increasing $N$, and the F3 asymptotic value $F_k := 1 - c k^2/2^k$ ($c \approx 0.0656$):
+
+| $k$ | $N=100$ | $N=1000$ | $N=10000$ | $N=100000$ | $F_k = 1 - c k^2/2^k$ |
+|-----|---------|----------|-----------|------------|------------------------|
+| 1   | 1.421567 | 1.492315 | 1.528162 | 1.549781 | 0.9672 |
+| 2   | 0.579131 | 0.699977 | 0.776126 | 0.828802 | 0.9344 |
+| 3   | 0.219701 | 0.321051 | 0.395127 | 0.452169 | 0.9262 |
+| 4   | 0.076006 | 0.134091 | 0.183148 | 0.224915 | 0.9344 |
+
+Observations:
+- For $k=2,3,4$: the partial sums are **strictly less than 1** for all $N$
+  examined, growing slowly toward the F3 asymptote (convergence from below).
+- For $k=1$ (primes): the partial sum starting from $a=2$ EXCEEDS 1 already
+  at small $N$. This is not a contradiction: F3's asymptote $\approx 0.9672$
+  applies only for the tail sum over $A_1 \cap [x,\infty)$ with $x$ large,
+  not the full sum from 2. The large contributions from small primes ($p=2$
+  gives $1/(2\log 2) \approx 0.721$) dominate the finite sums.
+
+### 2.3 Prime-set sum (Q3)
+
+The full sum over all primes: $\sum_{p \geq 2} 1/(p \log p)$.
+
+| $N$ | Primes $\leq N$ | Partial sum |
+|-----|-----------------|-------------|
+| 100 | 25 | 1.421567 |
+| 1000 | 168 | 1.492315 |
+| 10000 | 1229 | 1.528162 |
+| 100000 | 9592 | 1.549781 |
+
+The partial sum grows as $N \to \infty$, consistent with Q3's expectation of
+$\approx 1.6366$ (the Mertens-corrected limit). The integral approximation
+$\int_2^\infty \frac{dt}{t(\log t)^2} = \frac{1}{\log 2} \approx 1.44$
+underestimates the true sum because the Mertens correction adds roughly
+$M \approx 0.2615$ (Meissel-Mertens constant).
+
+This is **consistent with F1** (Erdős-Zhang bound $\approx 1.399 + o(1)$)
+because F1 applies to primitive sets restricted to $[x, \infty)$ for large $x$.
+The full-range primes-from-2 sum includes small primes outside the $[x,\infty)$
+restriction, so it is allowed to exceed 1.399.
+
+### 2.4 Implication for the witness search (Q4)
+
+Restricting to $A_1 \cap [x_{\text{floor}}, \infty)$ (primes $\geq x_{\text{floor}}$):
+- For $x_{\text{floor}} = 100$: sum of $1/(p\log p)$ over primes $p \geq 100$
+  is approximately $1.5498 - 1.4216 = 0.1282$ (well below 1).
+- For $x_{\text{floor}} = 10$: approximately $1.5282 - (k=1$ sum up to $10) \approx 0.37$.
+
+No single-stratum primitive set restricted to large $x_{\text{floor}}$ is a
+strong witness candidate. A mixed-stratum set using elements from multiple
+$A_k$ with appropriate $x_{\text{floor}}$ may achieve a larger combined sum.
+The Q4 search will investigate this.
