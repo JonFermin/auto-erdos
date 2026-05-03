@@ -157,3 +157,24 @@ Analytical step still needed: a saddle-point bound on
 $\sum_k a_k(x) \rho_k(x)$ where $\rho_k(x)$ is the cross-stratum
 kept fraction. §13's Erdős–Kac threshold gives $\rho_k$ asymptotics
 but not yet the closed-form $\sum_k a_k \rho_k$ inequality.
+
+## Update from Round 20 — closed-form a_k(x; infty) + restated goal
+
+§19 derived (rigorously, by partial summation from §11.1):
+  a_k(x; inf) ~ (1/log x) * sum_{j=0..k-1} (loglog x)^j / j!
+              = (1/log x) * P(Poisson(loglog x) <= k-1)
+
+Validated numerically at x=10^7 against §17 sieve data: k=1 gives
+1.6366 = Erdős's prime-tail constant exactly; k=3..10 give
+S(A_k)_inf within 1% of 1, confirming §11.
+
+This restates Lemma 3's open goal in the cleanest form yet
+(§19.5):
+  prove sum_{k=L..L^2/2} rho_k(x) = o(log x) uniformly as x→inf,
+where L = loglog x and rho_k is the §18-style cross-stratum kept
+fraction. §13's Erdős–Kac saddle-point should give this — but
+hasn't been worked out rigorously yet.
+
+This is the single missing analytic step that closes the
+§11+§12+§13+§18+§19 chain into a proof of Lemma 3 / the CST
+conjecture.
