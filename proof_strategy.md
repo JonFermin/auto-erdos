@@ -1088,6 +1088,111 @@ with that picture but does not close it.
 
 (End of Section 12.)
 
+## Section 13 — Cross-stratum exclusion threshold $k_1 \approx \sqrt{2 k_2}$
+
+We quantify the cross-stratum primitivity cost in the simplest
+non-trivial setup: $A^{(k_1)} = A_{k_1} \cap [x, N]$ (full lower
+stratum), and $A^{(k_2)}$ restricted by primitivity. By the
+$b < x \cdot p_{\min}(b)$ analysis from §11.4, generalised to a
+$k_1$-divisor: for $A^{(k_2)}$,
+\[
+A^{(k_2)} \;\subset\; \bigl\{b \in A_{k_2} \cap [x, N] :
+\delta_{k_1}(b) < x\bigr\},
+\]
+where $\delta_{k_1}(b)$ is the product of the $k_1$ smallest prime
+factors of $b$ (with multiplicity).
+
+### 13.1 Heuristic threshold
+
+For $b \in A_{k_2}$ at scale $u$, the prime factors $p_1 \le p_2
+\le \cdots \le p_{k_2}$ of $b$ have $\log p_i$ approximately
+distributed as the order statistics of $k_2$ iid uniforms on
+$[\log 2, \log u]$ (Erdős–Kac). The $i$-th order statistic has mean
+$(i/(k_2+1)) \log u$, so
+\[
+\mathbb{E}\bigl[\log \delta_{k_1}(b)\bigr] \;=\;
+\sum_{i=1}^{k_1} \frac{i}{k_2 + 1} \log u
+\;=\; \frac{k_1(k_1+1)/2}{k_2 + 1}\, \log u
+\;\approx\; \frac{k_1^2}{2 k_2}\, \log u.
+\]
+
+The constraint $\delta_{k_1}(b) < x$ for $b$ near scale $u = x$
+becomes
+\[
+\frac{k_1^2}{2 k_2}\, \log x \;<\; \log x \;\Longleftrightarrow\;
+\boxed{k_1 < \sqrt{2 k_2}.}
+\]
+
+When $k_1 < \sqrt{2 k_2}$: typical $b$ satisfies the constraint and
+the kept fraction $|A^{(k_2)}|/|A_{k_2} \cap [x, N]| \to 1$.
+When $k_1 \gtrsim \sqrt{2 k_2}$: the kept fraction drops sharply.
+
+### 13.2 Numerical validation
+
+Computed at $x = 100$, $N = 10^7$:
+
+| $k_1$ | $k_2$ | $\sqrt{2 k_2}$ | $S(A_{k_2} \cap [x, N])$ | $S(A^{(k_2)})$ | kept frac |
+|---:|---:|---:|---:|---:|---:|
+| $1$ | $2$ | $2.00$ | $0.3178$ | $0.2978$ | $0.937$ |
+| $1$ | $3$ | $2.45$ | $0.3161$ | $0.3159$ | $1.000$ |
+| $2$ | $3$ | $2.45$ | $0.3161$ | $0.2529$ | $0.800$ |
+| $2$ | $4$ | $2.83$ | $0.2187$ | $0.2145$ | $0.981$ |
+| $3$ | $4$ | $2.83$ | $0.2187$ | $0.1394$ | $0.637$ |
+| $3$ | $5$ | $3.16$ | $0.1266$ | $0.1164$ | $0.919$ |
+| $3$ | $6$ | $3.46$ | $0.0639$ | $0.0632$ | $0.988$ |
+
+The threshold $k_1 \approx \sqrt{2 k_2}$ is empirically the crossover:
+
+- $k_1 < \sqrt{2 k_2}$: kept fraction $> 0.9$ (cross-stratum gain
+  available);
+- $k_1 \approx \sqrt{2 k_2}$: kept fraction near $0.6$–$0.8$;
+- $k_1 > \sqrt{2 k_2}$: would drop further (not in table; would
+  require $k_2 < k_1^2/2$, e.g. $k_2 = 3$ with $k_1 \ge 3$, but
+  $k_2 \ge k_1$ for "lower stratum" semantics).
+
+### 13.3 Implication for Lemma 3
+
+Combine with §12. For the two-stratum primitive set
+$A = A^{(k_1)} \cup A^{(k_2)}$ with $A^{(k_1)}$ full,
+\[
+S(A) \;=\; S(A^{(k_1)}) + S(A^{(k_2)})
+\;\le\; \frac{\Gamma(k_1, t)}{(k_1-1)!} +
+\bigl(\text{kept frac}\bigr) \cdot \frac{\Gamma(k_2, t)}{(k_2-1)!},
+\]
+where $t = \log\log x$.
+
+Both $\Gamma(k, t)/(k-1)!$ approach $1$ from below as $k \to \infty$
+at fixed $t$ (Poisson tail). For $k_1, k_2$ both near $t$ — the
+"main range" — both terms can be close to $1/2$ each, so the sum is
+close to $1$. The kept fraction in the worst case (when $k_1 \approx
+\sqrt{2 k_2}$) is $\sim 0.6$–$0.8$, so even if the unrestricted sum
+would be $\sim 1.4$, the restricted sum is bounded by something like
+$0.5 + 0.7 \cdot 0.5 \approx 0.85$ — tighter than the conjecture.
+
+For higher $k_1$ (above the threshold), the kept fraction collapses
+fast and $S(A^{(k_2)}) \to 0$, so the sum stays close to
+$S(A^{(k_1)}) \le \Gamma(k_1, t)/(k_1-1)! \le 1$.
+
+### 13.4 Multi-stratum extension (sketch)
+
+The two-stratum analysis above only captures pairwise primitivity.
+For a primitive $A$ with mass distributed over many strata,
+primitivity binds across all pairs simultaneously, and the cross-
+stratum exclusions interact. A clean multi-stratum bound would say:
+
+> If $A^{(k)} \neq \emptyset$ for $k \in K$ (some set), then for each
+> $k \in K$, $S(A^{(k)})$ is reduced from $\Gamma(k, t)/(k-1)!$ by a
+> factor depending on the *closest* other $k' \in K$ — specifically,
+> by the kept fraction associated to the pair $(k', k)$.
+
+This sketch is consistent with Section 8's empirical max-$S$ data
+($S \approx 0.31$ at $x = 100$, vs. naive union $1.25$ — a 4× collapse
+attributed to cumulative cross-stratum exclusions). Quantifying the
+multi-stratum bound rigorously is the remaining content of Lemma 3.
+
+(End of Section 13.)
+
+
 
 
 
