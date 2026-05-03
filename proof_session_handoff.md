@@ -1,74 +1,66 @@
-# Session handoff (session s_0503-170719-5bd6)
+# Session handoff (session s_0503-173716-486b)
 
 **Stop reason**: One round logged. Returning to /loop driver.
 
-**This session's contribution (Round 19, §18)**
+**This session's contribution (Round 20, sect 19)**
 
-Computed explicit two-stratum cross-exclusion sums
-$S(A^{(k_1)} \sqcup A^{(k_2)}_\text{kept})$ for
-$(k_1, k_2) \in \{(2,3),(2,4),(2,5),(3,4),(3,5),(3,6)\}$
-at $x \in \{10^2, 10^3, 10^4\}$, $N = 10^6$.
+Derived a closed form for the tail-stratum sum:
+  a_k(x; inf) ~ (1/log x) * sum_{j=0..k-1} (loglog x)^j / j!
+              = (1/log x) * P(Poisson(loglog x) <= k-1)
 
-KEY RESULT: maximum two-stratum sum decays
-$0.337 \to 0.212 \to 0.133$ as $x$ grows. Decay is faster than
-$1/\log x$. Pair $(k_1, k_2) = (2, 4)$ dominates at every tested
-$x$. Kept fraction grows above the §13 threshold $k_1 < \sqrt{2 k_2}$:
-at $(2,5)$ it reaches 38% at $x=10^4$, while at $(3,4)$ it stays
-at 1.5%.
+Method: partial summation from sect 11.1's
+Sigma_{A_k}(t) ~ (loglog t)^k / k!, with substitution
+v = loglog t reducing the integral to upper-incomplete gamma.
 
-This is the strongest pro-conjecture numerical signal across
-19 rounds — the data is consistent with $\sup S(A) \to 0$ as
-$x \to \infty$ (stronger than the $\le 1 + o(1)$ conjecture asks).
+NUMERICAL VALIDATION at x=10^7: k=1 gives
+S_obs + a_pred = 1.5746 + 0.0620 = 1.6366, exactly matching the
+literature value of Erdos's prime-tail constant
+sum_p 1/(p log p) = 1.6366... — strong validation.
 
-**For next session**
+For k=3..10, S_obs + a_pred is within 1% of 1, confirming
+S(A_k) -> 1 as k grows. (k=2 is borderline — L=2.78 is just past
+k=2 so asymptotic only barely applies.)
 
-Concrete analytic target identified in §18.5: prove a saddle-point
-inequality
-\[
-\sup_A S(A) \;\le\; \sum_k a_k(x) \cdot \rho_k(x) \;\to\; 1\;(\text{or } 0)
-\]
-where $\rho_k(x)$ is the cross-stratum kept fraction. §13's
-Erdős–Kac threshold $k_1 < \sqrt{2 k_2}$ gives $\rho_k$ asymptotics;
-the missing step is bounding $\sum_k a_k \rho_k$ by a single
-integral via saddle-point.
+GOAL RESTATEMENT (sect 19.5): Lemma 3 reduces to
+  prove sum_{k=L..L^2/2} rho_k(x) = o(log x) uniformly as x->inf.
+This is the single missing analytic step.
 
-**Two productive next moves**
+**For next session: tackle the goal directly**
 
-(a) **Extend the §18 table to $N = 10^7$** and $x \in \{10^5, 10^6\}$
-    to confirm the decay rate. Wallclock ~5 min.
-(b) **Sketch the saddle-point bound on $\sum_k a_k(x) \rho_k(x)$**
-    in §13/§18 framework. This is the analytical step toward Lemma 3.
+Try a saddle-point / Erdos-Kac argument for rho_k(x) on
+L <= k <= L^2/2. The setup:
+- L = loglog x.
+- For k = k_2 in [L, L^2/2], rho_{k_2}(x) is the fraction of
+  b in A_{k_2} cap [x, inf) with smallest k_1-divisor < x for
+  every k_1 < k_2.
+- The dominant exclusion comes from k_1 = L (the dominant
+  single-stratum). So a tractable upper bound:
+  rho_{k_2}(x) <= P(b in A_{k_2}: smallest L-divisor of b < x)
+- For random b ~ A_{k_2} of size u, this is the §13 quantity.
+  Erdos-Kac gives the smallest L-divisor at scale
+  u^(L^2 / (2 k_2)), so the constraint
+  smallest-L-div < x becomes u < x^(2 k_2/L^2).
+- For u ~ x (the floor), this is restrictive when k_2 < L^2/2,
+  and slack when k_2 >= L^2/2 — exactly the gap that needs to
+  be bounded.
 
-Recommendation: do (b) first — the empirical evidence in §18 is
-already compelling; further numerical extension adds confidence
-but doesn't move the proof forward. The saddle-point sketch is
-the substantive step.
-
-**Encoding note for future sessions**
-
-`proof_log_result.py` crashes with `UnicodeEncodeError` on Windows
-when the thesis string contains characters outside cp1252 (e.g.,
-`→`, em-dashes are sometimes affected too). Workaround: use ASCII
-in thesis strings, or set `PYTHONIOENCODING=utf-8` env var. Round
-19 hit this and required a manual rollback of `proof_results.tsv`
-plus re-run with ASCII thesis. Section 18 in `proof_strategy.md`
-itself uses Unicode freely (UTF-8 source file is fine), only the
-thesis arg to `proof_log_result.py` is constrained. Recording for
-the next session — set `PYTHONIOENCODING=utf-8` proactively.
+A round that quantifies rho_{k_2}(x) <= exp(-c (k_2 - L)^2 / L)
+or similar Gaussian decay would close it. The §11.3 gaussian-
+saddle-point factor is a model.
 
 **Files modified this session**
 
-- `proof_strategy.md` — added Section 18 (~120 lines).
-- `proof_lemmas/lemma_003_cross_stratum.md` — Round 19 update.
-- `proof_open_questions.jsonl` — Q18 claimed and resolved.
-- `proof_journal.jsonl` — round 19 entry.
-- 1 new record in `records/`.
+- proof_strategy.md — added Section 19 (~150 lines).
+- proof_lemmas/lemma_003_cross_stratum.md — Round 20 update.
+- proof_open_questions.jsonl — Q19 claimed and resolved.
+- proof_journal.jsonl — round 20 entry.
+- 1 new record in records/.
 
-**qid in flight**: none. Q18 resolved. Next is Q19.
+**qid in flight**: none. Next is Q20 (the saddle-point on rho_k).
 
 **Status**
 
-19 rounds across 10 sessions. 19 keeps. 0 disproofs. Conjecture
-remains open. The §11.4/§13/§18 cross-stratum exclusion route is
-now the strongest empirical-and-structural path — but the
-analytical closing step is still ahead.
+20 rounds across 11 sessions. 20 keeps. 0 disproofs. The
+§11+§12+§13+§18+§19 chain is now articulated. Lemma 3 has a
+single, concrete missing step. This is the cleanest state of
+the proof attempt to date.
