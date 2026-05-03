@@ -40,3 +40,4 @@
 {"qid":"Q13","status":"resolved","session_id":"s_0502-181121-0140","summary":"Section 13 written: cross-stratum threshold sqrt(2 k_2) heuristic + numerical","ts":"2026-05-03T00:15:56+00:00"}
 {"qid":"Q14","status":"open","parent_qid":"Q13","summary":"Multi-stratum max-S empirical: vary K subset and find max greedy-primitive S over union of strata in K.","ts":"2026-05-03T00:43:15+00:00","session_id":"seed-resume-8"}
 {"qid":"Q14","status":"claimed","session_id":"s_0502-184222-1387","summary":"taking Q14","ts":"2026-05-03T00:43:15+00:00"}
+{"qid":"Q14","status":"resolved","session_id":"s_0502-184222-1387","summary":"Section 14 written: multi-stratum greedy K={2,3,4,5} optimal at S=0.366","ts":"2026-05-03T00:44:02+00:00"}
