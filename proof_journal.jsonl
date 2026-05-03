@@ -29,3 +29,5 @@
 {"event":"session_open","session_id":"s_0502-184222-1387","ts":"2026-05-03T00:42:22+00:00","commit":"d1702ba","proof_tag":"primitive_set_erdos","stashed_ref":null,"detected_orphan":null,"released_orphan_qids":[]}
 {"event":"round","session_id":"s_0502-184222-1387","ts":"2026-05-03T00:44:02+00:00","summary":"Q14 resolved: multi-stratum max-S","qid":"Q14","status":"keep_progress","commit":"729f49c"}
 {"event":"session_close","session_id":"s_0502-184222-1387","ts":"2026-05-03T00:44:20+00:00","commit":"765e2cf","reason":"reason: session 7 \u2014 round 15 multi-stratum K={2,3,4,5} max-S=0.366"}
+{"event":"session_open","session_id":"s_0502-191106-4665","ts":"2026-05-03T01:11:06+00:00","commit":"593b399","proof_tag":"primitive_set_erdos","stashed_ref":null,"detected_orphan":null,"released_orphan_qids":[]}
+{"event":"round","session_id":"s_0502-191106-4665","ts":"2026-05-03T01:15:38+00:00","summary":"Q15 resolved: consolidation summary","qid":"Q15","status":"keep_progress","commit":"a8108eb"}
