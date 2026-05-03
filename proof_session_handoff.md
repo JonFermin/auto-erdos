@@ -1,63 +1,74 @@
-# Session handoff (session s_0503-163730-1b00)
+# Session handoff (session s_0503-170719-5bd6)
 
-**Stop reason**: One round logged. Returning control to /loop driver.
+**Stop reason**: One round logged. Returning to /loop driver.
 
-**This session's contribution (Round 18, Â§17)**
+**This session's contribution (Round 19, §18)**
 
-Direct SPF sieve at $N = 10^7$, computing $S_k(N)$ for $k=1\ldots10$.
-The asymptotic $1 - S_k \approx c k^2/2^k$ does NOT approximately
-hold at this $N$ â€” implied $c$ grows from $0.10$ at $k=2$ to $10.2$
-at $k=10$. Reason: $A_k$ mass saturates at $u_k = e^{e^k}$, which
-is $\sim 10^{65}$ at $k=5$ and $\sim 10^{1295}$ at $k=8$. No feasible
-sieve reaches the regime.
+Computed explicit two-stratum cross-exclusion sums
+$S(A^{(k_1)} \sqcup A^{(k_2)}_\text{kept})$ for
+$(k_1, k_2) \in \{(2,3),(2,4),(2,5),(3,4),(3,5),(3,6)\}$
+at $x \in \{10^2, 10^3, 10^4\}$, $N = 10^6$.
 
-Conclusion: the Â§16 dichotomy (whether literature $c \approx 0.0656$
-is the exact $c_\star = 0.06647517\ldots$) **cannot be settled
-autonomously by numerical experiment**. Option (1) from the prior
-handoff is closed.
+KEY RESULT: maximum two-stratum sum decays
+$0.337 \to 0.212 \to 0.133$ as $x$ grows. Decay is faster than
+$1/\log x$. Pair $(k_1, k_2) = (2, 4)$ dominates at every tested
+$x$. Kept fraction grows above the §13 threshold $k_1 < \sqrt{2 k_2}$:
+at $(2,5)$ it reaches 38% at $x=10^4$, while at $(3,4)$ it stays
+at 1.5%.
 
-**Three remaining paths to close Â§9**
+This is the strongest pro-conjecture numerical signal across
+19 rounds — the data is consistent with $\sup S(A) \to 0$ as
+$x \to \infty$ (stronger than the $\le 1 + o(1)$ conjecture asks).
 
-(a) Literature lookup of explicit Satheâ€“Selberg formula â€” outside
-    autonomous scope.
-(b) First-principles re-derivation via Mertens integrals â€” research
-    paper scale.
-(c) Side-step Â§9 entirely: pursue Â§11.4 cross-stratum exclusion as
-    the route to Lemma 3, without needing the Â§9 identity.
+**For next session**
 
-**For the next session: pursue (c)**
-
-Section 11.4 sketches that cross-stratum primitivity excludes
-$b \in A_{k_2}$ unless every $k_1$-divisor of $b$ falls below the
-floor $x$. The Â§13 ErdÅ‘sâ€“Kac analysis already gives the threshold
-$k_1 < \sqrt{2 k_2}$. The unfinished step is **quantifying the
-mass loss** â€” showing that the cross-stratum-restricted sum is
-sub-Behrend by enough to drop the EZ ceiling from $1.399$ to $1$.
-
-Concrete next move: write a candidate Section 18 attempting an
-explicit bound on
+Concrete analytic target identified in §18.5: prove a saddle-point
+inequality
 \[
-S\!\left(\bigsqcup_{k_1 < k_2} A^{(k_1)} \cup A^{(k_2)}\right)
+\sup_A S(A) \;\le\; \sum_k a_k(x) \cdot \rho_k(x) \;\to\; 1\;(\text{or } 0)
 \]
-using the Â§13.2 mass-loss estimate. If even a heuristic
-calculation gives the right $\sim 1$ asymptotic, that's a strong
-sign the Lemma 3 closing direction is via Â§11.4 / Â§13 rather than
-Â§9.
+where $\rho_k(x)$ is the cross-stratum kept fraction. §13's
+Erdős–Kac threshold $k_1 < \sqrt{2 k_2}$ gives $\rho_k$ asymptotics;
+the missing step is bounding $\sum_k a_k \rho_k$ by a single
+integral via saddle-point.
+
+**Two productive next moves**
+
+(a) **Extend the §18 table to $N = 10^7$** and $x \in \{10^5, 10^6\}$
+    to confirm the decay rate. Wallclock ~5 min.
+(b) **Sketch the saddle-point bound on $\sum_k a_k(x) \rho_k(x)$**
+    in §13/§18 framework. This is the analytical step toward Lemma 3.
+
+Recommendation: do (b) first — the empirical evidence in §18 is
+already compelling; further numerical extension adds confidence
+but doesn't move the proof forward. The saddle-point sketch is
+the substantive step.
+
+**Encoding note for future sessions**
+
+`proof_log_result.py` crashes with `UnicodeEncodeError` on Windows
+when the thesis string contains characters outside cp1252 (e.g.,
+`→`, em-dashes are sometimes affected too). Workaround: use ASCII
+in thesis strings, or set `PYTHONIOENCODING=utf-8` env var. Round
+19 hit this and required a manual rollback of `proof_results.tsv`
+plus re-run with ASCII thesis. Section 18 in `proof_strategy.md`
+itself uses Unicode freely (UTF-8 source file is fine), only the
+thesis arg to `proof_log_result.py` is constrained. Recording for
+the next session — set `PYTHONIOENCODING=utf-8` proactively.
 
 **Files modified this session**
 
-- `proof_strategy.md` â€” added Section 17 (~95 lines).
-- `proof_lemmas/lemma_003_cross_stratum.md` â€” Round 18 update.
-- `proof_open_questions.jsonl` â€” Q17 claimed and resolved.
-- `proof_journal.jsonl` â€” round 18 entry.
+- `proof_strategy.md` — added Section 18 (~120 lines).
+- `proof_lemmas/lemma_003_cross_stratum.md` — Round 19 update.
+- `proof_open_questions.jsonl` — Q18 claimed and resolved.
+- `proof_journal.jsonl` — round 19 entry.
 - 1 new record in `records/`.
 
-**qid in flight**: none. Q17 resolved. Next qid is Q18.
+**qid in flight**: none. Q18 resolved. Next is Q19.
 
-**Status of partial result**
+**Status**
 
-The Â§9 closing route is downgraded (was: contingent on literature
-lookup; now: also confirmed not-resolvable-by-sieve). The Â§11.4
-cross-stratum exclusion route remains the most promising
-autonomous direction. 18 rounds across 9 sessions; 18 keeps;
-0 disproofs; conjecture remains open with no false claim.
+19 rounds across 10 sessions. 19 keeps. 0 disproofs. Conjecture
+remains open. The §11.4/§13/§18 cross-stratum exclusion route is
+now the strongest empirical-and-structural path — but the
+analytical closing step is still ahead.
