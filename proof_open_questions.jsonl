@@ -41,3 +41,5 @@
 {"qid":"Q14","status":"open","parent_qid":"Q13","summary":"Multi-stratum max-S empirical: vary K subset and find max greedy-primitive S over union of strata in K.","ts":"2026-05-03T00:43:15+00:00","session_id":"seed-resume-8"}
 {"qid":"Q14","status":"claimed","session_id":"s_0502-184222-1387","summary":"taking Q14","ts":"2026-05-03T00:43:15+00:00"}
 {"qid":"Q14","status":"resolved","session_id":"s_0502-184222-1387","summary":"Section 14 written: multi-stratum greedy K={2,3,4,5} optimal at S=0.366","ts":"2026-05-03T00:44:02+00:00"}
+{"qid":"Q15","status":"open","parent_qid":null,"summary":"Consolidate the loop's full output into a clean Section 15 summary. Identify what's settled, what's the loop's open boundary, what would need literature to resolve.","ts":"2026-05-03T01:14:37+00:00","session_id":"seed-resume-9"}
+{"qid":"Q15","status":"claimed","session_id":"s_0502-191106-4665","summary":"taking Q15 (consolidation summary)","ts":"2026-05-03T01:14:37+00:00"}

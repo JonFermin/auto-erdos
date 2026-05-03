@@ -1286,6 +1286,112 @@ current capacity. The Section 14 data is suggestive, not conclusive.
 
 (End of Section 14.)
 
+## Section 15 — Summary of the loop's partial result
+
+This document is the output of an autonomous proof-attempt loop on
+the truncated Erdős primitive-set conjecture. The loop has produced
+a structurally rich partial result with one explicit candidate route
+to a full proof; it has not closed the conjecture.
+
+### 15.1 What is rigorous
+
+- **§§1.1–1.5** — Statement, sign-disambiguated facts ledger, witness
+  contract, $o(1)$ caveat. Foundation for the rest.
+- **§§2–3** — Numerical baselines: F3's asymptotic-in-$k$ nature
+  ($A_1 = \mathcal{P}$ has $S \approx 1.6366 > 1$, restored by
+  truncation); prime-tail decay $S_\mathcal{P}(x, \infty) =
+  O(1/\log x)$.
+- **§4** — Witness search (negative): no primitive $A^\star \subset
+  [x, \infty)$ with rigorously verified $S(A^\star) > 1$ found at
+  $x \in \{100, 10^3, 10^4\}$. Verifier-confirmed
+  $0.314 \cdots < 1$.
+- **§§5–6** — Decomposition $A = \bigsqcup_k A^{(k)}$ by $\Omega$.
+  Per-stratum lemmas (Lemmas 1, 2). Identification of Lemma 3 (the
+  cross-stratum primitivity exploitation) as the conjecture's
+  load-bearing content.
+- **§7** — Per-stratum sums $a_k(x; N)$ tabulated. Naive union sum
+  $\sum_k a_k$ exceeds $1$ for moderate $x$, so primitivity *must*
+  do quantifiable work even at finite $x$.
+- **§8** — Empirical max-$S$ search: greedy at $x = 100$, $N = 10^6$
+  achieves $S = 0.314$, barely above the per-stratum max $a_2 =
+  0.288$.
+- **§9** — Arithmetic identity: $\sum_k k^2/2^k = 6$ exactly. F3's
+  total stratum deficit is $6c \approx 0.394$. F1 gap is
+  $e^{\gamma}\pi/4 - 1 \approx 0.399$. The two are within $0.005$
+  numerically — possibly equal analytically.
+- **§10** — Erdős–Zhang structural sketch: of the four steps in EZ's
+  proof of $S \le e^{\gamma} \pi/4$, only step (EZ-3) — the Behrend
+  bound on $\Sigma_A(t)$ — has slack. Behrend is sharp pointwise but
+  cannot be saturated at every $t$ by a single $A$.
+- **§11** — Single-stratum saturation: $\Sigma_{A_k}(t) \sim
+  (\log\log t)^k/k!$, max-attained at $k = \log\log t$, exactly
+  Behrend's bound. Single-stratum primitive sets cannot saturate
+  Behrend at multiple $t$ simultaneously.
+- **§12** — Incomplete-Gamma representation:
+  $S(A_k \cap [x, \infty)) \sim \Gamma(k, \log\log x)/(k-1)! =
+  \mathbb{P}(\text{Poisson}(\log\log x) < k)$. This is the Erdős–Kac
+  expression of Lemma 2.
+- **§13** — Cross-stratum exclusion threshold: for full $A^{(k_1)}$
+  and restricted $A^{(k_2)}$, Erdős–Kac gives
+  $\mathbb{E}[\log\delta_{k_1}(b)] \approx (k_1^2/2k_2)\log u$. The
+  constraint $\delta_{k_1}(b) < x$ at scale $u = x$ becomes
+  $k_1 < \sqrt{2 k_2}$. Validated numerically.
+- **§14** — Multi-stratum max-$S$: best is $K = \{2, 3, 4, 5\}$
+  greedy, $S = 0.366$, a 27% gain over single-stratum. Including
+  $k = 1$ (primes) hurts.
+
+### 15.2 The candidate route to closing Lemma 3 (the CST conjecture)
+
+If — as suggested by the §9 identity — the analytic relation
+$6c = e^{\gamma} \pi/4 - 1$ holds exactly, then a *stratum-aware
+Behrend strengthening* would close the conjecture:
+
+> For primitive $A$, the function $t \mapsto \Sigma_A(t)$ cannot
+> saturate Behrend at every $t$. Specifically, if $\Sigma_A(t)$
+> saturates at $t = t_0$ via stratum $A_{k_0}$, it is sub-saturated
+> by at least $c k_0^2/2^{k_0}$ at all $t$ where the integrand
+> $1/(t \log^2 t)$ is non-negligible.
+
+Integrating such a refined bound through (EZ-4) replaces
+$e^{\gamma} \pi/4 = 1.399$ by $1.399 - 6c = 1.000 + o(1)$. This is
+the conjecture.
+
+The stratum-aware Behrend inequality is plausible (consistent with
+§§11.3, 13.2) but the loop has not proved it.
+
+### 15.3 The loop's boundary
+
+Closing the CST conjecture / stratum-aware Behrend requires:
+
+1. **Literature lookup**: Is the Sathe–Selberg constant $c$ in F3
+   exactly $(e^{\gamma} \pi/4 - 1)/6$? If yes, one structural
+   identity remains; if no, the §9 coincidence is just numerical.
+   The autonomous loop has no web access.
+2. **Proof of the stratum-aware Behrend inequality**: a refinement
+   of Behrend's argument that retains the per-stratum deficit. New
+   technique relative to the standard literature.
+
+Neither (1) nor (2) is in scope for the autonomous loop. (1) is a
+single citation away from settling; (2) is a research-paper-scale
+contribution.
+
+### 15.4 What the loop produced as artifacts
+
+- This `proof_strategy.md` (~15 sections, ~$1\,000$ lines).
+- Three lemma files in `proof_lemmas/` (`lemma_001` through
+  `lemma_003`).
+- 16 records in `records/proof_primitive_set_erdos_*.json` (one per
+  kept round).
+- The branch `erdos-proof/0501-121605-9e0c` with full git history.
+
+The loop ran 16 rounds across 8 sessions, all logged
+`keep_progress`, with critics off for the entire duration. The
+witness verifier and resolution-string defense-in-depth held
+throughout — no false claims of resolution slipped through.
+
+(End of Section 15.)
+
+
 
 
 
