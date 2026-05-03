@@ -13,3 +13,4 @@
 {"qid":"Q4","status":"claimed","session_id":"s_0503-080541-df09","summary":"witness search: greedy primitive sets for x_floor=2,3,100; x_floor=2 {2,3} verified; x_floor=3 sum>1 for large range","ts":"2026-05-03T08:35:24Z"}
 {"qid":"Q4","status":"resolved","session_id":"s_0503-080541-df09","summary":"No witness found for x_floor>=5; x_floor=3 gives sum>1 for large ranges but o(1) not small; documented Section 3","ts":"2026-05-03T08:37:52Z"}
 {"qid":"Q5","status":"claimed","session_id":"s_0503-080541-df09","summary":"writing proof structure: Omega stratification, per-stratum bounds via F3, cross-stratum constraint","ts":"2026-05-03T08:37:52Z"}
+{"qid":"Q5","status":"resolved","session_id":"s_0503-080541-df09","summary":"Section 4 partial proof structure written: Omega stratification, F3 per-stratum bound (large k), cross-stratum constraint identified as key obstacle","ts":"2026-05-03T08:45:36Z"}
