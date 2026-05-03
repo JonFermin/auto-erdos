@@ -314,3 +314,80 @@ prevents $A$ from using too much of each stratum.
   $1 - c k^2/2^k < 1$ and the geometric factor makes the tail small).
 
 These lemmas will be developed in `proof_lemmas/` files in the next session.
+
+---
+
+## Section 5: Partial Result Summary (Q6)
+
+### 5.1 Status: Open — Partial Progress
+
+The conjecture remains **open**. This attempt has not resolved it, positively
+or negatively. What follows summarizes what was established and what obstacles
+were found.
+
+### 5.2 What was established
+
+1. **Claim formalization** (Section 1): The conjecture and the three given facts
+   (F1/F2/F3) were restated with explicit sign disambiguations and the asymptotic
+   scope of each fact was identified. F3's $o(1)$ is as $k \to \infty$; it does
+   not directly apply to the $k=1$ (primes) stratum at finite partial sums.
+
+2. **Numerical confirmation of F3** (Section 2): For $k = 2, 3, 4$ the partial
+   sums $S_k(N)$ are strictly less than 1 for all $N \leq 10^5$, consistent with
+   F3's prediction that the sum approaches 1 from below. For $k=1$ the partial
+   sums grow beyond 1, confirming that F3 does not apply to the prime stratum in
+   the range explored.
+
+3. **Numerical counterexample search** (Section 3): A greedy ascending primitive
+   set search found no witness with $x_{\text{floor}} \geq 5$ whose sum exceeds
+   1.0 over any feasible search range (up to $10^6$). For $x_{\text{floor}} = 100$
+   the greedy sum saturates near 0.314 with $\sim 79000$ elements. This provides
+   strong numerical evidence against a counterexample at moderate $x_{\text{floor}}$.
+
+4. **Proof skeleton** (Section 4): The $\Omega$-stratification approach was
+   identified: write $A = \bigcup_k A_k$ and bound each stratum's contribution.
+   For large $k$, F3 gives a per-stratum bound strictly below 1; for small $k$
+   (especially $k=1$), F3 does not apply.
+
+### 5.3 What was ruled out as a proof strategy
+
+- **Naive per-stratum summation**: Even if each stratum sum $< 1$, summing over
+  infinitely many strata diverges. The cross-stratum constraint must be used.
+
+- **Counterexamples with $x_{\text{floor}} \geq 5$**: None found by greedy search
+  in the explored range. Not ruled out analytically, but numerically unsupported.
+
+- **Applying F3 to the $k=1$ stratum**: The prime-set partial sums exceed 1 at
+  all computed ranges, so F3's asymptote (which applies as $k \to \infty$) cannot
+  be used for $k=1$.
+
+### 5.4 Key open obstacles
+
+The following sub-problems must be resolved for a complete proof:
+
+**Obstacle O1 (cross-stratum density)**: Bounding how much of each $\Omega$-stratum
+a primitive set can use once other strata are occupied. The primitive condition
+prevents $a | b$, but quantifying this globally requires a sieve-theoretic tool
+not available in the current fact ledger.
+
+**Obstacle O2 (prime stratum bound)**: Proving that the contribution from the
+$k=1$ stratum of any primitive set $A \subseteq [x, \infty)$ is bounded by
+$o(1)$ as $x \to \infty$. This is the analytic core of the conjecture (it is
+essentially equivalent to the original Erdős conjecture on $\sum 1/(p \log p)$
+for $p$ prime and $p \geq x$). Fact F1 gives an upper bound of $1.399 + o(1)$
+for the WHOLE primitive set; it does not separate out the prime stratum.
+
+**Obstacle O3 (coupling small and large strata)**: Even if O1 and O2 are resolved
+separately, combining them into a global bound $\leq 1 + o(1)$ requires a coupling
+argument showing the bounds are not simultaneously tight across strata.
+
+### 5.5 Verdict
+
+The conjecture resists the current toolkit. The available facts (F1, F2, F3) are
+consistent with the conjecture but do not individually suffice to prove it. The
+numerical evidence strongly supports it. A complete proof would require:
+- A quantitative cross-stratum exclusion principle (O1), OR
+- A direct bound on the prime-stratum tail sum $\sum_{p \geq x} 1/(p \log p)$ (O2).
+
+This is recorded as a **partial result**: the conjecture remains open at the end
+of this attempt, with the above obstacles identified as the key barriers.

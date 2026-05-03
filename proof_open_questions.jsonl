@@ -14,3 +14,4 @@
 {"qid":"Q4","status":"resolved","session_id":"s_0503-080541-df09","summary":"No witness found for x_floor>=5; x_floor=3 gives sum>1 for large ranges but o(1) not small; documented Section 3","ts":"2026-05-03T08:37:52Z"}
 {"qid":"Q5","status":"claimed","session_id":"s_0503-080541-df09","summary":"writing proof structure: Omega stratification, per-stratum bounds via F3, cross-stratum constraint","ts":"2026-05-03T08:37:52Z"}
 {"qid":"Q5","status":"resolved","session_id":"s_0503-080541-df09","summary":"Section 4 partial proof structure written: Omega stratification, F3 per-stratum bound (large k), cross-stratum constraint identified as key obstacle","ts":"2026-05-03T08:45:36Z"}
+{"qid":"Q6","status":"claimed","session_id":"s_0503-080541-df09","summary":"writing partial-result summary: what was ruled out, what remains open, calling session_end","ts":"2026-05-03T08:48:09Z"}
