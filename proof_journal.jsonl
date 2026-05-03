@@ -32,3 +32,6 @@
 {"event":"session_open","session_id":"s_0502-191106-4665","ts":"2026-05-03T01:11:06+00:00","commit":"593b399","proof_tag":"primitive_set_erdos","stashed_ref":null,"detected_orphan":null,"released_orphan_qids":[]}
 {"event":"round","session_id":"s_0502-191106-4665","ts":"2026-05-03T01:15:38+00:00","summary":"Q15 resolved: consolidation summary","qid":"Q15","status":"keep_progress","commit":"a8108eb"}
 {"event":"session_close","session_id":"s_0502-191106-4665","ts":"2026-05-03T01:16:04+00:00","commit":"4b94c99","reason":"reason: loop wind-down \u2014 Section 15 consolidation; partial result documented; awaits literature lookup or new analytical input"}
+{"event":"session_open","session_id":"s_0503-161057-f50c","ts":"2026-05-03T22:10:57+00:00","commit":"ec674e4","proof_tag":"primitive_set_erdos","stashed_ref":null,"detected_orphan":null,"released_orphan_qids":[]}
+{"event":"round","session_id":"s_0503-161057-f50c","ts":"2026-05-03T22:15:05+00:00","summary":"§16 precision check on §9 identity — gap pinned to 1.32%, c_star=0.06647516766 narrows the open lit question","qid":"Q16","status":"keep_progress","commit":"f857be8"}
+{"event":"session_close","session_id":"s_0503-161057-f50c","ts":"2026-05-03T22:15:58+00:00","commit":"f857be8","reason":"reason: round 17 logged (precision check on \u00a79 identity); narrow scope before next session; under /loop"}
