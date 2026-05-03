@@ -1192,6 +1192,101 @@ multi-stratum bound rigorously is the remaining content of Lemma 3.
 
 (End of Section 13.)
 
+## Section 14 — Multi-stratum max-$S$: $K = [2,3,4,5]$ wins at $x=100, N=10^6$
+
+We restrict the smallest-first greedy primitive sieve to a chosen
+subset $K \subset \mathbb{N}$ of strata: include $n$ in $A$ only if
+$\Omega(n) \in K$ AND no current $a \in A$ divides $n$. Maximizing
+$S$ over $K$ explores cross-stratum primitivity systematically.
+
+### 14.1 Numerical results at $x=100, N=10^6$
+
+**Single strata** $K = \{k\}$:
+
+| $k$ | $|A|$ | $S$ |
+|---:|---:|---:|
+| $1$ | $78\,473$ | $0.1427$ |
+| $2$ | $210\,001$ | $\mathbf{0.2882}$ |
+| $3$ | $250\,831$ | $0.2783$ |
+| $4$ | $198\,051$ | $0.1871$ |
+| $5$ | $124\,461$ | $0.1059$ |
+
+Best single-stratum: $K = \{2\}$, $S = 0.2882$.
+
+**Pair strata** (selected):
+
+| $K$ | $S$ |
+|---:|---:|
+| $\{1, 3\}$ | $0.2673$ |
+| $\{2, 3\}$ | $0.3341$ |
+| $\{2, 4\}$ | $\mathbf{0.3369}$ |
+| $\{3, 4\}$ | $0.2995$ |
+| $\{3, 5\}$ | $0.2996$ |
+| $\{4, 5\}$ | $0.1980$ |
+
+Best pair: $K = \{2, 4\}$, $S = 0.3369$.
+
+**Triple and higher**:
+
+| $K$ | $S$ |
+|---:|---:|
+| $\{2, 3, 4\}$ | $0.3553$ |
+| $\{2, 3, 5\}$ | $0.3553$ |
+| $\{2, 3, 4, 5\}$ | $\mathbf{0.3662}$ |
+| $\{1, 2, 3, 4\}$ | $0.2975$ |
+| $\{1, 2, \ldots, 29\}$ (full) | $0.3136$ |
+
+**Best multi-stratum: $K = \{2, 3, 4, 5\}$, $S = 0.366$.**
+
+### 14.2 Three observations
+
+**(O1) Multi-stratum gain is real but bounded.** From single-stratum
+sup $0.2882$ to multi-stratum sup $0.3662$ is a $\times 1.27$ boost.
+Not a $\times 2$ or $\times 4$ blow-up; the cross-stratum exclusion
+caps it.
+
+**(O2) Including $k = 1$ HURTS.** $K = \{1, 2, 3, 4\}$ gives
+$S = 0.2975$, less than $K = \{2, 3, 4\}$ at $0.3553$. Reason: each
+prime $p \in A$ excludes every multiple $p \cdot q \in A_2$, $p
+\cdot qr \in A_3$, etc. — a long downward cone. Adding primes
+sacrifices much higher-stratum mass.
+
+**(O3) Smallest-first greedy on the full union is sub-optimal.**
+$K = $ full range gives only $0.3136$, smaller than $K = \{2,3,4,5\}$
+because the full greedy adds primes early. Restricting to "middle
+strata" yields more mass.
+
+### 14.3 What this means for the conjecture
+
+Empirically at $x = 100, N = 10^6$:
+\[
+\sup_{\substack{A \text{ primitive} \\ A \subset [x, N]}} S(A)
+\;\ge\; 0.366
+\quad\text{(from $K = \{2,3,4,5\}$ greedy)}.
+\]
+
+This is the best lower bound the loop has produced. The conjecture's
+ceiling is $1 + o(1)$ as $x \to \infty$; at $x = 100$ we are roughly
+3× below ceiling. Not a tight test of the conjecture, but consistent.
+
+Pushing $N$ larger would push $S$ closer to its asymptotic. The
+naive union sum at $x = 100$ goes from $1.254$ at $N = 10^7$ towards
+$\infty$ as $N \to \infty$, but the primitive sup must stay
+sub-Behrend per F1 (so $\le 1.399$). The conjecture says it stays
+$\le 1$.
+
+**To strongly test the conjecture numerically, one would need:**
+- Larger $N$ (limit currently is sieve memory, $\sim 10^7$ for the
+  $\Omega$ table).
+- Better-than-greedy heuristics (SA, ILP relaxation) — the $0.366$
+  bound is greedy and may understate $\sup_A S$.
+
+These are infrastructure improvements outside the autonomous loop's
+current capacity. The Section 14 data is suggestive, not conclusive.
+
+(End of Section 14.)
+
+
 
 
 

@@ -38,3 +38,5 @@
 {"qid":"Q13","status":"open","parent_qid":"Q12","summary":"Cross-stratum exclusion under primitivity: threshold k_1 ~ sqrt(2 k_2) for full-A_{k_1} excluding most of A_{k_2}.","ts":"2026-05-03T00:15:03+00:00","session_id":"seed-resume-7"}
 {"qid":"Q13","status":"claimed","session_id":"s_0502-181121-0140","summary":"taking Q13","ts":"2026-05-03T00:15:03+00:00"}
 {"qid":"Q13","status":"resolved","session_id":"s_0502-181121-0140","summary":"Section 13 written: cross-stratum threshold sqrt(2 k_2) heuristic + numerical","ts":"2026-05-03T00:15:56+00:00"}
+{"qid":"Q14","status":"open","parent_qid":"Q13","summary":"Multi-stratum max-S empirical: vary K subset and find max greedy-primitive S over union of strata in K.","ts":"2026-05-03T00:43:15+00:00","session_id":"seed-resume-8"}
+{"qid":"Q14","status":"claimed","session_id":"s_0502-184222-1387","summary":"taking Q14","ts":"2026-05-03T00:43:15+00:00"}
