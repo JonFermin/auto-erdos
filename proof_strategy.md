@@ -112,12 +112,10 @@ $$
 \quad c \approx 0.0656 > 0.
 $$
 *Sign note*: The leading correction $-(c+o(1))k^2/2^k$ is **negative** (since
-$c > 0$). The sum approaches $1$ from **BELOW** as $k \to \infty$, and is
-**strictly less than $1$** for every finite $k \geq 1$. F3 is consistent
-with F2 once F2's unsigned-$O$ is read correctly: F2 gives a lower bound
-of roughly $1 - k^{-1/2}$, and F3 pins the exact value as $1 - ck^2/2^k$
-(which is also roughly $1 - k^{-1/2}$ for the relevant range of $k$ in the
- sense that $k^2/2^k$ decays to $0$, so $\sum > 1 - \varepsilon$ for large $k$).
+$c > 0$). The sum approaches $1$ from **BELOW** as $k \to \infty$. The
+$o(1)$ is as $k \to \infty$; for small $k$ (e.g.\ $k=1$), the formula may
+not hold exactly (see Section 2.1 for the numerical picture). F3 is consistent
+with F2 once F2's unsigned-$O$ is read correctly.
 
 ### 1.3 Witness Contract
 
@@ -187,11 +185,15 @@ $A_1 = \{\text{primes}\}$ is a primitive set. Partial sums:
 | 100000 | 9592 | 1.549781 |
 
 The partial sum is consistent with the expected limiting value $\approx 1.6366$
-mentioned in the open-question queue (Q3). The $o(1)$ term in F1 allows the
-bound $e^\gamma \pi/4 + o(1)$ to accommodate the prime-set sum for small $x$;
-as $x \to \infty$ the allowed sums over primitive sets in $[x,\infty)$ shrink,
-and F1's stated bound $\approx 1.399 + o(1)$ reflects a regime much larger
-than the conjecture's bound of $1 + o(1)$.
+mentioned in the open-question queue (Q3).
+
+**Remark on F1 tension**: F1 as stated says "for any primitive set
+$A \subseteq \mathbb{N}$, sum $< 1.399 + o(1)$". If $o(1) = 0$ this would
+be contradicted by the prime partial sums ($1.55$ at $N = 100000$). We take
+the conservative view that F1's $o(1)$ is an unspecified correction that may
+depend on the structure of $A$ and on $x$ in ways not fully spelled out in
+the ledger; the prime-sum data is reported as-is, and Section 4 does not
+rely on F1 for a quantitative bound.
 
 ### 2.3 Implications for the witness search (Q4 setup)
 
@@ -277,14 +279,21 @@ $$\sum_{a \in A} \frac{1}{a \log a} = \sum_{k \geq 1} \sum_{a \in A_k} \frac{1}{
 
 The challenge is bounding the TOTAL over all $k$.
 
-### 4.2 Per-stratum bound
+### 4.2 Per-stratum bound (large $k$ only)
 
-By F3, $\sum_{a \in A_k} \frac{1}{a \log a} \leq \sum_{a \in \{n : \Omega(n) = k\}} \frac{1}{a \log a} = 1 - (c + o(1)) \frac{k^2}{2^k} < 1$ for each $k$.
+By F3 (valid as $k \to \infty$), for large enough $k$ the full stratum sum
+$\sum_{a : \Omega(a)=k} \frac{1}{a \log a} = 1 - (c + o(1)) \frac{k^2}{2^k} < 1$.
 
-However, the sum OVER $k$ of these per-stratum bounds is:
-$$\sum_{k \geq 1} \left(1 - c \frac{k^2}{2^k}\right) = \text{(diverges to } \infty\text{)}.$$
+For **small $k$** (especially $k=1$, the primes), F3 does not directly apply;
+the partial sums for $k=1$ grow above 1 (see Section 2.1), so the per-stratum
+bound must use a separate argument for small-$k$ strata.
 
-So simply summing F3's bound over all strata does not give a useful bound.
+Even restricting to large $k$: the sum OVER $k$ of these per-stratum bounds
+still diverges:
+$$\sum_{k \geq K_0} \left(1 - c \frac{k^2}{2^k}\right) \sim (k - K_0) \to \infty.$$
+
+So naive per-stratum summation does not give a useful bound regardless.
+The cross-stratum constraint (Section 4.3) is essential.
 
 ### 4.3 Cross-stratum constraint
 
