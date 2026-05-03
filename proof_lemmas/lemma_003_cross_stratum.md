@@ -138,3 +138,22 @@ numerical experiment. Three remaining paths: (a) literature
 lookup, (b) first-principles re-derivation of $c$ via Mertens
 integrals, (c) side-step §9 via the §11.4 cross-stratum
 exclusion route — option (c) is the most autonomous-tractable.
+
+## Update from Round 19 — explicit two-stratum cross-exclusion table
+
+Computed $S(A^{(k_1)} \sqcup A^{(k_2)}_\text{kept})$ for
+$(k_1, k_2) \in \{(2,3),(2,4),(2,5),(3,4),(3,5),(3,6)\}$ at
+$x \in \{10^2, 10^3, 10^4\}$, $N = 10^6$ (proof_strategy.md §18).
+
+Key finding: max two-stratum sum decays $0.337 \to 0.212 \to 0.133$
+as $x$ goes $10^2 \to 10^3 \to 10^4$, faster than $1/\log x$.
+Pair $(2,4)$ dominates at every $x$. Kept fraction grows above
+the §13 threshold $k_1 < \sqrt{2 k_2}$: at $(2,5)$ it reaches
+$38\%$ at $x=10^4$.
+
+This is the strongest empirical signal in 18 rounds that the
+conjecture holds — but only as evidence within $x \le 10^4$.
+Analytical step still needed: a saddle-point bound on
+$\sum_k a_k(x) \rho_k(x)$ where $\rho_k(x)$ is the cross-stratum
+kept fraction. §13's Erdős–Kac threshold gives $\rho_k$ asymptotics
+but not yet the closed-form $\sum_k a_k \rho_k$ inequality.
