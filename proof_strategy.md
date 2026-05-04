@@ -727,15 +727,17 @@ asymptotic *equality* claim:
 
 The question is therefore *not* whether the limit exists (the
 conjecture asserts it does), but whether the supremum *briefly
-exceeds 1* on its way to the limit. The available rigorous bound
-F1 leaves a gap of $\approx 0.4$ ($1.399 - 1$) between what is
-proved and what is conjectured.
+exceeds 1* on its way to the limit. F1's available rigorous bound
+is strictly weaker than what the conjecture claims; the
+quantitative slack between F1's right-hand side and the
+conjecture's $1$ is what a closing argument would need to
+eliminate.
 
 #### 5.1 What the F1/F2/F3 ledger does and does not give
 
 The ledger gives:
-- **F1**: $\sup S(A) < 1.399 + o(1)$ (truncated form per §1.2's
-  caveat). Strictly weaker than the conjecture by $0.4$.
+- **F1**: an upper bound on $\sup S(A)$ that is strictly weaker
+  than the conjecture's claimed value (per §1.2's reading).
 - **F2**: an unsigned envelope around $1$ for *individual* $A_k$, not
   a bound on the supremum of $S$ over primitive sets.
 - **F3**: $S(A_k) \to 1$ from below, used in §4 for the lower bound.
