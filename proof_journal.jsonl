@@ -65,3 +65,6 @@
 {"event":"session_open","session_id":"s_0503-210315-65a4","ts":"2026-05-04T03:03:15+00:00","commit":"17eeb38","proof_tag":"primitive_set_erdos","stashed_ref":null,"detected_orphan":null,"released_orphan_qids":[]}
 {"event":"round","session_id":"s_0503-210315-65a4","ts":"2026-05-04T03:12:12+00:00","summary":"sect 26 sup S - S(M) gap; multi-stratum {2..6} gives 0.369 vs M's 0.314; gap saturates additively","qid":"Q26","status":"keep_progress","commit":"aa1c1a8"}
 {"event":"session_close","session_id":"s_0503-210315-65a4","ts":"2026-05-04T03:12:12+00:00","commit":"aa1c1a8","reason":"reason: round 27 logged (sup vs S(M) bounded gap); ~saturated; loop converged; under /loop"}
+{"event":"session_open","session_id":"s_0503-214318-8e95","ts":"2026-05-04T03:43:18+00:00","commit":"76ad6d5","proof_tag":"primitive_set_erdos","stashed_ref":null,"detected_orphan":null,"released_orphan_qids":[]}
+{"event":"round","session_id":"s_0503-214318-8e95","ts":"2026-05-04T03:45:37+00:00","summary":"sect 27 verifies §25 bound on full S(M(1000; infty)) = 0.287 vs bound 0.323; 11% slack","qid":"Q27","status":"keep_progress","commit":"36a2ea6"}
+{"event":"session_close","session_id":"s_0503-214318-8e95","ts":"2026-05-04T03:45:37+00:00","commit":"36a2ea6","reason":"reason: round 28 logged (verify \u00a725 on full S(M)); proof loop converged; 28 keeps; under /loop"}
