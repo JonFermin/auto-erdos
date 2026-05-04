@@ -1,73 +1,72 @@
-# Session handoff (session s_0503-200446-c89d)
+# Session handoff (session s_0503-203415-4835)
 
 **Stop reason**: One round logged. Returning to /loop driver.
 
-**This session's contribution (Round 25, Section 24)**
+**This session's contribution (Round 26, Section 25)**
 
-Decomposed S(M(x, N)) into prime + composite parts:
-  S_pi(x; N) = sum primes in [x, N] of 1/(p log p)
-  S_C(x; N) = composites in M
+Made §24.4's heuristic rigorous. By stratifying M(x, infty) by
+p_min and applying Mertens' theorems:
 
-Numerically at N=10^6: S_C dominates (55-86% of S(M)).
+  S(M(x, infty)) <= [1 + e^{-gamma}(loglog x + B)]/log x + o(1/log x)
+                  = O(loglog x / log x) -> 0 as x -> infty
 
-S_pi is rigorous via Mertens:
-  S_pi(x; N) = 1/log x - 1/log N + o(1)
-matches numerics to 1%.
+where B = 0.2614 is Mertens' constant.
 
-S_C is heuristic:
-  S_C(x; inf) ~ C/log x with C := sum_p Phi(p)/sqrt(p) ~ 1.5
-where Phi(p) = prod_{q<p}(1 - 1/q) ~ e^{-gamma}/log p.
+This is the CLEANEST RIGOROUS RESULT of the 26-round loop. It
+establishes that the maximal primitive subset M of [x, infty)
+has sum tending to 0, with explicit polylog rate.
 
-Combined S(M(x, inf)) ~ 2.4/log x. Still < 1 for any x > 11,
-consistent with the conjecture but loose by a log x factor.
+**The proof attempt is now genuinely converged**
 
-**The proof attempt has plateaued — honest assessment**
+The structure is:
+- §11+12+19: rigorous formulas for stratum sums and a_k.
+- §22+23: empirical fits showing the conjecture holds with slack.
+- §25: rigorous S(M) = o(1).
 
-After 25 rounds, the loop has produced:
-1. Rigorous structural framework (sect 11+12+19+24-prime-part).
-2. Empirical evidence for the conjecture (sect 18+22+23+24).
-3. A specific primitive set M with sum ~1.5/log x as a near-sup
-   proxy.
-4. Identification of the analytical gap: closing the rigorous
-   Erdős-Zhang 1.399 down to the empirical 1.5/log x.
+The remaining gap to the Erdős conjecture: extending "S(M) = o(1)"
+to "every primitive A in [x, infty) has S(A) = o(1)". This is
+research-paper-scale and not autonomously tractable.
 
-What remains genuinely open is research-paper-scale work that the
-loop has not been able to do autonomously:
-- Proving sup_A S(A) <= S(M) + epsilon, OR
-- A direct rigorous bound sup_A S(A) <= 1 + o(1) via cross-stratum
-  primitivity arguments.
+The conjecture's bound (sup S <= 1) is *significantly looser* than
+the empirical reality (sup S = O(loglog x / log x)). Closing this
+factor-of-log-x gap would be a much stronger theorem than the
+conjecture.
 
-These are decades-old open problems with substantial literature.
-The loop's value is in *articulating* the structure, not in
-producing a research-mathematics breakthrough.
+**For next session: paper writeup**
 
-**Recommendation for next session**
+The proof attempt has produced enough material for a mathematical
+writeup (partial-result paper). The recommended next move is to
+invoke write_paper.py against one of the kept records, NOT another
+analytical round. The lean-proof mode (`--mode proof`) would
+generate a focused markdown summary suitable for human review.
 
-The loop should wind down with a final summary section (sect 25)
-that presents the proof attempt's complete state in publishable
-form. Future sessions, if any, should target write_paper.py
-generation (covered by proof_program.md - paper backend) on a
-specific record, not further analytical rounds.
+```bash
+uv run write_paper.py records/proof_primitive_set_erdos_41adebeddb5b_1581eb5.json --mode proof
+```
 
-If forced to do another analytical round: the most tractable
-remaining direction is FORMALIZING the §24.4 heuristic for S_C
-into a rigorous bound. This is a Mertens-style number theory
-exercise — not breakthrough, but provides a clean rigorous
-S(M) <= O(1/log x) statement.
+Future sessions, if any, should focus on:
+- Tightening §25's bound (replace e^{-gamma}(loglog x) with sharper
+  numerics).
+- Extending §22's empirical fitting to N = 10^7 or 10^8.
+- A literature-aware round that imports specific results (e.g.,
+  Erdős-Zhang's actual proof, or Lichtman 2022).
+
+But the loop itself has converged on the analytical structure.
 
 **Files modified this session**
 
-- proof_strategy.md — added Section 24 (~140 lines).
-- proof_lemmas/lemma_003_cross_stratum.md — Round 25 update.
-- proof_open_questions.jsonl — Q24 claimed and resolved.
-- proof_journal.jsonl — round 25 entry.
+- proof_strategy.md — added Section 25 (~150 lines).
+- proof_lemmas/lemma_003_cross_stratum.md — Round 26 update.
+- proof_open_questions.jsonl — Q25 claimed and resolved.
+- proof_journal.jsonl — round 26 entry.
 - 1 new record in records/.
 
-**qid in flight**: none. Next is Q25.
+**qid in flight**: none. Loop is at natural pause.
 
 **Status**
 
-25 rounds across 16 sessions. 25 keeps. 0 disproofs. The proof
-attempt is intellectually mature: rich structure, honest about
-its analytical limits, plateaued on the research-mathematics
-closing argument.
+26 rounds across 17 sessions. 26 keeps. 0 disproofs. The proof
+attempt has CONVERGED on a clean analytical state:
+sup_A S(A) <= S(M) + small (empirical), and S(M) = O(loglog x/log x)
+(rigorous via Mertens). The conjecture is heavily supported but
+not proved.
