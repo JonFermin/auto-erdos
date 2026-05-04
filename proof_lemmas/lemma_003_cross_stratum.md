@@ -309,3 +309,29 @@ After 24 rounds: the empirical content is clear, the structural
 content is rich (§11+§12+§19+§22+§23), but the analytical closing
 step bridging "sup ~ 1.45/log x empirically" to "sup <= 1 rigorously"
 is still missing.
+
+## Update from Round 25 — prime/composite decomposition of S(M)
+
+S(M(x, N)) splits cleanly:
+  S_pi(x; N) = sum primes in [x, N] of 1/(p log p)
+  S_C(x; N) = composites in M (those with p_min(n) > n/x).
+
+Numerical: at N = 10^6, composites DOMINATE: S_C = 0.171 at x=100
+vs S_pi = 0.143; ratio S_C/S(M) grows from 55% to 86% as x grows
+toward sqrt N.
+
+Asymptotic for S_pi (rigorous via Mertens):
+  S_pi(x; N) ~ 1/log x - 1/log N
+matches numerical to ~1%.
+
+Asymptotic for S_C (heuristic):
+  S_C(x; inf) ~ C / log x  with C := sum_p Phi(p)/sqrt(p) ~ 1.4-1.6
+where Phi(p) = prod_{q<p}(1 - 1/q) ~ e^{-gamma}/log p.
+
+Combined: S(M(x, inf)) ~ (1 + C)/log x ~ 2.4/log x. Still < 1
+for any x > 11. Consistent with the conjecture's <= 1, but with
+significant slack.
+
+The conjecture's bound is empirically/heuristically loose by a
+factor of log x. The actual sup_A S(A) appears to decay as
+~1.5/log x; the conjecture only asks <= 1.
