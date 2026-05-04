@@ -1,46 +1,51 @@
-# Session handoff (session s_0504-132855-2de7)
+# Session handoff (session s_0504-141810-67f9)
 
 **Stop reason**: One round logged. Returning to /loop driver.
 
-**Round 15 (v2 after sign-critic rejection)**
+**Round 16 v2 contribution (§5)**
 
-Round 15 v1 was BLOCKED by critic_sign for the sentence
-'F3 directly states $S(A_k) < 1$ for every finite k' — false at
-small k where S(A_1) = 1.637, S(A_2) ≈ 1.13, S(A_3) ≈ 1.01.
+Round 16 v1 was BLOCKED by critic_ledger for citing Lichtman 2022 —
+not in the F1/F2/F3 ledger. Reset and rewrote v2 without the
+external citation. v2 passes: 0 blocking, 9 warns.
 
-Reset and rewrote with care:
-- F3 used in its signed asymptotic form (k -> infty), NOT 'every finite k'.
-- Small-k caveat explicitly noted (S(A_1) = 1.637 a context note,
-  not in ledger).
-- sup_{k >= k_x} S(A_k) -> 1 from below as x -> infty.
-- Conclusion: sup S(A) >= 1 (rigorous lower bound).
-- No witness committed — supremum approached, not exceeded.
+§5 brackets the conjecture's supremum at [1, 1.399] using:
+- §4's rigorous lower bound: sup S(A) >= 1 (via A_k for k -> infty
+  and F3).
+- F1's rigorous upper bound: sup S(A) < 1.399 + o(1).
 
-Verifier now passes: 0 blocking, 10 warns, verdict_hint partial_result.
+Recasts the conjecture's <=1+o(1) as an asymptotic identity claim:
+lim sup S(A) = 1.
 
-This adds genuine analytical content to this branch — Section 4
-gives a rigorous LOWER bound on the conjecture's supremum, matching
-the conjecture's claimed upper bound from below.
+§5 makes no new mathematical claim — it is a framing of the open
+question in light of §4's lower bound. The F1/F2/F3 ledger alone
+is shown insufficient (gap of 0.4 from F1 to the conjecture's
+ceiling).
 
 **Status**
 
-15 rounds logged on this branch (was 14 before). 35 of cap=50 remain.
+16 rounds logged on this branch (was 15). 34 of cap=50 remain.
+
+**Lesson learned**
+
+Critics enforce strict ledger compliance. External citations
+(even well-known ones like Lichtman 2022) trigger BLOCKING.
+Stay within F1/F2/F3 only.
 
 **For next session**
 
 Possible directions:
-- Section 5: bound on a candidate primitive set (M(x; infty) or
-  similar) showing sup is at most some specific quantity.
-- Section 5: extend §4 to identify the precise k where S(A_k) ~ 1
-  attainable.
-- Sharpen lemma_005 with the §4 result.
+- §6: bound a SPECIFIC primitive set (e.g. M(x; infty) without
+  re-defining if not in ledger; or a §3-style decomposition
+  bound that doesn't add new external facts).
+- Sharpen lemma_005 with the §4 + §5 framing.
+- §6: connect §4's A_k construction to the §3 cross-stratum residue.
 
 **Files modified this session**
 
-- proof_strategy.md — added §4 (~85 lines).
-- proof_open_questions.jsonl — Q17 claimed and resolved (after one
-  v1 BLOCKED + reset).
-- proof_journal.jsonl — round 15 v2 entry.
+- proof_strategy.md — added §5 (~65 lines).
+- proof_open_questions.jsonl — Q18 claimed and resolved (after v1
+  BLOCKED + reset).
+- proof_journal.jsonl — round 16 v2 entry.
 - 1 new record in records/.
 
-**qid in flight**: none. Q17 resolved.
+**qid in flight**: none.

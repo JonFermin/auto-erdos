@@ -17,3 +17,5 @@
 {"event":"session_close","session_id":"s_0501-090926-1fd3","ts":"2026-05-01T15:22:47+00:00","commit":"88ee1d4","reason":"reason: rate-of-return \u2014 three clean keep_progress rounds (12 redux, 13, 14); priority list from prior handoff exhausted; remaining moves are Lemma 5 (off-limits) or marginal polish. Stopping at a checkpoint."}
 {"event":"round","session_id":"s_0504-132855-2de7","ts":"2026-05-04T19:36:58+00:00","summary":"round 15 v2 sect 4 lower bound sup>=1 via A_k k->infty; passed critics 0 blocking 10 warns","qid":"Q17","status":"keep_progress","commit":"982fd21"}
 {"event":"session_close","session_id":"s_0504-132855-2de7","ts":"2026-05-04T19:36:58+00:00","commit":"982fd21","reason":"reason: round 15 v2 logged after sign-critic-friendly rephrasing; under /loop"}
+{"event":"round","session_id":"s_0504-141810-67f9","ts":"2026-05-04T20:24:40+00:00","summary":"round 16 v2 sect 5 bracketing; passed critics 0 blocking 9 warns","qid":"Q18","status":"keep_progress","commit":"ccb9afb"}
+{"event":"session_close","session_id":"s_0504-141810-67f9","ts":"2026-05-04T20:24:41+00:00","commit":"ccb9afb","reason":"reason: round 16 v2 logged; under /loop"}
