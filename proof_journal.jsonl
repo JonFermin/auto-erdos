@@ -116,3 +116,6 @@
 {"event":"session_open","session_id":"s_0504-082854-da97","ts":"2026-05-04T14:28:54+00:00","commit":"b6b4c18","proof_tag":"primitive_set_erdos","stashed_ref":null,"detected_orphan":null,"released_orphan_qids":[]}
 {"event":"round","session_id":"s_0504-082854-da97","ts":"2026-05-04T14:29:59+00:00","summary":"sect 29.5e' sup >= 1 exactly via k -> infty","qid":"Q43","status":"keep_progress","commit":"235222e"}
 {"event":"session_close","session_id":"s_0504-082854-da97","ts":"2026-05-04T14:29:59+00:00","commit":"235222e","reason":"reason: round 44 logged (sup >= 1 sharpened); 44 keeps; under /loop"}
+{"event":"session_open","session_id":"s_0504-091130-01cb","ts":"2026-05-04T15:11:30+00:00","commit":"14cdaec","proof_tag":"primitive_set_erdos","stashed_ref":null,"detected_orphan":null,"released_orphan_qids":[]}
+{"event":"round","session_id":"s_0504-091130-01cb","ts":"2026-05-04T15:14:26+00:00","summary":"sect 29.5e'' S(A_k) > 1 for k=1,2,3; conjecture meaningful only at x >= 9","qid":"Q44","status":"keep_progress","commit":"84a8acc"}
+{"event":"session_close","session_id":"s_0504-091130-01cb","ts":"2026-05-04T15:14:26+00:00","commit":"84a8acc","reason":"reason: round 45 logged; 45 keeps; under /loop"}
