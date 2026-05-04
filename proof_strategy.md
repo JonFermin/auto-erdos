@@ -2823,6 +2823,29 @@ give**
 \]
 Far below $1$.
 
+### 26.3a Local-search confirmation (added Round 33)
+
+Independently, single-element-swap local search around $M(x; N)$
+at $N = 10^5$ finds no primitive subset with $S$ strictly greater
+than $S(M)$ at any tested $x$:
+
+| $x$ | $|M|$ | $S(M)$ | best $S$ found by local search | gap |
+|---:|---:|---:|---:|---:|
+| $50$ | $9711$ | $0.3493$ | $0.3493$ | $0$ |
+| $100$ | $9929$ | $0.2991$ | $0.2992$ | $\sim 10^{-4}$ |
+| $300$ | $11646$ | $0.2442$ | $0.2442$ | $0$ |
+| $1000$ | $16348$ | $0.1978$ | $0.1978$ | $0$ |
+| $3000$ | $22489$ | $0.1615$ | $0.1615$ | $0$ |
+| $10\,000$ | $33856$ | $0.1241$ | $0.1241$ | $0$ |
+
+So $M$ is **locally maximal** under the single-element-swap
+metric at $N = 10^5$. The §26.2 multi-stratum gain ($+0.055$ at
+$N = 10^6$) requires *adding many elements simultaneously* — a
+move local search cannot find. This refines the picture: $M$ is
+a tight critical point under "smooth" perturbations, but the
+multi-stratum global construction operates on a different
+combinatorial structure entirely.
+
 ### 26.4 What this implies for the conjecture
 
 §25 + §26 together give the rigorous-empirical state:

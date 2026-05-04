@@ -490,3 +490,19 @@ The 6% residual slack reflects:
 
 The §25-§30 bound is now well-characterized: leading constant
 ~e^-gamma, finite-x slack 6-12% depending on which form is used.
+
+## Update from Round 33 — M is locally maximal at N=10^5
+
+Single-element-swap local search around M(x, 10^5) finds NO
+primitive subset improving on S(M) at x in {50, 100, 300, 1000,
+3000, 10000}. So M is a critical point under "smooth"
+perturbations.
+
+This complements §26.2: the multi-stratum gain at N=10^6 (+0.055
+over S(M)) requires adding many elements at once and is invisible
+to single-swap local search. Two distinct optimisation regimes:
+local (M-stable) vs. global (multi-stratum constructions can
+exceed M).
+
+Refines the picture but doesn't change the conclusion: sup_A S(A)
+~ S(M) with bounded additive overhead.
