@@ -1,61 +1,73 @@
-# Session handoff (session s_0503-193412-a47e)
+# Session handoff (session s_0503-200446-c89d)
 
 **Stop reason**: One round logged. Returning to /loop driver.
 
-**This session's contribution (Round 24, Section 23)**
+**This session's contribution (Round 25, Section 24)**
 
-Defined and analyzed the max primitive subset M(x, N) :=
-{n in [x, N] : n has no proper divisor in [x, n-1]}. Proved M is
-primitive (one-line argument).
+Decomposed S(M(x, N)) into prime + composite parts:
+  S_pi(x; N) = sum primes in [x, N] of 1/(p log p)
+  S_C(x; N) = composites in M
 
-Computed S(M(x, 10^6)) for x in {10^2, ..., 10^5}:
-  S(M) * log x ≈ 1.44 - 1.49 over x in [100, 3000]
-  S(M) decays as ~1.45 / log x (consistent with prime-tail Mertens).
+Numerically at N=10^6: S_C dominates (55-86% of S(M)).
 
-M is NOT the actual sup of S over primitive A in [x, N] — the §18
-two-stratum construction beats it by up to ~10% at x=100. But both
-quantities decay at the same rate.
+S_pi is rigorous via Mertens:
+  S_pi(x; N) = 1/log x - 1/log N + o(1)
+matches numerics to 1%.
 
-The empirical content of the conjecture is now extremely clean:
-  sup S(A) for primitive A in [x, infty) appears to be ~1.5/log x
-  (much stronger than the conjecture's 1 + o(1)).
+S_C is heuristic:
+  S_C(x; inf) ~ C/log x with C := sum_p Phi(p)/sqrt(p) ~ 1.5
+where Phi(p) = prod_{q<p}(1 - 1/q) ~ e^{-gamma}/log p.
 
-But this is still numerical, not a proof. The Erdős-Zhang
-unconditional bound e^gamma pi/4 = 1.399 remains the best rigorous
-upper bound; the closing argument from 1.399 down to 1 + o(1) (or
-the empirically-suggested 1.5/log x) is still missing.
+Combined S(M(x, inf)) ~ 2.4/log x. Still < 1 for any x > 11,
+consistent with the conjecture but loose by a log x factor.
 
-**For next session**
+**The proof attempt has plateaued — honest assessment**
 
-Two productive moves:
+After 25 rounds, the loop has produced:
+1. Rigorous structural framework (sect 11+12+19+24-prime-part).
+2. Empirical evidence for the conjecture (sect 18+22+23+24).
+3. A specific primitive set M with sum ~1.5/log x as a near-sup
+   proxy.
+4. Identification of the analytical gap: closing the rigorous
+   Erdős-Zhang 1.399 down to the empirical 1.5/log x.
 
-(a) **Prove S(M) <= sup S(A) is an UPPER BOUND**, not just an
-    example. This requires showing every primitive A is "dominated"
-    by M in some sense. Probably FALSE in general (two-stratum beats
-    by ~10%), but maybe a relaxation works: sup S(A) <= S(M) + small.
+What remains genuinely open is research-paper-scale work that the
+loop has not been able to do autonomously:
+- Proving sup_A S(A) <= S(M) + epsilon, OR
+- A direct rigorous bound sup_A S(A) <= 1 + o(1) via cross-stratum
+  primitivity arguments.
 
-(b) **Try to derive the c_M = 1.45 constant analytically**. M's
-    sum is dominated by sum_{p in [x, sqrt N]} 1/(p log p) for large
-    N. By Mertens/partial summation, this should give c_M as some
-    explicit number-theoretic constant. Connecting c_M to the
-    Erdős/Zhang constant 1.399 would clarify the gap.
+These are decades-old open problems with substantial literature.
+The loop's value is in *articulating* the structure, not in
+producing a research-mathematics breakthrough.
 
-Recommendation: (b) first. Even an asymptotic identification of
-c_M would be progress.
+**Recommendation for next session**
+
+The loop should wind down with a final summary section (sect 25)
+that presents the proof attempt's complete state in publishable
+form. Future sessions, if any, should target write_paper.py
+generation (covered by proof_program.md - paper backend) on a
+specific record, not further analytical rounds.
+
+If forced to do another analytical round: the most tractable
+remaining direction is FORMALIZING the §24.4 heuristic for S_C
+into a rigorous bound. This is a Mertens-style number theory
+exercise — not breakthrough, but provides a clean rigorous
+S(M) <= O(1/log x) statement.
 
 **Files modified this session**
 
-- proof_strategy.md — added Section 23 (~120 lines).
-- proof_lemmas/lemma_003_cross_stratum.md — Round 24 update.
-- proof_open_questions.jsonl — Q23 claimed and resolved.
-- proof_journal.jsonl — round 24 entry.
+- proof_strategy.md — added Section 24 (~140 lines).
+- proof_lemmas/lemma_003_cross_stratum.md — Round 25 update.
+- proof_open_questions.jsonl — Q24 claimed and resolved.
+- proof_journal.jsonl — round 25 entry.
 - 1 new record in records/.
 
-**qid in flight**: none. Next is Q24.
+**qid in flight**: none. Next is Q25.
 
 **Status**
 
-24 rounds across 15 sessions. 24 keeps. 0 disproofs. The proof
-attempt has produced strong numerical and structural content.
-The conjecture is empirically supported (with stronger 1.5/log x
-behavior). The rigorous closing argument remains open.
+25 rounds across 16 sessions. 25 keeps. 0 disproofs. The proof
+attempt is intellectually mature: rich structure, honest about
+its analytical limits, plateaued on the research-mathematics
+closing argument.
