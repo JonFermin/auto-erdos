@@ -2823,6 +2823,38 @@ give**
 \]
 Far below $1$.
 
+### 26.3b Multi-stratum vs $M$ at varying $N$ (added Round 34)
+
+§26.2 showed multi-stratum $K = \{2,3,4,5,6\}$ exceeds $M$ by
+$+0.055$ at $(x, N) = (100, 10^6)$. Recomputing at $N = 10^5$:
+
+| $x$ | $S(M)$ | $S(\{2\})$ | $S(\{2,3,4,5,6\})$ | gap (multi $-M$) |
+|---:|---:|---:|---:|---:|
+| $50$ | $0.349$ | $0.305$ | $0.392$ | $+0.042$ |
+| $100$ | $0.299$ | $0.250$ | $0.330$ | $+0.031$ |
+| $300$ | $0.244$ | $0.186$ | $0.258$ | $+0.014$ |
+| $1000$ | $0.198$ | $0.129$ | $0.197$ | $-0.001$ |
+| $3000$ | $0.162$ | $0.089$ | $0.153$ | $-0.009$ |
+| $10\,000$ | $0.124$ | $0.053$ | $0.112$ | $-0.012$ |
+
+**The multi-stratum advantage is $N$-dependent.** At small enough
+$N$ relative to $x$, the higher strata $A_k$ for $k \ge 5$ have
+too few representatives in $[x, N]$ to compensate for elements
+*lost* to the cross-stratum exclusion constraint. At $x \ge
+1000, N = 10^5$ the multi-stratum construction is *worse* than
+$M$.
+
+This reconciles §26.3a's local-search-finds-nothing result: at
+$N = 10^5, x \ge 1000$, $M$ already dominates not just locally but
+*globally* across the multi-stratum family. The $+0.055$ gap of
+§26.2 requires both small $x$ and large $N$.
+
+For the conjecture, the relevant regime is $x \to \infty$ at
+fixed $N = \infty$ (or $N$ large enough that the $A_{k_2}$ stratum
+mass is fully present). In that regime, multi-stratum *does*
+beat $M$ — but the gap saturates at $|K| \to \infty$ to a
+bounded amount (§26.3).
+
 ### 26.3a Local-search confirmation (added Round 33)
 
 Independently, single-element-swap local search around $M(x; N)$

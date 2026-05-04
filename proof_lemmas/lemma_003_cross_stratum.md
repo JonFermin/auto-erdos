@@ -506,3 +506,22 @@ exceed M).
 
 Refines the picture but doesn't change the conclusion: sup_A S(A)
 ~ S(M) with bounded additive overhead.
+
+## Update from Round 34 — multi-stratum gain is N-dependent
+
+Reconciliation between §26 (multi-stratum > M at N=10^6) and
+§26.3a (local-search finds nothing at N=10^5):
+
+At N=10^5: multi-stratum K={2,3,4,5,6} BEATS M for small x (+0.04
+at x=50, +0.03 at x=100, +0.01 at x=300) but LOSES TO M for
+x>=1000 (-0.001 to -0.012).
+
+So the multi-stratum advantage requires sufficient N to populate
+higher strata. At x>=1000, N=10^5: high-k strata don't have
+enough mass to compensate for cross-stratum exclusion losses.
+
+For the conjecture's x → infty regime (with N = infty), multi-stratum
+beats M but saturates at |K| → infty to bounded gap.
+
+This is a more nuanced characterization of when multi-stratum
+helps vs hurts.
