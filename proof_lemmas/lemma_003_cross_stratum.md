@@ -204,3 +204,34 @@ Two analytical gaps remain to make this rigorous:
 Closing (G1)+(G2) closes Lemma 3. This is the cleanest articulation
 of the conjecture's missing analytical content yet produced by the
 loop.
+
+## Update from Round 22 — model audit identifies §13/§20 quantitative error
+
+Direct sieve at N=10^6 measures empirical E[log delta_2(b)] for
+b in A_{k_2} cap [x, N]. Both §13's "log p uniform" model and
+the corrected Erdős-Kac "loglog p uniform" model OVERESTIMATE
+the empirical mean by a factor of 2-3:
+
+  k_2=3: empirical E[log d_2] = 4.34, §13 pred 8.54, EK pred 7.81
+  k_2=4: empirical 2.43, §13 6.42, EK 5.48
+  k_2=5: empirical 1.83, §13 5.14, EK 4.44
+  k_2=6: empirical 1.60, §13 4.29, EK 3.88
+
+Reason: most integers have a very small smallest prime (e.g.,
+P(p_min = 2) = 1/2). The continuous-distribution models miss
+this discreteness.
+
+DIRECTION: empirical delta_2 is smaller than predicted, so the
+typical b's smallest k_1-divisor more easily falls below x. This
+means kept fraction rho_k is LARGER than §20's heuristic gives.
+§20's bound was too tight; the actual rho_k decay is slower.
+
+Whether this still gives sum rho_k = o(log x) is unclear. If yes,
+the conjecture's closing path via cross-stratum exclusion holds
+(but the bound is weaker than §20 claimed). If no, multi-stratum
+interactions (3+ strata simultaneously) must do the missing work.
+
+The §20 saddle-point argument is therefore not a valid sketch of
+Lemma 3 as stated. Future rounds need a corrected model based on
+the discrete prime distribution (Tenenbaum III.3-III.6 or Ford 2008
+on smallest prime factor).

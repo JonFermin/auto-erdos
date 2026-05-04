@@ -2070,6 +2070,89 @@ mathematician) that closes (G1) + (G2) closes the conjecture.
 
 (End of Section 20.)
 
+## Section 21 — Audit of §13/§20 distributional model
+
+§20 used the §13 heuristic
+\[
+\mathbb{E}[\log \delta_{k_1}(b)] \;\approx\; \frac{k_1^2}{2 k_2} \log u
+\]
+which derives from modelling $\log p_i$ as uniform on $[\log 2, \log u]$. **This model is not classical Erdős–Kac.** Classical Erdős–Kac (Hardy–Ramanujan equidistribution) places $\log\log p_i$ uniformly on $[0, \log\log u]$, which gives the saddle-point estimate
+\[
+\mathbb{E}[\log \delta_{k_1}(b)] \;\approx\;
+\sum_{i=1}^{k_1} (\log u)^{i / k_2}
+\;\approx\; (\log u)^{k_1/k_2} \;\;\;(\text{geometric-sum dominant term}).
+\]
+
+Both formulas need to be checked against empirical data before the §20 conclusion can be trusted.
+
+### 21.1 Empirical comparison ($k_1 = 2$, $N = 10^6$)
+
+Direct sieve over $b \in A_{k_2} \cap [x, N]$:
+
+| $k_2$ | $x$ | sample $n$ | $\mathbb{E}[\log \delta_2]$ empirical | $\mathbb{E}[\log u]$ | §13 pred. | EK-geo pred. |
+|---:|---:|---:|---:|---:|---:|---:|
+| $3$ | $10^2$ | $250\,831$ | $4.34$ | $12.81$ | $8.54$ | $7.81$ |
+| $4$ | $10^2$ | $198\,051$ | $2.43$ | $12.84$ | $6.42$ | $5.48$ |
+| $5$ | $10^2$ | $124\,461$ | $1.83$ | $12.86$ | $5.14$ | $4.44$ |
+| $6$ | $10^2$ | $68\,961$ | $1.60$ | $12.88$ | $4.29$ | $3.88$ |
+
+(Table is essentially unchanged at $x = 10^3, 10^4$ — empirical $\mathbb{E}[\log \delta_2]$ depends on the conditional law of $A_{k_2}$ at scale $u$, not on $x$ once the truncation $b \ge x$ doesn't dominate.)
+
+### 21.2 What the discrepancy means
+
+**Both models overestimate by factors of 2–3** at $k_1 = 2$. The empirical mean is much smaller — $\delta_2$ is typically tiny because most integers have very small primes (the "smallest prime factor is 2 with probability $1/2$" effect). Neither continuous-distribution model captures this.
+
+Concretely, for $b \in A_3$ at typical scale $u \approx 10^{5.6}$, the empirical mean $\mathbb{E}[\delta_2(b)] \approx e^{4.34} \approx 77$. So the typical 2-smallest-divisor is two-digit, well below the conjecture's truncation $x$ at any practically interesting scale.
+
+This is *good news* for the conjecture: **the actual cross-stratum exclusion is even stronger than §13 predicts**. The kept fraction $\rho_k(x)$ should drop FASTER than the §20 heuristic suggests, not slower.
+
+### 21.3 The issue isn't the qualitative direction — it's the quantitative claim
+
+§20's punchline ("$\sum_{L \le k \le L^2/2} \rho_k = O(L)$") is QUALITATIVELY plausible — even reinforced by §21.1 (real $\rho_k$ should be smaller than the heuristic predicts). But the §20 derivation's quantitative bound
+
+\[
+\rho_{k_2}(x) \;\le\; \exp\!\left(- \frac{(L^2/(2 k_2) - 1)^2 k_2 \log x}{2 L}\right)
+\]
+
+is based on Gaussian deviation from the (incorrect) §13 mean. The right Gaussian bound — relative to the *true* mean — would be different.
+
+Since the true mean is *smaller* than the §13 prediction (by a factor of 2–3), the threshold $\delta_{k_1} < x$ is satisfied by *more* of $A_{k_2}$ than §13/§20 anticipate. So $\rho_k$ is LARGER than §20 predicts.
+
+**This means §20's heuristic argument as stated is wrong.** The correct heuristic gives looser exclusion, larger $\rho_k$, and a *weaker* upper bound on $\sum a_k \rho_k$.
+
+### 21.4 What the proof actually needs
+
+The §13/§20 framework needs to be rebuilt on the correct discrete-prime distributional model. The right statement should look like:
+
+> For typical $b \in A_{k_2}$ at scale $u$, the law of $\log \delta_{k_1}(b)$ is concentrated near a value $\mu(k_1, k_2, u)$ with variance $\sigma^2(k_1, k_2, u)$, where $\mu$ and $\sigma^2$ are computed from the joint density of the first $k_1$ prime factors of a random $A_{k_2}$-integer.
+
+The relevant probabilistic content is well-developed in the analytic number theory literature (Tenenbaum *Introduction* Ch. III; Ford 2008 on the smallest prime factor; Erdős's distribution of divisors). A future round with literature access should:
+
+1. Look up the precise asymptotic for $\mathbb{E}[\log \delta_{k_1}(b) \mid b \in A_{k_2}, b \asymp u]$ in Tenenbaum or equivalent. This is (G1) of §20.4 — but the §13 / §20 derivations as stated are not the right form.
+
+2. Use that asymptotic to recompute the saddle-point bound on $\rho_k$.
+
+3. Verify that the corrected bound still gives $\sum \rho_k = o(\log x)$.
+
+### 21.5 Pessimistic scenario
+
+If the corrected $\rho_k$ does NOT decay fast enough to keep $\sum a_k \rho_k = O(1)$, then the conjecture would *appear to fail* under the cross-stratum heuristic — which would be in tension with the §18 numerical decay ($0.337 \to 0.133$). Possible reconciliation: the multi-stratum ($\ge 3$ strata) interactions in primitivity, not captured by the pairwise §18 / §20 framework, may be doing the missing work.
+
+§18.4's heuristic extrapolation predicted $\sup S \to 0$ as $x \to \infty$, much stronger than the conjecture asks. If the pairwise analysis fails to match this, the multi-stratum interaction is what makes the difference.
+
+### 21.6 Net status of the proof attempt
+
+After 21 rounds, an honest assessment:
+
+- §11, §12, §19 are rigorous.
+- §18 is a rigorous numerical observation (not a proof).
+- §13, §20 are heuristic AND now identified as quantitatively wrong (§21.1).
+- Lemma 3 remains open. The cross-stratum direction has been articulated as a *plausible* path but not formalised.
+
+The proof attempt has produced substantial structure but no rigorous proof of Lemma 3. The §20 heuristic was overconfident; §21 corrects this.
+
+(End of Section 21.)
+
 
 
 
