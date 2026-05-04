@@ -3254,6 +3254,24 @@ Equivalently, $n \in M(x)$ iff $n \ge x$ and $n < x \cdot p_{\min}(n)$.
 is a proper divisor of $b$ with $a \ge x$, contradicting the
 defining property of $M(x)$. $\square$
 
+### 29.2a The $x^2$ ceiling on composites in $M$ (added Round 37)
+
+**Lemma B.** For any $N \ge x^2 \ge 4$, the composites in
+$M(x, N)$ are exactly the composites in $M(x, x^2)$. Equivalently,
+no composite $n \in (x^2, N]$ lies in $M(x, N)$.
+
+*Proof.* Suppose composite $n \in M(x, N)$ with $n > x^2$. Write
+$n = p_{\min}(n) \cdot m$ where $m = n / p_{\min}(n)$ is a proper
+divisor of $n$. Since $n$ is composite, $m \ge 2$, and since
+$p_{\min}(n) \le \sqrt n$ (else $n$ would be prime), $m \ge \sqrt n$.
+But $\sqrt n > \sqrt{x^2} = x$, so $m \ge x$ — contradicting
+$n \in M(x, N)$ (which requires no proper divisor of $n$ to lie in
+$[x, n - 1]$, in particular $m \notin [x, n - 1]$). $\square$
+
+This is the structural fact that drives the §26.3c-d crossover at
+$x \approx \sqrt N$ and the §27.1 finite-sieve computation: any
+sieve to $N \ge x^2$ exhausts the composites of $M(x; \infty)$.
+
 ### 29.3 Rigorous bound on $S(M(x))$
 
 **Theorem 1** (§25; verified §27, §28). As $x \to \infty$,

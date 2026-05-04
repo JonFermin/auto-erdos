@@ -566,3 +566,20 @@ kept-fraction at each stratum.
 
 Connects to §22 alpha_{k_1, k_2} ~ 1/2 for (k_1, k_2) = (2, 4):
 typical kept-window scale x^{1/alpha} = x^2.
+
+## Update from Round 37 — Lemma B promoted to §29.2a
+
+LEMMA B: For N >= x^2, the composites in M(x, N) are exactly
+those in M(x, x^2). I.e., no composite n in (x^2, N] is in M(x, N).
+
+Proof: composite n has p_min(n) <= sqrt(n), so m := n/p_min(n) >=
+sqrt(n). If n > x^2, then m > x, so m is a proper divisor of n in
+[x, n-1] — contradicting n in M(x, N). QED.
+
+This sharp x^2 ceiling on M's composites is the structural fact
+behind:
+- §26.3c-d: crossover at x ~ sqrt(N) for multi-stratum vs M.
+- §27.1: any sieve to N >= x^2 exhausts M's composites.
+- §28's exact computations.
+
+Promoted to a formal Lemma in the theorem-statement section.
