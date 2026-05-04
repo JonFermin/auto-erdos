@@ -604,3 +604,31 @@ segmented sieve.
 This is the strongest OPERATIONAL result of the loop: not just an
 asymptotic bound but a concrete finite computation that gives S(M)
 to any desired precision.
+
+## Update from Round 39 — refined Empirical Claim via Lemma B decomposition
+
+For primitive A in [x, infty): A = A_<= union A_> where
+A_<= := A cap [x, x^2], A_> := A cap (x^2, infty).
+
+A_<= is a primitive subset of [x, x^2]; bounded by S(M(x, x^2)) +
+multi-stratum saturation overhead ~0.06 (§28, §26.3).
+
+A_> elements have n > x^2; each has a proper divisor d >= x
+(by Lemma B contrapositive), which forces d not in A
+(primitivity). Bounded by sum_k rho_k * a_k(x^2; infty), which
+empirically saturates at small additive amount as |K| grows.
+
+REFINED EMPIRICAL CLAIM:
+  sup S(A) <= S(M(x; infty)) + sigma(x)
+  with sigma(x) ~ 0.06 empirically at x=100, N=10^6.
+
+The x-dependence of sigma(x) is not yet pinned down, but §26.3
+suggests it saturates additively (geometric marginal-gain decay
+with |K|).
+
+If sigma(x) is uniformly bounded as x -> infty, then:
+  sup S(A) <= S(M(x; infty)) + O(1) = O(loglog x / log x) + O(1)
+            = O(loglog x / log x)
+which would close the conjecture (with strictly stronger bound).
+
+The remaining open piece: prove sigma(x) <= C uniformly in x.

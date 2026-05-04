@@ -3363,6 +3363,54 @@ If the saturation is uniform in $x$ (open question), then
 which is **strictly stronger** than the Erdős conjecture's $\le 1
 + o(1)$.
 
+### 29.5a Refined Empirical Claim via Lemma B (added Round 39)
+
+Lemma B's $x^2$-ceiling gives a clean decomposition for any
+primitive $A \subset [x, \infty)$. Write
+\[
+A \;=\; A_\le \sqcup A_>, \qquad A_\le := A \cap [x, x^2], \qquad A_> := A \cap (x^2, \infty).
+\]
+
+**Bound on $A_\le$.** $A_\le$ is a primitive subset of $[x, x^2]$.
+By definition, every $a \in A_\le$ either belongs to $M(x, x^2)$
+(its proper divisors are all $< x$) or has a proper divisor in
+$[x, a - 1] \subset [x, x^2]$. The latter case forces that
+divisor to *not* be in $A$ (by primitivity). So
+$S(A_\le) \le S(M(x, x^2))$ is *not* automatic — the supremum is
+attained by alternative primitive subsets like the §26
+multi-stratum constructions (which can place small composites
+elsewhere).
+
+However, §28 verified that $S(M(x, x^2)) \approx 0.89 \cdot
+\text{Theorem 1 bound}$, and the §26.3 multi-stratum saturation
+gives at most $\sim 0.06$ over $S(M(x, x^2))$. So
+\[
+S(A_\le) \;\lesssim\; S(M(x, x^2)) + 0.06 \;\le\; 0.95 \cdot \text{(Theorem 1 bound on } S(M)\text{)}.
+\]
+
+**Bound on $A_>$.** Every $n \in A_>$ has $n > x^2$ and lies in
+some stratum $A_{k}$ with $k \ge 2$. By Lemma B's
+contrapositive, $n$ has a proper divisor $d \ge x$. Primitivity
+of $A$ forces $d \notin A$.
+
+The contribution $S(A_>)$ over $(x^2, \infty)$ is bounded by the
+multi-stratum analysis of §26 / §22: the kept-fraction $\rho_k$ of
+each stratum, aggregated, gives at most
+\[
+S(A_>) \;\le\; \sum_{k \ge 2} \rho_k \cdot a_k(x^2; \infty).
+\]
+Empirically (§26.3), this sum saturates at $\sim 0.06$ as $|K| \to
+\infty$ for $x = 100, N = 10^6$.
+
+**Refined Empirical Claim.** Combining,
+\[
+\sup_{A \text{ primitive}, \subset [x, \infty)} S(A) \;\le\; S(M(x; \infty)) + \sigma(x),
+\]
+where $\sigma(x)$ is the multi-stratum saturation overhead from §26.
+Empirically $\sigma(x) \le 0.06$ for $x = 100, N = 10^6$, and §26.3
+indicates $\sigma(x)$ saturates as $|K|$ grows but its $x$-dependence
+is not yet pinned down.
+
 ### 29.6 What is genuinely open
 
 The above does not constitute a proof of the conjecture. The
