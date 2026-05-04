@@ -625,3 +625,87 @@ live open queue is empty as of this round; any future session that
 extends the writeup will need to file a fresh question first.
 
 (End of Section 3; Q3 and Q6 ratified as absorbed.)
+
+### 4. Lower bound on the supremum, via $A_k$ for $k \to \infty$ (round 15; resolves Q17)
+
+This section records a rigorous *lower* bound on the quantity the
+conjecture upper-bounds. The conjecture asks
+$\sup_{A \text{ primitive}, A \subset [x, \infty)} S(A) \le 1 + o(1)$
+as $x \to \infty$. We show:
+
+\[
+\liminf_{x \to \infty} \;\sup_{\substack{A \text{ primitive} \\ A \subset [x, \infty)}} S(A) \;\ge\; 1,
+\]
+
+so the conjecture's bound, if true, is *sharp* — approached from
+below.
+
+**Construction.** For each integer $k \ge 1$, define $A_k = \{n
+\in \mathbb{N} : \Omega(n) = k\}$ (per F2 / F3 of the ledger).
+Two observations:
+
+(a) *$A_k$ is primitive.* If $a, b \in A_k$ with $a \mid b$, then
+    $b/a$ is a positive integer with $\Omega(b/a) = \Omega(b) -
+    \Omega(a) = 0$, hence $b/a = 1$, so $a = b$. (No two distinct
+    elements of $A_k$ divide one another.)
+
+(b) *$A_k \subset [2^k, \infty)$.* The smallest integer with
+    $\Omega = k$ is $2^k$ (the all-2's product). Every other
+    element is $\ge 2^k$.
+
+For $x \ge 2$, set $k_x := \lceil \log_2 x \rceil$. Then $2^{k_x}
+\ge x$, hence $A_k \subset [2^k, \infty) \subset [x, \infty)$
+whenever $k \ge k_x$.
+
+**Application of F3.** F3 states $\sum_{a \in A_k} 1/(a \log a) =
+1 - (c + o(1)) k^2/2^k$ as $k \to \infty$, with $c \approx 0.0656
+> 0$. Reading the $o(1)$ in F3's signed sense (per §1.2's sign
+disambiguation): for every $\varepsilon > 0$, there exists
+$K_{\varepsilon}$ such that for all $k \ge K_{\varepsilon}$,
+$|S(A_k) - 1| \le c k^2/2^k + \varepsilon \cdot k^2/2^k$. Since
+$k^2/2^k \to 0$, $S(A_k) \to 1$. F3's signed direction places the
+*sign* of the leading correction as negative, so $S(A_k) \to 1$
+from below.
+
+**Lower-bound conclusion.** For each $x \ge 2$, $A_k \subset [x, \infty)$
+for every $k \ge k_x$, and each such $A_k$ is primitive. Hence
+\[
+\sup_{\substack{A \text{ primitive} \\ A \subset [x, \infty)}} S(A)
+\;\ge\; \sup_{k \ge k_x} S(A_k)
+\;\ge\; \limsup_{k \to \infty} S(A_k)
+\;=\; 1.
+\]
+Taking $\liminf$ over $x$ preserves the bound — for every $\delta
+> 0$, large $x$ admits $k \ge k_x$ with $S(A_k) > 1 - \delta$.
+
+**No counterexample.** This section commits no witness. F3's
+signed direction places the leading correction as *negative*, so
+$S(A_k) < 1$ for every $k \ge K_0$ (some explicit threshold beyond
+which the $o(1)$ slack is dominated by the $c k^2/2^k$ deficit).
+The supremum is *approached from below*, never exceeded by any
+finite-$k$ choice. The witness contract (§1.3, requires
+$\texttt{claimed\_sum\_lower\_bound} > 1$) remains unmet by this
+construction; this section is structural only.
+
+**Sign disambiguation cross-check.** I am NOT claiming $S(A_k) < 1$
+for *every* finite $k$ — F3 is asymptotic (as $k \to \infty$), and
+small-$k$ values $S(A_1), S(A_2), S(A_3)$ may individually exceed $1$
+(e.g., $S(A_1) = \sum_p 1/(p \log p) \approx 1.637$, the Erdős
+prime-tail constant — a value not entered in the ledger but cited
+in §2 as a context note). What F3 *does* guarantee is the
+asymptotic limit $\lim_{k \to \infty} S(A_k) = 1$ from below; that
+is sufficient for the $\ge 1$ lower bound, since the supremum over
+$k \ge k_x$ is taken in the regime where $k_x \to \infty$ as
+$x \to \infty$. No sign confusion: F3 used in its signed form,
+F2's unsigned $O$ not invoked.
+
+**What this means for the conjecture.** The conjecture's $\le 1 + o(1)$
+upper bound, if true, is asymptotically *tight*: this section
+shows the matching $\ge 1$ lower bound. The open analytic
+question, then, is the matching upper bound — does the supremum
+*stay* at $1$, or does it briefly enter $(1, e^{\gamma}\pi/4 +
+o(1)]$? This is the content of the open conjecture; F1's $\le
+1.399 + o(1)$ leaves the question wide.
+
+(End of Section 4; Q17 resolved as a rigorous lower bound on the
+conjecture's supremum, via F3 applied to $A_k$ for $k \to \infty$.)
