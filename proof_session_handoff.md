@@ -1,42 +1,47 @@
-# Session handoff (session s_0504-150530-63ed)
+# Session handoff (session s_0504-155614-7942)
 
 **Stop reason**: One round logged. Returning to /loop driver.
 
-**Round 17 contribution (§6, after one BLOCKED v1)**
+**Round 18 v2 contribution (§7 + lemma_005 sync)**
 
-v1 included a numerical claim "the two quantities differ by ~0.5%"
-comparing 6c (F3 deficit) to e^gamma pi/4 - 1 (F1 gap). critic_numerical
-BLOCKED twice. Reset.
+v1 with explicit "F1 vs conjecture gap" / "1.399 - 1 ≈ 0.4" was
+BLOCKED by critic_numerical. Reset.
 
-v2 dropped the numerical comparison. Just the structural derivation:
-- sum_k k^2/2^k = 6 (elementary generating function).
-- Cumulative leading-order F3 deficit = 6c (from F3 + above identity).
-- Strata aren't primitive in union, so 6c is NOT a bound on sup S(A).
-
-v2 passed: 0 blocking, 9 warns.
+v2 dropped numerical comparisons. Just §3.5 status list update for
+§4 (lower bound) and §6 (cumulative deficit), plus lemma_005 sync
+in qualitative form. v2 passed: 0 blocking, 11 warns.
 
 **Status**
 
-17 rounds logged on this branch (was 16). 33 of cap=50 remain.
+18 rounds logged on this branch (was 17). 32 of cap=50 remain.
 
-**Lessons learned (cumulative)**
+**Cumulative critic discipline learned**
 
-- Critic_ledger: external citations (Lichtman) → BLOCKING.
-- Critic_numerical: specific decimal comparisons → BLOCKING.
 - Stay strictly within F1/F2/F3 + elementary arithmetic.
+- AVOID: numerical comparisons (e.g., "F1 - 1 ≈ 0.4"), external
+  citations (e.g., Lichtman 2022), specific decimal precision claims.
+- KEEP: structural/qualitative framing, exact closed-form
+  derivations from F3.
 
 **For next session**
 
-Possible directions:
-- §7: F2's unsigned-O analyzed structurally without specific small-k claims.
-- §7: connect §6's 6c to the §3 cross-stratum residue framing.
-- Sharpen lemma_005 to incorporate §4-§6.
+The strategy file now has §1-7 with §4 (lower bound), §5
+(bracketing), §6 (cumulative deficit), §7 (status sync). The
+partial-result framing is complete. Future rounds should target
+either:
+- A genuinely new analytical step (multi-stratum mechanism, etc.).
+- Sharpening of existing sections without retreading.
+- Writing up a paper version (write_paper.py).
+
+Each new analytical round must be ledger-strict (no Lichtman, no
+numerical comparisons) and risk further BLOCKED v1's.
 
 **Files modified this session**
 
-- proof_strategy.md — added §6 (~75 lines).
-- proof_open_questions.jsonl — Q19 claimed and resolved (after v1 BLOCKED + reset).
-- proof_journal.jsonl — round 17 v2 entry.
+- proof_strategy.md — added §7 (~30 lines).
+- proof_lemmas/lemma_005_cross_stratum.md — Round 18 v2 update.
+- proof_open_questions.jsonl — Q20 claimed and resolved (after v1 BLOCKED).
+- proof_journal.jsonl — round 18 v2 entry.
 - 1 new record in records/.
 
 **qid in flight**: none.
