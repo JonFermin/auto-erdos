@@ -3411,6 +3411,70 @@ Empirically $\sigma(x) \le 0.06$ for $x = 100, N = 10^6$, and §26.3
 indicates $\sigma(x)$ saturates as $|K|$ grows but its $x$-dependence
 is not yet pinned down.
 
+### 29.5b Correction: $S(A_2 \cap [x, \infty))$ exceeds $S(M)$ substantially (added Round 40)
+
+The §26.3 empirical $\sigma \approx 0.06$ was computed at finite
+$N = 10^6$ where higher-stratum tails are truncated. On the full
+$[x, \infty)$, the gap is *larger*.
+
+**Observation.** $A_2 \cap [x, \infty)$ — the full set of semiprimes
+from $x$ on — is itself a primitive set (any two distinct semiprimes
+$pq \neq rs$ are incomparable under divisibility, since
+$pq \mid rs$ would force $\{p,q\} = \{r,s\}$).
+
+By §19's closed form:
+\[
+S(A_2 \cap [x, \infty)) \;\sim\; \frac{1 + \log\log x}{\log x}.
+\]
+
+Numerical comparison (at $x$ where exact $S(M)$ is computed):
+
+| $x$ | $S(M(x; \infty))$ | $S(A_2 \cap [x, \infty))$ | gap |
+|---:|---:|---:|---:|
+| $100$ | $0.386$ | $0.549$ | $+0.163$ |
+| $300$ | $0.331$ | $0.471$ | $+0.140$ |
+| $1000$ | $0.287$ | $0.425$ | $+0.138$ |
+| $3000$ | $0.258$ | $0.392$ | $+0.134$ |
+
+So $\sigma(x) \ge S(A_2 \cap [x, \infty)) - S(M(x; \infty)) \ge 0.13$ uniformly across tested $x$ — substantially larger than the §26.3 finite-$N$ estimate of $0.06$.
+
+### 29.5c Asymptotic ratio (added Round 40)
+
+Combining the §25 asymptotic $S(M(x; \infty)) \sim (1 + e^{-\gamma}(\log\log x + B))/\log x$ with the $A_2$ asymptotic $\sim (1 + \log\log x)/\log x$:
+\[
+S(A_2 \cap [x, \infty)) - S(M(x; \infty)) \;\sim\; \frac{(1 - e^{-\gamma})\log\log x - e^{-\gamma} B}{\log x}.
+\]
+
+So the gap decays as $O(\log\log x / \log x)$ — same rate as $S(M)$ itself. The *ratio*
+\[
+\frac{S(A_2 \cap [x, \infty))}{S(M(x; \infty))} \;\to\; \frac{1 + \log\log x}{1 + e^{-\gamma}\log\log x} \;\to\; e^{\gamma} \;\approx\; 1.78
+\]
+asymptotically. So $A_2$ alone exceeds $M$ by a factor of $\sim 1.78$ in the limit, and the gap $\sigma(x) \approx (e^{\gamma} - 1) S(M(x; \infty)) \approx 0.78 \cdot S(M(x; \infty))$.
+
+### 29.5d Implication for the conjecture
+
+The refined Empirical Claim (§29.5a) was overoptimistic about $\sigma(x)$. Better statement:
+
+\[
+\sup_{A \text{ primitive}, A \subset [x, \infty)} S(A) \;\ge\; S(A_2 \cap [x, \infty)) \;\sim\; \frac{1 + \log\log x}{\log x},
+\]
+
+so the true $\sup$ is at least $A_2$'s value, which decays like $\log\log x / \log x$. The conjecture's $\le 1$ is still consistent (since $\log\log x / \log x \to 0$), but the *quantitative* picture is:
+
+\[
+\sup S(A) \;\to\; 0 \;\text{ as } x \to \infty, \qquad \text{rate} \;\sim\; \frac{\log\log x}{\log x}.
+\]
+
+This is *consistent* with the conjecture but with weaker slack
+than I'd previously estimated. The asymptotic *rate* $\log\log x / \log x \to 0$
+is the same as for $S(M)$; only the leading constant differs.
+
+Whether $\sup S(A) = S(A_2 \cap [x, \infty)) + o(1/\log x)$, or
+exceeds it further by adding higher strata kept-mass, requires
+the multi-stratum + tail analysis of §26 extended to
+$N = \infty$ — which §26 didn't compute correctly (truncating
+the tails of higher strata).
+
 ### 29.6 What is genuinely open
 
 The above does not constitute a proof of the conjecture. The

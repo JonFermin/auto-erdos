@@ -632,3 +632,29 @@ If sigma(x) is uniformly bounded as x -> infty, then:
 which would close the conjecture (with strictly stronger bound).
 
 The remaining open piece: prove sigma(x) <= C uniformly in x.
+
+## Update from Round 40 — A_2 alone exceeds S(M) substantially; sigma(x) corrected
+
+CORRECTION to §26.3's sigma ~ 0.06 estimate:
+
+A_2 cap [x, infty) (full semiprimes) is itself primitive (any
+two distinct semiprimes are incomparable under divisibility).
+S(A_2 cap [x, infty)) ~ (1 + loglog x) / log x by §19 closed form.
+
+Numerical:
+  x=100:  S(A_2-tail) = 0.549 vs S(M) = 0.386, gap = +0.163
+  x=300:  0.471 vs 0.331, gap = +0.140
+  x=1000: 0.425 vs 0.287, gap = +0.138
+  x=3000: 0.392 vs 0.258, gap = +0.134
+
+So sigma(x) >= 0.13 uniformly — much bigger than the §26.3
+finite-N estimate of 0.06.
+
+Asymptotic ratio: S(A_2)/S(M) -> e^gamma = 1.78 as x -> infty.
+
+So sup S(A) >= S(A_2 cap [x, infty)) ~ (1 + loglog x)/log x.
+Conjecture's <= 1 still consistent (since loglog x/log x -> 0),
+but with smaller margin than I'd estimated.
+
+The §26.3 estimate was at finite N = 10^6 which truncated
+multi-stratum's tails inappropriately.
