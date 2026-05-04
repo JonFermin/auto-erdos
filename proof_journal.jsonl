@@ -68,3 +68,6 @@
 {"event":"session_open","session_id":"s_0503-214318-8e95","ts":"2026-05-04T03:43:18+00:00","commit":"76ad6d5","proof_tag":"primitive_set_erdos","stashed_ref":null,"detected_orphan":null,"released_orphan_qids":[]}
 {"event":"round","session_id":"s_0503-214318-8e95","ts":"2026-05-04T03:45:37+00:00","summary":"sect 27 verifies §25 bound on full S(M(1000; infty)) = 0.287 vs bound 0.323; 11% slack","qid":"Q27","status":"keep_progress","commit":"36a2ea6"}
 {"event":"session_close","session_id":"s_0503-214318-8e95","ts":"2026-05-04T03:45:37+00:00","commit":"36a2ea6","reason":"reason: round 28 logged (verify \u00a725 on full S(M)); proof loop converged; 28 keeps; under /loop"}
+{"event":"session_open","session_id":"s_0503-221616-a99f","ts":"2026-05-04T04:16:16+00:00","commit":"5d872f6","proof_tag":"primitive_set_erdos","stashed_ref":null,"detected_orphan":null,"released_orphan_qids":[]}
+{"event":"round","session_id":"s_0503-221616-a99f","ts":"2026-05-04T04:18:21+00:00","summary":"sect 28 §25 uniformly sharp; ratio 0.888-0.891 constant across x in [100, 3000]","qid":"Q28","status":"keep_progress","commit":"b3bbb09"}
+{"event":"session_close","session_id":"s_0503-221616-a99f","ts":"2026-05-04T04:18:21+00:00","commit":"b3bbb09","reason":"reason: round 29 logged (\u00a725 sharpness verified); 29 keeps; loop deeply converged; under /loop"}
