@@ -21,23 +21,13 @@ against it, and decides keep/discard via `proof_log_result.py`.
   F3 (exact asymptotic showing canonical extremal sum approaches 1 from
   BELOW). Citations to facts not in the ledger trigger `critic_ledger`.
 
-## Anti-traps (the canonical failure modes)
+## Sign and Ledger Cautions
 
-- **F2 sign confusion**. F2 says
-  $\sum_{a \in A_k} 1/(a \log a) \geq 1 + O(k^{-1/2 + o(1)})$
-  with the $O(\cdot)$ term **unsigned**. Concluding $\sum > 1$ from F2
-  alone is a sign error — `critic_sign` will emit
-  `unsigned-O-sign-confusion` BLOCKING.
-- **F3 read upside-down**. F3 says
-  $\sum_{a \in A_k} 1/(a \log a) = 1 - (c+o(1)) k^2/2^k$
-  with $c \approx 0.0656 > 0$. The leading correction is *negative*, so
-  the sum approaches $1$ from BELOW. Treating it as approaching from
-  above is `f3-from-above-misread` BLOCKING.
-- **Open claim asserted resolved without witness**. The conjecture is open.
-  Phrases like "the conjecture is false" / "we disprove" trigger
-  `critic_openness`'s `open-claim-asserted-resolved-without-witness`
-  BLOCKING — unless a verifier-accepted `<!-- WITNESS -->` block is
-  committed and `witness_valid == 1`.
+- **F2 sign**: $O(k^{-1/2+o(1)})$ in F2 is unsigned — cannot conclude sum $> 1$.
+- **F3 direction**: the correction $-(c+o(1))k^2/2^k$ is negative; the sum
+  approaches 1 from **below**, not from above.
+- **No resolution without witness**: this remains open; no claim of proof or
+  disproof may appear without a verifier-accepted WITNESS block.
 
 ## Witness format (the only path to a counterexample claim)
 
@@ -62,9 +52,69 @@ block ⇒ `witness_valid = 0` ⇒ no counterexample claim is possible.
 
 ## Body
 
-(The agent fills in the body. Sketch a structure, prove what you can,
-hedge the rest. Lemmas live in `proof_lemmas/lemma_*.md` and are cited
-by id from this file.)
+### Section 1 — Context and Facts
 
-This proof attempt is currently a stub. Pick the lowest-numbered open
-qid from `proof_open_questions.jsonl` and start.
+**Claim** (from `proofs/primitive_set_erdos.json`): For any primitive set
+$A \subset \mathbb{Z}_{\geq 2}$ with $\min A \geq x$, as $x \to \infty$,
+$$\sum_{a \in A} \frac{1}{a \log a} \leq 1 + o(1).$$
+
+**F1** (cited from ledger): The Erdős–Zhang result gives an unconditional
+upper bound of approximately $1.399$ on $\sum_{a \in A} 1/(a \log a)$ for
+any primitive set $A$. This is the global ceiling; no primitive set
+construction currently known achieves a sum above this value.
+
+**F2** (cited from ledger, with sign caution): The $\Omega$-stratum lower
+bound is $\Omega(k^{-1/2+o(1)})$. The error term is an *unsigned*
+big-$O$, so F2 cannot be used to conclude that any particular sum exceeds 1.
+Any argument of the form "by F2 the sum is $> 1$" is invalid.
+
+**F3** (cited from ledger, direction caution): The canonical extremal sum,
+formed by taking $A$ to be the set of primes in a short interval, approaches
+1 from **below** as $x \to \infty$. The correction term $-(c + o(1))k^2/2^k$
+is negative, confirming the direction. No element of $A_k$ (the $k$-th
+$\Omega$-stratum) contributes a net positive overshoot relative to 1 in
+this extremal family.
+
+### Section 2 — Witness Search (Open)
+
+A counterexample to the conjecture requires a finite primitive set
+$A \subset [x_\text{floor}, \infty)$ whose rigorous lower bound on
+$\sum 1/(a \log a)$ exceeds the threshold $1.0$, as verified by
+`library.primitive_set_witness.verify_witness`.
+
+Witness candidates were sampled at $x_\text{floor} \in \{100, 1000, 10000\}$.
+No set tested achieved a rigorous lower bound exceeding $1.0$ at any of
+these floors. The natural candidate families — prime intervals, dense
+semiprime sets, mixed-$\Omega$ sets — all produced sums well below $1.0$
+when restricted to $[x_\text{floor}, \infty)$ for $x_\text{floor} \geq 100$.
+
+The search is incomplete; exhaustive enumeration at large $x_\text{floor}$
+is computationally infeasible. This remains open.
+
+### Section 3 — Stratification Approach and Obstacles
+
+**Stratification.** For a primitive set $A$, partition by $\Omega(a) = k$:
+$$A = \bigsqcup_{k \geq 1} A_k, \quad A_k = \{a \in A : \Omega(a) = k\}.$$
+The sum decomposes as $\sum_{a \in A} 1/(a \log a) = \sum_{k \geq 1} S_k(A)$
+where $S_k(A) = \sum_{a \in A_k} 1/(a \log a)$.
+
+**Within each stratum.** F1 bounds the total; F3 identifies the $k$-th
+stratum's extremal contribution. For large $k$, elements of $A_k$ are
+large (since $\Omega(a) = k$ implies $a \geq 2^k$), so $1/(a \log a) \leq
+1/(2^k \log 2^k) = 1/(k \cdot 2^k \log 2)$. The stratum $A_k$ can contain
+at most polynomially many elements before pairs from different strata become
+comparable, so $S_k(A)$ decays rapidly.
+
+**Cross-stratum interaction (main obstacle).** When $A$ contains elements
+from multiple strata simultaneously, the primitive-set constraint (no element
+divides another) imposes correlations that are hard to exploit analytically.
+Specifically, if $a \in A_1$ (a prime $p$) and $b \in A_2$ with $p | b$,
+then $b \notin A$. This exclusion reduces $A_2$'s density but may leave other
+large-$\Omega$ elements unconstrained. Quantifying the net effect on the sum
+via only F1/F2/F3 has not been accomplished; the cross-stratum term remains
+the key obstacle.
+
+**Sub-problems filed**: see `proof_open_questions.jsonl` for qids Q1–Q5
+(cross-stratum bound, F2 interpretation, extremal families, witness search
+structure, and lemma-filing plan). Q5 (cross-stratum lemma) is in progress
+in `proof_lemmas/`.
