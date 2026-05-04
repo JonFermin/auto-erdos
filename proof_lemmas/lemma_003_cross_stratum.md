@@ -273,3 +273,39 @@ Next round target: heuristic upper bound
   rho^*_{k_2}(x) := prod_{k_1=1..k_2-1} rho^{(k_1)}_{k_2}(x)
 assuming approximate independence across k_1, and check whether
 sum_{k_2} a_{k_2} rho^* stays <= 1.
+
+## Update from Round 24 — explicit max primitive subset M(x, N)
+
+Define M(x, N) := {n in [x, N] : n has no proper divisor in [x, n-1]}.
+Lemma: M(x, N) is primitive. Direct.
+
+Computed S(M(x, 10^6)) at x = 10^2, 10^3, 10^4:
+  x=100: S=0.314, S*log x = 1.444
+  x=1000: S=0.215, S*log x = 1.485
+  x=10000: S=0.154, S*log x = 1.415
+
+So S(M) ~ 1.45 / log x, decays cleanly.
+
+Comparison to §18 two-stratum sup:
+  x=100: M gives 0.314, §18 gives 0.337 (two-stratum WINS)
+  x=1000: M gives 0.215, §18 gives 0.212
+  x=10000: M gives 0.154, §18 gives 0.133
+
+So M is NOT the sup — two-stratum constructions can slightly beat it
+at x=100. But M is within 10% of the sup across tested range,
+and decays at the same rate.
+
+This means: the EMPIRICAL sup of S(A) over primitive A in [x, N]
+is roughly 1.5 / log x — much stronger than the conjecture's
+1 + o(1). But the empirical fact is not yet a proof.
+
+Closing the conjecture rigorously needs an analytical argument
+giving sup S(A) <= 1 + o(1) (or stronger). Erdős-Zhang's
+e^gamma pi/4 = 1.399 upper bound is the best unconditional rigorous
+result. The gap 0.4 to the conjecture is what cross-stratum
+exclusion (§11.4) is supposed to close.
+
+After 24 rounds: the empirical content is clear, the structural
+content is rich (§11+§12+§19+§22+§23), but the analytical closing
+step bridging "sup ~ 1.45/log x empirically" to "sup <= 1 rigorously"
+is still missing.

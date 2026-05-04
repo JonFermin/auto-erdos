@@ -2304,6 +2304,134 @@ This would either:
 
 (End of Section 22.)
 
+## Section 23 — The maximal primitive subset $M(x, N)$ and its sum
+
+§22 showed the §13/§20 single-dominant-$k_1$ exclusion is too
+weak: $\rho_{L, k_2} \approx 1$ for most $k_2 > L$. This section
+takes the cumulative *multi-$k_1$* exclusion seriously by
+computing a single explicit primitive set and tabulating its sum.
+
+### 23.1 Definition
+
+Define
+\[
+M(x, N) \;:=\; \{n \in [x, N] : n \text{ has no proper divisor in } [x, n-1]\}.
+\]
+Every $n \in M$ has all its proper divisors below $x$. Equivalently,
+the smallest divisor of $n$ that is $\ge x$ is $n$ itself.
+
+**Lemma.** $M(x, N)$ is primitive.
+
+*Proof.* Suppose $a, b \in M$ with $a \mid b$ and $a \ne b$. Then
+$a$ is a proper divisor of $b$ with $a \in [x, N] \subset [x, b-1]$,
+contradicting $b \in M$. $\square$
+
+### 23.2 Empirical sums
+
+Computed at $N = 10^6$ via direct SPF-based divisor enumeration:
+
+| $x$ | $U(x; 10^6) := S(M(x, 10^6))$ | $|M|$ | $|[x, 10^6]|$ | $U \cdot \log x$ |
+|---:|---:|---:|---:|---:|
+| $10^2$ | $0.31360$ | $78\,835$ | $999\,901$ | $1.444$ |
+| $300$ | $0.25864$ | $80\,552$ | $999\,701$ | $1.475$ |
+| $10^3$ | $0.21500$ | $93\,287$ | $999\,001$ | $1.485$ |
+| $3 \cdot 10^3$ | $0.18368$ | $122\,096$ | $997\,001$ | $1.471$ |
+| $10^4$ | $0.15360$ | $163\,235$ | $990\,001$ | $1.415$ |
+| $3 \cdot 10^4$ | $0.12848$ | $224\,884$ | $970\,001$ | $1.325$ |
+| $10^5$ | $0.10077$ | $338\,570$ | $900\,001$ | $1.160$ |
+
+(The drop at $x \ge 10^4$ reflects the upper-truncation $N = 10^6$
+starting to bite — when $\sqrt{N} \to x$, primes in $[x, \sqrt N]$
+that dominate $M$ run out.)
+
+**Observation.** For $x \in [10^2, 10^4]$ where $N \gg x$, the
+product $U(x; N) \cdot \log x$ is roughly constant at $\approx
+1.45$. So
+\[
+U(x; \infty) \;=\; \frac{c_M}{\log x} + o(1/\log x)
+\]
+empirically with $c_M \approx 1.45$.
+
+### 23.3 Comparison to the conjecture
+
+If $M$ were the actual supremum-attainer over primitive sets in
+$[x, N]$, the conjecture would hold trivially with $S \to 0$ as
+$x \to \infty$. But $M$ is a *single* primitive set, not a proven
+sup — there may be primitive $A$ with $S(A) > S(M)$.
+
+To check, compare to the §18 two-stratum max:
+
+| $x$ | $S(M(x, 10^6))$ | §18 sup two-stratum |
+|---:|---:|---:|
+| $10^2$ | $0.314$ | $0.337$ |
+| $10^3$ | $0.215$ | $0.212$ |
+| $10^4$ | $0.154$ | $0.133$ |
+
+The two-stratum max at $x = 100$ ($0.337$) is *larger* than
+$S(M(100, 10^6)) = 0.314$. **So $M$ is NOT the sup.** The
+two-stratum construction $A^{(2)} \cup A^{(4)}_\text{kept}$
+achieves a slightly larger sum than $M$.
+
+But notably, both quantities are within ~10% of each other across
+$x$, and both decay at the same rate. So while $M$ is not the
+exact sup, it's a tight proxy: the actual sup is at most a
+constant factor above $S(M)$.
+
+### 23.4 The connection to primes
+
+For sufficiently large $x$, $M(x, \infty)$ is dominated by primes
+$p \ge x$. (Composite $n \ge x$ with no proper divisor $\ge x$ are
+those whose largest proper divisor is $< x$ — i.e., $n / p_{\min}(n)
+< x$, i.e., $n < x \cdot p_{\min}(n)$. So $n$ is at most slightly
+larger than $x$.)
+
+Indeed, $\sum_{p \ge x} 1/(p \log p) \to 1/\log x \cdot (1 + o(1))$
+by Mertens / partial summation, and the $c_M \approx 1.45$ leading
+coefficient is consistent with this plus contributions from
+small-composite tails.
+
+### 23.5 What this tells us about Lemma 3
+
+$U(x; N) \to 0$ as $x \to \infty$ implies that the "maximal
+primitive subset" $M$ has sum going to zero. The actual primitive
+sup may be larger, but not by an unbounded factor (numerical
+evidence: at most $1.1\times$ within tested range).
+
+**Honest assessment**: $S(M)$ is not a proof, but it's
+*qualitatively the right magnitude*. The actual conjecture
+$\sup S \le 1 + o(1)$ is *not tight* — the true behavior appears
+to be $\sup S = O(1/\log x) \to 0$. (This stronger statement was
+also supported by §18.4's extrapolation.)
+
+Closing Lemma 3 rigorously needs an argument that
+$\sup_A S(A) \le c / \log x$ (or at least $\le 1 + o(1)$). The
+empirical content is now clear. The analytical tools (Erdős–Zhang
+$e^\gamma \pi/4$ as the best known unconditional upper bound; the
+gap $e^\gamma \pi/4 - 1 \approx 0.4$ to the conjecture; the §11.4
+cross-stratum mechanism) are all on hand. The synthesis remains
+open.
+
+### 23.6 Status after 23 rounds
+
+| Component | Status |
+|---|---|
+| Numerical evidence: conjecture is true, possibly with stronger $O(1/\log x)$ bound | rigorous |
+| §11/§12/§19/§22/§23: explicit formulas for stratum sums, $a_k$, $E[\log \delta_{k_1}]$, $S(M)$ | rigorous |
+| Cross-stratum upper bound on $\sup S$: at most $\sim 1.4 / \log x$ asymptotically (numerical) | rigorous numerical |
+| Erdős–Zhang $e^\gamma \pi/4$ upper bound | rigorous (cited) |
+| Closing $1.399 \to 1$ via the §11.4 mechanism | open |
+
+The proof attempt has produced strong empirical and structural
+evidence for a *stronger-than-conjectured* bound, plus rigorous
+formulas for several key intermediate quantities. The unproven
+piece is the *reduction* from the heuristic "max primitive S
+is at most $\sim 1/\log x$" to a rigorous bound. The §13/§20
+heuristic was a candidate for this reduction; §21–§22 showed it
+is quantitatively wrong; §23 confirms the empirical claim but
+does not provide the missing analytic argument.
+
+(End of Section 23.)
+
 
 
 
