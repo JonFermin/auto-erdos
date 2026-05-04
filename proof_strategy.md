@@ -174,4 +174,14 @@ how much they contribute to the sum. This requires analytic estimates on
 multiplicative structure that go beyond what F1/F2/F3 directly provide.
 
 This sub-problem remains open. It is the central unsolved part of the
-conjecture and has not been resolved here. This remains open.
+conjecture and has not been resolved here.
+
+**Two-stratum sub-case (Q7, in progress)**: As a stepping stone, Lemma
+`two_stratum` (`proof_lemmas/lemma_two_stratum.md`, status: open) analyzes
+the case where $A$ draws from exactly two strata $j < k$. The naive sum of
+F3 bounds gives $\leq (1 - \delta_j) + (1 - \delta_k) \approx 2$, far from
+the conjectured $\leq 1$. The inter-stratum exclusion must supply the missing
+mass. Quantifying the excluded sum $E_{j,k}(a)$ for each $a \in A_j$ requires
+F3-style estimates for restricted stratum sums — a variant not in the ledger.
+
+This remains open.
