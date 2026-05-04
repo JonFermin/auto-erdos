@@ -845,3 +845,28 @@ The conjecture remains open. No witness is committed.
 
 (End of Section 6; Q19 resolved as a structural closed-form identity
 relating F3 and the generating function $\sum k^2/2^k$.)
+
+### 7. Partial-result status update for §4–§6 additions (round 18; resolves Q20)
+
+The §3.5 partial-result list is brought up to date to reflect the
+content added by §4 (lower bound via $A_k$ for $k \to \infty$) and
+§6 (cumulative F3-deficit closed form). These are appended as two
+new bullets without altering any prior bullet:
+
+- *Lower-bound construction* (§4): $\sup_{A \text{ primitive}, A \subset [x, \infty)} S(A) \ge 1$ is established rigorously via F3's signed asymptotic applied to $A_k$ for $k \ge \lceil \log_2 x \rceil$ — the witness $A_k$ is primitive (Lemma 1) and contained in $[x, \infty)$ (smallest element $2^k \ge x$), with $S(A_k) \to 1$ from below.
+
+- *Cumulative F3-deficit* (§6): summing F3's per-stratum deficits via the elementary identity $\sum_{k \ge 1} k^2/2^k = 6$ gives the closed-form $6c$ at leading order. Strata are not primitive in their disjoint union, so this is *not* a bound on $\sup S(A)$; it is a structural F3-derived constant available for future analytical work.
+
+The lemma 5 file (`proof_lemmas/lemma_005_cross_stratum.md`) is
+updated to mirror this status — its open content is now framed as
+the cross-stratum mechanism that ties §4's lower bound to F1's
+upper bound.
+
+Neither §4 nor §6 commits a witness; the conjecture remains open.
+The partial result of this writeup is now complete in the
+following sense: every section either (a) records a rigorous
+sub-result usable in a future proof or (b) frames an open
+sub-question without claiming to resolve it. No section asserts
+the conjecture is settled.
+
+(End of Section 7; Q20 resolved by the §3.5 status update + lemma_005 sync.)

@@ -114,3 +114,28 @@ dominant, may in principle have $S(A) > 1$ for finite $x$. F1
 established $S(A) < e^\gamma \pi/4 + o(1)$; the conjecture asserts
 the tighter $S(A) < 1 + o(1)$. The gap is the residue not closed by
 Lemmas 1–4. We do not close it here.
+
+## Update — connection to §4 and §6 (round 18 v2)
+
+Strategy file Sections 4 and 6 add structure to the cross-stratum
+residue:
+
+**§4**: applying F3 to $A_k$ for $k \to \infty$ shows
+$\sup_{A \text{ primitive}, A \subset [x, \infty)} S(A) \ge 1$ in the
+limit. The witness is $A_k$ for $k$ large; it is primitive (Lemma 1)
+and contained in $[x, \infty)$ (smallest element $2^k$). So the
+single-stratum case alone matches the conjecture's ceiling from
+below.
+
+**§6**: summing F3's per-stratum deficits via the elementary identity
+$\sum k^2/2^k = 6$ gives the closed-form $6c$ at leading order. Strata
+are not primitive in their disjoint union, so this is not a bound on
+$\sup S(A)$, but it is a clean F3-derived constant available for
+future analytical work.
+
+**Effect on Lemma 5's framing**: the residue's open content is the
+cross-stratum mechanism that ties §4's lower bound to F1's upper
+bound. The lemma is *not* about achieving 1 (single strata already
+do that asymptotically), but about preventing *excess* above 1 via
+cross-stratum primitivity exclusion. We have not closed it; the
+residue remains open.
