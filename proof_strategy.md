@@ -98,12 +98,19 @@ $$A = \bigsqcup_{k \geq 1} A_k, \quad A_k = \{a \in A : \Omega(a) = k\}.$$
 The sum decomposes as $\sum_{a \in A} 1/(a \log a) = \sum_{k \geq 1} S_k(A)$
 where $S_k(A) = \sum_{a \in A_k} 1/(a \log a)$.
 
-**Within each stratum.** F1 bounds the total; F3 identifies the $k$-th
-stratum's extremal contribution. For large $k$, elements of $A_k$ are
-large (since $\Omega(a) = k$ implies $a \geq 2^k$), so $1/(a \log a) \leq
-1/(2^k \log 2^k) = 1/(k \cdot 2^k \log 2)$. The stratum $A_k$ can contain
-at most polynomially many elements before pairs from different strata become
-comparable, so $S_k(A)$ decays rapidly.
+**Within each stratum.** F1 bounds the total; F3 identifies the extremal
+stratum's structure. For large $k$, all elements of $A_k$ have at least $k$
+prime factors (counted with multiplicity), forcing them to be large; each
+individual term $1/(a \log a)$ is therefore small. Whether the entire
+stratum $S_k(A)$ is bounded by an effective constant — independent of the
+choice of primitive $A$ — is part of what the proof must establish.
+
+**Key observation on within-stratum primitivity.** If $\Omega(a) = \Omega(b) = k$
+and $a | b$ with $a \neq b$, then $b/a$ would have $\Omega(b/a) = 0$, forcing
+$b/a = 1$, a contradiction. Therefore any collection of distinct integers
+sharing a fixed $\Omega$ value is automatically primitive — no additional
+constraint is imposed within a single stratum. The primitive-set condition
+is entirely a cross-stratum condition.
 
 **Cross-stratum interaction (main obstacle).** When $A$ contains elements
 from multiple strata simultaneously, the primitive-set constraint (no element
@@ -114,7 +121,21 @@ large-$\Omega$ elements unconstrained. Quantifying the net effect on the sum
 via only F1/F2/F3 has not been accomplished; the cross-stratum term remains
 the key obstacle.
 
-**Sub-problems filed**: see `proof_open_questions.jsonl` for qids Q1–Q5
-(cross-stratum bound, F2 interpretation, extremal families, witness search
-structure, and lemma-filing plan). Q5 (cross-stratum lemma) is in progress
-in `proof_lemmas/`.
+**Lemma structure (Q5 in progress)**: Two lemma files are filed:
+- Lemma `within_stratum` (`proof_lemmas/lemma_within_stratum.md`, status: open):
+  shows within-stratum primitivity is vacuous (all same-$\Omega$ sets are
+  automatically primitive); the relevant constraint is cross-stratum.
+- Lemma `cross_stratum` (`proof_lemmas/lemma_cross_stratum.md`, status: open):
+  the core open problem — bounding the total sum using inter-stratum
+  divisibility exclusions; this is essentially the full conjecture.
+
+**Summary of partial result**: Using F1/F2/F3:
+(a) F1 gives global ceiling $\approx 1.399$.
+(b) F3 shows the canonical extremal sum approaches 1 from below.
+(c) F2's stratum bound is unsigned; it cannot establish any particular sum $> 1$.
+(d) Witness search at $x_\text{floor} \in \{100, 1000, 10000\}$ found
+    no counterexample with rigorous lower bound $> 1.0$.
+(e) Within-stratum constraint is vacuous; the primitive-set condition is
+    entirely cross-stratum.
+
+This remains open. The cross-stratum interaction is the key obstacle.
