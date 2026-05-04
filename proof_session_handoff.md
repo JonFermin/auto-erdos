@@ -1,36 +1,34 @@
-# Session handoff (session s_0504-091130-01cb)
+# Session handoff (session s_0504-095537-f15b)
 
 **Stop reason**: One round logged. Returning to /loop driver.
 
-**Round 45 contribution (§29.5e'')**
+**Round 46 contribution (§29.5*)**
 
-Tabulated S(A_k) for small k:
-  k=1: 1.637 (Erdős prime-tail constant)
-  k=2: 1.131
-  k=3: 1.010
-  k=4: 0.989
-  k>=5: < 1 -> 1 from below
+Consolidated 9 sub-sections (29.5a-h, e', e'') into a coherent
+picture:
+- Lower bound: sup S(A) >= 1 (rigorous via §29.5e').
+- Upper bound: sup S(A) <= 1.399 (Erdős-Zhang, literature).
+- Conjecture: sup S <= 1 + o(1) (open).
 
-For x >= 9: A_1, A_2, A_3 not admissible (smallest elements 2, 4,
-8). All admissible A_k satisfy S < 1 via Sathe-Selberg deficit.
-
-So conjecture's "sup S <= 1" is meaningful only at large x. At
-small x (x <= 8), the conjecture's bound is straightforwardly
-violated by A_2 or A_3.
-
-The conjecture's content is the asymptotic statement: as x grows,
-sup S -> 1 (not above).
+Approach: A_k for k -> infty saturates from below. M much smaller.
 
 **Status**
 
-45 rounds, 35 sessions, 45 keeps, 0 disproofs.
+46 rounds, 36 sessions, 46 keeps, 0 disproofs.
+
+The proof attempt has now produced:
+1. A clean rigorous lower bound (sup >= 1).
+2. A rigorous upper bound on S(M) (Theorem 1, 25.2 sharp).
+3. The recognition that M is far below sup; A_k is much closer.
+4. The open question reframed: does multi-stratum primitive
+   construction exceed 1 (>= conjecture's claim)?
 
 **Files modified this session**
 
-- proof_strategy.md — added §29.5e'' (~30 lines).
-- proof_lemmas/lemma_003_cross_stratum.md — Round 45 update.
-- proof_open_questions.jsonl — Q44 claimed and resolved.
-- proof_journal.jsonl — round 45 entry.
+- proof_strategy.md — added §29.5* (~30 lines).
+- proof_lemmas/lemma_003_cross_stratum.md — Round 46 update.
+- proof_open_questions.jsonl — Q45 claimed and resolved.
+- proof_journal.jsonl — round 46 entry.
 - 1 new record in records/.
 
 **qid in flight**: none.

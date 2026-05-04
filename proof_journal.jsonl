@@ -119,3 +119,6 @@
 {"event":"session_open","session_id":"s_0504-091130-01cb","ts":"2026-05-04T15:11:30+00:00","commit":"14cdaec","proof_tag":"primitive_set_erdos","stashed_ref":null,"detected_orphan":null,"released_orphan_qids":[]}
 {"event":"round","session_id":"s_0504-091130-01cb","ts":"2026-05-04T15:14:26+00:00","summary":"sect 29.5e'' S(A_k) > 1 for k=1,2,3; conjecture meaningful only at x >= 9","qid":"Q44","status":"keep_progress","commit":"84a8acc"}
 {"event":"session_close","session_id":"s_0504-091130-01cb","ts":"2026-05-04T15:14:26+00:00","commit":"84a8acc","reason":"reason: round 45 logged; 45 keeps; under /loop"}
+{"event":"session_open","session_id":"s_0504-095537-f15b","ts":"2026-05-04T15:55:37+00:00","commit":"8dcf62a","proof_tag":"primitive_set_erdos","stashed_ref":null,"detected_orphan":null,"released_orphan_qids":[]}
+{"event":"round","session_id":"s_0504-095537-f15b","ts":"2026-05-04T15:56:48+00:00","summary":"sect 29.5* consolidates picture; bracket [1, 1.399]; conjecture asks <= 1+o(1)","qid":"Q45","status":"keep_progress","commit":"361cbf8"}
+{"event":"session_close","session_id":"s_0504-095537-f15b","ts":"2026-05-04T15:56:48+00:00","commit":"361cbf8","reason":"reason: round 46 logged; 46 keeps; under /loop"}
