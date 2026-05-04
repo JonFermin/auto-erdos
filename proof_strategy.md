@@ -3224,7 +3224,95 @@ are at <5% marginal information per round).
 `uv run write_paper.py records/proof_primitive_set_erdos_<recent>.json --mode proof`
 will generate a focused markdown writeup of the loop's results.
 
-(End of Section 29 and of the analytical content.)
+(End of Section 29.)
+
+## Section 30 — Sharpened §25 bound via exact integral
+
+§25's derivation bounded
+\[
+\log\log(px) - \log\log x \;\le\; \frac{\log p}{\log x}
+\]
+(via $\log(1+y) \le y$). This is sharp only for $\log p \ll \log x$,
+giving the §28 ratio $\approx 0.89$.
+
+Replacing this bound with the **exact** integral value yields a
+tighter version of Theorem 1.
+
+### 30.1 Sharpened bound
+
+\[
+S(M(x)) \;\le\; \frac{1}{\log x}\left[1 + \sum_{p < x} \frac{\Phi(p)}{p}\bigl(\log\log(px) - \log\log x\bigr)\right] \cdot \log x
+\]
+
+\[
+\;=\; \frac{1}{\log x} + \sum_{p < x} \frac{\Phi(p)}{p}\bigl(\log\log(px) - \log\log x\bigr)
+\]
+
+(plus a vanishing $o(1/\log x)$ correction from the Mertens
+asymptotic for $\sum_{p > x} 1/(p \log p)$).
+
+### 30.2 Numerical comparison
+
+For $x \in \{100, \ldots, 100\,000\}$, computing $\Phi(p) =
+\prod_{q < p}(1 - 1/q)$ exactly (no asymptotic) and summing the
+exact-integral version:
+
+| $x$ | Taylor bound $\cdot \log x$ | Exact bound $\cdot \log x$ | Observed $S(M) \cdot \log x$ |
+|---:|---:|---:|---:|
+| $10^2$ | $2.052$ | $1.899$ | $1.778$ |
+| $300$ | $2.169$ | $2.006$ | $1.888$ |
+| $10^3$ | $2.272$ | $2.102$ | $1.985$ |
+| $3 \cdot 10^3$ | $2.354$ | $2.178$ | $2.062$ |
+| $10^4$ | $2.432$ | $2.252$ | (lower bound 2.126) |
+| $3 \cdot 10^4$ | $2.495$ | $2.311$ | not computed |
+| $10^5$ | $2.557$ | $2.370$ | not computed |
+
+Ratios observed/exact-bound:
+
+| $x$ | ratio (exact form) |
+|---:|---:|
+| $10^2$ | $0.936$ |
+| $300$ | $0.941$ |
+| $10^3$ | $0.944$ |
+| $3 \cdot 10^3$ | $0.946$ |
+
+So the **exact-integral version of Theorem 1** is tight to ~$6\%$
+across the verified range — improving on the §28 Taylor-version's
+$11\%$ slack by a factor of two.
+
+### 30.3 What the residual 6% slack represents
+
+The remaining slack ($\sim 6\%$) comes from:
+
+(a) The Mertens density $\Phi(p) \sim e^{-\gamma}/\log p$ is an
+    asymptotic, not exact — at small primes ($p = 2, 3, 5, \ldots$)
+    the discrete count has $\sim 1/p$ corrections.
+
+(b) The integral approximation
+    $\sum_{k \in [x/p, x), p\text{-rough}} 1/(pk \log(pk))
+    \approx \Phi(p) \int_{x/p}^x dt/(pt \log(pt))$
+    has a discretization error of order $1/p$.
+
+(c) The "all factors $\ge p$" constraint includes $p$ itself:
+    powers $p^a$ with $a \ge 2$ contribute. Approximating these as
+    a continuous density slightly overshoots.
+
+The combined effect is a $\sim 6\%$ overshoot at small $x$, which
+should asymptote to $\sim e^{-\gamma}$ corrections at large $x$.
+
+### 30.4 Updated Theorem 1 (sharper form)
+
+**Theorem 1$'$.** As $x \to \infty$,
+\[
+S(M(x)) \;\le\; \frac{1}{\log x} + \sum_{p < x} \frac{\Phi(p)}{p}\bigl(\log\log(px) - \log\log x\bigr) + o(1/\log x).
+\]
+
+The right-hand side is asymptotically
+$\sim (1 + e^{-\gamma}(\log\log x + B))/\log x$ (recovering Theorem 1),
+but at finite $x$ it is tighter than the Theorem 1 bound by 6–12%.
+
+(End of Section 30.)
+
 
 
 

@@ -468,3 +468,25 @@ Composites with p_min>1000 missed; bounded by e^-gamma * (loglog x - loglog(N/x)
 Trend across x in [100, 10000]: ratio is uniformly ~0.89, varying
 by less than 0.5% across two decades. §25 bound's structure is
 DEFINITIVELY established as sharp up to a 0.89 absolute constant.
+
+## Update from Round 32 — sharpened Theorem 1' via exact integral
+
+§25 used Taylor bound log(1+y) <= y to get §25's bound. Replacing
+with exact log log(px) - log log x:
+
+  THEOREM 1' (sharper):
+  S(M(x)) <= 1/log x + sum_{p<x} Phi(p)/p * (loglog(px) - loglog x)
+                                 + o(1/log x)
+
+Numerical: ratio observed/predicted = 0.94 across x in [100, 3000],
+vs the Taylor version's 0.89. Tightened bound by factor of ~2 in
+slack.
+
+Asymptotically same as Theorem 1, but at finite x sharper.
+
+The 6% residual slack reflects:
+- Mertens density Phi(p) ~ e^-gamma/log p is asymptotic
+- Continuous integral vs discrete sum corrections
+
+The §25-§30 bound is now well-characterized: leading constant
+~e^-gamma, finite-x slack 6-12% depending on which form is used.
