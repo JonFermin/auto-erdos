@@ -1,32 +1,35 @@
-# Session handoff (session s_0504-032522-ec50)
+# Session handoff (session s_0504-040719-8ff7)
 
 **Stop reason**: One round logged. Returning to /loop driver.
 
-**Round 37 contribution (§29.2a, Lemma B)**
+**Round 38 contribution (§29.3a, Corollary C)**
 
-Promoted the §26.3d / §27.1 observation to a formal Lemma:
+Combined Lemma B with the Mertens prime-tail asymptotic to give
+the operational formula:
 
-  LEMMA B. For N >= x^2 >= 4, composites in M(x, N) = composites
-  in M(x, x^2). Equivalently, no composite n in (x^2, N] lies in
-  M(x, N).
+  S(M(x; infty)) = [sieve to x^2 contribution]
+                 + 1/(2 log x) + o(1/log x).
 
-  Proof. Composite n has p_min(n) <= sqrt(n), so m = n/p_min(n)
-  >= sqrt(n) > x for n > x^2. Then m is a proper divisor in
-  [x, n-1], contradicting n in M(x, N). QED.
-
-This makes the x^2 ceiling rigorous — it underpins the §26.3
-crossover analysis and the §27 finite-sieve exhaustion result.
+This is the strongest OPERATIONAL result of the loop:
+S(M(x; infty)) is fully numerically accessible at any x where a
+sieve of length x^2 is feasible. Verified at x in {100, ..., 3000}
+(§28); could extend to x = 10^6 with a segmented sieve.
 
 **Status**
 
-37 rounds, 27 sessions, 37 keeps, 0 disproofs.
+38 rounds, 28 sessions, 38 keeps, 0 disproofs.
 
 **Files modified this session**
 
-- proof_strategy.md — added §29.2a Lemma B (~15 lines).
-- proof_lemmas/lemma_003_cross_stratum.md — Round 37 update.
-- proof_open_questions.jsonl — Q36 claimed and resolved.
-- proof_journal.jsonl — round 37 entry.
+- proof_strategy.md — added §29.3a (~30 lines).
+- proof_lemmas/lemma_003_cross_stratum.md — Round 38 update.
+- proof_open_questions.jsonl — Q37 claimed and resolved.
+- proof_journal.jsonl — round 38 entry.
 - 1 new record in records/.
 
 **qid in flight**: none.
+
+**Continuing assessment: deeply saturated**
+
+The loop has continued past saturation. Subsequent rounds add
+trace nuance only. Recommended pivot: paper writeup.

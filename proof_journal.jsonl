@@ -95,3 +95,6 @@
 {"event":"session_open","session_id":"s_0504-032522-ec50","ts":"2026-05-04T09:25:22+00:00","commit":"7d4b171","proof_tag":"primitive_set_erdos","stashed_ref":null,"detected_orphan":null,"released_orphan_qids":[]}
 {"event":"round","session_id":"s_0504-032522-ec50","ts":"2026-05-04T09:26:26+00:00","summary":"sect 29.2a Lemma B x^2 ceiling on M's composites; supports §26 crossover and §27 sieve exhaustion","qid":"Q36","status":"keep_progress","commit":"bc0fa58"}
 {"event":"session_close","session_id":"s_0504-032522-ec50","ts":"2026-05-04T09:26:26+00:00","commit":"bc0fa58","reason":"reason: round 37 logged (Lemma B); 37 keeps; under /loop"}
+{"event":"session_open","session_id":"s_0504-040719-8ff7","ts":"2026-05-04T10:07:19+00:00","commit":"b6ed53d","proof_tag":"primitive_set_erdos","stashed_ref":null,"detected_orphan":null,"released_orphan_qids":[]}
+{"event":"round","session_id":"s_0504-040719-8ff7","ts":"2026-05-04T10:08:30+00:00","summary":"sect 29.3a Corollary C: S(M) fully computable via sieve to x^2 + Mertens prime tail","qid":"Q37","status":"keep_progress","commit":"134dc09"}
+{"event":"session_close","session_id":"s_0504-040719-8ff7","ts":"2026-05-04T10:08:30+00:00","commit":"134dc09","reason":"reason: round 38 logged (Corollary C); 38 keeps; under /loop"}
