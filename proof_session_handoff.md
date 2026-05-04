@@ -1,34 +1,32 @@
-# Session handoff (session s_0504-024230-9a09)
+# Session handoff (session s_0504-032522-ec50)
 
 **Stop reason**: One round logged. Returning to /loop driver.
 
-**Round 36 contribution (§26.3d)**
+**Round 37 contribution (§29.2a, Lemma B)**
 
-Heuristic for the §26.3c x ~ sqrt(N) crossover.
+Promoted the §26.3d / §27.1 observation to a formal Lemma:
 
-Key observation: M(x, N)'s composites satisfy n < x * p_min(n) <=
-x * sqrt(n), hence n < x^2. So M(x, N) for N >= x^2 has the same
-composites as M(x, x^2) — adding more N doesn't add more
-composites to M.
+  LEMMA B. For N >= x^2 >= 4, composites in M(x, N) = composites
+  in M(x, x^2). Equivalently, no composite n in (x^2, N] lies in
+  M(x, N).
 
-Multi-stratum can include composites in (x^2, N] that pass
-cross-stratum exclusion. This window is empty when N < x^2,
-non-empty when N > x^2 — yielding the crossover at N ~ x^2,
-i.e., x ~ sqrt(N).
+  Proof. Composite n has p_min(n) <= sqrt(n), so m = n/p_min(n)
+  >= sqrt(n) > x for n > x^2. Then m is a proper divisor in
+  [x, n-1], contradicting n in M(x, N). QED.
 
-This is consistent with §22's alpha_{k_1, k_2} ~ 1/2 for
-(k_1, k_2) = (2, 4): typical kept-window scale x^{1/alpha} = x^2.
+This makes the x^2 ceiling rigorous — it underpins the §26.3
+crossover analysis and the §27 finite-sieve exhaustion result.
 
 **Status**
 
-36 rounds, 26 sessions, 36 keeps, 0 disproofs.
+37 rounds, 27 sessions, 37 keeps, 0 disproofs.
 
 **Files modified this session**
 
-- proof_strategy.md — added §26.3d (~30 lines).
-- proof_lemmas/lemma_003_cross_stratum.md — Round 36 update.
-- proof_open_questions.jsonl — Q35 claimed and resolved.
-- proof_journal.jsonl — round 36 entry.
+- proof_strategy.md — added §29.2a Lemma B (~15 lines).
+- proof_lemmas/lemma_003_cross_stratum.md — Round 37 update.
+- proof_open_questions.jsonl — Q36 claimed and resolved.
+- proof_journal.jsonl — round 37 entry.
 - 1 new record in records/.
 
 **qid in flight**: none.
