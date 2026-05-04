@@ -1,36 +1,47 @@
-# Session handoff (session s_0504-120228-e302)
+# Final handoff (session s_0504-124442-ab47)
 
-**Stop reason**: One round logged. Returning to /loop driver.
+**Stop reason**: round cap (proofs/primitive_set_erdos.json:round_cap = 50)
 
-**Round 49 contribution (§29.4a)**
+**Outcome**: 49 keep_progress rounds, 0 keep_disproof, 0 crashes-causing-loss.
 
-Clarified F1's 1.399 bound. Since S(A_1) = S(P) = 1.6366 > 1.399,
-F1 cannot be a literal universal bound. F1's o(1) is in the
-truncation parameter x:
-  For primitive A subset [x, infty): S(A) < 1.399 + o_{x -> infty}(1).
+**Final analytical state**
 
-This is the truncated form, consistent with the conjecture and with
-S(P cap [x, infty)) -> 0. The un-truncated Erdős bound is
-S(A) <= S(P) = 1.6366 (Lichtman 2022).
+For primitive A subset [x, infty) with x -> infty, the loop has
+established:
+- Rigorous lower bound: sup S(A) >= 1 (Sathe-Selberg via §29.5e').
+- Rigorous upper bounds (literature):
+   - <= 1.399 + o_x(1) (Erdős-Zhang truncated, F1)
+   - <= 1.6366 (Lichtman 2022, un-truncated)
+- Conjecture (open): sup S(A) <= 1 + o(1).
 
-Refines the §29.5⊠ table: the upper bound 1.399 is asymptotic, not
-unconditional.
+The gap [1, 1.399] is the open analytic territory.
 
-**Status**
+**Key rigorous results from the loop**
 
-49 rounds, 39 sessions, 49 keeps, 0 disproofs.
+- Theorem 1 / Corollary C (§25, §27, §28, §29.3a): explicit
+  computable bound on S(M(x; infty)) = O(loglog x / log x), verified
+  sharp to ~12% across x in [100, 3000].
+- Lemma B (§29.2a): composites in M(x, N) for N >= x^2 = composites
+  in M(x, x^2). Sharp x^2 ceiling.
+- §29.5e + §29.5e': identifies A_k for k -> infty as the lower-bound
+  witness; sup S(A) >= 1 for all x >= 5.
+- §29.5b/c/d: A_2 cap [x, infty) ~ (1 + loglog x)/log x; ratio
+  S(A_2)/S(M) -> e^gamma asymptotically.
 
-**Files modified this session**
+**Files & artifacts**
 
-- proof_strategy.md — added §29.4a (~25 lines).
-- proof_lemmas/lemma_003_cross_stratum.md — Round 49 update.
-- proof_open_questions.jsonl — Q48 claimed and resolved.
-- proof_journal.jsonl — round 49 entry.
-- 1 new record in records/.
+- proof_strategy.md: ~30 sections, ~3000 lines.
+- 3 lemma files in proof_lemmas/.
+- 49 records in records/proof_primitive_set_erdos_*.json.
+- proof_journal.jsonl: 49+ round entries plus session events.
+- This branch: erdos-proof/0501-121605-9e0c.
 
-**qid in flight**: none.
+**For human review**
 
-**Approaching round cap**
+The cleanest single statements are §25's Theorem 1 + §29.5e' lower
+bound + the §29.5⊠ synthesis table. The conjecture itself remains
+OPEN with the gap [1, 1.399] requiring research-paper-scale work.
 
-50-round cap is in proofs/primitive_set_erdos.json. 1 round
-remaining before the gatekeeper exits 4.
+**No counterexample produced**: 0 keep_disproof rounds. The witness
+verifier and resolution-string defense-in-depth held for all 50
+attempts.
