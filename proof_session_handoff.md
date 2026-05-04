@@ -1,48 +1,50 @@
-# Session handoff (session s_0503-234223-8a60)
+# Session handoff (session s_0504-002534-3d1e)
 
 **Stop reason**: One round logged. Returning to /loop driver.
 
-**This session's contribution (Round 31, §28.2a)**
+**This session's contribution (Round 32, Section 30)**
 
-Extended §25 verification to x=10000:
-  Sieve to N=10^7 captures composites with p_min<=1000.
-  Lower bound: S(M(10^4)) >= 0.231, with at most 0.017 missed.
-  bound from §25: 0.2599
-  ratio (lower) = 0.888.
+Sharpened §25's bound by replacing the Taylor inequality
+log(1+y) <= y with the exact value:
+  Theorem 1':
+    S(M(x)) <= 1/log x + sum_{p<x} Phi(p)/p * (loglog(px) - loglog x)
+                       + o(1/log x).
 
-The trend across x in [100, 10000]:
-  x=100:  ratio = 0.887
-  x=300:  ratio = 0.889
-  x=1000: ratio = 0.889
-  x=3000: ratio = 0.891
-  x=10^4: ratio = [0.888, 0.955]
+Numerical: ratio observed/predicted at x in [100, 3000] is now
+~0.94 (up from §28's 0.89). The asymptotic is identical (Theorem 1
+recovered at x → infty); finite-x slack reduces from 12% to 6%.
 
-So the §25 bound's ~0.89 sharp constant is now verified across
-TWO DECADES of x. The form 0.89 * (1 + e^-gamma(loglog x + B))/log x
-is the leading asymptotic of S(M(x; infty)).
+Residual 6% reflects Mertens density approximation Phi(p) ~ e^-g/log p
+and continuous-integral discretization corrections.
 
 **Status**
 
-31 rounds, 21 sessions, 31 keeps, 0 disproofs. Loop deeply
-converged with strong empirical confirmation of §25's structural
-form across two decades.
+32 rounds, 22 sessions, 32 keeps, 0 disproofs.
+
+The proof attempt has now produced:
+- Theorem 1 (§25): asymptotic bound on S(M).
+- Theorem 1' (§30): finite-x sharpened version, slack 6%.
+- Theorem 2 (§28, §28.2a): verified across two decades x in [100, 10^4].
+- Empirical Claim (§§18, 22, 26): sup_A S(A) ~ S(M) + O(1).
+- Open Problem: prove the empirical claim rigorously.
 
 **For future sessions**
 
-The natural next step remains paper writeup, NOT further analytical
-rounds. Compute would be better spent on:
-  uv run write_paper.py records/<recent>.json --mode proof
+Further analytical refinements can:
+- Push slack from 6% toward 0 by accounting for Mertens density
+  corrections at small primes.
+- Extend Theorem 2's verification to more x values.
+- Investigate the closed form of the residual constant.
 
-Each subsequent analytical round adds <3% incremental information
-beyond the established Theorem 1 + Theorem 2 + verification across
-2 decades.
+But each adds <3% incremental information. Paper writeup remains
+the natural pivot.
 
 **Files modified this session**
 
-- proof_strategy.md — added §28.2a (~40 lines).
-- proof_lemmas/lemma_003_cross_stratum.md — Round 31 update.
-- proof_open_questions.jsonl — Q30 claimed and resolved.
-- proof_journal.jsonl — round 31 entry.
+- proof_strategy.md — added Section 30 (~95 lines).
+- proof_lemmas/lemma_003_cross_stratum.md — Round 32 update.
+- proof_open_questions.jsonl — Q31 claimed and resolved.
+- proof_journal.jsonl — round 32 entry.
 - 1 new record in records/.
 
 **qid in flight**: none.

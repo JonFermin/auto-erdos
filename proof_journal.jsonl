@@ -77,3 +77,6 @@
 {"event":"session_open","session_id":"s_0503-234223-8a60","ts":"2026-05-04T05:42:23+00:00","commit":"d713cc1","proof_tag":"primitive_set_erdos","stashed_ref":null,"detected_orphan":null,"released_orphan_qids":[]}
 {"event":"round","session_id":"s_0503-234223-8a60","ts":"2026-05-04T05:44:18+00:00","summary":"sect 28.2a extends sharpness to x=10000; ratio 0.888 stable across two decades","qid":"Q30","status":"keep_progress","commit":"a86b46d"}
 {"event":"session_close","session_id":"s_0503-234223-8a60","ts":"2026-05-04T05:44:18+00:00","commit":"a86b46d","reason":"reason: round 31 logged (\u00a728 extended to x=10000); ratio 0.888 stable; under /loop"}
+{"event":"session_open","session_id":"s_0504-002534-3d1e","ts":"2026-05-04T06:25:34+00:00","commit":"0e7f598","proof_tag":"primitive_set_erdos","stashed_ref":null,"detected_orphan":null,"released_orphan_qids":[]}
+{"event":"round","session_id":"s_0504-002534-3d1e","ts":"2026-05-04T06:27:33+00:00","summary":"sect 30 Theorem 1' sharpened via exact integral; finite-x slack 12% -> 6%","qid":"Q31","status":"keep_progress","commit":"a2c697f"}
+{"event":"session_close","session_id":"s_0504-002534-3d1e","ts":"2026-05-04T06:27:33+00:00","commit":"a2c697f","reason":"reason: round 32 logged (sharpened bound); 32 keeps; under /loop"}
