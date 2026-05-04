@@ -683,3 +683,25 @@ intuition was wrong by a factor of log x.
 
 The §17 numerics were truncated and didn't capture the
 asymptotic A_k saturation at k_x = log_2 x.
+
+## Update from Round 42 — clarify regimes of validity for §11 vs §19
+
+Important distinction:
+- §19 formula a_k(x; infty) ~ (1/log x) sum_{j=0..k-1} L^j/j!
+  is valid only for k <= L = loglog x.
+  Derivation uses Sigma_{A_k}(t) ~ (loglog t)^k / k! which is
+  the typical-Omega regime asymptotic — valid for k near L,
+  breaks for k >> L.
+
+- §11 / Sathe-Selberg S(A_k) = 1 - (c + o(1)) k^2/2^k as
+  k -> infty is a different result (literature §11.5). Valid
+  for k -> infty regardless of x.
+
+For k_x = ceil(log_2 x): k_x >> L (e.g., x=100 has k_x=7, L=1.5).
+So Sathe-Selberg applies; §19 does not.
+
+The §29.5e claim S(A_{k_x}) -> 1 is rigorous via Sathe-Selberg,
+NOT via §19's incomplete-Gamma form.
+
+This clarifies which earlier numerical claims were valid in which
+regime.

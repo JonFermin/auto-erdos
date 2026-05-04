@@ -3533,6 +3533,32 @@ At $k = k_x = \log_2 x \gg L$: $A_{k_x}$'s mass is at $u_{k_x} = e^{e^{k_x}}$, *
 
 So $A_{k_x}$ is "thin" near $x$ but its TOTAL mass is close to 1 because the asymptotic kicks in for $k$ this large.
 
+### 29.5g_pre Regime distinction (added Round 42)
+
+The §29.5e claim "$S(A_{k_x}) = 1 - O((\log x)^2/x)$" relies on
+the Sathe–Selberg asymptotic $S(A_k) = 1 - (c + o(1)) k^2/2^k$
+as $k \to \infty$ (no condition on $x$). This is a *literature*
+result (§11.5) and its regime is: $k \to \infty$, $S(A_k) \to 1$
+from below.
+
+By contrast, the §19.1 formula
+$a_k(x; \infty) \sim (\sum_{j=0}^{k-1} L^j/j!) / \log x$ (where $L = \log\log x$)
+is derived from $\Sigma_{A_k}(t) \sim (\log\log t)^k/k!$ which is
+*only valid for $k \le L$* (the typical-$\Omega$ regime). For
+$k > L$, $\Sigma_{A_k}(t)$ deviates from this leading order.
+
+So the two asymptotics apply in different regimes:
+- $k \le L = \log\log x$: §19 formula valid; gives $a_k$ as Poisson CDF.
+- $k \to \infty$: §11/Sathe–Selberg gives $S(A_k) \to 1$.
+
+For $k_x = \lceil \log_2 x \rceil$: $k_x \gg L$ (e.g., at $x = 100$,
+$k_x = 7, L = 1.53$). So §11/Sathe–Selberg applies, giving
+$S(A_{k_x}) \approx 1$.
+
+The §29.5e claim is thus rigorous via Sathe–Selberg, not via §19.
+Earlier numerics that combined the two formulas (e.g., my $a_7(10^7; \infty) = 0.976$)
+mixed regimes incorrectly.
+
 ### 29.5g Reconciliation with §17
 
 §17 found $S(A_k \cap [1, 10^7])$ small for $k \le 10$. That was
