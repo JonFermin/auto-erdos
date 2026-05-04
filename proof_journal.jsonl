@@ -74,3 +74,6 @@
 {"event":"session_open","session_id":"s_0503-225939-0c16","ts":"2026-05-04T04:59:39+00:00","commit":"d45e651","proof_tag":"primitive_set_erdos","stashed_ref":null,"detected_orphan":null,"released_orphan_qids":[]}
 {"event":"round","session_id":"s_0503-225939-0c16","ts":"2026-05-04T05:01:21+00:00","summary":"sect 29 theorem-style summary; Theorem 1 + Theorem 2 + Empirical Claim + Open Problem; paper-ready","qid":"Q29","status":"keep_progress","commit":"1ae8bbe"}
 {"event":"session_close","session_id":"s_0503-225939-0c16","ts":"2026-05-04T05:01:21+00:00","commit":"1ae8bbe","reason":"reason: round 30 logged (theorem summary); 30 keeps; loop ready for paper writeup; under /loop"}
+{"event":"session_open","session_id":"s_0503-234223-8a60","ts":"2026-05-04T05:42:23+00:00","commit":"d713cc1","proof_tag":"primitive_set_erdos","stashed_ref":null,"detected_orphan":null,"released_orphan_qids":[]}
+{"event":"round","session_id":"s_0503-234223-8a60","ts":"2026-05-04T05:44:18+00:00","summary":"sect 28.2a extends sharpness to x=10000; ratio 0.888 stable across two decades","qid":"Q30","status":"keep_progress","commit":"a86b46d"}
+{"event":"session_close","session_id":"s_0503-234223-8a60","ts":"2026-05-04T05:44:18+00:00","commit":"a86b46d","reason":"reason: round 31 logged (\u00a728 extended to x=10000); ratio 0.888 stable; under /loop"}
