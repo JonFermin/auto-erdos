@@ -2985,6 +2985,35 @@ total compute). Result:
 | $1000$ | $0.28738$ | $0.32310$ | $0.8894$ | $1.985$ | $2.232$ |
 | $3000$ | $0.25760$ | $0.28912$ | $0.8910$ | $2.062$ | $2.315$ |
 
+### 28.2a Extension to $x = 10^4$ (added Round 31)
+
+Sieving fully to $N = x^2 = 10^8$ would take much longer; instead
+sieve to $N = 10^7$, which captures all composites $n \in M(10^4)$
+with $p_{\min}(n) \le 10^3$. Composites with $p_{\min}(n) \in
+(10^3, 10^4)$ have $n < x \cdot p_{\min} \le 10^4 \cdot 10^4 = 10^8$,
+some of which exceed $N = 10^7$ and are missed. The §25.3 bound on
+those missed composites is $\le e^{-\gamma} (\log\log x - \log\log(N/x)) / \log x \approx 0.017$.
+
+Result:
+
+| $x$ | $S(M)$ lower bound | bound | ratio (lower) | ratio (incl missed $\le 0.017$) |
+|---:|---:|---:|---:|---:|
+| $10^4$ | $0.2308$ | $0.2599$ | $0.888$ | $\le 0.955$ |
+
+So the true ratio at $x = 10^4$ is in $[0.888, 0.955]$, consistent
+with the trend. Adding this row extends the §28.1 table to two
+decades:
+
+| $x$ | $S(M(x))$ exact (where computed) | bound | ratio |
+|---:|---:|---:|---:|
+| $100$ | $0.38610$ | $0.43522$ | $0.887$ |
+| $300$ | $0.33103$ | $0.37245$ | $0.889$ |
+| $1000$ | $0.28738$ | $0.32310$ | $0.889$ |
+| $3000$ | $0.25760$ | $0.28912$ | $0.891$ |
+| $10\,000$ | $\in [0.231, 0.248]$ | $0.2599$ | $\in [0.888, 0.955]$ |
+
+The ratio remains essentially constant.
+
 ### 28.2 Three observations
 
 **(O1) Uniform 11% slack.** The ratio $S(M) / \text{bound}$ is
