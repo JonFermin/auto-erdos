@@ -658,3 +658,28 @@ but with smaller margin than I'd estimated.
 
 The §26.3 estimate was at finite N = 10^6 which truncated
 multi-stratum's tails inappropriately.
+
+## Update from Round 41 — KEY WITNESS: A_{ceil(log_2 x)} saturates conjecture's bound
+
+Set k_x := ceil(log_2 x). Smallest element of A_{k_x} is
+2^{k_x} >= x. So A_{k_x} cap [x, infty) = A_{k_x}.
+
+By Sathe-Selberg asymptotic (§11.5):
+  S(A_{k_x}) = 1 - O((log x)^2 / x) -> 1
+
+So sup S(A) -> 1 as x -> infty, with EXPLICIT WITNESS A_{k_x}.
+
+This significantly clarifies: M and A_2 are far below sup; the
+sup is attained by high-stratum A_k for k = log_2 x. That k_x
+is much larger than the typical-Omega scale L = loglog x.
+
+CONJECTURE STATUS: The bound sup S(A) <= 1 + o(1) is TIGHT —
+attained, not just an upper limit. The analytic content of the
+conjecture is the matching UPPER BOUND.
+
+This refines (and corrects) the §29.5a picture: sigma(x) is NOT
+small; sigma(x) -> 1 - 0 = 1. The "M is approximately the sup"
+intuition was wrong by a factor of log x.
+
+The §17 numerics were truncated and didn't capture the
+asymptotic A_k saturation at k_x = log_2 x.

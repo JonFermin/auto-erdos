@@ -3475,6 +3475,73 @@ the multi-stratum + tail analysis of §26 extended to
 $N = \infty$ — which §26 didn't compute correctly (truncating
 the tails of higher strata).
 
+### 29.5e KEY WITNESS: $A_{\lceil \log_2 x\rceil}$ saturates the conjecture's bound (added Round 41)
+
+The §29.5b correction noted $S(A_2 \cap [x, \infty)) > S(M)$. But
+$A_2$ is far from the best primitive set: a much stronger lower
+bound on $\sup S$ comes from picking $k$ adapted to $x$.
+
+**Observation.** Set $k_x := \lceil \log_2 x \rceil$. Then the
+smallest element of $A_{k_x}$ is $2^{k_x} \ge x$. So $A_{k_x}
+\cap [x, \infty) = A_{k_x}$ (the entire stratum lies in
+$[x, \infty)$).
+
+$A_{k_x}$ is primitive (any two integers with the same $\Omega$
+that divide each other must be equal). And by the Sathe–Selberg
+asymptotic (§11.5):
+\[
+S(A_{k_x}) \;=\; 1 - (c + o(1)) \cdot \frac{k_x^2}{2^{k_x}}
+\;=\; 1 - O\!\left(\frac{(\log_2 x)^2}{x}\right).
+\]
+
+Numerical:
+- $x = 100$, $k_x = 7$: $k_x^2/2^{k_x} = 49/128 \approx 0.383$, so $S(A_7) \approx 1 - 0.025 = 0.975$.
+- $x = 10^6$, $k_x = 20$: $k_x^2/2^{k_x} \approx 400/10^6 = 4 \cdot 10^{-4}$, $S(A_{20}) \approx 1 - 2.6 \cdot 10^{-5}$.
+- General: $S(A_{k_x}) \to 1$ as $x \to \infty$, with rate $O((\log x)^2 / x)$ — *exponentially fast* convergence to the conjecture's bound.
+
+**Corollary D.** For any $x \ge 2$, $\sup_{A \text{ primitive}, A \subset [x, \infty)} S(A) \ge 1 - O((\log x)^2/x)$, hence $\sup S(A) \to 1$ as $x \to \infty$.
+
+**The conjecture's $1 + o(1)$ is therefore tight.** The bound is *attained* asymptotically by $A_{k_x}$, not just an upper limit; the analytic content is to prove the matching upper bound.
+
+### 29.5f Revised picture
+
+Combining §25 ($S(M(x; \infty)) = O(\log\log x/\log x) \to 0$),
+§29.5b ($S(A_2 \cap [x, \infty)) \to 0$ at the same rate), and
+§29.5e ($S(A_{k_x}) \to 1$):
+
+\[
+\sup_A S(A) \;\to\; 1, \qquad S(A_2) \to 0, \qquad S(M) \to 0
+\]
+
+— so the *sup-attaining* primitive sets are NOT $M$ or low-stratum
+single-strata, but rather *high-stratum* single-strata $A_k$ for
+$k$ adapted to $x$.
+
+This significantly clarifies the picture: $M$ and $A_2$ are
+*very far* from the sup; the sup is attained by $A_{\lceil \log_2 x\rceil}$
+which has its mass concentrated near $x$ itself (since $A_k$
+mass is at $\sim e^{e^k} \sim x$ when $k \approx \log_2 x$ —
+wait, $e^{e^{\log_2 x}} \neq x$; let me check. $\log\log x = \log(\log x)$,
+so for $A_k$ to have mass at scale $x$, need $\log\log x \approx k$,
+i.e., $k \approx \log\log x = L$, NOT $\log_2 x$. So §11's
+mass-saturation is at $k = L$, while my $k_x = \log_2 x$ is much
+larger than $L$.)
+
+So at $k = L$: $A_L \subset [2^L, \infty) = [\log_2 x, \infty)$ — way below $x$. And $A_L \cap [x, \infty)$ is the truncated stratum, $S < 1$.
+
+At $k = k_x = \log_2 x \gg L$: $A_{k_x}$'s mass is at $u_{k_x} = e^{e^{k_x}}$, *astronomical*. But $A_{k_x}$'s smallest element is $2^{k_x} = x$.
+
+So $A_{k_x}$ is "thin" near $x$ but its TOTAL mass is close to 1 because the asymptotic kicks in for $k$ this large.
+
+### 29.5g Reconciliation with §17
+
+§17 found $S(A_k \cap [1, 10^7])$ small for $k \le 10$. That was
+truncated to $N = 10^7$. The full $S(A_k)$ for $k \to \infty$ is
+$\to 1$, but *most of the mass* is at $u_k = e^{e^k}$ — beyond
+any feasible sieve. So the §17 numerics correctly observed the
+truncated values are small, but the asymptotic lower bound from
+$A_{k_x}$ is genuine.
+
 ### 29.6 What is genuinely open
 
 The above does not constitute a proof of the conjecture. The
