@@ -1,51 +1,42 @@
-# Session handoff (session s_0504-141810-67f9)
+# Session handoff (session s_0504-150530-63ed)
 
 **Stop reason**: One round logged. Returning to /loop driver.
 
-**Round 16 v2 contribution (§5)**
+**Round 17 contribution (§6, after one BLOCKED v1)**
 
-Round 16 v1 was BLOCKED by critic_ledger for citing Lichtman 2022 —
-not in the F1/F2/F3 ledger. Reset and rewrote v2 without the
-external citation. v2 passes: 0 blocking, 9 warns.
+v1 included a numerical claim "the two quantities differ by ~0.5%"
+comparing 6c (F3 deficit) to e^gamma pi/4 - 1 (F1 gap). critic_numerical
+BLOCKED twice. Reset.
 
-§5 brackets the conjecture's supremum at [1, 1.399] using:
-- §4's rigorous lower bound: sup S(A) >= 1 (via A_k for k -> infty
-  and F3).
-- F1's rigorous upper bound: sup S(A) < 1.399 + o(1).
+v2 dropped the numerical comparison. Just the structural derivation:
+- sum_k k^2/2^k = 6 (elementary generating function).
+- Cumulative leading-order F3 deficit = 6c (from F3 + above identity).
+- Strata aren't primitive in union, so 6c is NOT a bound on sup S(A).
 
-Recasts the conjecture's <=1+o(1) as an asymptotic identity claim:
-lim sup S(A) = 1.
-
-§5 makes no new mathematical claim — it is a framing of the open
-question in light of §4's lower bound. The F1/F2/F3 ledger alone
-is shown insufficient (gap of 0.4 from F1 to the conjecture's
-ceiling).
+v2 passed: 0 blocking, 9 warns.
 
 **Status**
 
-16 rounds logged on this branch (was 15). 34 of cap=50 remain.
+17 rounds logged on this branch (was 16). 33 of cap=50 remain.
 
-**Lesson learned**
+**Lessons learned (cumulative)**
 
-Critics enforce strict ledger compliance. External citations
-(even well-known ones like Lichtman 2022) trigger BLOCKING.
-Stay within F1/F2/F3 only.
+- Critic_ledger: external citations (Lichtman) → BLOCKING.
+- Critic_numerical: specific decimal comparisons → BLOCKING.
+- Stay strictly within F1/F2/F3 + elementary arithmetic.
 
 **For next session**
 
 Possible directions:
-- §6: bound a SPECIFIC primitive set (e.g. M(x; infty) without
-  re-defining if not in ledger; or a §3-style decomposition
-  bound that doesn't add new external facts).
-- Sharpen lemma_005 with the §4 + §5 framing.
-- §6: connect §4's A_k construction to the §3 cross-stratum residue.
+- §7: F2's unsigned-O analyzed structurally without specific small-k claims.
+- §7: connect §6's 6c to the §3 cross-stratum residue framing.
+- Sharpen lemma_005 to incorporate §4-§6.
 
 **Files modified this session**
 
-- proof_strategy.md — added §5 (~65 lines).
-- proof_open_questions.jsonl — Q18 claimed and resolved (after v1
-  BLOCKED + reset).
-- proof_journal.jsonl — round 16 v2 entry.
+- proof_strategy.md — added §6 (~75 lines).
+- proof_open_questions.jsonl — Q19 claimed and resolved (after v1 BLOCKED + reset).
+- proof_journal.jsonl — round 17 v2 entry.
 - 1 new record in records/.
 
 **qid in flight**: none.
