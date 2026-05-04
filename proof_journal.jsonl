@@ -107,3 +107,6 @@
 {"event":"session_open","session_id":"s_0504-061922-d853","ts":"2026-05-04T12:19:22+00:00","commit":"2f3d805","proof_tag":"primitive_set_erdos","stashed_ref":null,"detected_orphan":null,"released_orphan_qids":[]}
 {"event":"round","session_id":"s_0504-061922-d853","ts":"2026-05-04T12:20:58+00:00","summary":"sect 29.5e CRITICAL: A_{ceil log_2 x} witness saturates conjecture; sup S -> 1; M and A_2 are far below sup","qid":"Q40","status":"keep_progress","commit":"a49005e"}
 {"event":"session_close","session_id":"s_0504-061922-d853","ts":"2026-05-04T12:20:58+00:00","commit":"a49005e","reason":"reason: round 41 logged (CRITICAL \u2014 A_{log_2 x} saturates); 41 keeps; under /loop"}
+{"event":"session_open","session_id":"s_0504-070306-564e","ts":"2026-05-04T13:03:06+00:00","commit":"35bbaa4","proof_tag":"primitive_set_erdos","stashed_ref":null,"detected_orphan":null,"released_orphan_qids":[]}
+{"event":"round","session_id":"s_0504-070306-564e","ts":"2026-05-04T13:04:18+00:00","summary":"sect 29.5g_pre regime distinction §11 vs §19; §29.5e Corollary D justified via Sathe-Selberg","qid":"Q41","status":"keep_progress","commit":"1a2dbc3"}
+{"event":"session_close","session_id":"s_0504-070306-564e","ts":"2026-05-04T13:04:18+00:00","commit":"1a2dbc3","reason":"reason: round 42 logged (regime distinction); 42 keeps; under /loop"}
