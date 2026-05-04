@@ -68,12 +68,13 @@ bound is $\Omega(k^{-1/2+o(1)})$. The error term is an *unsigned*
 big-$O$, so F2 cannot be used to conclude that any particular sum exceeds 1.
 Any argument of the form "by F2 the sum is $> 1$" is invalid.
 
-**F3** (cited from ledger, direction caution): The canonical extremal sum,
-formed by taking $A$ to be the set of primes in a short interval, approaches
-1 from **below** as $x \to \infty$. The correction term $-(c + o(1))k^2/2^k$
-is negative, confirming the direction. No element of $A_k$ (the $k$-th
-$\Omega$-stratum) contributes a net positive overshoot relative to 1 in
-this extremal family.
+**F3** (cited from ledger): For $A_k = \{n \in \mathbb{N} : \Omega(n) = k\}$
+(all positive integers with exactly $k$ prime factors counted with multiplicity),
+$$\sum_{a \in A_k} \frac{1}{a \log a} = 1 - (c + o(1))\frac{k^2}{2^k},
+\quad c \approx 0.0656.$$
+The correction term $-(c+o(1))k^2/2^k$ is negative ($c > 0$ per F3's sign
+disambiguation), so the sum is strictly less than 1 for every $k \geq 1$
+and approaches 1 from **below** as $k \to \infty$.
 
 ### Section 2 — Witness Search (Open)
 
@@ -185,3 +186,18 @@ mass. Quantifying the excluded sum $E_{j,k}(a)$ for each $a \in A_j$ requires
 F3-style estimates for restricted stratum sums — a variant not in the ledger.
 
 This remains open.
+
+### Section 5 — What Would Suffice
+
+Lemma `convergence_barrier` (`proof_lemmas/lemma_convergence_barrier.md`)
+documents four sufficient conditions for closing the conjecture with
+additional facts:
+
+1. **Restricted F3**: a stratum-sum formula with divisibility exclusions.
+2. **Effective stratum truncation**: high-$k$ strata contribute $o(1)$.
+3. **Conservation law**: a function $g$ with $\sum g(a) = 1$ for maximal
+   primitive sets and $1/(a\log a) \leq g(a)$ for all $a$.
+4. **Two-stratum induction**: prove the two-stratum case and extend.
+
+None of 1–4 follow from F1/F2/F3 alone. The proof is at its natural boundary
+within the given-facts framework. This remains open.
