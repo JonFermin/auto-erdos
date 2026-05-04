@@ -1,51 +1,52 @@
-# Session handoff (session s_0504-053221-985a)
+# Session handoff (session s_0504-061922-d853)
 
 **Stop reason**: One round logged. Returning to /loop driver.
 
-**Round 40 contribution (§29.5b–c, CORRECTION)**
+**Round 41 contribution (§29.5e, MAJOR CORRECTION)**
 
-Significant numerical correction to the §26.3 estimate of
-sigma(x) := sup S(A) - S(M(x; infty)).
+Identified an EXPLICIT WITNESS that the conjecture's bound is
+TIGHT, not loose:
 
-Key observation: A_2 cap [x, infty) — full semiprimes from x on —
-is itself primitive (any two distinct semiprimes are incomparable
-under divisibility). By §19's closed form:
-  S(A_2 cap [x, infty)) ~ (1 + loglog x) / log x.
+  Set k_x := ceil(log_2 x). Smallest element of A_{k_x} is 2^{k_x}
+  >= x. So A_{k_x} subset [x, infty), and A_{k_x} is primitive.
+  By Sathe-Selberg (§11.5), S(A_{k_x}) = 1 - O((log x)^2 / x) -> 1.
 
-Comparing to §28's exact S(M):
-  x=100:  S(A_2) = 0.549 vs S(M) = 0.386, gap = +0.163
-  x=300:  +0.140
-  x=1000: +0.138
-  x=3000: +0.134
+So sup_{A primitive in [x, infty)} S(A) -> 1 as x -> infty —
+EXACTLY matching the conjecture's claimed bound. The conjecture's
+1 + o(1) is TIGHT, attained asymptotically.
 
-So sigma(x) >= 0.13 UNIFORMLY across tested x — substantially
-larger than the §26.3 finite-N estimate of ~0.06.
+This is a major correction to my earlier picture:
+- §29.5a's "sigma(x) bounded" intuition: WRONG. sigma(x) -> 1.
+- "M is approximately the sup": WRONG. M is far below sup.
+- The sup is attained by HIGH-stratum A_k (k = log_2 x), not low.
 
-Asymptotic ratio: S(A_2)/S(M) -> e^gamma ~ 1.78 as x -> infty.
-So S(A_2) ~ 1.78 * S(M) asymptotically; sigma(x) ~ 0.78 * S(M).
-
-The conjecture's sup S <= 1 + o(1) is still CONSISTENT (since
-A_2 also decays as loglog x / log x), but with smaller margin
-than I'd previously estimated.
-
-This is a meaningful correction to the loop's prior assessment.
-The §26.3 finite-N analysis truncated multi-stratum tails
-inappropriately.
+The §17 sieve data did not detect this because A_{k} for large k
+has its mass at u_k = e^{e^k}, way beyond any feasible sieve. But
+the asymptotic S(A_k) -> 1 from §11/§12 makes it rigorous.
 
 **Status**
 
-40 rounds, 30 sessions, 40 keeps, 0 disproofs.
+41 rounds, 31 sessions, 41 keeps, 0 disproofs.
 
-The proof attempt's empirical understanding has been refined:
-the gap between known constructions and S(M) is bigger than
-finite-N analyses suggested. Still consistent with conjecture.
+The proof attempt now has a SHARPER picture:
+- sup_A S(A) -> 1 (proven via A_{k_x} witness, §29.5e).
+- conjecture's <= 1 + o(1) is TIGHT.
+- The remaining open piece is the matching upper bound: prove
+  sup S <= 1 + o(1) (no primitive set exceeds 1 substantially).
+- §25 / Lemma B / §28 etc. give bounds on S(M), but not on the
+  sup over all primitive sets.
+
+The picture is now: "Erdős–Zhang gives sup <= 1.399; conjecture
+asks for sup <= 1; by §29.5e sup -> 1 from below; the gap of
+0.399 is what cross-stratum primitivity should close." Same as
+the literature framing.
 
 **Files modified this session**
 
-- proof_strategy.md — added §29.5b–c (~85 lines).
-- proof_lemmas/lemma_003_cross_stratum.md — Round 40 update.
-- proof_open_questions.jsonl — Q39 claimed and resolved.
-- proof_journal.jsonl — round 40 entry.
+- proof_strategy.md — added §29.5e–g (~80 lines, with corrections).
+- proof_lemmas/lemma_003_cross_stratum.md — Round 41 update.
+- proof_open_questions.jsonl — Q40 claimed and resolved.
+- proof_journal.jsonl — round 41 entry.
 - 1 new record in records/.
 
 **qid in flight**: none.

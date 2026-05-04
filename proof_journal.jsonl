@@ -104,3 +104,6 @@
 {"event":"session_open","session_id":"s_0504-053221-985a","ts":"2026-05-04T11:32:21+00:00","commit":"06fe64c","proof_tag":"primitive_set_erdos","stashed_ref":null,"detected_orphan":null,"released_orphan_qids":[]}
 {"event":"round","session_id":"s_0504-053221-985a","ts":"2026-05-04T11:36:55+00:00","summary":"sect 29.5b CORRECTION: A_2 tail exceeds S(M) by >=0.13 uniformly; sigma(x) ~ 0.78 S(M); ratio asymptote e^gamma","qid":"Q39","status":"keep_progress","commit":"4a44c47"}
 {"event":"session_close","session_id":"s_0504-053221-985a","ts":"2026-05-04T11:36:56+00:00","commit":"4a44c47","reason":"reason: round 40 logged (A_2 tail correction); 40 keeps; under /loop"}
+{"event":"session_open","session_id":"s_0504-061922-d853","ts":"2026-05-04T12:19:22+00:00","commit":"2f3d805","proof_tag":"primitive_set_erdos","stashed_ref":null,"detected_orphan":null,"released_orphan_qids":[]}
+{"event":"round","session_id":"s_0504-061922-d853","ts":"2026-05-04T12:20:58+00:00","summary":"sect 29.5e CRITICAL: A_{ceil log_2 x} witness saturates conjecture; sup S -> 1; M and A_2 are far below sup","qid":"Q40","status":"keep_progress","commit":"a49005e"}
+{"event":"session_close","session_id":"s_0504-061922-d853","ts":"2026-05-04T12:20:58+00:00","commit":"a49005e","reason":"reason: round 41 logged (CRITICAL \u2014 A_{log_2 x} saturates); 41 keeps; under /loop"}
