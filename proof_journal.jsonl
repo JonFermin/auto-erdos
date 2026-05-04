@@ -98,3 +98,6 @@
 {"event":"session_open","session_id":"s_0504-040719-8ff7","ts":"2026-05-04T10:07:19+00:00","commit":"b6ed53d","proof_tag":"primitive_set_erdos","stashed_ref":null,"detected_orphan":null,"released_orphan_qids":[]}
 {"event":"round","session_id":"s_0504-040719-8ff7","ts":"2026-05-04T10:08:30+00:00","summary":"sect 29.3a Corollary C: S(M) fully computable via sieve to x^2 + Mertens prime tail","qid":"Q37","status":"keep_progress","commit":"134dc09"}
 {"event":"session_close","session_id":"s_0504-040719-8ff7","ts":"2026-05-04T10:08:30+00:00","commit":"134dc09","reason":"reason: round 38 logged (Corollary C); 38 keeps; under /loop"}
+{"event":"session_open","session_id":"s_0504-044936-478c","ts":"2026-05-04T10:49:36+00:00","commit":"a2b780f","proof_tag":"primitive_set_erdos","stashed_ref":null,"detected_orphan":null,"released_orphan_qids":[]}
+{"event":"round","session_id":"s_0504-044936-478c","ts":"2026-05-04T10:50:58+00:00","summary":"sect 29.5a refined Empirical Claim sup S <= S(M) + sigma(x) via Lemma B decomposition; reduces conjecture to bounding sigma uniformly","qid":"Q38","status":"keep_progress","commit":"8204b8c"}
+{"event":"session_close","session_id":"s_0504-044936-478c","ts":"2026-05-04T10:50:58+00:00","commit":"8204b8c","reason":"reason: round 39 logged (refined Empirical Claim); 39 keeps; under /loop"}
