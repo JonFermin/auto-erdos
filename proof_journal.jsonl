@@ -53,3 +53,6 @@
 {"event":"session_open","session_id":"s_0503-190516-c36f","ts":"2026-05-04T01:05:16+00:00","commit":"0a6d5f0","proof_tag":"primitive_set_erdos","stashed_ref":null,"detected_orphan":null,"released_orphan_qids":[]}
 {"event":"round","session_id":"s_0503-190516-c36f","ts":"2026-05-04T01:08:36+00:00","summary":"sect 22 empirical fit linear in log u; alpha values 1.4-12x smaller than §13 predicts; suggests multi-k1 cumulative framework","qid":"Q22","status":"keep_progress","commit":"39db8fd"}
 {"event":"session_close","session_id":"s_0503-190516-c36f","ts":"2026-05-04T01:08:36+00:00","commit":"39db8fd","reason":"reason: round 23 logged (empirical fit; alpha values measured); under /loop"}
+{"event":"session_open","session_id":"s_0503-193412-a47e","ts":"2026-05-04T01:34:12+00:00","commit":"152737d","proof_tag":"primitive_set_erdos","stashed_ref":null,"detected_orphan":null,"released_orphan_qids":[]}
+{"event":"round","session_id":"s_0503-193412-a47e","ts":"2026-05-04T01:38:51+00:00","summary":"sect 23 explicit M(x,N); S(M) ~ 1.45/log x; M not sup but tight proxy; analytical gap from 1.45 to 1 still open","qid":"Q23","status":"keep_progress","commit":"9a28ee5"}
+{"event":"session_close","session_id":"s_0503-193412-a47e","ts":"2026-05-04T01:38:51+00:00","commit":"9a28ee5","reason":"reason: round 24 logged (M(x,N) explicit subset + sum); under /loop"}

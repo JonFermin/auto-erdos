@@ -1,51 +1,61 @@
-# Session handoff (session s_0503-190516-c36f)
+# Session handoff (session s_0503-193412-a47e)
 
 **Stop reason**: One round logged. Returning to /loop driver.
 
-**This session's contribution (Round 23, Section 22)**
+**This session's contribution (Round 24, Section 23)**
 
-Empirical fit at N=2*10^6: for each (k_1, k_2),
-  E[log delta_{k_1}(b) | b in A_{k_2}, b ~ u] = alpha * log u + beta
-with R^2 > 0.999 across u-bins 10^2..10^6.
+Defined and analyzed the max primitive subset M(x, N) :=
+{n in [x, N] : n has no proper divisor in [x, n-1]}. Proved M is
+primitive (one-line argument).
 
-Empirical alpha values are 1.4-12x SMALLER than §13's k_1^2/(2 k_2)
-prediction. Discrepancy grows with k_2/k_1 ratio. Suggests
-alpha_{L, k_2} decays roughly like (1/2)^{k_2 - L} super-exponentially.
+Computed S(M(x, 10^6)) for x in {10^2, ..., 10^5}:
+  S(M) * log x ≈ 1.44 - 1.49 over x in [100, 3000]
+  S(M) decays as ~1.45 / log x (consistent with prime-tail Mertens).
 
-Implication: the §13/§20 single-dominant-k_1 framework predicts much
-stronger exclusion than actually exists. Cross-stratum exclusion via
-k_1 = L alone is weak. The conjecture's truth must rely on cumulative
-multi-k_1 exclusion across all k_1 < k_2.
+M is NOT the actual sup of S over primitive A in [x, N] — the §18
+two-stratum construction beats it by up to ~10% at x=100. But both
+quantities decay at the same rate.
 
-**For next session: try multi-k_1 cumulative bound**
+The empirical content of the conjecture is now extremely clean:
+  sup S(A) for primitive A in [x, infty) appears to be ~1.5/log x
+  (much stronger than the conjecture's 1 + o(1)).
 
-Define heuristic upper bound:
-  rho^*_{k_2}(x) := prod_{k_1=1..k_2-1} P(delta_{k_1}(b) >= x)
-                  = prod (1 - rho^{(k_1)}_{k_2})
-assuming approximate independence across k_1. (Independence isn't
-exactly true but is a starting heuristic.)
+But this is still numerical, not a proof. The Erdős-Zhang
+unconditional bound e^gamma pi/4 = 1.399 remains the best rigorous
+upper bound; the closing argument from 1.399 down to 1 + o(1) (or
+the empirically-suggested 1.5/log x) is still missing.
 
-Compute rho^*_{k_2}(x) using §22 empirical alpha values and
-Gaussian-tail approximation for std. Then check if
-sum_{k_2} a_{k_2}(x) rho^*_{k_2}(x) stays <= 1 + o(1) as x -> inf.
+**For next session**
 
-If yes: the multi-k_1 framework is plausibly enough.
-If no: need genuinely non-pairwise primitivity arguments.
+Two productive moves:
+
+(a) **Prove S(M) <= sup S(A) is an UPPER BOUND**, not just an
+    example. This requires showing every primitive A is "dominated"
+    by M in some sense. Probably FALSE in general (two-stratum beats
+    by ~10%), but maybe a relaxation works: sup S(A) <= S(M) + small.
+
+(b) **Try to derive the c_M = 1.45 constant analytically**. M's
+    sum is dominated by sum_{p in [x, sqrt N]} 1/(p log p) for large
+    N. By Mertens/partial summation, this should give c_M as some
+    explicit number-theoretic constant. Connecting c_M to the
+    Erdős/Zhang constant 1.399 would clarify the gap.
+
+Recommendation: (b) first. Even an asymptotic identification of
+c_M would be progress.
 
 **Files modified this session**
 
-- proof_strategy.md — added Section 22 (~145 lines).
-- proof_lemmas/lemma_003_cross_stratum.md — Round 23 update.
-- proof_open_questions.jsonl — Q22 claimed and resolved.
-- proof_journal.jsonl — round 23 entry.
+- proof_strategy.md — added Section 23 (~120 lines).
+- proof_lemmas/lemma_003_cross_stratum.md — Round 24 update.
+- proof_open_questions.jsonl — Q23 claimed and resolved.
+- proof_journal.jsonl — round 24 entry.
 - 1 new record in records/.
 
-**qid in flight**: none. Next is Q23.
+**qid in flight**: none. Next is Q24.
 
 **Status**
 
-23 rounds across 14 sessions. 23 keeps. 0 disproofs. Conjecture
-remains open. The §22 empirical data is the cleanest quantitative
-input the loop has produced — replaces §13/§20's heuristic guess
-with measured slopes. Lemma 3 still open but the framework is now
-aligned with empirical reality.
+24 rounds across 15 sessions. 24 keeps. 0 disproofs. The proof
+attempt has produced strong numerical and structural content.
+The conjecture is empirically supported (with stronger 1.5/log x
+behavior). The rigorous closing argument remains open.
