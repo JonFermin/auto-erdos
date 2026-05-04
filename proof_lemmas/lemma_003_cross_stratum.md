@@ -335,3 +335,29 @@ significant slack.
 The conjecture's bound is empirically/heuristically loose by a
 factor of log x. The actual sup_A S(A) appears to decay as
 ~1.5/log x; the conjecture only asks <= 1.
+
+## Update from Round 26 — RIGOROUS bound S(M) = O(loglog x / log x)
+
+Section 25 formalizes §24.4 into a rigorous estimate
+(modulo standard Mertens-type results):
+
+  S(M(x, infty)) <= [1 + e^{-gamma}(log log x + B)] / log x + o(1/log x)
+                  = O(log log x / log x)
+                  = o(1) as x -> infty
+
+where B = 0.2614 is Mertens' constant.
+
+Method: stratify M by p_min(n).
+- Regime A (p >= x): only n = p prime, gives S_pi(x) ~ 1/log x.
+- Regime B (p < x): Mertens density of p-rough integers gives
+  S(M_p) ~ e^{-gamma}/(p log x), summed over p<x via
+  sum_{p<x} 1/p ~ loglog x + B (Mertens).
+
+This is now the cleanest rigorous result of the loop:
+S(M) -> 0 with explicit O(log log x / log x) rate.
+
+But S(M) is one specific primitive set, not the sup over all
+primitive subsets. To close the conjecture, need to extend
+"S(M) = o(1)" to "every primitive A subset [x, infty) has
+S(A) = o(1)". This is the still-open analytical step
+requiring non-pairwise primitivity arguments.
