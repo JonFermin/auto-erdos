@@ -110,3 +110,5 @@
 {"qid":"Q47","status":"resolved","session_id":"s_0504-111924-c51f","summary":"§29.7 numerical check of §11 ratio L/(k+1); best at k~L; deviates at edges","ts":"2026-05-04T17:20:15+00:00"}
 {"qid":"Q48","status":"claimed","session_id":"s_0504-120228-e302","summary":"clarify F1 (Erdős-Zhang 1.399 bound) is asymptotic-as-x->infty form; un-truncated S(A_1) = S(P) = 1.6366 > 1.399 so F1 cannot be unconditional","ts":"2026-05-04T18:02:37+00:00"}
 {"qid":"Q48","status":"resolved","session_id":"s_0504-120228-e302","summary":"§29.4a clarifies F1's 1.399 bound is asymptotic in x truncation; un-truncated bound is S(P)=1.6366 (Lichtman); structural picture unchanged","ts":"2026-05-04T18:03:04+00:00"}
+{"qid":"Q49","status":"claimed","session_id":"s_0504-124442-ab47","summary":"final round before cap; consolidate Lichtman bound + truncated regime; close out the loop's analytical contribution","ts":"2026-05-04T18:44:54+00:00"}
+{"qid":"Q49","status":"resolved","session_id":"s_0504-124442-ab47","summary":"§29.4b final analytical addition; Lichtman 1.6366 universal, Erdős-Zhang 1.399 truncated, gap [1, 1.399] open; loop's final contribution","ts":"2026-05-04T18:45:22+00:00"}

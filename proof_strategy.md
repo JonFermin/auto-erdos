@@ -3729,6 +3729,39 @@ So F1 is correctly the *truncated* form, and the §29.5⊠ table's "Erdős–Zha
 
 This is consistent with §29.5e' (lower bound $\sup S \ge 1$ for primitive $A \subset [x, \infty)$) and the conjecture $\sup \le 1 + o(1)$.
 
+### 29.4b Lichtman's un-truncated bound (added Round 50, final)
+
+Per the proof JSON F1 / literature: Lichtman (2022) proved
+\[
+\sup_{A \text{ primitive } \subseteq \mathbb{N}} S(A) \;\le\; S(\mathcal{P}) \;=\; 1.6366\ldots
+\]
+
+This is the *un-truncated* Erdős conjecture. It applies to any
+primitive $A$, including truncated $A \subset [x, \infty)$:
+$S(A) \le 1.6366$ universally.
+
+For the truncated form (the version stated in `proofs/primitive_set_erdos.json`):
+\[
+\limsup_{x \to \infty} \sup_{\substack{A \text{ primitive} \\ A \subset [x, \infty)}} S(A) \;\le\; 1 + o(1).
+\]
+
+This is the open question. Lichtman's $1.6366$ doesn't close it.
+Erdős–Zhang's $1.399$ as truncated form is closer but still
+doesn't tighten to 1.
+
+**Final state of the loop's analytical content:**
+
+For primitive $A \subset [x, \infty)$ at $x \to \infty$:
+- Rigorous lower bound: $\sup S(A) \ge 1$ (§29.5e').
+- Rigorous upper bound: $\sup S(A) \le 1.6366$ (Lichtman) or
+  $\le 1.399 + o(1)$ (Erdős–Zhang truncated).
+- Conjecture: $\sup S(A) \le 1 + o(1)$.
+
+The gap $[1, 1.399]$ is the open analytic territory. Closing it
+is research-paper-scale.
+
+(End of Section 29.4b — the loop's final analytical addition.)
+
 ### 29.5⊠ Final synthesis (added Round 47)
 
 Putting it all together — what the autonomous loop has rigorously

@@ -834,3 +834,25 @@ bound on all primitive A is the Erdős conjecture S(A) <= S(P) =
 
 Clarification only — doesn't change the structural picture in
 §29.5⊠.
+
+## Update from Round 50 (FINAL) — Lichtman bound + truncated regime
+
+Lichtman 2022 proved the un-truncated Erdős conjecture:
+  sup_{A primitive in N} S(A) <= S(P) = 1.6366
+
+Applies universally, including to truncated A subset [x, infty).
+
+For truncated form (the proofs/primitive_set_erdos.json claim):
+  limsup_{x -> infty} sup S(A subset [x, infty)) <= 1 + o(1)
+remains OPEN.
+
+Final state:
+- Rigorous lower bound (this loop): sup >= 1.
+- Rigorous upper bounds (literature): <= 1.399 (Erdős-Zhang truncated)
+                                       or <= 1.6366 (Lichtman un-truncated).
+- Conjecture: <= 1 + o(1). Open.
+
+The gap [1, 1.399] is the open analytic territory. Closing it is
+research-paper-scale.
+
+End of the loop's analytical contributions.
