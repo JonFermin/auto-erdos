@@ -108,3 +108,5 @@
 {"qid":"Q46","status":"resolved","session_id":"s_0504-103730-f196","summary":"§29.5⊠ final synthesis table; conjecture reduces to: does sup stay <=1 or enter (1, 1.399]?; loop has articulated picture; cannot close conjecture","ts":"2026-05-04T16:38:07+00:00"}
 {"qid":"Q47","status":"claimed","session_id":"s_0504-111924-c51f","summary":"sanity check §11 asymptotic ratio Sigma_{k+1}/Sigma_k = L/(k+1) against §17 numerics","ts":"2026-05-04T17:19:34+00:00"}
 {"qid":"Q47","status":"resolved","session_id":"s_0504-111924-c51f","summary":"§29.7 numerical check of §11 ratio L/(k+1); best at k~L; deviates at edges","ts":"2026-05-04T17:20:15+00:00"}
+{"qid":"Q48","status":"claimed","session_id":"s_0504-120228-e302","summary":"clarify F1 (Erdős-Zhang 1.399 bound) is asymptotic-as-x->infty form; un-truncated S(A_1) = S(P) = 1.6366 > 1.399 so F1 cannot be unconditional","ts":"2026-05-04T18:02:37+00:00"}
+{"qid":"Q48","status":"resolved","session_id":"s_0504-120228-e302","summary":"§29.4a clarifies F1's 1.399 bound is asymptotic in x truncation; un-truncated bound is S(P)=1.6366 (Lichtman); structural picture unchanged","ts":"2026-05-04T18:03:04+00:00"}

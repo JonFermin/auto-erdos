@@ -3710,6 +3710,25 @@ any feasible sieve. So the §17 numerics correctly observed the
 truncated values are small, but the asymptotic lower bound from
 $A_{k_x}$ is genuine.
 
+### 29.4a Caveat on F1's bound 1.399 (added Round 49)
+
+A subtle point about F1 (Erdős–Zhang $S(A) < e^{\gamma}\pi/4 + o(1)$):
+
+Taking $A = A_1 = \mathcal{P}$ (the primes): $S(\mathcal{P}) = \sum_p 1/(p \log p) = 1.6366\ldots$ (Erdős's prime constant). This is GREATER than $e^{\gamma}\pi/4 \approx 1.3989$.
+
+So F1 cannot be a literal universal bound. The reading consistent with the literature is that F1's $o(1)$ correction depends on a *truncation parameter* $x$ — F1 should be read as
+\[
+\text{For primitive } A \subset [x, \infty),\;\; S(A) < e^{\gamma}\pi/4 + o_{x \to \infty}(1).
+\]
+
+This matches the conjecture's truncated form and is consistent with $S(\mathcal{P} \cap [x, \infty)) \to 0$ as $x \to \infty$ (so $\mathcal{P}$ is no longer a counterexample once truncated to $[x, \infty)$ at large $x$).
+
+The un-truncated Erdős primitive-set bound (over all primitive $A \subseteq \mathbb{N}$) is the *conjecture* $S(A) \le S(\mathcal{P}) = 1.6366$ — proven by Lichtman (2022) under some conditions.
+
+So F1 is correctly the *truncated* form, and the §29.5⊠ table's "Erdős–Zhang $\le 1.399$" should be read as: "for primitive $A \subset [x, \infty)$ as $x \to \infty$, $S(A) \le 1.399 + o(1)$".
+
+This is consistent with §29.5e' (lower bound $\sup S \ge 1$ for primitive $A \subset [x, \infty)$) and the conjecture $\sup \le 1 + o(1)$.
+
 ### 29.5⊠ Final synthesis (added Round 47)
 
 Putting it all together — what the autonomous loop has rigorously

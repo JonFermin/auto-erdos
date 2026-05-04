@@ -819,3 +819,18 @@ Numerical at N=10^7 (L=2.78), proxying Sigma by S_k:
 
 §11 asymptotic best at k ~ L; deviates at edges. Quantifies the
 regime statement of §29.5g_pre numerically.
+
+## Update from Round 49 — clarify F1's 1.399 bound is asymptotic in x
+
+F1 says S(A) < e^gamma pi/4 + o(1) ~ 1.399 + o(1). But A_1 = P
+has S = 1.6366 > 1.399. So F1 cannot be unconditional.
+
+Correct reading: F1's o(1) is in x (the truncation parameter):
+  For primitive A subset [x, infty): S(A) < 1.399 + o_{x -> infty}(1).
+
+This matches the conjecture's truncated form. The un-truncated
+bound on all primitive A is the Erdős conjecture S(A) <= S(P) =
+1.6366 (Lichtman 2022).
+
+Clarification only — doesn't change the structural picture in
+§29.5⊠.
