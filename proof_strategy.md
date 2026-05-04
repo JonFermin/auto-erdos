@@ -129,13 +129,49 @@ the key obstacle.
   the core open problem — bounding the total sum using inter-stratum
   divisibility exclusions; this is essentially the full conjecture.
 
-**Summary of partial result**: Using F1/F2/F3:
-(a) F1 gives global ceiling $\approx 1.399$.
-(b) F3 shows the canonical extremal sum approaches 1 from below.
-(c) F2's stratum bound is unsigned; it cannot establish any particular sum $> 1$.
-(d) Witness search at $x_\text{floor} \in \{100, 1000, 10000\}$ found
-    no counterexample with rigorous lower bound $> 1.0$.
-(e) Within-stratum constraint is vacuous; the primitive-set condition is
-    entirely cross-stratum.
+**Lemma `single_stratum_bound`** (`proof_lemmas/lemma_single_stratum_bound.md`, status: open):
+For any $A \subset \{n: \Omega(n)=k, n \geq 2\}$, positivity of terms gives
+$\sum_{a \in A} 1/(a \log a) \leq \sum_{n:\Omega(n)=k} 1/(n \log n)$.
+By F3 (ledger), this full-stratum sum equals $1-(c+o(1))k^2/2^k$ with $c > 0$.
+F3's sign disambiguation confirms the result is $< 1$. Therefore:
+**the conjecture holds for all single-stratum primitive sets.**
 
-This remains open. The cross-stratum interaction is the key obstacle.
+**Summary of partial results to date** (using only F1/F2/F3 from the ledger):
+(a) F1 gives global ceiling $\approx 1.399$ for any primitive set.
+(b) F3 shows the canonical full-stratum sum approaches 1 from below.
+(c) F2's stratum bound is unsigned; it cannot establish any particular sum $> 1$.
+(d) Lemma `within_stratum`: primitivity within a single stratum is vacuous;
+    the primitive-set condition is entirely inter-stratum.
+(e) Lemma `single_stratum_bound`: the conjecture holds for any primitive set
+    confined to a single $\Omega$-stratum (proved via F3 + positivity).
+(f) Witness search at $x_\text{floor} \in \{100, 1000, 10000\}$ found no
+    counterexample with rigorous lower bound $> 1.0$.
+
+**Remaining gap**: multi-stratum primitive sets. Summing the F3 bounds over
+all strata gives $\sum_{k \geq 1}(1-(c+o(1))k^2/2^k)$, which diverges (the
+$\sum_k 1$ part alone diverges). So the inter-stratum constraint cannot be
+discarded; it must contribute enough sparsity to keep the total below 1.
+Quantifying this constraint with F1/F2/F3 alone has not been accomplished.
+
+### Section 4 — Barrier for Multi-Stratum Case
+
+**The structural barrier.** The single-stratum proof (Lemma `single_stratum_bound`)
+does not compose: if $A$ draws from $k_1 < k_2 < \ldots$, we cannot separately
+bound $S_{k_i}(A)$ by $1$ and sum, since the sum of infinitely many near-$1$
+terms diverges.
+
+**What inter-stratum exclusion gives.** The primitive-set condition says:
+for $a \in A_j$ and $b \in A_k$ with $j < k$, $a \nmid b$. This means
+elements of lower strata block certain elements of higher strata. For example,
+if $p \in A_1$ is a prime, then $p \cdot q \notin A$ for any prime $q$
+(it would have $\Omega = 2$ and be divisible by $p$). So adding $p$ to $A$
+blocks an infinite family from $A_2$. Each such exclusion reduces $S_{k}(A)$.
+
+**Obstacle.** Making the above exclusion argument quantitative — showing the
+blocked mass in each stratum is large enough to keep $\sum_k S_k(A) \leq 1$
+— requires estimates on how many elements of each stratum are excluded, and
+how much they contribute to the sum. This requires analytic estimates on
+multiplicative structure that go beyond what F1/F2/F3 directly provide.
+
+This sub-problem remains open. It is the central unsolved part of the
+conjecture and has not been resolved here. This remains open.
