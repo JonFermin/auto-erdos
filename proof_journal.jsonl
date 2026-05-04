@@ -113,3 +113,6 @@
 {"event":"session_open","session_id":"s_0504-074548-6c15","ts":"2026-05-04T13:45:48+00:00","commit":"6ef53bf","proof_tag":"primitive_set_erdos","stashed_ref":null,"detected_orphan":null,"released_orphan_qids":[]}
 {"event":"round","session_id":"s_0504-074548-6c15","ts":"2026-05-04T13:46:54+00:00","summary":"sect 29.5h A_{k_x} locally optimal under single-element perturbations","qid":"Q42","status":"keep_progress","commit":"20079d5"}
 {"event":"session_close","session_id":"s_0504-074548-6c15","ts":"2026-05-04T13:46:54+00:00","commit":"20079d5","reason":"reason: round 43 logged (A_{k_x} local optimality); 43 keeps; under /loop"}
+{"event":"session_open","session_id":"s_0504-082854-da97","ts":"2026-05-04T14:28:54+00:00","commit":"b6b4c18","proof_tag":"primitive_set_erdos","stashed_ref":null,"detected_orphan":null,"released_orphan_qids":[]}
+{"event":"round","session_id":"s_0504-082854-da97","ts":"2026-05-04T14:29:59+00:00","summary":"sect 29.5e' sup >= 1 exactly via k -> infty","qid":"Q43","status":"keep_progress","commit":"235222e"}
+{"event":"session_close","session_id":"s_0504-082854-da97","ts":"2026-05-04T14:29:59+00:00","commit":"235222e","reason":"reason: round 44 logged (sup >= 1 sharpened); 44 keeps; under /loop"}

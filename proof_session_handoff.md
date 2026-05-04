@@ -1,27 +1,28 @@
-# Session handoff (session s_0504-074548-6c15)
+# Session handoff (session s_0504-082854-da97)
 
 **Stop reason**: One round logged. Returning to /loop driver.
 
-**Round 43 contribution (§29.5h)**
+**Round 44 contribution (§29.5e')**
 
-Showed A_{k_x} is locally optimal under single-element perturbations:
-- Adding a prime p in [x, 2^{k_x}) gains ~ 1/(p log p) ~ 0.002.
-- Costs ~ S(A_{k_x - 1})/p ~ 0.01 (removing A_{k_x} multiples of p).
-- Net negative.
+Sharpened §29.5e: by picking k -> infty (with k >= k_x for any x),
+S(A_k) -> 1, so sup S(A) >= 1 EXACTLY (not just 1 - O((log x)^2/x))
+for any x >= 5.
 
-So sup S = S(A_{k_x}) + o(deficit) — the §29.5e witness is
-essentially the supremum, not just a lower bound.
+Combined with conjecture's <= 1 + o(1): sup S(A) = 1 exactly in
+the limit.
+
+This is the sharpest reformulation: Erdős conjecture <=> sup S(A) = 1.
 
 **Status**
 
-43 rounds, 33 sessions, 43 keeps, 0 disproofs.
+44 rounds, 34 sessions, 44 keeps, 0 disproofs.
 
 **Files modified this session**
 
-- proof_strategy.md — added §29.5h (~30 lines).
-- proof_lemmas/lemma_003_cross_stratum.md — Round 43 update.
-- proof_open_questions.jsonl — Q42 claimed and resolved.
-- proof_journal.jsonl — round 43 entry.
+- proof_strategy.md — added §29.5e' (~25 lines).
+- proof_lemmas/lemma_003_cross_stratum.md — Round 44 update.
+- proof_open_questions.jsonl — Q43 claimed and resolved.
+- proof_journal.jsonl — round 44 entry.
 - 1 new record in records/.
 
 **qid in flight**: none.
