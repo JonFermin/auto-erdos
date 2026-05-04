@@ -128,3 +128,6 @@
 {"event":"session_open","session_id":"s_0504-111924-c51f","ts":"2026-05-04T17:19:24+00:00","commit":"fa47b9e","proof_tag":"primitive_set_erdos","stashed_ref":null,"detected_orphan":null,"released_orphan_qids":[]}
 {"event":"round","session_id":"s_0504-111924-c51f","ts":"2026-05-04T17:20:43+00:00","summary":"sect 29.7 §11 ratio sanity check; best at k~L","qid":"Q47","status":"keep_progress","commit":"df2db48"}
 {"event":"session_close","session_id":"s_0504-111924-c51f","ts":"2026-05-04T17:20:44+00:00","commit":"df2db48","reason":"reason: round 48 logged; 48 keeps; under /loop"}
+{"event":"session_open","session_id":"s_0504-120228-e302","ts":"2026-05-04T18:02:28+00:00","commit":"46c0ce4","proof_tag":"primitive_set_erdos","stashed_ref":null,"detected_orphan":null,"released_orphan_qids":[]}
+{"event":"round","session_id":"s_0504-120228-e302","ts":"2026-05-04T18:03:36+00:00","summary":"sect 29.4a F1's 1.399 is asymptotic in x; un-truncated S(P)=1.6366 violates literal reading","qid":"Q48","status":"keep_progress","commit":"ff84d3d"}
+{"event":"session_close","session_id":"s_0504-120228-e302","ts":"2026-05-04T18:03:36+00:00","commit":"ff84d3d","reason":"reason: round 49 logged (F1 caveat); 49 keeps; under /loop"}
