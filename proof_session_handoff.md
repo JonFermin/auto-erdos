@@ -1,72 +1,64 @@
-# Session handoff (session s_0503-180713-a917)
+# Session handoff (session s_0503-183514-b863)
 
 **Stop reason**: One round logged. Returning to /loop driver.
 
-**This session's contribution (Round 21, Section 20)**
+**This session's contribution (Round 22, Section 21)**
 
-Saddle-point heuristic for rho_k(x) using Erdos-Kac CLT for the
-smallest L-divisor of b in A_{k_2} (where L = loglog x):
+Audited the §13/§20 distributional model. Key findings:
 
-  E[log delta_L(b)]  ~ (L^2/(2 k_2)) log u
-  Var[log delta_L(b)] ~ (L/k_2) log u
+1. §13 used "log p uniform on [log 2, log u]" — NOT classical
+   Erdős-Kac (which is loglog p uniform).
+2. Both §13 and a corrected Erdős-Kac model OVERESTIMATE
+   empirical E[log delta_2] by factors of 2-3 across (k_2 = 3, 4, 5, 6).
+3. Reason: discreteness of small primes (P(smallest prime = 2) = 1/2)
+   makes empirical delta_2 much smaller than continuous models predict.
 
-Yields the Gaussian tail bound:
-  rho_{k_2}(x) <= exp( -(L^2/(2 k_2) - 1)^2 * k_2 * log x / (2 L) )
-on the gap k_2 in [L, L^2/2].
+CONSEQUENCE: §20's saddle-point heuristic gives a Gaussian-tail
+bound on rho_k that is COMPUTED RELATIVE TO THE WRONG MEAN. Since
+the true mean is smaller, more of A_{k_2} satisfies the constraint,
+so rho_k is LARGER than §20 predicts. The §20 conclusion
+"sum rho_k = O(L) = o(log x)" was therefore overconfident.
 
-Numerical evaluation across x = 10^5 to 10^500: the sum
-sum_{k=L..L^2/2} rho_k grows O(L) = O(loglog x), while log x
-grows linearly in x's exponent. Ratio sum/log x decays
-0.09 -> 0.005. So sum rho_k = o(log x) holds heuristically.
+Whether the corrected model still gives o(log x) is not yet known.
 
-UNDER THE HEURISTIC: sup_A S(A) = O(loglog x), which is *stronger*
-than the conjecture's 1+o(1). At the explicit-constant level,
-need more careful saddle-point matching.
+**For next session**
 
-**Two analytical gaps remain (G1)(G2)**
+Two productive paths:
 
-(G1) Erdős-Kac formula for E[log delta_L(b)] / Var[log delta_L(b)]
-     uniformly in k_2 across [L, L^2/2]. Standard literature
-     (Tenenbaum *Introduction* III.6) likely covers this — a future
-     session with citation access can adapt.
+(a) **Recompute the saddle-point with correct discrete model.**
+    Reference: Tenenbaum III.3-III.6 or Ford 2008 (smallest prime
+    factor). Even without literature access, an empirical sieve
+    can give the right mean and variance for E[log delta_{k_1}]
+    at multiple (k_1, k_2, u) and back-out a model.
 
-(G2) Saddle-point matching at k_2 ~ L^2/2. The heuristic exponent
-     vanishes at the boundary (rho -> 1), so the upper bound there
-     is trivial. A finer expansion (next-order term in
-     Erdős-Kac saddle-point) would tighten this.
+(b) **Re-examine the §18 numerical decay.** §18 showed
+    sup_two-stratum S decays 0.337 -> 0.133 across x = 10^2..10^4.
+    If the §20 heuristic predicts SMALLER decay than observed,
+    that's evidence the cross-stratum framework is fundamentally
+    incomplete and multi-stratum interactions matter.
 
-Closing (G1)+(G2) closes Lemma 3 / the conjecture.
-
-**For next session: target (G1) or (G2)**
-
-(G1) is more tractable: it's a "translate Tenenbaum's saddle-point
-     formula" round. The agent should try to write down the precise
-     statement of E[log delta_L(b)] uniformly in (k_1, k_2) without
-     citing specific lemma numbers it doesn't have access to.
-
-(G2) is harder — it's the technical pinch point. A future round
-     could attempt a Taylor expansion of the Gaussian exponent
-     around k_2 = L^2/2 to see what next-order terms look like.
-
-Recommendation: (G1) first. Even a careful restatement is progress.
+Recommendation: (a) first via empirical sieve. Compute the empirical
+distribution of log delta_{k_1} for several (k_1, k_2) pairs at
+varying u, and fit it to a parametric model. The "right" mean
+should then plug back into §20's framework cleanly.
 
 **Files modified this session**
 
-- proof_strategy.md — added Section 20 (~150 lines).
-- proof_lemmas/lemma_003_cross_stratum.md — Round 21 update.
-- proof_open_questions.jsonl — Q20 claimed and resolved.
-- proof_journal.jsonl — round 21 entry.
+- proof_strategy.md — added Section 21 (~100 lines).
+- proof_lemmas/lemma_003_cross_stratum.md — Round 22 update.
+- proof_open_questions.jsonl — Q21 claimed and resolved.
+- proof_journal.jsonl — round 22 entry.
 - 1 new record in records/.
 
-**qid in flight**: none. Next is Q21 (G1 or G2).
+**qid in flight**: none. Next is Q22.
 
-**Status — major milestone**
+**Status update**
 
-21 rounds across 12 sessions. 21 keeps. 0 disproofs. The proof has
-been distilled to TWO concrete analytical gaps: (G1) uniform
-Erdős-Kac and (G2) boundary at k_2 ~ L^2/2. Under the heuristic
-that fills both, the conjecture holds with a much stronger O(loglog x)
-ceiling. This is the most articulate state the proof attempt has
-reached — a research-paper-scale next step would close it.
+22 rounds across 13 sessions. 22 keeps. 0 disproofs. The §20
+heuristic has been invalidated; the proof is back to "Lemma 3
+remains open with clear directions but no rigorous closing
+argument". The §13+§20 sequence is no longer a proof sketch — it's
+a heuristic that has been audited and corrected.
 
-The §11+§12+§13+§18+§19+§20 chain is now a coherent narrative.
+This is honest: the loop is identifying its own errors. Better
+than a confident wrong answer.
