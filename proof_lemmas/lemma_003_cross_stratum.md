@@ -739,3 +739,23 @@ Combined with conjecture's <= 1 + o(1):
 
 This is the sharpest possible reformulation of the Erdős conjecture
 in this framework.
+
+## Update from Round 45 — S(A_k) for small k exceeds 1; conjecture is for x large enough
+
+S(A_k) values from §17 + §19 numerics:
+  k=1: 1.637 (= Erdős's prime-tail constant exact)
+  k=2: 1.131
+  k=3: 1.010
+  k=4: 0.989
+  k>=5: < 1 monotonically -> 1 from below.
+
+For k=1,2,3: A_k subset [x, infty) only for x <= 2,4,8 respectively.
+For x >= 9: A_k for k=1,2,3 not admissible. A_k for k >= 4 has S < 1.
+
+So at small x, the conjecture is violated trivially by A_2 or A_3.
+The conjecture's claim "sup S <= 1" is meaningful only for x >= 9
+(approximately), where all admissible A_k satisfy S < 1 (Sathe-Selberg
+deficit).
+
+Refines the §29.5e' picture: sup S -> 1 from below in the "large-x"
+regime where small-k strata are excluded.

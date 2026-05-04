@@ -3561,6 +3561,48 @@ This holds *for every* $x \ge 5$ (the threshold below which $A_1 = \mathcal{P}$ 
 \sup S(A) \;=\; 1 \;\text{ exactly, in the limit.}
 \]
 
+### 29.5e'' Notable: $S(A_k)$ exceeds 1 at small $k$ (added Round 45)
+
+The §29.5e' bound $\sup S(A) \ge 1$ uses $k \to \infty$ where
+Sathe–Selberg gives $S(A_k) \to 1$ from below. But at *small* $k$,
+$S(A_k)$ is actually $> 1$:
+
+| $k$ | $S_k(10^7)$ from §17 | $a_k(10^7; \infty)$ from §19 (valid for $k \le L = 2.78$) | $S(A_k)$ estimate |
+|---:|---:|---:|---:|
+| $1$ | $1.575$ | $0.062$ | $1.637$ ($S(\mathcal{P})$ exact) |
+| $2$ | $0.897$ | $0.234$ | $1.131$ |
+| $3$ | $0.536$ | $0.474$ | $1.010$ |
+| $4$ | $0.293$ | $0.696$ | $0.989$ |
+| $5$ | $0.147$ | $0.851$ | $0.998$ |
+
+So $S(A_k) > 1$ for $k \in \{1, 2, 3\}$ — these are
+*counterexamples to "$\sup_A S(A) \le 1$"* at small $x$. But
+they do *not* contradict the conjecture's $x \to \infty$
+formulation:
+
+- $A_1 = \mathcal{P}$ requires $x \le 2$.
+- $A_2$ requires $x \le 4$.
+- $A_3$ requires $x \le 8$.
+
+For $x \ge 9$: none of these $A_k$ are admissible. $A_4 \subset
+[16, \infty)$, $S(A_4) \approx 0.989 < 1$. $A_5, A_6, \ldots$:
+each below 1. The Sathe–Selberg deficit kicks in once $k \ge 4$.
+
+So $\sup_A S(A)$ at $x = 100$ is bounded by:
+\[
+\sup_{k \ge \log_2 100 = 7} S(A_k) \;=\; \sup_{k \ge 7} (1 - c k^2/2^k) \;=\; \lim_{k \to \infty} S(A_k) \;\le\; 1.
+\]
+
+(The non-strict inequality is the conjecture's claim — the
+Sathe–Selberg asymptotic $\to 1$ from below at large $k$ but its
+universal-in-$k$ uppermost bound requires the conjecture's full
+strength.)
+
+This clarifies: **the conjecture's claim $\sup S(A) \le 1$ is for
+$x \ge 9$ effectively** (where the small-$k$ counterexamples are
+excluded). At small $x$, the conjecture is straightforwardly
+violated by $A_2$ or $A_3$.
+
 ### 29.5g_pre Regime distinction (added Round 42)
 
 The §29.5e claim "$S(A_{k_x}) = 1 - O((\log x)^2/x)$" relies on

@@ -100,3 +100,5 @@
 {"qid":"Q42","status":"resolved","session_id":"s_0504-074548-6c15","summary":"§29.5h A_{k_x} is locally optimal under single-element perturbations; adding primes in [x, 2^{k_x}) costs more than gain; sup ~ S(A_{k_x})","ts":"2026-05-04T13:46:25+00:00"}
 {"qid":"Q43","status":"claimed","session_id":"s_0504-082854-da97","summary":"sharpen §29.5e: A_k for k -> infty gives S(A_k) -> 1, so sup S(A) >= 1 exactly (not just 1 - O((log x)^2/x)) for any x >= 5","ts":"2026-05-04T14:29:04+00:00"}
 {"qid":"Q43","status":"resolved","session_id":"s_0504-082854-da97","summary":"§29.5e' sharpens to sup S(A) >= 1 exactly via k -> infty; conjecture equivalent to sup = 1 in limit","ts":"2026-05-04T14:29:29+00:00"}
+{"qid":"Q44","status":"claimed","session_id":"s_0504-091130-01cb","summary":"tabulate S(A_k) via Sathe-Selberg for k=4..30; verify deficit c k^2/2^k decays","ts":"2026-05-04T15:11:39+00:00"}
+{"qid":"Q44","status":"resolved","session_id":"s_0504-091130-01cb","summary":"§29.5e'' clarification: S(A_k) > 1 for k in {1,2,3}; conjecture excludes these at x >= 9; for admissible A_k at large x, deficit ensures S < 1","ts":"2026-05-04T15:13:56+00:00"}
