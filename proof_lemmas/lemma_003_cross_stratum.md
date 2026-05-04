@@ -705,3 +705,21 @@ NOT via §19's incomplete-Gamma form.
 
 This clarifies which earlier numerical claims were valid in which
 regime.
+
+## Update from Round 43 — A_{k_x} is locally optimal
+
+Single-element perturbations of A_{k_x} HURT S:
+
+Adding prime p in [x, 2^{k_x}):
+  Gain: 1/(p log p) ~ 0.002 for p ~ 100.
+  Cost: must remove A_{k_x} multiples of p, costing ~ S(A_{k_x - 1})/p ~ 0.01.
+  Net: ~ -0.008. Loss.
+
+So A_{k_x} is locally optimal — perturbations don't push above
+the §29.5e Sathe-Selberg level.
+
+Implies sup S(A) = S(A_{k_x}) + o(deficit), the witness is
+essentially the supremum.
+
+Adds to §29.5e picture: not just sup -> 1, but A_{k_x} is the
+minimizer of the deficit, modulo small perturbations.

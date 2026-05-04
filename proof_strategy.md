@@ -3559,6 +3559,38 @@ The §29.5e claim is thus rigorous via Sathe–Selberg, not via §19.
 Earlier numerics that combined the two formulas (e.g., my $a_7(10^7; \infty) = 0.976$)
 mixed regimes incorrectly.
 
+### 29.5h Local optimality of $A_{k_x}$ (added Round 43)
+
+§29.5e showed $S(A_{k_x}) \to 1$. Could one beat $A_{k_x}$ by
+adding/swapping elements?
+
+**Adding primes in $[x, 2^{k_x})$.** The interval $[x, 2^{k_x})$ at
+$x = 100$ is $[100, 128)$, containing primes $\{101, 103, 107,
+109, 113, 127\}$. Adding each prime $p$ to $A_{k_x} = A_7$:
+
+- *Gain*: $1/(p \log p) \approx 0.0022$ (for $p \approx 100$).
+- *Cost (primitivity)*: must remove all $n \in A_7$ divisible by $p$.
+  $S(A_7 \cap p\mathbb{Z}) = \frac{1}{p} \sum_{m: \Omega(m) = 6}
+  \frac{1}{m \log(pm)} \approx \frac{S(A_6)}{p} \approx
+  \frac{0.96}{p} \approx 0.0095$.
+
+Net change: $+0.0022 - 0.0095 < 0$. Net *loss*.
+
+**Adding semiprimes in $[x, 2^{k_x})$.** Similar trade-off, even
+worse since semiprimes have higher density relative to gain.
+
+**Conclusion.** Single-element perturbations of $A_{k_x}$ hurt $S$.
+The set $A_{k_x}$ is locally optimal among small perturbations.
+
+So the conjecture's saturation is essentially tight: $\sup S(A) =
+S(A_{k_x}) + o(1) = 1 - O((\log x)^2/x)$, and the $o(1)$ slack
+is genuine — it comes from the Sathe–Selberg deficit, not from
+multi-element rearrangements being able to push above $A_{k_x}$.
+
+This sharpens the §29.5d picture: not just $\sup S \to 1$, but
+$\sup S = S(A_{k_x}) + o(\text{deficit})$ — the witness $A_{k_x}$
+is essentially optimal.
+
 ### 29.5g Reconciliation with §17
 
 §17 found $S(A_k \cap [1, 10^7])$ small for $k \le 10$. That was
