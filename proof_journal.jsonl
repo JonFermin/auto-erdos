@@ -110,3 +110,6 @@
 {"event":"session_open","session_id":"s_0504-070306-564e","ts":"2026-05-04T13:03:06+00:00","commit":"35bbaa4","proof_tag":"primitive_set_erdos","stashed_ref":null,"detected_orphan":null,"released_orphan_qids":[]}
 {"event":"round","session_id":"s_0504-070306-564e","ts":"2026-05-04T13:04:18+00:00","summary":"sect 29.5g_pre regime distinction §11 vs §19; §29.5e Corollary D justified via Sathe-Selberg","qid":"Q41","status":"keep_progress","commit":"1a2dbc3"}
 {"event":"session_close","session_id":"s_0504-070306-564e","ts":"2026-05-04T13:04:18+00:00","commit":"1a2dbc3","reason":"reason: round 42 logged (regime distinction); 42 keeps; under /loop"}
+{"event":"session_open","session_id":"s_0504-074548-6c15","ts":"2026-05-04T13:45:48+00:00","commit":"6ef53bf","proof_tag":"primitive_set_erdos","stashed_ref":null,"detected_orphan":null,"released_orphan_qids":[]}
+{"event":"round","session_id":"s_0504-074548-6c15","ts":"2026-05-04T13:46:54+00:00","summary":"sect 29.5h A_{k_x} locally optimal under single-element perturbations","qid":"Q42","status":"keep_progress","commit":"20079d5"}
+{"event":"session_close","session_id":"s_0504-074548-6c15","ts":"2026-05-04T13:46:54+00:00","commit":"20079d5","reason":"reason: round 43 logged (A_{k_x} local optimality); 43 keeps; under /loop"}

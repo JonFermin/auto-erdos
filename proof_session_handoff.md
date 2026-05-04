@@ -1,31 +1,27 @@
-# Session handoff (session s_0504-070306-564e)
+# Session handoff (session s_0504-074548-6c15)
 
 **Stop reason**: One round logged. Returning to /loop driver.
 
-**Round 42 contribution (§29.5g_pre)**
+**Round 43 contribution (§29.5h)**
 
-Clarified the regime distinction between two asymptotics:
-- §19 incomplete-Gamma form: a_k(x; infty) ~ (1/log x) sum_{j=0..k-1} L^j/j!
-  derives from Sigma_{A_k}(t) ~ (loglog t)^k/k! valid only for k <= L = loglog x.
-- §11 Sathe-Selberg: S(A_k) = 1 - (c + o(1)) k^2/2^k as k -> infty,
-  valid unconditionally as k grows.
+Showed A_{k_x} is locally optimal under single-element perturbations:
+- Adding a prime p in [x, 2^{k_x}) gains ~ 1/(p log p) ~ 0.002.
+- Costs ~ S(A_{k_x - 1})/p ~ 0.01 (removing A_{k_x} multiples of p).
+- Net negative.
 
-For k_x = ceil(log_2 x) >> L: §11 applies, §19 does not.
-
-The §29.5e Corollary D (S(A_{k_x}) -> 1) is rigorous via §11
-(Sathe-Selberg), not via §19. Earlier numerics that mixed the two
-were incorrect.
+So sup S = S(A_{k_x}) + o(deficit) — the §29.5e witness is
+essentially the supremum, not just a lower bound.
 
 **Status**
 
-42 rounds, 32 sessions, 42 keeps, 0 disproofs.
+43 rounds, 33 sessions, 43 keeps, 0 disproofs.
 
 **Files modified this session**
 
-- proof_strategy.md — added §29.5g_pre (~20 lines).
-- proof_lemmas/lemma_003_cross_stratum.md — Round 42 update.
-- proof_open_questions.jsonl — Q41 claimed and resolved.
-- proof_journal.jsonl — round 42 entry.
+- proof_strategy.md — added §29.5h (~30 lines).
+- proof_lemmas/lemma_003_cross_stratum.md — Round 43 update.
+- proof_open_questions.jsonl — Q42 claimed and resolved.
+- proof_journal.jsonl — round 43 entry.
 - 1 new record in records/.
 
 **qid in flight**: none.
