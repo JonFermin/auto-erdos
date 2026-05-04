@@ -80,3 +80,6 @@
 {"event":"session_open","session_id":"s_0504-002534-3d1e","ts":"2026-05-04T06:25:34+00:00","commit":"0e7f598","proof_tag":"primitive_set_erdos","stashed_ref":null,"detected_orphan":null,"released_orphan_qids":[]}
 {"event":"round","session_id":"s_0504-002534-3d1e","ts":"2026-05-04T06:27:33+00:00","summary":"sect 30 Theorem 1' sharpened via exact integral; finite-x slack 12% -> 6%","qid":"Q31","status":"keep_progress","commit":"a2c697f"}
 {"event":"session_close","session_id":"s_0504-002534-3d1e","ts":"2026-05-04T06:27:33+00:00","commit":"a2c697f","reason":"reason: round 32 logged (sharpened bound); 32 keeps; under /loop"}
+{"event":"session_open","session_id":"s_0504-003511-fa34","ts":"2026-05-04T06:35:11+00:00","commit":"3eabe59","proof_tag":"primitive_set_erdos","stashed_ref":null,"detected_orphan":null,"released_orphan_qids":[]}
+{"event":"round","session_id":"s_0504-003511-fa34","ts":"2026-05-04T06:36:21+00:00","summary":"sect 26.3a M locally maximal under single-swap at N=10^5; complements §26 multi-stratum global gain","qid":"Q32","status":"keep_progress","commit":"58bc497"}
+{"event":"session_close","session_id":"s_0504-003511-fa34","ts":"2026-05-04T06:36:21+00:00","commit":"58bc497","reason":"reason: round 33 logged (M locally maximal); 33 keeps; loop continues; under /loop"}

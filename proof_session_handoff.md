@@ -1,50 +1,44 @@
-# Session handoff (session s_0504-002534-3d1e)
+# Session handoff (session s_0504-003511-fa34)
 
 **Stop reason**: One round logged. Returning to /loop driver.
 
-**This session's contribution (Round 32, Section 30)**
+**This session's contribution (Round 33, §26.3a)**
 
-Sharpened §25's bound by replacing the Taylor inequality
-log(1+y) <= y with the exact value:
-  Theorem 1':
-    S(M(x)) <= 1/log x + sum_{p<x} Phi(p)/p * (loglog(px) - loglog x)
-                       + o(1/log x).
+A background experiment from earlier sessions completed:
+single-element-swap local search around M(x, N=10^5) finds NO
+primitive subset improving on S(M) at x in {50, 100, 300, 1000,
+3000, 10000}. So M is locally maximal under that perturbation.
 
-Numerical: ratio observed/predicted at x in [100, 3000] is now
-~0.94 (up from §28's 0.89). The asymptotic is identical (Theorem 1
-recovered at x → infty); finite-x slack reduces from 12% to 6%.
+Combined with §26.2's multi-stratum global gain (+0.055 at
+N=10^6): two distinct optimisation regimes. Local search around
+M is stable; multi-stratum global constructions exceed M but are
+invisible to local moves.
 
-Residual 6% reflects Mertens density approximation Phi(p) ~ e^-g/log p
-and continuous-integral discretization corrections.
+This refines the picture without changing the conclusion:
+  sup_A S(A) ~ S(M) + bounded additive overhead.
 
 **Status**
 
-32 rounds, 22 sessions, 32 keeps, 0 disproofs.
-
-The proof attempt has now produced:
-- Theorem 1 (§25): asymptotic bound on S(M).
-- Theorem 1' (§30): finite-x sharpened version, slack 6%.
-- Theorem 2 (§28, §28.2a): verified across two decades x in [100, 10^4].
-- Empirical Claim (§§18, 22, 26): sup_A S(A) ~ S(M) + O(1).
-- Open Problem: prove the empirical claim rigorously.
+33 rounds, 23 sessions, 33 keeps, 0 disproofs.
 
 **For future sessions**
 
-Further analytical refinements can:
-- Push slack from 6% toward 0 by accounting for Mertens density
-  corrections at small primes.
-- Extend Theorem 2's verification to more x values.
-- Investigate the closed form of the residual constant.
+The proof attempt continues to add fractional refinements with
+each round. The natural next-step pivots are:
+1. Paper writeup via write_paper.py (unchanged recommendation).
+2. Sieve to N=10^8 for x=10^4 to give exact ratio.
+3. Investigate whether M's local stability extends to k-element
+   swaps (k=2, 3, ...) — would constrain how much multi-stratum
+   constructions can beat M.
 
-But each adds <3% incremental information. Paper writeup remains
-the natural pivot.
+Each gives diminishing returns relative to the converged state.
 
 **Files modified this session**
 
-- proof_strategy.md — added Section 30 (~95 lines).
-- proof_lemmas/lemma_003_cross_stratum.md — Round 32 update.
-- proof_open_questions.jsonl — Q31 claimed and resolved.
-- proof_journal.jsonl — round 32 entry.
+- proof_strategy.md — added §26.3a (~25 lines).
+- proof_lemmas/lemma_003_cross_stratum.md — Round 33 update.
+- proof_open_questions.jsonl — Q32 claimed and resolved.
+- proof_journal.jsonl — round 33 entry.
 - 1 new record in records/.
 
 **qid in flight**: none.
