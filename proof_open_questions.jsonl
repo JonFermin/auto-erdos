@@ -98,3 +98,5 @@
 {"qid":"Q41","status":"resolved","session_id":"s_0504-070306-564e","summary":"§29.5g_pre clarifies §11 (Sathe-Selberg, k -> infty) vs §19 (incomplete-Gamma, k <= L) regimes; §29.5e is via §11 not §19","ts":"2026-05-04T13:03:48+00:00"}
 {"qid":"Q42","status":"claimed","session_id":"s_0504-074548-6c15","summary":"verify A_{k_x} cannot be improved by adding primes in [x, 2^{k_x}); trade-off heuristic shows perturbation hurts","ts":"2026-05-04T13:45:57+00:00"}
 {"qid":"Q42","status":"resolved","session_id":"s_0504-074548-6c15","summary":"§29.5h A_{k_x} is locally optimal under single-element perturbations; adding primes in [x, 2^{k_x}) costs more than gain; sup ~ S(A_{k_x})","ts":"2026-05-04T13:46:25+00:00"}
+{"qid":"Q43","status":"claimed","session_id":"s_0504-082854-da97","summary":"sharpen §29.5e: A_k for k -> infty gives S(A_k) -> 1, so sup S(A) >= 1 exactly (not just 1 - O((log x)^2/x)) for any x >= 5","ts":"2026-05-04T14:29:04+00:00"}
+{"qid":"Q43","status":"resolved","session_id":"s_0504-082854-da97","summary":"§29.5e' sharpens to sup S(A) >= 1 exactly via k -> infty; conjecture equivalent to sup = 1 in limit","ts":"2026-05-04T14:29:29+00:00"}

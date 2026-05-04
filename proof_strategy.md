@@ -3533,6 +3533,34 @@ At $k = k_x = \log_2 x \gg L$: $A_{k_x}$'s mass is at $u_{k_x} = e^{e^{k_x}}$, *
 
 So $A_{k_x}$ is "thin" near $x$ but its TOTAL mass is close to 1 because the asymptotic kicks in for $k$ this large.
 
+### 29.5e' Sharpened lower bound: $\sup S(A) \ge 1$ exactly (added Round 44)
+
+The §29.5e formulation $\sup S(A) \ge 1 - O((\log x)^2/x)$ used
+$k = k_x = \lceil \log_2 x \rceil$, the *smallest* admissible $k$.
+But ANY $k \ge k_x$ also gives $A_k \subset [x, \infty)$, and the
+deficit $c k^2/2^k$ is *minimized* at large $k$:
+
+Setting $f(k) = k^2/2^k$, the derivative $f'(k) = (2k - k^2 \ln 2)/2^k$
+is zero at $k \approx 2.89$, and $f$ is decreasing for $k > 3$.
+So $f(k) \to 0$ as $k \to \infty$.
+
+For any $\epsilon > 0$, pick $k_\epsilon$ large enough that
+$c k_\epsilon^2 / 2^{k_\epsilon} < \epsilon$. Then $S(A_{k_\epsilon})
+> 1 - \epsilon$, and (provided $k_\epsilon \ge k_x$, which holds for
+all large $k_\epsilon$) $A_{k_\epsilon} \subset [x, \infty)$.
+
+Hence:
+\[
+\sup_{A \text{ primitive}, A \subset [x, \infty)} S(A) \;\ge\; 1.
+\]
+
+This holds *for every* $x \ge 5$ (the threshold below which $A_1 = \mathcal{P}$ might bring $S$ above $1$ trivially), with the supremum approached in the limit $k \to \infty$.
+
+**The conjecture's bound $\sup S(A) \le 1 + o(1)$ is therefore equivalent to**
+\[
+\sup S(A) \;=\; 1 \;\text{ exactly, in the limit.}
+\]
+
 ### 29.5g_pre Regime distinction (added Round 42)
 
 The §29.5e claim "$S(A_{k_x}) = 1 - O((\log x)^2/x)$" relies on

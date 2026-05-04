@@ -723,3 +723,19 @@ essentially the supremum.
 
 Adds to §29.5e picture: not just sup -> 1, but A_{k_x} is the
 minimizer of the deficit, modulo small perturbations.
+
+## Update from Round 44 — sup S(A) >= 1 exactly (sharpened)
+
+§29.5e bound 1 - O((log x)^2/x) was suboptimal. By picking k -> infty
+(any k >= k_x admissible), S(A_k) -> 1. So:
+
+  sup_{A primitive in [x, infty)} S(A) >= 1 exactly (for x >= 5).
+
+This holds for EVERY x: the deficit c k^2/2^k -> 0 as k -> infty,
+so for any epsilon there's k_epsilon with S(A_{k_epsilon}) > 1 - epsilon.
+
+Combined with conjecture's <= 1 + o(1):
+  sup S(A) = 1 exactly, in the limit.
+
+This is the sharpest possible reformulation of the Erdős conjecture
+in this framework.
