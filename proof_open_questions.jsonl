@@ -49,3 +49,4 @@
 {"qid":"Q17","status":"resolved","session_id":"s_0504-132855-2de7","summary":"section 4 added: sup S(A) >= 1 via A_k as k -> infty; signed F3 form; small-k caveat; no witness; verifier 0 blocking 10 warns keep_progress","ts":"2026-05-04T19:36:58+00:00"}
 {"qid":"Q18","status":"claimed","session_id":"s_0504-141810-67f9","summary":"round 16 v2: §5 without Lichtman cite (caused critic_ledger BLOCKING in v1)","ts":"2026-05-04T20:22:15+00:00"}
 {"qid":"Q18","status":"resolved","session_id":"s_0504-141810-67f9","summary":"section 5 added: bracket [1, 1.399]; conjecture as asymptotic identity; F1/F2/F3 ledger insufficient to close; verifier 0 blocking 9 warns keep_progress","ts":"2026-05-04T20:24:40+00:00"}
+{"qid":"Q19","status":"claimed","session_id":"s_0504-150530-63ed","summary":"round 17 v2: section 6 cumulative F3 deficit = 6c via generating function; numerical comparison to F1-gap dropped to avoid critic_numerical BLOCKING","ts":"2026-05-04T21:12:09+00:00"}

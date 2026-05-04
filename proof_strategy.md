@@ -772,3 +772,76 @@ remains open. No witness is committed.
 
 (End of Section 5; Q18 resolved by framing the open territory as
 the asymptotic identity $\lim_{x \to \infty} \sup S(A) = 1$.)
+
+### 6. Sum of F3-deficits over all strata (round 17; resolves Q19)
+
+This section computes the sum of F3's per-stratum deficits over
+all $\Omega$-strata, expressed as a closed-form constant times $c$.
+The result is a structural fact extracted from F3 plus elementary
+arithmetic — *no new external citations or numerical claims beyond
+the ledger*.
+
+#### 6.1 Generating-function identity
+
+The series $\sum_{k \ge 1} k^2 / 2^k$ is convergent and admits a
+closed form via standard generating-function manipulation. Starting
+from $\sum_{k \ge 0} x^k = (1 - x)^{-1}$ for $|x| < 1$:
+
+- Differentiating: $\sum_{k \ge 1} k x^{k-1} = (1-x)^{-2}$.
+- Differentiating again and re-arranging: $\sum_{k \ge 1} k(k-1) x^{k-2} = 2(1-x)^{-3}$, hence $\sum_{k \ge 1} k^2 x^{k-2} = 2(1-x)^{-3} + (1-x)^{-2}$.
+- Multiplying by $x^2$: $\sum_{k \ge 1} k^2 x^k = x^2 \cdot \bigl(2(1-x)^{-3} + (1-x)^{-2}\bigr)$.
+
+Evaluating at $x = 1/2$:
+\[
+\sum_{k=1}^{\infty} k^2 / 2^k \;=\; (1/4) \cdot \bigl( 2 \cdot 8 + 4 \bigr) / 1 \;=\; (1/4) \cdot 20 \;=\; 5? \;\text{no — recompute.}
+\]
+
+Let me redo this directly. With $x = 1/2$:
+- $\sum k x^{k-1} \cdot x = \sum k x^k = x/(1-x)^2 = (1/2)/(1/4) = 2$.
+- $\sum k(k-1) x^{k-2} \cdot x^2 = \sum k(k-1) x^k = 2x^2/(1-x)^3 = 2 \cdot (1/4)/(1/8) = 4$.
+- So $\sum k^2 x^k = \sum k(k-1) x^k + \sum k x^k = 4 + 2 = 6$.
+
+Therefore $\sum_{k=1}^\infty k^2/2^k = 6$. This is elementary and
+exact.
+
+#### 6.2 Application to F3
+
+F3 states $S(A_k) = 1 - (c + o(1)) k^2/2^k$, so the per-stratum
+*deficit* (the gap from the conjecture's ceiling $1$) is, leading
+order, $1 - S(A_k) \sim c \cdot k^2/2^k$. Summing over $k$ via
+§6.1:
+\[
+\sum_{k=1}^{\infty} \bigl(1 - S(A_k)\bigr) \;\sim\; c \sum_{k=1}^{\infty} \frac{k^2}{2^k} \;=\; 6c \quad (\text{leading order from F3}).
+\]
+
+#### 6.3 What this is — and what it isn't
+
+§6 has produced a clean closed-form: the *cumulative* F3-deficit
+across all strata is $6c$ at leading order, with $c$ as in F3.
+
+This is *not* a bound on $\sup S(A)$:
+- The strata $A_k$ are pairwise disjoint, but $\bigsqcup_k A_k = \mathbb{N}$ is *not* primitive (e.g., $4 \in A_2$, $8 \in A_3$, $4 \mid 8$).
+- The conjecture concerns $\sup S(A)$ over *primitive* $A$, not the disjoint union of $A_k$'s.
+- $6c$ measures cumulative F3 deficit across strata, not anything directly bounded by the conjecture.
+
+§6 is a structural observation — the cumulative deficit is
+computable in closed form. It does *not* prove the conjecture, and
+*does not commit a witness*. It positions the F3 deficit as a
+single explicit number ($6c$ at leading order) that future
+analytical work might relate to F1's truncated bound or to the
+§3 cross-stratum residue.
+
+#### 6.4 What §6 commits
+
+- *Rigorously*: $\sum_k k^2/2^k = 6$ (elementary).
+- *Conditionally on F3*: cumulative leading-order F3 deficit equals $6c$ at leading order.
+
+It does NOT commit:
+- Any comparison of $6c$ to $e^{\gamma}\pi/4 - 1$ at specific decimal precision.
+- A bound on $\sup S(A)$.
+- The conjecture itself.
+
+The conjecture remains open. No witness is committed.
+
+(End of Section 6; Q19 resolved as a structural closed-form identity
+relating F3 and the generating function $\sum k^2/2^k$.)
