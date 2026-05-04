@@ -709,3 +709,66 @@ o(1)]$? This is the content of the open conjecture; F1's $\le
 
 (End of Section 4; Q17 resolved as a rigorous lower bound on the
 conjecture's supremum, via F3 applied to $A_k$ for $k \to \infty$.)
+
+### 5. Bracketing of the conjecture's supremum (round 16; resolves Q18)
+
+Combining §4's rigorous lower bound with F1's rigorous upper bound,
+the supremum lives in the bracket
+\[
+1 \;\le\; \liminf_{x \to \infty} \sup_{\substack{A \text{ primitive} \\ A \subset [x, \infty)}} S(A) \;\le\; \limsup_{x \to \infty} \sup_{\ldots} S(A) \;\le\; e^{\gamma}\pi/4 + o(1) \;\approx\; 1.399.
+\]
+
+The conjecture asserts that $\sup S(A) \le 1 + o(1)$ — i.e., the
+$\limsup$ is also at most 1, matching the $\liminf$. This is an
+asymptotic *equality* claim:
+\[
+\lim_{x \to \infty} \sup_{\substack{A \text{ primitive} \\ A \subset [x, \infty)}} S(A) \;\overset{?}{=}\; 1.
+\]
+
+The question is therefore *not* whether the limit exists (the
+conjecture asserts it does), but whether the supremum *briefly
+exceeds 1* on its way to the limit. The available rigorous bound
+F1 leaves a gap of $\approx 0.4$ ($1.399 - 1$) between what is
+proved and what is conjectured.
+
+#### 5.1 What the F1/F2/F3 ledger does and does not give
+
+The ledger gives:
+- **F1**: $\sup S(A) < 1.399 + o(1)$ (truncated form per §1.2's
+  caveat). Strictly weaker than the conjecture by $0.4$.
+- **F2**: an unsigned envelope around $1$ for *individual* $A_k$, not
+  a bound on the supremum of $S$ over primitive sets.
+- **F3**: $S(A_k) \to 1$ from below, used in §4 for the lower bound.
+
+The ledger does *not* give an upper bound on $\sup S(A)$ tighter
+than F1's $1.399$. Closing the gap from $1.399$ to $1$ requires a
+fundamentally new ingredient (cross-stratum primitivity, the §3
+"Lemma 5" residue, in this writeup's framing). The ledger alone
+cannot close the conjecture; that is precisely the open analytic
+content.
+
+#### 5.2 Why the lower bound matters
+
+§4's lower bound $\ge 1$ confirms the conjecture's claim cannot be
+*relaxed* — there is no slack in the ceiling itself. Any proof of
+the conjecture would:
+- *attain* the bound $1$ asymptotically (it cannot be better than
+  $\le 1$, since §4 shows $\sup \ge 1$), and
+- *match* F1's $1.399$ at every finite $x$, then tighten to $1$ as
+  $x \to \infty$.
+
+The conjecture is therefore an *asymptotic identity* on $\sup S(A)$:
+the limit equals $1$. Proving it requires identifying the exact
+mechanism by which the supremum is held at $1$ across all $x$ —
+the cross-stratum primitivity exclusion (§3, Lemma 5) is the
+candidate, but its rigorous form remains open.
+
+#### 5.3 What §5 commits
+
+§5 makes no new mathematical claim beyond what §4 (lower bound)
+and F1 (upper bound) already establish. It is a *framing* of the
+open question in light of §4's contribution. The conjecture
+remains open. No witness is committed.
+
+(End of Section 5; Q18 resolved by framing the open territory as
+the asymptotic identity $\lim_{x \to \infty} \sup S(A) = 1$.)
