@@ -1,64 +1,51 @@
-# Session handoff (session s_0503-183514-b863)
+# Session handoff (session s_0503-190516-c36f)
 
 **Stop reason**: One round logged. Returning to /loop driver.
 
-**This session's contribution (Round 22, Section 21)**
+**This session's contribution (Round 23, Section 22)**
 
-Audited the §13/§20 distributional model. Key findings:
+Empirical fit at N=2*10^6: for each (k_1, k_2),
+  E[log delta_{k_1}(b) | b in A_{k_2}, b ~ u] = alpha * log u + beta
+with R^2 > 0.999 across u-bins 10^2..10^6.
 
-1. §13 used "log p uniform on [log 2, log u]" — NOT classical
-   Erdős-Kac (which is loglog p uniform).
-2. Both §13 and a corrected Erdős-Kac model OVERESTIMATE
-   empirical E[log delta_2] by factors of 2-3 across (k_2 = 3, 4, 5, 6).
-3. Reason: discreteness of small primes (P(smallest prime = 2) = 1/2)
-   makes empirical delta_2 much smaller than continuous models predict.
+Empirical alpha values are 1.4-12x SMALLER than §13's k_1^2/(2 k_2)
+prediction. Discrepancy grows with k_2/k_1 ratio. Suggests
+alpha_{L, k_2} decays roughly like (1/2)^{k_2 - L} super-exponentially.
 
-CONSEQUENCE: §20's saddle-point heuristic gives a Gaussian-tail
-bound on rho_k that is COMPUTED RELATIVE TO THE WRONG MEAN. Since
-the true mean is smaller, more of A_{k_2} satisfies the constraint,
-so rho_k is LARGER than §20 predicts. The §20 conclusion
-"sum rho_k = O(L) = o(log x)" was therefore overconfident.
+Implication: the §13/§20 single-dominant-k_1 framework predicts much
+stronger exclusion than actually exists. Cross-stratum exclusion via
+k_1 = L alone is weak. The conjecture's truth must rely on cumulative
+multi-k_1 exclusion across all k_1 < k_2.
 
-Whether the corrected model still gives o(log x) is not yet known.
+**For next session: try multi-k_1 cumulative bound**
 
-**For next session**
+Define heuristic upper bound:
+  rho^*_{k_2}(x) := prod_{k_1=1..k_2-1} P(delta_{k_1}(b) >= x)
+                  = prod (1 - rho^{(k_1)}_{k_2})
+assuming approximate independence across k_1. (Independence isn't
+exactly true but is a starting heuristic.)
 
-Two productive paths:
+Compute rho^*_{k_2}(x) using §22 empirical alpha values and
+Gaussian-tail approximation for std. Then check if
+sum_{k_2} a_{k_2}(x) rho^*_{k_2}(x) stays <= 1 + o(1) as x -> inf.
 
-(a) **Recompute the saddle-point with correct discrete model.**
-    Reference: Tenenbaum III.3-III.6 or Ford 2008 (smallest prime
-    factor). Even without literature access, an empirical sieve
-    can give the right mean and variance for E[log delta_{k_1}]
-    at multiple (k_1, k_2, u) and back-out a model.
-
-(b) **Re-examine the §18 numerical decay.** §18 showed
-    sup_two-stratum S decays 0.337 -> 0.133 across x = 10^2..10^4.
-    If the §20 heuristic predicts SMALLER decay than observed,
-    that's evidence the cross-stratum framework is fundamentally
-    incomplete and multi-stratum interactions matter.
-
-Recommendation: (a) first via empirical sieve. Compute the empirical
-distribution of log delta_{k_1} for several (k_1, k_2) pairs at
-varying u, and fit it to a parametric model. The "right" mean
-should then plug back into §20's framework cleanly.
+If yes: the multi-k_1 framework is plausibly enough.
+If no: need genuinely non-pairwise primitivity arguments.
 
 **Files modified this session**
 
-- proof_strategy.md — added Section 21 (~100 lines).
-- proof_lemmas/lemma_003_cross_stratum.md — Round 22 update.
-- proof_open_questions.jsonl — Q21 claimed and resolved.
-- proof_journal.jsonl — round 22 entry.
+- proof_strategy.md — added Section 22 (~145 lines).
+- proof_lemmas/lemma_003_cross_stratum.md — Round 23 update.
+- proof_open_questions.jsonl — Q22 claimed and resolved.
+- proof_journal.jsonl — round 23 entry.
 - 1 new record in records/.
 
-**qid in flight**: none. Next is Q22.
+**qid in flight**: none. Next is Q23.
 
-**Status update**
+**Status**
 
-22 rounds across 13 sessions. 22 keeps. 0 disproofs. The §20
-heuristic has been invalidated; the proof is back to "Lemma 3
-remains open with clear directions but no rigorous closing
-argument". The §13+§20 sequence is no longer a proof sketch — it's
-a heuristic that has been audited and corrected.
-
-This is honest: the loop is identifying its own errors. Better
-than a confident wrong answer.
+23 rounds across 14 sessions. 23 keeps. 0 disproofs. Conjecture
+remains open. The §22 empirical data is the cleanest quantitative
+input the loop has produced — replaces §13/§20's heuristic guess
+with measured slopes. Lemma 3 still open but the framework is now
+aligned with empirical reality.
