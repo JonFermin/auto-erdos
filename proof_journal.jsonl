@@ -89,3 +89,6 @@
 {"event":"session_open","session_id":"s_0504-015936-2581","ts":"2026-05-04T07:59:36+00:00","commit":"7b66353","proof_tag":"primitive_set_erdos","stashed_ref":null,"detected_orphan":null,"released_orphan_qids":[]}
 {"event":"round","session_id":"s_0504-015936-2581","ts":"2026-05-04T08:01:30+00:00","summary":"sect 26.3c crossover at x~sqrt(N); multi > M iff x <= sqrt N","qid":"Q34","status":"keep_progress","commit":"05f34bb"}
 {"event":"session_close","session_id":"s_0504-015936-2581","ts":"2026-05-04T08:01:30+00:00","commit":"05f34bb","reason":"reason: round 35 logged (crossover scale); 35 keeps; under /loop"}
+{"event":"session_open","session_id":"s_0504-024230-9a09","ts":"2026-05-04T08:42:30+00:00","commit":"2c31aea","proof_tag":"primitive_set_erdos","stashed_ref":null,"detected_orphan":null,"released_orphan_qids":[]}
+{"event":"round","session_id":"s_0504-024230-9a09","ts":"2026-05-04T08:44:40+00:00","summary":"sect 26.3d heuristic for x~sqrt N crossover via M's x^2 ceiling on composites","qid":"Q35","status":"keep_progress","commit":"51f36ac"}
+{"event":"session_close","session_id":"s_0504-024230-9a09","ts":"2026-05-04T08:44:40+00:00","commit":"51f36ac","reason":"reason: round 36 logged (crossover heuristic); 36 keeps; under /loop"}
