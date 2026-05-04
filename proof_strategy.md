@@ -3710,6 +3710,35 @@ any feasible sieve. So the §17 numerics correctly observed the
 truncated values are small, but the asymptotic lower bound from
 $A_{k_x}$ is genuine.
 
+### 29.5⊠ Final synthesis (added Round 47)
+
+Putting it all together — what the autonomous loop has rigorously
+established about the Erdős primitive set conjecture:
+
+| Claim | Status | Source |
+|---|---|---|
+| $\sup_A S(A) \ge 1$ for primitive $A \subset [x, \infty)$, any $x \ge 5$ | **Rigorous** | §29.5e' via Sathe-Selberg |
+| $\sup_A S(A) \le e^\gamma \pi/4 \approx 1.399$ | **Rigorous** | Erdős-Zhang (literature) |
+| $S(M(x; \infty)) = O(\log\log x / \log x) \to 0$ | **Rigorous (modulo Mertens)** | §25 + §28 verification |
+| $S(A_2 \cap [x, \infty)) = (1 + \log\log x)/\log x \to 0$ | **Rigorous** | §29.5b via §19 |
+| $\sup_A S(A) \le 1 + o(1)$ as $x \to \infty$ (conjecture) | **OPEN** | Erdős |
+
+**The conjecture's content reduces to:** does $\sup_A S(A)$ stay
+$\le 1$, or does it briefly enter $(1, 1.399]$? The lower bound
+$\ge 1$ is approached as $k \to \infty$ via single-stratum
+$A_k$; multi-stratum primitive constructions could in principle
+exceed this, but no such construction has been exhibited.
+
+The autonomous proof loop has made substantial progress in
+articulating this picture, but cannot close the conjecture itself
+— that requires either the matching upper bound (a research-paper-
+scale theorem combining cross-stratum primitivity arguments) or
+a counterexample (a primitive $A \subset [x, \infty)$ with
+$S(A) > 1$ at large $x$, which would require a fundamentally new
+construction).
+
+(End of Section 29.5⊠.)
+
 ### 29.6 What is genuinely open
 
 The above does not constitute a proof of the conjecture. The

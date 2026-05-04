@@ -786,3 +786,23 @@ Two sup-candidates:
 - M(x; infty): S = O(loglog x / log x) -> 0. Far below.
 
 A_k wins. Whether some primitive set exceeds A_k by >0 — open.
+
+## Update from Round 47 — final synthesis (§29.5⊠)
+
+Final status table:
+| Claim | Status |
+|---|---|
+| sup S(A) >= 1 for x >= 5 | RIGOROUS |
+| sup S(A) <= e^gamma pi/4 ~ 1.399 | RIGOROUS (Erdős-Zhang) |
+| S(M) = O(loglog x / log x) -> 0 | RIGOROUS modulo Mertens |
+| S(A_2 cap [x, infty)) -> 0 | RIGOROUS (§19) |
+| sup S(A) <= 1 + o(1) (conjecture) | OPEN |
+
+So the conjecture's content is: does sup stay <= 1 or briefly enter
+(1, 1.399]?
+
+Loop has articulated picture; cannot close conjecture (requires
+research-paper analytical step or a new construction).
+
+47 rounds, 37 sessions. The proof attempt has produced the
+strongest rigorous bracketing of sup S(A) the loop is capable of.
