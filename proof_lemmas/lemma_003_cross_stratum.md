@@ -178,3 +178,29 @@ hasn't been worked out rigorously yet.
 This is the single missing analytic step that closes the
 §11+§12+§13+§18+§19 chain into a proof of Lemma 3 / the CST
 conjecture.
+
+## Update from Round 21 — saddle-point heuristic on rho_k
+
+Section 20 derives:
+  rho_{k_2}(x) <= exp( - (L^2/(2 k_2) - 1)^2 * k_2 * log x / (2 L) )
+on the gap k_2 in [L, L^2/2], using the Erdős-Kac mean
+(L^2/(2 k_2)) log u and variance (L/k_2) log u for the smallest
+L-divisor's log.
+
+Numerical evaluation: sum_{k=L..L^2/2} rho_k grows like O(L), while
+log x grows linearly in x's exponent. Ratio sum_k rho_k / log x
+decays from 0.09 (x=10^5) to 0.005 (x=10^500). So heuristically
+sum rho_k = o(log x) holds — §19.5's sub-goal is met.
+
+This means: under the heuristic, sup_A S(A) = O(L) = O(loglog x),
+*stronger* than the conjecture's 1+o(1).
+
+Two analytical gaps remain to make this rigorous:
+(G1) Erdős-Kac uniformly in k_2 across [L, L^2/2] (standard but
+     needs precise citation/adaptation).
+(G2) Saddle-point matching at k_2 ~ L^2/2 (where the heuristic
+     bound's exponent → 0 — requires care).
+
+Closing (G1)+(G2) closes Lemma 3. This is the cleanest articulation
+of the conjecture's missing analytical content yet produced by the
+loop.
