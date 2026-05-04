@@ -235,3 +235,41 @@ The §20 saddle-point argument is therefore not a valid sketch of
 Lemma 3 as stated. Future rounds need a corrected model based on
 the discrete prime distribution (Tenenbaum III.3-III.6 or Ford 2008
 on smallest prime factor).
+
+## Update from Round 23 — empirical fit for E[log delta_{k_1}]
+
+Direct sieve at N=2*10^6, binned by u-scale (decades 10^2..10^6).
+For each (k_1, k_2) the data fits cleanly to
+  E[log delta_{k_1}(b)] = alpha * log u + beta,  R^2 > 0.999
+linear-in-log-u just as §13 predicted, BUT with much smaller slopes:
+
+  (k1,k2)  alpha_emp  alpha_§13  ratio
+  (1,2)    0.180      0.250      1.4x
+  (1,3)    0.059      0.167      2.8x
+  (2,3)    0.285      0.667      2.3x
+  (2,4)    0.106      0.500      4.7x
+  (2,5)    0.047      0.400      8.6x
+  (3,4)    0.343      1.125      3.3x
+  (3,5)    0.139      0.900      6.5x
+  (3,6)    0.064      0.750      11.7x
+
+§13's coefficient is wrong; empirical alpha is 1.4-12x smaller and
+the discrepancy grows with k_2/k_1 ratio. Extrapolation: alpha
+decreases roughly geometrically in k_2 (~factor 0.4-0.5 per
+increment of k_2), suggesting alpha_{L, k_2} ~ (1/2)^{k_2 - L}
+super-exponential decay.
+
+Implication: cross-stratum exclusion via the dominant single
+k_1 = L alone is FAR LESS POTENT than §13/§20 claimed.
+Most A_{k_2} mass at typical scales survives the constraint
+delta_L < x, and rho_{L, k_2}(x) is ~1 for k_2 > L.
+
+But §18 numerical decay is real (sup S 0.337 -> 0.133). So the
+conjecture's truth depends on CUMULATIVE multi-k_1 exclusion
+across all k_1 < k_2, not just the dominant one. The
+"single-dominant-k_1" framing of §13/§20 is inadequate.
+
+Next round target: heuristic upper bound
+  rho^*_{k_2}(x) := prod_{k_1=1..k_2-1} rho^{(k_1)}_{k_2}(x)
+assuming approximate independence across k_1, and check whether
+sum_{k_2} a_{k_2} rho^* stays <= 1.

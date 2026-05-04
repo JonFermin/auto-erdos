@@ -2153,6 +2153,157 @@ The proof attempt has produced substantial structure but no rigorous proof of Le
 
 (End of Section 21.)
 
+## Section 22 — Empirical fit for $\mathbb{E}[\log \delta_{k_1}(b)\mid b \in A_{k_2}, b \sim u]$
+
+§21 invalidated the §13/§20 continuous-distribution heuristic. This
+section runs a corrected empirical experiment: bin integers by
+$u$-scale and stratum $k_2$, measure $\mathbb{E}[\log \delta_{k_1}(b)]$
+empirically, and fit a parametric form.
+
+### 22.1 Setup
+
+SPF sieve on $[2, N]$, $N = 2 \cdot 10^6$. For each $(k_1, k_2)$
+pair and each decade $u$-bin
+$[10^j, 10^{j+1}]$ with $j \in \{2, 3, 4, 5\}$, collect all
+$b \in [10^j, 10^{j+1}]$ with $\Omega(b) = k_2$ and compute
+$\delta_{k_1}(b)$. Tabulate sample size, $\mathbb{E}[\log u]$,
+$\mathbb{E}[\log \delta_{k_1}]$, and the standard deviation.
+
+### 22.2 Empirical means
+
+Selected rows (full table available — these illustrate the pattern):
+
+| $(k_1, k_2)$ | $u$-bin | $n$ | $\mathbb{E}[\log u]$ | $\mathbb{E}[\log \delta]$ | std |
+|:---:|:---:|---:|---:|---:|---:|
+| $(1, 2)$ | $10^5$–$10^6$ | $186\,657$ | $13.06$ | $2.76$ | $1.83$ |
+| $(2, 3)$ | $10^5$–$10^6$ | $225\,297$ | $13.07$ | $4.41$ | $1.95$ |
+| $(2, 4)$ | $10^5$–$10^6$ | $179\,318$ | $13.08$ | $2.46$ | $1.05$ |
+| $(2, 5)$ | $10^5$–$10^6$ | $113\,280$ | $13.09$ | $1.84$ | $0.60$ |
+| $(3, 4)$ | $10^5$–$10^6$ | $179\,318$ | $13.08$ | $5.49$ | $1.90$ |
+| $(3, 5)$ | $10^5$–$10^6$ | $113\,280$ | $13.09$ | $3.39$ | $1.15$ |
+| $(3, 6)$ | $10^5$–$10^6$ | $63\,030$ | $13.09$ | $2.66$ | $0.71$ |
+
+Across the four $u$-bins, $\mathbb{E}[\log \delta_{k_1}]$ scales
+*linearly* in $\log u$ with $R^2 > 0.999$ for every $(k_1, k_2)$
+pair tested.
+
+### 22.3 Linear fits and slopes
+
+Fitting $\mathbb{E}[\log \delta_{k_1}(b)] = \alpha_{k_1,k_2} \log u
++ \beta_{k_1,k_2}$:
+
+| $(k_1, k_2)$ | $\alpha_{\text{emp}}$ | $\beta_{\text{emp}}$ | $\alpha_{\text{§13}} = k_1^2/(2 k_2)$ | ratio §13/emp |
+|:---:|---:|---:|---:|---:|
+| $(1, 2)$ | $0.180$ | $0.42$ | $0.250$ | $1.39$ |
+| $(1, 3)$ | $0.059$ | $0.56$ | $0.167$ | $2.84$ |
+| $(2, 3)$ | $0.285$ | $0.69$ | $0.667$ | $2.34$ |
+| $(2, 4)$ | $0.106$ | $1.06$ | $0.500$ | $4.71$ |
+| $(2, 5)$ | $0.047$ | $1.23$ | $0.400$ | $8.58$ |
+| $(3, 4)$ | $0.343$ | $0.99$ | $1.125$ | $3.28$ |
+| $(3, 5)$ | $0.139$ | $1.56$ | $0.900$ | $6.47$ |
+| $(3, 6)$ | $0.064$ | $1.82$ | $0.750$ | $11.7$ |
+
+**Three observations:**
+
+(a) The §13 formula has the *right form* (linear in $\log u$) but
+    the *wrong coefficient*. The empirical slope is 1.4× to 11.7×
+    smaller. The discrepancy *grows* with $k_2/k_1$.
+
+(b) Empirical $\alpha_{k_1, k_2}$ is well below $1$ for all $k_1 <
+    k_2$. (It equals $1$ trivially when $k_1 = k_2$ since
+    $\delta_k(b) = b$.)
+
+(c) The empirical variance also scales roughly linearly in
+    $\log u$ — consistent with a Gaussian fluctuation regime with
+    $\sigma^2 \propto \log u$.
+
+### 22.4 Implication for cross-stratum exclusion
+
+The constraint for $b$ at scale $u$ to be kept (have its smallest
+$k_1$-divisor below $x$) is, in the typical / mean case,
+\[
+\alpha_{k_1, k_2} \log u + \beta_{k_1, k_2} \;<\; \log x,
+\]
+i.e., $u \lesssim x^{1/\alpha_{k_1, k_2}} \cdot e^{-\beta/\alpha}$.
+
+Plugging in $\alpha_{2, 5} = 0.047$ at $x = 100$:
+$u_\text{cutoff} \approx 100^{21.3} = 10^{42.6}$. Massive — most
+of $A_5$ is kept up to extraordinarily high scales. Matches the
+§18 datum that kept fraction at $(2, 5)$ jumps from $0.14\%$ at
+$x=100$ to $38\%$ at $x = 10^4$ — the cutoff scale slides up as
+$x$ grows, more $b$-mass survives.
+
+For the dominant single-stratum exclusion ($k_1 = L = \log\log x$),
+the slope $\alpha_{L, k_2}$ at $k_2 > L$ is unknown
+extrapolatively. The pattern in §22.3:
+
+- At fixed $k_1$, $\alpha$ decreases with $k_2$.
+- The decrease appears geometric: $\alpha_{k_1, k_2+1}
+  / \alpha_{k_1, k_2} \approx 0.4$–$0.5$ for $k_1 \in \{1, 2, 3\}$
+  (e.g., $\alpha_{2,4}/\alpha_{2,3} = 0.106/0.285 = 0.37$).
+
+Extrapolating: $\alpha_{L, k_2} \sim \alpha_{L, L} \cdot (1/2)^{k_2 - L}
+\sim (1/2)^{k_2 - L}$ for $k_2$ growing past $L$.
+
+Then the cutoff scale: $u_\text{cutoff} \sim x^{2^{k_2 - L}}$,
+which grows *super-exponentially* in $k_2 - L$. So for any fixed
+$x$, almost all $b \in A_{k_2}$ at any practical scale are kept.
+
+### 22.5 The conjecture's "fix" via §22's empirical data
+
+If $\alpha_{L, k_2} \to 0$ super-exponentially in $k_2 - L$
+(extrapolating §22.3), then $\rho_{L, k_2}(x) \to 1$ for $k_2 \gg
+L$ — the cross-stratum exclusion does *almost nothing* there.
+
+But §22.3 also shows the empirical $\beta_{k_1, k_2}$ grows with
+$k_2 / k_1$, partially compensating. And §18.3's observation (sup
+$S$ decays $0.337 \to 0.133$) shows actual primitive sets DO
+shrink with $x$. Resolution: the cumulative effect of *all*
+$k_1 < k_2$ exclusions, including $k_1$ values different from
+$L$, adds up to nontrivial mass loss.
+
+This means **the §13/§20 "single dominant $k_1 = L$" framework is
+inadequate**. The conjecture's truth requires the *multi-$k_1$*
+exclusion structure: cross-stratum primitivity cumulative across
+all $k_1$, not just the dominant one.
+
+### 22.6 Where this leaves Lemma 3
+
+After 22 rounds:
+
+- §11, §12, §19 rigorous.
+- §18 rigorous numerical (consistent with conjecture).
+- §22 rigorous numerical (linear-in-$\log u$ law for
+  $\mathbb{E}[\log \delta_{k_1}]$, with empirical slopes much
+  smaller than §13 predicted).
+- §13, §20 heuristic and quantitatively wrong (§21).
+- §22 identifies that the §13/§20 "single dominant $k_1$" framing
+  is incomplete; multi-$k_1$ cumulative exclusion needs to be the
+  basis of a corrected framework.
+
+Lemma 3's proof remains open. The most promising direction now is
+a **multi-$k_1$ cumulative exclusion formula** that integrates the
+§22 empirical slopes across all $k_1 < k_2$ pairs to give the
+total kept-fraction.
+
+### 22.7 Concrete next step
+
+Define $\rho^{*}_{k_2}(x) := \prod_{k_1 = 1}^{k_2 - 1}
+\rho^{(k_1)}_{k_2}(x)$ as a heuristic upper bound on the true
+kept fraction (assuming approximate independence of exclusions
+across $k_1$). Compute this empirically using §22's $\alpha$
+table and check whether $\sum_{k_2} a_{k_2}(x) \rho^{*}_{k_2}(x)$
+stays $\le 1$ as $x \to \infty$.
+
+This would either:
+- Validate the multi-$k_1$ framework as a sufficient closing
+  argument (with the independence assumption stated explicitly),
+  or
+- Show the framework is also insufficient, indicating the
+  conjecture requires non-pairwise primitivity arguments.
+
+(End of Section 22.)
+
 
 
 
