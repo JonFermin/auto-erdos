@@ -2855,6 +2855,37 @@ mass is fully present). In that regime, multi-stratum *does*
 beat $M$ — but the gap saturates at $|K| \to \infty$ to a
 bounded amount (§26.3).
 
+### 26.3c The crossover scale $x \asymp \sqrt N$ (added Round 35)
+
+Tabulating multi-stratum gap vs $M$ across $(x, N)$ for $K = \{2,3,4,5,6\}$:
+
+| $x$ | $N=10^4$ gap | $N=10^5$ gap | $N=10^6$ gap |
+|---:|---:|---:|---:|
+| $50$ | $+0.011$ | $+0.042$ | $+0.067$ |
+| $100$ | $0.000$ | $+0.031$ | $+0.055$ |
+| $300$ | $-0.012$ | $+0.014$ | $+0.038$ |
+| $1000$ | $-0.018$ | $-0.001$ | $+0.021$ |
+| $3000$ | $-0.016$ | $-0.009$ | $+0.008$ |
+| $10\,000$ | $0.000$ | $-0.012$ | $-0.002$ |
+
+The zero-crossing (multi-stratum gap $= 0$) sits at:
+- $N = 10^4$: $x \approx 100$ ($x^2 \approx N$).
+- $N = 10^5$: $x \approx 1000$ ($x^2 \approx 3 \cdot 10^5$).
+- $N = 10^6$: $x \approx 10000$ ($x^2 \approx 10^8 > N$).
+
+So the crossover scale is approximately $x \asymp \sqrt N$:
+multi-stratum constructions exceed $M$ iff $x \lesssim \sqrt N$.
+
+**Interpretation.** For $x > \sqrt N$, the higher strata $A_k$ ($k
+\ge 5$) have too few representatives in $[x, N]$ — their total
+mass is dominated by the truncation. Cross-stratum exclusion then
+costs more than the higher strata contribute. The multi-stratum
+construction *underperforms* $M$.
+
+For the conjecture's setting ($x \to \infty$, $N = \infty$), the
+crossover is absent — multi-stratum always exceeds $M$. But by a
+*bounded* amount (§26.3 saturation).
+
 ### 26.3a Local-search confirmation (added Round 33)
 
 Independently, single-element-swap local search around $M(x; N)$

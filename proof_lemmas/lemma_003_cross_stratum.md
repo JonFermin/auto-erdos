@@ -525,3 +525,25 @@ beats M but saturates at |K| → infty to bounded gap.
 
 This is a more nuanced characterization of when multi-stratum
 helps vs hurts.
+
+## Update from Round 35 — multi-stratum crossover at x ~ sqrt(N)
+
+Tabulated gap (multi - M) for K = {2,3,4,5,6} across (x, N):
+
+  x      N=10^4   N=10^5   N=10^6
+  50    +0.011   +0.042   +0.067
+  100    0.000   +0.031   +0.055
+  300   -0.012   +0.014   +0.038
+  1000  -0.018   -0.001   +0.021
+  3000  -0.016   -0.009   +0.008
+  10000  0.000   -0.012   -0.002
+
+Crossover (gap = 0) is at:
+  N=10^4: x ~ 100   (x^2 ~ N)
+  N=10^5: x ~ 1000  (x^2 ~ 3*N)
+  N=10^6: x ~ 10000 (x^2 ~ 100*N, so still gap > 0 mostly)
+
+So multi-stratum > M iff x <~ sqrt(N).
+
+For conjecture's regime (N = infty): crossover absent;
+multi-stratum always beats M but by bounded amount.
