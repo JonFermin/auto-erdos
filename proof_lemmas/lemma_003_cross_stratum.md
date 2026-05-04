@@ -547,3 +547,22 @@ So multi-stratum > M iff x <~ sqrt(N).
 
 For conjecture's regime (N = infty): crossover absent;
 multi-stratum always beats M but by bounded amount.
+
+## Update from Round 36 — heuristic explanation of x ~ sqrt(N) crossover
+
+M(x, N) composites have n < x * p_min(n) <= x * sqrt(n), so n < x^2.
+So M(x, N) for N >= x^2 has same composites as M(x, x^2).
+
+Multi-stratum constructions can include composites n in (x^2, N]
+that pass cross-stratum exclusion — these are NOT in M.
+
+So multi-stratum's potential gain over M lives in (x^2, N]:
+- N < x^2: window empty, gap negative or zero.
+- N > x^2: window non-empty, gap positive.
+
+Crossover at N ~ x^2, equivalently x ~ sqrt(N). Matches §26.3c
+empirical observations modulo factor-of-few constants from the
+kept-fraction at each stratum.
+
+Connects to §22 alpha_{k_1, k_2} ~ 1/2 for (k_1, k_2) = (2, 4):
+typical kept-window scale x^{1/alpha} = x^2.

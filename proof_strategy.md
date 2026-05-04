@@ -2886,6 +2886,47 @@ For the conjecture's setting ($x \to \infty$, $N = \infty$), the
 crossover is absent — multi-stratum always exceeds $M$. But by a
 *bounded* amount (§26.3 saturation).
 
+### 26.3d Heuristic for the $\sqrt N$ crossover (added Round 36)
+
+Why does the multi-stratum gap change sign at $x \asymp \sqrt N$?
+
+Recall (§23.1) that composites $n \in M(x, N)$ satisfy $n < x
+\cdot p_{\min}(n) \le x \cdot \sqrt{n}$, hence $n < x^2$. So
+$M(x, N)$ for $N \ge x^2$ has the same composites as $M(x, x^2)$
+— composites in $(x^2, N]$ are *not* in $M$ (they have a
+proper divisor $\ge x$).
+
+Multi-stratum constructions can include composites $n$ with
+$n \in (x^2, N]$ that are *not* in $M$ — provided those $n$ pass
+the cross-stratum exclusion criterion. Specifically, $n \in
+A^{(k_2)}_\text{kept}$ for $k_2 \ge 2$ if the largest $k_1$-divisor
+of $n$ is below $x$ for all $k_1 < k_2$.
+
+So the *additional* mass that multi-stratum can capture (beyond
+what $M$ already does) lives in $(x^2, N]$. The size of this
+window:
+
+- If $N < x^2$: the window $(x^2, N]$ is *empty*. Multi-stratum has
+  no extra room to gain; in fact it can only lose (by *excluding*
+  some elements of $M$ that the cross-stratum constraint forces
+  out). Gap is zero or negative.
+- If $N > x^2$: the window $(x^2, N]$ is non-empty, and
+  multi-stratum can include high-stratum integers there that $M$
+  cannot. Gap is positive.
+
+The empirical crossover is therefore at $N \approx x^2$, or
+$x \approx \sqrt N$, modulo constants from the kept-fraction at
+each stratum (which empirically shifts the crossover by a factor
+of 2–3, giving the observed $x \approx \sqrt N$ to $x \approx 7 \sqrt N$
+range across $N \in \{10^4, 10^5, 10^6\}$).
+
+This is consistent with §22's $\alpha_{k_1, k_2}$ slopes: the
+typical kept-window scale is $x^{1/\alpha_{k_1, k_2}}$ for each
+$(k_1, k_2)$ pair, and at $\alpha \approx 1/2$ (the $A_2$-vs-$A_4$
+case) this is $x^2$ — matching $\sqrt N$ crossover.
+
+(End of subsection 26.3d.)
+
 ### 26.3a Local-search confirmation (added Round 33)
 
 Independently, single-element-swap local search around $M(x; N)$
