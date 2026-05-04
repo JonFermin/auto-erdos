@@ -122,3 +122,6 @@
 {"event":"session_open","session_id":"s_0504-095537-f15b","ts":"2026-05-04T15:55:37+00:00","commit":"8dcf62a","proof_tag":"primitive_set_erdos","stashed_ref":null,"detected_orphan":null,"released_orphan_qids":[]}
 {"event":"round","session_id":"s_0504-095537-f15b","ts":"2026-05-04T15:56:48+00:00","summary":"sect 29.5* consolidates picture; bracket [1, 1.399]; conjecture asks <= 1+o(1)","qid":"Q45","status":"keep_progress","commit":"361cbf8"}
 {"event":"session_close","session_id":"s_0504-095537-f15b","ts":"2026-05-04T15:56:48+00:00","commit":"361cbf8","reason":"reason: round 46 logged; 46 keeps; under /loop"}
+{"event":"session_open","session_id":"s_0504-103730-f196","ts":"2026-05-04T16:37:30+00:00","commit":"0d0d38f","proof_tag":"primitive_set_erdos","stashed_ref":null,"detected_orphan":null,"released_orphan_qids":[]}
+{"event":"round","session_id":"s_0504-103730-f196","ts":"2026-05-04T16:38:38+00:00","summary":"sect 29.5⊠ final synthesis table; bracket [1, 1.399]","qid":"Q46","status":"keep_progress","commit":"eed9e35"}
+{"event":"session_close","session_id":"s_0504-103730-f196","ts":"2026-05-04T16:38:39+00:00","commit":"eed9e35","reason":"reason: round 47 logged (final synthesis); 47 keeps; under /loop"}
