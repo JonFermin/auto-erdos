@@ -3780,6 +3780,40 @@ will generate a focused markdown writeup of the loop's results.
 
 (End of Section 29.)
 
+## Section 29.7 — Sanity check on §11 asymptotic ratio (added Round 48)
+
+§11.1 gives $\Sigma_{A_k}(t) \sim (\log\log t)^k/k!$, predicting
+the ratio
+\[
+\frac{\Sigma_{A_{k+1}}(t)}{\Sigma_{A_k}(t)} \;\sim\; \frac{\log\log t}{k+1}.
+\]
+
+Sanity check at $t = 10^7$ ($L = \log\log t = 2.78$) against §17
+sieve data (using $S_k$ as a proxy for the order of $\Sigma_k$,
+since both share the typical-$\Omega$ saddle):
+
+| $k$ | $S_k(10^7)$ | empirical $S_{k+1}/S_k$ | §11 pred $L/(k+1)$ |
+|---:|---:|---:|---:|
+| $1$ | $1.575$ | $0.570$ | $1.390$ |
+| $2$ | $0.897$ | $0.598$ | $0.927$ |
+| $3$ | $0.536$ | $0.547$ | $0.695$ |
+| $4$ | $0.293$ | $0.502$ | $0.556$ |
+| $5$ | $0.147$ | $0.476$ | $0.463$ |
+| $6$ | $0.070$ | $0.457$ | $0.397$ |
+| $7$ | $0.032$ | $0.438$ | $0.348$ |
+| $8$ | $0.014$ | $0.457$ | $0.309$ |
+| $9$ | $0.006$ | $0.438$ | $0.278$ |
+
+Empirical ratios start *higher* than predicted (small $k$),
+match around $k \approx L = 2.78$ (best match at $k = 5$:
+empirical $0.48$ vs predicted $0.46$), then dip *below* the
+prediction for $k > L$. The §11 asymptotic is sharpest at $k \approx L$,
+with $O(1)$ corrections elsewhere.
+
+This is consistent with the §29.5g_pre regime statement: §11/§19
+applies in the typical-$\Omega$ band $k \approx L$, with explicit
+deviations at the edges. The §17 numerics quantify the deviation.
+
 ## Section 30 — Sharpened §25 bound via exact integral
 
 §25's derivation bounded

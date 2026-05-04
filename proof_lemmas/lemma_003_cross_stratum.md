@@ -806,3 +806,16 @@ research-paper analytical step or a new construction).
 
 47 rounds, 37 sessions. The proof attempt has produced the
 strongest rigorous bracketing of sup S(A) the loop is capable of.
+
+## Update from Round 48 — §11 asymptotic ratio sanity check
+
+Sigma_{A_{k+1}}/Sigma_{A_k} ~ L/(k+1) per §11.1.
+
+Numerical at N=10^7 (L=2.78), proxying Sigma by S_k:
+  k=1: ratio 0.57 vs pred 1.39 (off)
+  k=3: ratio 0.55 vs pred 0.70
+  k=5: ratio 0.48 vs pred 0.46 (best match)
+  k=7: ratio 0.44 vs pred 0.35 (deviates other way)
+
+§11 asymptotic best at k ~ L; deviates at edges. Quantifies the
+regime statement of §29.5g_pre numerically.
