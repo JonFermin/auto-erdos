@@ -25,3 +25,5 @@
 {"event":"session_close","session_id":"s_0504-155614-7942","ts":"2026-05-04T22:04:56+00:00","commit":"20c2418","reason":"reason: round 18 v2 logged; under /loop"}
 {"event":"round","session_id":"s_0504-164620-425c","ts":"2026-05-04T22:53:34+00:00","summary":"round 19 v2 §5 cleanup; addressed critic_numerical flag","qid":"Q21","status":"keep_progress","commit":"f3cd1fb"}
 {"event":"session_close","session_id":"s_0504-164620-425c","ts":"2026-05-04T22:53:34+00:00","commit":"f3cd1fb","reason":"reason: round 19 v2 logged (\u00a75 cleanup); under /loop"}
+{"event":"round","session_id":"s_0504-173413-3a1a","ts":"2026-05-04T23:43:01+00:00","summary":"round 20 v2 §4 cleanup; addresses critic_ledger flag on latent prime-tail constant","qid":"Q22","status":"keep_progress","commit":"bf8cf54"}
+{"event":"session_close","session_id":"s_0504-173413-3a1a","ts":"2026-05-04T23:43:01+00:00","commit":"bf8cf54","reason":"reason: round 20 v2 logged; \u00a74 cleanup; under /loop"}
