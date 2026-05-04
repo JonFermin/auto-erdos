@@ -3603,6 +3603,46 @@ $x \ge 9$ effectively** (where the small-$k$ counterexamples are
 excluded). At small $x$, the conjecture is straightforwardly
 violated by $A_2$ or $A_3$.
 
+### 29.5* Consolidated picture (added Round 46)
+
+After rounds 39–45, the §29.5x sub-sections give a coherent
+picture of $\sup_A S(A)$ for primitive $A \subset [x, \infty)$:
+
+**Lower bound (rigorous, via §29.5e' + Sathe–Selberg):**
+\[
+\sup S(A) \;\ge\; \sup_{k \ge \log_2 x} S(A_k)
+\;=\; \lim_{k \to \infty} S(A_k) \;=\; 1.
+\]
+
+(Approached as $k \to \infty$ — never strictly attained at any
+finite $k \ge \log_2 x$.)
+
+**Upper bound (rigorous, Erdős–Zhang):**
+\[
+\sup S(A) \;\le\; e^{\gamma}\pi/4 \;\approx\; 1.399.
+\]
+
+**Conjecture (open):**
+\[
+\sup S(A) \;\le\; 1 + o(1) \quad \text{as } x \to \infty.
+\]
+
+So the open analytic question is: **does $\sup S(A)$ stay $\le 1$**, or
+does it briefly exceed in $[1, 1.399]$?
+
+The lower bound ($\ge 1$) is approached by *single high-stratum*
+$A_k$. The §29.5h argument showed *single-element* perturbations
+of $A_{k_x}$ hurt; but combinations of $A_k$'s constrained by
+primitivity *might* push above 1 (the conjecture says no).
+
+**Two candidate sup-attainers:**
+1. $A_k$ for $k \to \infty$: gives $S \to 1^-$ from below.
+2. $M(x; \infty)$: §25 bound shows $S = O(\log\log x / \log x) \to 0$. Far below.
+
+So $A_k$ (high stratum) wins over $M$ for large $x$. And single-stratum
+$A_k$'s never exceed 1. Whether multi-stratum primitive constructions
+can do so — the open question.
+
 ### 29.5g_pre Regime distinction (added Round 42)
 
 The §29.5e claim "$S(A_{k_x}) = 1 - O((\log x)^2/x)$" relies on

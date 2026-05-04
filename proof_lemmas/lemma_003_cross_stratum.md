@@ -759,3 +759,30 @@ deficit).
 
 Refines the §29.5e' picture: sup S -> 1 from below in the "large-x"
 regime where small-k strata are excluded.
+
+## Update from Round 46 — §29.5* consolidated picture
+
+After 9 §29.5x sub-sections (rounds 39-45), the picture is:
+
+  LOWER BOUND (rigorous):
+    sup S(A) >= sup_{k >= log_2 x} S(A_k) = lim S(A_k) = 1
+    (via Sathe-Selberg: deficit c k^2/2^k -> 0 as k -> infty)
+
+  UPPER BOUND (rigorous, Erdős-Zhang):
+    sup S(A) <= e^gamma pi/4 ~ 1.399
+
+  CONJECTURE (open):
+    sup S(A) <= 1 + o(1) as x -> infty
+
+So the gap is [1, 1.399], and the conjecture asks: does the sup
+stay at <= 1 (with o(1) excess)?
+
+Single-stratum A_k can only approach 1 from below. The conjecture
+asks whether multi-stratum primitive constructions can briefly
+exceed 1.
+
+Two sup-candidates:
+- A_k for k -> infty: S -> 1 from below.
+- M(x; infty): S = O(loglog x / log x) -> 0. Far below.
+
+A_k wins. Whether some primitive set exceeds A_k by >0 — open.
