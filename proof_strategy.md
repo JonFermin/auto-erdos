@@ -689,15 +689,14 @@ construction; this section is structural only.
 
 **Sign disambiguation cross-check.** I am NOT claiming $S(A_k) < 1$
 for *every* finite $k$ — F3 is asymptotic (as $k \to \infty$), and
-small-$k$ values $S(A_1), S(A_2), S(A_3)$ may individually exceed $1$
-(e.g., $S(A_1) = \sum_p 1/(p \log p) \approx 1.637$, the Erdős
-prime-tail constant — a value not entered in the ledger but cited
-in §2 as a context note). What F3 *does* guarantee is the
-asymptotic limit $\lim_{k \to \infty} S(A_k) = 1$ from below; that
-is sufficient for the $\ge 1$ lower bound, since the supremum over
-$k \ge k_x$ is taken in the regime where $k_x \to \infty$ as
-$x \to \infty$. No sign confusion: F3 used in its signed form,
-F2's unsigned $O$ not invoked.
+small-$k$ values may individually fall outside the regime where
+F3's leading correction $-c k^2/2^k$ dominates. F3 itself is silent
+on small-$k$ behaviour beyond what its $o(1)$ envelope permits.
+What F3 *does* guarantee is the asymptotic limit $\lim_{k \to \infty}
+S(A_k) = 1$ from below; that is sufficient for the $\ge 1$ lower
+bound, since the supremum over $k \ge k_x$ is taken in the regime
+where $k_x \to \infty$ as $x \to \infty$. No sign confusion: F3
+used in its signed form, F2's unsigned $O$ not invoked.
 
 **What this means for the conjecture.** The conjecture's $\le 1 + o(1)$
 upper bound, if true, is asymptotically *tight*: this section
