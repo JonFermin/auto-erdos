@@ -70,3 +70,4 @@
 {"qid":"Q26","status":"resolved","session_id":"s_0504-205314-9ad8","summary":"§3.6 cleanup committed; 'approximately 1.399 + o(1)' dropped; verifier 0 blocking 6 warns keep_progress","ts":"2026-05-05T02:58:31+00:00"}
 {"qid":"Q27","status":"open","parent_qid":null,"summary":"preemptively soften §3.6 Q3 absorption text 'partial sums exceed 1 at every N tabulated' which references §2.3's claim about k=1 truncations; reduce risk of critic_sign or critic_numerical flag","ts":"2026-05-05T03:39:30+00:00","session_id":"s_0504-213914-a2a8"}
 {"qid":"Q27","status":"claimed","session_id":"s_0504-213914-a2a8","summary":"§3.6 Q3 absorption clean","ts":"2026-05-05T03:39:30+00:00"}
+{"qid":"Q27","status":"resolved","session_id":"s_0504-213914-a2a8","summary":"§3.6 Q3 absorption text softened; 'exceed 1 at every N tabulated' replaced; v1 success 0 blocking 5 warns","ts":"2026-05-05T03:44:30+00:00"}
