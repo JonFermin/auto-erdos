@@ -541,11 +541,11 @@ the constraint that $a \mid b$ is forbidden when $a \in A \cap A_k$
 and $b \in A \cap A_{k+j}$ for any $j \geq 1$ is much stronger than
 intra-stratum primitivity (which is automatic by Lemma 1) and is
 precisely the constraint that makes $S(A) \leq e^\gamma \pi/4 + o(1)$
-(F1) hold rather than $S(A) = \infty$. The slack between F1's
-$e^\gamma \pi / 4 \approx 1.399$ and the conjectured $1$ is the
-quantitative gap that any proof would need to close. We do not close
-this gap in the present writeup; we record it as the open core of the
-conjecture in Lemma 5.
+(F1) hold rather than $S(A) = \infty$. F1's right-hand side is
+strictly larger than the conjectured ceiling; the slack between
+the two is the quantitative gap that any proof would need to close.
+We do not close this gap in the present writeup; we record it as
+the open core of the conjecture in Lemma 5.
 
 #### 3.5 Status
 
