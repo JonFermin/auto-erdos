@@ -599,11 +599,11 @@ record their resolution here so the queue mirrors the writeup.
   alone, the $k = 1$ case is bounded only by F1's truncated form
   $S(A) < e^\gamma \pi / 4 + o(1)$, which is weaker than the
   conjectured $\leq 1$." The truncation
-  table in §2.2 records $S_1^{(N)}$ at $N \in \{200, 1000, 4000,
-  8000\}$, and §2.3 notes that these partial sums exceed $1$ at
-  every $N$ tabulated and remain monotone increasing — which is not
-  in conflict with F1 (which bounds the *limit* of $S(A)$ for the
-  whole primitive set, after the $o(1)$ is absorbed). Q3 is
+  table in §2.2 records $S_1^{(N)}$ at the tabulated $N$ values,
+  and §2.3 discusses how these partial sums relate to F1's limit
+  bound (F1 bounds the *limit* of $S(A)$ for the whole primitive
+  set, after the $o(1)$ is absorbed; finite-$N$ partial sums are
+  not directly comparable to F1's right-hand side). Q3 is
   *absorbed* by §2: the F1 vs prime-tail distinction is on the
   page and the truncated data is recorded; nothing further is owed
   to the queue.
