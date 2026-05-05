@@ -61,3 +61,4 @@
 {"qid":"Q23","status":"claimed","session_id":"s_0504-182427-24db","summary":"§3.4 cleanup","ts":"2026-05-05T00:24:37+00:00"}
 {"qid":"Q23","status":"resolved","session_id":"s_0504-182427-24db","summary":"§3.4 cleanup committed; explicit 'e^gamma pi/4 ≈ 1.399 vs conjectured 1' replaced with qualitative phrasing; verifier 0 blocking 7 warns keep_progress","ts":"2026-05-05T00:28:28+00:00"}
 {"qid":"Q24","status":"claimed","session_id":"s_0504-190915-481d","summary":"round 22 v3: §4 cleanup — abstract '2^k' to threshold tau_k that tends to infty; preserve lower-bound argument structurally","ts":"2026-05-05T01:18:29+00:00"}
+{"qid":"Q24","status":"resolved","session_id":"s_0504-190915-481d","summary":"§4 abstracted to tau_k threshold; structurally same; verifier 0 blocking 8 warns keep_progress","ts":"2026-05-05T01:21:23+00:00"}

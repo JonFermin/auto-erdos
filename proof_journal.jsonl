@@ -30,3 +30,5 @@
 {"event":"session_open","session_id":"s_0504-182427-24db","ts":"2026-05-05T00:24:27+00:00","commit":"5e4466e","proof_tag":"primitive_set_erdos","stashed_ref":null,"detected_orphan":null,"released_orphan_qids":[]}
 {"event":"round","session_id":"s_0504-182427-24db","ts":"2026-05-05T00:28:28+00:00","summary":"round 21 §3.4 cleanup; preempt critic_numerical on legacy text","qid":"Q23","status":"keep_progress","commit":"72e6488"}
 {"event":"session_close","session_id":"s_0504-182427-24db","ts":"2026-05-05T00:28:28+00:00","commit":"72e6488","reason":"reason: round 21 logged (\u00a73.4 cleanup); first non-BLOCKED v1 in a while; under /loop"}
+{"event":"round","session_id":"s_0504-190915-481d","ts":"2026-05-05T01:21:23+00:00","summary":"round 22 v3 §4 cleanup; tau_k abstraction","qid":"Q24","status":"keep_progress","commit":"505b12b"}
+{"event":"session_close","session_id":"s_0504-190915-481d","ts":"2026-05-05T01:21:23+00:00","commit":"505b12b","reason":"reason: round 22 v3 logged; under /loop"}
