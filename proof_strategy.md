@@ -649,13 +649,19 @@ Two observations:
     \Omega(a) = 0$, hence $b/a = 1$, so $a = b$. (No two distinct
     elements of $A_k$ divide one another.)
 
-(b) *$A_k \subset [2^k, \infty)$.* The smallest integer with
-    $\Omega = k$ is $2^k$ (the all-2's product). Every other
-    element is $\ge 2^k$.
+(b) *$A_k$ is bounded below by an explicit $k$-dependent
+    threshold.* The smallest positive integer with $\Omega = k$
+    exists (any product of $k$ primes counted with multiplicity is
+    such an integer, and the set of $\Omega = k$ integers has a
+    minimum since $\mathbb{N}$ is well-ordered). Call this
+    minimum $\tau_k$; so $A_k \subset [\tau_k, \infty)$. The
+    threshold $\tau_k$ tends to $\infty$ as $k \to \infty$, since
+    any integer with at least $k$ prime factors is at least the
+    product of the smallest $k$ primes (with multiplicity).
 
-For $x \ge 2$, set $k_x := \lceil \log_2 x \rceil$. Then $2^{k_x}
-\ge x$, hence $A_k \subset [2^k, \infty) \subset [x, \infty)$
-whenever $k \ge k_x$.
+For each $x \ge 2$, the threshold $\tau_k$ exceeds $x$ for all
+sufficiently large $k$; pick any such $k$. Then $A_k \subset
+[\tau_k, \infty) \subset [x, \infty)$.
 
 **Application of F3.** F3 states $\sum_{a \in A_k} 1/(a \log a) =
 1 - (c + o(1)) k^2/2^k$ as $k \to \infty$, with $c \approx 0.0656
