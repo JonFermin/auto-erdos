@@ -877,3 +877,30 @@ sub-question without claiming to resolve it. No section asserts
 the conjecture is settled.
 
 (End of Section 7; Q20 resolved by the §3.5 status update + lemma_005 sync.)
+
+### 8. Synthesis (round 23; resolves Q25)
+
+A short end-of-writeup synthesis. Sections §1-§7 collectively
+establish, drawing only on the F1/F2/F3 ledger plus elementary
+arithmetic:
+
+- *Sign disambiguations* of F1, F2, F3 (§1.2);
+- *Single-stratum primitivity* (Lemma 1, §3);
+- *Single high-$\Omega$ stratum bound* — closed direction the
+  conjecture asks (§3.3);
+- *Lower bound on the supremum* matching the conjectured ceiling
+  from below (§4);
+- *Cumulative F3-deficit* in closed form (§6);
+- *Witness search negative* — no counterexample found in probed
+  parametric families (§2.5).
+
+The cross-stratum residue (Lemma 5) remains open; F1's universal
+upper bound is strictly weaker than what the conjecture asks, and
+the F1/F2/F3 ledger alone does not bridge that slack.
+
+The conjecture remains *open*. No witness is committed. The
+writeup's partial-result content stands; future work must address
+the cross-stratum residue or commit a witness.
+
+(End of Section 8; Q25 resolved by collecting §1-§7 into a brief
+synthesis.)
