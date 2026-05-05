@@ -65,3 +65,5 @@
 {"qid":"Q25","status":"open","parent_qid":null,"summary":"retry §8 synthesis after §4 tau_k abstraction; if blocked again, identify next legacy violation","ts":"2026-05-05T02:02:35+00:00","session_id":"s_0504-200225-680e"}
 {"qid":"Q25","status":"claimed","session_id":"s_0504-200225-680e","summary":"section 8 synthesis attempt 4","ts":"2026-05-05T02:02:35+00:00"}
 {"qid":"Q25","status":"resolved","session_id":"s_0504-200225-680e","summary":"§8 synthesis committed; transient critic_unavailable cleared on rerun; 0 blocking 4 warns keep_progress","ts":"2026-05-05T02:12:04+00:00"}
+{"qid":"Q26","status":"open","parent_qid":null,"summary":"clean §3.6 latent 'approximately 1.399 + o(1)' reference and §2.3 'partial sums exceed 1' phrasing; preemptive critic discipline","ts":"2026-05-05T02:53:31+00:00","session_id":"s_0504-205314-9ad8"}
+{"qid":"Q26","status":"claimed","session_id":"s_0504-205314-9ad8","summary":"§3.6 cleanup","ts":"2026-05-05T02:53:31+00:00"}

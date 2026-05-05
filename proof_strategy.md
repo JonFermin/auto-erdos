@@ -596,9 +596,9 @@ record their resolution here so the queue mirrors the writeup.
 - **Q3** ("compute the truncated prime sum and reconcile with
   F1's universal upper bound"): the $k = 1$ case is the primes,
   and the F1 caveat is stated in §2.4: "Within the F1/F2/F3 ledger
-  alone, the $k = 1$ case is bounded only by F1
-  ($S(A) < e^\gamma \pi / 4 + o(1)$, approximately $1.399 + o(1)$),
-  which is weaker than the conjectured $\leq 1$." The truncation
+  alone, the $k = 1$ case is bounded only by F1's truncated form
+  $S(A) < e^\gamma \pi / 4 + o(1)$, which is weaker than the
+  conjectured $\leq 1$." The truncation
   table in §2.2 records $S_1^{(N)}$ at $N \in \{200, 1000, 4000,
   8000\}$, and §2.3 notes that these partial sums exceed $1$ at
   every $N$ tabulated and remain monotone increasing — which is not
