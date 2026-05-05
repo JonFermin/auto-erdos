@@ -64,7 +64,7 @@ import itertools
 import random
 
 from library import capset, capset_lifts, sidon
-from library.sat_extensions import extend_sidon_by_one
+from library.sat_extensions import extend_sidon_by_k, extend_sidon_by_one
 from prepare import (
     TimeBudget,
     load_best_so_far,
@@ -81,7 +81,7 @@ def generate_candidate(tb=None):
     if family == "capset":
         return _seed_capset(spec)
     if family == "sidon":
-        return _seed_sidon(spec)
+        return _seed_sidon(spec, tb)
     raise ValueError(f"no seed registered for family={family!r}")
 
 
@@ -102,7 +102,7 @@ def _seed_capset(spec):
     return max(candidates, key=len)
 
 
-def _seed_sidon(spec):
+def _seed_sidon(spec, tb=None):
     N = int(spec["N"])
     candidates: list[list] = []
 
@@ -118,14 +118,23 @@ def _seed_sidon(spec):
             candidates.append(reflected)
             # On reflected base, scan for any y not in set that doesn't break
             # Sidon; if found, +1 over best_so_far.
-            extended = _augment_one(reflected, N)
+            extended = extend_sidon_by_one(reflected, N)
             if extended is not None:
                 candidates.append(extended)
 
+    # OGR-27 + SAT extend targeting 36: hardcoded OGR-27 (distributed.net 2002,
+    # optimal Golomb ruler order 27, length 553) placed in [1, 554], then
+    # extend_sidon_by_k tries to find k=9 more elements in [555, N] for 36 total.
+    # Structurally different from Singer-37: OGR-27 uses 351 distinct differences
+    # in [1..553] with no algebraic period, so the residual search space differs.
+    if not (tb is not None and tb.expired):
+        ogr27_result = _ogr27_sat_extend(N, tb)
+        candidates.append(ogr27_result)
+
     # Multiplier-coset sweep on Singer-q. Each prime q with q^2+q+1
     # near N yields a perfect difference set; multiplication by m
-    # coprime to q^2+q+1 produces another. For each, slide a non-wrap
-    # window of length min(N, M-1) and pick the best fit.
+    # coprime to q^2+q+1 produces another. For each, find the best non-wrap
+    # window of length min(N, M-1) via O(k) two-pointer.
     multiplier_bests = _sidon_multiplier_sweep(N)
     candidates.extend(multiplier_bests)
 
@@ -164,6 +173,48 @@ def _seed_sidon(spec):
     if swapped is not None and len(swapped) > len(base):
         return swapped
     return base
+
+
+def _ogr27_sat_extend(N, tb=None):
+    """OGR-27 (27 marks in [1,554]) + extend_sidon_by_k targeting 36.
+
+    Distributed.net OGR-27 (2002): optimal Golomb ruler order 27, length 553.
+    0-indexed marks: {0,1,3,7,12,20,22,25,41,45,66,67,94,101,105,
+                       123,124,128,159,168,182,204,252,290,321,417,553}.
+    Shifted to 1-indexed [1,554].
+
+    First, greedy-fill from [555, N] to establish a baseline. Then SAT
+    extend_sidon_by_k tries one more than greedy (targeting k_extra+1 new
+    elements). Beats 35 iff SAT finds >=9 new elements.
+    """
+    ogr27 = [
+        1, 2, 4, 8, 13, 21, 23, 26, 42, 46, 67, 68, 95, 102, 106,
+        124, 125, 129, 160, 169, 183, 205, 253, 291, 322, 418, 554,
+    ]
+    if N < max(ogr27):
+        return sorted(x for x in ogr27 if x <= N)
+
+    # Greedy baseline from [555, N]
+    greedy = list(ogr27)
+    while not (tb is not None and tb.expired):
+        nxt = extend_sidon_by_one(greedy, N)
+        if nxt is None:
+            break
+        greedy = nxt
+
+    k_extra = len(greedy) - len(ogr27)
+    k_target = k_extra + 1  # one better than greedy
+
+    # SAT: try to find k_target new elements from [1, N] added to OGR-27 base
+    if k_target >= 2 and not (tb is not None and tb.expired):
+        try:
+            sat_result = extend_sidon_by_k(list(ogr27), N, k_target)
+            if sat_result is not None and len(sat_result) > len(greedy):
+                return sorted(sat_result)
+        except Exception:
+            pass
+
+    return sorted(greedy)
 
 
 def _singer37_multiplier_window(N):
