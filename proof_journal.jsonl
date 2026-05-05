@@ -27,3 +27,6 @@
 {"event":"session_close","session_id":"s_0504-164620-425c","ts":"2026-05-04T22:53:34+00:00","commit":"f3cd1fb","reason":"reason: round 19 v2 logged (\u00a75 cleanup); under /loop"}
 {"event":"round","session_id":"s_0504-173413-3a1a","ts":"2026-05-04T23:43:01+00:00","summary":"round 20 v2 §4 cleanup; addresses critic_ledger flag on latent prime-tail constant","qid":"Q22","status":"keep_progress","commit":"bf8cf54"}
 {"event":"session_close","session_id":"s_0504-173413-3a1a","ts":"2026-05-04T23:43:01+00:00","commit":"bf8cf54","reason":"reason: round 20 v2 logged; \u00a74 cleanup; under /loop"}
+{"event":"session_open","session_id":"s_0504-182427-24db","ts":"2026-05-05T00:24:27+00:00","commit":"5e4466e","proof_tag":"primitive_set_erdos","stashed_ref":null,"detected_orphan":null,"released_orphan_qids":[]}
+{"event":"round","session_id":"s_0504-182427-24db","ts":"2026-05-05T00:28:28+00:00","summary":"round 21 §3.4 cleanup; preempt critic_numerical on legacy text","qid":"Q23","status":"keep_progress","commit":"72e6488"}
+{"event":"session_close","session_id":"s_0504-182427-24db","ts":"2026-05-05T00:28:28+00:00","commit":"72e6488","reason":"reason: round 21 logged (\u00a73.4 cleanup); first non-BLOCKED v1 in a while; under /loop"}

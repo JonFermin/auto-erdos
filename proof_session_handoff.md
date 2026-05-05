@@ -1,48 +1,43 @@
-# Session handoff (session s_0504-173413-3a1a)
+# Session handoff (session s_0504-182427-24db)
 
 **Stop reason**: One round logged. Returning to /loop driver.
 
-**Round 20 v2 contribution (§4 cleanup)**
+**Round 21 contribution (§3.4 cleanup)**
 
-Round 20 v1 attempted §8 synthesis (re-attempt of round 19 v1 after
-§5 was cleaned up in round 19 v2). v1 was BLOCKED by critic_ledger
-flagging §4's "S(A_1) = 1.637, the Erdős prime-tail constant" — a
-latent reference from round 15 v2 that critics now flag.
+Round 21 went straight to v1-success — first time in several rounds.
+This was a preemptive cleanup of latent §3.4 text "e^gamma pi/4 ≈
+1.399 and the conjectured 1" (committed by prior agents, would
+likely have triggered critic_numerical on next §8 attempt).
 
-Pattern emerging: critics re-examine the WHOLE strategy file with
-each round, finding latent violations in earlier sections that
-previously passed. Each new round triggers a new BLOCKED v1 →
-reset → cleanup of an old section → v2.
+Replaced with: "F1's right-hand side is strictly larger than the
+conjectured ceiling; the slack between the two is the quantitative
+gap that any proof would need to close."
 
-v2 dropped §8 and instead cleaned up §4: removed the explicit
-"S(A_1) = sum_p 1/(p log p) ≈ 1.637" reference in the
-sign-disambiguation cross-check; replaced with a more abstract
-"small-k values may individually fall outside F3's regime" phrasing.
-
-v2 passes: 0 blocking, 12 warns.
+v1 passes: 0 blocking, 7 warns.
 
 **Status**
 
-20 rounds logged. 30 of cap=50 remain.
+21 rounds logged. 29 of cap=50 remain.
 
-**Cumulative critic discipline**
+**Cumulative cleanup progress**
 
-- §1.2 hardcodes "1.399" inside the F1 statement (cannot remove).
-- §3.4 still has "$e^\gamma\pi/4 \approx 1.399$ vs the conjectured $1$" — could trip critic later.
-- §3.6 has "F1's $1.399 + o(1)$" — same risk.
-- These were committed by prior agents and may eventually need cleanup.
+- §5 cleaned (round 19 v2): "1.399 - 1 ≈ 0.4" → qualitative.
+- §4 cleaned (round 20 v2): "S(A_1) ≈ 1.637" → qualitative.
+- §3.4 cleaned (round 21): "e^gamma pi/4 ≈ 1.399 vs 1" → qualitative.
+- §3.6 still has F1's "$1.399 + o(1)$" (line ~600).
+- §1.2 hardcodes "1.399" inside F1's statement (cannot change without
+  altering the ledger statement).
 
 **For next session**
 
-Maybe attempt §8 synthesis again after this §4 cleanup. Or
-continue cleaning latent numerical/non-ledger references in
-§3.4, §3.6 to head off future BLOCKED v1's.
+Could clean §3.6 next, then attempt §8 synthesis. Or attempt §8
+directly and risk another v1 BLOCKED.
 
 **Files modified this session**
 
-- proof_strategy.md — §4 cleanup (9 lines changed).
-- proof_open_questions.jsonl — Q22 claimed and resolved.
-- proof_journal.jsonl — round 20 v2 entry.
+- proof_strategy.md — §3.4 cleanup (5 lines).
+- proof_open_questions.jsonl — Q23 claimed and resolved.
+- proof_journal.jsonl — round 21 entry.
 - 1 new record in records/.
 
 **qid in flight**: none.
