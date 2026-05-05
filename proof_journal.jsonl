@@ -32,3 +32,6 @@
 {"event":"session_close","session_id":"s_0504-182427-24db","ts":"2026-05-05T00:28:28+00:00","commit":"72e6488","reason":"reason: round 21 logged (\u00a73.4 cleanup); first non-BLOCKED v1 in a while; under /loop"}
 {"event":"round","session_id":"s_0504-190915-481d","ts":"2026-05-05T01:21:23+00:00","summary":"round 22 v3 §4 cleanup; tau_k abstraction","qid":"Q24","status":"keep_progress","commit":"505b12b"}
 {"event":"session_close","session_id":"s_0504-190915-481d","ts":"2026-05-05T01:21:23+00:00","commit":"505b12b","reason":"reason: round 22 v3 logged; under /loop"}
+{"event":"session_open","session_id":"s_0504-200225-680e","ts":"2026-05-05T02:02:25+00:00","commit":"27b5aca","proof_tag":"primitive_set_erdos","stashed_ref":null,"detected_orphan":null,"released_orphan_qids":[]}
+{"event":"round","session_id":"s_0504-200225-680e","ts":"2026-05-05T02:12:04+00:00","summary":"round 23 §8 synthesis kept after rerun; finally landed after 4 attempts across 4 sessions","qid":"Q25","status":"keep_progress","commit":"b6f54cf"}
+{"event":"session_close","session_id":"s_0504-200225-680e","ts":"2026-05-05T02:12:04+00:00","commit":"b6f54cf","reason":"reason: round 23 logged (\u00a78 synthesis finally landed); under /loop"}
