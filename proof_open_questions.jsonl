@@ -132,3 +132,6 @@
 {"qid":"Q47","status":"resolved","session_id":"s_0505-210743-292f","summary":"§2.1 81,799 dropped; v2 success 0 blocking 8 warns","ts":"2026-05-06T16:19:42+00:00"}
 {"qid":"Q48","status":"open","parent_qid":null,"summary":"§3.5 Status repeated 'order of magnitude below threshold' phrasing; soften same way as §2.5 Bearing in round 41","ts":"2026-05-06T16:20:20+00:00","session_id":"s_0505-210743-292f"}
 {"qid":"Q48","status":"claimed","session_id":"s_0505-210743-292f","summary":"§3.5 status order-of-magnitude","ts":"2026-05-06T16:20:20+00:00"}
+{"qid":"Q48","status":"resolved","session_id":"s_0505-210743-292f","summary":"§3.5 status order-of-magnitude softened; v1 success 0 blocking 10 warns","ts":"2026-05-06T16:22:42+00:00"}
+{"qid":"Q49","status":"open","parent_qid":null,"summary":"§3.4 inline 'verified by differentiating sum_k x^k = 1/(1-x) twice and evaluating at x=1/2' duplicates §6.1's derivation; replace with §6.1 pointer","ts":"2026-05-06T16:23:13+00:00","session_id":"s_0505-210743-292f"}
+{"qid":"Q49","status":"claimed","session_id":"s_0505-210743-292f","summary":"§3.4 → §6.1 pointer","ts":"2026-05-06T16:23:13+00:00"}

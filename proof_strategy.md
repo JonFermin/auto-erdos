@@ -501,10 +501,8 @@ does not pin down numerically). For every $k \geq k_1$,
 $$
 S_k \;\geq\; 1 - 2c\,\frac{k^2}{2^k}.
 $$
-The standard generating-function identity
-$\sum_{k \geq 1} k^2 / 2^k = 6$ (verified by differentiating
-$\sum_k x^k = 1/(1-x)$ twice and evaluating at $x = 1/2$) gives
-the absolutely-convergent bound
+The generating-function identity $\sum_{k \geq 1} k^2 / 2^k = 6$
+(derived in §6.1) gives the absolutely-convergent bound
 $\sum_{k \geq k_1} k^2 / 2^k \leq 6$. Summing the per-stratum
 lower bound across $K + 1$ consecutive strata starting at $k_1$
 therefore yields
