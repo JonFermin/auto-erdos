@@ -216,8 +216,8 @@ Working in IEEE-754 double precision (no rigorous bound is asserted in
 this section), I sieve $\Omega(n)$ by trial division and collect the
 first $N$ elements of each $A_k$, $k \in \{1, 2, 3, 4\}$, for $N \in
 \{200, 1000, 4000, 8000\}$. I then sum $1/(n \log n)$ over each
-truncation. The largest element reached for $N = 8000$ is $81{,}799$
-(at $k = 1$), well within machine precision.
+truncation. All elements reached at the largest tabulated $N$
+remain well within machine precision.
 
 The F3-predicted full-stratum value is
 $\widehat{S}_k \;=\; 1 - c\, k^2 / 2^k$ with $c$ the constant
@@ -392,15 +392,15 @@ re-derive them.)
 
 **Bearing on the conjecture.** The probes do not produce a
 witness, and they do so by a wide margin: every construction we
-tried at $x_{\text{floor}} \geq 1000$ stays below $0.2$ in the
-helper's rigorous lower bound, an order of magnitude short of
-$1$. This reinforces §3.4's identification of *cross-stratum
-primitivity* as the load-bearing structure of the conjecture: any
-hypothetical witness must exploit cross-stratum constraints in a
-way that simple primes-plus-disjoint-semiprimes unions
-fundamentally cannot. The witness-search loop is therefore not a
-productive route to an automated counterexample at the
-$x_{\text{floor}}$ scale we can computationally probe.
+tried at $x_{\text{floor}} \geq 1000$ falls well short of the
+threshold in the helper's rigorous lower bound. This reinforces
+§3.4's identification of *cross-stratum primitivity* as the
+load-bearing structure of the conjecture: any hypothetical
+witness must exploit cross-stratum constraints in a way that
+simple primes-plus-disjoint-semiprimes unions fundamentally
+cannot. The witness-search loop is therefore not a productive
+route to an automated counterexample at the $x_{\text{floor}}$
+scale we can computationally probe.
 
 (End of Section 2.5; Q12 resolved as a constructive negative
 result: no witness at $x_{\text{floor}} \in \{1000, 10000\}$ from
