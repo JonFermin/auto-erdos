@@ -719,7 +719,7 @@ conjecture's supremum, via F3 applied to $A_k$ for $k \to \infty$.)
 Combining §4's rigorous lower bound with F1's rigorous upper bound,
 the supremum lives in the bracket
 \[
-1 \;\le\; \liminf_{x \to \infty} \sup_{\substack{A \text{ primitive} \\ A \subset [x, \infty)}} S(A) \;\le\; \limsup_{x \to \infty} \sup_{\ldots} S(A) \;\le\; e^{\gamma}\pi/4 + o(1) \;\approx\; 1.399.
+1 \;\le\; \liminf_{x \to \infty} \sup_{\substack{A \text{ primitive} \\ A \subset [x, \infty)}} S(A) \;\le\; \limsup_{x \to \infty} \sup_{\ldots} S(A) \;\le\; e^{\gamma}\pi/4 + o(1).
 \]
 
 The conjecture asserts that $\sup S(A) \le 1 + o(1)$ — i.e., the

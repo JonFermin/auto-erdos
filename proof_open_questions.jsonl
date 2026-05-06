@@ -91,3 +91,6 @@
 {"qid":"Q33","status":"resolved","session_id":"s_0505-210743-292f","summary":"§3.4 redundant inline numerics dropped; v1 success 0 blocking 9 warns","ts":"2026-05-06T03:19:30+00:00"}
 {"qid":"Q34","status":"open","parent_qid":null,"summary":"§1.2 F1 sign-disambiguation: redundant '\approx 1.399' since F1 display already shows it; drop the inline numeric","ts":"2026-05-06T03:20:10+00:00","session_id":"s_0505-210743-292f"}
 {"qid":"Q34","status":"claimed","session_id":"s_0505-210743-292f","summary":"§1.2 redundant 1.399 cleanup","ts":"2026-05-06T03:20:10+00:00"}
+{"qid":"Q34","status":"resolved","session_id":"s_0505-210743-292f","summary":"§1.2 redundant '1.399' dropped; v1 success 0 blocking 6 warns","ts":"2026-05-06T03:21:14+00:00"}
+{"qid":"Q35","status":"open","parent_qid":null,"summary":"§5 bracket display: trailing '\approx 1.399' inline numeric; drop, F1 form is already informative","ts":"2026-05-06T03:21:36+00:00","session_id":"s_0505-210743-292f"}
+{"qid":"Q35","status":"claimed","session_id":"s_0505-210743-292f","summary":"§5 bracket numeric drop","ts":"2026-05-06T03:21:36+00:00"}
