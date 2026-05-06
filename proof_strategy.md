@@ -369,11 +369,10 @@ aggressive setting. Specifically:
 
 - The primes-only baseline at $x_{\text{floor}} = 1000$ leaves a
   rigorous lower bound below one tenth of the threshold; at
-  $x_{\text{floor}} = 10000$ the bound drops by roughly another
-  factor of two (consistent with the Mertens-type asymptotic,
-  where $\sum_{p \text{ prime}, p \geq x} 1/(p \log p) \to 0$ as
-  $x \to \infty$ — the dominant prime contribution comes from
-  small primes that the floor excludes).
+  $x_{\text{floor}} = 10000$ the bound drops further (consistent
+  with the prime-tail $\to 0$ result recorded conditionally in
+  Lemma 3 — the dominant prime contribution comes from small
+  primes that the floor excludes).
 - Construction $C$ (primes plus disjoint small-prime semiprimes)
   roughly doubles the rigorous lower bound over the prime-only
   baseline, but the result is still less than a fifth of the

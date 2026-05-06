@@ -121,3 +121,6 @@
 {"qid":"Q43","status":"resolved","session_id":"s_0505-210743-292f","summary":"lemma_002 c-ref + §6.1 phrasing; v1 success 0 blocking 10 warns","ts":"2026-05-06T16:10:22+00:00"}
 {"qid":"Q44","status":"open","parent_qid":null,"summary":"lemma_004 obstacle: drop non-ledger 'every element of A_k is at least 2^k'; abstract; paired §6.4 cleanup removes redundant 'leading-order' duplication","ts":"2026-05-06T16:11:05+00:00","session_id":"s_0505-210743-292f"}
 {"qid":"Q44","status":"claimed","session_id":"s_0505-210743-292f","summary":"lemma_004 + §6.4","ts":"2026-05-06T16:11:05+00:00"}
+{"qid":"Q44","status":"resolved","session_id":"s_0505-210743-292f","summary":"lemma_004 obstacle abstracted + §6.4 trimmed; v1 success 0 blocking 13 warns","ts":"2026-05-06T16:12:55+00:00"}
+{"qid":"Q45","status":"open","parent_qid":null,"summary":"§2.5: 'Mertens-type asymptotic' is extra-ledger informal reference; replace with reference to Lemma 3 (conditional prime-tail-to-zero); also drop quantitative 'roughly another factor of two'","ts":"2026-05-06T16:14:11+00:00","session_id":"s_0505-210743-292f"}
+{"qid":"Q45","status":"claimed","session_id":"s_0505-210743-292f","summary":"§2.5 Mertens -> Lemma 3 ref","ts":"2026-05-06T16:14:11+00:00"}
