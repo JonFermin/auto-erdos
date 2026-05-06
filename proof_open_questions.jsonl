@@ -77,3 +77,7 @@
 {"qid":"Q29","status":"claimed","session_id":"s_0504-222515-3e68","summary":"§6.1 scratch removal","ts":"2026-05-06T02:40:22+00:00"}
 {"qid":"Q28","status":"resolved","session_id":"s_0504-222515-3e68","summary":"§2.4 cleanup: '1.399 + o(1)' approximation and '+0.129/+0.501/+0.724' specific deltas dropped; v1 success 0 blocking 10 warns","ts":"2026-05-06T02:42:32+00:00"}
 {"qid":"Q29","status":"resolved","session_id":"s_0504-222515-3e68","summary":"§6.1 scratch removed: '= 5? no — recompute.' / 'Let me redo this directly.' replaced with clean inline derivation; v1 success 0 blocking 10 warns","ts":"2026-05-06T02:42:32+00:00"}
+{"qid":"Q30","status":"open","parent_qid":null,"summary":"§2.3 latent numerics: drop '0.9672' leading-correction value, 'S_1^{(8000)} \approx 1.548' empirical floor, and 'N=200' specific threshold; abstract phrasing","ts":"2026-05-06T03:11:47+00:00","session_id":"s_0505-210743-292f"}
+{"qid":"Q30","status":"claimed","session_id":"s_0505-210743-292f","summary":"§2.3 numeric softening","ts":"2026-05-06T03:11:47+00:00"}
+{"qid":"Q31","status":"open","parent_qid":null,"summary":"§7 line 859: 'the witness A_k is primitive' — critic_internal flagged 'witness' for the family $; replace with neutral wording and note no witness is committed","ts":"2026-05-06T03:11:47+00:00","session_id":"s_0505-210743-292f"}
+{"qid":"Q31","status":"claimed","session_id":"s_0505-210743-292f","summary":"§7 witness-word fix","ts":"2026-05-06T03:11:47+00:00"}

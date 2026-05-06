@@ -244,11 +244,12 @@ is not separately asserted here.)
 #### 2.3 Reading the data
 
 1. **The case $k = 1$ is the lone outlier**, with truncated sums
-   exceeding $1$ already at $N = 200$. This is *not* in conflict with
-   F3: F3 is an asymptotic statement as $k \to \infty$, and at $k = 1$
-   the leading-correction expression $1 - c \cdot 1 / 2 = 0.9672$ is
-   far from the empirical truncated value $S_1^{(8000)} \approx 1.548$
-   (which is itself a lower bound on the full-stratum sum, the latter
+   already exceeding $1$ at modest $N$. This is *not* in conflict
+   with F3: F3 is an asymptotic statement as $k \to \infty$, and at
+   $k = 1$ the leading-correction expression $1 - c \cdot 1 / 2$ is
+   far from the empirical truncated value at the largest tabulated
+   $N$ (which is itself a lower bound on the full-stratum sum, the
+   latter
    being a slowly convergent series whose limit lies above the
    empirical $S_1^{(8000)}$ but below F1's universal ceiling
    $e^\gamma \pi/4 + o(1)$ once the $o(1)$ at floor $x = 2$ is
@@ -855,7 +856,7 @@ content added by §4 (lower bound via $A_k$ for $k \to \infty$) and
 §6 (cumulative F3-deficit closed form). These are appended as two
 new bullets without altering any prior bullet:
 
-- *Lower-bound construction* (§4): $\sup_{A \text{ primitive}, A \subset [x, \infty)} S(A) \ge 1$ is established rigorously via F3's signed asymptotic applied to $A_k$ for $k \ge \lceil \log_2 x \rceil$ — the witness $A_k$ is primitive (Lemma 1) and contained in $[x, \infty)$ (smallest element $2^k \ge x$), with $S(A_k) \to 1$ from below.
+- *Lower-bound construction* (§4): $\sup_{A \text{ primitive}, A \subset [x, \infty)} S(A) \ge 1$ is established rigorously via F3's signed asymptotic applied to $A_k$ for $k \ge \lceil \log_2 x \rceil$ — $A_k$ is itself primitive (Lemma 1) and contained in $[x, \infty)$ (smallest element $2^k \ge x$), with $S(A_k) \to 1$ from below. (No witness is committed; this is a supremum statement, not a finite construction satisfying the witness contract of §1.3.)
 
 - *Cumulative F3-deficit* (§6): summing F3's per-stratum deficits via the elementary identity $\sum_{k \ge 1} k^2/2^k = 6$ gives the closed-form $6c$ at leading order. Strata are not primitive in their disjoint union, so this is *not* a bound on $\sup S(A)$; it is a structural F3-derived constant available for future analytical work.
 
