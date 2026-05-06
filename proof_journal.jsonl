@@ -44,3 +44,11 @@
 {"event":"session_open","session_id":"s_0504-222515-3e68","ts":"2026-05-05T04:25:15+00:00","commit":"df05a09","proof_tag":"primitive_set_erdos","stashed_ref":null,"detected_orphan":null,"released_orphan_qids":[]}
 {"event":"round","session_id":"s_0504-222515-3e68","ts":"2026-05-06T02:42:32+00:00","summary":"round 26 combined §2.4 + §6.1 cleanup; first attempt blocked on §6.1 scratch caught by critic, retried with both folded together","qid":"Q28+Q29","status":"keep_progress","commit":"e617258"}
 {"event":"session_close","session_id":"s_0504-222515-3e68","ts":"2026-05-06T02:42:53+00:00","commit":"e617258","reason":"round 26 logged after combined \u00a72.4 + \u00a76.1 cleanup retry; resumed mid-flight (prior attempt blocked on \u00a76.1 scratch and was reset)"}
+{"event":"round","session_id":"s_0505-210743-292f","ts":"2026-05-06T16:19:42+00:00","summary":"round 41 §2.1 81,799 + §2.5 0.2 cleanup; v1 blocked on §2.1","qid":"Q46+Q47","status":"keep_progress","commit":"56bae66"}
+{"event":"round","session_id":"s_0505-210743-292f","ts":"2026-05-06T16:22:42+00:00","summary":"round 42 §3.5 status order-of-magnitude","qid":"Q48","status":"keep_progress","commit":"49e9a26"}
+{"event":"round","session_id":"s_0505-210743-292f","ts":"2026-05-06T16:25:05+00:00","summary":"round 43 §3.4 → §6.1 pointer","qid":"Q49","status":"keep_progress","commit":"e73d88f"}
+{"event":"round","session_id":"s_0505-210743-292f","ts":"2026-05-06T16:27:47+00:00","summary":"round 44 §3.6 stale count rephrased","qid":"Q50","status":"keep_progress","commit":"e07dced"}
+{"event":"round","session_id":"s_0505-210743-292f","ts":"2026-05-06T16:33:15+00:00","summary":"round 45 §5.2 'match F1' rephrase","qid":"Q51","status":"keep_progress","commit":"4b463f4"}
+{"event":"round","session_id":"s_0505-210743-292f","ts":"2026-05-06T16:40:52+00:00","summary":"round 46 lemma_005 divergence rigor + §3.4 notation","qid":"Q52","status":"keep_progress","commit":"124c294"}
+{"event":"round","session_id":"s_0505-210743-292f","ts":"2026-05-06T16:43:10+00:00","summary":"round 47 §1.1 sharpen 'different' -> 'strictly larger'; cap=50 reached on this row","qid":"Q53","status":"keep_progress","commit":"4d0f815"}
+{"event":"session_close","session_id":"s_0505-210743-292f","ts":"2026-05-06T16:43:38+00:00","commit":"4d0f815","reason":"round cap=50 reached; loop terminated by user goal 'Loop until 50'"}
