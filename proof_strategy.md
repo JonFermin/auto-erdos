@@ -85,11 +85,14 @@ For $A_k$ as above:
 
 $$\sum_{a \in A_k} \frac{1}{a \log a} = 1 - (c + o(1)) \frac{k^2}{2^k}, \quad c \approx 0.0656 > 0.$$
 
-*Sign/direction*: The leading correction is $-(c+o(1))k^2/2^k < 0$.
-The sum approaches $1$ from **below** as $k \to \infty$; it is strictly
-less than $1$ for every finite $k \geq 1$. F3 is consistent with F2 once
-the unsigned-O in F2 is read correctly. Treating F3 as approach from above
-is `f3-from-above-misread`.
+*Sign/direction*: F3 is an asymptotic formula as $k \to \infty$. For large $k$,
+the leading correction $-(c+o(1))k^2/2^k$ is negative, so the sum approaches
+$1$ from **below** as $k \to \infty$. Section 2 confirms this qualitative direction
+for $k \geq 2$ numerically. For $k = 1$ (primes), the partial sum exceeds $1$,
+reflecting that the $o(1)$ correction in F3 is not negligible for small $k$.
+F3 is consistent with F2 once the unsigned-O in F2 is read correctly.
+Treating the asymptotic as implying sum $< 1$ for ALL $k \geq 1$ without
+checking small $k$ separately is an overgeneralization.
 
 ---
 
