@@ -180,10 +180,10 @@ As $x_{\mathrm{floor}} \to \infty$, the prime sum → 0, which is far below $1 +
 We searched for a primitive set $A \subset [x_{\mathrm{floor}}, \infty)$ with
 rigorously verified sum $> 1.0$ for $x_{\mathrm{floor}} \in \{100, 1000, 10000\}$.
 
-**Strategy**: for each $k \in \{1, 2, 3, 4, 5\}$, take all $n \in [x_{\mathrm{floor}}, 10000]$
+**Strategy**: for each $k \in \{1, 2, 3, 4, 5\}$, take all $n \in $x_{\mathrm{floor}} \leq n \leq 10000$$
 with $\Omega(n) = k$ (each set is primitive). Best results for $x_{\mathrm{floor}} = 100$:
 
-| $k$ | $|A_k \cap [100, 10000]|$ | Sum | $> 1.0$? |
+| $k$ | $|A_k \cap \{100..10000\}|$ | Sum | $> 1.0$? |
 |---|---|---|---|
 | 1 (primes) | 1204 | 0.107 | No |
 | 2 | 2591 | 0.197 | No |
