@@ -488,8 +488,8 @@ conditional framing) is $S_{\text{high}}(A; K)$ with $K = K(x) \to
 $$
 S_{\text{high}}(A; K) \;\leq\; \sum_{k > K} S_k,
 $$
-diverges (each $S_k \to 1$, so $\sum_{k > K} S_k = \infty$); hence
-F3 alone cannot bound $S_{\text{high}}$.
+diverges (each $S_k \to 1$ by F3, so the upper-bound sum is
+infinite); hence F3 alone cannot bound $S_{\text{high}}$.
 
 *Quantitative looseness vs. F1.* We can sharpen this remark with an
 explicit lower bound on the per-stratum partial sum. By F3 there

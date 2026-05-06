@@ -53,9 +53,10 @@ The naïve sum
 $$
 S_{\text{high}}(A; K) \;\leq\; \sum_{k > K} S_k
 $$
-is **not finite**: $\sum_{k > K} S_k \approx \sum_{k > K} 1$ diverges.
-So the per-stratum bound from F3 cannot be summed naïvely across
-strata to give the conjecture.
+is **not finite**: each $S_k \to 1$ as $k \to \infty$ (F3), so
+$\sum_{k > K} S_k \ge \sum_{k > K_1} (1/2)$ for some $K_1$,
+which diverges. So the per-stratum bound from F3 cannot be
+summed naïvely across strata to give the conjecture.
 
 A quantitative form of this looseness is recorded in §3.4 of
 `proof_strategy.md`. By F3 there is some $k_1$ at which the o(1)
