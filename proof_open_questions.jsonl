@@ -135,3 +135,6 @@
 {"qid":"Q48","status":"resolved","session_id":"s_0505-210743-292f","summary":"§3.5 status order-of-magnitude softened; v1 success 0 blocking 10 warns","ts":"2026-05-06T16:22:42+00:00"}
 {"qid":"Q49","status":"open","parent_qid":null,"summary":"§3.4 inline 'verified by differentiating sum_k x^k = 1/(1-x) twice and evaluating at x=1/2' duplicates §6.1's derivation; replace with §6.1 pointer","ts":"2026-05-06T16:23:13+00:00","session_id":"s_0505-210743-292f"}
 {"qid":"Q49","status":"claimed","session_id":"s_0505-210743-292f","summary":"§3.4 → §6.1 pointer","ts":"2026-05-06T16:23:13+00:00"}
+{"qid":"Q49","status":"resolved","session_id":"s_0505-210743-292f","summary":"§3.4 derivation deferred to §6.1; v1 success 0 blocking 7 warns","ts":"2026-05-06T16:25:05+00:00"}
+{"qid":"Q50","status":"open","parent_qid":null,"summary":"§3.6 Q6 absorption: stale 'three things ratified' count (§3.5 now lists 5); rephrase to count-free 'each ratified sub-result' for future-proofing","ts":"2026-05-06T16:25:43+00:00","session_id":"s_0505-210743-292f"}
+{"qid":"Q50","status":"claimed","session_id":"s_0505-210743-292f","summary":"§3.6 stale count","ts":"2026-05-06T16:25:43+00:00"}

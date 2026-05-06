@@ -607,13 +607,12 @@ record their resolution here so the queue mirrors the writeup.
   result as a kept partial-result record"): §3.5 ("Status") states
   the partial result in this form — "this proof attempt establishes
   the following partial result, supported only by the F1/F2/F3
-  ledger plus elementary positivity" — and lists the three things
-  ratified (sign disambiguations, numerical evidence, single
-  high-$\Omega$ stratum closure) plus the one thing left open
-  (cross-stratum residue, Lemma 5). Each $\texttt{keep\_progress}$
-  row in `proof_results.tsv` already carries a partial-result
-  record under `records/`; Q6's directive is satisfied
-  structurally by the gatekeeper, not by additional prose.
+  ledger plus elementary positivity" — and lists each ratified
+  sub-result plus the cross-stratum residue (Lemma 5) as the one
+  open piece. Each $\texttt{keep\_progress}$ row in
+  `proof_results.tsv` already carries a partial-result record
+  under `records/`; Q6's directive is satisfied structurally by
+  the gatekeeper, not by additional prose.
 
 Both items are now resolved in `proof_open_questions.jsonl`. The
 live open queue is empty as of this round; any future session that
