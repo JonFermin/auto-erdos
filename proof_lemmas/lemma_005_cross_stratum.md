@@ -64,10 +64,10 @@ $S_k \geq 1 - 2c\,k^2/2^k$ for every $k \geq k_1$. Using
 $\sum_{k \geq 1} k^2/2^k = 6$, the partial sum across just two
 consecutive strata starting at $k_1$ already exceeds the
 conjectured ceiling $1$, and across three strata it exceeds F1's
-universal ceiling $e^\gamma \pi/4 \approx 1.399$ — so the
-per-stratum decomposition alone is strictly weaker than both
-targets, and any closure of this lemma must invoke cross-stratum
-primitivity in a non-trivial way.
+universal ceiling $e^\gamma \pi/4$ — so the per-stratum
+decomposition alone is strictly weaker than both targets, and
+any closure of this lemma must invoke cross-stratum primitivity
+in a non-trivial way.
 
 **The residual gap (open).** What we need is *not* an upper bound
 on each stratum's contribution to a generic primitive set; it is an
@@ -81,9 +81,8 @@ $\leq 1$ (rather than $\leq \sum_k S_k = \infty$) plausible at all.
 
 The Erdős–Zhang upper bound F1 ($S(A) \leq e^\gamma \pi/4 + o(1)$)
 **uses** this cross-stratum primitivity in a non-trivial way; that
-proof's slack between $e^\gamma \pi/4 \approx 1.399$ and the
-conjectured $1$ is precisely the residual gap that Lemma 5 would
-have to close.
+proof's slack between F1's ceiling and the conjectured $1$ is
+precisely the residual gap that Lemma 5 would have to close.
 
 **What we have ruled out (partial result).**
 

@@ -748,11 +748,11 @@ The ledger gives:
 - **F3**: $S(A_k) \to 1$ from below, used in §4 for the lower bound.
 
 The ledger does *not* give an upper bound on $\sup S(A)$ tighter
-than F1's $1.399$. Closing the gap from $1.399$ to $1$ requires a
-fundamentally new ingredient (cross-stratum primitivity, the §3
-"Lemma 5" residue, in this writeup's framing). The ledger alone
-cannot close the conjecture; that is precisely the open analytic
-content.
+than F1's $e^\gamma \pi/4$. Closing the gap from F1's ceiling to
+$1$ requires a fundamentally new ingredient (cross-stratum
+primitivity, the §3 "Lemma 5" residue, in this writeup's framing).
+The ledger alone cannot close the conjecture; that is precisely
+the open analytic content.
 
 #### 5.2 Why the lower bound matters
 
@@ -761,8 +761,8 @@ content.
 the conjecture would:
 - *attain* the bound $1$ asymptotically (it cannot be better than
   $\le 1$, since §4 shows $\sup \ge 1$), and
-- *match* F1's $1.399$ at every finite $x$, then tighten to $1$ as
-  $x \to \infty$.
+- *match* F1's $e^\gamma \pi/4$ at every finite $x$, then tighten
+  to $1$ as $x \to \infty$.
 
 The conjecture is therefore an *asymptotic identity* on $\sup S(A)$:
 the limit equals $1$. Proving it requires identifying the exact

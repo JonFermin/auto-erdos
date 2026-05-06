@@ -108,3 +108,7 @@
 {"qid":"Q39","status":"resolved","session_id":"s_0505-210743-292f","summary":"§4 c-numeric replaced with F3 ref; v1 success 0 blocking 6 warns","ts":"2026-05-06T15:58:03+00:00"}
 {"qid":"Q40","status":"open","parent_qid":null,"summary":"lemma_005 §Update: replicate the §7 fix — replace 'The witness is A_k' with neutral 'construction', drop 'smallest element 2^k' for §4 threshold ref","ts":"2026-05-06T15:59:13+00:00","session_id":"s_0505-210743-292f"}
 {"qid":"Q40","status":"claimed","session_id":"s_0505-210743-292f","summary":"lemma_005 witness/threshold fix","ts":"2026-05-06T15:59:13+00:00"}
+{"qid":"Q40","status":"resolved","session_id":"s_0505-210743-292f","summary":"lemma_005 §Update mirrored §7 fix; v1 success 0 blocking 6 warns","ts":"2026-05-06T15:59:26+00:00"}
+{"qid":"Q40","status":"resolved","session_id":"s_0505-210743-292f","summary":"lemma_005 §Update mirrored §7 fix + paired §7 cross-pointer; v1 success 0 blocking 9 warns","ts":"2026-05-06T16:01:37+00:00"}
+{"qid":"Q41","status":"open","parent_qid":null,"summary":"§5.1 + lemma_005: replace remaining 'F1's 1.399' / 'e^gamma pi/4 \approx 1.399' with closed-form symbol e^gamma pi/4","ts":"2026-05-06T16:02:40+00:00","session_id":"s_0505-210743-292f"}
+{"qid":"Q41","status":"claimed","session_id":"s_0505-210743-292f","summary":"§5.1 + lemma_005 1.399 cleanup","ts":"2026-05-06T16:02:40+00:00"}
