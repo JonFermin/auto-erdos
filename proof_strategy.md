@@ -663,8 +663,9 @@ sufficiently large $k$; pick any such $k$. Then $A_k \subset
 [\tau_k, \infty) \subset [x, \infty)$.
 
 **Application of F3.** F3 states $\sum_{a \in A_k} 1/(a \log a) =
-1 - (c + o(1)) k^2/2^k$ as $k \to \infty$, with $c \approx 0.0656
-> 0$. Reading the $o(1)$ in F3's signed sense (per §1.2's sign
+1 - (c + o(1)) k^2/2^k$ as $k \to \infty$, with $c$ as in F3's
+ledger statement (positive). Reading the $o(1)$ in F3's signed
+sense (per §1.2's sign
 disambiguation): for every $\varepsilon > 0$, there exists
 $K_{\varepsilon}$ such that for all $k \ge K_{\varepsilon}$,
 $|S(A_k) - 1| \le c k^2/2^k + \varepsilon \cdot k^2/2^k$. Since
