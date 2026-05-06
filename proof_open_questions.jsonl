@@ -81,3 +81,7 @@
 {"qid":"Q30","status":"claimed","session_id":"s_0505-210743-292f","summary":"§2.3 numeric softening","ts":"2026-05-06T03:11:47+00:00"}
 {"qid":"Q31","status":"open","parent_qid":null,"summary":"§7 line 859: 'the witness A_k is primitive' — critic_internal flagged 'witness' for the family $; replace with neutral wording and note no witness is committed","ts":"2026-05-06T03:11:47+00:00","session_id":"s_0505-210743-292f"}
 {"qid":"Q31","status":"claimed","session_id":"s_0505-210743-292f","summary":"§7 witness-word fix","ts":"2026-05-06T03:11:47+00:00"}
+{"qid":"Q30","status":"resolved","session_id":"s_0505-210743-292f","summary":"§2.3 numerics dropped; v2 success 0 blocking 12 warns","ts":"2026-05-06T03:14:05+00:00"}
+{"qid":"Q31","status":"resolved","session_id":"s_0505-210743-292f","summary":"§7 'witness A_k' replaced; v2 success 0 blocking 12 warns","ts":"2026-05-06T03:14:05+00:00"}
+{"qid":"Q32","status":"open","parent_qid":null,"summary":"§2.4 line 309: redundant '\approx 1.399 + o(1)' inside F1 reference; drop the numerical approximation","ts":"2026-05-06T03:14:49+00:00","session_id":"s_0505-210743-292f"}
+{"qid":"Q32","status":"claimed","session_id":"s_0505-210743-292f","summary":"§2.4 redundant 1.399","ts":"2026-05-06T03:14:49+00:00"}

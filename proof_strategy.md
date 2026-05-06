@@ -306,8 +306,8 @@ attempt to close here.)
 
 For $k = 1$ the relevant primitive set is the primes. Within the
 F1/F2/F3 ledger alone, the $k = 1$ case is bounded only by F1
-($S(A) < e^\gamma \pi/4 + o(1) \approx 1.399 + o(1)$), which is
-weaker than the conjectured $\leq 1$. Sharper tail-to-zero behavior
+($S(A) < e^\gamma \pi/4 + o(1)$), which is weaker than the
+conjectured $\leq 1$. Sharper tail-to-zero behavior
 of $\sum_{p \geq x} 1/(p \log p)$ as $x \to \infty$ requires
 extra-ledger admissions (PNT-density) and is filed under future
 work in Lemma `lemma_003_prime_tail_to_zero`; we do not invoke it
