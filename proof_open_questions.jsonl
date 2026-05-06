@@ -9,3 +9,5 @@
 {"qid":"Q2","status":"claimed","session_id":"s_0506-080318-d96f","summary":"claiming Q2+Q3+Q4 together: numerical evidence, prime-sum analysis, witness search","ts":"2026-05-06T08:35:06+00:00"}
 {"qid":"Q3","status":"claimed","session_id":"s_0506-080318-d96f","summary":"claiming Q3 with Q2","ts":"2026-05-06T08:35:06+00:00"}
 {"qid":"Q4","status":"claimed","session_id":"s_0506-080318-d96f","summary":"claiming Q4 with Q2","ts":"2026-05-06T08:35:06+00:00"}
+{"qid":"Q5","status":"claimed","session_id":"s_0506-080318-d96f","summary":"claiming Q5: proof structure using only F1/F2/F3, no Sathe-Selberg","ts":"2026-05-06T08:58:26+00:00"}
+{"qid":"Q6","status":"claimed","session_id":"s_0506-080318-d96f","summary":"claiming Q6: partial result writeup using only F1","ts":"2026-05-06T08:58:26+00:00"}

@@ -204,6 +204,87 @@ $x_{\mathrm{floor}} \in \{100, 1000, 10000\}$.
 
 ---
 
-### Section 5: Proof Structure (Q5 — pending)
+### Section 5: Proof Structure (Q5)
 
-### Section 6: Partial Result (Q6 — pending)
+**Goal**: Show that for any primitive $A \subset [x, \infty)$, we have
+$\sum_{a \in A} 1/(a \log a) < 1 + o(1)$ as $x \to \infty$.
+
+**Stratification approach** (standard for this problem type):
+For each $k \geq 1$, write $A_k = A \cap \{n : \Omega(n) = k\}$. If $a \mid b$ with
+$\Omega(a) = \Omega(b) = k$, then $a = b$, so no two distinct elements of $A_k$ satisfy
+a divisibility relation — each $A_k$ is itself a primitive set. We have
+$A = \bigcup_k A_k$ and
+
+$$\sum_{a \in A} \frac{1}{a \log a} = \sum_{k \geq 1} \sum_{a \in A_k} \frac{1}{a \log a}.$$
+
+**Key lemmas needed** (see `proof_lemmas/`):
+
+1. **Lemma `single_stratum`**: For each $k$ and any sub-primitive-set
+   $B \subseteq A_k \cap [x, \infty)$, the sum $\sum_{b \in B} 1/(b \log b) \to 0$
+   as $x \to \infty$ (for fixed $k$). Qualitative justification: by F3, the
+   full series $\sum_{n: \Omega(n)=k} 1/(n \log n)$ converges to
+   $1 - (c+o(1)) k^2/2^k$; the tail over $[x,\infty)$ is a tail of this
+   convergent series and therefore tends to $0$. This is qualitatively clear
+   but does not directly bound the sum over all $k$ simultaneously.
+
+2. **Lemma `cross_stratum`**: A primitive set $A$ uses at most one element per
+   divisibility chain (a sequence where each divides the next). The inter-stratum
+   constraint might allow tighter total bounds than stratum-by-stratum analysis.
+   This is open — no standard tool gives the inter-stratum bound without additional
+   assumptions.
+
+3. **Lemma `primes_extremal`** (hardest): For any primitive $A \subset [x, \infty)$,
+   the sum is at most the prime sum $\sum_{p \geq x} 1/(p \log p)$, which tends to $0$.
+   This would immediately prove the conjecture and confirm primes as extremal. This
+   is the conjectural form of the result — unproved.
+
+**Status of lemmas**:
+- `single_stratum`: The qualitative claim (fixed-$k$ tail → 0) follows from F3.
+  The quantitative bound needed to sum over all $k$ and get $\leq 1 + o(1)$ is open.
+- `cross_stratum`: Open.
+- `primes_extremal`: Open. This is essentially the Erdős conjecture itself.
+
+**Best proved partial bound**: By F1 (Erdős-Zhang), for any primitive $A \subset [x,\infty)$:
+$$\sum_{a \in A} \frac{1}{a \log a} < 1.399 + o(1).$$
+This is proved directly by F1. Closing the gap from $1.399$ to $1$ requires an argument
+that F1 alone does not provide.
+
+---
+
+### Section 6: Partial Result and Open Questions (Q6)
+
+**This problem remains open.** The conjecture $\sum_{a \in A} 1/(a \log a) < 1 + o(1)$
+for any primitive $A \subset [x, \infty)$ has not been proved or disproved here.
+
+**What has been established** (via Sections 2–5 and the ledger facts):
+
+1. *Best proved upper bound*: By F1 (Erdős-Zhang), $\sum < 1.399 + o(1)$ for any
+   primitive $A \subset [x, \infty)$ as $x \to \infty$. This is the only closed-form
+   upper bound available from the given facts.
+
+2. *F3 asymptotic direction*: F3 shows the canonical strata $A_k$ have sums approaching
+   $1$ from below as $k \to \infty$, consistent with the conjecture but not proving it for
+   arbitrary primitive sets.
+
+3. *Numerical non-existence of counterexamples*: Exhaustive search over all
+   $\Omega(n) = k$ strata for $k = 1, \ldots, 5$ and $n \in \{100, \ldots, 10000\}$
+   finds no primitive set with sum $> 1.0$ for $x_{\mathrm{floor}} \in \{100, 1000, 10000\}$.
+   Maximum sum found was $\approx 0.20$ (semiprimes at $x_{\mathrm{floor}} = 100$).
+
+4. *Prime-stratum decay*: For primes restricted to $[x_{\mathrm{floor}}, \infty)$,
+   the partial sum (up to $500{,}000$) falls from $1.5604$ at $x_{\mathrm{floor}} = 2$
+   to $0.0323$ at $x_{\mathrm{floor}} = 10{,}000$, consistent with convergence to $0$.
+
+**What remains open**:
+
+- The conjecture itself: $\sum < 1 + o(1)$ for ANY primitive $A \subset [x, \infty)$.
+- The extremality of primes (Lemma `primes_extremal`): no proof that primes maximize
+  the sum over all primitive sets at a given $x$.
+- The inter-stratum cross-constraint: how the primitive condition links contributions
+  across different $\Omega$-strata.
+
+**Partial result summary**: By F1 (Erdős-Zhang), for any primitive $A \subseteq \mathbb{N}$
+restricted to $[x, \infty)$: $\sum_{a \in A} 1/(a \log a) < 1.399 + o(1)$ as $x \to \infty$.
+This is the best proved bound available from the given facts. The conjecture (bound of
+$1 + o(1)$) remains open. Closing the gap from $1.399$ to $1$ appears to require a
+fundamentally new argument exploiting the primitive structure more tightly than F1 alone.
