@@ -515,14 +515,12 @@ $$
 (K + 1) \;-\; 2 c \cdot 6
 \;=\;
 (K + 1) - 12 c
-\;\approx\;
-(K + 1) - 0.79
-\qquad (c \approx 0.0656).
+\qquad (c \text{ as in F2}).
 $$
 For $K = 2$ — that is, summing only *three* consecutive strata's
-per-stratum F3 lower bounds — this gives a partial sum exceeding
-$2.2$, which is strictly larger than F1's universal ceiling
-$e^\gamma \pi/4 \approx 1.399$. The naïve per-stratum upper bound
+per-stratum F3 lower bounds — this gives a partial sum strictly
+larger than F1's universal ceiling $e^\gamma \pi/4$. The naïve
+per-stratum upper bound
 $S(A) \leq \sum_k S_k$ is therefore *strictly looser than F1*
 already at three strata's resolution: F1 cannot be derived by
 combining per-stratum F3 estimates additively, and any proof that
@@ -532,7 +530,7 @@ beyond the per-stratum ledger.
 In fact the same arithmetic shows the per-stratum decomposition is
 already weaker than the *conjectured* ceiling $1$ at $K = 1$
 (just two consecutive strata): the partial-sum lower bound is then
-$2 - 12 c \approx 1.21 > 1$. So the per-stratum decomposition is
+$2 - 12 c$, which exceeds $1$. So the per-stratum decomposition is
 not merely looser than F1 by some narrow slack — even the lossier
 target of the conjecture ($\leq 1$) cannot be derived by summing
 per-stratum F3 lower bounds across as few as two strata.

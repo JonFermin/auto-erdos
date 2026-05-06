@@ -85,3 +85,6 @@
 {"qid":"Q31","status":"resolved","session_id":"s_0505-210743-292f","summary":"§7 'witness A_k' replaced; v2 success 0 blocking 12 warns","ts":"2026-05-06T03:14:05+00:00"}
 {"qid":"Q32","status":"open","parent_qid":null,"summary":"§2.4 line 309: redundant '\approx 1.399 + o(1)' inside F1 reference; drop the numerical approximation","ts":"2026-05-06T03:14:49+00:00","session_id":"s_0505-210743-292f"}
 {"qid":"Q32","status":"claimed","session_id":"s_0505-210743-292f","summary":"§2.4 redundant 1.399","ts":"2026-05-06T03:14:49+00:00"}
+{"qid":"Q32","status":"resolved","session_id":"s_0505-210743-292f","summary":"§2.4 redundant '1.399' dropped; v1 success 0 blocking 5 warns","ts":"2026-05-06T03:17:15+00:00"}
+{"qid":"Q33","status":"open","parent_qid":null,"summary":"§3.4 redundant numerics: '(K+1) - 0.79', '(c \approx 0.0656)', '\approx 1.399', '2 - 12c \approx 1.21'; replace with abstract referencing F1/F2 ledger constants","ts":"2026-05-06T03:17:44+00:00","session_id":"s_0505-210743-292f"}
+{"qid":"Q33","status":"claimed","session_id":"s_0505-210743-292f","summary":"§3.4 numeric softening","ts":"2026-05-06T03:17:44+00:00"}
