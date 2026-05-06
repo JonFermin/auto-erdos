@@ -835,8 +835,8 @@ analytical work might relate to F1's truncated bound or to the
 
 #### 6.4 What §6 commits
 
-- *Rigorously*: $\sum_k k^2/2^k = 6$ (elementary).
-- *Conditionally on F3*: cumulative leading-order F3 deficit equals $6c$ at leading order.
+- *Rigorously*: $\sum_k k^2/2^k = 6$ (elementary, per §6.1).
+- *Conditionally on F3*: cumulative F3 deficit equals $6c$ at leading order.
 
 It does NOT commit:
 - Any comparison of $6c$ to $e^{\gamma}\pi/4 - 1$ at specific decimal precision.

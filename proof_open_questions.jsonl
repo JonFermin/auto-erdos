@@ -118,3 +118,6 @@
 {"qid":"Q42","status":"resolved","session_id":"s_0505-210743-292f","summary":"§4 + lemma_005 inline numerics dropped; v1 success 0 blocking 11 warns","ts":"2026-05-06T16:07:00+00:00"}
 {"qid":"Q43","status":"open","parent_qid":null,"summary":"lemma_002 statement: 'c \approx 0.0656 > 0' to 'c as in F3 (positive)'; paired §6.1 edit drops 'elementary and exact' for less emphatic 'elementary' with §6.2 pointer","ts":"2026-05-06T16:08:05+00:00","session_id":"s_0505-210743-292f"}
 {"qid":"Q43","status":"claimed","session_id":"s_0505-210743-292f","summary":"lemma_002 c ref + §6.1 phrasing","ts":"2026-05-06T16:08:05+00:00"}
+{"qid":"Q43","status":"resolved","session_id":"s_0505-210743-292f","summary":"lemma_002 c-ref + §6.1 phrasing; v1 success 0 blocking 10 warns","ts":"2026-05-06T16:10:22+00:00"}
+{"qid":"Q44","status":"open","parent_qid":null,"summary":"lemma_004 obstacle: drop non-ledger 'every element of A_k is at least 2^k'; abstract; paired §6.4 cleanup removes redundant 'leading-order' duplication","ts":"2026-05-06T16:11:05+00:00","session_id":"s_0505-210743-292f"}
+{"qid":"Q44","status":"claimed","session_id":"s_0505-210743-292f","summary":"lemma_004 + §6.4","ts":"2026-05-06T16:11:05+00:00"}

@@ -45,12 +45,9 @@ extra-ledger and is the first place this proof would need to admit a
 substantial classical fact beyond the F1/F2/F3 ledger. A defensive
 strategy is to cite Landau (or Sathe–Selberg, which sharpens it) as a
 foundational extra-ledger admission, in the same spirit as Lemma 3
-admits the PNT density. If the ledger critic objects, one can fall
-back to the much weaker bound $|A_k \cap [2, t]| \leq t / 2^k$ (since
-every element of $A_k$ is at least $2^k$, so $A_k \cap [2,t]$ has
-$\leq \lfloor t / 2^k \rfloor$ elements, but this needs a stronger
-argument: actually only that elements are $\geq 2^k$ gives $\leq t -
-2^k + 1$ elements, which is too weak for partial summation).
+admits the PNT density. Weaker fall-back bounds based on the
+elementary observation that $A_k$ is sparse in a $k$-dependent way
+are too loose to support partial summation.
 
 **Next move.**
 1. Promote a Landau-style admission to a named "extra-ledger fact"
