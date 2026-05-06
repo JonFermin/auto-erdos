@@ -116,10 +116,10 @@ S(A) \;<\; e^{\gamma} \frac{\pi}{4} + o(1) \;\approx\; 1.399 + o(1).
 $$
 *Sign disambiguation.* The right-hand side is an **upper bound**, and
 the inequality is **strict** before the $o(1)$ slack. The constant
-$e^\gamma \pi / 4 \approx 1.399$ is positive and exceeds $1$, so F1 is
-**consistent with** the conjecture — F1 is weaker than what we are
-trying to prove. F1 must never be cited as a *lower* bound; doing so is
-a sign error.
+$e^\gamma \pi / 4$ is positive and exceeds $1$, so F1 is **consistent
+with** the conjecture — F1 is weaker than what we are trying to
+prove. F1 must never be cited as a *lower* bound; doing so is a sign
+error.
 
 **F2 — Stratum lower bound (UNSIGNED big-O).** *Let
 $\Omega(n)$ count the prime factors of $n$ with multiplicity, and let
