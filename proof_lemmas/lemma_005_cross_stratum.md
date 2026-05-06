@@ -95,10 +95,11 @@ precisely the residual gap that Lemma 5 would have to close.
   \leq K} A_k$ for some fixed $K$) are ruled out as $x \to \infty$ by
   Lemma 4.
 - A small numerical probe at $x_\text{floor} = 100$ found no
-  counterexample using all primes in $[100, 10^5]$ (sum $\approx
-  0.13$), nor any naïve union of primes plus low-$\Omega$ composites
-  at that floor (such unions either fail primitivity or stay below
-  $1$). A deeper search at $x_\text{floor} \in \{1000, 10000\}$
+  counterexample using all primes in $[100, 10^5]$ (sum well
+  below the threshold $1$), nor any naïve union of primes plus
+  low-$\Omega$ composites at that floor (such unions either fail
+  primitivity or stay below $1$). A deeper search at
+  $x_\text{floor} \in \{1000, 10000\}$
   through the rigorous helper
   `library.primitive_set_witness._rigorous_sum_lower_bound` extends
   the negative result: across primes-only baselines and primes-plus-

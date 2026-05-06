@@ -112,3 +112,6 @@
 {"qid":"Q40","status":"resolved","session_id":"s_0505-210743-292f","summary":"lemma_005 §Update mirrored §7 fix + paired §7 cross-pointer; v1 success 0 blocking 9 warns","ts":"2026-05-06T16:01:37+00:00"}
 {"qid":"Q41","status":"open","parent_qid":null,"summary":"§5.1 + lemma_005: replace remaining 'F1's 1.399' / 'e^gamma pi/4 \approx 1.399' with closed-form symbol e^gamma pi/4","ts":"2026-05-06T16:02:40+00:00","session_id":"s_0505-210743-292f"}
 {"qid":"Q41","status":"claimed","session_id":"s_0505-210743-292f","summary":"§5.1 + lemma_005 1.399 cleanup","ts":"2026-05-06T16:02:40+00:00"}
+{"qid":"Q41","status":"resolved","session_id":"s_0505-210743-292f","summary":"§5.1 + lemma_005 1.399 dropped; v1 success 0 blocking 4 warns","ts":"2026-05-06T16:05:10+00:00"}
+{"qid":"Q42","status":"open","parent_qid":null,"summary":"§4 line 713 'F1's <= 1.399 + o(1)' inline numeric -> closed-form; lemma_005 line 99 'sum \approx 0.13' empirical specific -> 'well below threshold 1'","ts":"2026-05-06T16:05:53+00:00","session_id":"s_0505-210743-292f"}
+{"qid":"Q42","status":"claimed","session_id":"s_0505-210743-292f","summary":"§4 + lemma_005 inline numerics","ts":"2026-05-06T16:05:53+00:00"}

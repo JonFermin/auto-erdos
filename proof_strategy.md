@@ -709,8 +709,8 @@ upper bound, if true, is asymptotically *tight*: this section
 shows the matching $\ge 1$ lower bound. The open analytic
 question, then, is the matching upper bound — does the supremum
 *stay* at $1$, or does it briefly enter $(1, e^{\gamma}\pi/4 +
-o(1)]$? This is the content of the open conjecture; F1's $\le
-1.399 + o(1)$ leaves the question wide.
+o(1)]$? This is the content of the open conjecture; F1's
+$\le e^\gamma \pi/4 + o(1)$ leaves the question wide.
 
 (End of Section 4; Q17 resolved as a rigorous lower bound on the
 conjecture's supremum, via F3 applied to $A_k$ for $k \to \infty$.)
