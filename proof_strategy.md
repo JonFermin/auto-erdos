@@ -862,7 +862,8 @@ new bullets without altering any prior bullet:
 The lemma 5 file (`proof_lemmas/lemma_005_cross_stratum.md`) is
 updated to mirror this status — its open content is now framed as
 the cross-stratum mechanism that ties §4's lower bound to F1's
-upper bound.
+upper bound. The §Update there carries the same no-§1.3-witness
+clarifier as the bullet above.
 
 Neither §4 nor §6 commits a witness; the conjecture remains open.
 The partial result of this writeup is now complete in the

@@ -122,10 +122,11 @@ residue:
 
 **§4**: applying F3 to $A_k$ for $k \to \infty$ shows
 $\sup_{A \text{ primitive}, A \subset [x, \infty)} S(A) \ge 1$ in the
-limit. The witness is $A_k$ for $k$ large; it is primitive (Lemma 1)
-and contained in $[x, \infty)$ (smallest element $2^k$). So the
-single-stratum case alone matches the conjecture's ceiling from
-below.
+limit. The construction is $A_k$ for $k$ large; it is primitive
+(Lemma 1) and contained in $[x, \infty)$ (per §4's threshold
+argument). So the single-stratum case alone matches the
+conjecture's ceiling from below. (No witness in the §1.3 sense is
+committed; this is a supremum statement.)
 
 **§6**: summing F3's per-stratum deficits via the elementary identity
 $\sum k^2/2^k = 6$ gives the closed-form $6c$ at leading order. Strata
