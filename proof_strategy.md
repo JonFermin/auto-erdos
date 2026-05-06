@@ -220,8 +220,8 @@ truncation. The largest element reached for $N = 8000$ is $81{,}799$
 (at $k = 1$), well within machine precision.
 
 The F3-predicted full-stratum value is
-$\widehat{S}_k \;=\; 1 - c\, k^2 / 2^k$ with $c \approx 0.0656$ from the
-ledger's F3 statement. This $\widehat{S}_k$ is the *leading-correction*
+$\widehat{S}_k \;=\; 1 - c\, k^2 / 2^k$ with $c$ the constant
+specified in F3. This $\widehat{S}_k$ is the *leading-correction*
 prediction; F3's $o(1)$ remainder is not computed here.
 
 #### 2.2 Data

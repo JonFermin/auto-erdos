@@ -94,3 +94,6 @@
 {"qid":"Q34","status":"resolved","session_id":"s_0505-210743-292f","summary":"§1.2 redundant '1.399' dropped; v1 success 0 blocking 6 warns","ts":"2026-05-06T03:21:14+00:00"}
 {"qid":"Q35","status":"open","parent_qid":null,"summary":"§5 bracket display: trailing '\approx 1.399' inline numeric; drop, F1 form is already informative","ts":"2026-05-06T03:21:36+00:00","session_id":"s_0505-210743-292f"}
 {"qid":"Q35","status":"claimed","session_id":"s_0505-210743-292f","summary":"§5 bracket numeric drop","ts":"2026-05-06T03:21:36+00:00"}
+{"qid":"Q35","status":"resolved","session_id":"s_0505-210743-292f","summary":"§5 bracket trailing '1.399' dropped; v1 success 0 blocking 9 warns","ts":"2026-05-06T03:23:25+00:00"}
+{"qid":"Q36","status":"open","parent_qid":null,"summary":"§2.1 inline 'c \approx 0.0656' redundant with F3 ledger statement; soften to reference","ts":"2026-05-06T03:23:51+00:00","session_id":"s_0505-210743-292f"}
+{"qid":"Q36","status":"claimed","session_id":"s_0505-210743-292f","summary":"§2.1 c ledger ref","ts":"2026-05-06T03:23:51+00:00"}
