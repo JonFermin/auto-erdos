@@ -756,8 +756,10 @@ the open analytic content.
 the conjecture would:
 - *attain* the bound $1$ asymptotically (it cannot be better than
   $\le 1$, since §4 shows $\sup \ge 1$), and
-- *match* F1's $e^\gamma \pi/4$ at every finite $x$, then tighten
-  to $1$ as $x \to \infty$.
+- inherit F1's $\le e^\gamma \pi/4 + o(1)$ at every finite $x$
+  (F1 is universal, so any tighter bound is automatically
+  consistent with it), then tighten the ceiling to $1$ as
+  $x \to \infty$.
 
 The conjecture is therefore an *asymptotic identity* on $\sup S(A)$:
 the limit equals $1$. Proving it requires identifying the exact

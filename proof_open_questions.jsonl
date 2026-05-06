@@ -138,3 +138,6 @@
 {"qid":"Q49","status":"resolved","session_id":"s_0505-210743-292f","summary":"§3.4 derivation deferred to §6.1; v1 success 0 blocking 7 warns","ts":"2026-05-06T16:25:05+00:00"}
 {"qid":"Q50","status":"open","parent_qid":null,"summary":"§3.6 Q6 absorption: stale 'three things ratified' count (§3.5 now lists 5); rephrase to count-free 'each ratified sub-result' for future-proofing","ts":"2026-05-06T16:25:43+00:00","session_id":"s_0505-210743-292f"}
 {"qid":"Q50","status":"claimed","session_id":"s_0505-210743-292f","summary":"§3.6 stale count","ts":"2026-05-06T16:25:43+00:00"}
+{"qid":"Q50","status":"resolved","session_id":"s_0505-210743-292f","summary":"§3.6 stale count rephrased; v1 success 0 blocking 8 warns","ts":"2026-05-06T16:27:47+00:00"}
+{"qid":"Q51","status":"open","parent_qid":null,"summary":"§5.2 second bullet: ambiguous 'match F1's e^gamma pi/4 at every finite x' — F1 is universal, so 'match' is the wrong verb. Rephrase as 'inherit F1's <= bound, then tighten'","ts":"2026-05-06T16:28:30+00:00","session_id":"s_0505-210743-292f"}
+{"qid":"Q51","status":"claimed","session_id":"s_0505-210743-292f","summary":"§5.2 bullet rephrase","ts":"2026-05-06T16:28:30+00:00"}
