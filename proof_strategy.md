@@ -21,24 +21,6 @@ against it, and decides keep/discard via `proof_log_result.py`.
   F3 (exact asymptotic showing canonical extremal sum approaches 1 from
   BELOW). Citations to facts not in the ledger trigger `critic_ledger`.
 
-## Anti-traps (the canonical failure modes)
-
-- **F2 sign confusion**. F2 says
-  $\sum_{a \in A_k} 1/(a \log a) \geq 1 + O(k^{-1/2 + o(1)})$
-  with the $O(\cdot)$ term **unsigned**. Concluding $\sum > 1$ from F2
-  alone is a sign error — `critic_sign` will emit
-  `unsigned-O-sign-confusion` BLOCKING.
-- **F3 read upside-down**. F3 says
-  $\sum_{a \in A_k} 1/(a \log a) = 1 - (c+o(1)) k^2/2^k$
-  with $c \approx 0.0656 > 0$. The leading correction is *negative*, so
-  the sum approaches $1$ from BELOW. Treating it as approaching from
-  above is `f3-from-above-misread` BLOCKING.
-- **Open claim asserted resolved without witness**. The conjecture is open.
-  Phrases like "the conjecture is false" / "we disprove" trigger
-  `critic_openness`'s `open-claim-asserted-resolved-without-witness`
-  BLOCKING — unless a verifier-accepted `<!-- WITNESS -->` block is
-  committed and `witness_valid == 1`.
-
 ## Witness format (the only path to a counterexample claim)
 
 A claim of disproof MUST be backed by a finite primitive set whose sum is
