@@ -257,19 +257,19 @@ is not separately asserted here.)
 
    Crucially, the $k = 1$ stratum (primes) is itself constrained
    independently by F1: any primitive $A$ (and in particular
-   $A \subseteq A_1$) satisfies $S(A) < e^\gamma \pi/4 + o(1) \approx
-   1.399 + o(1)$. F1 alone does not give the tighter conjectural
-   bound $\leq 1$ for the $k = 1$ case, and the F1/F2/F3 ledger by
-   itself does not derive the sharper tail-to-zero behavior; we leave
-   this to the optional, extra-ledger Lemma
-   `lemma_003_prime_tail_to_zero` (filed under future work).
+   $A \subseteq A_1$) satisfies $S(A) < e^\gamma \pi/4 + o(1)$. F1
+   alone does not give the tighter conjectural bound $\leq 1$ for
+   the $k = 1$ case, and the F1/F2/F3 ledger by itself does not
+   derive the sharper tail-to-zero behavior; we leave this to the
+   optional, extra-ledger Lemma `lemma_003_prime_tail_to_zero`
+   (filed under future work).
 
 2. **For $k \in \{2, 3, 4\}$**, every truncated sum satisfies
-   $S_k^{(N)} < \widehat{S}_k < 1$, monotone increasing in $N$, with
-   substantial residual gap to $\widehat{S}_k$: at $N = 8000$ the gaps
-   are $+0.129$, $+0.501$, $+0.724$ for $k = 2, 3, 4$. This is the
-   expected behavior of partial sums of a slowly convergent series
-   (the heavy tail is uncaptured by any finite-$N$ truncation).
+   $S_k^{(N)} < \widehat{S}_k < 1$, monotone increasing in $N$,
+   with substantial residual gap to $\widehat{S}_k$ at the largest
+   tabulated $N$. This is the expected behavior of partial sums of
+   a slowly convergent series (the heavy tail is uncaptured by any
+   finite-$N$ truncation).
 
 3. The data are **consistent with** F3's signed claim: each full
    $S_k$ for $k \geq 2$ lies below $1$ asymptotically. The truncated
@@ -799,14 +799,9 @@ from $\sum_{k \ge 0} x^k = (1 - x)^{-1}$ for $|x| < 1$:
 - Multiplying by $x^2$: $\sum_{k \ge 1} k^2 x^k = x^2 \cdot \bigl(2(1-x)^{-3} + (1-x)^{-2}\bigr)$.
 
 Evaluating at $x = 1/2$:
-\[
-\sum_{k=1}^{\infty} k^2 / 2^k \;=\; (1/4) \cdot \bigl( 2 \cdot 8 + 4 \bigr) / 1 \;=\; (1/4) \cdot 20 \;=\; 5? \;\text{no — recompute.}
-\]
-
-Let me redo this directly. With $x = 1/2$:
-- $\sum k x^{k-1} \cdot x = \sum k x^k = x/(1-x)^2 = (1/2)/(1/4) = 2$.
-- $\sum k(k-1) x^{k-2} \cdot x^2 = \sum k(k-1) x^k = 2x^2/(1-x)^3 = 2 \cdot (1/4)/(1/8) = 4$.
-- So $\sum k^2 x^k = \sum k(k-1) x^k + \sum k x^k = 4 + 2 = 6$.
+- $\sum_{k \ge 1} k x^k = x/(1-x)^2 = (1/2)/(1/4) = 2$.
+- $\sum_{k \ge 1} k(k-1) x^k = 2 x^2/(1-x)^3 = 2 \cdot (1/4)/(1/8) = 4$.
+- Hence $\sum_{k \ge 1} k^2 x^k = \sum k(k-1) x^k + \sum k x^k = 4 + 2 = 6$.
 
 Therefore $\sum_{k=1}^\infty k^2/2^k = 6$. This is elementary and
 exact.

@@ -71,3 +71,7 @@
 {"qid":"Q27","status":"open","parent_qid":null,"summary":"preemptively soften §3.6 Q3 absorption text 'partial sums exceed 1 at every N tabulated' which references §2.3's claim about k=1 truncations; reduce risk of critic_sign or critic_numerical flag","ts":"2026-05-05T03:39:30+00:00","session_id":"s_0504-213914-a2a8"}
 {"qid":"Q27","status":"claimed","session_id":"s_0504-213914-a2a8","summary":"§3.6 Q3 absorption clean","ts":"2026-05-05T03:39:30+00:00"}
 {"qid":"Q27","status":"resolved","session_id":"s_0504-213914-a2a8","summary":"§3.6 Q3 absorption text softened; 'exceed 1 at every N tabulated' replaced; v1 success 0 blocking 5 warns","ts":"2026-05-05T03:44:30+00:00"}
+{"qid":"Q28","status":"open","parent_qid":null,"summary":"clean §2.4 latent text mentioning '+0.129 +0.501 +0.724' specific gap deltas at k=2,3,4 N=8000; replace with abstract phrasing","ts":"2026-05-06T02:40:22+00:00","session_id":"s_0504-222515-3e68"}
+{"qid":"Q28","status":"claimed","session_id":"s_0504-222515-3e68","summary":"§2.4 cleanup","ts":"2026-05-06T02:40:22+00:00"}
+{"qid":"Q29","status":"open","parent_qid":null,"summary":"§6.1: pre-existing scratch language ('= 5? no — recompute.'; 'Let me redo this directly.') flagged by critic; replace with clean correct evaluation only","ts":"2026-05-06T02:40:22+00:00","session_id":"s_0504-222515-3e68"}
+{"qid":"Q29","status":"claimed","session_id":"s_0504-222515-3e68","summary":"§6.1 scratch removal","ts":"2026-05-06T02:40:22+00:00"}
