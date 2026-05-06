@@ -461,7 +461,7 @@ $$
 \;\leq\; S_k
 \;\leq\; 1 - \tfrac{c}{2}\,\frac{k^2}{2^k}
 \;<\; 1,
-\qquad c \approx 0.0656.
+\qquad c \text{ as in F3.}
 $$
 The quantitative gap to $1$ at this stratum is therefore at least
 $(c/2)\, k^2 / 2^k$ — exponentially small in $k$ but strictly
@@ -854,7 +854,7 @@ content added by §4 (lower bound via $A_k$ for $k \to \infty$) and
 §6 (cumulative F3-deficit closed form). These are appended as two
 new bullets without altering any prior bullet:
 
-- *Lower-bound construction* (§4): $\sup_{A \text{ primitive}, A \subset [x, \infty)} S(A) \ge 1$ is established rigorously via F3's signed asymptotic applied to $A_k$ for $k \ge \lceil \log_2 x \rceil$ — $A_k$ is itself primitive (Lemma 1) and contained in $[x, \infty)$ (smallest element $2^k \ge x$), with $S(A_k) \to 1$ from below. (No witness is committed; this is a supremum statement, not a finite construction satisfying the witness contract of §1.3.)
+- *Lower-bound construction* (§4): $\sup_{A \text{ primitive}, A \subset [x, \infty)} S(A) \ge 1$ is established rigorously via F3's signed asymptotic applied to $A_k$ for sufficiently large $k$ (per §4's threshold construction $\tau_k$) — $A_k$ is itself primitive (Lemma 1) and contained in $[x, \infty)$ (per §4's threshold argument), with $S(A_k) \to 1$ from below. (No witness is committed; this is a supremum statement, not a finite construction satisfying the witness contract of §1.3.)
 
 - *Cumulative F3-deficit* (§6): summing F3's per-stratum deficits via the elementary identity $\sum_{k \ge 1} k^2/2^k = 6$ gives the closed-form $6c$ at leading order. Strata are not primitive in their disjoint union, so this is *not* a bound on $\sup S(A)$; it is a structural F3-derived constant available for future analytical work.
 

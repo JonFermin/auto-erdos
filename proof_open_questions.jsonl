@@ -97,3 +97,7 @@
 {"qid":"Q35","status":"resolved","session_id":"s_0505-210743-292f","summary":"§5 bracket trailing '1.399' dropped; v1 success 0 blocking 9 warns","ts":"2026-05-06T03:23:25+00:00"}
 {"qid":"Q36","status":"open","parent_qid":null,"summary":"§2.1 inline 'c \approx 0.0656' redundant with F3 ledger statement; soften to reference","ts":"2026-05-06T03:23:51+00:00","session_id":"s_0505-210743-292f"}
 {"qid":"Q36","status":"claimed","session_id":"s_0505-210743-292f","summary":"§2.1 c ledger ref","ts":"2026-05-06T03:23:51+00:00"}
+{"qid":"Q37","status":"open","parent_qid":null,"summary":"§3.3 inline 'c \approx 0.0656' redundant; replace with 'as in F3'","ts":"2026-05-06T03:28:46+00:00","session_id":"s_0505-210743-292f"}
+{"qid":"Q37","status":"claimed","session_id":"s_0505-210743-292f","summary":"§3.3 c ledger ref","ts":"2026-05-06T03:28:46+00:00"}
+{"qid":"Q38","status":"open","parent_qid":null,"summary":"§7 line 857: 'smallest element 2^k \ge x' is non-ledger numeric; replace by deferring to §4's abstract threshold tau_k","ts":"2026-05-06T03:28:46+00:00","session_id":"s_0505-210743-292f"}
+{"qid":"Q38","status":"claimed","session_id":"s_0505-210743-292f","summary":"§7 threshold ref","ts":"2026-05-06T03:28:46+00:00"}
