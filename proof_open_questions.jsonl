@@ -75,3 +75,5 @@
 {"qid":"Q28","status":"claimed","session_id":"s_0504-222515-3e68","summary":"§2.4 cleanup","ts":"2026-05-06T02:40:22+00:00"}
 {"qid":"Q29","status":"open","parent_qid":null,"summary":"§6.1: pre-existing scratch language ('= 5? no — recompute.'; 'Let me redo this directly.') flagged by critic; replace with clean correct evaluation only","ts":"2026-05-06T02:40:22+00:00","session_id":"s_0504-222515-3e68"}
 {"qid":"Q29","status":"claimed","session_id":"s_0504-222515-3e68","summary":"§6.1 scratch removal","ts":"2026-05-06T02:40:22+00:00"}
+{"qid":"Q28","status":"resolved","session_id":"s_0504-222515-3e68","summary":"§2.4 cleanup: '1.399 + o(1)' approximation and '+0.129/+0.501/+0.724' specific deltas dropped; v1 success 0 blocking 10 warns","ts":"2026-05-06T02:42:32+00:00"}
+{"qid":"Q29","status":"resolved","session_id":"s_0504-222515-3e68","summary":"§6.1 scratch removed: '= 5? no — recompute.' / 'Let me redo this directly.' replaced with clean inline derivation; v1 success 0 blocking 10 warns","ts":"2026-05-06T02:42:32+00:00"}
