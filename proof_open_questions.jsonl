@@ -128,3 +128,7 @@
 {"qid":"Q46","status":"claimed","session_id":"s_0505-210743-292f","summary":"§2.5 0.2 cleanup","ts":"2026-05-06T16:17:38+00:00"}
 {"qid":"Q47","status":"open","parent_qid":null,"summary":"§2.1: 'largest element reached for N=8000 is 81,799 (the 8000th prime, k=1)' is non-ledger numeric; replace with abstract precision claim","ts":"2026-05-06T16:17:38+00:00","session_id":"s_0505-210743-292f"}
 {"qid":"Q47","status":"claimed","session_id":"s_0505-210743-292f","summary":"§2.1 81,799 cleanup","ts":"2026-05-06T16:17:38+00:00"}
+{"qid":"Q46","status":"resolved","session_id":"s_0505-210743-292f","summary":"§2.5 numerics dropped; v2 success 0 blocking 8 warns","ts":"2026-05-06T16:19:42+00:00"}
+{"qid":"Q47","status":"resolved","session_id":"s_0505-210743-292f","summary":"§2.1 81,799 dropped; v2 success 0 blocking 8 warns","ts":"2026-05-06T16:19:42+00:00"}
+{"qid":"Q48","status":"open","parent_qid":null,"summary":"§3.5 Status repeated 'order of magnitude below threshold' phrasing; soften same way as §2.5 Bearing in round 41","ts":"2026-05-06T16:20:20+00:00","session_id":"s_0505-210743-292f"}
+{"qid":"Q48","status":"claimed","session_id":"s_0505-210743-292f","summary":"§3.5 status order-of-magnitude","ts":"2026-05-06T16:20:20+00:00"}
