@@ -10,8 +10,8 @@ introduced_at_round: 5
 
 **Statement.** Let $A_k = \{ n \in \mathbb{Z}_{\geq 2} : \Omega(n) = k \}$
 and let $S_k = \sum_{a \in A_k} 1/(a \log a)$. By F3,
-$S_k = 1 - (c + o(1)) k^2 / 2^k$ as $k \to \infty$, with $c \approx
-0.0656 > 0$. Then for every $x \geq 2$, the truncated stratum
+$S_k = 1 - (c + o(1)) k^2 / 2^k$ as $k \to \infty$, with $c$ as
+in F3 (positive). Then for every $x \geq 2$, the truncated stratum
 $A_k \cap [x, \infty)$ is again a primitive set, and
 $$
 \sum_{a \in A_k \cap [x, \infty)} \frac{1}{a \log a}

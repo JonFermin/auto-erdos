@@ -803,8 +803,8 @@ Evaluating at $x = 1/2$:
 - $\sum_{k \ge 1} k(k-1) x^k = 2 x^2/(1-x)^3 = 2 \cdot (1/4)/(1/8) = 4$.
 - Hence $\sum_{k \ge 1} k^2 x^k = \sum k(k-1) x^k + \sum k x^k = 4 + 2 = 6$.
 
-Therefore $\sum_{k=1}^\infty k^2/2^k = 6$. This is elementary and
-exact.
+Therefore $\sum_{k=1}^\infty k^2/2^k = 6$. This identity is
+elementary; it is used in §6.2 below.
 
 #### 6.2 Application to F3
 

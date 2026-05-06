@@ -115,3 +115,6 @@
 {"qid":"Q41","status":"resolved","session_id":"s_0505-210743-292f","summary":"§5.1 + lemma_005 1.399 dropped; v1 success 0 blocking 4 warns","ts":"2026-05-06T16:05:10+00:00"}
 {"qid":"Q42","status":"open","parent_qid":null,"summary":"§4 line 713 'F1's <= 1.399 + o(1)' inline numeric -> closed-form; lemma_005 line 99 'sum \approx 0.13' empirical specific -> 'well below threshold 1'","ts":"2026-05-06T16:05:53+00:00","session_id":"s_0505-210743-292f"}
 {"qid":"Q42","status":"claimed","session_id":"s_0505-210743-292f","summary":"§4 + lemma_005 inline numerics","ts":"2026-05-06T16:05:53+00:00"}
+{"qid":"Q42","status":"resolved","session_id":"s_0505-210743-292f","summary":"§4 + lemma_005 inline numerics dropped; v1 success 0 blocking 11 warns","ts":"2026-05-06T16:07:00+00:00"}
+{"qid":"Q43","status":"open","parent_qid":null,"summary":"lemma_002 statement: 'c \approx 0.0656 > 0' to 'c as in F3 (positive)'; paired §6.1 edit drops 'elementary and exact' for less emphatic 'elementary' with §6.2 pointer","ts":"2026-05-06T16:08:05+00:00","session_id":"s_0505-210743-292f"}
+{"qid":"Q43","status":"claimed","session_id":"s_0505-210743-292f","summary":"lemma_002 c ref + §6.1 phrasing","ts":"2026-05-06T16:08:05+00:00"}
