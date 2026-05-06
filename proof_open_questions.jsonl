@@ -144,3 +144,6 @@
 {"qid":"Q51","status":"resolved","session_id":"s_0505-210743-292f","summary":"§5.2 bullet rephrased; v2 success after transient critic_unavailable on v1; 0 blocking 7 warns","ts":"2026-05-06T16:33:15+00:00"}
 {"qid":"Q52","status":"open","parent_qid":null,"summary":"lemma_005 line 56 informal '\approx \sum 1' replaced with rigorous lower-bound divergence; §3.4 'sum = infty' notation softened to descriptive","ts":"2026-05-06T16:34:54+00:00","session_id":"s_0505-210743-292f"}
 {"qid":"Q52","status":"claimed","session_id":"s_0505-210743-292f","summary":"lemma_005 + §3.4 divergence rigor","ts":"2026-05-06T16:34:54+00:00"}
+{"qid":"Q52","status":"resolved","session_id":"s_0505-210743-292f","summary":"lemma_005 + §3.4 divergence rigor; v2 success after transient critic_unavailable; 0 blocking 5 warns","ts":"2026-05-06T16:40:52+00:00"}
+{"qid":"Q53","status":"open","parent_qid":null,"summary":"§1.1: vague 'a different constant' — sharpen to 'strictly larger constant' (F1's e^gamma pi/4 exceeds 1)","ts":"2026-05-06T16:41:19+00:00","session_id":"s_0505-210743-292f"}
+{"qid":"Q53","status":"claimed","session_id":"s_0505-210743-292f","summary":"§1.1 different -> strictly larger","ts":"2026-05-06T16:41:19+00:00"}

@@ -96,10 +96,10 @@ $1$ is not, by itself, a refutation — it must outpace the implicit
 $\eta(x)$ at the relevant $x$.
 
 The conjecture is *open*. It is strictly tighter than the
-established Erdős–Zhang upper bound (a different constant; see F1
-below), and remains open at the time of writing. No resolution claim
-may appear in this file unless backed by a verified witness in the
-sense of §1.3.
+established Erdős–Zhang upper bound (a strictly larger constant;
+see F1 below), and remains open at the time of writing. No
+resolution claim may appear in this file unless backed by a
+verified witness in the sense of §1.3.
 
 #### 1.2 Given-facts ledger (the only external citations allowed)
 
