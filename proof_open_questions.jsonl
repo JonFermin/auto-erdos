@@ -12,3 +12,6 @@
 {"qid":"Q3","status":"resolved","session_id":"s_0507-080738-3d5f","summary":"Prime sum 1/(p log p) converges to ~1.637; tail >= x decays as ~1/log(x) -> 0, consistent with conjecture","ts":"2026-05-07T08:23:05+00:00"}
 {"qid":"Q4","status":"claimed","session_id":"s_0507-080738-3d5f","summary":"taking Q4: witness search at x_floor=100,1000,10000","ts":"2026-05-07T08:26:01+00:00"}
 {"qid":"Q5","status":"claimed","session_id":"s_0507-080738-3d5f","summary":"taking Q5: outline proof structure via Omega stratification","ts":"2026-05-07T08:26:01+00:00"}
+{"qid":"Q4","status":"resolved","session_id":"s_0507-080738-3d5f","summary":"no witness at x_floor>=10; trivial witness {2,3,5} at x_floor=2 not a genuine counterexample (o(1) large at x=2)","ts":"2026-05-07T08:28:14+00:00"}
+{"qid":"Q5","status":"resolved","session_id":"s_0507-080738-3d5f","summary":"Omega-stratification + Selberg-Delange: proof structure outlined in lemmas 1-3; gap identified at Selberg-Delange constant","ts":"2026-05-07T08:28:14+00:00"}
+{"qid":"Q6","status":"claimed","session_id":"s_0507-080738-3d5f","summary":"taking Q6: write final partial-result summary and call session_end","ts":"2026-05-07T08:28:56+00:00"}
