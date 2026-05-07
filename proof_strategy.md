@@ -60,11 +60,90 @@ at the bottom of this file. `proof_prepare.py` parses the JSON, runs the
 deterministic verifier, and sets `witness_valid` accordingly. No witness
 block ⇒ `witness_valid = 0` ⇒ no counterexample claim is possible.
 
-## Body
+## Section 1: Setup — The Claim, Facts, and Witness Contract
 
-(The agent fills in the body. Sketch a structure, prove what you can,
-hedge the rest. Lemmas live in `proof_lemmas/lemma_*.md` and are cited
-by id from this file.)
+### The Claim (in plain language)
 
-This proof attempt is currently a stub. Pick the lowest-numbered open
-qid from `proof_open_questions.jsonl` and start.
+Fix any $x \geq 2$. Let $A \subset [x, \infty)$ be any **primitive set** —
+a set of integers in which no element divides any other. The conjecture of
+Erdős asserts that the weighted count
+
+$$S(A) := \sum_{a \in A} \frac{1}{a \log a}$$
+
+satisfies $S(A) < 1 + o(1)$ where the $o(1)$ error tends to $0$ as $x \to \infty$.
+
+In other words: for every primitive set entirely above a sufficiently large
+threshold $x$, the sum $S(A)$ stays strictly below $1$ (by a margin that
+grows as $x$ grows). The conjecture says primes (the "canonical" extremal
+primitive set) are essentially the worst case, and even primes stay below
+$\log 2 \approx 0.693 < 1$ for large $x$ (the sum over primes $\geq x$
+converges and shrinks). The conjecture has not been resolved.
+
+### The Three Given Facts
+
+**F1 (Erdős–Zhang upper bound, 1935/1993).**
+For ANY primitive set $A \subseteq \mathbb{N}$ (not just $A \subset [x,\infty)$),
+$$S(A) = \sum_{a \in A} \frac{1}{a \log a} < e^{\gamma} \frac{\pi}{4} + o(1) \approx 1.399 + o(1).$$
+
+Sign note: This is a STRICT UPPER BOUND. It says the sum is less than ~1.399,
+which is consistent with the conjecture (which claims a tighter bound of 1).
+F1 does NOT say the sum can reach 1.399; it is not a lower bound.
+
+**F2 (Omega-stratum lower bound, unsigned big-O).**
+For $A_k := \{n \in \mathbb{N} : \Omega(n) = k\}$ (integers with exactly $k$
+prime factors counted with multiplicity),
+$$\sum_{a \in A_k} \frac{1}{a \log a} \geq 1 + O\!\left(k^{-1/2+o(1)}\right).$$
+
+Sign note: The big-O term $O(k^{-1/2+o(1)})$ is UNSIGNED — its sign is
+unknown. The inequality says "sum $\geq 1$ minus something of size
+$O(k^{-1/2+o(1)})$", NOT "sum $\geq 1$ plus something positive." Deducing
+"sum $> 1$" from F2 alone is a sign error. F2 is a weaker statement: it says
+the sum is at least $1 - C k^{-1/2+o(1)}$ for some $C > 0$, approaching 1
+from below.
+
+**F3 (Exact asymptotic, approaches 1 from below).**
+For the same $A_k$,
+$$\sum_{a \in A_k} \frac{1}{a \log a} = 1 - (c + o(1)) \frac{k^2}{2^k}, \quad c \approx 0.0656 > 0.$$
+
+Sign note: The leading correction $-(c+o(1))k^2/2^k$ is NEGATIVE (since
+$c > 0$). The sum is therefore STRICTLY LESS THAN 1 for every $k \geq 1$,
+approaching 1 from below as $k \to \infty$. This is consistent with the
+conjecture. Note also that $A_k$ is not a subset of $[x, \infty)$ for any
+fixed $x$ (it spans all of $\mathbb{N}$), so F3 directly applies to the
+full Omega-stratum, not to a restricted version.
+
+### The Witness Contract
+
+The only route to claiming a counterexample is a **verified witness**:
+
+- A finite set $A \subset [x_{\text{floor}}, \infty)$ for some explicit $x_{\text{floor}}$.
+- $A$ must be primitive (no $a | b$ for distinct $a, b \in A$).
+- The verifier `library.primitive_set_witness.verify_witness` must confirm
+  $S(A) > 1.0$ (the witness threshold).
+- The witness JSON must be embedded in `proof_strategy.md` inside the
+  `<!-- WITNESS ... WITNESS -->` block.
+- Even a verified witness at finite $x_{\text{floor}}$ is only a
+  **candidate counterexample**: the conjecture's $o(1)$ caveat means
+  a witness that exceeds 1 by a tiny margin at finite $x$ is not conclusive
+  without an additional argument that the $o(1)$ gap is already negligible
+  at $x_{\text{floor}}$. Human review is required before claiming a real result.
+
+### What "proof" means here
+
+Since the conjecture is open, "proving" it in this loop means one of:
+(a) Producing a verified witness $A \subset [x_{\text{floor}}, \infty)$ with
+    $S(A) > 1.0$ (disproof / counterexample direction).
+(b) Developing partial structural results: lemmas that constrain $S(A)$ for
+    specific subclasses, narrowing the gap between F1's bound of 1.399 and
+    the conjectured bound of 1.
+
+This session pursues both directions: search for witnesses (Q4) and develop
+lemma structure (Q5).
+
+## Section 2: Numerical Evidence
+
+*(To be filled in Q2 and Q3.)*
+
+## Section 3: Proof Structure and Lemmas
+
+*(To be filled in Q5.)*
