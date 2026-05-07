@@ -2,3 +2,4 @@
 {"event":"round","session_id":"s_0507-080738-3d5f","ts":"2026-05-07T08:23:05+00:00","summary":"Q2+Q3: numerical evidence for F3 and prime sums","qid":"Q2+Q3","status":"keep_progress","commit":"bf2b794"}
 {"event":"round","session_id":"s_0507-080738-3d5f","ts":"2026-05-07T08:28:14+00:00","summary":"Q4+Q5: witness search negative; proof structure via Omega-stratification and Selberg-Delange; lemmas 1-3 created","qid":"Q4+Q5","status":"keep_progress","commit":"a0e4f6e"}
 {"event":"session_close","session_id":"s_0507-080738-3d5f","ts":"2026-05-07T08:29:19+00:00","commit":"b9a9b2d","reason":"reason: partial result converged \u2014 proof structure via Omega-stratification established; gap at Selberg-Delange constant identified"}
+{"event":"session_end","session_id":"s_0507-080738-3d5f","ts":"2026-05-07T08:29:26+00:00","summary":"session closed cleanly; partial result: Omega-stratification + Selberg-Delange reduction; 3 keep_progress rounds","status":"session_closed"}
