@@ -7,3 +7,8 @@
 {"qid":"Q1","status":"claimed","session_id":"s_0507-080738-3d5f","summary":"taking Q1: write Section 1 Setup in proof_strategy.md","ts":"2026-05-07T08:07:54+00:00"}
 {"qid":"Q2","status":"claimed","session_id":"s_0507-080738-3d5f","summary":"taking Q2: numerical verification of F3 for k=1..4","ts":"2026-05-07T08:18:11+00:00"}
 {"qid":"Q3","status":"claimed","session_id":"s_0507-080738-3d5f","summary":"taking Q3: truncated sum over primes","ts":"2026-05-07T08:18:11+00:00"}
+{"qid":"Q1","status":"resolved","session_id":"s_0507-080738-3d5f","summary":"Section 1 Setup written in proof_strategy.md","ts":"2026-05-07T08:23:05+00:00"}
+{"qid":"Q2","status":"resolved","session_id":"s_0507-080738-3d5f","summary":"F3 numerical verification complete: k=2,3,4 sums < 1; k=1 (primes) sum > 1 due to small primes; F3 is asymptotic in k not in finite truncation","ts":"2026-05-07T08:23:05+00:00"}
+{"qid":"Q3","status":"resolved","session_id":"s_0507-080738-3d5f","summary":"Prime sum 1/(p log p) converges to ~1.637; tail >= x decays as ~1/log(x) -> 0, consistent with conjecture","ts":"2026-05-07T08:23:05+00:00"}
+{"qid":"Q4","status":"claimed","session_id":"s_0507-080738-3d5f","summary":"taking Q4: witness search at x_floor=100,1000,10000","ts":"2026-05-07T08:26:01+00:00"}
+{"qid":"Q5","status":"claimed","session_id":"s_0507-080738-3d5f","summary":"taking Q5: outline proof structure via Omega stratification","ts":"2026-05-07T08:26:01+00:00"}
