@@ -9,3 +9,5 @@
 {"qid":"Q1","status":"resolved","session_id":"s_0508-080459-f599","summary":"Setup section written: claim restated, F1/F2/F3 sign-disambiguated, witness contract defined, proof directions outlined","ts":"2026-05-08T08:19:09+00:00"}
 {"qid":"Q3","status":"claimed","session_id":"s_0508-080459-f599","summary":"primes-from-2 sum consistency with F1","ts":"2026-05-08T08:22:18+00:00"}
 {"qid":"Q2","status":"resolved","session_id":"s_0508-080459-f599","summary":"F3 numerically verified for k=1..4; k=1 partial sum >1 documented; tension with sign disambiguation explained","ts":"2026-05-08T08:22:41+00:00"}
+{"qid":"Q3","status":"resolved","session_id":"s_0508-080459-f599","summary":"primes-from-2 sum ≈1.6366 computed; F1 consistency explained; tail sums shrink with x; primes are extremal in limit","ts":"2026-05-08T08:24:49+00:00"}
+{"qid":"Q4","status":"claimed","session_id":"s_0508-080459-f599","summary":"witness search: x_floor 100, 1000, 10000 — no valid witness found","ts":"2026-05-08T08:24:49+00:00"}

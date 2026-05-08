@@ -249,9 +249,61 @@ The primes are the "worst" primitive set in the limit (their tail sum approaches
 conjecture must show that no OTHER primitive set has a tail sum that
 approaches or exceeds 1 faster than the prime tail sum.
 
-## Section 4: Witness Search Results (Q4 — pending)*
+## Section 4: Witness Search (Q4)
 
-*To be filled in by Q4 round.*
+### Results summary
+
+Used `library.primitive_set_witness.verify_witness` (rigorous Decimal-based
+lower bound on $\sum 1/(a \log a)$, threshold = 1.0).
+
+| $x_\text{floor}$ | Candidate set | Rigorous lower bound | $> 1$? |
+|------------------|---------------|---------------------|--------|
+| 2 | $\{2, 3\}$ | **1.024761** | Yes (trivial) |
+| 3 | primes $\in [3, 10^5]$ | 0.828434 | No |
+| 5 | primes $\geq 5$ | 0.525 | No |
+| 100 | primes $\geq 100$ | 0.128 | No |
+| 1000 | primes $\geq 1000$ | 0.057 | No |
+| 10000 | primes $\geq 10000$ | 0.022 | No |
+
+### The trivial witness at $x_\text{floor} = 2$ is not meaningful
+
+The set $\{2, 3\}$ with $x_\text{floor} = 2$ gives a rigorous sum $\approx 1.025 > 1$.
+The verifier accepts this as `is_valid=True`. However, this is **not a
+meaningful counterexample** to the conjecture.
+
+The conjecture's $o(1)$ caveat at $x = 2$: the conjecture claims sum $ < 1 + o(1)$
+with $o(1) \to 0$ as $x \to \infty$. At $x = 2$, the prime tail sum is
+$\approx 1.636$, so the required $o(1)$ at $x = 2$ is at least $0.636$ — far
+from being small. The $\{2, 3\}$ witness at $x_\text{floor} = 2$ is fully
+consistent with the conjecture.
+
+No witness block is committed because this witness would not constitute a
+genuine disproof; it exploits the large $o(1)$ slack at $x = 2$.
+
+### Negative result for $x_\text{floor} \geq 3$
+
+The prime tail sum at $x = 3$ is $\approx 0.828$ (all primes $\geq 3$ up to
+$10^5$). The full sum over all primes $\geq 3$ converges to
+$1.636 - 1/(2 \ln 2) \approx 1.636 - 0.721 = 0.915 < 1$.
+
+Since primes are conjectured to maximize $\sum 1/(a \log a)$ over all primitive
+sets, and the prime tail sum at $x \geq 3$ is $< 1$, we expect no valid witness
+exists for $x_\text{floor} \geq 3$.
+
+**The single prime 2 is special**: its contribution $1/(2 \ln 2) \approx 0.721$
+accounts for the entire difference between the "witness-positive" ($x=2$) and
+"witness-negative" ($x \geq 3$) regimes. This suggests the conjecture's
+difficulty lies exactly in controlling the contribution of small primes —
+which the $x \to \infty$ restriction eliminates by design.
+
+### Implication
+
+The conjecture is likely TRUE: for any primitive $A \subset [x, \infty)$
+with $x \geq 3$, the sum is $< 1$ (and hence $< 1 + o(1)$). The case $x = 2$
+is not a counterexample because the $o(1)$ term absorbs the excess.
+
+This leaves the proof direction firmly as a PROOF (not a disproof): show that
+for large $x$, all primitive sets in $[x, \infty)$ have sum $< 1 + o(1)$.
 
 ## Section 5: Proof Outline (Q5 — pending)*
 
