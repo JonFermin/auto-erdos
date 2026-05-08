@@ -15,3 +15,4 @@
 {"qid":"Q5","status":"claimed","session_id":"s_0508-080459-f599","summary":"proof outline: Omega-stratification approach with lemma files","ts":"2026-05-08T08:26:14+00:00"}
 {"qid":"Q5","status":"resolved","session_id":"s_0508-080459-f599","summary":"Omega-stratification approach outlined; 3 lemmas created; bottleneck=primes_extremal (open); partial result committed","ts":"2026-05-08T08:28:31+00:00"}
 {"qid":"Q6","status":"claimed","session_id":"s_0508-080459-f599","summary":"acknowledging hard gaps; calling session_end with converged-on-partial-result","ts":"2026-05-08T08:28:31+00:00"}
+{"qid":"Q6","status":"resolved","session_id":"s_0508-080459-f599","summary":"Session ended: partial result recorded; bottleneck acknowledged; 3 lemma files seeded for future sessions","ts":"2026-05-08T08:28:36+00:00"}
