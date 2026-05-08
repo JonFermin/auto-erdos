@@ -25,19 +25,15 @@ against it, and decides keep/discard via `proof_log_result.py`.
 
 - **F2 sign confusion**. F2 says
   $\sum_{a \in A_k} 1/(a \log a) \geq 1 + O(k^{-1/2 + o(1)})$
-  with the $O(\cdot)$ term **unsigned**. Concluding $\sum > 1$ from F2
-  alone is a sign error — `critic_sign` will emit
-  `unsigned-O-sign-confusion` BLOCKING.
-- **F3 read upside-down**. F3 says
-  $\sum_{a \in A_k} 1/(a \log a) = 1 - (c+o(1)) k^2/2^k$
-  with $c \approx 0.0656 > 0$. The leading correction is *negative*, so
-  the sum approaches $1$ from BELOW. Treating it as approaching from
-  above is `f3-from-above-misread` BLOCKING.
-- **Open claim asserted resolved without witness**. The conjecture is open.
-  Phrases like "the conjecture is false" / "we disprove" trigger
-  `critic_openness`'s `open-claim-asserted-resolved-without-witness`
-  BLOCKING — unless a verifier-accepted `<!-- WITNESS -->` block is
-  committed and `witness_valid == 1`.
+  with the $O(\cdot)$ term **unsigned**. Concluding the sum exceeds 1 from F2
+  alone is a sign error (`critic_sign` BLOCKING: unsigned-O-sign-confusion).
+- **F3 read upside-down**. The correction in F3 is *negative* ($c > 0$), so
+  the sum approaches 1 from BELOW. Treating the correction as positive or
+  claiming the sum exceeds 1 via F3 is `f3-from-above-misread` BLOCKING.
+- **Resolution claim without witness**. The conjecture is open. Any assertion
+  of definitive resolution (counterexample found, proof complete) triggers
+  `critic_openness` BLOCKING unless a verifier-accepted `<!-- WITNESS -->` block
+  is committed with `witness_valid == 1`.
 
 ## Witness format (the only path to a counterexample claim)
 
@@ -131,9 +127,70 @@ Three paths:
 3. **Partial result** — rule out large classes of counterexamples, or tighten
    the known upper bound below 1.399 toward 1.
 
-## Section 2: Numerical Evidence (Q2 — in progress)
+## Section 2: Numerical Evidence (Q2)
 
-*To be filled in by Q2 round.*
+### F3 Verification — Truncated Sums over $A_k$ for $k = 1, 2, 3, 4$
+
+Computed in Python: for each $k$, accumulated $\sum 1/(a \log a)$ over the
+first 200 elements of $A_k = \{n : \Omega(n) = k\}$, sorted in increasing
+order.
+
+| $k$ | First 5 elements | Truncated sum (200 elements) | F3 prediction $1 - c k^2/2^k$ | Sum $< 1$? |
+|-----|-----------------|-------------------------------|-------------------------------|------------|
+| 1 | 2, 3, 5, 7, 11 | **1.496452** | 0.967200 | **NO** |
+| 2 | 4, 6, 9, 10, 14 | 0.681938 | 0.934400 | Yes |
+| 3 | 8, 12, 18, 20, 27 | 0.313401 | 0.926200 | Yes |
+| 4 | 16, 24, 36, 40, 54 | 0.140341 | 0.934400 | Yes |
+
+(Constant $c = 0.0656$, natural log throughout.)
+
+### Observations
+
+**$k = 1$ (primes) exceeds 1 after only a few terms.** The first two terms alone
+give $1/(2 \ln 2) + 1/(3 \ln 3) \approx 0.721 + 0.303 = 1.024 > 1$. The
+partial sum after 200 primes is 1.496, and the full sum
+$\sum_p 1/(p \ln p)$ over all primes appears to converge to approximately
+$1.636$ (computed up to $10^6$; slow divergence is not ruled out).
+
+**$k = 2, 3, 4$: all partial sums $< 1$**, with values 0.682, 0.313, 0.140.
+These are still growing as more elements are added — the full sum for $k=2$
+(up to $n = 10^5$) reaches 0.829, still short of the F3 prediction 0.934.
+Convergence is slow.
+
+### Reconciling with F3 and the sign disambiguation
+
+The sign disambiguation in the proof spec claims "the sum is STRICTLY LESS
+THAN 1 for every $k \geq 1$". This is inconsistent with $k = 1$ (primes),
+which gives a partial sum exceeding 1 already at $k = 4$ primes.
+
+Two interpretations that preserve F3's honesty:
+
+**(A) F3 is an asymptotic in $k \to \infty$, not valid for $k = 1, 2$.** Under
+this reading, F3 says: as $k$ grows large, the $k$-almost-prime sum
+approaches 1 from below with the leading correction $-c k^2/2^k$. For small
+$k$ (especially $k = 1$), F3 is not a tight description.
+
+**(B) F3 refers to the TAIL $A_k \cap [x, \infty)$ for appropriately chosen
+$x(k)$.** The conjecture itself restricts to $[x, \infty)$. If $x$ grows
+fast enough with $k$, the tail sum over $k$-almost primes could be exactly
+$1 - c k^2/2^k$.
+
+Interpretation (B) aligns better with the conjecture's $x$-restriction.
+Interpretation (A) is the safest reading for an asymptotic formula.
+
+**Key implication**: F3's sign disambiguation is CORRECT in spirit —
+the extremal stratum does NOT produce a sum exceeding 1 by the F3 formula —
+but should be read with the caveat that for small $k$ (especially $k = 1$),
+the FULL sum (starting from $n = 2$) can exceed 1 due to the large
+contributions of small primes. The conjecture's $x \to \infty$ restriction
+is essential.
+
+### Connection to the conjecture
+
+For the conjecture to hold, it must be that for primitive $A \subset [x, \infty)$,
+the sum is bounded by $1 + o(1)$. The large contribution of small primes
+(like $1/(2 \ln 2) \approx 0.721$) is excluded when $x \geq 3$. As $x$ grows,
+all the large terms are excluded and the remaining sum shrinks.
 
 ## Section 3: Primes-from-2 Consistency (Q3 — pending)*
 
