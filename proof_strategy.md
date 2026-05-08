@@ -305,6 +305,72 @@ is not a counterexample because the $o(1)$ term absorbs the excess.
 This leaves the proof direction firmly as a PROOF (not a disproof): show that
 for large $x$, all primitive sets in $[x, \infty)$ have sum $< 1 + o(1)$.
 
-## Section 5: Proof Outline (Q5 — pending)*
+## Section 5: Proof Outline (Q5)
 
-*To be filled in by Q5 round.*
+### Overall strategy: Omega-stratification + exchange argument
+
+Let $A \subset [x, \infty)$ be any primitive set. Decompose:
+$$S(A) = \sum_{k=1}^\infty S(A_k), \quad A_k = A \cap \{n : \Omega(n) = k\}.$$
+
+**Step 1 (easy — Lemma `single_stratum_bound`):** For any fixed $k$,
+the sum $S(A_k) \leq S(B_k^x) \to 0$ as $x \to \infty$, where
+$B_k^x = \{n : \Omega(n) = k, n \geq x\}$. This uses partial summation
+and the Selberg-Sathe theorem for k-almost primes.
+
+**Step 2 (hard — Lemma `inter_stratum`):** The primitivity constraint
+between strata limits the total sum. Including elements from stratum $k$
+forces exclusion of their multiples in stratum $k' > k$.
+
+**Step 3 (the main open problem — Lemma `primes_extremal`):** The maximum
+of $S(A)$ over all primitive $A \subset [x, \infty)$ is achieved (or nearly
+so) by the prime set $\{p : p \geq x\}$. Since the prime tail sum
+$\sum_{p \geq x} 1/(p \log p) \to 0$ as $x \to \infty$ (much faster than
+$1 + o(1)$), this would imply $S(A) < 1 + o(1)$ for all primitive $A$.
+
+### Lemmas
+
+| Lemma | Status | Difficulty | Key tool |
+|-------|--------|-----------|----------|
+| `single_stratum_bound` | open | **Easy** | PNT for k-almost primes + partial summation |
+| `inter_stratum` | open | Hard | Exchange argument, primitivity structure |
+| `primes_extremal` | open | **Very hard** (= full conjecture) | Open; Zhang 1993 gives weaker 1.399 bound |
+
+### Why Step 1 alone is insufficient
+
+Lemma `single_stratum_bound` says each individual stratum $A_k$ has sum → 0.
+But $A$ can span INFINITELY MANY strata. The sum $\sum_k S(A_k)$ could
+potentially accumulate to something larger.
+
+For example: if $A$ includes a few elements from each of $k = 1, 2, 3, \ldots$,
+the contributions could add up. Bounding the cross-stratum total requires
+either:
+(a) A direct bound on $S(A)$ independent of the stratification (the F1 bound
+    of 1.399 already does this globally), or
+(b) A proof that the optimal $A$ uses only one or a few strata (unlikely —
+    the primes use only $k=1$).
+
+### What we can show (partial result, assuming Step 1)
+
+Under the assumption that Lemma `primes_extremal` holds:
+
+$$\text{For all primitive } A \subset [x, \infty): \quad S(A) \leq \sum_{p \geq x} \frac{1}{p \log p} \to 0,$$
+
+which immediately gives $S(A) < 1 + o(1)$ (in fact $S(A) < o(1)$). But this
+assumes the conjecture's hardest claim.
+
+### Partial result (unconditional)
+
+The F1 bound gives $S(A) < 1.399 + o(1)$ for any primitive $A$.
+From the witness search (Section 4), we know $S(A) < 1$ whenever
+$A \subset [3, \infty)$ and $A$ consists only of primes. The gap between
+the F1 bound of 1.399 and the conjectured bound of 1 is the main open problem.
+
+The key open problem reduces to Lemma `primes_extremal`: prove that
+the primes maximize $S(A)$ among primitive sets in $[x, \infty)$.
+
+### This remains open
+
+No proof of the full conjecture is available from the current analysis.
+The approach identifies the bottleneck (Lemma `primes_extremal`) and
+provides partial results (F3 numerical verification, F1 consistency check,
+witness non-existence for $x \geq 3$).
