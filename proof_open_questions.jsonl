@@ -13,3 +13,5 @@
 {"qid":"Q4","status":"claimed","session_id":"s_0508-080459-f599","summary":"witness search: x_floor 100, 1000, 10000 — no valid witness found","ts":"2026-05-08T08:24:49+00:00"}
 {"qid":"Q4","status":"resolved","session_id":"s_0508-080459-f599","summary":"no meaningful witness; trivial x=2 case documented; no witness for x>=3; conjecture direction is proof not disproof","ts":"2026-05-08T08:26:14+00:00"}
 {"qid":"Q5","status":"claimed","session_id":"s_0508-080459-f599","summary":"proof outline: Omega-stratification approach with lemma files","ts":"2026-05-08T08:26:14+00:00"}
+{"qid":"Q5","status":"resolved","session_id":"s_0508-080459-f599","summary":"Omega-stratification approach outlined; 3 lemmas created; bottleneck=primes_extremal (open); partial result committed","ts":"2026-05-08T08:28:31+00:00"}
+{"qid":"Q6","status":"claimed","session_id":"s_0508-080459-f599","summary":"acknowledging hard gaps; calling session_end with converged-on-partial-result","ts":"2026-05-08T08:28:31+00:00"}
