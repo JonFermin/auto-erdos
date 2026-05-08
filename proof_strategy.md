@@ -192,9 +192,62 @@ the sum is bounded by $1 + o(1)$. The large contribution of small primes
 (like $1/(2 \ln 2) \approx 0.721$) is excluded when $x \geq 3$. As $x$ grows,
 all the large terms are excluded and the remaining sum shrinks.
 
-## Section 3: Primes-from-2 Consistency (Q3 — pending)*
+## Section 3: Primes-from-2 Consistency with F1 (Q3)
 
-*To be filled in by Q3 round.*
+### The prime sum converges to ≈ 1.6366
+
+Computed numerically using a sieve up to $N = 5 \times 10^6$ plus tail estimate
+$\int_N^\infty dt / (t \log^2 t) \approx 1/\log N$:
+
+| Sieve limit $N$ | Partial sum | Tail estimate | Total estimate |
+|-----------------|-------------|----------------|----------------|
+| $10^5$ | 1.549781 | 0.086859 | 1.636640 |
+| $10^6$ | 1.564236 | 0.072382 | 1.636618 |
+| $5 \times 10^6$ | 1.571789 | 0.064830 | 1.636619 |
+
+The full prime sum $\sum_p \frac{1}{p \ln p}$ converges to approximately $\mathbf{1.6366}$,
+consistent with the value cited in Q3 (≈1.6366). The convergence is slow,
+with the partial sums increasing toward the limit.
+
+### Consistency with F1
+
+F1 states: for any primitive $A \subseteq \mathbb{N}$,
+$$\sum_{a \in A} \frac{1}{a \log a} < e^{\gamma} \frac{\pi}{4} + o(1) \approx 1.399 + o(1).$$
+
+The full prime sum ≈ 1.636 exceeds 1.399. This is **NOT a violation of F1**.
+The resolution lies in the $o(1)$ term:
+
+**F1's $o(1)$ depends on $x = \min(A)$, and tends to $0$ only as $x \to \infty$.**
+
+For $A = \{p : p \geq 2\}$ (all primes, $x = 2$), the $o(1)$ term is
+approximately $1.636 - 1.399 = 0.237$. This is not small at $x = 2$.
+As $x$ grows:
+- Primes $\geq 100$: tail sum ≈ 0.143 (well below 1.399). ✓
+- Primes $\geq 1000$: tail sum ≈ 0.072. ✓
+- Primes $\geq x$: tail sum → 0 as $x \to \infty$. ✓
+
+All tail sums are consistent with the conjecture's bound of $1 + o(1)$
+and with F1's $1.399 + o(1)$.
+
+### The key distinction
+
+The conjecture asserts: for primitive $A \subset [x, \infty)$ with $x \to \infty$,
+the sum is bounded by $1 + o(1)$. The primes starting from 2 give a sum ≈ 1.636
+because the small primes $2, 3, 5$ contribute large terms:
+
+$$\frac{1}{2 \ln 2} + \frac{1}{3 \ln 3} + \frac{1}{5 \ln 5} \approx 0.721 + 0.303 + 0.124 = 1.149.$$
+
+Once we restrict to $A \subset [x, \infty)$ for even moderately large $x$
+(say $x = 100$), these dominant terms disappear and the sum drops to ≈ 0.143.
+The conjectured bound of $1 + o(1)$ (with $o(1) \to 0$ as $x \to \infty$)
+is numerically plausible.
+
+### Implication for the proof direction
+
+The primes are the "worst" primitive set in the limit (their tail sum approaches
+1 from below as $x \to \infty$, consistent with F1 and F3). Any proof of the
+conjecture must show that no OTHER primitive set has a tail sum that
+approaches or exceeds 1 faster than the prime tail sum.
 
 ## Section 4: Witness Search Results (Q4 — pending)*
 

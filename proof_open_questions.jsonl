@@ -7,3 +7,5 @@
 {"qid":"Q1","status":"claimed","session_id":"s_0508-080459-f599","summary":"reading claim + facts, writing Setup section","ts":"2026-05-08T08:05:14+00:00"}
 {"qid":"Q2","status":"claimed","session_id":"s_0508-080459-f599","summary":"numerical verification of F3 for k=1..4","ts":"2026-05-08T08:18:07+00:00"}
 {"qid":"Q1","status":"resolved","session_id":"s_0508-080459-f599","summary":"Setup section written: claim restated, F1/F2/F3 sign-disambiguated, witness contract defined, proof directions outlined","ts":"2026-05-08T08:19:09+00:00"}
+{"qid":"Q3","status":"claimed","session_id":"s_0508-080459-f599","summary":"primes-from-2 sum consistency with F1","ts":"2026-05-08T08:22:18+00:00"}
+{"qid":"Q2","status":"resolved","session_id":"s_0508-080459-f599","summary":"F3 numerically verified for k=1..4; k=1 partial sum >1 documented; tension with sign disambiguation explained","ts":"2026-05-08T08:22:41+00:00"}
