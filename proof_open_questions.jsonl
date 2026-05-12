@@ -13,3 +13,5 @@
 {"qid":"Q4","status":"resolved","session_id":"s_0512-081111-f916","summary":"completed in R1","ts":"2026-05-12T08:31:18+00:00"}
 {"qid":"Q5","status":"claimed","session_id":"s_0512-081111-f916","summary":"taking Q5 — create lemma files for stratification","ts":"2026-05-12T08:31:22+00:00"}
 {"qid":"Q5","status":"resolved","session_id":"s_0512-081111-f916","summary":"created L1 stratum_tail_bound, L2 cross_stratum_blocking, L3 total_bound; all open; hard core identified","ts":"2026-05-12T08:33:46+00:00"}
+{"qid":"Q6","status":"claimed","session_id":"s_0512-081111-f916","summary":"taking Q6 — write partial result section and session_end","ts":"2026-05-12T08:34:15+00:00"}
+{"qid":"Q6","status":"resolved","session_id":"s_0512-081111-f916","summary":"wrote Section 5 partial result summary; ready for session_end","ts":"2026-05-12T08:35:09+00:00"}

@@ -239,3 +239,30 @@ This proof attempt has established:
 *This remains open.*  The partial result is: F1+Sathe–Selberg gives a framework
 (L1–L3) that bounds $f(A) \leq o(1) + f(A_{\text{large}})$, but bounding
 $f(A_{\text{large}}) \leq 1 + o(1)$ is the conjecture itself.
+
+---
+
+## Section 5 — Session 1 Summary (Q6)
+
+This session (s\_0512-081111-f916) explored the Erdős primitive-set conjecture
+via two kept rounds (R1, R2) in critics-off mode (critics unavailable in this env).
+
+**What was ruled out**:
+- Simple stratification by $\Omega$ does not give a bound $\leq 1 + o(1)$ because
+  $\sum_k T_k(x)$ diverges.
+- Dyadic decomposition ($A \cap [2^j x, 2^{j+1} x)$) also fails to bound $f(A)$ globally.
+- No counterexample exists for $x \geq 4$ (exhaustive numerical search up to $N=10000$).
+
+**What remains open** (for the next session):
+- Prove $T_1(x) \leq 1/\log x$ rigorously (standard Mertens estimate) and update
+  Lemma `stratum_tail_bound` status to `proved`.
+- Develop the smooth/large decomposition in `cross_stratum_blocking` further:
+  bound $f(A_{\text{large}})$ using a sieve that limits how many elements share a
+  large prime factor.
+- Look for a "matching" or "charging" argument: can each $a \in A$ "charge"
+  its $1/(a \log a)$ contribution to a unique element in $[a, 2a)$?
+
+**Suggested next move for Session 2**:
+1. Read `proof_lemmas/lemma_stratum_tail_bound.md` and prove L1 rigorously.
+2. Implement the T_k(x) numerics (currently tabled in L1).
+3. Explore the "matching" approach in L2.
