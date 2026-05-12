@@ -7,3 +7,9 @@
 {"qid":"Q2","status":"claimed","session_id":"s_0512-081111-f916","summary":"taking Q2","ts":"2026-05-12T08:30:56+00:00"}
 {"qid":"Q3","status":"claimed","session_id":"s_0512-081111-f916","summary":"taking Q3","ts":"2026-05-12T08:30:56+00:00"}
 {"qid":"Q4","status":"claimed","session_id":"s_0512-081111-f916","summary":"taking Q4","ts":"2026-05-12T08:30:56+00:00"}
+{"qid":"Q1","status":"resolved","session_id":"s_0512-081111-f916","summary":"completed in R1","ts":"2026-05-12T08:31:18+00:00"}
+{"qid":"Q2","status":"resolved","session_id":"s_0512-081111-f916","summary":"completed in R1","ts":"2026-05-12T08:31:18+00:00"}
+{"qid":"Q3","status":"resolved","session_id":"s_0512-081111-f916","summary":"completed in R1","ts":"2026-05-12T08:31:18+00:00"}
+{"qid":"Q4","status":"resolved","session_id":"s_0512-081111-f916","summary":"completed in R1","ts":"2026-05-12T08:31:18+00:00"}
+{"qid":"Q5","status":"claimed","session_id":"s_0512-081111-f916","summary":"taking Q5 — create lemma files for stratification","ts":"2026-05-12T08:31:22+00:00"}
+{"qid":"Q5","status":"resolved","session_id":"s_0512-081111-f916","summary":"created L1 stratum_tail_bound, L2 cross_stratum_blocking, L3 total_bound; all open; hard core identified","ts":"2026-05-12T08:33:46+00:00"}

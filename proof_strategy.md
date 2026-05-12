@@ -204,18 +204,38 @@ fails.
 
 **Needed**: a better bound that exploits primitivity across strata.
 
-### 4.2 Lemma roadmap (status: open)
+### 4.2 Lemma roadmap (Round 2)
 
-- `lemma_stratum_tail_bound`: Bound the RESTRICTED stratum sum
-  $T_k(x) := \sum_{n \geq x, \Omega(n)=k} 1/(n \log n)$ explicitly.
-  By the PNT for integers with $k$ prime factors, $T_k(x)$ is a tail of a
-  convergent series; we need its rate of decay in $x$.
+Three lemma files created in `proof_lemmas/`:
 
-- `lemma_cross_stratum_blocking`: Show that for a primitive $A$, the
-  restriction $A_k \subseteq \{n \geq x : \Omega(n)=k\}$ is further constrained
-  by elements in other strata.  Quantify how much this reduces the sum.
+**Lemma `stratum_tail_bound` (L1)** — status: open.
+Proves $T_k(x) := \sum_{n \geq x, \Omega(n)=k} 1/(n \log n) = O((\log \log x)^{k-1}/((k-1)!\log x))$
+by Sathe–Selberg + partial summation.  The obstacle: $\sum_k T_k(x) = \sum_{n \geq x} 1/(n \log n)$
+diverges, so this alone does not bound $f(A)$.
 
-- `lemma_total_bound_from_strata`: Assemble $T_k(x)$ bounds across $k$
-  to prove $\sum_k f(A_k) \leq 1 + o(1)$.
+**Lemma `cross_stratum_blocking` (L2)** — status: open.
+Each $a \in A$ blocks elements $\{n \geq x : a \mid n\}$ with total $f$-weight $\approx 1/(a\log a)$.
+So including $a$ in $A$ "pays for" roughly one copy of $1/(a \log a)$ in the ambient divergent sum.
+The sieve decomposition ($A_{\text{smooth}} + A_{\text{large-prime factor}}$) reduces the problem
+to bounding how many elements can share a large prime factor.  **Hard core identified here.**
 
-This is an open outline.  Round 2 will begin developing `lemma_stratum_tail_bound`.
+**Lemma `total_bound` (L3)** — status: open.
+Assembly: naïve stratification and dyadic decomposition both fail (sum diverges or integral diverges).
+The genuine difficulty is exactly the open part of the conjecture.  Known state of the art:
+$f(A) \leq 1 + O(1/\log\log x)$ (contextual reference, NOT in ledger).  Full conjecture open.
+
+### 4.3 Partial Result (Q6)
+
+This proof attempt has established:
+
+1. **Numerical calibration**: F3 is inconsistent with numerical data for $k=1$.
+2. **Counterexample search**: No primitive set $A \subset [x, \infty)$ with $f(A) > 1$
+   found for $x \geq 4$; the threshold is near $x = 3$ (finite-$x$ artifact).
+3. **Stratification roadmap**: Lemmas L1–L3 outline the proof structure and identify
+   the hard step as the cross-stratum primitive blocking argument.
+4. **Gap to conjecture**: Closing the gap from F1 ($\approx 1.399$) to 1 requires
+   beyond-sieve techniques not available from the given-facts ledger alone.
+
+*This remains open.*  The partial result is: F1+Sathe–Selberg gives a framework
+(L1–L3) that bounds $f(A) \leq o(1) + f(A_{\text{large}})$, but bounding
+$f(A_{\text{large}}) \leq 1 + o(1)$ is the conjecture itself.
