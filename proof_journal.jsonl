@@ -1,0 +1,2 @@
+{"event":"round","session_id":"s_0513-080749-8580","ts":"2026-05-13T08:20:13+00:00","summary":"Q1-Q4 combined: setup + numerical + witness {2,3}; keep_disproof; exit 7","qid":"Q1-Q4","status":"keep_disproof","commit":"6451b0d"}
+{"event":"session_close","session_id":"s_0513-080749-8580","ts":"2026-05-13T08:20:29+00:00","commit":"6451b0d","reason":"reason: exit 7 \u2014 counterexample proven; stop and archive"}

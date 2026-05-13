@@ -7,3 +7,7 @@
 {"qid":"Q2","status":"claimed","session_id":"s_0513-080749-8580","summary":"taking Q2+Q3+Q4: numerical verification + primes sum + witness search","ts":"2026-05-13T08:18:07+00:00"}
 {"qid":"Q3","status":"claimed","session_id":"s_0513-080749-8580","summary":"taking Q3 with Q2 (combined)","ts":"2026-05-13T08:18:07+00:00"}
 {"qid":"Q4","status":"claimed","session_id":"s_0513-080749-8580","summary":"taking Q4 with Q2 (combined)","ts":"2026-05-13T08:18:07+00:00"}
+{"qid":"Q1","status":"resolved","session_id":"s_0513-080749-8580","summary":"completed in session 1; keep_disproof on witness {2,3}","ts":"2026-05-13T08:20:13+00:00"}
+{"qid":"Q2","status":"resolved","session_id":"s_0513-080749-8580","summary":"completed in session 1; keep_disproof on witness {2,3}","ts":"2026-05-13T08:20:13+00:00"}
+{"qid":"Q3","status":"resolved","session_id":"s_0513-080749-8580","summary":"completed in session 1; keep_disproof on witness {2,3}","ts":"2026-05-13T08:20:13+00:00"}
+{"qid":"Q4","status":"resolved","session_id":"s_0513-080749-8580","summary":"completed in session 1; keep_disproof on witness {2,3}","ts":"2026-05-13T08:20:13+00:00"}
