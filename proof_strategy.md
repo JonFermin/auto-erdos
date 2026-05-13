@@ -43,22 +43,13 @@ against it, and decides keep/discard via `proof_log_result.py`.
 
 A claim of disproof MUST be backed by a finite primitive set whose sum is
 rigorously verified to exceed `witness_threshold` by
-`library.primitive_set_witness.verify_witness`. To commit a witness,
-embed exactly one block of the form:
-
-```
-<!-- WITNESS
-{
-  "x_floor": 100,
-  "elements": [101, 103, 107, 109, ...],
-  "claimed_sum_lower_bound": 1.005
-}
-WITNESS -->
-```
-
-at the bottom of this file. `proof_prepare.py` parses the JSON, runs the
-deterministic verifier, and sets `witness_valid` accordingly. No witness
-block ⇒ `witness_valid = 0` ⇒ no counterexample claim is possible.
+`library.primitive_set_witness.verify_witness`. A valid witness block has
+the structure (with the HTML-comment delimiters `< !-- WITNESS` and
+`WITNESS -- >`, spaces removed): JSON with fields `x_floor` (int ≥ 2),
+`elements` (list of pairwise non-divisible ints each ≥ x_floor), and
+`claimed_sum_lower_bound` (float). `proof_prepare.py` parses the FIRST
+such block, runs the deterministic verifier, and sets `witness_valid`
+accordingly. No parseable witness block ⇒ `witness_valid = 0`.
 
 ---
 
