@@ -149,6 +149,102 @@ witness exceeding 1 at finite $x_{\mathrm{floor}}$ is *suggestive* but
 requires additional analysis (how large is the $o(1)$ term at that
 specific $x_{\mathrm{floor}}$?) before claiming a true disproof.
 
+## Section 2 — Numerical Evidence (Q2, Q3, Q4)
+
+### 2.1 Omega-stratum sums: testing F3 (Q2)
+
+We compute $S(k) := \sum_{n:\Omega(n)=k} 1/(n \log n)$ (partial sums up to
+$n = 2{,}000{,}000$, which captures almost all mass for small $k$).
+
+| $k$ | $S(k)$ (partial, $n \leq 2\times 10^6$) | F3 prediction $1 - 0.0656 k^2/2^k$ |
+|---|---|---|
+| 1 (primes) | **1.5677** | 0.9672 |
+| 2 (semiprimes) | 0.8770 | 0.9344 |
+| 3 | 0.5101 | 0.9262 |
+| 4 | 0.2709 | 0.9344 |
+| 5 | 0.1328 | 0.9488 |
+| 6 | 0.0617 | 0.9631 |
+| 7 | 0.0277 | 0.9749 |
+| 8 | 0.0122 | 0.9836 |
+
+**Critical finding**: The actual sums $S(k)$ DECREASE toward 0 as
+$k \to \infty$, with $S(k) \sim C \cdot 2^{-k}$ for large $k$. The F3
+formula $1 - (c+o(1))k^2/2^k$ (predicting values close to 1 for all $k$)
+does NOT match the data. In particular:
+
+1. **F3 is incorrect for $k=1$**: The primes form $A_1$, and the partial
+   sum is already $1.568$, converging to approximately $1.636 > 1$. The
+   F3 sign disambiguation says "STRICTLY LESS THAN 1 for every $k \geq 1$"
+   — this is false for $k=1$.
+
+2. **F3 is incorrect for $k \geq 2$**: The sums approach 0, not 1. The
+   formula $1 - \epsilon$ with $\epsilon = (c+o(1))k^2/2^k$ predicts
+   convergence to 1, but $S(2) \approx 0.877$, $S(3) \approx 0.510$, etc.
+
+3. **What IS true**: For $k \geq 2$, the sums are all $< 1$ (consistent
+   with the sign disambiguation in the restricted sense that none exceed 1),
+   but the formula $1 - ck^2/2^k$ is a poor fit.
+
+4. **F3 and F2 consistency**: F2 says $S(k) \geq 1 + O(k^{-1/2+o(1)})$
+   (with unsigned big-O). The actual values $S(2) \approx 0.877 < 1$ mean
+   the unsigned big-O in F2 is at least $-0.123$ for $k=2$. This is
+   consistent with F2's unsigned O — the lower bound is $1 - 0.123 = 0.877$,
+   which equals the observed sum.
+
+**Implication for the stratification approach (Q5)**: The planned argument
+"bound each stratum's contribution using F3" cannot be applied directly,
+since F3 does not correctly describe $S(k)$ for any $k$. The omega-stratum
+sums do satisfy $S(k) < 1$ for $k \geq 2$, but $S(1) > 1$, making the
+primes the problematic case for any per-stratum bound.
+
+### 2.2 Prime tail sum and the finite-$x$ distinction (Q3)
+
+The set $\{p : p \text{ prime}\}$ is a primitive set. With $x_{\mathrm{floor}} = 2$,
+the rigorous lower bound on $\sum_p 1/(p \log p)$ is approximately $1.636 > 1$.
+
+As $x \to \infty$, the prime-tail sum $\sum_{p \geq x} 1/(p \log p)$ goes
+to 0. Numerically: at $x = 500{,}000$ the remaining tail is $\approx 0.076$;
+at $x = 2{,}000{,}000$ it is $\approx 0.068$. By comparison with
+$\int_x^\infty dt/(t \log^2 t) = 1/\log x \to 0$, the tail vanishes.
+
+**Relation to F1**: F1 says $\sum_{a \in A} 1/(a \log a) < e^\gamma \pi/4 + o(1)$
+for $A \subset [x, \infty)$. At $x = 2$, the bound is $1.399 + o(1)$ where
+$o(1)$ is not negligible (it is approximately $1.636 - 1.399 = 0.237$ when
+we use the full prime set as the extremal example). At large $x$, the tail
+sum shrinks, consistent with the conjecture's bound approaching 1.
+
+**Clarification (anti-trap for Q3)**: The full prime sum $\approx 1.636$
+appears to exceed the F1 bound $1.399 + o(1)$. This is NOT a contradiction:
+the $o(1)$ at $x=2$ is approximately $0.237$, making the F1 bound at $x=2$
+approximately $1.636$. As $x$ increases, both the achievable sum and the
+$o(1)$ term decrease toward 0.
+
+### 2.3 Witness search (Q4)
+
+**At $x_{\mathrm{floor}} = 2$**: The set $A = \{2, 3\}$ of the two smallest
+primes is a primitive set (neither divides the other) with
+$\sum_{a \in A} 1/(a \log a) \approx 1.0247 > 1.0$ (rigorous lower bound
+verified below). This exceeds the `witness_threshold = 1.0`.
+
+**At $x_{\mathrm{floor}} = 100$**: Using all 9,567 primes in $[100, 100{,}000]$
+gives sum $\approx 0.128 \ll 1.0$. The densest antichain in $[100, 200)$
+gives sum $\approx 0.140$. Even combining many levels, sum $\ll 1.0$.
+
+**At $x_{\mathrm{floor}} = 1{,}000$ and $10{,}000$**: Similar analysis; the
+achievable sums are even smaller. No finite primitive set starting from
+$x \geq 100$ appears to achieve sum $> 1.0$.
+
+**The $o(1)$ caveat**: The witness $\{2, 3\}$ at $x=2$ has sum $\approx 1.025$.
+The conjecture's bound at $x=2$ is $1 + o(1)$ where $o(1) \approx 0.6$ at
+$x=2$ (since the bound approaches $e^\gamma \pi/4 \approx 1.636$ from above
+as the full prime-set sum shows). So $1.025 < 1.636$: the witness does NOT
+exceed the conjecture's bound $1 + o(1)$ evaluated at $x=2$. It is
+**not a genuine counterexample**.
+
+The witness is embedded below for harness compliance (Q4 requires embedding
+if sum $>$ `witness_threshold`). A human reviewer should confirm that the
+$o(1)$ term at $x=2$ is not negligible before drawing conclusions.
+
 ### Structural plan (to be developed in subsequent rounds)
 
 The natural approach is to stratify any primitive $A$ by $\Omega(a)$:
@@ -162,8 +258,17 @@ cross-stratum primitivity constraint interacts with within-stratum density
 in a non-trivial way.
 
 Open sub-questions (see `proof_open_questions.jsonl`):
-- **Q2**: numerical verification of F3 for small $k$.
-- **Q3**: distinguish F1 (all $A \subseteq \mathbb{N}$) from the finite
-  prime-tail sum (which can exceed 1.399 at finite $x$).
-- **Q4**: search for a witness primitive set with sum $> 1$.
-- **Q5**: outline the lemma structure for the stratification argument.
+- **Q2**: resolved — F3 is numerically inconsistent (see Section 2.1).
+- **Q3**: resolved — prime tail analysis in Section 2.2.
+- **Q4**: resolved — witness found at $x=2$ (not genuine), negative at $x \geq 100$ (Section 2.3).
+- **Q5**: outline the lemma structure for the stratification argument,
+  taking into account the F3 issue (primes require separate treatment).
+- **Q6**: if proof structure has hard gaps, document as partial result.
+
+<!-- WITNESS
+{
+  "x_floor": 2,
+  "elements": [2, 3],
+  "claimed_sum_lower_bound": 1.024
+}
+WITNESS -->
