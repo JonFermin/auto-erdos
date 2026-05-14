@@ -44,22 +44,12 @@ against it, and decides keep/discard via `proof_log_result.py`.
 
 A claim of disproof MUST be backed by a finite primitive set whose sum is
 rigorously verified to exceed `witness_threshold` by
-`library.primitive_set_witness.verify_witness`. To commit a witness,
-embed exactly one block of the form:
-
-```
-<!-- WITNESS
-{
-  "x_floor": 100,
-  "elements": [101, 103, 107, 109, ...],
-  "claimed_sum_lower_bound": 1.005
-}
-WITNESS -->
-```
-
-at the bottom of this file. `proof_prepare.py` parses the JSON, runs the
-deterministic verifier, and sets `witness_valid` accordingly. No witness
-block ⇒ `witness_valid = 0` ⇒ no counterexample claim is possible.
+`library.primitive_set_witness.verify_witness`. The witness block format
+is a JSON object with keys `x_floor`, `elements`, and
+`claimed_sum_lower_bound`, wrapped in HTML comment markers parsed by
+`proof_prepare.py`. The verifier checks primitivity and recomputes the
+sum rigorously. No witness block ⇒ `witness_valid = 0` ⇒ no
+counterexample claim is possible.
 
 ## Section 1 — Setup (Q1)
 
@@ -120,11 +110,16 @@ be flagged BLOCKING by `critic_sign`.
 > For $A_k$ as above,
 > $$\sum_{a \in A_k} \frac{1}{a \log a} = 1 - (c + o(1))\frac{k^2}{2^k}, \quad c \approx 0.0656 > 0.$$
 
-*Sign reading:* The leading correction is **negative** ($-ck^2/2^k$), so
-for every fixed $k \geq 1$ the sum is **strictly less than 1** and
-approaches 1 from **below** as $k \to \infty$. F3 is consistent with F2
-(once F2's unsigned big-O is read correctly) and directly rules out
-$A_k$ being a counterexample.
+*Sign reading as stated in the ledger:* The leading correction is
+**negative** ($-ck^2/2^k$), so the sum is claimed to be STRICTLY LESS
+THAN 1 for every $k \geq 1$, approaching 1 from BELOW as $k \to \infty$.
+
+*Caveat (see Section 2.1)*: Numerical evidence shows this formula does
+NOT hold for $k=1$ (primes, sum $\approx 1.636 > 1$) and also does not
+fit $k \geq 2$ (actual sums approach 0, not 1). The sign disambiguation
+is accurate only in the restricted sense that $S(k) < 1$ for $k \geq 2$
+— the asymptotic formula $1 - ck^2/2^k$ is inconsistent with data for
+all tested $k$.
 
 ### Witness contract (the only path to a counterexample claim)
 
@@ -136,15 +131,8 @@ The verifier is `library.primitive_set_witness.verify_witness`; it checks:
 2. $A$ is pairwise non-divisible.
 3. The sum $\sum_{a \in A} 1/(a \log a)$ exceeds `witness_threshold = 1.0`.
 
-To embed a candidate witness, append a block of the form:
-
-```
-<!-- WITNESS
-{"x_floor": ..., "elements": [...], "claimed_sum_lower_bound": ...}
-WITNESS -->
-```
-
-at the bottom of this file. The conjecture's $o(1)$ caveat means a
+To embed a candidate witness, append a JSON block in a specially-delimited
+comment at the bottom of this file. The conjecture's $o(1)$ caveat means a
 witness exceeding 1 at finite $x_{\mathrm{floor}}$ is *suggestive* but
 requires additional analysis (how large is the $o(1)$ term at that
 specific $x_{\mathrm{floor}}$?) before claiming a true disproof.
@@ -252,10 +240,14 @@ The natural approach is to stratify any primitive $A$ by $\Omega(a)$:
 $$\sum_{a \in A} \frac{1}{a \log a} = \sum_{k=1}^{\infty} \sum_{\substack{a \in A \\ \Omega(a)=k}} \frac{1}{a \log a}.$$
 
 For each stratum, if $A_k^A := \{a \in A : \Omega(a) = k\}$ then
-$A_k^A \subseteq A_k$, and the full set $A_k$ achieves sum $< 1$ by F3.
-The difficulty is that $A$ may have elements in *multiple* strata and the
-cross-stratum primitivity constraint interacts with within-stratum density
-in a non-trivial way.
+$A_k^A \subseteq A_k$. For $k \geq 2$, numerical evidence (Section 2.1)
+confirms $S(k) = \sum_{n \in A_k} 1/(n \log n) < 1$, so the stratum-$k$
+contribution is bounded by $S(k) < 1$. For $k = 1$ (primes),
+$S(1) \approx 1.636 > 1$ — this stratum requires separate treatment.
+The cross-stratum interaction: a prime $p \in A$ and a composite $mp \in A$
+would violate primitivity ($p | mp$), so primes and their multiples
+cannot coexist in $A$. This constraint limits how large the prime-stratum
+contribution can be in a primitive set $A$.
 
 Open sub-questions (see `proof_open_questions.jsonl`):
 - **Q2**: resolved — F3 is numerically inconsistent (see Section 2.1).
