@@ -76,10 +76,11 @@ where the $o(1)$ term tends to $0$ as $x \to \infty$.
 
 In words: the weighted "density" $\sum 1/(a \log a)$ of any antichain in
 $\mathbb{N}_{\geq x}$ is bounded above by $1$ (asymptotically in the
-threshold $x$).  The weighting $1/(a \log a)$ is the natural one that
-makes the prime numbers achieve sum $\approx 1.6366$ — but they are
-**not** a primitive set (they are, however, a primitive set only starting
-from $x = 2$; as $x \to \infty$ the prime tail sum shrinks toward $0$).
+threshold $x$).  The weighting $1/(a \log a)$ is the natural one appearing
+in Mertens' theorem; the primes $\{2, 3, 5, \ldots\}$ are not a valid
+primitive set for the conjecture since the conjecture considers primitive
+subsets of $[x, \infty)$ — as $x \to \infty$ the prime-tail sum shrinks
+toward $0$.
 
 ### Status of the problem
 
