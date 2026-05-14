@@ -10,3 +10,6 @@
 {"qid":"Q2","status":"claimed","session_id":"s_0514-080632-ade3","summary":"claiming Q2 for round 2 numerical evidence","ts":"2026-05-14T08:25:28+00:00"}
 {"qid":"Q3","status":"claimed","session_id":"s_0514-080632-ade3","summary":"claiming Q3 for round 2 numerical evidence","ts":"2026-05-14T08:25:28+00:00"}
 {"qid":"Q4","status":"claimed","session_id":"s_0514-080632-ade3","summary":"claiming Q4 for round 2 numerical evidence","ts":"2026-05-14T08:25:28+00:00"}
+{"qid":"Q2","status":"resolved","session_id":"s_0514-080632-ade3","summary":"Resolved in Round 2 numerical evidence section. Witness found at x=2, negative at x>=100.","ts":"2026-05-14T08:33:11+00:00"}
+{"qid":"Q3","status":"resolved","session_id":"s_0514-080632-ade3","summary":"Resolved in Round 2 numerical evidence section. Witness found at x=2, negative at x>=100.","ts":"2026-05-14T08:33:11+00:00"}
+{"qid":"Q4","status":"resolved","session_id":"s_0514-080632-ade3","summary":"Resolved in Round 2 numerical evidence section. Witness found at x=2, negative at x>=100.","ts":"2026-05-14T08:33:11+00:00"}
