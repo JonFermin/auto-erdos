@@ -108,10 +108,11 @@ made exactly this error.
 
 *Sign disambiguation (critical)*: The leading correction is
 $-(c+o(1)) k^2/2^k$ with $c > 0$ and $k^2/2^k > 0$, so the sign is
-strictly **negative**. The sum approaches $1$ from **below** as
-$k \to \infty$. For every fixed $k \geq 1$, the sum is strictly $< 1$.
-F3 shows that the $A_k$ sequences are asymptotically extremal (approaching
-the bound $1$ from below), but $A_k$ itself never exceeds $1$.
+strictly **negative**. As $k \to \infty$, the sum approaches $1$ from
+**below** (the formula is an asymptotic in $k$; for small $k$ the formula
+is approximate and the actual sum may exceed 1). F3 captures the large-$k$
+extremal behavior: the $A_k$ sequences are asymptotically extremal,
+approaching the bound $1$ from below as $k \to \infty$.
 Reading F3 as saying the sum approaches $1$ from above (`f3-from-above-misread`)
 is BLOCKING.
 
@@ -157,12 +158,10 @@ are slightly higher (the tail is non-negative).
 **Key findings** (Q2 answer):
 
 1. For $k = 1$ (primes), the partial sum at $N=500{,}000$ is $1.560$ and
-   the full series converges to approximately $1.637$. This is *greater than*
-   $1$, which contradicts F3's sign-disambiguation claim that the sum is
-   "STRICTLY LESS THAN 1 for every $k \geq 1$". The conflict is resolved by
-   reading F3 as an **asymptotic as $k \to \infty$**, not as a bound for
-   small $k$. For the $k \to \infty$ regime, $1 - c k^2/2^k \to 1$ from
-   below, consistent with the conjecture.
+   the full series converges to approximately $1.637 > 1$. F3 is an
+   **asymptotic as $k \to \infty$**; the formula $1 - ck^2/2^k$ is not
+   accurate for small $k$ such as $k=1$. For the large-$k$ regime,
+   $1 - c k^2/2^k \to 1$ from below, consistent with the conjecture.
 
 2. For $k = 2,3,4$, the full unrestricted sums are $0.86$, $0.49$, $0.25$
    — all less than 1, consistent with F3 (though the F3 predicted values
@@ -182,22 +181,16 @@ are slightly higher (the tail is non-negative).
 ### 2.2 The prime sum (Q3)
 
 The set of all primes forms a primitive set (no prime divides another). Its
-weighted sum satisfies:
+weighted sum satisfies (numerically, by direct computation up to $10^7$ plus
+tail estimation):
 
 $$\sum_{p \text{ prime}} \frac{1}{p \ln p} \approx 1.637.$$
 
-This is consistent with F1 (which says any primitive set has sum $< e^\gamma \pi/4 + o(1) \approx 1.399 + o(1)$; the primes-from-2 set is not restricted to $[x, \infty)$ for large $x$, so F1's bound applies to the RESTRICTED sum, not the full prime sum). For primes restricted to $[x, \infty)$:
+This is consistent with F1 (which says any primitive set has sum $< e^\gamma \pi/4 + o(1) \approx 1.399 + o(1)$; the primes-from-2 set is not restricted to $[x, \infty)$ for large $x$, so the $o(1)$ slack at $x=2$ is substantial). For primes restricted to $[x, \infty)$, the partial sums in §2.1 show the restricted prime sum decaying: approximately $0.14$ at $x=100$, $0.07$ at $x=1000$, $0.03$ at $x=10000$. The restricted prime sum thus goes to zero as $x \to \infty$.
 
-$$\sum_{p \geq x} \frac{1}{p \ln p} \approx \frac{1}{\ln x}$$
+Thus the **prime set becomes small** when restricted to large $x$, consistent with the conjecture.
 
-(derived from PNT + partial summation). As $x \to \infty$, this goes to zero.
-Thus the **prime set becomes small** as $x$ grows, consistent with the conjecture.
-
-The value $\approx 1.637 > 1$ for all primes from 2 shows that F1's bound of
-$1.399 + o(1)$ applies only to **primitive sets restricted to $[x, \infty)$**
-with $x \geq$ some large threshold, NOT to the full unrestricted prime set.
-(F1's $o(1) \to 0$ as $x \to \infty$, so for small $x$ the effective bound
-is much larger.)
+The value $\approx 1.637 > 1$ for all primes from 2 shows that F1's effective bound at $x=2$ is much larger than $1.399$; the $o(1)$ term is $\approx 0.24$ at small $x$ and shrinks as $x \to \infty$.
 
 ### 2.3 Witness search (Q4)
 
@@ -216,10 +209,10 @@ the $o(1)$ correction to the bound $1 + o(1)$ is approximately $+0.637$ (the
 prime sum excess), so the effective bound at $x=2$ is $\approx 1.637$. Our
 witness at $1.025 < 1.637$ does not violate the conjecture.
 
-**x_floor = 3**: The maximum sum over any primitive subset of $[3, \infty)$
-is achieved by taking all primes $\geq 3$:
-$$\sum_{p \geq 3} \frac{1}{p \ln p} \approx 1.637 - \frac{1}{2\ln 2} \approx 0.916 < 1.0.$$
-No witness exists for $x_\text{floor} \geq 3$.
+**x_floor = 3**: Numerically, the maximum sum we found over primitive subsets
+of $[3, \infty)$ is $\approx 0.916$ (achieved by taking primes $\geq 3$,
+which is a primitive set with sum $\approx 1.637 - 1/(2\ln 2) \approx 0.916$).
+This is $< 1.0$. No witness with sum $> 1$ was found for $x_\text{floor} \geq 3$.
 
 **x_floor = 100, 1000, 10000**: From the table in §2.1, the maximum single-stratum
 sum is $\leq 0.28$ (at $x_\text{floor}=100$), so no witness exists for large
