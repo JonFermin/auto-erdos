@@ -146,14 +146,14 @@ All computations use $\log = \ln$ (natural logarithm), $N = 500{,}000$
 as the upper cutoff. The partial sums below are lower bounds; true limits
 are slightly higher (the tail is non-negative).
 
-| $k$ | full (x≥2) | x≥100 | x≥1000 | x≥10000 | F3: $1 - c k^2/2^k$ |
-|-----|-----------|--------|---------|---------|---------------------|
-| 1 | 1.560 | 0.139 | 0.068 | 0.032 | 0.967 |
-| 2 | 0.857 | 0.278 | 0.157 | 0.081 | 0.934 |
-| 3 | 0.485 | 0.265 | 0.164 | 0.090 | 0.926 |
-| 4 | 0.251 | 0.177 | 0.117 | 0.067 | 0.934 |
-| 5 | 0.120 | 0.099 | 0.068 | 0.041 | 0.949 |
-| 6 | 0.054 | 0.048 | 0.035 | 0.022 | 0.963 |
+| $k$ | full (x≥2) | x≥100 | x≥1000 | x≥10000 |
+|-----|-----------|--------|---------|---------|
+| 1 | 1.560 | 0.139 | 0.068 | 0.032 |
+| 2 | 0.857 | 0.278 | 0.157 | 0.081 |
+| 3 | 0.485 | 0.265 | 0.164 | 0.090 |
+| 4 | 0.251 | 0.177 | 0.117 | 0.067 |
+| 5 | 0.120 | 0.099 | 0.068 | 0.041 |
+| 6 | 0.054 | 0.048 | 0.035 | 0.022 |
 
 **Key findings** (Q2 answer):
 
@@ -181,16 +181,16 @@ are slightly higher (the tail is non-negative).
 ### 2.2 The prime sum (Q3)
 
 The set of all primes forms a primitive set (no prime divides another). Its
-weighted sum satisfies (numerically, by direct computation up to $10^7$ plus
-tail estimation):
+weighted sum (from x=2) is large — well above 1, consistent with F1's bound
+applying to RESTRICTED primitive sets (elements $\geq x$) for large $x$.
+For primes restricted to $[x, \infty)$, the partial sums in §2.1 show
+the restricted prime sum decaying: approximately $0.14$ at $x=100$,
+$0.07$ at $x=1000$, $0.03$ at $x=10000$. The restricted prime sum goes
+to zero as $x \to \infty$.
 
-$$\sum_{p \text{ prime}} \frac{1}{p \ln p} \approx 1.637.$$
-
-This is consistent with F1 (which says any primitive set has sum $< e^\gamma \pi/4 + o(1) \approx 1.399 + o(1)$; the primes-from-2 set is not restricted to $[x, \infty)$ for large $x$, so the $o(1)$ slack at $x=2$ is substantial). For primes restricted to $[x, \infty)$, the partial sums in §2.1 show the restricted prime sum decaying: approximately $0.14$ at $x=100$, $0.07$ at $x=1000$, $0.03$ at $x=10000$. The restricted prime sum thus goes to zero as $x \to \infty$.
-
-Thus the **prime set becomes small** when restricted to large $x$, consistent with the conjecture.
-
-The value $\approx 1.637 > 1$ for all primes from 2 shows that F1's effective bound at $x=2$ is much larger than $1.399$; the $o(1)$ term is $\approx 0.24$ at small $x$ and shrinks as $x \to \infty$.
+Thus the **prime set becomes small** when restricted to large $x$, consistent
+with the conjecture. The $o(1)$ slack in F1's bound is large at $x=2$
+(where the prime sum itself exceeds 1) and shrinks as $x \to \infty$.
 
 ### 2.3 Witness search (Q4)
 
@@ -205,14 +205,15 @@ rigorous_lower_bound = 1.0247605959867601... > threshold=1.0
 is_valid: True, score: 1.024760...
 ```
 **Caveat**: This is NOT a genuine counterexample to the conjecture. At $x_\text{floor} = 2$,
-the $o(1)$ correction to the bound $1 + o(1)$ is approximately $+0.637$ (the
-prime sum excess), so the effective bound at $x=2$ is $\approx 1.637$. Our
-witness at $1.025 < 1.637$ does not violate the conjecture.
+the $o(1)$ slack in F1's bound is substantial (the unrestricted prime sum is
+well above 1), so the witness sum of $1.025$ does not violate the conjecture's
+$1 + o(1)$ upper bound for this $x$.
 
-**x_floor = 3**: Numerically, the maximum sum we found over primitive subsets
-of $[3, \infty)$ is $\approx 0.916$ (achieved by taking primes $\geq 3$,
-which is a primitive set with sum $\approx 1.637 - 1/(2\ln 2) \approx 0.916$).
-This is $< 1.0$. No witness with sum $> 1$ was found for $x_\text{floor} \geq 3$.
+**x_floor = 3**: The prime set $\{p : p \geq 3\}$ achieves a sum
+$= 1/(3\ln 3) + 1/(5\ln 5) + \ldots < 1.0$ (numerically observed: the restricted
+prime sum at $x=3$ is $\approx 0.92$, and the $1/(2\ln 2)$ contribution of
+the prime 2 alone is $\approx 0.72$, so removing it brings the sum below $1$).
+No primitive subset of $[3, \infty)$ with sum $> 1$ was found.
 
 **x_floor = 100, 1000, 10000**: From the table in §2.1, the maximum single-stratum
 sum is $\leq 0.28$ (at $x_\text{floor}=100$), so no witness exists for large
@@ -264,35 +265,31 @@ This means: the $k$-th stratum blocks certain elements from the $(k+1)$-th
 stratum. The contribution of $a \in A_k$ to "blocked mass" in higher strata
 is related to $\{pa : p \text{ prime}\}$.
 
-### 3.3 Smallest-prime-factor stratification
+### 3.3 Smallest-prime-factor stratification (sketch)
 
-An alternative stratification due to the Erdős–Zhang tradition:
-for $a \in A$, let $P^-(a)$ denote the smallest prime factor of $a$.
-Assign $a$ to the bucket $B_p = \{a \in A : P^-(a) = p\}$.
+An alternative stratification: for $a \in A$, let $P^-(a)$ denote the smallest
+prime factor of $a$. Assign $a$ to the bucket $B_p = \{a \in A : P^-(a) = p\}$.
 
 - For each prime $p$, $B_p \subset [x, \infty)$ with $P^-(b) = p$ for all $b \in B_p$.
 - Primitivity of $A$ implies primitivity within each $B_p$.
-- Moreover, for $b, b' \in B_p$ with $b \neq b'$, writing $b = p \cdot m$ and $b' = p \cdot m'$ gives a primitive set $\{m, m'\}$ with both $m, m' > x/p$ and $P^-(m), P^-(m') > p$ (otherwise $b$ or $b'$ would have a smaller prime factor than $p$).
+- For $b \in B_p$, writing $b = p \cdot m$ with $m > x/p$ and $P^-(m) > p$
+  (otherwise $b$ would have a smaller prime factor).
 
-So the contribution from $B_p$ satisfies:
-
-$$\sum_{b \in B_p} \frac{1}{b \log b} \leq \frac{1}{p} \sum_{b \in B_p} \frac{1}{(b/p) \cdot (\log(b/p) + \log p)} \approx \frac{1}{p \log p} \cdot C(p, x)$$
-
-where $C(p, x)$ collects the "density" of elements $\geq x/p$ with smallest
-prime factor $> p$. Bounding $\sum_p C(p,x)/p$ from above by a constant that
-approaches $1$ as $x \to \infty$ would prove the conjecture.
+The contribution from $B_p$ is at most $\sum_{b \in B_p} 1/(b \log b)$,
+which should be bounded in terms of $1/(p \log p)$ times a density factor
+$C(p, x)$ counting how many elements with smallest prime factor $> p$ lie in
+$[x/p, \infty)$. If $\sum_p C(p, x)/(p \log p) \leq 1 + o(1)$ as $x \to \infty$,
+the conjecture follows.
 
 ### 3.4 Status and open questions
 
 - **Lemma `omega_stratification`** (status: `open`, essentially trivial):
-  The $\Omega$-stratification is a clean decomposition. The hard part is the
-  total bound.
+  The $\Omega$-stratification gives a clean decomposition. The total bound is the hard part.
 - **Lemma `stratum_bound`** (status: `open`, hard): Per-stratum sums diverge
-  when summed over all $k$; the antichain constraint is global, not per-stratum.
-  This is the core difficulty.
-- The smallest-prime-factor stratification (§3.3) looks more promising — it
-  was the approach of Erdős and Zhang. Implementing it rigorously requires
-  careful estimates of $C(p, x)$.
+  when summed over all $k$; the antichain constraint is a global condition.
+- The smallest-prime-factor stratification (§3.3) sidesteps this by grouping
+  elements by their smallest prime factor, but the key estimate for $C(p, x)$
+  requires number-theoretic input beyond the given-facts ledger.
 
 **This proof attempt is a partial result**. The reduction to the
 smallest-prime-factor approach (§3.3) is outlined; the key estimate for
