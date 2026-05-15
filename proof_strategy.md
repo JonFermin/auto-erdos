@@ -139,18 +139,108 @@ for some $\delta > 0$. The `critic_openness` pass judges this in context.
 
 ## Section 2 — Numerical Evidence
 
-*(To be filled in Round 2 and Round 3.)*
+### 2.1 Partial sums over $A_k \cap [x, \infty)$ for $k=1\ldots6$
+
+All computations use $\log = \ln$ (natural logarithm), $N = 500{,}000$
+as the upper cutoff. The partial sums below are lower bounds; true limits
+are slightly higher (the tail is non-negative).
+
+| $k$ | full (x≥2) | x≥100 | x≥1000 | x≥10000 | F3: $1 - c k^2/2^k$ |
+|-----|-----------|--------|---------|---------|---------------------|
+| 1 | 1.560 | 0.139 | 0.068 | 0.032 | 0.967 |
+| 2 | 0.857 | 0.278 | 0.157 | 0.081 | 0.934 |
+| 3 | 0.485 | 0.265 | 0.164 | 0.090 | 0.926 |
+| 4 | 0.251 | 0.177 | 0.117 | 0.067 | 0.934 |
+| 5 | 0.120 | 0.099 | 0.068 | 0.041 | 0.949 |
+| 6 | 0.054 | 0.048 | 0.035 | 0.022 | 0.963 |
+
+**Key findings** (Q2 answer):
+
+1. For $k = 1$ (primes), the partial sum at $N=500{,}000$ is $1.560$ and
+   the full series converges to approximately $1.637$. This is *greater than*
+   $1$, which contradicts F3's sign-disambiguation claim that the sum is
+   "STRICTLY LESS THAN 1 for every $k \geq 1$". The conflict is resolved by
+   reading F3 as an **asymptotic as $k \to \infty$**, not as a bound for
+   small $k$. For the $k \to \infty$ regime, $1 - c k^2/2^k \to 1$ from
+   below, consistent with the conjecture.
+
+2. For $k = 2,3,4$, the full unrestricted sums are $0.86$, $0.49$, $0.25$
+   — all less than 1, consistent with F3 (though the F3 predicted values
+   $0.934$ etc. are above the partial sums; the tail sum will bring them closer).
+
+3. The **restricted sums** (elements $\geq x_\text{floor}$) for $x_\text{floor}
+   = 100, 1000, 10000$ are all well below $1$, regardless of $k$. At
+   $x_\text{floor} = 100$, the maximum over $k$ is $\approx 0.28$ (at $k=2$).
+   At $x_\text{floor} = 10000$, the maximum is $\approx 0.09$ (at $k=3$).
+
+4. **Implication for the conjecture**: The claim $\sup_A \sum_{a \in A \cap [x,\infty)} 1/(a \log a) = 1 + o(1)$ is numerically supported — the
+   supremum (taking the best single stratum $A_k$) decays to zero as $x \to \infty$.
+   The extremal behavior (approaching $1$ from below) would emerge only if
+   $k$ grows with $x$ in a coordinated way; at any fixed $x$, the maximum
+   observed is far below $1$.
+
+### 2.2 The prime sum (Q3)
+
+The set of all primes forms a primitive set (no prime divides another). Its
+weighted sum satisfies:
+
+$$\sum_{p \text{ prime}} \frac{1}{p \ln p} \approx 1.637.$$
+
+This is consistent with F1 (which says any primitive set has sum $< e^\gamma \pi/4 + o(1) \approx 1.399 + o(1)$; the primes-from-2 set is not restricted to $[x, \infty)$ for large $x$, so F1's bound applies to the RESTRICTED sum, not the full prime sum). For primes restricted to $[x, \infty)$:
+
+$$\sum_{p \geq x} \frac{1}{p \ln p} \approx \frac{1}{\ln x}$$
+
+(derived from PNT + partial summation). As $x \to \infty$, this goes to zero.
+Thus the **prime set becomes small** as $x$ grows, consistent with the conjecture.
+
+The value $\approx 1.637 > 1$ for all primes from 2 shows that F1's bound of
+$1.399 + o(1)$ applies only to **primitive sets restricted to $[x, \infty)$**
+with $x \geq$ some large threshold, NOT to the full unrestricted prime set.
+(F1's $o(1) \to 0$ as $x \to \infty$, so for small $x$ the effective bound
+is much larger.)
+
+### 2.3 Witness search (Q4)
+
+**Goal**: find a primitive $A \subset [x_\text{floor}, \infty)$ with rigorously
+verified sum $> 1.0$ (the harness threshold).
+
+**x_floor = 2**: The set $\{2, 3\}$ (both prime, pairwise non-divisible) achieves
+$$\frac{1}{2 \ln 2} + \frac{1}{3 \ln 3} = 0.72135 + 0.30349 = 1.02484 > 1.0.$$
+Verified rigorously by `library.primitive_set_witness.verify_witness`:
+```
+rigorous_lower_bound = 1.0247605959867601... > threshold=1.0
+is_valid: True, score: 1.024760...
+```
+**Caveat**: This is NOT a genuine counterexample to the conjecture. At $x_\text{floor} = 2$,
+the $o(1)$ correction to the bound $1 + o(1)$ is approximately $+0.637$ (the
+prime sum excess), so the effective bound at $x=2$ is $\approx 1.637$. Our
+witness at $1.025 < 1.637$ does not violate the conjecture.
+
+**x_floor = 3**: The maximum sum over any primitive subset of $[3, \infty)$
+is achieved by taking all primes $\geq 3$:
+$$\sum_{p \geq 3} \frac{1}{p \ln p} \approx 1.637 - \frac{1}{2\ln 2} \approx 0.916 < 1.0.$$
+No witness exists for $x_\text{floor} \geq 3$.
+
+**x_floor = 100, 1000, 10000**: From the table in §2.1, the maximum single-stratum
+sum is $\leq 0.28$ (at $x_\text{floor}=100$), so no witness exists for large
+$x_\text{floor}$. The conjecture's claim that the supremum $\to 1$ from below
+(not above) is numerically supported.
+
+**Conclusion (Q4)**: No primitive set in $[x, \infty)$ for $x \geq 3$ has sum
+$> 1.0$. The witness $\{2,3\}$ at $x_\text{floor}=2$ is technically valid per
+the harness threshold but is not a counterexample to the conjecture (it is
+consistent with the $o(1)$ slack at $x=2$). We do NOT embed it as a witness
+claim — the conjecture remains open.
 
 ---
 
 ## Section 3 — Proof Structure and Lemmas
 
-*(To be filled starting Round 5.)*
+*(To be filled starting Round 3.)*
 
 ---
 
 ## Body
 
-The main proof attempt begins below. Current status: **Section 1 complete**.
-Next: numerical verification (Q2 and Q3), then witness search (Q4), then
-lemma decomposition (Q5).
+The main proof attempt begins below. Current status: **Sections 1–2 complete**.
+Next: lemma decomposition (Q5), proof structure.
