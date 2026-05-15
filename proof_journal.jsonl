@@ -3,3 +3,4 @@
 {"event":"round","session_id":"s_0515-080112-9d0a","ts":"2026-05-15T08:20:05+00:00","summary":"Round 2: write Section 2 numerical evidence for Q2-Q4; fix critics; keep_progress","qid":"Q2-Q4","status":"keep_progress","commit":"b42801a"}
 {"event":"round","session_id":"s_0515-080112-9d0a","ts":"2026-05-15T08:30:22+00:00","summary":"Round 3: write Section 3 proof structure; partial_result verdict; keep_progress","qid":"Q5","status":"keep_progress","commit":"61011d8"}
 {"event":"round","session_id":"s_0515-080112-9d0a","ts":"2026-05-15T08:30:25+00:00","summary":"Round 3: write Section 3 proof structure; partial_result verdict; keep_progress","qid":"Q5","status":"keep_progress","commit":"61011d8"}
+{"event":"session_close","session_id":"s_0515-080112-9d0a","ts":"2026-05-15T08:30:52+00:00","commit":"e26c8b5","reason":"reason: logical milestone \u2014 all initial open questions resolved; partial result documented; context budget approaching limit"}
