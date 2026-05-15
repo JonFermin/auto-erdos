@@ -229,11 +229,80 @@ claim — the conjecture remains open.
 
 ## Section 3 — Proof Structure and Lemmas
 
-*(To be filled starting Round 3.)*
+### 3.1 Reduction via Omega-stratification
+
+By Lemma `omega_stratification` (see `proof_lemmas/lemma_001_omega_stratification.md`),
+any primitive set $A \subset [x, \infty)$ decomposes into strata
+$A_k = A \cap \{\Omega(n) = k\}$, and within each stratum $A_k$ the
+elements are automatically pairwise non-divisible (so every subset of
+$\{n \geq x : \Omega(n) = k\}$ is an antichain under divisibility).
+
+Therefore the total sum is:
+
+$$\sum_{a \in A} \frac{1}{a \log a} = \sum_{k \geq 1} S_k^A(x), \quad \text{where } S_k^A(x) = \sum_{a \in A_k} \frac{1}{a \log a} \leq S_k(x) := \sum_{\substack{n \geq x\\\Omega(n)=k}} \frac{1}{n \log n}.$$
+
+Bounding the total sum reduces to bounding $\sum_{k \geq 1} S_k(x)$.
+
+**Critical obstacle** (documented in Lemma `stratum_bound`):
+$\sum_{k \geq 1} S_k(x) = \sum_{n \geq x} 1/(n \log n)$, which **diverges**
+for any fixed $x$. The bound "$\leq S_k(x)$ per stratum then sum over $k$"
+does NOT give a finite total — we cannot just bound each stratum independently
+and add.
+
+The key role of primitivity is NOT per-stratum (within a stratum, everything
+is already a legal antichain) — it is in PREVENTING simultaneous inclusion
+of elements across strata. An element in $A_k$ blocks multiples in higher
+strata.
+
+### 3.2 The blocking structure
+
+For $a \in A_k$ (with $\Omega(a) = k$), primitivity of $A$ means NO multiple
+of $a$ lies in $A$. Specifically, for any prime $p$, $pa$ would have
+$\Omega(pa) = k+1$, but $pa$ cannot be in $A$ (since $a | pa$).
+
+This means: the $k$-th stratum blocks certain elements from the $(k+1)$-th
+stratum. The contribution of $a \in A_k$ to "blocked mass" in higher strata
+is related to $\{pa : p \text{ prime}\}$.
+
+### 3.3 Smallest-prime-factor stratification
+
+An alternative stratification due to the Erdős–Zhang tradition:
+for $a \in A$, let $P^-(a)$ denote the smallest prime factor of $a$.
+Assign $a$ to the bucket $B_p = \{a \in A : P^-(a) = p\}$.
+
+- For each prime $p$, $B_p \subset [x, \infty)$ with $P^-(b) = p$ for all $b \in B_p$.
+- Primitivity of $A$ implies primitivity within each $B_p$.
+- Moreover, for $b, b' \in B_p$ with $b \neq b'$, writing $b = p \cdot m$ and $b' = p \cdot m'$ gives a primitive set $\{m, m'\}$ with both $m, m' > x/p$ and $P^-(m), P^-(m') > p$ (otherwise $b$ or $b'$ would have a smaller prime factor than $p$).
+
+So the contribution from $B_p$ satisfies:
+
+$$\sum_{b \in B_p} \frac{1}{b \log b} \leq \frac{1}{p} \sum_{b \in B_p} \frac{1}{(b/p) \cdot (\log(b/p) + \log p)} \approx \frac{1}{p \log p} \cdot C(p, x)$$
+
+where $C(p, x)$ collects the "density" of elements $\geq x/p$ with smallest
+prime factor $> p$. Bounding $\sum_p C(p,x)/p$ from above by a constant that
+approaches $1$ as $x \to \infty$ would prove the conjecture.
+
+### 3.4 Status and open questions
+
+- **Lemma `omega_stratification`** (status: `open`, essentially trivial):
+  The $\Omega$-stratification is a clean decomposition. The hard part is the
+  total bound.
+- **Lemma `stratum_bound`** (status: `open`, hard): Per-stratum sums diverge
+  when summed over all $k$; the antichain constraint is global, not per-stratum.
+  This is the core difficulty.
+- The smallest-prime-factor stratification (§3.3) looks more promising — it
+  was the approach of Erdős and Zhang. Implementing it rigorously requires
+  careful estimates of $C(p, x)$.
+
+**This proof attempt is a partial result**. The reduction to the
+smallest-prime-factor approach (§3.3) is outlined; the key estimate for
+$C(p, x)$ remains open. This remains open.
 
 ---
 
 ## Body
 
-The main proof attempt begins below. Current status: **Sections 1–2 complete**.
-Next: lemma decomposition (Q5), proof structure.
+Current status: **Sections 1–3 complete (partial result)**. The proof structure
+is outlined. The core estimate (bounding $\sum_p C(p,x)/p \leq 1 + o(1)$)
+is the main open problem, requiring number-theoretic estimates beyond the
+given-facts ledger. This remains open.
