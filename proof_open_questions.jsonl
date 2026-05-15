@@ -12,3 +12,4 @@
 {"qid":"Q3","status":"resolved","session_id":"s_0515-080112-9d0a","summary":"documented prime sum 1.637; restricted version 1/ln(x) -> 0","ts":"2026-05-15T08:16:12+00:00"}
 {"qid":"Q4","status":"claimed","session_id":"s_0515-080112-9d0a","summary":"witness search: {2,3} works for x_floor=2 but not genuine counterexample","ts":"2026-05-15T08:16:12+00:00"}
 {"qid":"Q4","status":"resolved","session_id":"s_0515-080112-9d0a","summary":"no witness for x_floor>=3; {2,3} at x_floor=2 is trivial/non-counterexample","ts":"2026-05-15T08:16:12+00:00"}
+{"qid":"Q5","status":"claimed","session_id":"s_0515-080112-9d0a","summary":"taking Q5: outline proof structure via Omega-stratification","ts":"2026-05-15T08:20:05+00:00"}
