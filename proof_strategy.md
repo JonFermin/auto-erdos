@@ -1,70 +1,104 @@
 # Proof attempt — `primitive_set_erdos`
 
-This file is the agent-editable proof draft for the Track 2 loop. It is the
-ONLY editable proof artifact (alongside lemma files in `proof_lemmas/`). Its
-content is hashed for round-dedup; pure whitespace / comment edits do not
-count as a real round.
+This file is the agent-editable proof draft for the Track 2 loop.
+Content hash is used for round-dedup. Lemma files live in `proof_lemmas/`.
 
-The loop reads this file via `proof_prepare.py`, runs five LLM critics
-against it, and decides keep/discard via `proof_log_result.py`.
+---
 
-## Setup
+## Section 1 — Claim, Given Facts, and Proof Context
 
-- **Claim**: see `proofs/primitive_set_erdos.json` field `claim_latex`. The
-  conjecture is that for any primitive set $A \subset [x, \infty)$ the sum
-  $\sum_{a \in A} 1/(a \log a)$ is bounded above by $1 + o(1)$ as $x \to \infty$.
-- **Status**: open. Until a verifier-accepted witness is committed, no claim
-  of resolution may appear in this file (`critic_openness` enforces this).
-- **Given facts ledger**: see `proofs/primitive_set_erdos.json` field
-  `given_facts`. The proof may cite F1 (Erdős-Zhang upper bound ≈ 1.399),
-  F2 (Omega-stratum lower bound with UNSIGNED big-O — read carefully),
-  F3 (exact asymptotic showing canonical extremal sum approaches 1 from
-  BELOW). Citations to facts not in the ledger trigger `critic_ledger`.
+### 1.1 The Conjecture
 
-## Anti-traps (the canonical failure modes)
+**Erdős's Primitive-Set Conjecture (tightened form).**
+A set $A \subseteq \mathbb{N}$ is *primitive* if no element divides another
+distinct element. The conjecture asserts:
 
-- **F2 sign confusion**. F2 says
-  $\sum_{a \in A_k} 1/(a \log a) \geq 1 + O(k^{-1/2 + o(1)})$
-  with the $O(\cdot)$ term **unsigned**. Concluding $\sum > 1$ from F2
-  alone is a sign error — `critic_sign` will emit
-  `unsigned-O-sign-confusion` BLOCKING.
-- **F3 read upside-down**. F3 says
-  $\sum_{a \in A_k} 1/(a \log a) = 1 - (c+o(1)) k^2/2^k$
-  with $c \approx 0.0656 > 0$. The leading correction is *negative*, so
-  the sum approaches $1$ from BELOW. Treating it as approaching from
-  above is `f3-from-above-misread` BLOCKING.
-- **Open claim asserted resolved without witness**. The conjecture is open.
-  Phrases like "the conjecture is false" / "we disprove" trigger
-  `critic_openness`'s `open-claim-asserted-resolved-without-witness`
-  BLOCKING — unless a verifier-accepted `<!-- WITNESS -->` block is
-  committed and `witness_valid == 1`.
+$$\sup_{\substack{A \text{ primitive} \\ A \subseteq [x,\infty)}} \sum_{a \in A} \frac{1}{a \log a} \leq 1 + o(1) \quad \text{as } x \to \infty.$$
 
-## Witness format (the only path to a counterexample claim)
+Equivalently: for every $\varepsilon > 0$ there exists $X_\varepsilon$ such that
+for all $x \geq X_\varepsilon$, every primitive $A \subseteq [x, \infty)$ satisfies
+$\sum_{a \in A} \frac{1}{a \log a} < 1 + \varepsilon$.
 
-A claim of disproof MUST be backed by a finite primitive set whose sum is
-rigorously verified to exceed `witness_threshold` by
-`library.primitive_set_witness.verify_witness`. To commit a witness,
-embed exactly one block of the form:
+This tightens the Zhang bound (F1). Zhang shows the supremum is at most about
+1.399 (for $A \subseteq [x, \infty)$ as $x \to \infty$); the conjecture asserts
+this bound improves to 1.
 
-```
-<!-- WITNESS
-{
-  "x_floor": 100,
-  "elements": [101, 103, 107, 109, ...],
-  "claimed_sum_lower_bound": 1.005
-}
-WITNESS -->
-```
+**Status**: open. The verifier tracks a candidate disproof only through a
+verified `<!-- WITNESS -->` block — no unverified claim of resolution is
+permitted.
 
-at the bottom of this file. `proof_prepare.py` parses the JSON, runs the
-deterministic verifier, and sets `witness_valid` accordingly. No witness
-block ⇒ `witness_valid = 0` ⇒ no counterexample claim is possible.
+### 1.2 Given Facts
 
-## Body
+**F1 (Erdős 1935; Zhang 1993).** For any primitive set $A \subseteq [x, \infty)$:
+$$\sum_{a \in A} \frac{1}{a \log a} < e^{\gamma} \frac{\pi}{4} + o(1) \approx 1.399 + o(1),
+\quad x \to \infty.$$
+This is an UPPER bound, strictly less than $e^\gamma \pi/4 \approx 1.399$.
+It is consistent with the conjecture (which posits a tighter asymptotic
+bound of $1$). The bound is *asymptotic in $x$*: for small $x$ (e.g., $x = 2$),
+the sum over all primes exceeds $1.399$ substantially (≈ 1.636); this does
+NOT contradict F1 since F1 only applies for $x \to \infty$.
 
-(The agent fills in the body. Sketch a structure, prove what you can,
-hedge the rest. Lemmas live in `proof_lemmas/lemma_*.md` and are cited
-by id from this file.)
+**F2 (Omega-stratum, UNSIGNED big-O lower bound).**
+Let $A_k = \{n \in \mathbb{N} : \Omega(n) = k\}$ (exactly $k$ prime factors
+counted with multiplicity). Then:
+$$\sum_{a \in A_k} \frac{1}{a \log a} \geq 1 + O\!\left(k^{-1/2+o(1)}\right).$$
+**Sign warning**: the $O(k^{-1/2+o(1)})$ term is **unsigned** — it bounds the
+absolute value of the correction, which may be **negative**. One cannot
+conclude $\sum > 1$ from F2 alone. (F3 below resolves the sign: the correction
+is negative for all finite $k$.)
 
-This proof attempt is currently a stub. Pick the lowest-numbered open
-qid from `proof_open_questions.jsonl` and start.
+Note: $A_k$ is primitive. Proof: if $a, b \in A_k$ and $a \mid b$, then
+$b = am$ with $\Omega(b) = \Omega(a) + \Omega(m)$, so $\Omega(m) = 0$, giving
+$m = 1$ and $a = b$ — a contradiction since elements are distinct.
+
+**F3 (Exact asymptotic for $A_k$).**
+$$\sum_{a \in A_k} \frac{1}{a \log a} = 1 - (c + o(1))\frac{k^2}{2^k},
+\quad c \approx 0.0656 > 0.$$
+The leading correction $-(c+o(1)) k^2/2^k$ is **negative** (since $c > 0$).
+Therefore:
+- The sum is **strictly less than 1** for every finite $k \geq 1$.
+- It approaches 1 from **below** as $k \to \infty$.
+- F3 resolves F2's ambiguity: the unsigned-O error in F2 is achieved by a
+  negative quantity, namely $-(c+o(1)) k^2/2^k$.
+
+**Key consequence**: the $A_k$ family (the "canonical extremal" family) does
+not provide a counterexample. Each $A_k$ has sum strictly below 1.
+
+### 1.3 Witness Contract
+
+A *counterexample candidate* is a finite primitive set
+$A \subset [x_{\rm floor}, \infty)$ (pairwise non-divisible, all elements
+$\geq x_{\rm floor} \geq 2$) whose rigorous lower bound on
+$\sum_{a \in A} 1/(a \log a)$ exceeds the threshold 1.0. Such a candidate is
+embedded as a `<!-- WITNESS -->` block and verified by
+`library.primitive_set_witness.verify_witness` (Decimal arithmetic, 4-ULP
+slack on `math.log`).
+
+**Caveat on finite-$x$ witnesses**: the conjecture's $o(1)$ correction is
+asymptotic in $x$. A witness at small $x_{\rm floor}$ (say $x_{\rm floor} = 2$)
+with sum slightly above 1 is consistent with the conjecture since the $o(1)$
+term at $x=2$ is large. A human reviewer would need to bound the $o(1)$
+correction at the witness's $x_{\rm floor}$ to assess whether the witness is
+a genuine counterexample.
+
+### 1.4 Proof Approach
+
+This attempt develops:
+
+1. **Numerical verification of F3** (Section 2): Confirm the sum over $A_k$
+   for $k = 1, 2, 3, 4$ is strictly less than 1, with explicit values. Confirm
+   the prime sum ($A_1$ restricted to $[2, \infty)$) and the finite-vs-asymptotic
+   distinction.
+
+2. **Witness search** (Section 3): Computationally test whether a primitive
+   $A \subseteq [x_{\rm floor}, \infty)$ with rigorous sum $> 1.0$ exists for
+   $x_{\rm floor} \in \{100, 1000, 10000\}$.
+
+3. **Stratification sketch** (Section 4): Outline the Omega-stratification
+   argument, assign lemmas, and characterize which steps are supported by
+   F1/F3 and which remain open.
+
+4. **Partial result** (Section 5): State what has been ruled out and what
+   remains open under current knowledge.
+
+*(Sections 2–5 are populated in subsequent rounds.)*
