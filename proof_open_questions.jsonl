@@ -7,3 +7,7 @@
 {"qid":"Q1","status":"resolved","session_id":"s_0516-080402-4298","summary":"Section 1 written with precise claim, F1/F2/F3 sign guards, witness contract","ts":"2026-05-16T08:16:42+00:00"}
 {"qid":"Q2","status":"claimed","session_id":"s_0516-080402-4298","summary":"taking Q2+Q3: numerical evidence for F3 and prime sum","ts":"2026-05-16T08:16:42+00:00"}
 {"qid":"Q3","status":"claimed","session_id":"s_0516-080402-4298","summary":"taking Q3 with Q2: prime sum and finite-vs-asymptotic distinction","ts":"2026-05-16T08:16:42+00:00"}
+{"qid":"Q2","status":"resolved","session_id":"s_0516-080402-4298","summary":"Truncated sums computed: k=1 gives ~1.637 (contradicts F3 for small k), prime sum documented","ts":"2026-05-16T08:26:34+00:00"}
+{"qid":"Q3","status":"resolved","session_id":"s_0516-080402-4298","summary":"Prime sum ~1.637 > F1 constant 1.399, but consistent with F1 since F1 applies only for x->inf","ts":"2026-05-16T08:26:34+00:00"}
+{"qid":"Q4","status":"resolved","session_id":"s_0516-080402-4298","summary":"Witness search failed at x_floor=100/1000/10000; max sum ~0.27 at x_floor=100, far below 1.0","ts":"2026-05-16T08:26:34+00:00"}
+{"qid":"Q5","status":"claimed","session_id":"s_0516-080402-4298","summary":"taking Q5: proof structure outline with stratification by Omega(a)","ts":"2026-05-16T08:26:34+00:00"}

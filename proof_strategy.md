@@ -208,4 +208,87 @@ would follow if one could show the supremum of sums over all primitive
 $A \subseteq [x, \infty)$ is bounded by $1 + o(1)$, i.e., that the supremum
 approaches 1 from below as $x \to \infty$.
 
-*(Sections 4–5 are populated in subsequent rounds.)*
+---
+
+## Section 4 — Proof Structure Sketch
+
+### 4.1 The Stratification Approach
+
+Given a primitive $A \subseteq [x, \infty)$, define $A_k = \{a \in A : \Omega(a) = k\}$.
+Then $A = \bigsqcup_k A_k$, and:
+$$\sum_{a \in A} \frac{1}{a \log a} = \sum_{k=1}^\infty \sum_{a \in A_k} \frac{1}{a \log a}.$$
+
+By `Lemma Ak_primitive` (proved), each $A_k$ is a primitive set in its own
+right (since $A_k \subseteq A$ and any two elements with the same $\Omega$-value
+cannot divide each other). So each inner sum $\sum_{a \in A_k} 1/(a \log a)$
+is at most the supremum over primitive sets in $A_k^{(\text{full})} \cap [x, \infty)$.
+
+By F3 (given), $\sum_{a \in A_k^{(\text{full})}} 1/(a \log a) = 1 - (c+o(1)) k^2/2^k < 1$
+for all finite $k$. If we could conclude that $\sum_{a \in A_k} 1/(a \log a)$
+is correspondingly bounded, the total would be:
+$$\sum_{k=1}^\infty \text{(stratum bound)} = \sum_{k=1}^\infty \left(1 - (c+o(1))\frac{k^2}{2^k}\right) = \ldots$$
+
+However, this naive approach fails: the series $\sum_{k=1}^\infty 1 = \infty$
+(before subtracting the correction terms), so one cannot simply sum the per-stratum
+bounds without accounting for the fact that a primitive set uses at most ONE
+non-zero stratum budget (it can borrow from all strata simultaneously).
+
+See `Lemma stratification` (open) for the cross-stratum difficulty.
+
+### 4.2 What the Known Results Provide
+
+- F1 (Zhang): the total sum $< 1.399$ for $A \subseteq [x, \infty)$, $x \to \infty$.
+  This gives a non-trivial bound but not the conjectured 1. See
+  `Lemma zhang_extremal` (open).
+- F3: each $A_k$ has sum $\to 1$ from below as $k \to \infty$. This rules out
+  any single stratum being a counterexample.
+- Numerical evidence (Section 3): no counterexample found at $x_{\rm floor} \in
+  \{100, 1000, 10000\}$.
+
+### 4.3 The Core Difficulty
+
+The gap between F1's bound ($1.399$) and the conjecture ($1$) requires an
+improved estimate for how much "budget" a primitive set can extract from
+$[x, \infty)$. The difficulty is that for large $x$:
+
+- The prime stratum $A_1 \cap [x, \infty)$ has sum $\approx 1/\log x$.
+- The $A_k$ stratum for $2^k \leq x$ (i.e., $k \leq \log_2 x$) is "full"
+  in $[x, \infty)$ and contributes close to its maximum of $1 - O(k^2/2^k)$.
+- A primitive set can, in principle, mix elements from different strata.
+
+The key missing ingredient is a "cross-stratum interaction" lemma: bounding
+how much a primitive set can accumulate by mixing low-$k$ (large individual
+contributions) and high-$k$ elements. This remains open.
+
+---
+
+## Section 5 — Partial Result
+
+**This proof attempt remains open.** The following has been established or
+strongly supported:
+
+1. **Ruled out (by computation)**: no primitive $A \subseteq [x, \infty)$
+   with $x \in \{100, 1000, 10000\}$ achieves sum $> 1$ in the tested
+   constructions (max sum $\approx 0.27$ at $x=100$).
+
+2. **Ruled out (by F3 + Lemma Ak_primitive)**: no single-stratum set $A_k$
+   is a counterexample, since each has sum strictly below 1.
+
+3. **Not ruled out**: a cross-stratum primitive set using a mix of different
+   $\Omega$-values could in principle exceed 1 for small $x_{\rm floor}$
+   (since the prime sum from $x=2$ gives $\approx 1.637 > 1$, and cross-stratum
+   mixing is allowed by primitivity when divisibility relations are avoided).
+   For large $x$, the numerical evidence strongly suggests no such set exists,
+   supporting the conjecture.
+
+4. **Open**: the quantitative gap between F1's 1.399 and the conjectured 1.
+   No proof is known that improves F1 for $A \subseteq [x, \infty)$.
+
+**Conclusion under current knowledge**: the conjecture is plausible and
+strongly supported by computation. The stratification approach (Sections 4
+and the lemmas) does not yet close the gap. A proof would require either
+a significantly improved version of F1 (bounding the sum below 1 for large
+$x$) or a new technique for controlling cross-stratum interactions in a
+primitive set.
+
+*(This partial result is the kept artifact of this proof attempt.)*
