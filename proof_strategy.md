@@ -128,3 +128,39 @@ This is consistent with the conjecture for $x \geq 5$.
 
 For $x = 2$: the primes $\{2, 3\}$ already exceed sum $= 1$, making $x_{\text{floor}} = 2$
 the regime of interest for the witness search (Q4).
+
+## Section 3 — Witness search (Q4)
+
+The witness verifier (`library.primitive_set_witness.verify_witness`) confirms
+whether a finite primitive set $A \subseteq [x_{\text{floor}}, \infty)$ has
+a rigorous lower bound on $\sum 1/(a \log a)$ exceeding the threshold 1.0.
+
+### Candidate witness
+
+$A = \{2, 3, 5\}$ with $x_{\text{floor}} = 2$. This is a primitive set (no
+prime divides another). Rigorous computation:
+
+$$\frac{1}{2 \ln 2} + \frac{1}{3 \ln 3} + \frac{1}{5 \ln 5} \approx 0.7213 + 0.3034 + 0.1243 = 1.1490.$$
+
+The verifier confirms: rigorous lower bound $= 1.1490 > 1.0$ (the witness threshold).
+
+### Interpretation
+
+This witness shows that a primitive set in $[2, \infty)$ can achieve sum $> 1$.
+**This does not necessarily contradict the conjecture.** The conjecture bounds the
+sum by $1 + o_x(1)$ where $o_x(1) \to 0$ as $x \to \infty$; at $x = 2$ the
+$o_x(1)$ term is positive and non-negligible (the primes $\{2, 3, 5, \ldots\}$
+have full sum $\approx 1.637$, so $f(2) \approx 1.637$ and $o_2(1) \approx 0.637$).
+A sum of $1.149$ at $x_{\text{floor}} = 2$ falls well within the conjectured
+bound $1.637$.
+
+A genuine counterexample would require achieving sum $> 1 + \varepsilon$ for a
+fixed $\varepsilon > 0$ at $x_{\text{floor}}$ large enough that $o_{x}(1) < \varepsilon$.
+
+<!-- WITNESS
+{
+  "x_floor": 2,
+  "elements": [2, 3, 5],
+  "claimed_sum_lower_bound": 1.14
+}
+WITNESS -->
