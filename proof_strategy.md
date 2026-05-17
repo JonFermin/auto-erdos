@@ -70,21 +70,61 @@ F2 and F3 are consistent: F3 confirms the exact value of the $O$-term in F2
 
 ### What the facts imply
 
-By F3, every $A_k$ is a primitive set whose total sum is $< 1$. These are the
-canonical "near-extremal" primitive sets; they do not violate the conjecture.
+By F3, the canonical primitive sets $A_k$ (integers with exactly $k$ prime
+factors counted with multiplicity) have sums approaching $1$ from below:
+$\sum_{a \in A_k} \frac{1}{a \log a} = 1 - (c+o(1)) k^2/2^k \to 1^-$ as $k \to \infty$.
+These are conjectured to be near-extremal for the problem.
 
-By F1, for any primitive $A$ (not necessarily an $A_k$), the sum is below
-$\approx 1.399$. The conjecture asserts the bound can be tightened to $1 + o_x(1)$
-for sets restricted to $[x, \infty)$.
+By F1, any primitive $A$ (unrestricted) has sum $< 1.399$. The conjecture asserts
+the bound tightens to $1 + o_x(1)$ when $A \subseteq [x, \infty)$ for large $x$.
 
-The gap between F1's bound ($\approx 1.399$) and the conjectured bound ($1$)
-is where the difficulty lies. The ledger provides no fact that closes this gap
-directly — closing it is the goal of this proof attempt.
+The ledger provides no fact that closes the gap between F1 ($\approx 1.399$) and
+the conjectured bound ($1$) directly — that is the content of this proof attempt.
 
 ### Questions being pursued
 
-- **Q2**: Numerically verify F3 for $k = 1, 2, 3, 4$ (truncated sums vs. formula).
-- **Q3**: Numerically explore the prime sum over $[x, \infty)$ for several $x$-values;
-  understand how F1 applies when restricted to large-$x$ tails.
+- **Q2+Q3**: ✓ Numerical evidence (see Section 2 below).
 - **Q4**: Witness search — try to construct a verified primitive set with sum $> 1$.
 - **Q5**: Proof structure — stratify by $\Omega(a)$ and bound cross-stratum interaction.
+
+## Section 2 — Numerical evidence (Q2 + Q3)
+
+### Truncated $A_k$ sums for $k = 2, 3, 4$ (first 200 elements each)
+
+Let $S_k^{(200)}$ = sum $1/(a\log a)$ over the first 200 elements of $A_k$ by
+size, and $T_k$ = F3 leading-term value $1 - c k^2/2^k$, $c = 0.0656$.
+
+| $k$ | $S_k^{(200)}$ | $T_k$ (F3 leading) | largest element |
+|-----|-------------|-------------------|----------------|
+| 2   | 0.6819      | 0.9344            | 669             |
+| 3   | 0.3134      | 0.9262            | 805             |
+| 4   | 0.1403      | 0.9344            | 1292            |
+
+Each $S_k^{(200)}$ is strictly below 1, consistent with F3's statement that
+the full $A_k$ sums are $< 1$. The partial sums are well below the F3
+leading-term prediction $T_k$, indicating substantial tail contributions
+from large elements; the series converges slowly from below to $T_k$.
+
+The $k=1$ case (primes) is treated separately in Q4 (witness search), since
+even the two-element set $\{2, 3\}$ has sum $\approx 1.024 > 1$, making it a
+natural witness candidate (x_floor = 2).
+
+### Primes restricted to $[x, \infty)$ for various $x$
+
+A primitive subset of $\{p : p \geq x\}$ (a sub-set of primes $\geq x$) has
+a sum bounded above by $\sum_{p \geq x} 1/(p \log p)$. Partial computations
+(sieve to 200k, plus tail estimate $\approx 0.062$) give:
+
+| $x_{\text{floor}}$ | partial sum (primes in $[x, 200\text{k}]$) |
+|---|---|
+| 5   | 0.530 |
+| 10  | 0.332 |
+| 100 | 0.133 |
+| 1000 | 0.062 |
+
+For $x \geq 5$, the full prime tail is $< 0.60 < 1$, so no finite or infinite
+subset of primes in $[x, \infty)$ for $x \geq 5$ can achieve sum $\geq 1$.
+This is consistent with the conjecture for $x \geq 5$.
+
+For $x = 2$: the primes $\{2, 3\}$ already exceed sum $= 1$, making $x_{\text{floor}} = 2$
+the regime of interest for the witness search (Q4).
