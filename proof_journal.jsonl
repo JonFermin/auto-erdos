@@ -1,2 +1,3 @@
 {"event":"round","session_id":"s_0517-080424-a10b","ts":"2026-05-17T10:03:32+00:00","summary":"Q2+Q3: numerical evidence, k=2..4 sums < 1, prime tails x>=5 < 1","qid":"Q2","status":"keep_progress","commit":"bfeb7c5"}
 {"event": "round", "session_id": "s_0517-080424-a10b", "ts": "2026-05-17T10:07:01Z", "summary": "Q4: witness {2,3,5} at x_floor=2 gives rigorous sum 1.149>1.0; finite-x, o(1) caveat documented", "qid": "Q4", "status": "in_progress", "commit": "pending"}
+{"event":"session_close","session_id":"s_0517-080424-a10b","ts":"2026-05-17T10:09:37+00:00","commit":"11c756c","reason":"reason: exit 7 keep_disproof \u2014 witness {2,3,5} verified at x_floor=2 with rigorous score 1.149>1.0; loop complete"}
