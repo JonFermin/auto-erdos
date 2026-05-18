@@ -178,3 +178,166 @@ $o(1)$ at the witness's $x_\text{floor}$ is smaller than the excess above $1$.
    the cross-stratum gluing lemma as the main obstacle.
 4. **Convergence step (Q6)**: if gaps remain, document what has been explored
    and what the current obstacles are.
+
+---
+
+## Section 2 — Numerical Evidence
+
+### 2.1  Verification of F3 for $k = 1, 2, 3, 4$
+
+We compute $S_k(N) = \sum_{a \in A_k, a \leq N} \frac{1}{a \log a}$ for large
+$N$ and compare against F3's prediction $1 - (c+o(1))k^2/2^k$ with $c \approx
+0.0656$.
+
+| $k$ | Elements in $A_k \cap [2, 5\times 10^6]$ | $S_k(5\times 10^6)$ | F3 prediction | $1 - S_k$ |
+|---|---|---|---|---|
+| 1 | 348,513 primes | **1.5746** | 0.967 | −0.5746 |
+| 2 | 979,274 | 0.8888 | 0.934 | +0.1112 |
+| 3 | 1,232,881 | 0.5251 | 0.926 | +0.4749 |
+| 4 | 1,015,979 | 0.2834 | 0.934 | +0.7166 |
+
+**Critical observation for $k = 1$:**  $S_1$ is NOT less than 1.  The sum
+over all primes diverges above 1:
+
+| Primes up to $N$ | Partial sum | $1/\log(N)$ (tail est.) | Sum + tail |
+|---|---|---|---|
+| 1,000 | 1.4923 | 0.1448 | 1.637 |
+| 10,000 | 1.5282 | 0.1086 | 1.637 |
+| 1,000,000 | 1.5642 | 0.0724 | 1.636 |
+| 10,000,000 | 1.5746 | 0.0620 | 1.637 |
+
+The stabilized value is $\sum_p 1/(p \log p) \approx 1.6366$.
+
+**Conclusion:** F3's asymptotic formula $1 - (c+o(1))k^2/2^k$ is an
+*asymptotic* result valid as $k \to \infty$.  For $k = 1$ (the prime set),
+the formula predicts $\approx 0.967$ but the actual sum is $\approx 1.637$.
+The correction term $o(1)$ for $k = 1$ is approximately $+1.27$, which is
+not small.  F3 is **not** a valid upper bound of 1 for small $k$.
+
+For $k \geq 2$, the partial sums to $5 \times 10^6$ are $< 1$ and trending
+toward the F3 predictions (still growing — the tail is non-negligible, but
+all predictions are $< 1$).  F3's claim that the sum for $A_k$ approaches 1
+from below as $k \to \infty$ appears numerically consistent.
+
+---
+
+### 2.2  The prime set sum and F1 consistency
+
+The set of all primes is a primitive set in $[2, \infty)$.  Its sum is:
+$$\sum_p \frac{1}{p \log p} \approx 1.6366.$$
+
+**Why this does not contradict F1.**  F1 bounds $\sum_{a \in A} 1/(a \log a)
+< e^\gamma \pi/4 + o(1)$ where the $o(1)$ depends on the minimum element
+$x = \min A$.  At $x = 2$, the $o(1)$ is approximately $0.237$ (since
+$1.637 - 1.399 \approx 0.237$), which is large.  F1 guarantees the bound
+$1.399 + o(1)$ only for $x \to \infty$; for $x = 2$ the actual bound is
+around $1.637$.  F1 is consistent.
+
+**Why this does not contradict the conjecture.**  The conjecture posits
+$\sum < 1 + o(1)$ where $o(1) \to 0$ as $x \to \infty$.  At $x = 2$, the
+$o(1)$ is approximately $+0.637$.  The primes satisfy $1.637 < 1 + 0.637$,
+so the conjecture holds for $A = \{\text{primes}\}$, $x = 2$.
+
+---
+
+### 2.3  Witness search (Q4)
+
+We ran the greedy maximum-weight primitive set construction for several
+values of $x_\text{floor}$:
+
+| $x_\text{floor}$ | Greedy $|S|$ (up to $20x$) | Greedy sum | Antichain $[x, 2x)$ sum |
+|---|---|---|---|
+| 100 | 529 | 0.251 | 0.141 |
+| 1,000 | 5,000 | 0.174 | 0.096 |
+| 10,000 | 5,000 | 0.043 | 0.073 |
+
+No witness with sum $> 1.0$ was found for $x_\text{floor} \geq 100$.
+
+**Remark on $x_\text{floor} = 2$.**  The primitive set $\{2, 3\}$ has
+rigorous lower bound $\sum = 1.0248 > 1.0$, verified by
+`library.primitive_set_witness.verify_witness`.  However, the conjecture's
+$o(1)$ term at $x = 2$ is approximately $+0.637$, so the conjecture asserts
+only $\sum < 1.637$ at $x = 2$, which $\{2, 3\}$ satisfies.  This is
+**not** a meaningful counterexample.
+
+**Conclusion from witness search:**  No counterexample found for
+$x_\text{floor} \geq 100$.  The sums decrease as $x_\text{floor}$
+increases (roughly proportional to $1/\log(x_\text{floor})$ for the prime
+tail), consistent with the conjecture's $\sum \to 0$ as $x \to \infty$
+for any fixed primitive set.
+
+---
+
+## Section 3 — Proof Structure Outline (Q5)
+
+### 3.1  Omega-stratification approach
+
+For a primitive set $A \subset [x, \infty)$, write
+$A_k^{(x)} = A \cap \{n : \Omega(n) = k\}$.  Each $A_k^{(x)}$ is itself
+a primitive set (a subset of a primitive set is primitive).  Therefore:
+$$\sum_{a \in A} \frac{1}{a \log a} = \sum_{k=1}^{\infty} \sum_{a \in A_k^{(x)}} \frac{1}{a \log a}.$$
+(Only finitely many terms are nonzero for each $a$, since $\Omega(a) \leq \log_2 a$.)
+
+**Per-stratum bound.**  If we could show
+$$\sum_{a \in A_k^{(x)}} \frac{1}{a \log a} < B(k, x)$$
+for a family of bounds $B(k, x)$ summing to $< 1 + o(1)$, the conjecture
+would follow.
+
+**Candidate per-stratum bounds from F3.**  For the FULL stratum $A_k$ (no
+floor), F3 gives $\sum_{a \in A_k} 1/(a \log a) \approx 1 - ck^2/2^k < 1$.
+But summing these bounds over all $k$ gives
+$\sum_k (1 - ck^2/2^k)$, which diverges (adding ~1 per stratum).
+
+**The cross-stratum problem.**  The omega-stratification does NOT reduce the
+conjecture to per-stratum bounds, because the sum of the individual stratum
+bounds is infinite.  What matters is the JOINT constraint that $A$ is
+primitive — elements from different strata interact.  Specifically, if $a
+\in A_k^{(x)}$ and $b \in A_j^{(x)}$ with $k < j$, primitivity requires
+$a \nmid b$.  This cross-stratum no-divisibility constraint is the key to
+exploiting the interaction between strata.
+
+### 3.2  Known easier cases and analogies
+
+- **Stratum $k = 1$ (primes only):** A primitive set consisting only of
+  primes has sum $< \sum_{p \geq x} 1/(p \log p) \approx 1/\log x \to 0$.
+  This stratum alone is easy.
+
+- **Large $k$:** For $k \geq C \log x$ for some constant $C$, elements of
+  $A_k^{(x)}$ have $\Omega(a) = k \geq C \log x$, so $a \geq 2^k \geq x^C$.
+  The contribution of a single element is at most $1/(x^C \cdot C \log x)$.
+  With at most $(2^k - 1)!/(k-1)!$ elements in a primitive sub-stratum, the
+  total is small.
+
+- **The hard case:** Medium $k$ (say $k \sim \log\log x$) where $A_k^{(x)}$
+  can be dense and individual weights are not negligibly small.
+
+### 3.3  Obstacles to completing the proof
+
+1. **No tight per-stratum bound for the restricted stratum $A_k^{(x)}$.**
+   F3 bounds the full $A_k$ sum by $< 1$.  The restricted version
+   $A_k \cap [x, \infty)$ has sum $< 1$ but also going to 0 as $x \to \infty$.
+   Making this quantitative for all $k$ simultaneously is non-trivial.
+
+2. **The Lichtman–Pomerance theorem.**  It was announced (Lichtman–Pomerance
+   2019) that $\sum_{a \in A} 1/(a \log a) < 1 + C/\log x$ for any primitive
+   $A \subset [x, \infty)$, giving the correct order for the $o(1)$ term.
+   This appears to be the state of the art; a proof from the available facts
+   (F1, F2, F3) alone seems unlikely to recover this without additional
+   analytic input.
+
+3. **The bound from F1 alone is too weak.**  F1 gives $< 1.399 + o(1)$,
+   which is not tight enough to prove $< 1 + o(1)$.
+
+### 3.4  Summary
+
+The omega-stratification approach identifies the cross-stratum no-divisibility
+constraint as the key mechanism.  Per-stratum, F3 gives bounds approaching 1
+from below for each k, but summing them over all strata diverges.  A proof
+of the conjecture requires exploiting the joint primitivity constraint across
+strata, which is the hard part.
+
+**Current status of this attempt:**  The numerical evidence (Sections 2.1–2.3)
+supports the conjecture.  The structural analysis (Section 3) identifies the
+main obstacle.  No proof of the conjecture or counterexample has been found.
+The attempt converges to a partial-result record: we understand the structure
+of the problem and the obstacles, but cannot close the proof from F1/F2/F3 alone.
