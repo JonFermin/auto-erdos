@@ -341,3 +341,49 @@ supports the conjecture.  The structural analysis (Section 3) identifies the
 main obstacle.  No proof of the conjecture or counterexample has been found.
 The attempt converges to a partial-result record: we understand the structure
 of the problem and the obstacles, but cannot close the proof from F1/F2/F3 alone.
+
+---
+
+## Section 4 — Partial Result and Open Status (Q6)
+
+### What has been established in this session
+
+1. **F3 scope (numerical).**  F3's formula $1 - (c+o(1))k^2/2^k$ is an
+   asymptotic valid as $k \to \infty$.  For $k = 1$ (primes), the full
+   sum is $\approx 1.6366 > 1$.  For $k \geq 2$, partial sums to $5 \times
+   10^6$ are all $< 1$ and consistent with the F3 prediction.
+
+2. **No counterexample found.**  Greedy maximum-weight primitive set
+   construction for $x_\text{floor} \in \{100, 1000, 10000\}$ found sums
+   at most $0.251$ — far below the threshold of $1.0$.  The set $\{2, 3\}$
+   exceeds the threshold ($\sum \approx 1.025$) but is not a genuine
+   counterexample due to the large $o(1) \approx 0.637$ at $x = 2$.
+
+3. **Proof structure identified.**  The omega-stratification approach fails
+   directly because per-stratum bounds sum to $\infty$.  The cross-stratum
+   no-divisibility constraint is the key mechanism any proof must exploit.
+   The Lichtman–Pomerance theorem (if valid) gives the right $O(1/\log x)$
+   rate, but a reconstruction from F1/F2/F3 alone is not within reach of
+   this session.
+
+### What remains open
+
+- **The conjecture itself.**  No proof or disproof from the available facts.
+- **Per-stratum bounds for restricted strata.**  A quantitative bound on
+  $\sum_{a \in A_k^{(x)}} 1/(a \log a)$ for the restricted stratum (with
+  floor) that sums over $k$ to $< 1 + o(1)$ is the missing lemma.
+- **F3 for small $k$.**  The exact asymptotics of $\sum_{a \in A_k} 1/(a \log a)$
+  for $k = 1, 2, 3$ (and their restricted versions) would clarify whether
+  the extremal primitive set in $[x, \infty)$ is always near the prime set.
+
+### Recommended next steps (for a future session)
+
+1. Study Lichtman–Pomerance (2019) — the technique likely involves a
+   weighted Mertens estimate for primitive sets indexed by their smallest
+   prime factor, which is a finer stratification than Omega.
+2. Try the "Mertens function" stratification: classify elements of $A$ by
+   their smallest prime factor $p(a)$.  The contribution of elements with
+   $p(a) \in [q, 2q)$ can be bounded using the Mertens product
+   $\prod_{p \leq q} (1 - 1/p)^{-1} \approx e^\gamma \log q$.
+3. If the approach yields a $B_q$ bound per bucket $q$, check whether
+   $\sum_q B_q < 1 + C/\log x$.
