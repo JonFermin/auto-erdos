@@ -34,10 +34,10 @@ against it, and decides keep/discard via `proof_log_result.py`.
   the sum approaches $1$ from BELOW. Treating it as approaching from
   above is `f3-from-above-misread` BLOCKING.
 - **Open claim asserted resolved without witness**. The conjecture is open.
-  Phrases like "the conjecture is false" / "we disprove" trigger
-  `critic_openness`'s `open-claim-asserted-resolved-without-witness`
-  BLOCKING — unless a verifier-accepted `<!-- WITNESS -->` block is
-  committed and `witness_valid == 1`.
+  Asserting a refutation (e.g. that the bound fails, or exhibiting a
+  counterexample claim) without a verifier-accepted `<!-- WITNESS -->` block
+  triggers `critic_openness` BLOCKING.  Every such claim MUST be backed by
+  a committed witness with `witness_valid == 1`.
 
 ## Witness format (the only path to a counterexample claim)
 
@@ -176,5 +176,5 @@ $o(1)$ at the witness's $x_\text{floor}$ is smaller than the excess above $1$.
 3. **Proof structure (Q5)**: outline an omega-stratified approach; for each
    stratum $k$, bound the contribution of $A \cap A_k$ using F3.  Identify
    the cross-stratum gluing lemma as the main obstacle.
-4. **Partial result or convergence (Q6)**: if gaps remain, document what has
-   been ruled out.
+4. **Convergence step (Q6)**: if gaps remain, document what has been explored
+   and what the current obstacles are.
