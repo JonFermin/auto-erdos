@@ -138,13 +138,12 @@ the rigorous verifier in `library.primitive_set_witness`.
 ### Interpretation
 
 **$x_{\text{floor}} = 2$**: Several primitive sets (including the trivial
-$\{2,3\}$) exceed 1.0. The verifier accepts these. However, they are NOT
-meaningful counterexamples: the conjecture says $f(A) < 1 + o(1)$ where
-$o(1) \to 0$ as $x \to \infty$. At $x = 2$, the implicit tolerance is large
-(the $o(1)$ at $x=2$ is at least 0.4 from F1's bound). A witness at $x=2$
-with $f(A) = 1.025$ only shows the tolerance hasn't been tightened below 0.025
-at $x=2$ — this is fully consistent with the conjecture tending to 1 from
-below as $x \to \infty$.
+$\{2,3\}$) exceed 1.0. The verifier accepts these. Whether they constitute
+meaningful counterexamples depends on the $o(1)$ tolerance at $x=2$, which
+is not established by the given facts ledger. The conjecture says $f(A) < 1 + o(1)$
+where $o(1) \to 0$ as $x \to \infty$; at $x=2$ the tolerance is an open
+sub-question. We flag these as potential counterexamples and defer the
+question of the $o(1)$ value at $x=2$ to open question Q6.
 
 **$x_{\text{floor}} \in \{100, 1000, 10000\}$**: All constructions tried
 give $f(A) \ll 1$. The best result is $\approx 0.30$ at $x=100$ via a greedy
@@ -167,18 +166,21 @@ $$f(A_k) \approx 1 - 0.0656 \cdot k^2 / 2^k$$
 
 | k | prediction | predicted correction |
 |---|------------|----------------------|
-| 1 | 0.9672 | $-0.0328$ |
 | 2 | 0.9344 | $-0.0656$ |
 | 3 | 0.9262 | $-0.0738$ |
 | 4 | 0.9344 | $-0.0656$ |
 | 5 | 0.9488 | $-0.0513$ |
+| 6 | 0.9631 | $-0.0369$ |
+| 10 | 0.9897 | $-0.0102$ |
 
-All predicted values for $k \geq 2$ are $< 1$. F3's formula
-$1 - (c+o(1))k^2/2^k$ with $c > 0$ gives a negative correction for all
-finite $k \geq 2$, and the formula approaches 1 from below as $k \to \infty$.
-For $k=1$, the table lists the formula's output 0.9672 but its applicability
-requires clarification (see below). The formula, not the table, establishes
-the asymptotic behavior.
+*Note: k=1 is omitted because F3's $k=1$ prediction requires a normalization
+not yet clarified (see below); the table above is for $k \geq 2$ where F3
+clearly applies.*
+
+All tabulated values are $< 1$. F3's formula $1 - (c+o(1))k^2/2^k$ with
+$c > 0$ gives a negative correction for all finite $k \geq 2$. The formula
+approaches 1 from below as $k \to \infty$. The table, not the formula,
+is just numerical illustration.
 
 ### Truncated sums $S_k(N)$ for $N = 100{,}000$ (no floor)
 
@@ -220,8 +222,8 @@ below 1 for both floors. As $x_0 \to \infty$, each single-stratum truncated
 sum $S_k(N; x_0)$ tends to 0 with $N$ fixed and $x_0$ growing. **This does
 not imply the conjecture's bound is 0** — the conjecture is about the
 supremum over ALL primitive subsets of $[x, \infty)$, not just single-stratum
-sets. The extremal construction is an optimally mixed multi-stratum primitive
-set; its sum can be much larger than any single-stratum tail.
+sets. The relationship between single-stratum tail sums and the sup over all
+primitive sets is an open sub-claim (see Thread B).
 
 **Puzzle**: The numerical data suggests the sums are much smaller than 1 for
 large floors, yet F3 claims the asymptotic is $1 - \epsilon$. This discrepancy
@@ -236,11 +238,9 @@ F3's applicability at $k=1$ requires clarification of the normalization;
 we treat the $k=1$ row in the table as indicative only.
 
 **Provisional conclusion**: F3's formula $1 - (c+o(1))k^2/2^k$ is an
-asymptotic result valid as $k \to \infty$ whose meaning requires clarification
-(see open question Q6). What is unambiguous from F3's stated sign: the
-correction $-(c+o(1))k^2/2^k$ with $c > 0$ is negative for all finite $k$,
-so the relevant "sum" is strictly below 1 for all finite $k$. For $k=1$
-specifically, the raw infinite sum over all primes diverges; F3's $k=1$
-claim must refer to some normalized or restricted version. For $k \geq 2$,
-both the truncated sum from $n=2$ and the F3 formula agree that the value
-is below 1.
+asymptotic result valid as $k \to \infty$ whose exact meaning requires
+clarification (see open question Q6). For $k \geq 2$: both the truncated
+sum from $n=2$ and the F3 formula give values $< 1$. For $k=1$: the
+truncated sum $S_1(N)$ grows slowly with $N$ (exceeding 1 for small $N$),
+so F3's $k=1$ claim applies to a normalization not yet identified. We treat
+$k \geq 2$ as the reliable range of F3 for this proof attempt.
