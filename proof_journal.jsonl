@@ -7,3 +7,4 @@
 {"event":"round","session_id":"s_0519-080355-133d","ts":"2026-05-19T08:41:28+00:00","summary":"Fix k=1 table inconsistency in F3 section; drop k=1 row; clarify provisional conclusion","qid":"Q4","status":"in_progress","commit":"55eb79e"}
 {"event":"round","session_id":"s_0519-080355-133d","ts":"2026-05-19T08:44:20+00:00","summary":"Fix k=10 arithmetic error in F3 table; fix F3 meaning internal inconsistency; clarify Thread A conclusion","qid":"Q4","status":"in_progress","commit":"25625f1"}
 {"event":"round","session_id":"s_0519-080355-133d","ts":"2026-05-19T08:45:50+00:00","summary":"Q4: counterexample search; 0 blocking critics; keep_progress","qid":"Q4","status":"keep_progress","commit":"ea0b693"}
+{"event":"session_close","session_id":"s_0519-080355-133d","ts":"2026-05-19T08:46:23+00:00","commit":"398598a","reason":"reason: token budget low; Q1/Q2/Q4 done; next: Q3 (prime sums) and Q5 (proof outline / lemma files)"}
