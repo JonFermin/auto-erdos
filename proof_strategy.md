@@ -133,8 +133,11 @@ $$f(A_k) \approx 1 - 0.0656 \cdot k^2 / 2^k$$
 | 4 | 0.9344 | $-0.0656$ |
 | 5 | 0.9488 | $-0.0513$ |
 
-All predicted values are $< 1$, confirming the claim that the extremal
-candidate never violates the conjecture asymptotically.
+All predicted values are $< 1$. This is consistent with F3's asymptotic
+formula $1 - (c+o(1))k^2/2^k$ with $c > 0$, which implies the sum is
+strictly below 1 for every finite $k$ and approaches 1 from below as
+$k \to \infty$. (The formula, not the finite table, is what establishes
+the asymptotic non-violation.)
 
 ### Truncated sums $S_k(N)$ for $N = 100{,}000$ (no floor)
 
@@ -171,11 +174,13 @@ For $x_0 = 1000$:
 | 3 | 0.1311 |
 | 4 | 0.0908 |
 
-**Key observation**: All floor-constrained sums are well below 1 for every
-$k$ at both floors. As $x_0 \to \infty$, all truncated sums go to 0 (since
-the sums converge and the tails are small), consistent with the conjecture's
-claim that the supremum over primitive sets in $[x, \infty)$ tends to 0 as
-$x \to \infty$ — but this would make the bound 0, not 1.
+**Key observation**: All floor-constrained single-stratum sums are well
+below 1 for both floors. As $x_0 \to \infty$, each single-stratum truncated
+sum $S_k(N; x_0)$ tends to 0 with $N$ fixed and $x_0$ growing. **This does
+not imply the conjecture's bound is 0** — the conjecture is about the
+supremum over ALL primitive subsets of $[x, \infty)$, not just single-stratum
+sets. The extremal construction is an optimally mixed multi-stratum primitive
+set; its sum can be much larger than any single-stratum tail.
 
 **Puzzle**: The numerical data suggests the sums are much smaller than 1 for
 large floors, yet F3 claims the asymptotic is $1 - \epsilon$. This discrepancy
@@ -188,7 +193,11 @@ with $\Omega(n) = k$) or a specific normalization (see open question Q6).
 $k=1$. F3's applicability at $k=1$ requires further clarification.
 
 **Provisional conclusion**: F3's formula $1 - (c+o(1))k^2/2^k$ is an
-asymptotic result valid as $k \to \infty$, describing the behavior of
-the normalized sum for large $k$. The sign is correct: the correction is
-negative, so the sum (in whatever normalization) is below 1. This is
-consistent with the conjecture.
+asymptotic result valid as $k \to \infty$ whose meaning requires clarification
+(see open question Q6). What is unambiguous from F3's stated sign: the
+correction $-(c+o(1))k^2/2^k$ with $c > 0$ is negative for all finite $k$,
+so the relevant "sum" is strictly below 1 for all finite $k$. For $k=1$
+specifically, the raw infinite sum over all primes diverges; F3's $k=1$
+claim must refer to some normalized or restricted version. For $k \geq 2$,
+both the truncated sum from $n=2$ and the F3 formula agree that the value
+is below 1.
