@@ -173,11 +173,12 @@ $$f(A_k) \approx 1 - 0.0656 \cdot k^2 / 2^k$$
 | 4 | 0.9344 | $-0.0656$ |
 | 5 | 0.9488 | $-0.0513$ |
 
-All predicted values are $< 1$. This is consistent with F3's asymptotic
-formula $1 - (c+o(1))k^2/2^k$ with $c > 0$, which implies the sum is
-strictly below 1 for every finite $k$ and approaches 1 from below as
-$k \to \infty$. (The formula, not the finite table, is what establishes
-the asymptotic non-violation.)
+All predicted values for $k \geq 2$ are $< 1$. F3's formula
+$1 - (c+o(1))k^2/2^k$ with $c > 0$ gives a negative correction for all
+finite $k \geq 2$, and the formula approaches 1 from below as $k \to \infty$.
+For $k=1$, the table lists the formula's output 0.9672 but its applicability
+requires clarification (see below). The formula, not the table, establishes
+the asymptotic behavior.
 
 ### Truncated sums $S_k(N)$ for $N = 100{,}000$ (no floor)
 
@@ -228,9 +229,11 @@ suggests F3 is NOT about $A_k \cap [x, \infty)$ with $x$ fixed and
 $N \to \infty$; instead it likely refers to the FULL $A_k$ (sum over all $n$
 with $\Omega(n) = k$) or a specific normalization (see open question Q6).
 
-**For $k = 1$**: The sum over ALL primes $\sum_p 1/(p \log p)$ diverges
-(since $\sum_p 1/p$ diverges). So F3 cannot mean the raw infinite sum for
-$k=1$. F3's applicability at $k=1$ requires further clarification.
+**For $k = 1$**: The truncated sum $S_1(N)$ (primes up to $N$) grows slowly
+with $N$ and exceeds 1 for $N \geq 5$ (second prime = 3 already gives sum
+$> 1$ with $p=2$). So F3 cannot be about the raw truncated sum for $k=1$.
+F3's applicability at $k=1$ requires clarification of the normalization;
+we treat the $k=1$ row in the table as indicative only.
 
 **Provisional conclusion**: F3's formula $1 - (c+o(1))k^2/2^k$ is an
 asymptotic result valid as $k \to \infty$ whose meaning requires clarification
