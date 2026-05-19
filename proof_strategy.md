@@ -115,3 +115,80 @@ this fails (consistent with the conjecture being true), document why.
 **Thread B (structural proof)**: Attempt to bound $f(A)$ for arbitrary
 primitive $A$ via Omega-stratification. The key question is: given F3's
 exact formula, can we control the cross-stratum interaction?
+
+## Section 2: Numerical Evidence for F3 (Q2)
+
+We compute truncated Omega-stratum sums $S_k(N) = \sum_{n \leq N, \Omega(n)=k} 1/(n \log n)$
+for $N = 100{,}000$ and the first-200-elements version to build intuition.
+
+### F3 asymptotic formula values
+
+$$f(A_k) \approx 1 - 0.0656 \cdot k^2 / 2^k$$
+
+| k | prediction | predicted correction |
+|---|------------|----------------------|
+| 1 | 0.9672 | $-0.0328$ |
+| 2 | 0.9344 | $-0.0656$ |
+| 3 | 0.9262 | $-0.0738$ |
+| 4 | 0.9344 | $-0.0656$ |
+| 5 | 0.9488 | $-0.0513$ |
+
+All predicted values are $< 1$, confirming the claim that the extremal
+candidate never violates the conjecture asymptotically.
+
+### Truncated sums $S_k(N)$ for $N = 100{,}000$ (no floor)
+
+| k | count$(n \leq N)$ | $S_k(100000)$ | $< 1$? |
+|---|-------------------|---------------|--------|
+| 1 | 9592 | 1.5498 | **No** |
+| 2 | 23378 | 0.8288 | Yes |
+| 3 | 25556 | 0.4522 | Yes |
+| 4 | 18744 | 0.2249 | Yes |
+
+**Observation**: For $k=1$ (primes from $n=2$), the truncated sum exceeds 1.
+This is **not** a contradiction — the conjecture concerns primitive sets
+$A \subseteq [x, \infty)$ as $x \to \infty$; it says nothing about
+primitive sets starting from $n = 2$. For $k \geq 2$ the sum is already
+comfortably below 1.
+
+### Floor-constrained tail sums $S_k(N; x_0) = \sum_{n=x_0}^{N} 1/(n \log n) \cdot \mathbf{1}[\Omega(n)=k]$
+
+For $x_0 = 100$ and $N = 100{,}000$:
+
+| k | $S_k(100000; 100)$ |
+|---|---------------------|
+| 1 | 0.1282 |
+| 2 | 0.2497 |
+| 3 | 0.2325 |
+| 4 | 0.1511 |
+
+For $x_0 = 1000$:
+
+| k | $S_k(100000; 1000)$ |
+|---|----------------------|
+| 1 | 0.0575 |
+| 2 | 0.1288 |
+| 3 | 0.1311 |
+| 4 | 0.0908 |
+
+**Key observation**: All floor-constrained sums are well below 1 for every
+$k$ at both floors. As $x_0 \to \infty$, all truncated sums go to 0 (since
+the sums converge and the tails are small), consistent with the conjecture's
+claim that the supremum over primitive sets in $[x, \infty)$ tends to 0 as
+$x \to \infty$ — but this would make the bound 0, not 1.
+
+**Puzzle**: The numerical data suggests the sums are much smaller than 1 for
+large floors, yet F3 claims the asymptotic is $1 - \epsilon$. This discrepancy
+suggests F3 is NOT about $A_k \cap [x, \infty)$ with $x$ fixed and
+$N \to \infty$; instead it likely refers to the FULL $A_k$ (sum over all $n$
+with $\Omega(n) = k$) or a specific normalization (see open question Q6).
+
+**For $k = 1$**: The sum over ALL primes $\sum_p 1/(p \log p)$ diverges
+(since $\sum_p 1/p$ diverges). So F3 cannot mean the raw infinite sum for
+$k=1$. F3's applicability at $k=1$ requires further clarification.
+
+**Provisional conclusion**: F3's formula $1 - (c+o(1))k^2/2^k$ is an
+asymptotic result valid as $k \to \infty$, describing the behavior of
+the normalized sum for large $k$. The sign is correct: the correction is
+negative, so the sum (in whatever normalization) is below 1. This is
+consistent with the conjecture.
