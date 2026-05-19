@@ -137,13 +137,12 @@ the rigorous verifier in `library.primitive_set_witness`.
 
 ### Interpretation
 
-**$x_{\text{floor}} = 2$**: Several primitive sets (including the trivial
-$\{2,3\}$) exceed 1.0. The verifier accepts these. Whether they constitute
-meaningful counterexamples depends on the $o(1)$ tolerance at $x=2$, which
-is not established by the given facts ledger. The conjecture says $f(A) < 1 + o(1)$
-where $o(1) \to 0$ as $x \to \infty$; at $x=2$ the tolerance is an open
-sub-question. We flag these as potential counterexamples and defer the
-question of the $o(1)$ value at $x=2$ to open question Q6.
+**$x_{\text{floor}} = 2$**: Several primitive sets (including $\{2,3\}$)
+exceed 1.0. The conjecture says $f(A) < 1 + o(1)$ where $o(1) \to 0$ as
+$x \to \infty$; at $x=2$ the $o(1)$ may well be $\geq 0.025$, in which
+case these are consistent with the conjecture and NOT counterexamples. The
+question of whether $o(1)$ at $x=2$ permits $f(A) = 1.025$ is deferred
+to open question Q6.
 
 **$x_{\text{floor}} \in \{100, 1000, 10000\}$**: All constructions tried
 give $f(A) \ll 1$. The best result is $\approx 0.30$ at $x=100$ via a greedy
@@ -151,9 +150,11 @@ algorithm. No witness with $f(A) > 1$ was found at any of these floors.
 
 ### Conclusion from Thread A
 
-Thread A is **negative**: no counterexample found for large floors. The
-numerical evidence is consistent with the conjecture being true. Proceed with
-Thread B (structural proof via $\Omega$-stratification).
+Thread A found **no counterexample for $x_{\text{floor}} \geq 100$**: all
+constructions give $f(A) \ll 1$. At $x_{\text{floor}} = 2$, several sets
+exceed 1.0, but whether these are genuine counterexamples depends on whether
+the conjecture's $o(1)$ at $x=2$ is positive (which is an open sub-question,
+not resolved by the ledger). Proceed with Thread B.
 
 ## Section 2: Numerical Evidence for F3 (Q2)
 
@@ -169,9 +170,9 @@ $$f(A_k) \approx 1 - 0.0656 \cdot k^2 / 2^k$$
 | 2 | 0.9344 | $-0.0656$ |
 | 3 | 0.9262 | $-0.0738$ |
 | 4 | 0.9344 | $-0.0656$ |
-| 5 | 0.9488 | $-0.0513$ |
+| 5 | 0.9487 | $-0.0513$ |
 | 6 | 0.9631 | $-0.0369$ |
-| 10 | 0.9897 | $-0.0102$ |
+| 10 | 0.9936 | $-0.0064$ |
 
 *Note: k=1 is omitted because F3's $k=1$ prediction requires a normalization
 not yet clarified (see below); the table above is for $k \geq 2$ where F3
@@ -237,10 +238,12 @@ $> 1$ with $p=2$). So F3 cannot be about the raw truncated sum for $k=1$.
 F3's applicability at $k=1$ requires clarification of the normalization;
 we treat the $k=1$ row in the table as indicative only.
 
-**Provisional conclusion**: F3's formula $1 - (c+o(1))k^2/2^k$ is an
-asymptotic result valid as $k \to \infty$ whose exact meaning requires
-clarification (see open question Q6). For $k \geq 2$: both the truncated
-sum from $n=2$ and the F3 formula give values $< 1$. For $k=1$: the
-truncated sum $S_1(N)$ grows slowly with $N$ (exceeding 1 for small $N$),
-so F3's $k=1$ claim applies to a normalization not yet identified. We treat
-$k \geq 2$ as the reliable range of F3 for this proof attempt.
+**Provisional conclusion**: F3 (given fact) asserts
+$f(A_k) = 1 - (c+o(1))k^2/2^k$ as an asymptotic result. For $k \geq 2$:
+both the truncated sum from $n=2$ and the F3 formula give values $< 1$,
+consistent with each other. For $k=1$: the truncated sum $S_1(N)$ grows
+with $N$ (exceeding 1 for small $N$), so F3's $k=1$ instance applies to
+a normalization or restriction not captured by the raw truncation $S_1(N)$.
+The ledger presents F3 as a fact; the open question (Q6) is what
+normalization F3 uses at $k=1$, not whether F3 is true. We treat $k \geq 2$
+as the empirically consistent range for this proof attempt.
