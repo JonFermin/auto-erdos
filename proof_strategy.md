@@ -116,6 +116,46 @@ this fails (consistent with the conjecture being true), document why.
 primitive $A$ via Omega-stratification. The key question is: given F3's
 exact formula, can we control the cross-stratum interaction?
 
+## Section 3: Counterexample Search (Q4)
+
+Attempted to find a primitive set $A \subseteq [x_{\text{floor}}, \infty)$
+with $f(A) > 1.0$ for $x_{\text{floor}} \in \{2, 100, 1000, 10000\}$ using
+the rigorous verifier in `library.primitive_set_witness`.
+
+### Constructions tried
+
+| Construction | $x_{\text{floor}}$ | $\|A\|$ | $f(A)$ | $> 1$? |
+|---|---|---|---|---|
+| Primes $[2, 10^6)$ first 1000 | 2 | 1000 | 1.5253 | **Yes** |
+| $\{2,3\}$ | 2 | 2 | 1.0248 | **Yes** |
+| Band $[100, 200)$ | 100 | 100 | 0.1408 | No |
+| Band $[100, 200)$ + outer primes | 100 | 5100 | 0.2337 | No |
+| Greedy in $[100, 200001)$ | 100 | 9935 | 0.2992 | No |
+| Band $[1000, 2000)$ | 1000 | 1000 | 0.0957 | No |
+| Greedy in $[1000, 200001)$ | 1000 | 16466 | 0.1979 | No |
+| Band $[10000, 20000)$ | 10000 | 10000 | 0.0726 | No |
+
+### Interpretation
+
+**$x_{\text{floor}} = 2$**: Several primitive sets (including the trivial
+$\{2,3\}$) exceed 1.0. The verifier accepts these. However, they are NOT
+meaningful counterexamples: the conjecture says $f(A) < 1 + o(1)$ where
+$o(1) \to 0$ as $x \to \infty$. At $x = 2$, the implicit tolerance is large
+(the $o(1)$ at $x=2$ is at least 0.4 from F1's bound). A witness at $x=2$
+with $f(A) = 1.025$ only shows the tolerance hasn't been tightened below 0.025
+at $x=2$ — this is fully consistent with the conjecture tending to 1 from
+below as $x \to \infty$.
+
+**$x_{\text{floor}} \in \{100, 1000, 10000\}$**: All constructions tried
+give $f(A) \ll 1$. The best result is $\approx 0.30$ at $x=100$ via a greedy
+algorithm. No witness with $f(A) > 1$ was found at any of these floors.
+
+### Conclusion from Thread A
+
+Thread A is **negative**: no counterexample found for large floors. The
+numerical evidence is consistent with the conjecture being true. Proceed with
+Thread B (structural proof via $\Omega$-stratification).
+
 ## Section 2: Numerical Evidence for F3 (Q2)
 
 We compute truncated Omega-stratum sums $S_k(N) = \sum_{n \leq N, \Omega(n)=k} 1/(n \log n)$

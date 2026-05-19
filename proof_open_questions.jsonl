@@ -7,3 +7,5 @@
 {"qid":"Q1","status":"claimed","session_id":"s_0519-080355-133d","summary":"taking Q1: write Setup section","ts":"2026-05-19T08:04:05+00:00"}
 {"qid":"Q1","status":"resolved","session_id":"s_0519-080355-133d","summary":"Setup section written, defense-in-depth string fixed; critics clean, keep_progress","ts":"2026-05-19T08:18:48+00:00"}
 {"qid":"Q2","status":"claimed","session_id":"s_0519-080355-133d","summary":"taking Q2: numerical verification of F3","ts":"2026-05-19T08:18:54+00:00"}
+{"qid":"Q2","status":"resolved","session_id":"s_0519-080355-133d","summary":"Q2 done: numerical evidence section + fixed internal critic finding; keep_progress","ts":"2026-05-19T08:29:02+00:00"}
+{"qid":"Q4","status":"claimed","session_id":"s_0519-080355-133d","summary":"taking Q4: search for counterexample via greedy primitive set construction","ts":"2026-05-19T08:29:08+00:00"}
