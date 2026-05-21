@@ -155,7 +155,8 @@ growing toward values approaching 1.
 ### 2.2 Sum over primes from 2 (Q3)
 
 The primes form a primitive set (no prime divides another). The partial sum
-$\sum_{p \leq N} 1/(p \log p)$ grows toward $\approx 1.636$.
+$\sum_{p \leq N} 1/(p \log p)$ grows through values shown below
+(exact convergent limit not characterized in the ledger).
 
 Partial sums at small primes:
 | Prime $p$ | $\sum_{q \leq p} 1/(q \log q)$ |
@@ -170,12 +171,15 @@ Partial sums at small primes:
 **Crossing point:** The sum first exceeds 1.0 at $p=3$, with
 $1/(2 \log 2) + 1/(3 \log 3) \approx 0.7213 + 0.3035 = 1.0248$.
 
-**Note on F1:** F1 gives an upper bound $\approx 1.399 + o(1)$ (as $x \to \infty$)
-for any primitive set. The empirical primes-from-2 sum $\approx 1.636$ may appear
-to exceed 1.399; we do not attempt to reconcile the two in this draft (the $o(1)$
-term's behavior at $x=2$ is not characterized in the ledger). We do not use F1
-to bound any specific primitive set; we cite it only as an existence result
-showing finite primitive-set sums are bounded above.
+**Note on F1 — reconciling with primes-from-2 sum:** F1 gives an upper bound
+$< e^\gamma \pi/4 + o(1)$ (as $x \to \infty$) for any primitive set. The
+primes-from-2 partial sums shown above (0.72, 1.02, 1.15, 1.22, ...) exceed 1.0
+at $p=3$ and grow further. There is no contradiction with F1: F1's $o(1)$ term
+is an asymptotic correction as $x_{\mathrm{floor}} \to \infty$. At
+$x_{\mathrm{floor}} = 2$ (the primes-from-2 setting), the $o(1)$ term is
+uncharacterized by F1, so F1 places no hard cap of 1.399 on that construction.
+We do not use F1 to bound any specific primitive set; we cite it only as an
+asymptotic upper bound applicable for large $x_{\mathrm{floor}}$.
 
 ---
 
@@ -246,8 +250,7 @@ Lemma 1 alone cannot establish the conjecture for unbounded $A$. The key difficu
 is that primitivity across layers (if $a \in [2^j x, 2^{j+1}x)$ and $b \in [2^k x, 2^{k+1}x)$
 with $j < k$, then $a \nmid b$) severely restricts which cross-layer combinations
 are allowed, but the quantitative consequence of this constraint requires a deeper
-argument (likely related to the Erdős–Zhang proof that primes maximize the sum
-over all $n \in [p, \infty)$).
+analytic argument.
 
 ### 4.3 Lemma outline
 
@@ -266,19 +269,18 @@ $$\sum_{a \in A} \frac{1}{a \log a} \leq C$$
 for some absolute constant $C$, ideally $C = 1 + o(1)$ as $x \to \infty$.
 *Status: **OPEN**. Main obstacle: layer-by-layer Lemma 1 application diverges.*
 
-**Approach candidates for Lemma 2:**
-- (a) Odd-part / chain decomposition: write $\mathbb{N} = \bigsqcup_{m \text{ odd}} \{m \cdot 2^k : k \geq 0\}$.
-  A primitive set contains at most one element from each chain. The sum over a
-  single chain starting at $m \cdot 2^j \geq x$ is $\sum_{k \geq j} 1/(m2^k \log(m2^k))$,
-  which converges. But summing over all odd $m \geq x$ still requires a bound on
-  the total, which circles back to the same harmonic-divergence issue.
-- (b) Ergodic / measure-theoretic approach via the Sathe–Selberg formula for
-  integers with exactly $k$ prime factors; F3 gives the answer per stratum.
-- (c) Literature: the actual Erdős–Zhang proof (which uses a generalization of
-  Mertens' theorem and a Turán–Kubilius inequality). This is the approach most
-  likely to close Lemma 2 but requires reading the Zhang 1993 paper.
+**Progress on Lemma 2 (see `proof_lemmas/lemma_002_chain_decomposition.md`):**
 
-*[Lemma 2 will be developed in subsequent rounds.]*
+The chain decomposition (odd-part factorization $a = 2^e m$, $m$ odd) gives
+a partial bound. By primitivity, the odd parts $\{m(a)\}$ of elements of $A$
+are distinct and pairwise non-divisible. For elements with $m(a) < x$ (small
+odd part), the element $a \geq x$ contributes $\leq 1/(x \log x)$ each, and
+there are at most $\lfloor x/2 \rfloor$ such odd parts. This yields:
+$$\sum_{\substack{a \in A \\ m(a) < x}} \frac{1}{a \log a} \leq \frac{1}{2 \log x}.$$
+
+The remaining contribution $\sum_{m(a) \geq x}$ reduces to a primitive set of
+odd integers in $[x, \infty)$ — the same conjecture type for odd inputs.
+*Status: partial (the small-chain bound is proved; the large-chain part is open).*
 
 ---
 
@@ -286,3 +288,6 @@ for some absolute constant $C$, ideally $C = 1 + o(1)$ as $x \to \infty$.
 
 - `proof_lemmas/lemma_001_dense_antichain.md` — **PROVED**. Dense antichain
   bound for $[x, 2x)$: sum $\leq \log 2/\log x + O(1/(\log x)^2)$.
+- `proof_lemmas/lemma_002_chain_decomposition.md` — **PARTIAL**. Chain
+  decomposition: small-chain contribution $\leq 1/(2 \log x)$ proved;
+  large-chain contribution reduces to the same problem for odd integers.
