@@ -133,11 +133,10 @@ and $N = 50{,}000$.
 | 3            | 0.436306 | 0.926200 |
 | 4            | 0.213074 | 0.934400 |
 
-**Key observation:** The $k=1$ partial sums are growing slowly:
-N=1000: 1.4923, N=5000: 1.5194, N=10000: 1.5282, N=50000: 1.5442.
-The series appears to converge to a value well above 1 (rough empirical estimate
-$\approx 1.63$–$1.64$, based on the decreasing growth rate). This is **much larger**
-than F3's prediction of $\approx 0.967$.
+**Key observation:** The $k=1$ partial sum at $N = 50{,}000$ is $1.544$, well above 1.
+The series appears to be converging toward a limit distinctly above 1, which is
+**much larger** than F3's prediction of $\approx 0.967$.
+(The k=2, 3, 4 rows are all below 1 and appear consistent with F3 for those $k$.)
 
 **Sign / consistency note on F3 for $k=1$:**
 F3 says $\sum_{a \in A_1} 1/(a \log a) = 1 - (c+o(1)) k^2/2^k \approx 0.967$.
@@ -187,10 +186,8 @@ rigorously verified $\sum 1/(a \log a) > 1.0$.
 
 | $x_{\mathrm{floor}}$ | Construction | Verified sum | Exceeds threshold? |
 |---|---|---|---|
-| 2 | $\{2, 3\}$ (smallest witness) | **1.02476** | **YES** |
-| 2 | Primes $\leq 200$ (46 elements) | **1.45122** | **YES** |
+| 2 | $\{2, 3\}$ (smallest 2-element witness) | **1.02476** | **YES** |
 | 100 | Primes $\geq 100$ (1204 elements) | 0.10659 | no |
-| 1000 | Primes $\geq 1000$ (9424 elements) | 0.05747 | no |
 | 1000 | All ints $[1000, 2000)$ | 0.09566 | no |
 | 10000 | All ints $[10000, 20000)$ | 0.07256 | no |
 
