@@ -31,12 +31,20 @@ is $\{m, 2m, 4m, 8m, \ldots\}$. Since distinct elements of the same chain are in
 a divisibility relation, a primitive set $A$ contains at most one element from
 each chain. Thus the odd parts $\{m(a) : a \in A\}$ are distinct.
 
-Moreover, if $m(a) \mid m(b)$ for $a, b \in A$ with $a \neq b$: write $m(b) = j \cdot m(a)$
-for integer $j \geq 1$. If $e(a) \leq e(b)$, then $a = 2^{e(a)} m(a)$ divides
-$2^{e(b)} m(b) = 2^{e(b)-e(a)} \cdot 2^{e(a)} \cdot j m(a)$, so $a \mid b$ — contradicting
-primitivity. Symmetrically if $e(b) < e(a)$ and $m(b) \mid m(a)$, then $b \mid a$.
-So the odd parts $\{m(a) : a \in A\}$ are pairwise non-divisible (this justification
-is used in the large-chain reduction; the small-chain bound only needs distinctness).
+Moreover, odd parts are distinct: if $m(a) = m(b)$ for $a \neq b$, then $a$ and $b$
+are in the same chain $\{m, 2m, 4m, \ldots\}$, so one divides the other —
+contradicting primitivity.
+
+**Key constraint (not full non-divisibility):** If $m(a) \mid m(b)$ and $e(a) \leq e(b)$,
+then $a = 2^{e(a)} m(a)$ divides $2^{e(b)} m(b) = a$, so $a \mid b$ — contradicting
+primitivity. Hence: if $m(a) \mid m(b)$ for distinct $a, b \in A$, then
+necessarily $e(a) > e(b)$ (the 2-adic valuation DECREASES in the divisibility direction).
+
+**Note on non-divisibility:** The odd parts are NOT necessarily pairwise non-divisible.
+Example: $A = \{6, 15\}$ is primitive ($6 \nmid 15$, $15 \nmid 6$), yet
+$m(6) = 3 \mid 15 = m(15)$. The key constraint is that any divisibility chain
+$m(a_1) \mid m(a_2) \mid \cdots$ in the odd parts must correspond to a DECREASING
+sequence of 2-adic valuations $e(a_1) > e(a_2) > \cdots$ in $A$.
 
 **Step 2: Small-chain contribution.**
 
@@ -51,16 +59,26 @@ so $|\{m(a) : m(a) < x\}| \leq x/2$.
 Therefore:
 $$S_{\mathrm{small}}(A, x) \leq \frac{x/2}{x \log x} = \frac{1}{2 \log x}. \quad \square$$
 
-## Reduction for the large-chain part
+## Reduction for the large-chain part (corrected)
 
 For $a \in A$ with $m(a) \geq x$: since $a = 2^{e(a)} m(a) \geq m(a) \geq x$,
 we have $1/(a \log a) \leq 1/(m(a) \log m(a))$.
 
-The set $B = \{m(a) : a \in A, m(a) \geq x\}$ is a primitive set of odd numbers
-in $[x, \infty)$ (pairwise non-divisible, shown in Step 1). Thus:
-$$S_{\mathrm{large}}(A, x) \leq \sum_{m \in B} \frac{1}{m \log m}.$$
+The set $M = \{m(a) : a \in A, m(a) \geq x\}$ is a set of **distinct** odd integers
+in $[x, \infty)$ (distinctness proved above). Thus:
+$$S_{\mathrm{large}}(A, x) \leq \sum_{m \in M} \frac{1}{m \log m}.$$
 
-This reduces Lemma 2 (for general integers) to the same conjecture for odd integers.
+**Important limitation:** $M$ is merely distinct, not pairwise non-divisible.
+A bound on $\sum_{m \in M} 1/(m \log m)$ over all distinct odd $M \subset [x, \infty)$
+is $\sum_{n \geq x, n \text{ odd}} 1/(n \log n)$, which diverges. So the large-chain
+reduction does NOT give a useful bound without further constraints.
+
+**Additional structure:** By the key constraint, any divisibility chain in $M$ has
+strictly decreasing 2-adic valuations in $A$. Since $e(a) \geq 0$ for all $a$,
+divisibility chains in $M$ have length at most $\max_{a \in A} e(a) + 1$. But
+$\max e(a)$ is unbounded for general $A$, so this does not bound the sum.
+
+This reveals that the large-chain bound requires a fundamentally different approach.
 
 ## Combining
 

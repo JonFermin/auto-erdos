@@ -4,3 +4,4 @@
 {"event":"round","session_id":"s_0521-080530-f0fe","ts":"2026-05-21T09:39:57+00:00","summary":"Lemma 2 partial + WARN fixes (0 BLOCKING, 8 WARN keep_progress)","qid":"Q5","status":"keep_progress","commit":"7e104e9"}
 {"event":"round","session_id":"s_0521-080530-f0fe","ts":"2026-05-21T09:47:13+00:00","summary":"Round 6 keep_progress; fixing F1 universality/F3 k=1 WARNs + S4.3 odd-parts phrasing","qid":"Q5","status":"keep_progress","commit":"5529fea"}
 {"event":"round","session_id":"s_0521-080530-f0fe","ts":"2026-05-21T09:52:53+00:00","summary":"Round 7 keep_progress (0 BLOCKING 5 WARN); fixing sign/ledger/internal F1 and odd-parts WARNs","qid":"Q5","status":"keep_progress","commit":"a21d593"}
+{"event":"round","session_id":"s_0521-080530-f0fe","ts":"2026-05-21T09:59:06+00:00","summary":"Round 8 keep_progress (0 BLOCKING 2 WARN); identifying incorrect pairwise non-div claim in Lemma 2","qid":"Q5","status":"keep_progress","commit":"2ab039a"}

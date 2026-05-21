@@ -284,12 +284,15 @@ $$\sum_{\substack{a \in A \\ m(a) < x}} \frac{1}{a \log a} \leq \frac{1}{2 \log 
 
 For the large-chain part: since $a = 2^{e(a)} m(a) \geq m(a)$, we have
 $1/(a \log a) \leq 1/(m(a) \log m(a))$ for each $a$ with $m(a) \geq x$. The
-odd parts $\{m(a) : m(a) \geq x\}$ are pairwise non-divisible (any divisibility
-between two odd parts in $A$ would imply a divisibility relation in $A$ itself,
-see Lemma 2 Step 1) and form a primitive set $B$ in $[x, \infty)$, so the
-large-chain sum is bounded by
-$\sum_{m \in B} 1/(m \log m)$ — the same problem type for odd inputs.
-*Status: partial (the small-chain bound is proved; the large-chain part is open).*
+odd parts $M = \{m(a) : m(a) \geq x\}$ are **distinct** odd integers in $[x,\infty)$
+(distinctness: same odd part implies same chain, hence divisibility in $A$, contradiction).
+Since $a \geq m(a)$: $1/(a \log a) \leq 1/(m(a) \log m(a))$, so
+$S_{\mathrm{large}} \leq \sum_{m \in M} 1/(m \log m)$.
+**Correction (Lemma 2 v2):** $M$ is NOT necessarily pairwise non-divisible (example:
+$A = \{6, 15\}$ is primitive yet $m(6)=3 \mid m(15)=15$). The large-chain
+bound therefore does NOT reduce to a primitive-set problem. It remains open (see
+Lemma 2 obstacle discussion and planned Lemma 3).
+*Status: partial (the small-chain bound $\leq 1/(2\log x)$ is proved; large-chain is open).*
 
 ---
 
@@ -297,6 +300,7 @@ $\sum_{m \in B} 1/(m \log m)$ — the same problem type for odd inputs.
 
 - `proof_lemmas/lemma_001_dense_antichain.md` — **PROVED**. Dense antichain
   bound for $[x, 2x)$: sum $\leq \log 2/\log x + O(1/(\log x)^2)$.
-- `proof_lemmas/lemma_002_chain_decomposition.md` — **PARTIAL**. Chain
-  decomposition: small-chain contribution $\leq 1/(2 \log x)$ proved;
-  large-chain contribution reduces to the same problem for odd integers.
+- `proof_lemmas/lemma_002_chain_decomposition.md` — **PARTIAL (corrected)**. Chain
+  decomposition: small-chain contribution $\leq 1/(2 \log x)$ proved.
+  Large-chain odd parts are distinct (not pairwise non-divisible); the naive
+  reduction to odd primitive sets was incorrect. Large-chain remains open.
