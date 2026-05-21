@@ -231,16 +231,17 @@ The goal is to prove: for any $\varepsilon > 0$ there exists $X_\varepsilon$ suc
 that for all $x \geq X_\varepsilon$ and all primitive $A \subset [x, \infty)$,
 $$\sum_{a \in A} \frac{1}{a \log a} \leq 1 + \varepsilon.$$
 
-From the numerical evidence, the sum $\to 0$ as $x \to \infty$ for any primitive
-$A \subset [x, \infty)$. So the conjecture in the form $< 1 + \varepsilon$ for
-large $x$ is consistent with (and perhaps implied by) the sum vanishing. The
-interesting question is: can the sum approach 1 from below as $x \to \infty$?
+The numerical data (Section 2–3) suggests the sum decreases to 0 as $x \to \infty$
+for the constructions we tested, well below the conjectured bound of 1. A formal
+proof that the sum is bounded would likely proceed via Lemma 1 (density bound) —
+which is currently open.
 
 ### 4.2 Key open question
 
-The numerical data shows that for $x \geq 100$, the maximum achievable sum is
-$\approx \log 2/\log x \ll 1$. This suggests the conjecture is much stronger
-than needed: the sum approaches 0, not 1.
+The numerical data shows that for $x \geq 100$, tested constructions give sum
+at most $\approx \log 2/\log x \ll 1$, suggesting the conjecture may be much
+stronger than needed: the sum appears to approach 0, not merely stay $< 1$.
+This is a heuristic observation; Lemma 1 below states the formal bound to be proved.
 
 **Reformulation:** Perhaps the conjecture is about a NORMALIZED sum
 $\log x \cdot \sum_{a \in A} 1/(a \log a)$ approaching some constant $\leq 1$?
