@@ -7,3 +7,7 @@
 {"qid":"Q1","status":"claimed","session_id":"s_0521-080530-f0fe","summary":"writing Setup section in proof_strategy.md","ts":"2026-05-21T08:06:21+00:00"}
 {"qid":"Q1","status":"resolved","session_id":"s_0521-080530-f0fe","summary":"wrote Section 1 Setup in proof_strategy.md: claim, three facts with sign disambiguations, witness contract","ts":"2026-05-21T08:07:20+00:00"}
 {"qid":"Q2","status":"claimed","session_id":"s_0521-080530-f0fe","summary":"numerically verify F3 for k=1..4 and sum over primes","ts":"2026-05-21T08:07:20+00:00"}
+{"qid":"Q2","status":"resolved","session_id":"s_0521-080530-f0fe","summary":"numerical verification complete: omega-stratum sums, primes crossing, witness search; all documented in proof_strategy.md","ts":"2026-05-21T09:09:11+00:00"}
+{"qid":"Q3","status":"resolved","session_id":"s_0521-080530-f0fe","summary":"primes-from-2 sum crosses 1 at p=3 (sum=1.0248); consistent with F1 asymptotically","ts":"2026-05-21T09:09:11+00:00"}
+{"qid":"Q4","status":"resolved","session_id":"s_0521-080530-f0fe","summary":"witness search: {2,3} gives sum 1.025 > 1 at x_floor=2; no witness found for x_floor>=100","ts":"2026-05-21T09:09:11+00:00"}
+{"qid":"Q5","status":"claimed","session_id":"s_0521-080530-f0fe","summary":"proof outline drafted in S4; continuing with lemma files","ts":"2026-05-21T09:09:11+00:00"}
