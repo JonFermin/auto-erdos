@@ -90,10 +90,10 @@ correctly.
 $$\sum_{a \in A_k} \frac{1}{a \log a} = 1 - (c + o(1))\frac{k^2}{2^k},
 \quad c \approx 0.0656 > 0.$$
 F3 states the formula verbatim. The correction $-(c+o(1))k^2/2^k$ is **negative**
-(since $c > 0$), so the formula predicts each $A_k$ sum is strictly less than 1
-and the sequence of sums approaches 1 from **below** as $k \to \infty$.
-**Warning:** F3 as given makes this claim for each $k$ via the asymptotic formula,
-but the formula's accuracy for small $k$ (especially $k=1$) is not established in
+(since $c > 0$), so for each $k$ where the formula is accurate, the sum is less than 1
+and approaches 1 from **below** as $k \to \infty$.
+**Warning:** F3 as given uses the asymptotic notation $o(1)$ in $k$, so the
+formula's accuracy for small $k$ (especially $k=1$) is not established in
 the ledger. See Section 2.1 for numerical evidence that the $k=1$ row (primes) may
 diverge from the formula. **We do not use F3 to conclude $A_1$ sum $< 1$.**
 F3 is cited only for large-$k$ stratum estimates in subsequent lemmas.
@@ -172,15 +172,15 @@ Partial sums at small primes:
 **Crossing point:** The sum first exceeds 1.0 at $p=3$, with
 $1/(2 \log 2) + 1/(3 \log 3) \approx 0.7213 + 0.3035 = 1.0248$.
 
-**Note on F1 — reconciling with primes-from-2 sum:** F1 gives an upper bound
-$< e^\gamma \pi/4 + o(1)$ (as $x \to \infty$) for any primitive set. The
-primes-from-2 partial sums shown above (0.72, 1.02, 1.15, 1.22, ...) exceed 1.0
-at $p=3$ and grow further. There is no contradiction with F1: F1's $o(1)$ term
-is an asymptotic correction as $x_{\mathrm{floor}} \to \infty$. At
-$x_{\mathrm{floor}} = 2$ (the primes-from-2 setting), the $o(1)$ term is
-uncharacterized by F1, so F1 places no hard cap of 1.399 on that construction.
-We do not use F1 to bound any specific primitive set; we cite it only as an
-asymptotic upper bound applicable for large $x_{\mathrm{floor}}$.
+**Note on F1 — reconciling with primes-from-2 sum:** F1 applies to any primitive
+$A \subseteq \mathbb{N}$, including the primes-from-2. F1's $o(1)$ term tends to 0
+as $x_{\mathrm{floor}}(A) \to \infty$; at $x_{\mathrm{floor}} = 2$ it is
+uncharacterized by the ledger. So F1 says sum $< 1.399 + \delta_2$ where
+$\delta_2 > 0$ is a (large, uncharacterized) correction at $x=2$. The primes-from-2
+partial sums growing above 1.3 are consistent with F1 if $\delta_2 \geq 0.3$.
+There is no contradiction between F1 and the observed primes-from-2 data — F1
+just gives a looser bound at small $x$. We cite F1 only as an asymptotic upper
+bound applicable for large $x_{\mathrm{floor}}$.
 
 ---
 
@@ -275,13 +275,16 @@ for some absolute constant $C$, ideally $C = 1 + o(1)$ as $x \to \infty$.
 
 The chain decomposition (odd-part factorization $a = 2^e m$, $m$ odd) gives
 a partial bound. By primitivity, the odd parts $\{m(a)\}$ of elements of $A$
-are distinct and pairwise non-divisible. For elements with $m(a) < x$ (small
-odd part), the element $a \geq x$ contributes $\leq 1/(x \log x)$ each, and
-there are at most $\lfloor x/2 \rfloor$ such odd parts. This yields:
+are distinct odd integers. For elements with $m(a) < x$ (small odd part),
+the element $a \geq x$ contributes $\leq 1/(x \log x)$ each, and there are
+at most $\lfloor x/2 \rfloor$ such odd parts. This yields:
 $$\sum_{\substack{a \in A \\ m(a) < x}} \frac{1}{a \log a} \leq \frac{1}{2 \log x}.$$
 
-The remaining contribution $\sum_{m(a) \geq x}$ reduces to a primitive set of
-odd integers in $[x, \infty)$ — the same conjecture type for odd inputs.
+For the large-chain part: since $a = 2^{e(a)} m(a) \geq m(a)$, we have
+$1/(a \log a) \leq 1/(m(a) \log m(a))$ for each $a$ with $m(a) \geq x$. The
+odd parts $\{m(a) : m(a) \geq x\}$ form a primitive set $B$ of odd integers
+in $[x, \infty)$ (proved in Lemma 2), so the large-chain sum is bounded by
+$\sum_{m \in B} 1/(m \log m)$ — the same problem type for odd inputs.
 *Status: partial (the small-chain bound is proved; the large-chain part is open).*
 
 ---
