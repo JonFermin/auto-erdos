@@ -224,8 +224,12 @@ The goal is to prove: for any $\varepsilon > 0$ there exists $X_\varepsilon$ suc
 that for all $x \geq X_\varepsilon$ and all primitive $A \subset [x, \infty)$,
 $$\sum_{a \in A} \frac{1}{a \log a} \leq 1 + \varepsilon.$$
 
-The numerical data (Section 2–3) suggests the sum decreases to 0 as $x \to \infty$
-for the constructions we tested, well below the conjectured bound of 1.
+For large $x$, tested primitive sets in $[x, \infty)$ give sums well below 1
+(Section 3: all constructions at $x_{\mathrm{floor}} \geq 100$ give sum $< 0.15$).
+The sum for the densest antichain in $[x, 2x)$ is $\approx \log 2/\log x \to 0$
+(Lemma 1). The primes starting from $p=2$ give sum $\approx 1.636 > 1$ (Section 2.2),
+but that construction has $x_{\mathrm{floor}} = 2$, not large $x$; it does not
+contradict the conjecture's $x \to \infty$ form.
 
 ### 4.2 Key observation and open question
 
