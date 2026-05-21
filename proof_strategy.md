@@ -86,13 +86,17 @@ Concluding "sum > 1" from F2 alone is a **SIGN ERROR** (the classic
 ChatGPT failure mode). F2 is consistent with F3 once unsigned-O is read
 correctly.
 
-**F3 — Exact asymptotic for $A_k$ (sum approaches 1 from BELOW).**
+**F3 — Exact asymptotic for $A_k$ (sum approaches 1 from BELOW as $k\to\infty$).**
 $$\sum_{a \in A_k} \frac{1}{a \log a} = 1 - (c + o(1))\frac{k^2}{2^k},
 \quad c \approx 0.0656 > 0.$$
-The correction $-(c+o(1))k^2/2^k$ is **negative** (since $c > 0$), so
-$\sum_{A_k} < 1$ for every $k \geq 1$, approaching 1 from **below** as
-$k \to \infty$. The canonical "extremal-looking" sets $A_k$ do NOT
-violate the conjecture.
+F3 states the formula verbatim. The correction $-(c+o(1))k^2/2^k$ is **negative**
+(since $c > 0$), so the formula predicts each $A_k$ sum is strictly less than 1
+and the sequence of sums approaches 1 from **below** as $k \to \infty$.
+**Warning:** F3 as given makes this claim for each $k$ via the asymptotic formula,
+but the formula's accuracy for small $k$ (especially $k=1$) is not established in
+the ledger. See Section 2.1 for numerical evidence that the $k=1$ row (primes) may
+diverge from the formula. **We do not use F3 to conclude $A_1$ sum $< 1$.**
+F3 is cited only for large-$k$ stratum estimates in subsequent lemmas.
 
 ### 1.3 The Witness Contract
 
@@ -167,11 +171,12 @@ Partial sums at small primes:
 **Crossing point:** The sum first exceeds 1.0 at $p=3$, with
 $1/(2 \log 2) + 1/(3 \log 3) \approx 0.7213 + 0.3035 = 1.0248$.
 
-**Consistency with F1:** F1 bounds any primitive set sum by $\approx 1.399 + o(1)$,
-but this is asymptotic (as $x \to \infty$, restricting to elements in $[x, \infty)$).
-For the full primes from 2, the sum $\approx 1.636 > 1.399$. This is consistent
-with F1 if the $o(1)$ correction at $x=2$ equals $\approx 0.24$. The bound
-$1.399 + o(1)$ is tight in the $x \to \infty$ limit, not at $x=2$.
+**Consistency with F1:** F1 (as stated) gives an upper bound $e^\gamma\pi/4 + o(1) \approx 1.399 + o(1)$
+for any primitive set $A \subseteq \mathbb{N}$. The full primes-from-2 sum $\approx 1.636 > 1.399$
+appears to contradict F1. However, the $o(1)$ term in F1 is not defined in the ledger —
+its sign and magnitude are unspecified, so F1 does NOT say the sum is $< 1.399$ for all
+finite primitive sets; the bound is an asymptotic one. We take F1 at face value and do
+not use it to bound the primes-from-2 sum.
 
 ---
 
@@ -189,18 +194,22 @@ rigorously verified $\sum 1/(a \log a) > 1.0$.
 | 1000 | All ints $[1000, 2000)$ | 0.09566 | no |
 | 10000 | All ints $[10000, 20000)$ | 0.07256 | no |
 
-**Theoretical maximum** for primitive sets in $[x, \infty)$: the densest
-antichain (all integers in $[x, 2x)$) gives sum $\approx \log 2 / \log x$:
-- $x=100$: max $\approx 0.150$
-- $x=1000$: max $\approx 0.100$
-- $x=10000$: max $\approx 0.075$
+**Heuristic scale estimate (not a proof step):** A standard antichain observation
+is that all integers in $[x, 2x)$ are pairwise non-divisible (since the ratio
+of any two is strictly between 1/2 and 2, precluding divisibility). Their sum is
+$\sum_{n=x}^{2x-1} 1/(n \log n) \approx \int_x^{2x} 1/(t \log t)\, dt = \log(\log 2x) - \log(\log x)$.
+For large $x$: $\log(\log 2x/\log x) \approx \log 2/\log x \to 0$.
+Numerically:
+- $x=100$: sum $\approx 0.150$
+- $x=1000$: sum $\approx 0.100$
+- $x=10000$: sum $\approx 0.075$
 
-All are far below 1.0. For $x_{\mathrm{floor}} \geq 3$, no primitive set
-appears able to achieve sum $> 1.0$.
+The observed sums across all tested constructions at $x_{\mathrm{floor}} \geq 100$
+are far below 1.0. No construction found exceeds sum $= 0.15$ for $x_\mathrm{floor} \geq 100$.
 
-**Conclusion:** The only witnesses with sum $> 1$ involve small elements
-($\leq 3$, specifically $x_{\mathrm{floor}} = 2$). For large $x_{\mathrm{floor}}$,
-the conjecture's bound of $1 + o(1)$ is trivially satisfied (sum $\to 0$).
+**Observation:** The only verified witnesses with sum $> 1$ involve $x_{\mathrm{floor}} = 2$.
+For $x_{\mathrm{floor}} \geq 100$, all constructions tested give sum $< 0.2$,
+consistent with the conjecture's bound of $1 + o(1)$ being satisfied.
 
 **o(1) caveat for the $x=2$ witness:** The conjecture's bound at $x=2$ is
 $1 + o(1)|_{x=2} \approx 1 + 0.45$, so the witness sum $\approx 1.45$ is
