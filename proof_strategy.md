@@ -170,12 +170,12 @@ Partial sums at small primes:
 **Crossing point:** The sum first exceeds 1.0 at $p=3$, with
 $1/(2 \log 2) + 1/(3 \log 3) \approx 0.7213 + 0.3035 = 1.0248$.
 
-**Note on F1 and the primes-from-2 sum:** F1 gives an upper bound $\approx 1.399 + o(1)$
-for any primitive set. The empirical primes-from-2 sum $\approx 1.636$ is larger than 1.399.
-These are reconciled by observing that the $o(1)$ in F1 tends to 0 as $x \to \infty$
-(the set's smallest element growing), but at $x=2$ the $o(1)$ correction could be around 0.24,
-making the F1 bound at $x=2$ approximately $1.636$. We do not use F1 to bound the
-primes-from-2 sum; we cite it only for its asymptotic statement.
+**Note on F1:** F1 gives an upper bound $\approx 1.399 + o(1)$ (as $x \to \infty$)
+for any primitive set. The empirical primes-from-2 sum $\approx 1.636$ may appear
+to exceed 1.399; we do not attempt to reconcile the two in this draft (the $o(1)$
+term's behavior at $x=2$ is not characterized in the ledger). We do not use F1
+to bound any specific primitive set; we cite it only as an existence result
+showing finite primitive-set sums are bounded above.
 
 ---
 
