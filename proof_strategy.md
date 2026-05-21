@@ -71,10 +71,12 @@ counterexample searches are both in scope for this attempt.
 **F1 — Erdős–Zhang upper bound (UPPER bound, ~1.399).**
 For *any* primitive set $A \subseteq \mathbb{N}$,
 $$\sum_{a \in A} \frac{1}{a \log a} < e^\gamma \frac{\pi}{4} + o(1) \approx 1.399 + o(1).$$
-Sign: UPPER bound, strictly less than $1.399 + o(1)$. The $o(1)$ term tends to 0
-(as stated). F1 is consistent with the conjecture (which claims a tighter bound of 1).
-F1 does NOT prove the conjecture (since $1.399 > 1$). We accept F1 as given and
-note it in Section 2.2 relative to the primes-from-2 empirical sum.
+Sign: UPPER bound, strictly less than $1.399 + o(1)$. The $o(1)$ term is as given
+in the ledger (tends to 0). F1 is consistent with the conjecture (which claims
+a tighter bound of 1). F1 does NOT prove the conjecture (since $1.399 > 1$).
+The practical content of F1 is for large $x_{\mathrm{floor}}$; its $o(1)$
+correction at small $x$ is uncharacterized in the ledger. We note this in
+Section 2.2 relative to the primes-from-2 empirical sum.
 
 **F2 — Omega-stratum lower bound (UNSIGNED big-O).**
 For $A_k = \{n \in \mathbb{N} : \Omega(n) = k\}$ (numbers with exactly $k$
@@ -173,14 +175,14 @@ Partial sums at small primes:
 $1/(2 \log 2) + 1/(3 \log 3) \approx 0.7213 + 0.3035 = 1.0248$.
 
 **Note on F1 — reconciling with primes-from-2 sum:** F1 applies to any primitive
-$A \subseteq \mathbb{N}$, including the primes-from-2. F1's $o(1)$ term tends to 0
-as $x_{\mathrm{floor}}(A) \to \infty$; at $x_{\mathrm{floor}} = 2$ it is
-uncharacterized by the ledger. So F1 says sum $< 1.399 + \delta_2$ where
-$\delta_2 > 0$ is a (large, uncharacterized) correction at $x=2$. The primes-from-2
-partial sums growing above 1.3 are consistent with F1 if $\delta_2 \geq 0.3$.
-There is no contradiction between F1 and the observed primes-from-2 data — F1
-just gives a looser bound at small $x$. We cite F1 only as an asymptotic upper
-bound applicable for large $x_{\mathrm{floor}}$.
+$A \subseteq \mathbb{N}$, including the primes-from-2. F1's $o(1)$ correction term
+is uncharacterized at $x_{\mathrm{floor}} = 2$ by the ledger (sign and magnitude
+both unspecified at fixed small $x$). The observed primes-from-2 partial sums
+(0.72, 1.02, 1.15, 1.22, ... — see table below) are consistent with F1 provided
+the $o(1)$ correction at $x=2$ is large enough to accommodate those values.
+We make no claim about the sign or magnitude of F1's $o(1)$ at $x=2$.
+We cite F1 only as an asymptotic result (its practical content is
+for large $x_{\mathrm{floor}}$).
 
 ---
 
@@ -282,8 +284,10 @@ $$\sum_{\substack{a \in A \\ m(a) < x}} \frac{1}{a \log a} \leq \frac{1}{2 \log 
 
 For the large-chain part: since $a = 2^{e(a)} m(a) \geq m(a)$, we have
 $1/(a \log a) \leq 1/(m(a) \log m(a))$ for each $a$ with $m(a) \geq x$. The
-odd parts $\{m(a) : m(a) \geq x\}$ form a primitive set $B$ of odd integers
-in $[x, \infty)$ (proved in Lemma 2), so the large-chain sum is bounded by
+odd parts $\{m(a) : m(a) \geq x\}$ are pairwise non-divisible (any divisibility
+between two odd parts in $A$ would imply a divisibility relation in $A$ itself,
+see Lemma 2 Step 1) and form a primitive set $B$ in $[x, \infty)$, so the
+large-chain sum is bounded by
 $\sum_{m \in B} 1/(m \log m)$ — the same problem type for odd inputs.
 *Status: partial (the small-chain bound is proved; the large-chain part is open).*
 
