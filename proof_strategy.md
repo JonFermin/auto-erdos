@@ -133,11 +133,11 @@ and $N = 50{,}000$.
 | 3            | 0.436306 | 0.926200 |
 | 4            | 0.213074 | 0.934400 |
 
-**Key observation:** The $k=1$ partial sum (1.544) is still growing slowly and
-appears to converge to approximately $1.636$ (estimated from the tail
-$\sum_{p > 50000} 1/(p \log p) \approx 1/\log(50000) \approx 0.092$, giving
-$1.544 + 0.092 \approx 1.636$). This is **much larger** than F3's prediction
-of $\approx 0.967$.
+**Key observation:** The $k=1$ partial sums are growing slowly:
+N=1000: 1.4923, N=5000: 1.5194, N=10000: 1.5282, N=50000: 1.5442.
+The series appears to converge to a value well above 1 (rough empirical estimate
+$\approx 1.63$–$1.64$, based on the decreasing growth rate). This is **much larger**
+than F3's prediction of $\approx 0.967$.
 
 **Sign / consistency note on F3 for $k=1$:**
 F3 says $\sum_{a \in A_1} 1/(a \log a) = 1 - (c+o(1)) k^2/2^k \approx 0.967$.
