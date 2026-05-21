@@ -186,7 +186,7 @@ rigorously verified $\sum 1/(a \log a) > 1.0$.
 
 | $x_{\mathrm{floor}}$ | Construction | Verified sum | Exceeds threshold? |
 |---|---|---|---|
-| 2 | $\{2, 3\}$ (smallest 2-element witness) | **1.02476** | **YES** |
+| 2 | $\{2, 3\}$ (smallest 2-element example) | **1.02476** | **YES** |
 | 100 | Primes $\geq 100$ (1204 elements) | 0.10659 | no |
 | 1000 | All ints $[1000, 2000)$ | 0.09566 | no |
 | 10000 | All ints $[10000, 20000)$ | 0.07256 | no |
@@ -197,9 +197,9 @@ of any two is strictly between 1/2 and 2, precluding divisibility). Their sum is
 $\sum_{n=x}^{2x-1} 1/(n \log n) \approx \int_x^{2x} 1/(t \log t)\, dt = \log(\log 2x) - \log(\log x)$.
 For large $x$: $\log(\log 2x/\log x) \approx \log 2/\log x \to 0$.
 Numerically:
-- $x=100$: sum $\approx 0.150$
-- $x=1000$: sum $\approx 0.100$
-- $x=10000$: sum $\approx 0.075$
+- $x=100$: sum of all integers in $[100,200)$ $\approx 0.141$ (verified)
+- $x=1000$: sum of all integers in $[1000,2000)$ $\approx 0.096$ (verified)
+- $x=10000$: sum of all integers in $[10000,20000)$ $\approx 0.073$ (verified)
 
 The observed sums across all tested constructions at $x_{\mathrm{floor}} \geq 100$
 are far below 1.0. No construction found exceeds sum $= 0.15$ for $x_\mathrm{floor} \geq 100$.
@@ -208,15 +208,11 @@ are far below 1.0. No construction found exceeds sum $= 0.15$ for $x_\mathrm{flo
 For $x_{\mathrm{floor}} \geq 100$, all constructions tested give sum $< 0.2$,
 consistent with the conjecture's bound of $1 + o(1)$ being satisfied.
 
-**o(1) caveat for the $x=2$ witness:** The conjecture's bound at $x=2$ is
-$1 + o(1)|_{x=2} \approx 1 + 0.45$, so the witness sum $\approx 1.45$ is
-below this bound. The witness does NOT disprove the conjecture in its
-$x \to \infty$ form; it merely shows the bound is not 1 at $x=2$.
-
-**Smallest witness** (for completeness, embedded below):
-$\{2, 3\}$ is primitive (2 does not divide 3), both $\geq x_{\mathrm{floor}}=2$,
-and $\sum = 1.0248 > 1.0$. This is a valid counterexample to the literal
-threshold of 1.0, but NOT to the conjecture's $x \to \infty$ form.
+**o(1) caveat:** The smallest witness $\{2, 3\}$ has sum $\approx 1.025 > 1$
+at $x_{\mathrm{floor}} = 2$. This exceeds the witness threshold of 1.0, but
+the conjecture's bound at $x=2$ is $1 + o(1)$ where $o(1)$ is not specified
+to be small at $x=2$. Thus $\{2,3\}$ does NOT disprove the conjecture in its
+$x \to \infty$ form; it is evidence that the bound is not tight at $x=2$.
 
 ---
 
