@@ -225,39 +225,60 @@ that for all $x \geq X_\varepsilon$ and all primitive $A \subset [x, \infty)$,
 $$\sum_{a \in A} \frac{1}{a \log a} \leq 1 + \varepsilon.$$
 
 The numerical data (Section 2–3) suggests the sum decreases to 0 as $x \to \infty$
-for the constructions we tested, well below the conjectured bound of 1. A formal
-proof that the sum is bounded would likely proceed via Lemma 1 (density bound) —
-which is currently open.
+for the constructions we tested, well below the conjectured bound of 1.
 
-### 4.2 Key open question
+### 4.2 Key observation and open question
 
-The numerical data shows that for $x \geq 100$, tested constructions give sum
-at most $\approx \log 2/\log x \ll 1$, suggesting the conjecture may be much
-stronger than needed: the sum appears to approach 0, not merely stay $< 1$.
-This is a heuristic observation; Lemma 1 below states the formal bound to be proved.
+The densest primitive set in $[x, 2x)$ is the full integer interval (all integers
+in $[x, 2x)$ are pairwise non-divisible — if $a, b \in [x, 2x)$ with $a \mid b$,
+then $b \geq 2a \geq 2x$, contradicting $b < 2x$). Lemma 1 (proved, see
+`proof_lemmas/lemma_001_dense_antichain.md`) establishes this bound rigorously.
 
-**Reformulation:** Perhaps the conjecture is about a NORMALIZED sum
-$\log x \cdot \sum_{a \in A} 1/(a \log a)$ approaching some constant $\leq 1$?
-This normalized form would be $O(1)$ for the densest antichain in $[x, 2x)$:
-$$\log x \cdot \frac{\log 2}{\log x} = \log 2 < 1.$$
+**Open sub-conjecture (Lemma 2):** The bound for $A \subset [x, \infty)$ (not
+restricted to one dyadic interval) requires the cross-layer primitivity constraint.
+Layer-by-layer application of Lemma 1 gives a bound of
+$\sum_{k=0}^{\infty} \log 2/\log(2^k x)$, which diverges (harmonic-like). So
+Lemma 1 alone cannot establish the conjecture for unbounded $A$. The key difficulty
+is that primitivity across layers (if $a \in [2^j x, 2^{j+1}x)$ and $b \in [2^k x, 2^{k+1}x)$
+with $j < k$, then $a \nmid b$) severely restricts which cross-layer combinations
+are allowed, but the quantitative consequence of this constraint requires a deeper
+argument (likely related to the Erdős–Zhang proof that primes maximize the sum
+over all $n \in [p, \infty)$).
 
-Or perhaps the conjecture involves the Erdős function $f(A, x) = \max_{B \subset A \cap [x,\infty)} \sum 1/(b \log b)$?
+### 4.3 Lemma outline
 
-### 4.3 Lemma outline (to be developed in proof_lemmas/)
+**Lemma 1 (dense antichain bound for $[x, 2x)$):** For any pairwise non-divisible
+$S \subset [x, 2x)$,
+$$\sum_{s \in S} \frac{1}{s \log s} \leq \sum_{n=x}^{2x-1} \frac{1}{n \log n}
+= \frac{\log 2}{\log x} + O\!\left(\frac{1}{(\log x)^2}\right).$$
+*Status: **PROVED** (see `proof_lemmas/lemma_001_dense_antichain.md`).*
+The bound follows from: all integers in $[x, 2x)$ are pairwise non-divisible
+(so $S$ can be at most the full interval), and the integral approximation of the
+interval sum.
 
-**Lemma 1 (density bound):** For any primitive $A \subset [x, \infty)$,
-$$\sum_{a \in A} \frac{1}{a \log a} \leq \frac{\log 2}{\log x} + O\!\left(\frac{1}{(\log x)^2}\right).$$
-*Status: open. Proof sketch: use the fact that every integer has a unique odd
-part; the densest antichain in $[x, \infty)$ is [x, 2x).*
+**Lemma 2 (cross-layer bound — open):** For primitive $A \subset [x, \infty)$,
+the cross-layer primitivity constraint implies
+$$\sum_{a \in A} \frac{1}{a \log a} \leq C$$
+for some absolute constant $C$, ideally $C = 1 + o(1)$ as $x \to \infty$.
+*Status: **OPEN**. Main obstacle: layer-by-layer Lemma 1 application diverges.*
 
-**Lemma 2 (omega-stratum bound):** For each $k$, the stratum $A_k = A \cap \{n : \Omega(n) = k\}$
-satisfies $\sum_{a \in A_k} 1/(a \log a) \leq C_k / k$ for some absolute constant $C_k$.
-*Status: open.*
+**Approach candidates for Lemma 2:**
+- (a) Odd-part / chain decomposition: write $\mathbb{N} = \bigsqcup_{m \text{ odd}} \{m \cdot 2^k : k \geq 0\}$.
+  A primitive set contains at most one element from each chain. The sum over a
+  single chain starting at $m \cdot 2^j \geq x$ is $\sum_{k \geq j} 1/(m2^k \log(m2^k))$,
+  which converges. But summing over all odd $m \geq x$ still requires a bound on
+  the total, which circles back to the same harmonic-divergence issue.
+- (b) Ergodic / measure-theoretic approach via the Sathe–Selberg formula for
+  integers with exactly $k$ prime factors; F3 gives the answer per stratum.
+- (c) Literature: the actual Erdős–Zhang proof (which uses a generalization of
+  Mertens' theorem and a Turán–Kubilius inequality). This is the approach most
+  likely to close Lemma 2 but requires reading the Zhang 1993 paper.
 
-*[Further lemma files will be created in proof_lemmas/ in subsequent rounds.]*
+*[Lemma 2 will be developed in subsequent rounds.]*
 
 ---
 
 ## Section 5 — Lemma Files
 
-*Lemmas will be created in `proof_lemmas/lemma_*.md`.*
+- `proof_lemmas/lemma_001_dense_antichain.md` — **PROVED**. Dense antichain
+  bound for $[x, 2x)$: sum $\leq \log 2/\log x + O(1/(\log x)^2)$.
