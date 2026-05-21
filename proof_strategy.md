@@ -140,13 +140,14 @@ The series appears to be converging toward a limit distinctly above 1, which is
 
 **Sign / consistency note on F3 for $k=1$:**
 F3 says $\sum_{a \in A_1} 1/(a \log a) = 1 - (c+o(1)) k^2/2^k \approx 0.967$.
-Numerically the sum is $\approx 1.636 > 1$. The formula might hold asymptotically
-as $k \to \infty$ (both sides approach 1) but does **not** match numerical
-evidence at $k=1$. This discrepancy does not affect the proof attempt (F3 is
-correctly read as "each $A_k$ sum approaches 1 from below for large $k$") but
-the $k=1$ row is an anomaly worth noting. **We do NOT use F3 to claim $A_1$
-sum $< 1$** — F3's sign warning (the sum approaches 1 from *below* for large
-$k$) is about $k \to \infty$, not $k=1$.
+The partial sum at $N=50{,}000$ is $1.544 > 1$ and still growing. The exact
+convergent limit of the $k=1$ series is not characterized in this draft.
+The formula might hold asymptotically as $k \to \infty$ (both sides approach 1)
+but does **not** match numerical evidence at $k=1$. This discrepancy does not
+affect the proof attempt (F3 is correctly read as "each $A_k$ sum approaches 1
+from below for large $k$") but the $k=1$ row is an anomaly worth noting.
+**We do NOT use F3 to claim $A_1$ sum $< 1$** — F3's sign warning is about
+$k \to \infty$, not $k=1$.
 
 For $k \geq 2$: partial sums are below 1 and still growing toward their limits.
 F3 predicts limits close to 1 (from below), consistent with $k \geq 2$ rows
@@ -231,9 +232,10 @@ $$\sum_{a \in A} \frac{1}{a \log a} \leq 1 + \varepsilon.$$
 For large $x$, tested primitive sets in $[x, \infty)$ give sums well below 1
 (Section 3: all constructions at $x_{\mathrm{floor}} \geq 100$ give sum $< 0.15$).
 The sum for the densest antichain in $[x, 2x)$ is $\approx \log 2/\log x \to 0$
-(Lemma 1). The primes starting from $p=2$ give sum $\approx 1.636 > 1$ (Section 2.2),
-but that construction has $x_{\mathrm{floor}} = 2$, not large $x$; it does not
-contradict the conjecture's $x \to \infty$ form.
+(Lemma 1). The primes starting from $p=2$ give partial sums exceeding 1.0 at $p=3$ and
+growing well above 1.0 (Section 2.2 table), but that construction has
+$x_{\mathrm{floor}} = 2$, not large $x$; it does not contradict the conjecture's
+$x \to \infty$ form.
 
 ### 4.2 Key observation and open question
 

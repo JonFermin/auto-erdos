@@ -31,8 +31,12 @@ is $\{m, 2m, 4m, 8m, \ldots\}$. Since distinct elements of the same chain are in
 a divisibility relation, a primitive set $A$ contains at most one element from
 each chain. Thus the odd parts $\{m(a) : a \in A\}$ are distinct.
 
-Moreover, if $m(a) \mid m(b)$ with $e(a) \leq e(b)$, then $2^{e(a)}m(a) \mid 2^{e(b)}m(b)$,
-contradicting primitivity. So the odd parts $\{m(a)\}$ are pairwise non-divisible.
+Moreover, if $m(a) \mid m(b)$ for $a, b \in A$ with $a \neq b$: write $m(b) = j \cdot m(a)$
+for integer $j \geq 1$. If $e(a) \leq e(b)$, then $a = 2^{e(a)} m(a)$ divides
+$2^{e(b)} m(b) = 2^{e(b)-e(a)} \cdot 2^{e(a)} \cdot j m(a)$, so $a \mid b$ — contradicting
+primitivity. Symmetrically if $e(b) < e(a)$ and $m(b) \mid m(a)$, then $b \mid a$.
+So the odd parts $\{m(a) : a \in A\}$ are pairwise non-divisible (this justification
+is used in the large-chain reduction; the small-chain bound only needs distinctness).
 
 **Step 2: Small-chain contribution.**
 
