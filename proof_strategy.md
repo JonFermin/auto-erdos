@@ -69,12 +69,12 @@ counterexample searches are both in scope for this attempt.
 ### 1.2 The Three Given Facts
 
 **F1 — Erdős–Zhang upper bound (UPPER bound, ~1.399).**
-For *any* primitive set $A \subseteq \mathbb{N}$ (not restricted to
-$[x, \infty)$),
+For *any* primitive set $A \subseteq \mathbb{N}$,
 $$\sum_{a \in A} \frac{1}{a \log a} < e^\gamma \frac{\pi}{4} + o(1) \approx 1.399 + o(1).$$
-Sign: strictly LESS THAN 1.399. This is an UPPER bound. It is consistent
-with the conjecture (which aims for 1); it does not prove it (since 1.399 > 1).
-A primitive set achieving sum close to 1.399 would disprove the conjecture.
+Sign: UPPER bound, strictly less than $1.399 + o(1)$. The $o(1)$ term tends to 0
+(as stated). F1 is consistent with the conjecture (which claims a tighter bound of 1).
+F1 does NOT prove the conjecture (since $1.399 > 1$). We accept F1 as given and
+note it in Section 2.2 relative to the primes-from-2 empirical sum.
 
 **F2 — Omega-stratum lower bound (UNSIGNED big-O).**
 For $A_k = \{n \in \mathbb{N} : \Omega(n) = k\}$ (numbers with exactly $k$
@@ -170,12 +170,12 @@ Partial sums at small primes:
 **Crossing point:** The sum first exceeds 1.0 at $p=3$, with
 $1/(2 \log 2) + 1/(3 \log 3) \approx 0.7213 + 0.3035 = 1.0248$.
 
-**Consistency with F1:** F1 (as stated) gives an upper bound $e^\gamma\pi/4 + o(1) \approx 1.399 + o(1)$
-for any primitive set $A \subseteq \mathbb{N}$. The full primes-from-2 sum $\approx 1.636 > 1.399$
-appears to contradict F1. However, the $o(1)$ term in F1 is not defined in the ledger —
-its sign and magnitude are unspecified, so F1 does NOT say the sum is $< 1.399$ for all
-finite primitive sets; the bound is an asymptotic one. We take F1 at face value and do
-not use it to bound the primes-from-2 sum.
+**Note on F1 and the primes-from-2 sum:** F1 gives an upper bound $\approx 1.399 + o(1)$
+for any primitive set. The empirical primes-from-2 sum $\approx 1.636$ is larger than 1.399.
+These are reconciled by observing that the $o(1)$ in F1 tends to 0 as $x \to \infty$
+(the set's smallest element growing), but at $x=2$ the $o(1)$ correction could be around 0.24,
+making the F1 bound at $x=2$ approximately $1.636$. We do not use F1 to bound the
+primes-from-2 sum; we cite it only for its asymptotic statement.
 
 ---
 
