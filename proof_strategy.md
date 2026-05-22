@@ -304,3 +304,43 @@ Lemma 2 obstacle discussion and planned Lemma 3).
   decomposition: small-chain contribution $\leq 1/(2 \log x)$ proved.
   Large-chain odd parts are distinct (not pairwise non-divisible); the naive
   reduction to odd primitive sets was incorrect. Large-chain remains open.
+- `proof_lemmas/lemma_003_2adic_stratum.md` — **PARTIAL (new insight)**. For fixed
+  2-adic valuation $e$, $M_e = \{m(a) : e(a)=e, m(a)\geq x\}$ is pairwise
+  non-divisible (proved). Yields $S_\text{large} \leq 2\,f_\text{odd}(x)$.
+  Iterated prime-stratum recursion diverges via $\prod_p p/(p-1) = \infty$.
+
+---
+
+## Section 6 — What Was Established and What Remains Open
+
+### Proved
+
+1. **Lemma 1**: For primitive $S \subset [x,2x)$,
+   $\sum 1/(s\log s) \leq \log 2/\log x + O(1/\log^2 x) \to 0$.
+2. **Lemma 2 (partial)**: $S_\text{small}(A,x) \leq 1/(2\log x) \to 0$.
+3. **Lemma 3 (partial)**: Each $M_e$ is pairwise non-div; $S_\text{large} \leq 2\,f_\text{odd}(x)$.
+
+### Ruled out
+
+| Approach | Obstacle |
+|---|---|
+| Layer-by-layer Lemma 1 | $\sum_k \log 2/\log(2^k x)$ diverges |
+| Naive odd-part reduction | $M$ is distinct, not primitive |
+| Iterated prime-stratum recursion | $\prod_p p/(p-1) = \infty$ |
+| Chain-length bound via $\max e(a)$ | $\max e(a)$ unbounded |
+| F1 applied to $f_\text{odd}$ | Gives $f \leq 3.298$, worse than F1 directly |
+
+### Core obstacle
+
+The gap from F1's 1.399 to the conjectured bound of 1 cannot be closed from
+F1, F2, F3 alone. The Erdős–Zhang proof uses Turán's power-sum method and the
+Euler product structure of $\sum_{a\in A} a^{-s}$ as $s\to 1^+$, outside the
+given ledger. **Closing this attempt as a partial result.**
+
+### Partial result summary
+
+$$\sum_{a \in A} \frac{1}{a \log a} \leq \frac{1}{2\log x} + 2\, f_\text{odd}(x), \qquad A \subset [x,\infty) \text{ primitive},$$
+
+where $f_\text{odd}(x)$ is itself open. The two genuinely new proved results
+are Lemma 1 (dense antichain bound) and the $M_e$ pairwise non-divisibility
+observation (Lemma 3 key claim). The conjecture remains open.

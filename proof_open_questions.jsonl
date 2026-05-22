@@ -11,3 +11,5 @@
 {"qid":"Q3","status":"resolved","session_id":"s_0521-080530-f0fe","summary":"primes-from-2 sum crosses 1 at p=3 (sum=1.0248); consistent with F1 asymptotically","ts":"2026-05-21T09:09:11+00:00"}
 {"qid":"Q4","status":"resolved","session_id":"s_0521-080530-f0fe","summary":"witness search: {2,3} gives sum 1.025 > 1 at x_floor=2; no witness found for x_floor>=100","ts":"2026-05-21T09:09:11+00:00"}
 {"qid":"Q5","status":"claimed","session_id":"s_0521-080530-f0fe","summary":"proof outline drafted in S4; continuing with lemma files","ts":"2026-05-21T09:09:11+00:00"}
+{"qid":"Q5","status":"resolved","session_id":"s_0522-080511-b6db","summary":"proof structure outlined (Lemma 1 proved, Lemma 2 partial); large-chain open; advancing to Q6","ts":"2026-05-22T08:23:19Z"}
+{"qid":"Q6","status":"claimed","session_id":"s_0522-080511-b6db","summary":"writing Lemma 3 (2-adic stratum decomposition) and final partial-result summary","ts":"2026-05-22T08:23:19Z"}
