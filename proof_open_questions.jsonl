@@ -13,3 +13,4 @@
 {"qid":"Q5","status":"claimed","session_id":"s_0521-080530-f0fe","summary":"proof outline drafted in S4; continuing with lemma files","ts":"2026-05-21T09:09:11+00:00"}
 {"qid":"Q5","status":"resolved","session_id":"s_0522-080511-b6db","summary":"proof structure outlined (Lemma 1 proved, Lemma 2 partial); large-chain open; advancing to Q6","ts":"2026-05-22T08:23:19Z"}
 {"qid":"Q6","status":"claimed","session_id":"s_0522-080511-b6db","summary":"writing Lemma 3 (2-adic stratum decomposition) and final partial-result summary","ts":"2026-05-22T08:23:19Z"}
+{"qid":"Q6","status":"resolved","session_id":"s_0522-080511-b6db","summary":"Lemma 3 written; all approaches from F1-F3 ruled out; partial result closed","ts":"2026-05-22T08:24:32Z"}
