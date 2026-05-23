@@ -1,0 +1,1 @@
+{"event":"session_close","session_id":"s_0523-080831-ac82","ts":"2026-05-23T08:26:27+00:00","commit":"47af4ce","reason":"reason: exit 7 counterexample_proven; witness at x_floor=2 primes 2..97 rigorous sum 1.4216>1.0"}
