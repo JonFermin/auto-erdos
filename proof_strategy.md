@@ -207,6 +207,38 @@ strata in a primitive set are "incompatible" when one divides the other.
 
 ---
 
-### Section 5 — Omega-Stratification Proof Sketch (Q5, in progress)
+### Section 5 — Omega-Stratification Proof Sketch (Q5)
 
-This remains open as of Q5. See `proof_lemmas/` for lemma decomposition.
+**Proof structure**: For primitive $A \subset [x, \infty)$, write
+$A = \bigcup_{k \geq 1} (A \cap A_k)$.
+
+**Lemma 1** (`strat_per_k_bound`, **proved**): For each $k$ and $x$,
+$$\sum_{a \in A \cap A_k} \frac{1}{a \log a} \leq \sum_{n \in A_k,\, n \geq x} \frac{1}{n\log n}.$$
+For $k \geq 2$, the right side is $< 1$ (by F3). For $k = 1$, the right side is
+$\sum_{p \geq x} 1/(p\log p) \to 0$ as $x \to \infty$. (See `proof_lemmas/lemma_001.md`.)
+
+**Corollary of Lemma 1**: For any primitive set whose elements all lie in a SINGLE stratum $A_k$
+with $k \geq 2$, or are all $\geq x$ for $x$ large (covering $k = 1$ via the tail bound):
+$f(A) < 1$. The single-stratum case of the conjecture is resolved.
+
+**Lemma 2** (`strat_cross_k_bound`, **open**): For primitive $A$ spanning multiple strata, the
+cross-stratum interaction must be bounded. The naive bound gives $\sum_k \text{tail}_k(x) =
+\sum_{n \geq x} 1/(n \log n)$, which diverges. Primitivity must be used to obtain a finite bound.
+(See `proof_lemmas/lemma_002.md` for the full analysis and obstacle.)
+
+**What Lemma 2 requires**: Either
+(a) A result that primes maximize $f$ over all primitive sets (then $f(A) \leq \sum_{p \geq x} 1/(p \log p) \to 0$),
+or (b) a direct cross-stratum bounding argument via Dirichlet series or sieve methods.
+
+Neither (a) nor (b) follows from F1, F2, F3 alone. F1 gives a weaker bound ($\leq 1.399$) that
+does not tighten with $x$. The proof requires additional analytic input.
+
+**Partial result** (from Lemmas 1 and F1):
+For any primitive $A \subset [x, \infty)$:
+$$f(A) < \min\!\left(1.399 + o(1),\; \sum_{p \geq x} \frac{1}{p \log p} + \sum_{k \geq 2} \sum_{n \in A_k,\, n \geq x} \frac{1}{n\log n}\right)$$
+The second term grows with $x$ only through the tail sums, each of which $\to 0$ as $x \to \infty$
+for fixed $k$, but the sum over all $k$ diverges. F1 provides the uniform cap at 1.399.
+
+**Conclusion**: The conjecture's bound $1 + o_x(1)$ is NOT derivable from F1/F2/F3 alone via
+this stratification. The gap from $1.399$ (F1) to $1 + o_x(1)$ (conjecture) requires a new
+analytic insight about how primitivity limits cross-stratum contributions as $x \to \infty$.

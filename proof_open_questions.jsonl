@@ -11,3 +11,5 @@
 {"qid":"Q2","status":"resolved","session_id":"s_0524-080922-c8c3","summary":"F3 numerics for k=2,3,4 all < 1; k=1 discrepancy noted (series to ~1.636, not 0.967)","ts":"2026-05-24T08:28:03+00:00"}
 {"qid":"Q3","status":"resolved","session_id":"s_0524-080922-c8c3","summary":"Primes sum ~1.636; restricted to [x,inf) decays to 0; F1 consistency via x-dependent o(1) explained","ts":"2026-05-24T08:28:03+00:00"}
 {"qid":"Q4","status":"claimed","session_id":"s_0524-080922-c8c3","summary":"witness search at x_floor=100,1000,10000: seeking primitive A in [x,inf) with f(A)>1.0","ts":"2026-05-24T08:28:11+00:00"}
+{"qid":"Q4","status":"resolved","session_id":"s_0524-080922-c8c3","summary":"witness search negative at x_floor>=10; only x_floor=2 validates but trivially (o(1)~0.52)","ts":"2026-05-24T08:30:59+00:00"}
+{"qid":"Q5","status":"claimed","session_id":"s_0524-080922-c8c3","summary":"writing Omega-stratification proof sketch with lemma files","ts":"2026-05-24T08:30:59+00:00"}
