@@ -34,10 +34,9 @@ against it, and decides keep/discard via `proof_log_result.py`.
   the sum approaches $1$ from BELOW. Treating it as approaching from
   above is `f3-from-above-misread` BLOCKING.
 - **Open claim asserted resolved without witness**. The conjecture is open.
-  Phrases like "the conjecture is false" / "we disprove" trigger
-  `critic_openness`'s `open-claim-asserted-resolved-without-witness`
-  BLOCKING — unless a verifier-accepted `<!-- WITNESS -->` block is
-  committed and `witness_valid == 1`.
+  Asserting falsity or disproof without a verifier-accepted `<!-- WITNESS -->`
+  block triggers `critic_openness`'s `open-claim-asserted-resolved-without-witness`
+  BLOCKING. No resolution language may appear unless `witness_valid == 1`.
 
 ## Witness format (the only path to a counterexample claim)
 
