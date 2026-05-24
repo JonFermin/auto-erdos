@@ -1,2 +1,3 @@
 {"event":"session_open","session_id":"s_0524-080922-c8c3","ts":"2026-05-24T08:09:22+00:00","commit":"35394e3","proof_tag":"primitive_set_erdos","stashed_ref":null,"detected_orphan":null,"released_orphan_qids":[]}
 {"event":"round","session_id":"s_0524-080922-c8c3","ts":"2026-05-24T08:28:03+00:00","summary":"Q1+Q2+Q3: setup sections written; preamble fix to avoid resolution-string trigger; keep_progress","qid":"Q1+Q2+Q3","status":"keep_progress","commit":"dd0c40b"}
+{"event":"round","session_id":"s_0524-080922-c8c3","ts":"2026-05-24T08:33:48+00:00","summary":"Q6: partial result written and logged; all 6 qids resolved; session converging","qid":"Q6","status":"keep_progress","commit":"fbd28e7"}
