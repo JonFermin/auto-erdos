@@ -7,3 +7,6 @@
 {"qid":"Q1","status":"claimed","session_id":"s_0524-080922-c8c3","summary":"writing Setup section: claim, F1/F2/F3 with sign disambiguations, witness contract","ts":"2026-05-24T08:18:22+00:00"}
 {"qid":"Q2","status":"claimed","session_id":"s_0524-080922-c8c3","summary":"writing Numerical Evidence section: F3 values for k=2,3,4 and k=1 discrepancy note","ts":"2026-05-24T08:18:22+00:00"}
 {"qid":"Q3","status":"claimed","session_id":"s_0524-080922-c8c3","summary":"writing Primes Sum section: restricted sums vs unrestricted, F1 bound clarification","ts":"2026-05-24T08:18:22+00:00"}
+{"qid":"Q1","status":"resolved","session_id":"s_0524-080922-c8c3","summary":"Setup section written: claim, F1/F2/F3 with sign disambiguations, witness contract","ts":"2026-05-24T08:28:03+00:00"}
+{"qid":"Q2","status":"resolved","session_id":"s_0524-080922-c8c3","summary":"F3 numerics for k=2,3,4 all < 1; k=1 discrepancy noted (series to ~1.636, not 0.967)","ts":"2026-05-24T08:28:03+00:00"}
+{"qid":"Q3","status":"resolved","session_id":"s_0524-080922-c8c3","summary":"Primes sum ~1.636; restricted to [x,inf) decays to 0; F1 consistency via x-dependent o(1) explained","ts":"2026-05-24T08:28:03+00:00"}
