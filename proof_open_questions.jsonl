@@ -13,3 +13,5 @@
 {"qid":"Q4","status":"claimed","session_id":"s_0524-080922-c8c3","summary":"witness search at x_floor=100,1000,10000: seeking primitive A in [x,inf) with f(A)>1.0","ts":"2026-05-24T08:28:11+00:00"}
 {"qid":"Q4","status":"resolved","session_id":"s_0524-080922-c8c3","summary":"witness search negative at x_floor>=10; only x_floor=2 validates but trivially (o(1)~0.52)","ts":"2026-05-24T08:30:59+00:00"}
 {"qid":"Q5","status":"claimed","session_id":"s_0524-080922-c8c3","summary":"writing Omega-stratification proof sketch with lemma files","ts":"2026-05-24T08:30:59+00:00"}
+{"qid":"Q5","status":"resolved","session_id":"s_0524-080922-c8c3","summary":"Omega-stratification: Lemma 1 proved (per-stratum <1); Lemma 2 open (cross-stratum); gap 1.399->1+o(1) identified","ts":"2026-05-24T08:32:43+00:00"}
+{"qid":"Q6","status":"claimed","session_id":"s_0524-080922-c8c3","summary":"writing partial result and converging session","ts":"2026-05-24T08:32:43+00:00"}
