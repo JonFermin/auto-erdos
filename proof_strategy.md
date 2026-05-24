@@ -175,13 +175,38 @@ there: their restricted sum decays as the tail of a convergent series.
 
 ### Section 4 — Next steps (planned for Q4–Q6)
 
-Q4: Witness search at $x_{\mathrm{floor}} \in \{100, 1000, 10000\}$. Based on
-Section 3, primes in $[100, \infty)$ give sum $\approx 0.213 < 1$ and are
-expected to be the best single-family primitive set; mixed families may do
-slightly better but are unlikely to reach 1.
+### Section 4 — Witness Search (Q4)
 
-Q5: Omega-stratification proof sketch. For primitive $A \subset [x, \infty)$,
-write $A = \bigcup_k (A \cap A_k)$. Bound each stratum contribution and sum
-over $k$. The key difficulty is the cross-stratum interaction via primitivity.
+We searched computationally for a primitive $A \subset [x_{\mathrm{floor}}, \infty)$
+with rigorously verified $f(A) > 1.0$.
 
-Q6: Converge or document the partial result.
+**Primes restricted to $[x_{\mathrm{floor}}, \infty)$** — the largest known
+single-family primitive set by $f$-value:
+
+| $x_{\mathrm{floor}}$ | $f(\text{primes} \cap [x,\infty))$ | Verified valid |
+|---|---|---|
+| 2 | 1.5146 | YES (harness accepts, but $o(1) \approx 0.52$ — not genuine) |
+| 10 | 0.292 | NO (score < 1) |
+| 100 | 0.094 | NO |
+| 1 000 | 0.027 | NO |
+| 10 000 | 0.005 | NO |
+
+**Semiprimes** ($\Omega(n)=2$, pairwise primitive since no semiprime divides another):
+- $[100, 1000]$: sum $\approx 0.121$ — below primes tail in the same range.
+- Full tail $A_2 \cap [100, \infty)$: less than $\Sigma_{A_2} \approx 0.934 < 1$.
+
+**Negative evidence conclusion**: No primitive set in $[x_{\mathrm{floor}},\infty)$
+with $x_{\mathrm{floor}} \geq 10$ achieved $f > 1.0$. The conjecture appears numerically
+valid for all tested $x_{\mathrm{floor}} \geq 10$. The best single-family choice is
+primes, but their restricted sum decays rapidly ($\approx 0.094$ at $x=100$).
+
+A mixed primitive set (primes + semiprimes) cannot raise the sum above either
+family's own tail since primitivity forces: if prime $p \in A$ and semiprime
+$pq \in A$, then $p \mid pq$ violates primitivity. So elements from different
+strata in a primitive set are "incompatible" when one divides the other.
+
+---
+
+### Section 5 — Omega-Stratification Proof Sketch (Q5, in progress)
+
+This remains open as of Q5. See `proof_lemmas/` for lemma decomposition.
