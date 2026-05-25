@@ -128,3 +128,91 @@ Format for embedding a witness:
 }
 WITNESS -->
 ```
+
+## Section 2: Numerical evidence (Q2, Q3, Q4)
+
+### 2.1 Omega-k stratum sums (Q2)
+
+Computed $\sum_{a \in A_k \cap [2, N]} \frac{1}{a \log a}$ for $N = 2{,}000{,}000$
+and the first 200 elements of each stratum:
+
+| $k$ | first 200 elems (sum) | sum to $N=2\text{M}$ | $1 - c k^2/2^k$ (F3 pred) | $< 1$? |
+|---|---|---|---|---|
+| 1 (primes) | 1.496 | 1.568 | 0.967 | **NO** |
+| 2 | 0.682 | 0.877 | 0.934 | yes |
+| 3 | 0.313 | 0.510 | 0.926 | yes |
+| 4 | 0.140 | 0.271 | 0.934 | yes |
+| 5 | — | 0.133 | 0.949 | yes |
+| 6 | — | 0.062 | 0.963 | yes |
+
+**Key observation**: The truncated stratum sums are all well *below* the F3
+formula's prediction of $\approx 1$. This is expected — the F3 formula
+$1 - (c+o(1)) k^2/2^k$ is an asymptotic valid as $k \to \infty$ (when the
+stratum $A_k$ contains many very large integers whose tail dominates). For
+small $k=1,2,3$, the truncated sums are far from the F3 prediction.
+
+**Critical anomaly for $k=1$**: The stratum $A_1$ of all primes starting
+from $p=2$ has truncated sum $1.568$ at $N = 2\text{M}$, well *above* $1$.
+The sign\_disambiguation of F3 states "strictly less than 1 for EVERY $k \geq
+1$", which is **inconsistent** with $k=1$ (all primes from 2 give sum $> 1$).
+The correct interpretation is: F3's formula is an asymptotic for large $k$;
+for $k=1$ the sum exceeds 1, as explained in §2.2.
+
+### 2.2 Primes sum and the x_floor distinction (Q3)
+
+The full sum $\sum_p 1/(p \log p)$ (over all primes $p \geq 2$) converges to
+approximately $1.575$ (truncated at $N = 10^7$). Crucially, this is a
+primitive set (no prime divides another) with sum $> 1$.
+
+However, this does NOT contradict the conjecture. The conjecture is about the
+limit: for fixed $\varepsilon > 0$, any primitive $A \subset [x, \infty)$
+satisfies $\sum_{a \in A} 1/(a \log a) < 1 + \varepsilon$ for $x$ large enough
+($x \geq x_0(\varepsilon)$). As $x \to \infty$, the sum $\sum_{p \geq x}
+1/(p \log p)$ shrinks:
+
+| $x\_{\text{floor}}$ | $\sum_{p \geq x} 1/(p \log p)$ | $< 1$? |
+|---|---|---|
+| 2 | 1.575 | NO |
+| 3 | 0.853 | yes |
+| 5 | 0.550 | yes |
+| 7 | 0.426 | yes |
+| 100 | 0.153 | yes |
+| 1000 | 0.082 | yes |
+
+The primes-from-2 set is the ONLY case where the full-prime-stratum sum
+exceeds 1. Removing just $p=2$ drops the sum to $0.853$.
+
+### 2.3 Witness search (Q4)
+
+Searched for a finite primitive set $A \subset [x_{\text{floor}}, \infty)$
+with rigorous $\sum 1/(a \log a) > 1.0$ (the witness threshold).
+
+**x_floor = 2**: The set $\{2, 3\}$ is primitive (no divisibility) and
+has rigorous sum $\approx 1.0248 > 1.0$ (verified by
+`library.primitive_set_witness.verify_witness`). This trivially exceeds the
+threshold but is driven almost entirely by $1/(2 \log 2) \approx 0.721$.
+
+**x_floor = 3**: A greedy construction (take each $n \geq 3$ that is not
+divisible by, and does not divide, any previously chosen element) yields a
+set of ${\sim}3800$ elements (up to $n \approx 35{,}759$) with rigorous sum
+$> 1.0$. The minimal such set has ${\sim}3800$ elements and sum $\approx
+1.0003$, barely exceeding the threshold.
+
+**x_floor $\geq$ 5**: Greedy sums with max\_n $= 10{,}000$ yield $0.707$
+(x\_floor=5), $0.529$ (x\_floor=10), $0.278$ (x\_floor=100) — all
+well below 1.0.
+
+**Interpretation**: Both witnesses at x\_floor $\in \{2, 3\}$ are
+*threshold-exceeding candidates*, NOT confirmed counterexamples to the
+conjecture. The conjecture requires the bound $1 + o(1)$ where $o(1) \to 0$
+as $x \to \infty$. At $x=2$, the $o(1)$ term is unknown (and may be large,
+consistent with F1's upper bound of $\approx 1.399$). At $x=3$, the sum
+barely exceeds $1.0$ by $0.003$, and $o(1)$ at $x=3$ is plausibly $> 0.003$.
+
+No witness was found for $x_{\text{floor}} \geq 5$. The evidence suggests
+the conjecture is satisfied for moderate and large $x$: the maximum achievable
+sum in $[x, \infty)$ decreases rapidly with $x$.
+
+**No WITNESS block is embedded** at this stage because neither candidate
+constitutes a convincing counterexample — the $o(1)$ caveat at small $x$ is
+not rigorously bounded below, so we cannot confirm the conjecture is violated.
