@@ -13,3 +13,5 @@
 {"qid":"Q3","status":"resolved","session_id":"s_0525-080725-2e21","summary":"documented in Section 2 numerical evidence; keep_progress","ts":"2026-05-25T08:25:46+00:00"}
 {"qid":"Q4","status":"resolved","session_id":"s_0525-080725-2e21","summary":"documented in Section 2 numerical evidence; keep_progress","ts":"2026-05-25T08:25:46+00:00"}
 {"qid":"Q5","status":"claimed","session_id":"s_0525-080725-2e21","summary":"outlining proof structure, stratify by Omega(a), creating lemma files","ts":"2026-05-25T08:25:55+00:00"}
+{"qid":"Q5","status":"resolved","session_id":"s_0525-080725-2e21","summary":"4 lemmas created; Lemma 2 proved; Lemma 3 is the hard gap; partial result documented in Section 4; keep_progress","ts":"2026-05-25T08:29:17+00:00"}
+{"qid":"Q6","status":"claimed","session_id":"s_0525-080725-2e21","summary":"calling session_end with partial result — Lemma 3 is genuinely hard","ts":"2026-05-25T08:29:21+00:00"}
