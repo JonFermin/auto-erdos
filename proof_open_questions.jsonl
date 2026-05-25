@@ -9,3 +9,7 @@
 {"qid":"Q2","status":"claimed","session_id":"s_0525-080725-2e21","summary":"numerical evidence section — combined compute round","ts":"2026-05-25T08:25:25+00:00"}
 {"qid":"Q3","status":"claimed","session_id":"s_0525-080725-2e21","summary":"numerical evidence section — combined compute round","ts":"2026-05-25T08:25:25+00:00"}
 {"qid":"Q4","status":"claimed","session_id":"s_0525-080725-2e21","summary":"numerical evidence section — combined compute round","ts":"2026-05-25T08:25:25+00:00"}
+{"qid":"Q2","status":"resolved","session_id":"s_0525-080725-2e21","summary":"documented in Section 2 numerical evidence; keep_progress","ts":"2026-05-25T08:25:46+00:00"}
+{"qid":"Q3","status":"resolved","session_id":"s_0525-080725-2e21","summary":"documented in Section 2 numerical evidence; keep_progress","ts":"2026-05-25T08:25:46+00:00"}
+{"qid":"Q4","status":"resolved","session_id":"s_0525-080725-2e21","summary":"documented in Section 2 numerical evidence; keep_progress","ts":"2026-05-25T08:25:46+00:00"}
+{"qid":"Q5","status":"claimed","session_id":"s_0525-080725-2e21","summary":"outlining proof structure, stratify by Omega(a), creating lemma files","ts":"2026-05-25T08:25:55+00:00"}

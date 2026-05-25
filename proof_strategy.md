@@ -216,3 +216,64 @@ sum in $[x, \infty)$ decreases rapidly with $x$.
 **No WITNESS block is embedded** at this stage because neither candidate
 constitutes a convincing counterexample — the $o(1)$ caveat at small $x$ is
 not rigorously bounded below, so we cannot confirm the conjecture is violated.
+
+## Section 3: Proof structure outline (Q5)
+
+The conjecture is: for any primitive $A \subset [x, \infty)$,
+$\sum_{a \in A} 1/(a \log a) < 1 + o(1)$ as $x \to \infty$.
+
+### 3.1 Lemma inventory
+
+| Lemma | Status | Summary |
+|---|---|---|
+| `stratum_bound` (Lemma 1) | open | Omega-k stratum sums. F3 applies for large k; for k=1 the sum exceeds 1 at small x. |
+| `prime_tail_decay` (Lemma 2) | **proved** | $\sum_{p \geq x} 1/(p \log p) \to 0$ as $x \to \infty$. |
+| `primitive_to_prime` (Lemma 3) | open — **HARD** | Any primitive $A \subset [x,\infty)$ has sum $\leq \sum_{p\geq x} 1/(p\log p) + o(1)$. This is the conjecture's core. |
+| `witness_candidates` (Lemma 4) | **proved** | Explicit primitive sets at $x=2,3$ with sum $> 1$; shown to be non-counterexamples. |
+
+### 3.2 Proof sketch (conditional on Lemma 3)
+
+Assuming Lemma 3 (`primitive_to_prime`):
+1. By Lemma 3, $\sum_{a \in A} 1/(a \log a) \leq \sum_{p \geq x} 1/(p \log p) + o(1)$.
+2. By Lemma 2 (`prime_tail_decay`), $\sum_{p \geq x} 1/(p \log p) \to 0 < 1$ as $x \to \infty$.
+3. Therefore $\sum_{a \in A} 1/(a \log a) < 1 + o(1)$.
+
+This chain is logically complete IF Lemma 3 holds. The entire difficulty is
+Lemma 3.
+
+### 3.3 Why Lemma 3 is hard
+
+The comparison of a general primitive set to the prime-tail sum requires either:
+- A clever combinatorial argument exploiting primitivity (antichain structure),
+- Analytic techniques (Euler products, sieve methods) beyond the current facts ledger, or
+- The result of Lichtman-Pomerance (2022) or equivalent, which proved the conjecture
+  using tools from multiplicative number theory.
+
+Within the given facts F1, F2, F3, Lemma 3 CANNOT be proved:
+- F1 gives sum $< 1.399$ (too loose; doesn't give $< 1 + o(1)$).
+- F2's unsigned big-O is insufficient (sign confusion risk).
+- F3's stratum bounds apply stratum-by-stratum but don't control the union.
+
+### 3.4 Partial result (what can be said without Lemma 3)
+
+- **Ruled out**: No primitive set in $[x, \infty)$ can have sum $\geq 1.399$ (F1).
+- **Confirmed**: For $x_{\text{floor}} = 2$: sum can reach $\approx 1.025$; for $x_{\text{floor}} = 3$: sum $\approx 1.003$.
+- **No witness found**: For $x_{\text{floor}} \geq 5$, no primitive set with sum $> 1$ was found by greedy search.
+- **Strong numerical evidence**: The conjecture appears to hold for all $x \geq 5$, based on the rapid decay of the maximum greedy-set sum with $x$.
+
+### 3.5 Assessment
+
+The conjecture remains open within the current facts ledger. Lemma 3 is the
+key gap. Without it, we can only offer the partial result: "the conjecture
+holds numerically for $x \geq 5$, and the maximum achievable primitive-set sum
+decreases rapidly with $x$."
+
+This is a partial result that does not resolve the conjecture but documents
+the structural obstacles and numerical evidence.
+
+## Section 4: This remains open
+
+The proof is currently incomplete. The gap is Lemma 3 (`primitive_to_prime`).
+We have ruled out naive approaches (F1/F2/F3 alone are insufficient), and
+numerical evidence strongly supports the conjecture for $x \geq 5$. A
+complete proof requires analytic machinery beyond the current scope.
