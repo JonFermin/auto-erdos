@@ -263,3 +263,65 @@ No genuine counterexample witness was found. The achievable primitive-set sums i
 $[x_\text{floor}, \infty)$ are $\leq 1/\ln(x_\text{floor}) \to 0$ as $x_\text{floor}
 \to \infty$, far below the threshold of $1.0$ for any $x_\text{floor} \geq 3$. The
 witness search corroborates the conjecture rather than refuting it.
+
+---
+
+## Section 5: Proof Structure — Omega-Stratification (Q5)
+
+**Goal**: outline a proof via Omega-stratification and identify easy vs. hard lemmas.
+
+### Stratification
+
+Any primitive $A \subseteq [x, \infty)$ decomposes as
+$A = \bigsqcup_{k \geq 1} A^{(k)}$ where $A^{(k)} = \{a \in A : \Omega(a) = k\}$.
+The sum splits as:
+$$\sum_{a \in A} \frac{1}{a \ln a} = \underbrace{\Sigma_1}_{\text{primes}} +
+\underbrace{\Sigma_2 + \Sigma_3 + \cdots}_{\text{composites}}.$$
+
+### Lemma map
+
+| Lemma | Description | Status | Difficulty |
+|-------|-------------|--------|------------|
+| `primes_stratum` (Lemma 1) | $\Sigma_1 \leq \sum_{p \geq x} 1/(p\ln p) = O(1/\ln x)$ | **proved** | Easy |
+| `higher_strata_tails` (Lemma 2) | $\Sigma_k \leq T_k(x) \to 0$ for each $k \geq 2$ | open | Moderate |
+| `cross_stratum` (Lemma 3) | Cross-stratum exclusion: big $\Sigma_1$ forces small $\Sigma_{\geq 2}$ | open | **Hard** (the central difficulty) |
+| `total_bound` (Lemma 4) | $\sum_k \Sigma_k < 1 + o(1)$ | open | Depends on Lemma 3 |
+
+### What is easy
+
+Lemma 1 (`primes_stratum`) is fully proved: primes contribute $O(1/\ln x)$, going to 0.
+
+The upper bound from Lemma 2 (each individual stratum contribution $\to 0$) is
+numerically clear and the argument is essentially correct modulo a rigorous Selberg-Delange
+application. Establishing $T_k(x) = O((\ln\ln x)^{k-1}/\ln x)$ is standard number theory.
+
+### What is hard
+
+**The cross-stratum interaction (Lemma 3)** is the central obstacle. The naive approach
+of bounding each stratum independently fails because $\sum_{k \geq 1} T_k(x) = +\infty$
+(the sum over all $k$-almost-primes $\geq x$ diverges). The global primitivity constraint
+is essential, but formalizing the coupling quantitatively is non-trivial.
+
+Specifically: to get a bound of $1 + o(1)$ (vs. $1.399 + o(1)$ from F1), one needs to
+exploit the fact that the extremal set (achieving sum closest to 1) is conjecturally the
+primes themselves (from Q3: primes-from-$x$ sum $\approx 1/\ln x$, which is far below 1
+for large $x$). A more "balanced" set mixing primes and composites might conceivably achieve
+a larger sum, but this has not been ruled out by the given facts.
+
+### Known partial results in the given facts
+
+- F1 (Zhang 1993): $\sum < 1.399 + o(1)$ — proved (using the Davenport-Erdős inequality).
+- F3 (asymptotic for $A_k$): shows the canonical extremal stratum achieves $1 - o(1) < 1$.
+- F2 (lower bound with unsigned-$O$): consistent with F3 but does not give the tighter 1+o(1) bound.
+
+**Gap**: The given facts establish $< 1.399 + o(1)$ but not $< 1 + o(1)$.
+
+### Conclusion for Q5
+
+A complete proof of the conjecture is not available with the given facts and tools. The
+difficulty is Lemma 3 (cross-stratum coupling), which requires either:
+(a) a new analytical inequality for primitive sets, or
+(b) a new characterization of the extremal primitive set in $[x,\infty)$.
+
+The Omega-stratification gives a clean decomposition and reduces the problem to Lemma 3,
+which is explicitly identified as the central open challenge.
