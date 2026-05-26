@@ -8,63 +8,87 @@ count as a real round.
 The loop reads this file via `proof_prepare.py`, runs five LLM critics
 against it, and decides keep/discard via `proof_log_result.py`.
 
-## Setup
+## Metadata
 
-- **Claim**: see `proofs/primitive_set_erdos.json` field `claim_latex`. The
-  conjecture is that for any primitive set $A \subset [x, \infty)$ the sum
-  $\sum_{a \in A} 1/(a \log a)$ is bounded above by $1 + o(1)$ as $x \to \infty$.
-- **Status**: open. Until a verifier-accepted witness is committed, no claim
-  of resolution may appear in this file (`critic_openness` enforces this).
-- **Given facts ledger**: see `proofs/primitive_set_erdos.json` field
-  `given_facts`. The proof may cite F1 (Erdős-Zhang upper bound ≈ 1.399),
-  F2 (Omega-stratum lower bound with UNSIGNED big-O — read carefully),
-  F3 (exact asymptotic showing canonical extremal sum approaches 1 from
-  BELOW). Citations to facts not in the ledger trigger `critic_ledger`.
+- **Claim**: For any primitive $A \subseteq [x,\infty)$, $\sum_{a\in A} 1/(a\log a) < 1+o(1)$.
+- **Status**: open (harness enforces; no resolution claim without a verified witness).
+- **Given facts**: F1 (Erdős-Zhang UB ≈ 1.399), F2 (Omega-stratum LB, unsigned-O), F3 (exact asym for $A_k$, approaches 1 from below).
 
-## Anti-traps (the canonical failure modes)
+## Witness format
 
-- **F2 sign confusion**. F2 says
-  $\sum_{a \in A_k} 1/(a \log a) \geq 1 + O(k^{-1/2 + o(1)})$
-  with the $O(\cdot)$ term **unsigned**. Concluding $\sum > 1$ from F2
-  alone is a sign error — `critic_sign` will emit
-  `unsigned-O-sign-confusion` BLOCKING.
-- **F3 read upside-down**. F3 says
-  $\sum_{a \in A_k} 1/(a \log a) = 1 - (c+o(1)) k^2/2^k$
-  with $c \approx 0.0656 > 0$. The leading correction is *negative*, so
-  the sum approaches $1$ from BELOW. Treating it as approaching from
-  above is `f3-from-above-misread` BLOCKING.
-- **Open claim asserted resolved without witness**. The conjecture is open.
-  Phrases like "the conjecture is false" / "we disprove" trigger
-  `critic_openness`'s `open-claim-asserted-resolved-without-witness`
-  BLOCKING — unless a verifier-accepted `<!-- WITNESS -->` block is
-  committed and `witness_valid == 1`.
+A counterexample witness must be embedded as a `<!-- WITNESS ... WITNESS -->`
+block at the bottom of this file and pass `library.primitive_set_witness.verify_witness`.
 
-## Witness format (the only path to a counterexample claim)
+---
 
-A claim of disproof MUST be backed by a finite primitive set whose sum is
-rigorously verified to exceed `witness_threshold` by
-`library.primitive_set_witness.verify_witness`. To commit a witness,
-embed exactly one block of the form:
+## Section 1: Setup (Q1)
 
-```
-<!-- WITNESS
-{
-  "x_floor": 100,
-  "elements": [101, 103, 107, 109, ...],
-  "claimed_sum_lower_bound": 1.005
-}
-WITNESS -->
-```
+### The conjecture
 
-at the bottom of this file. `proof_prepare.py` parses the JSON, runs the
-deterministic verifier, and sets `witness_valid` accordingly. No witness
-block ⇒ `witness_valid = 0` ⇒ no counterexample claim is possible.
+**Erdős's primitive-set conjecture** (tightened form): For any integer
+$x \geq 2$ and any **primitive set** $A \subseteq [x, \infty)$ — a set of
+integers $\geq x$ in which no element divides another — we have
+$$\sum_{a \in A} \frac{1}{a \log a} < 1 + o(1),$$
+where $o(1) \to 0$ as $x \to \infty$.
 
-## Body
+Restated: in the limit of large floor $x$, no primitive subset of
+$[x, \infty)$ can have a weighted sum $\sum 1/(a \log a)$ exceeding $1$.
+The conjecture asserts $1$ is a universal asymptotic upper bound.
 
-(The agent fills in the body. Sketch a structure, prove what you can,
-hedge the rest. Lemmas live in `proof_lemmas/lemma_*.md` and are cited
-by id from this file.)
+This is an **open problem** as of this proof attempt. This file contains
+no claim of proof or refutation without a verifier-accepted witness block.
 
-This proof attempt is currently a stub. Pick the lowest-numbered open
-qid from `proof_open_questions.jsonl` and start.
+### Given facts with sign notes
+
+**F1 — Erdős-Zhang upper bound** (Erdős 1935; Zhang 1993):
+For *any* primitive set $A \subseteq \mathbb{N}$,
+$$\sum_{a \in A} \frac{1}{a \log a} < e^{\gamma} \frac{\pi}{4} + o(1) \approx 1.399.$$
+
+Sign note (UPPER bound): the sum is bounded *above* by $\approx 1.399$.
+This is weaker than but consistent with the conjecture (bound of $1+o(1)$).
+F1 cannot serve as a lower bound; any argument that reads it as a lower
+bound would contradict F1 itself.
+
+**F2 — Omega-stratum lower bound** (given fact F2):
+For $A_k = \{n \in \mathbb{N} : \Omega(n) = k\}$,
+$$\sum_{a \in A_k} \frac{1}{a \log a} \geq 1 + O\!\left(k^{-1/2+o(1)}\right).$$
+
+Sign note (UNSIGNED big-$O$): The error term $O(k^{-1/2+o(1)})$ is
+unsigned — it may be positive or negative. F2 alone does NOT imply
+the sum exceeds $1$. Any argument concluding "sum $> 1$" from F2 alone
+is a sign error (the ChatGPT failure mode for this problem).
+
+**F3 — Exact asymptotic for $A_k$** (given fact F3):
+$$\sum_{a \in A_k} \frac{1}{a \log a} = 1 - (c+o(1))\frac{k^2}{2^k},
+\quad c \approx 0.0656 > 0.$$
+
+Sign note (correction is NEGATIVE): Since $c > 0$, the term
+$-(c+o(1)) k^2/2^k$ is negative, so the sum is strictly less than $1$
+and approaches $1$ from **below** as $k\to\infty$. F3 resolves F2's
+ambiguity: the unsigned-$O$ is in fact negative for $A_k$. The canonical
+extremal stratum never violates the conjecture.
+
+### Witness contract
+
+A counterexample claim requires a finite primitive set
+$A \subseteq [x_\text{floor}, \infty)$ for which
+`library.primitive_set_witness.verify_witness` confirms:
+1. Every element is $\geq x_\text{floor}$.
+2. $A$ is primitive (no element divides another).
+3. Rigorous sum $\sum_{a\in A} 1/(a\log a) > 1.0$ (the threshold).
+
+Without a verifier-accepted `<!-- WITNESS -->` block in this file, no
+refutation claim may be made. The $o(1)$ caveat in the conjecture means
+a witness at finite $x_\text{floor}$ barely exceeding $1$ requires
+separate argument that the $o(1)$ slack at that scale is negligible.
+
+### Roadmap
+
+| Round | Q   | Goal |
+|-------|-----|------|
+| 1     | Q1  | This Setup section (current) |
+| 2     | Q2  | Numerical check: truncated sums for $A_k$, $k=1,2,3,4$ |
+| 3     | Q3  | Primes sum: approach to $\approx 1.6366$, consistency with F1 |
+| 4     | Q4  | Witness search at $x_\text{floor} \in \{100, 1000, 10000\}$ |
+| 5+    | Q5  | Proof sketch: Omega-stratification + lemma decomposition |
+| final | Q6  | Partial result if full proof is out of reach |
