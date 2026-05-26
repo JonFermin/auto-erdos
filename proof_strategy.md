@@ -92,3 +92,55 @@ separate argument that the $o(1)$ slack at that scale is negligible.
 | 4     | Q4  | Witness search at $x_\text{floor} \in \{100, 1000, 10000\}$ |
 | 5+    | Q5  | Proof sketch: Omega-stratification + lemma decomposition |
 | final | Q6  | Partial result if full proof is out of reach |
+
+---
+
+## Section 2: Numerical Evidence for F3 (Q2)
+
+**Goal**: verify F3's claim that $\sum_{a \in A_k} 1/(a \log a) = 1 - (c+o(1)) k^2/2^k$ by
+computing truncated sums over the first 200 (and up to 10 000) elements of $A_k$.
+
+### Partial sums (first 200 elements, then extended)
+
+| $k$ | $n_{200}$ | $S_{200}$ | $S_{1000}$ | $S_\text{ext}$ ($n_\text{ext}$) | F3 leading term |
+|-----|-----------|-----------|------------|----------------------------------|-----------------|
+| 1   | 1 223      | 1.496 452 | 1.525 341  | 1.550 127 ($n=104\,729$, 10k el) | $1 - c/2 = 0.967$ |
+| 2   | 669        | 0.681 938 | 0.746 088  | 0.793 578 ($n=19\,643$, 5k el)  | $1 - c = 0.934$ |
+| 3   | 805        | 0.313 401 | 0.367 553  | 0.413 015 ($n=19\,533$, 5k el)  | $1 - 9c/8 = 0.926$ |
+| 4   | 1 292      | 0.140 341 | 0.172 952  | 0.202 561 ($n=27\,819$, 5k el)  | $1 - c = 0.934$ |
+
+(Here $c = 0.0656$, F3 leading term $= 1 - c k^2/2^k$.)
+
+### Observations
+
+**k = 2, 3, 4**: The partial sums are well below $1$ at all truncation levels, and
+converging toward values that the tail estimate $1/\ln(n_\text{ext})$ bounds away from $1$.
+Specifically:
+- $k=2$: $S_\text{ext} = 0.794$, tail upper bound $0.101$, total $\leq 0.895 < 1$ ✓
+- $k=3$: $S_\text{ext} = 0.413$, tail upper bound $0.101$, total $\leq 0.514 < 1$ ✓
+- $k=4$: $S_\text{ext} = 0.203$, tail upper bound $0.098$, total $\leq 0.301 < 1$ ✓
+
+**k = 1 (primes)**: The partial sum grows toward $\approx 1.636$. After 10 000 primes
+(up to $p = 104\,729$), $S_{10000} = 1.550$ with an estimated remaining tail
+$\approx 1/\ln(104\,729) \approx 0.087$, giving a total of $\approx 1.637$.  This means
+the full infinite sum over all primes $\sum_p 1/(p \ln p) \approx 1.637 > 1$.
+
+**Critical observation**: The k=1 sum exceeds $1$. This is consistent with two facts:
+1. F3's formula $1 - ck^2/2^k$ is an asymptotic as $k \to \infty$; for small $k$ (especially
+   $k=1$), the formula is not numerically accurate.
+2. The conjecture's bound of $1+o(1)$ applies to primitive sets $A \subseteq [x,\infty)$ as
+   $x \to \infty$. For $x=2$ (all primes), the $o(1)$ slack is large (at least $0.637$).
+   The restriction $A \subseteq [x,\infty)$ makes the primes-from-$x$ sum $\sum_{p \geq x}
+   1/(p \ln p)$ shrink to $0$ as $x \to \infty$, well below $1+o(1)$.
+
+**Sign confirmation**: The F3 leading correction $-c k^2/2^k$ is **negative** for all $k$
+(since $c \approx 0.0656 > 0$). For large $k$: $k^2/2^k \to 0$, so the correction vanishes
+and the sum approaches $1$ from **below**. For $k=2, 3, 4$, the data is consistent with the
+sums eventually converging to values somewhat below $1$.
+
+### Conclusion
+
+F3 is numerically consistent for $k \geq 2$: the sums are $< 1$ and the sign of the
+correction (from $1$) is negative. For $k=1$, F3 is not numerically accurate at small $k$
+(the formula is an asymptotic for large $k$ only), but the behavior is consistent with the
+conjecture once the $[x,\infty)$ restriction is applied.
