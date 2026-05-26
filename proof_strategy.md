@@ -325,3 +325,66 @@ difficulty is Lemma 3 (cross-stratum coupling), which requires either:
 
 The Omega-stratification gives a clean decomposition and reduces the problem to Lemma 3,
 which is explicitly identified as the central open challenge.
+
+---
+
+## Section 6: Partial Result Summary (Q6)
+
+*This section records the partial result: what was proved, what remains open, and what
+the next session should attempt.*
+
+### What this session established
+
+1. **Setup** (Q1): The conjecture is stated precisely. The three given facts (F1, F2, F3)
+   are understood with their sign disambiguations. No misuse of F2's unsigned-$O$ has been
+   made. The witness contract is documented.
+
+2. **Numerical evidence** (Q2, Q3): F3 is numerically consistent for $k \geq 2$ (sums
+   $< 1$, approaching 1 from below as $k \to \infty$). For $k=1$ (primes), the full sum
+   $\sum_p 1/(p \ln p) \approx 1.637$ is $> 1$ but F3 is an asymptotic for large $k$ only.
+   The primes-from-$x$ sum decays as $\approx 1/\ln x$, well within the conjecture for
+   large $x$.
+
+3. **Witness search** (Q4): No genuine counterexample was found. Primitive-set sums in
+   $[x, \infty)$ are bounded by $\approx 1/\ln x$, confirming the conjecture is plausible.
+   The trivial witness $\{2,3\}$ at $x=2$ passes the threshold but is not a genuine
+   counterexample because the $o(1)$ slack at $x=2$ is large.
+
+4. **Proof structure** (Q5): The Omega-stratification reduces the conjecture to four lemmas.
+   Lemma 1 (`primes_stratum`) is **proved**: $\Sigma_1 = O(1/\ln x) \to 0$.
+   Lemmas 2, 3, 4 are **open**. Lemma 3 (`cross_stratum`) is identified as the central
+   hard obstacle: a quantitative coupling between strata is needed.
+
+### What remains open
+
+The conjecture $\sum_{a \in A} 1/(a \ln a) < 1 + o(1)$ for primitive $A \subseteq
+[x, \infty)$ is open as of this session. The gap to the known result F1 ($< 1.399 + o(1)$)
+has not been closed. The main obstacles are:
+- **Lemma 2**: Rigorous estimates for individual higher-stratum tails $T_k(x)$ (moderate).
+- **Lemma 3**: A quantitative bound on the cross-stratum coupling (hard; likely requires
+  a new analytical inequality).
+
+### Suggested next move for future sessions
+
+1. Attempt to prove Lemma 2 (`higher_strata_tails`): use the Selberg-Delange method to
+   get a rigorous estimate for $T_k(x) = O((\ln\ln x)^{k-1}/\ln x)$.
+
+2. For Lemma 3 (`cross_stratum`): search the literature for Turán-sieve or
+   Davenport-Erdős-style inequalities that quantify the cross-stratum coupling.
+   Key references: Zhang (1993), Lunnon (1988), Clark & Pratt (2023), Banks & Martin (2013).
+
+3. If Lemma 3 remains intractable: consider whether the conjecture can be proved for
+   restricted classes of primitive sets (e.g., all elements with bounded smallest prime
+   factor, or all elements in a dyadic interval $[x, 2x)$).
+
+### Partial result claim
+
+The following is proved in this session (Lemma 1): for any primitive $A \subseteq
+[x, \infty)$, the contribution from prime elements satisfies
+$$\sum_{\substack{a \in A \\ a \text{ prime}}} \frac{1}{a \ln a} \leq \sum_{p \geq x}
+\frac{1}{p \ln p} = O\!\left(\frac{1}{\ln x}\right) \to 0.$$
+
+This is consistent with the conjecture and provides one component of any proof strategy.
+The remaining components require Lemmas 2–4.
+
+This proof attempt is **in progress** (partial result, not a resolution of the conjecture).
