@@ -7,3 +7,5 @@
 {"qid":"Q1","status":"resolved","session_id":"s_0526-081227-e8b4","summary":"wrote Section 1 Setup with claim, F1/F2/F3 sign notes, witness contract, roadmap; partial_result keep_progress","ts":"2026-05-26T08:21:04Z"}
 {"qid":"Q2","status":"claimed","session_id":"s_0526-081227-e8b4","summary":"taking Q2: F3 numerical verification for k=1,2,3,4","ts":"2026-05-26T08:21:09Z"}
 {"qid":"Q2","status":"resolved","session_id":"s_0526-081227-e8b4","summary":"F3 numerical: k=2,3,4 sums < 1; k=1 sum ~1.637 > 1 (F3 is large-k asymptotic only)","ts":"2026-05-26T08:27:07Z"}
+{"qid":"Q3","status":"claimed","session_id":"s_0526-081227-e8b4","summary":"taking Q3: primes sum computation and F1 consistency","ts":"2026-05-26T08:27:28Z"}
+{"qid":"Q3","status":"claimed","session_id":"s_0526-081227-e8b4","summary":"taking Q3: primes sum and F1 consistency","ts":"2026-05-26T08:29:08Z"}

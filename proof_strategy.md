@@ -144,3 +144,58 @@ F3 is numerically consistent for $k \geq 2$: the sums are $< 1$ and the sign of 
 correction (from $1$) is negative. For $k=1$, F3 is not numerically accurate at small $k$
 (the formula is an asymptotic for large $k$ only), but the behavior is consistent with the
 conjecture once the $[x,\infty)$ restriction is applied.
+
+---
+
+## Section 3: Primes Sum and Consistency with F1 (Q3)
+
+**Goal**: compute $\sum_{p \geq x} 1/(p \ln p)$ for several values of $x$, verify the
+full sum (from $p=2$) approaches $\approx 1.6366$, and explain why this is consistent
+with F1.
+
+### Computation
+
+| Floor $x$ | $\sum_{p \geq x} 1/(p \ln p)$ (partial, up to $5\times 10^5$) | +tail $\approx 1/\ln(5\times 10^5)$ | $\approx$ full |
+|-----------|--------------------------------------------------------------|--------------------------------------|----------------|
+| 2         | 1.560 419                                                    | + 0.076                              | ≈ 1.637        |
+| 10        | 0.337 977                                                    | + 0.076                              | ≈ 0.414        |
+| 100       | 0.138 851                                                    | + 0.076                              | ≈ 0.215        |
+| 1 000     | 0.068 104                                                    | + 0.076                              | ≈ 0.144        |
+| 10 000    | 0.032 257                                                    | + 0.076                              | ≈ 0.108        |
+| 100 000   | 0.010 637                                                    | + 0.076                              | ≈ 0.087        |
+
+(The primes set $\{p \geq x\}$ is a primitive set in $[x,\infty)$ for each $x$.)
+
+As $x \to \infty$, $\sum_{p \geq x} 1/(p \ln p) \to 0$ (tail of a convergent series).
+
+The full sum from $p=2$ converges to $\approx 1.637$, consistent with the literature
+value $\approx 1.6366$.
+
+### Consistency with F1
+
+F1 states: for any primitive $A \subseteq [x,\infty)$,
+$\sum_{a \in A} 1/(a \ln a) < e^\gamma\pi/4 + o(1) \approx 1.399 + o(1)$,
+where $o(1) \to 0$ as $x \to \infty$.
+
+Observations:
+- For $x \geq 10$: $\sum_{p \geq x} 1/(p \ln p) \leq 0.414 \ll 1.399$. F1 is amply satisfied. ✓
+- For $x=2$: the full sum $\approx 1.637 > 1.399$. This is NOT a violation of F1 because
+  F1 is an asymptotic bound. At $x=2$, the $o(1)$ in F1 is approximately $+0.238$ or more.
+  The statement only asserts $o(1) \to 0$; it does not assert the bound holds sharply at $x=2$.
+- As $x \to \infty$: the primes-from-$x$ sum $\to 0$, so the F1 bound is satisfied with
+  enormous room for any large floor.
+
+**Key distinction** (noted by Q3): the conjecture and F1 both apply in the regime
+$x \to \infty$. A primitive set $A \subseteq [2, \infty)$ (no floor restriction) is not
+the object of study; the interesting regime is $A \subseteq [x, \infty)$ for large $x$.
+
+### Implication for the proof strategy
+
+The primes-from-$x$ sum going to $0$ as $x \to \infty$ confirms that the $k=1$ stratum
+is not the threat to the conjecture. For a primitive $A \subseteq [x, \infty)$, the
+elements of $A$ are large, so each term $1/(a \ln a)$ is small. The challenge is bounding
+the NUMBER of elements in a primitive set within $[x, \infty)$, weighted appropriately.
+
+The Omega-stratification approach (Q5) decomposes any primitive $A$ as
+$A = \bigsqcup_k (A \cap A_k)$ and bounds each stratum's contribution using F3-style
+estimates for large $k$ and direct bounds for small $k$.
