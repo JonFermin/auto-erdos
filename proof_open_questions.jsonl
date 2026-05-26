@@ -9,3 +9,6 @@
 {"qid":"Q2","status":"resolved","session_id":"s_0526-081227-e8b4","summary":"F3 numerical: k=2,3,4 sums < 1; k=1 sum ~1.637 > 1 (F3 is large-k asymptotic only)","ts":"2026-05-26T08:27:07Z"}
 {"qid":"Q3","status":"claimed","session_id":"s_0526-081227-e8b4","summary":"taking Q3: primes sum computation and F1 consistency","ts":"2026-05-26T08:27:28Z"}
 {"qid":"Q3","status":"claimed","session_id":"s_0526-081227-e8b4","summary":"taking Q3: primes sum and F1 consistency","ts":"2026-05-26T08:29:08Z"}
+{"qid":"Q3","status":"resolved","session_id":"s_0526-081227-e8b4","summary":"primes sum ~1.637 at x=2; for x>=10 sum <<1.399; F1 consistent; regime distinction documented","ts":"2026-05-26T08:29:23Z"}
+{"qid":"Q4","status":"claimed","session_id":"s_0526-081227-e8b4","summary":"taking Q4: witness search at x_floor=100,1000,10000","ts":"2026-05-26T08:29:27Z"}
+{"qid":"Q4","status":"resolved","session_id":"s_0526-081227-e8b4","summary":"No witness at x=100,1000,10000 (sums<<1); x=2 witness {2,3} passes threshold but not genuine counterexample (o(1) at x=2 is large)","ts":"2026-05-26T08:32:17Z"}

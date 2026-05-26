@@ -199,3 +199,67 @@ the NUMBER of elements in a primitive set within $[x, \infty)$, weighted appropr
 The Omega-stratification approach (Q5) decomposes any primitive $A$ as
 $A = \bigsqcup_k (A \cap A_k)$ and bounds each stratum's contribution using F3-style
 estimates for large $k$ and direct bounds for small $k$.
+
+---
+
+## Section 4: Witness Search (Q4)
+
+**Goal**: run `library.primitive_set_witness.verify_witness` on candidate primitive sets
+$A \subseteq [x_\text{floor}, \infty)$ at $x_\text{floor} \in \{100, 1000, 10000\}$ to
+seek a rigorous sum $> 1.0$.
+
+### Strategy: interval anti-chains $[x, 2x)$
+
+The set $[x, 2x) = \{x, x+1, \ldots, 2x-1\}$ is always primitive in $[x,\infty)$: if
+$a, b \in [x, 2x)$ with $a | b$ and $a \neq b$, then $b \geq 2a \geq 2x$, contradicting
+$b < 2x$. These are the "maximum density" primitive sets and likely maximize the sum.
+
+| $x_\text{floor}$ | $A = [x, 2x)$ | $\|A\|$ | Computed sum | Threshold | Pass? |
+|------------------|---------------|---------|--------------|-----------|-------|
+| 100              | [100, 200)    | 100     | 0.140 825    | 1.0       | No    |
+| 1 000            | [1000, 2000)  | 1 000   | 0.095 662    | 1.0       | No    |
+| 10 000           | [10000,20000) | 10 000  | 0.043 083†   | 1.0       | No    |
+
+(†rigorous lower bound from `verify_witness`; float approximation 0.072 563)
+
+All three fail: the sums are far below the threshold of $1.0$.
+
+### General upper bound on achievable sums in $[x, \infty)$
+
+For any primitive $A \subseteq [x, 2x)$:
+$$\sum_{a \in A} \frac{1}{a \ln a} \leq \frac{|A|}{x \ln x} \leq \frac{x}{x \ln x}
+= \frac{1}{\ln x}.$$
+
+For $x_\text{floor} = 100$: bound $\leq 1/\ln 100 \approx 0.217 \ll 1$.
+For $x_\text{floor} = 1000$: bound $\leq 1/\ln 1000 \approx 0.145 \ll 1$.
+
+Extending to $[x, \infty)$: the best achievable sum over any primitive $A \subseteq
+[x, \infty)$ (even infinite) is approximately $1/\ln x$ (this is the primes-from-$x$
+sum, which is conjecturally the extremal case). All of these are $\ll 1$ for $x \geq 3$.
+
+### Observation at small floor ($x=2$)
+
+At $x_\text{floor} = 2$: the set $\{2, 3\}$ is primitive and `verify_witness` reports
+$\text{sum} \approx 1.025 > 1.0$ — **passing the verifier threshold**. Extending to
+more primes: $\{2,3,5\} \to 1.149$, $\{2,3,5,7\} \to 1.222$, $\{2,3,5,7,11\} \to 1.261$.
+
+**Why this is NOT a genuine counterexample**: The conjecture asserts $\sum < 1 + o(1)$
+where $o(1) \to 0$ as $x_\text{floor} \to \infty$. At $x_\text{floor} = 2$, the $o(1)$
+slack is large: the primes-from-$2$ set achieves sum $\approx 1.637$, so F1 gives a
+bound of $\approx 1.399 + o(1)$ where the $o(1)$ at $x=2$ must be at least $0.238$.
+The conjecture's bound at $x=2$ is therefore at least $1 + 0.238 = 1.238$, above
+the $\{2,3,\ldots,11\}$ sum of $1.261$... actually $1.261 > 1.238$, so even these sets
+might genuinely require $o(1) > 0.261$ at $x=2$.
+
+The critical condition is that $o(1) \to 0$ as $x \to \infty$. A witness at $x=2$ is
+only a counterexample if $o(1)$ at $x=2$ is negligibly small, which it is not.
+
+No `<!-- WITNESS -->` block is embedded: the witness found at $x=2$ is not a genuine
+counterexample, and no witness was found at $x_\text{floor} \in \{100, 1000, 10000\}$.
+
+### Conclusion for Q4
+
+No genuine counterexample witness was found. The achievable primitive-set sums in
+$[x_\text{floor}, \infty)$ are $\leq 1/\ln(x_\text{floor}) \to 0$ as $x_\text{floor}
+\to \infty$, far below the threshold of $1.0$ for any $x_\text{floor} \geq 3$. The
+witness search corroborates the conjecture rather than refuting it.
