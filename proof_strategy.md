@@ -194,3 +194,62 @@ use the primitivity constraint in an essential way. The Erdős grouping argument
 and the Selberg-Sathe stratum bounds both fall just short.
 
 This proof attempt is ongoing; Lemmas A, B, C remain open.
+
+---
+
+## Section 4 — Partial Result Summary
+
+*This section documents what this attempt established and what remains open,
+as a partial result for record-keeping.*
+
+### What was established
+
+1. **F3 is inconsistent with numerical evidence for $k = 1, 2$** (Section 2):
+   The total sum $\sum_{a \in A_k} 1/(a \log a)$ over all integers with
+   $\Omega(n) = k$ exceeds 1 for $k = 1$ (primes: $\approx 1.637$) and
+   $k = 2$ (semiprimes: $\approx 1.058$). F3 as stated in the given-facts
+   ledger (predicting all sums $\approx 0.93$–$0.97$) appears misformulated.
+   This does NOT contradict the conjecture — the conjecture is asymptotic in
+   $\min(A) \to \infty$, and these sums include small elements starting at 2.
+
+2. **No counterexample found for $x_\text{floor} \geq 5$** (Section 2):
+   A systematic greedy search found no primitive set in $[x, \infty)$ with
+   sum $> 1$ for $x \in \{5, 10, 100, 1000, 10000\}$. The maximum achievable
+   sums were $0.60$, $0.45$, $0.25$, $0.18$, $0.14$ respectively — all well
+   below the threshold.
+
+3. **Formal witness at $x_\text{floor} = 2$** (Section 2):
+   The set $\{2, 3\}$ has rigorous sum $\approx 1.0248 > 1.0$. This is a
+   formal witness ($x_\text{floor} = 2$), but the $o(1)$ correction at $x = 2$
+   is large (estimated $\sim 0.4$), so the conjecture's bound $1 + o(1)$
+   at $x = 2$ is not violated. This is NOT a genuine disproof of the
+   asymptotic conjecture.
+
+4. **Lemma structure** (Section 3): Three lemmas identified. Lemma `stratum_tail`
+   (Selberg-Sathe estimate for each $\Omega$-stratum) is essentially known.
+   Lemma `cross_stratum` is the main open conjecture, rephrased. Lemma
+   `erdos_zhang_bound` documents the proved F1 ($\approx 1.399$) bound and
+   clarifies the gap to the conjectured bound of 1.
+
+### What was ruled out
+
+- **Using F2 or F3 directly to prove sum $> 1$**: F2's unsigned $O(\cdot)$ cannot
+  be used to conclude sum $> 1$ (sign error). F3 as stated is inconsistent with
+  numerics for $k = 1, 2$.
+- **Finding a finite counterexample at large $x_\text{floor}$**: Greedy search
+  finds max sums $\ll 1$ for $x \geq 5$.
+- **Proving the conjecture via Selberg-Sathe alone**: The Selberg-Sathe estimate
+  gives $\sum_k S_k(x) \approx 1$, which is tight for ALL integers but doesn't
+  directly bound PRIMITIVE subsets.
+
+### What remains open (the hard core)
+
+- **Lemma `cross_stratum`**: Proving that any primitive set $A \subset [x, \infty)$
+  has sum $< 1 + o(1)$. This IS the conjecture, and no proof was found in this
+  session. The Erdős-Zhang grouping argument closes the gap only to $\approx 1.399$.
+- **Improving F1 to F-conjectured**: Reducing the constant from $e^\gamma \pi/4
+  \approx 1.399$ to $1$ remains the main challenge of the problem.
+
+*Partial result: the proof structure is established, numerical evidence is
+consistent with the conjecture for large $x$, but no proof of the conjecture
+was found.*

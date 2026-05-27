@@ -13,3 +13,5 @@
 {"qid":"Q4","status":"resolved","session_id":"s_0527-080628-ee67","summary":"No witness at x_floor>=5; x_floor=2 gives formal witness (sum~1.37) but o(1) is large there","ts":"2026-05-27T08:27:35+00:00"}
 {"qid":"Q5","status":"claimed","session_id":"s_0527-080628-ee67","summary":"taking Q5: proof structure + lemma files","ts":"2026-05-27T08:27:35+00:00"}
 {"qid":"Q5","status":"resolved","session_id":"s_0527-080628-ee67","summary":"Proof structure with 3 lemma files: stratum_tail, cross_stratum, erdos_zhang_bound","ts":"2026-05-27T08:29:31+00:00"}
+{"qid":"Q6","status":"claimed","session_id":"s_0527-080628-ee67","summary":"taking Q6: write partial-result conclusion and call session_end","ts":"2026-05-27T08:30:43+00:00"}
+{"qid":"Q6","status":"resolved","session_id":"s_0527-080628-ee67","summary":"wrote Section 4 partial result: established F3 inconsistency, no counterexample for x>=5, lemma structure, key open obstacle identified","ts":"2026-05-27T08:31:13+00:00"}
