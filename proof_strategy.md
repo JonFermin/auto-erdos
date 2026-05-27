@@ -140,7 +140,7 @@ consistent with numerical evidence at these scales.
 
 ## Section 3 — Proof Strategy
 
-*(Partial: lemma outline to be expanded.)*
+*Partial result: the lemma structure is established; proofs remain open.*
 
 ### High-level approach
 
@@ -170,17 +170,27 @@ no PRIMITIVE set can achieve this total — but the above counts ALL integers
 The gap between "all integers" and "a primitive subset" is where the proof
 must live. Lemmas to develop:
 
-- **Lemma A** (stratum bound): For each $k$, bound $\sum_{a \in A_k'}$
-  where $A_k'$ is any subset of $A_k \cap [x, \infty)$ that is primitive
-  (i.e., no two elements of $A_k'$ divide each other — which is automatic
-  within $A_k$ since $\Omega$ is additive).
-- **Lemma B** (cross-stratum constraint): If $a \in A_k'$ and $b \in A_j'$
-  with $j \neq k$, the non-divisibility constraint $a \nmid b$ restricts
-  how large $A_k' \cup A_j'$ can be.
-- **Lemma C** (summation): Combine Lemmas A and B to bound $\sum_k \sum_{a \in A_k'} 1/(a \log a) < 1 + o(1)$.
+- **Lemma `stratum_tail`** (status: open, see `proof_lemmas/lemma_stratum_tail.md`):
+  For each $k$, $S_k(x) := \sum_{a \geq x, \Omega(a)=k} 1/(a \log a) \leq
+  C_k (\log \log x)^{k-1} / ((k-1)! \log x)$. Summing over $k$ gives
+  $\sum_k S_k(x) \approx 1$. The lemma follows from Selberg-Sathe; the
+  obstacle is making constants explicit.
 
-All three lemmas remain open in this attempt. The above heuristic suggests
-the bound of 1 is tight (achieved in the limit by the sum over all integers),
-but proving it requires controlling the primitivity constraint rigorously.
+- **Lemma `cross_stratum`** (status: open, see `proof_lemmas/lemma_cross_stratum.md`):
+  For a primitive $A \subset [x, \infty)$, the sum satisfies $\sum_{a \in A}
+  1/(a \log a) < 1 + o(1)$. This is the main conjecture, rephrased as a lemma.
+  The Erdős grouping argument (partition $A$ by smallest prime factor $p$, then
+  bound each group's contribution by $1/(p \log p)$) gives the proved F1 bound
+  of $\approx 1.637$. The tighter bound of 1 requires a new idea.
 
-*This attempt is ongoing and remains open.*
+- **Lemma `erdos_zhang_bound`** (status: open, see `proof_lemmas/lemma_erdos_zhang_bound.md`):
+  Documents F1 ($\approx 1.399$ bound) and its proof sketch, clarifying the
+  $o(1)$-dependent asymptotic and the gap to the conjectured bound of 1.
+
+The key obstacle in this attempt: no proof of `cross_stratum` has been found.
+The heuristic $\sum_k S_k(x) \approx 1$ shows the upper bound is TIGHT for
+the ALL-INTEGERS sum, meaning any proof of $< 1$ for PRIMITIVE sets must
+use the primitivity constraint in an essential way. The Erdős grouping argument
+and the Selberg-Sathe stratum bounds both fall just short.
+
+This proof attempt is ongoing; Lemmas A, B, C remain open.

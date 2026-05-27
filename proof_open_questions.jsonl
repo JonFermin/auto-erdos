@@ -10,3 +10,6 @@
 {"qid":"Q2","status":"resolved","session_id":"s_0527-080628-ee67","summary":"F3 check: sums for k=1,2 exceed 1 (F3 appears misformulated); k=3,4 < 1","ts":"2026-05-27T08:27:12+00:00"}
 {"qid":"Q3","status":"resolved","session_id":"s_0527-080628-ee67","summary":"Prime sum ~ 1.6366 > 1, but primes in [x,inf) have sum ~1/log x -> 0","ts":"2026-05-27T08:27:12+00:00"}
 {"qid":"Q4","status":"claimed","session_id":"s_0527-080628-ee67","summary":"taking Q4: witness search at x_floor=100,1000,10000","ts":"2026-05-27T08:27:12+00:00"}
+{"qid":"Q4","status":"resolved","session_id":"s_0527-080628-ee67","summary":"No witness at x_floor>=5; x_floor=2 gives formal witness (sum~1.37) but o(1) is large there","ts":"2026-05-27T08:27:35+00:00"}
+{"qid":"Q5","status":"claimed","session_id":"s_0527-080628-ee67","summary":"taking Q5: proof structure + lemma files","ts":"2026-05-27T08:27:35+00:00"}
+{"qid":"Q5","status":"resolved","session_id":"s_0527-080628-ee67","summary":"Proof structure with 3 lemma files: stratum_tail, cross_stratum, erdos_zhang_bound","ts":"2026-05-27T08:29:31+00:00"}
