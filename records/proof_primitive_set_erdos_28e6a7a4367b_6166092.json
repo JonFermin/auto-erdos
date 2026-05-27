@@ -1,0 +1,21 @@
+{
+  "branch": "erdos-proof/0527-080606-661e",
+  "claim_latex": "For any $x$, if $A \\subset [x, \\infty)$ is a primitive set of integers (no distinct element divides another) then $\\sum_{a \\in A} \\frac{1}{a \\log a} < 1 + o(1)$, where the $o(1)$ term tends to $0$ as $x \\to \\infty$.",
+  "claim_status": "open",
+  "commit": "6166092",
+  "critic_blocking_count": 0,
+  "critic_warn_count": 0,
+  "family": "primitive_set",
+  "kind": "partial",
+  "problem": "primitive_set_erdos",
+  "proof_hash": "28e6a7a4367b73943d2957a49be5a5f81de2027cd1988b7b11829baa9c6712bc",
+  "proof_md": "# Proof attempt \u2014 `primitive_set_erdos`\n\nThis file is the agent-editable proof draft for the Track 2 loop. It is the\nONLY editable proof artifact (alongside lemma files in `proof_lemmas/`). Its\ncontent is hashed for round-dedup; pure whitespace / comment edits do not\ncount as a real round.\n\n## Section 1 \u2014 Setup\n\n### The claim\n\n**Erd\u0151s's primitive-set conjecture (tightened form)**: for any $x \\geq 2$,\nlet $A \\subset [x, \\infty)$ be a *primitive set* of integers \u2014 a set where\nno distinct element divides another. Then\n\n$$\\sum_{a \\in A} \\frac{1}{a \\log a} < 1 + o(1),$$\n\nwhere $o(1) \\to 0$ as $x \\to \\infty$. The conjecture posits that primes in\n$[x, \\infty)$ are extremal in the limit.\n\n**Claim status**: open. Resolution requires either a proof or a\nverifier-accepted witness (see Witness contract below).\n\n---\n\n### Given facts (with sign disambiguations)\n\n**F1 (Erd\u0151s 1935; Zhang 1993 \u2014 UPPER bound).**  \nFor any primitive $A \\subseteq \\mathbb{N}$:\n$$\\sum_{a \\in A} \\frac{1}{a \\log a} < e^{\\gamma} \\frac{\\pi}{4} + o(1) \\approx 1.399 + o(1).$$\nThis is an **upper** bound \u2014 the sum is less than $\\approx 1.399$. It is\nconsistent with the conjecture (which asks for the tighter bound of\n$1 + o(1)$). Misreading it as a lower bound is a sign error.\n\n**F2 ($\\Omega$-stratum lower bound \u2014 UNSIGNED big-O).**  \nFor $A_k = \\{n \\in \\mathbb{N} : \\Omega(n) = k\\}$ (integers with exactly $k$\nprime factors counted with multiplicity):\n$$\\sum_{a \\in A_k} \\frac{1}{a \\log a} \\geq 1 + O\\!\\left(k^{-1/2+o(1)}\\right).$$\nThe $O(\\cdot)$ is **unsigned** \u2014 it could be positive or negative. This\nsays the sum is at least $1$ minus some quantity bounded in absolute value\nby $k^{-1/2+o(1)}$. It does **not** imply the sum exceeds $1$. Using F2\nalone to conclude $\\sum > 1$ is a sign error \u2014 `unsigned-O-sign-confusion`.\n\n**F3 (exact asymptotic \u2014 sum approaches $1$ from BELOW).**  \nFor $A_k$ as above:\n$$\\sum_{a \\in A_k} \\frac{1}{a \\log a} = 1 - (c + o(1))\\frac{k^2}{2^k},\n\\quad c \\approx 0.0656 > 0.$$\nThe leading correction is **negative** for all $k \\geq 1$. The sum is\nstrictly less than $1$ and approaches $1$ from below as $k \\to \\infty$.\nThe full $\\Omega(n) = k$ stratum is consistent with the conjecture.\n\n---\n\n### Witness contract\n\nTo attempt a counterexample: embed a `<!-- WITNESS ... WITNESS -->` block\nat the bottom of this file with fields `x_floor` (int $\\geq 2$),\n`elements` (list of pairwise non-divisible integers each $\\geq x_\\text{floor}$),\nand `claimed_sum_lower_bound` (float). The verifier recomputes the sum in\nhigh-precision arithmetic. If the rigorous lower bound exceeds $1.0$,\n`witness_valid` is set to 1 and the round is `keep_disproof`.\n\nEven a valid witness requires human review: the conjecture has an $o(1)$\ncaveat, so a witness barely exceeding $1$ at small $x_\\text{floor}$ may\nfall within the $o(1)$ margin.\n\n---\n\n## Section 2 \u2014 Numerical Evidence\n\n*(To be filled: F3 numerical check for k=1,2,3,4 and prime-sum check.)*\n\n---\n\n## Section 3 \u2014 Proof Strategy\n\n*(To be filled: lemma decomposition and stratum bound argument.)*\n",
+  "thesis": "thesis: wrote Section 1 Setup documenting claim and given facts F1/F2/F3 with sign disambiguations and witness contract; no proof attempt yet",
+  "track": "proof",
+  "verdict_hint": "open",
+  "verifier_seconds": 0.0003,
+  "witness_payload": null,
+  "witness_score": 0.0,
+  "witness_valid": 0,
+  "written_at": "2026-05-27T08:12:12+00:00"
+}
