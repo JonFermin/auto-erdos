@@ -1,0 +1,2 @@
+{"event":"session_open","session_id":"s_0528-080735-d242","ts":"2026-05-28T08:07:35+00:00","commit":"35394e3","proof_tag":"primitive_set_erdos","stashed_ref":null,"detected_orphan":null,"released_orphan_qids":[]}
+{"event":"session_close","session_id":"s_0528-080735-d242","ts":"2026-05-28T08:29:51+00:00","commit":"cc650b0","reason":"reason: exit 7 (counterexample_proven per harness); witness is x_floor=2 primes, NOT a genuine Erdos disproof"}
