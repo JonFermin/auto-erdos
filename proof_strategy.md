@@ -47,7 +47,7 @@ rigorously verified to exceed `witness_threshold` by
 embed exactly one block of the form:
 
 ```
-<!-- WITNESS
+<!-- WITNESS (example — not a real block; regex requires no text after WITNESS on first line)
 {
   "x_floor": 100,
   "elements": [101, 103, 107, 109, ...],
