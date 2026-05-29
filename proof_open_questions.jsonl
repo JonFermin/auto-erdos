@@ -10,3 +10,8 @@
 {"qid":"Q3","status":"claimed","session_id":"s_0529-080635-6a5b","summary":"taking Q3: prime sum in Section 2","ts":"2026-05-29T08:15:35+00:00"}
 {"qid":"Q4","status":"claimed","session_id":"s_0529-080635-6a5b","summary":"taking Q4: witness search in Section 3","ts":"2026-05-29T08:15:35+00:00"}
 {"qid":"Q5","status":"claimed","session_id":"s_0529-080635-6a5b","summary":"taking Q5: proof structure in Section 4","ts":"2026-05-29T08:15:35+00:00"}
+{"qid":"Q2","status":"resolved","session_id":"s_0529-080635-6a5b","summary":"resolved via witness proof — loop exited at exit-7","ts":"2026-05-29T08:22:20+00:00"}
+{"qid":"Q3","status":"resolved","session_id":"s_0529-080635-6a5b","summary":"resolved via witness proof — loop exited at exit-7","ts":"2026-05-29T08:22:20+00:00"}
+{"qid":"Q4","status":"resolved","session_id":"s_0529-080635-6a5b","summary":"resolved via witness proof — loop exited at exit-7","ts":"2026-05-29T08:22:20+00:00"}
+{"qid":"Q5","status":"resolved","session_id":"s_0529-080635-6a5b","summary":"resolved via witness proof — loop exited at exit-7","ts":"2026-05-29T08:22:20+00:00"}
+{"qid":"Q6","status":"resolved","session_id":"s_0529-080635-6a5b","summary":"resolved via witness proof — loop exited at exit-7","ts":"2026-05-29T08:22:20+00:00"}
