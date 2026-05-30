@@ -9,3 +9,9 @@
 {"qid":"Q3","status":"claimed","session_id":"s_0530-080731-8f00","summary":"addressed in round 1","ts":"2026-05-30T08:17:22+00:00"}
 {"qid":"Q4","status":"claimed","session_id":"s_0530-080731-8f00","summary":"addressed in round 1","ts":"2026-05-30T08:17:22+00:00"}
 {"qid":"Q5","status":"claimed","session_id":"s_0530-080731-8f00","summary":"addressed in round 1","ts":"2026-05-30T08:17:22+00:00"}
+{"qid":"Q1","status":"resolved","session_id":"s_0530-080731-8f00","summary":"addressed in rounds 1-2; partial_result kept","ts":"2026-05-30T08:19:24+00:00"}
+{"qid":"Q2","status":"resolved","session_id":"s_0530-080731-8f00","summary":"addressed in rounds 1-2; partial_result kept","ts":"2026-05-30T08:19:24+00:00"}
+{"qid":"Q3","status":"resolved","session_id":"s_0530-080731-8f00","summary":"addressed in rounds 1-2; partial_result kept","ts":"2026-05-30T08:19:24+00:00"}
+{"qid":"Q4","status":"resolved","session_id":"s_0530-080731-8f00","summary":"addressed in rounds 1-2; partial_result kept","ts":"2026-05-30T08:19:24+00:00"}
+{"qid":"Q5","status":"resolved","session_id":"s_0530-080731-8f00","summary":"addressed in rounds 1-2; partial_result kept","ts":"2026-05-30T08:19:24+00:00"}
+{"qid":"Q6","status":"claimed","session_id":"s_0530-080731-8f00","summary":"write partial result and attempt Lemma P1 self-contained proof","ts":"2026-05-30T08:19:30+00:00"}

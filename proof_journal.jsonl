@@ -1,0 +1,2 @@
+{"event":"session_open","session_id":"s_0530-080731-8f00","ts":"2026-05-30T08:07:31+00:00","commit":"35394e3","proof_tag":"primitive_set_erdos","stashed_ref":null,"detected_orphan":null,"released_orphan_qids":[]}
+{"event":"round","session_id":"s_0530-080731-8f00","ts":"2026-05-30T08:19:24+00:00","summary":"Rounds 1-2: full proof structure (Sections 1-5) + lemmas P1/P2/P3 + partial_result keep","qid":"Q1-Q5","status":"keep_progress","commit":"6a1e587"}

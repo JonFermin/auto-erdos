@@ -211,21 +211,44 @@ This is stronger than the stated conjecture, conditional on Lemma P1 (Lichtman 2
 
 **What is established (no witness required):**
 
-1. For all $x \geq 3$ and all primitive $A \subset [x, \infty)$: $S(A) < 1$
-   (Lemmas P2 + P3 + Lichtman's Lemma P1).
-2. In fact $S(A) \leq 2/\log x \to 0$, which is much stronger than $1 + o(1)$.
-3. For $x = 2$: the primes $\{2, 3, 5, \ldots\}$ give $S \approx 1.637$; the
-   conjecture is satisfied because $o(2) \approx 0.637$, giving bound $1.637$.
+1. For all $x \geq 3$ and all primitive $A \subset [x, \infty)$: $S(A) < 1$,
+   subject to Lemma P1. (Lemmas P2 + P3 give the prime-sum bound; Lemma P1 needed to
+   reduce $S(A)$ to the prime sum.)
+2. In fact $S(A) \leq 2/\log x \to 0$ (much stronger than $1 + o(1)$), subject to
+   Lemma P1.
+3. For $x = 2$: the primes give $S \approx 1.637$; the conjecture is satisfied
+   because $o(2) \approx 0.637$ so the bound is $1 + 0.637 = 1.637$.
 
-**What remains open (hard sub-problem):**
+**What remains open (the hard sub-problem):**
 
-- Self-contained proof of Lemma P1 (Lichtman's sieve argument), without citing
-  the 2022 paper. This is the only hard lemma; P2 and P3 are standard exercises.
+Lemma P1 — that primes achieve the maximum of $S(A)$ over all primitive sets
+$A \subset [x, \infty)$ — is the sole hard lemma. Lemmas P2 and P3 are proved.
 
-**Why no genuine counterexample exists:**
-By Lichtman, primes achieve the maximum of $S$ over all primitive sets in $[x, \infty)$.
-The prime sum decreases to 0 as $x \to \infty$. So the conjecture's bound of $1 + o(1)$
-is trivially satisfied for large $x$, and for $x \geq 3$ the bound is even $< 1$.
+Analysis of proof routes for Lemma P1 (see `proof_lemmas/lemma_p1_lichtman.md`):
 
-**Conclusion:** The conjecture reduces to Lichtman (2022). The proof is structurally
-complete conditional on Lemma P1.
+- **Naive greedy replacement** (replace composites by their prime factors):
+  fails because the key monotonicity inequality $1/(n \log n) \leq 1/(p \log p)
+  - 1/((n/p) \log(n/p))$ is FALSE in general.
+- **Redistribution / weight function** (redistribute each $1/(n \log n)$ to primes
+  dividing $n$): gives a bound of $e^\gamma \pi/4 \approx 1.399$ (Erdős–Zhang, F1),
+  not the sharp bound of 1.
+- **Lichtman's actual argument** (2022): uses a Dirichlet-series / induction approach
+  in the paper; requires $\sim 4$ pages. The self-contained proof is tractable but
+  time-consuming to formalize.
+
+**Alternative partial result (weaker but possibly provable without Lichtman):**
+
+For $x \geq 3$ and any primitive $A \subset [x, \infty)$:
+$$S(A) \leq e^\gamma \log\log x + O(1/\log x) \cdot \text{(const)}.$$
+
+This follows from the Erdős–Zhang bound F1 applied to $A(x)$ and standard
+Mertens-theorem estimates. For $x \geq x_0$ (some effective $x_0$), this is $< 1$.
+For $3 \leq x < x_0$, a finite numerical check suffices. This approach is
+WEAKER than Lemma P1 but does not cite Lichtman and is self-contained.
+
+**Suggested next session:**
+Attempt to formalize the Dirichlet-series argument from Lichtman's paper
+for Lemma P1. Start by reading the key inequality in Lemma 2.3 of Lichtman (2022)
+and verifying it is correct as stated.
+
+This proof remains open and the partial result is registered as `partial_result`.
