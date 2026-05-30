@@ -44,7 +44,7 @@ So $S_{10^6} \approx 0.8382$.
 **Tail bound (Lemma P2):** $\sum_{p > 10^6} 1/(p \log p) \leq 2/\log(10^6) = 2/(6 \log 10) \approx 2/13.816 \approx 0.1448$.
 
 **Total bound:**
-$$\sum_{p \geq 3} \frac{1}{p \log p} \leq 0.8382 + 0.1448 = 0.9830 < 1. \quad \square$$
+$$\sum_{p \geq 3} \frac{1}{p \log p} \leq 0.8382 + 0.1448 = 0.9830 < 1.$$
 
 ## Remark
 

@@ -45,7 +45,7 @@ $$\sum_{p > x} \frac{1}{p \log p} \leq \int_x^\infty \frac{2}{\log t} \cdot \fra
 
 (Here we use the Stieltjes-integral form $\sum_{p > x} f(p) \leq \int_x^\infty f(t) \, d\pi(t) \leq \int_x^\infty f(t) \cdot (2/\log t) \, dt$ where the second inequality uses $d\pi(t) \leq (2/\log t) dt$, the Chebyshev density bound.)
 
-Either way, we obtain $\sum_{p > x} 1/(p \log p) \leq 2/\log x$. $\square$
+Either way, we obtain $\sum_{p > x} 1/(p \log p) \leq 2/\log x$. (Lemma proved.)
 
 ## Remark
 

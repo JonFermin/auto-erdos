@@ -192,7 +192,7 @@ By Lemma P2 applied at $x = 3$: tail beyond 10000 is $\leq 2/\log(10000) \approx
 The partial sum for $3 \leq p \leq 10000$ is ≈ 0.807, and $0.807 + 0.217 = 1.024$.
 A sharper Chebyshev constant or numerical verification to higher $x$ gives $< 1$.
 Numerically: for primes up to $10^7$ the partial sum is $\approx 0.858$, and the
-remaining tail $\leq 2/\log(10^7) \approx 0.124$, total $\leq 0.982 < 1$. QED.
+remaining tail $\leq 2/\log(10^7) \approx 0.124$, total $\leq 0.982 < 1$. This completes the numerical verification.
 
 ### Combining the lemmas
 
@@ -203,7 +203,7 @@ For all $x \geq 3$ and all primitive $A \subset [x, \infty)$:
 3. Lemma P2: $\sum_{p \geq x} 1/(p \log p) \leq 2/\log x \to 0$ as $x \to \infty$.
 
 Therefore $S(A) < 1 < 1 + o(1)$, and in fact $S(A) \leq 2/\log x = o_x(1)$.
-This is stronger than the stated conjecture. QED (modulo Lemma P1 / Lichtman).
+This is stronger than the stated conjecture, conditional on Lemma P1 (Lichtman 2022).
 
 ---
 
