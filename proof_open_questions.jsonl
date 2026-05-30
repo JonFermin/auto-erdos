@@ -15,3 +15,4 @@
 {"qid":"Q4","status":"resolved","session_id":"s_0530-080731-8f00","summary":"addressed in rounds 1-2; partial_result kept","ts":"2026-05-30T08:19:24+00:00"}
 {"qid":"Q5","status":"resolved","session_id":"s_0530-080731-8f00","summary":"addressed in rounds 1-2; partial_result kept","ts":"2026-05-30T08:19:24+00:00"}
 {"qid":"Q6","status":"claimed","session_id":"s_0530-080731-8f00","summary":"write partial result and attempt Lemma P1 self-contained proof","ts":"2026-05-30T08:19:30+00:00"}
+{"qid":"Q6","status":"resolved","session_id":"s_0530-080731-8f00","summary":"partial result registered; Lemma P1 gap analysis done; open sub-problem identified","ts":"2026-05-30T08:21:08+00:00"}
