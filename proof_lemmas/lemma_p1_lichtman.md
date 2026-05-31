@@ -126,27 +126,103 @@ To complete a self-contained proof, we need to:
 
    **Status:** This inequality is FALSE in general ($n = 4$, $p = 2$: LHS $= 1/(4 \log 4) \approx 0.180$; $1/(2 \log 2) - 1/(2 \log 2) = 0$). So the naive greedy replacement does not work.
 
-3. Alternatively, use the "Euler product / Dirichlet series" approach that Lichtman
-   actually uses in the paper: expressing $S(A)$ as a special value of a Dirichlet
-   series and bounding it using properties of primitive sets in that formalism.
+3. Use the "Euler product / Dirichlet series" approach: expressing $S(A)$ as a
+   Laplace-type integral over $t > 1$ and bounding it using properties of primitive
+   sets. This is the approach developed in the section below.
 
-**Next move:** Try the following weaker-but-tractable version of Lemma P1:
+---
 
-**Weak P1:** For $x \geq 3$ and any primitive $A \subset [x, \infty)$, $S(A) < 1$.
+## Section: Integral Representation and the Dirichlet Series Program (Q7)
 
-*Proof idea:* Use the fact (proved in Lemma P3) that $S(P(3)) < 1$, and note that
-any primitive set in $[3, \infty)$ has $S(A) \leq S(P(3)) < 1$ IF Lemma P1 holds.
-This is circular — but if we can prove Weak P1 DIRECTLY (e.g. by the Erdős–Zhang
-bound F1 noting that $e^\gamma \pi/4 \approx 1.399$ is not tight enough, and by
-directly bounding $S(A) \leq 1/(3 \log 3) + 1/(5 \log 5) + \ldots$), this would suffice.
+### Key Identity
 
-Actually, F1 gives $S(A) < 1.399$ for any primitive set. This does NOT imply $< 1$
-for $x \geq 3$. A tighter bound is needed.
+For any integer $n \geq 2$:
+$$\frac{1}{n \log n} = \int_1^\infty n^{-t} \, dt.$$
 
-**Alternative path (Mertens product approach):** For a primitive $A \subset [x, \infty)$,
-bound $S(A)$ using the Mertens product $\prod_{p \leq x} (1 - 1/p)^{-1} \sim e^\gamma \log x$.
-This gives $S(A) \leq \sum_{n \geq x} 1/(n \log n) \cdot [\text{correction}]$, and by
-comparison with the prime sum, one can attempt to bound $S(A) \leq$ prime-sum.
+*Proof:* $\int_1^\infty n^{-t} \, dt = \int_1^\infty e^{-t \log n} \, dt = \left[\frac{-e^{-t \log n}}{\log n}\right]_1^\infty = \frac{e^{-\log n}}{\log n} = \frac{1}{n \log n}.$ $\square$
 
-This approach requires more work. Leaving as the central open sub-problem for the
-next session.
+### Reformulation of Lemma P1
+
+For any set $A$ of integers $\geq 2$, by exchanging sum and integral (Tonelli):
+$$S(A) = \sum_{a \in A} \frac{1}{a \log a} = \int_1^\infty \underbrace{\sum_{a \in A} a^{-t}}_{D_A(t)} \, dt = \int_1^\infty D_A(t) \, dt,$$
+where $D_A(t)$ is the Dirichlet series of $A$ at $t$.
+
+Similarly, $S(P_x) = \int_1^\infty P_x(t) \, dt$, where $P_x(t) = \sum_{p \geq x} p^{-t}$.
+
+**Lemma P1 is equivalent to:**
+$$\int_1^\infty D_A(t) \, dt \leq \int_1^\infty P_x(t) \, dt \quad \text{for all primitive } A \subset [x, \infty).$$
+
+This integral reformulation is the starting point of Lichtman's (2022) proof.
+
+### The Pointwise Comparison Fails
+
+A natural attempt: show $D_A(t) \leq P_x(t)$ for each $t > 1$, then integrate.
+This **fails**: for $t$ near 1, large primitive sets have $D_A(t) \to \infty$ faster
+than $P_x(t)$ for small $x$ (counterexample: $A = \{pq : 2 < p < q\}$ with $x = 6$).
+
+So the proof must use global (integral) properties rather than pointwise comparison.
+
+### Special Case: Prime-Power Primitive Sets (Proved)
+
+**Claim:** If $A$ is a primitive set and every element of $A$ is a prime power,
+then $S(A) \leq \sum_p 1/(p \log p)$.
+
+*Proof:* Since $p^k | p^j$ for $k < j$, primitivity forces $A$ to contain at most
+one power of each prime. For each prime $p$ with $p^{k_p} \in A$:
+$$\frac{1}{p^{k_p} \log(p^{k_p})} = \frac{1}{k_p p^{k_p} \log p} \leq \frac{1}{p \log p},$$
+with equality iff $k_p = 1$. Summing over all contributing primes:
+$$S(A) \leq \sum_{p : p^{k_p} \in A} \frac{1}{p \log p} \leq \sum_p \frac{1}{p \log p} = S(P). \quad \square$$
+
+For the floor-restricted version $A \subset [x, \infty)$: primitivity forces $p^{k_p} \geq x$,
+and the sum is over contributing primes, giving $S(A) \leq S(P_x)$. ✓
+
+### Smallest-Prime-Factor Partition Approach
+
+For any primitive set $A \subset [x, \infty)$, partition by smallest prime factor:
+$$A = \bigsqcup_{p \geq x,\, p \text{ prime}} A_p, \quad A_p = \{a \in A : p^-(a) = p\}.$$
+
+Then $S(A) = \sum_{p \geq x} S(A_p)$.
+
+**Claim P1-spf:** $S(A_p) \leq 1/(p \log p)$ for each prime $p \geq x$.
+
+*Proof attempt:*
+- If $p \in A$: then $A_p = \{p\}$ by primitivity ($p | a$ for all $a \in A_p$). So $S(A_p) = 1/(p \log p)$. ✓
+- If $p \notin A$: let $B_p = \{a/p : a \in A_p\}$. $B_p$ is primitive (inherited).
+  $$S(A_p) = \sum_{b \in B_p} \frac{1}{pb(\log p + \log b)}.$$
+  
+  The required bound $S(A_p) \leq 1/(p \log p)$ becomes:
+  $$\sum_{b \in B_p} \frac{1}{b} \cdot \frac{\log p}{\log p + \log b} \leq 1.$$
+  
+  The weight $\log p / \log(pb)$ is Lichtman's "fractional log-mass" assigned to $p$.
+
+### Lichtman's Weight Function (Reconstruction)
+
+Lichtman defines, for each $n \geq 2$ and prime $p | n$:
+$$w(n, p) = \frac{1/p}{\sum_{q | n,\, q \text{ prime}} 1/q} \cdot \frac{1}{n \log n}.$$
+
+This satisfies $\sum_{p | n} w(n, p) = 1/(n \log n)$.
+
+**Revised Claim A:** For a PRIMITIVE set $A$ and each prime $p$:
+$$\sum_{a \in A,\, p | a} w(a, p) \leq \frac{1}{p \log p}.$$
+
+Summing over all primes: $S(A) = \sum_p \sum_{a \in A, p|a} w(a,p) \leq \sum_p 1/(p \log p)$.
+
+- For $p \in A$: equality holds (only term is $a = p$, $w(p,p) = 1/(p \log p)$). ✓
+- For $p \notin A$: requires bounding the sum via the primitivity constraint.
+
+**Status of Revised Claim A:** Open. Subject to Revised Claim A, Lemma P1 is complete.
+
+### Path Forward (Q8)
+
+Two approaches to prove Revised Claim A:
+
+**(a) Dirichlet series / integral approach:**
+For each prime $p$, compute $\int_1^\infty \sum_{a \in A, p|a} w(a, t) \, dt$ and show
+this is $\leq \int_1^\infty p^{-t} \, dt = 1/(p \log p)$, using primitivity.
+
+**(b) Inductive / recursive bound:**
+Use the fact that $B_p = \{a/p : a \in A, p | a\}$ is a smaller primitive set
+and apply the bound recursively, with convergence guaranteed by the monotone
+structure of the smallest-prime-factor decomposition.
+
+The next session should attempt approach (a).

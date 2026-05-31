@@ -247,8 +247,58 @@ For $3 \leq x < x_0$, a finite numerical check suffices. This approach is
 WEAKER than Lemma P1 but does not cite Lichtman and is self-contained.
 
 **Suggested next session:**
-Attempt to formalize the Dirichlet-series argument from Lichtman's paper
-for Lemma P1. Start by reading the key inequality in Lemma 2.3 of Lichtman (2022)
-and verifying it is correct as stated.
+Attempt to prove Revised Claim A (the weight-redistribution bound with primitivity)
+from Lichtman's paper. Approach: integrate the per-prime contribution over $t \in (1, \infty)$
+and use primitivity to bound the result by $1/(p \log p)$.
 
 This proof remains open and the partial result is registered as `partial_result`.
+
+---
+
+## Section 6 — Integral Representation and Dirichlet Series Program (Q7)
+
+### New reformulation of Lemma P1
+
+By the identity $\frac{1}{n \log n} = \int_1^\infty n^{-t} \, dt$ (proved by direct
+computation), the sum $S(A)$ has the representation:
+$$S(A) = \int_1^\infty D_A(t) \, dt, \quad D_A(t) = \sum_{a \in A} a^{-t}.$$
+
+Similarly $S(P_x) = \int_1^\infty P_x(t) \, dt$ where $P_x(t) = \sum_{p \geq x} p^{-t}$.
+
+**Lemma P1 is equivalent to the integral inequality** (for all primitive $A \subset [x, \infty)$):
+$$\int_1^\infty D_A(t) \, dt \leq \int_1^\infty P_x(t) \, dt.$$
+
+The pointwise bound $D_A(t) \leq P_x(t)$ fails in general (verified by counterexample
+near $t = 1$), so the proof must exploit the global (integral) structure and
+the primitivity constraint.
+
+### Proved: Special case for prime-power sets
+
+If every element of $A \subset [x, \infty)$ is a prime power, then $S(A) \leq S(P_x)$.
+Proof: primitivity forces at most one power $p^{k_p}$ per prime, and
+$1/(p^{k_p} \log p^{k_p}) = 1/(k_p p^{k_p} \log p) \leq 1/(p \log p)$.
+Summing over contributing primes gives $S(A) \leq S(P_x)$.
+
+### Status of general proof: Lichtman's Revised Claim A
+
+The general case reduces to proving **Revised Claim A**: for any primitive set $A$
+and each prime $p$,
+$$\sum_{a \in A,\, p | a} w(a, p) \leq \frac{1}{p \log p},$$
+where $w(a, p) = \frac{1/p}{\sum_{q|a} 1/q} \cdot \frac{1}{a \log a}$
+is Lichtman's weight function (redistributes $1/(a \log a)$ to prime divisors of $a$).
+
+- For $p \in A$: the claim holds with equality. ✓
+- For $p \notin A$: requires bounding a sum over multiples of $p$ in $A$
+  using the primitivity constraint. Subject to Revised Claim A, Lemma P1 is complete.
+
+See `proof_lemmas/lemma_p1_lichtman.md` for the full derivation.
+
+### Updated proof structure
+
+Combining proved results (subject to Revised Claim A for Lemma P1):
+- Lemma P1 → $S(A) \leq S(P_x)$ for all primitive $A \subset [x, \infty)$.
+- Lemma P2 → $S(P_x) \leq 2/\log x$.
+- Lemma P3 → $S(P_3) < 1$.
+
+Therefore for all $x \geq 3$: $S(A) < 1 < 1 + o(1)$ and $S(A) \to 0$ as $x \to \infty$.
+This is stronger than the stated conjecture, conditional on Revised Claim A.
