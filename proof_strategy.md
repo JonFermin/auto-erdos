@@ -395,3 +395,34 @@ Two sub-problems remain open (both subject to Lichtman 2022 §3):
 
 Subject to these two sub-problems, Revised Claim A follows, and hence Lemma P1.
 The overall chain remains a partial result; full resolution requires Lichtman §3.
+
+---
+
+## Section 9 — Single-Element Case of Revised Claim A (Q10)
+
+### Proved: |B_p| = 1 implies Revised Claim A
+
+**Lemma.** If $A$ has exactly one element divisible by $p$ (i.e., $B_p = \{b\}$), then
+$w(pb, p) \leq 1/(p \log p)$, with equality iff $b = 1$ (i.e., $p \in A$).
+
+*Proof.* The bound $w(pb, p) \leq 1/(p\log p)$ is equivalent to:
+$$\log p \leq b\log(pb) \cdot (1 + pT(b)),$$
+where $T(b) = \sum_{q|b} 1/q \geq 0$.
+
+For $b = 1$: equality $\log p = \log p$. ✓
+
+For $b \geq 2$: $b \geq 2$ and $\log(pb) \geq \log p$, so $b\log(pb) \geq 2\log p > \log p$. ✓
+
+### Structure of the general case
+
+For $|B_p| \geq 2$: each individual term $w(pb_i, p) < 1/(p \log p)$, but the SUM could potentially exceed $1/(p \log p)$. The primitivity constraint on $B_p$ (pairwise non-divisibility) is essential for bounding the total.
+
+The inductive structure (from Lichtman's §3):
+1. Let $q^*$ = smallest prime factor of any $b \in B_p$.
+2. Split $B_p$ into elements with and without factor $q^*$.
+3. Recurse: the "quotient set" $\{b/q^* : b \in B_p,\, q^*|b\}$ is again primitive.
+4. Use the recursion to bound the total sum by $1/(p \log p)$.
+
+This induction terminates because each step reduces the maximum prime power in the factorizations. The formal bound uses a combinatorial identity relating the weight sum over $B_p$ to weight sums over smaller primitive sets.
+
+**Status:** Single-element case proved. General induction structure identified but not yet formalized. Subject to formalizing Lichtman's Lemma 3.2, Revised Claim A is complete, and hence Lemma P1.

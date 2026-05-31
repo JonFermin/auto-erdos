@@ -180,3 +180,42 @@ The Chebyshev estimate $\sum_{q>p} 1/(q \log q) \leq 2/\log p + O(1/\log^2 p)$ y
 3. Lichtman's primitivity-based inductive argument (§3), which avoids PNT directly.
 
 Subject to effective PNT (or Lichtman §3), the $B_p = P_{>p}$ case of Revised Claim A is established. The remaining gap is the extremality result: that $B_p = P_{>p}$ maximizes $F$ over all primitive $B_p$ with min prime factor $> p$.
+
+---
+
+## Single-Element Case: Direct Proof of Revised Claim A (Q10 base case)
+
+**Lemma (|B_p| = 1).** If $B_p = \{b\}$ for some $b \geq 1$, then
+$$\sum_{a \in A,\, p | a} w(a, p) = w(pb, p) \leq \frac{1}{p \log p}.$$
+
+*Proof.* By definition of $w$:
+$$w(pb, p) = \frac{1/p}{\displaystyle\sum_{q | pb} 1/q} \cdot \frac{1}{pb \log(pb)} = \frac{1/p}{1/p + T(b)} \cdot \frac{1}{pb \log(pb)} = \frac{1}{p(1 + pT(b))} \cdot \frac{1}{b \log(pb)},$$
+where $T(b) = \sum_{q | b,\, q \text{ prime}} 1/q \geq 0$.
+
+The bound $w(pb, p) \leq 1/(p \log p)$ is equivalent to:
+$$\frac{\log p}{b \log(pb) \cdot (1 + pT(b))} \leq 1,$$
+i.e., $\log p \leq b \log(pb) \cdot (1 + pT(b))$.
+
+**Case $b = 1$:** RHS $= 1 \cdot \log p \cdot 1 = \log p$. Equality holds. ✓
+
+**Case $b \geq 2$:** Since $b \geq 2$ and $\log(pb) = \log p + \log b \geq \log p$:
+$$b \log(pb) \cdot (1 + pT(b)) \geq 2 \cdot \log p \cdot 1 = 2 \log p > \log p. \quad \checkmark$$
+
+(The factor $b \geq 2$ alone gives the strict inequality; neither the $T(b)$ term nor the $\log b$ term is needed.) $\square$
+
+**Equality** holds iff $b = 1$ (i.e., $p \in A$). For any other single element divisible by $p$, the inequality is strict.
+
+## Inductive Structure for |B_p| ≥ 2 (Q10 general case)
+
+For $|B_p| \geq 2$, let $q^* > p$ be the smallest prime factor of any element of $B_p$.
+Partition $B_p = B' \cup B''$ where $B' = \{b \in B_p : q^* | b\}$ and $B'' = B_p \setminus B'$.
+
+By primitivity of $B_p$: no element of $B'$ divides another, and no element of $B''$ divides any element of $B'$ (since $q^* \nmid b''$ for $b'' \in B''$).
+
+**Claim:** $\sum_{b \in B_p} w(pb, p) \leq \sum_{b \in B_p} \frac{1}{(1 + pT(b)) \cdot b \log(pb)} \cdot \frac{1}{p}$.
+
+The challenge: summing over multiple primitive $b_i$ values. Each term is $\leq 1/(p \log p)$ individually (by the single-element case), but the SUM of multiple such terms could exceed $1/(p \log p)$.
+
+**Key constraint from primitivity:** For $b_1, b_2 \in B_p$ with $b_1 | b_2$, primitivity is violated (since $pb_1 | pb_2$). So the elements of $B_p$ are pairwise non-divisible, which forces them to be "spread out" in divisibility order. This spreading is what Lichtman exploits to bound the sum.
+
+The general proof requires Lichtman's Lemma 3.2 (the "Fibonacci-type" recursion on the primitive structure), which is the key analytical step of his 2022 paper and is subject to ongoing formalization in this session.
