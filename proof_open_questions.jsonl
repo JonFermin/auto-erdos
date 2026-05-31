@@ -18,3 +18,4 @@
 {"qid":"Q6","status":"resolved","session_id":"s_0530-080731-8f00","summary":"partial result registered; Lemma P1 gap analysis done; open sub-problem identified","ts":"2026-05-30T08:21:08+00:00"}
 {"qid":"Q7","status":"resolved","session_id":"s_0531-080642-4825","summary":"integral representation + Dirichlet series program documented; prime-power case proved; Revised Claim A is the remaining gap","ts":"2026-05-31T08:22:20+00:00"}
 {"qid":"Q8","status":"claimed","session_id":"s_0531-080642-4825","summary":"attempt to prove Revised Claim A (Lichtman weight redistribution) using inductive/integral approach","ts":"2026-05-31T08:22:25+00:00"}
+{"qid":"Q8","status":"resolved","session_id":"s_0531-080642-4825","summary":"Revised Claim A integral reformulation documented; proved for prime-power case and B_p=P_{>p}; extremality conjecture stated; general case open (Lichtman §3)","ts":"2026-05-31T08:26:41+00:00"}
