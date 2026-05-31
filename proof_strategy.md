@@ -458,3 +458,35 @@ If this holds for all primes $q > p$, then summing over $q$: $\sum_{b \in B_p} f
 
 The base case ($|C_q| = 1$, $c = 1$): equality. ✓
 The induction: $|C_q| \geq 2$ requires Lichtman's Lemma 3.2, subject to ongoing formalization.
+
+---
+
+## Section 11 — Q11 Numerical Verification and Self-Referential Structure (Q11)
+
+### Q11 holds numerically for $C_q = P_{\geq q}$
+
+For $p=2, q=3$: $\sum_{c \in P_{\geq 3}} f_2(3c) \leq 0.07536 < 0.07737 = f_2(3)$ (ratio 0.974). ✓
+
+For $p=2, q=5$: ratio 0.903. For $p=2, q=7$: ratio 0.862. The margin improves for larger $q$.
+
+### Q11 + Exchange Lemma = Revised Claim A
+
+If Q11 holds for all $q > p$, then for any primitive $B_p$:
+$$\sum_{b \in B_p} f(b) = \sum_{q > p} \underbrace{\sum_{c \in C_q} f_p(qc)}_{\leq f_p(q) \text{ by Q11}} \leq \sum_{q > p} f_p(q) = F(p) < 1.$$
+
+This completes Revised Claim A, and hence Lemma P1 (by Section 7's reduction).
+
+### Q11 is self-referential: proof requires Lichtman §3
+
+The integral form of Q11 mirrors Revised Claim A with shifted parameters:
+- Revised Claim A: $\int_1^\infty p^{-t}[G_p(t) - 1] dt \leq 0$.
+- Q11: $\int_1^\infty (pq)^{-t}[\tilde{G}(t) - q/(q+p)] dt \leq 0$.
+
+The recursion terminates because the "base parameter" $pq > p$ grows strictly at each step, and the series of parameters $p, pq_1, pq_1 q_2, \ldots$ grows without bound, ensuring no cycles. This is the "Fibonacci-type" convergent recursion in Lichtman (2022) §3.
+
+### Final proof dependency chart
+
+$$\text{Q11 (Lichtman §3)} \implies \text{Revised Claim A} \implies \text{Lemma P1} \implies \text{Erdős conjecture (subject to P2, P3)}.$$
+
+P2 (prime tail $= o(1)$): proved. P3 (threshold at $x=3$): proved. P1: conditional on Q11.
+This proof remains a partial result, subject to formalizing Lichtman §3.

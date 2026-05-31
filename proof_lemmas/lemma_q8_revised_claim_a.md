@@ -220,6 +220,8 @@ The challenge: summing over multiple primitive $b_i$ values. Each term is $\leq 
 
 The general proof requires Lichtman's Lemma 3.2 (the "Fibonacci-type" recursion on the primitive structure), which is the key analytical step of his 2022 paper and is subject to ongoing formalization in this session.
 
+Note: A key subtlety in the per-$q$ recursion is that $T(qc) = 1/q + T(c)$ holds when $q \nmid c$, but $T(qc) = T(c)$ when $q \mid c$ (since prime factors are counted without multiplicity). The correct formula is $1+pT(qc) \geq 1+p/q$ always, with equality iff $q \nmid c$.
+
 ---
 
 ## Exchange Lemma: $f(b) \leq f(q)$ for Any Prime Divisor $q \mid b$ (Q11 tool)
@@ -261,10 +263,25 @@ If $|B_p^{(q)}| \geq 2$, the Exchange Lemma gives $\sum_{b \in B_p^{(q)}} f(b) \
 However, **primitivity constrains** $B_p^{(q)}$: writing $B_p^{(q)} = \{qc : c \in C_q\}$, the set $C_q$ is a primitive set with all prime factors $\geq q$ (since if $c_1 \mid c_2$ then $qc_1 \mid qc_2$, contradicting primitivity of $B_p$).
 
 **Recursive Claim (Q11):** For any prime $q > p$ and primitive $C_q$ with all elements $\geq 1$ and all prime factors $\geq q$:
-$$\sum_{c \in C_q} f_p(qc) \leq f_p(q) = \frac{\log p}{(q+p)\log(pq)},$$
-where $f_p(qc) = \frac{\log p}{qc\log(pqc)(1+p/q+pT(c))}$.
+$$\sum_{c \in C_q} f_p(qc) \leq f_p(q) = \frac{\log p}{(q+p)\log(pq)}.$$
 
-The case $C_q = \{1\}$ (i.e., $q \in B_p$): $f_p(q \cdot 1) = f_p(q)$. Equality. ✓
+The case $C_q = \{1\}$ (i.e., $q \in B_p$): equality $f_p(q \cdot 1) = f_p(q)$. ✓
 
-The case $|C_q| \geq 2$: requires Lichtman's recursion with "base prime" $q$ (not $p$). Subject to establishing this recursion, the full Revised Claim A follows by summing over primes $q > p$:
+**Numerical evidence for Q11** using $C_q = P_{\geq q}$ (the worst-case infinite primitive set):
+
+| $p$ | $q$ | Partial + tail bound | $f_p(q)$ | Ratio |
+|-----|-----|----------------------|----------|-------|
+| 2 | 3 | ≤ 0.07536 | 0.07737 | 0.974 |
+| 2 | 5 | ≤ 0.03884 | 0.04300 | 0.903 |
+| 2 | 7 | ≤ 0.02516 | 0.02918 | 0.862 |
+
+All ratios are $< 1$. The formula uses: $f_p(qc) = \log p / (qc \log(pqc)(1+pT(qc)))$ where $T(qc) = 1/q + T(c)$ when $q \nmid c$, and $T(qc) = T(c)$ when $q \mid c$.
+
+**Reduction: Q11 implies Revised Claim A.** Sum over all $q > p$:
 $$\sum_{b \in B_p} f(b) = \sum_{q > p} \sum_{c \in C_q} f_p(qc) \leq \sum_{q > p} f_p(q) = F(p) < 1. \quad \square \text{ (subject to Q11)}$$
+
+**Self-referential structure of Q11:** The integral form of Q11 is
+$$\int_1^\infty (pq)^{-t}\!\left[\tilde{G}(t) - \frac{q}{q+p}\right] dt \leq 0,$$
+where $\tilde{G}(t) = \sum_{c \in C_q} c^{-t}/(1+pT(qc))$. This mirrors Revised Claim A with the weight $(pq)^{-t}$ in place of $p^{-t}$ and threshold $q/(q+p)$ in place of 1. Proving Q11 requires the same analytic machinery as Revised Claim A with shifted parameters — this is the "Fibonacci-type" recursion in Lichtman §3, which terminates because $pq > p$ and the recursion strictly increases the "base parameter."
+
+**Status:** Q11 holds for $|C_q| = 1$ and is numerically confirmed for $C_q = P_{\geq q}$. Rigorous proof for general primitive $C_q$ is subject to Lichtman §3.
