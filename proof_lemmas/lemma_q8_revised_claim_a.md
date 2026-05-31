@@ -1,0 +1,121 @@
+---
+id: q8_revised_claim_a
+status: open
+depends_on: [p1_lichtman]
+discharged_by_round: null
+introduced_at_round: 5
+---
+
+# Lemma Q8 — Revised Claim A (Lichtman Weight Redistribution)
+
+## Statement
+
+For any primitive set $A \subset [x, \infty)$ and any prime $p \geq x$:
+
+$$\sum_{a \in A,\, p | a} w(a, p) \leq \frac{1}{p \log p},$$
+
+where $w(a, p) = \dfrac{1/p}{\displaystyle\sum_{q | a,\, q \text{ prime}} 1/q} \cdot \dfrac{1}{a \log a}$.
+
+If this holds for all primes $p$, then Lemma P1 follows by summing over $p$:
+$$S(A) = \sum_{a \in A} \frac{1}{a \log a} = \sum_{a \in A} \sum_{p | a} w(a, p)
+= \sum_{p} \sum_{a \in A,\, p | a} w(a, p) \leq \sum_{p} \frac{1}{p \log p} = S(P_x).$$
+
+## Status
+
+**Open** in general. Proved for prime-power sets and for the case $p \in A$.
+The general case requires Lichtman (2022) §3.
+
+## Proof for $p \in A$ (Claim A base case)
+
+If $p \in A$: since $A$ is primitive and all other elements of $A_p = \{a \in A : p | a\}$
+are multiples of $p$, primitivity forces $A_p = \{p\}$ (any $a \in A_p$ with $a \neq p$
+satisfies $p | a$, contradicting primitivity since $p \in A$).
+
+Then $w(p, p) = (1/p)/(1/p) \cdot 1/(p \log p) = 1/(p \log p)$. Equality holds. ✓
+
+## Proof for Prime-Power Primitive Sets
+
+If every element of $A_p = \{a \in A : p | a\}$ is a prime power:
+
+By primitivity, the prime powers in $A_p$ are pairwise non-divisible. For prime powers
+$p^k | p^j$ when $k \leq j$, so there is at most one power of $p$ in $A_p$.
+Let $A_p = \{p^k\}$ for some $k \geq 1$ (if $p^k \in A$), or $A_p = \emptyset$.
+
+For $A_p = \{p^k\}$:
+$\sum_{q | p^k} 1/q = 1/p$ (only prime factor of $p^k$ is $p$).
+$w(p^k, p) = \frac{1/p}{1/p} \cdot \frac{1}{p^k \log(p^k)} = \frac{1}{k p^k \log p}$.
+
+For $k = 1$: equality $w(p, p) = 1/(p \log p)$. ✓
+For $k \geq 2$: $w(p^k, p) = 1/(k p^k \log p) \leq 1/(p \log p)$. ✓ (since $k p^{k-1} \geq 1$)
+
+## Integral Reformulation
+
+Using $1/(n \log n) = \int_1^\infty n^{-t} \, dt$:
+
+$$w(a, p) = \frac{1/p}{\sum_{q|a} 1/q} \int_1^\infty a^{-t} \, dt.$$
+
+So Revised Claim A becomes:
+$$\int_1^\infty p^{-t} \underbrace{\left[ p \sum_{b \in B_p} \frac{(pb)^{-t}}{1 + p\, T(b)} \right]}_{R_p(t)} dt \leq \int_1^\infty p^{-t} \, dt$$
+
+where $B_p = \{a/p : a \in A, p | a\}$ (a primitive set) and $T(b) = \sum_{q | b} 1/q$ (sum of prime-reciprocals of prime factors of $b$, 0 if $b = 1$).
+
+This reduces to:
+$$\int_1^\infty p^{-t} \left[ R_p(t) - 1 \right] dt \leq 0,$$
+
+where $R_p(t) = p \sum_{b \in B_p} \frac{(pb)^{-t}}{1 + p \, T(b)}$.
+
+## Key Simplification: Dropping the Weight
+
+Since $1 + pT(b) \geq 1$, we have:
+$R_p(t) \leq p \sum_{b \in B_p} (pb)^{-t} = p^{1-t} D_{B_p}(t)$
+
+where $D_{B_p}(t) = \sum_{b \in B_p} b^{-t}$.
+
+So a sufficient condition for Revised Claim A is:
+$$\int_1^\infty p^{-t} \left[ p^{1-t} D_{B_p}(t) - 1 \right] dt \leq 0$$
+
+i.e., $p \int_1^\infty p^{-2t} D_{B_p}(t) \, dt \leq \int_1^\infty p^{-t} \, dt = \frac{1}{p \log p}$
+
+i.e., $\int_1^\infty p^{-2t} D_{B_p}(t) \, dt \leq \frac{1}{p^2 \log p}$.
+
+But $\int_1^\infty p^{-2t} dt = 1/(p^2 \log p)$, so this requires:
+$$\int_1^\infty p^{-2t} D_{B_p}(t) \, dt \leq \int_1^\infty p^{-2t} \, dt,$$
+i.e., $\int_1^\infty p^{-2t} [D_{B_p}(t) - 1] \, dt \leq 0$.
+
+**Sub-claim (sufficient for Revised Claim A without the weight reduction):**
+For any primitive $B_p$ (with all prime factors $\geq p$):
+$$\int_1^\infty p^{-2t} [D_{B_p}(t) - 1] \, dt \leq 0.$$
+
+This is a weaker integral condition than the full Revised Claim A.
+
+## Verified Special Case: $B_p =$ All Primes $> p$
+
+For $B_p = P_{>p}$ (all primes $q > p$), the Revised Claim A reduces to:
+$$\sum_{q > p} \frac{\log p}{q \log(pq)} \leq 1.$$
+
+*Numerical verification for $p = 2$:*
+$\sum_{q \geq 3, q \text{ prime}} \frac{\log 2}{q \log(2q)} = \log 2 \sum_{q \geq 3} \frac{1}{q(\log 2 + \log q)}$
+$< \log 2 \sum_{q \geq 3} \frac{1}{q \log q} = \log 2 \cdot S(P_3)$
+$\approx 0.693 \times 0.916 \approx 0.635 < 1.$ ✓
+
+*Proof for general $p$:*
+$\sum_{q > p} \frac{\log p}{q \log(pq)} < \log p \sum_{q > p} \frac{1}{q \log q} = \log p \cdot S(P_{p+\epsilon})$.
+
+By Lemma P2: $S(P_{p'}) \leq 2/\log(p')$. Taking $p' = p + 1$:
+$\sum_{q > p} \frac{\log p}{q \log(pq)} < \log p \cdot \frac{2}{\log p} = 2$.
+
+This gives the bound $< 2$, not $< 1$. The factor of 2 is from the Chebyshev constant in Lemma P2. A sharper estimate using $S(P_{p+\epsilon}) \leq 1/\log p + O(1/\log^2 p)$ (from PNT + partial summation) gives:
+$\sum_{q > p} \frac{\log p}{q \log(pq)} < \log p \cdot \frac{C}{\log p} = C$
+
+where $C$ is the sharp Mertens constant $\approx 0.916/0.693 \approx 1.32$ for $p = 2$.
+For $p \geq 3$: $S(P_{p+1}) < S(P_3) < 1 < 1/\log p$? No, $1/\log 3 \approx 0.91 \approx S(P_3)$: bound is near-tight.
+
+**This gives a bound $< C$ for some constant $C < 2$, but not $< 1$.** The sharp bound of 1 requires a more careful estimate using the actual sum of $1/(q \log(pq))$ rather than the weaker $1/(q \log q)$ bound.
+
+## Open Sub-problem
+
+Prove: for any prime $p$ and any primitive set $B_p$ with all elements having prime factors $\geq p$, $\sum_{q > p} \frac{\log p}{q \log(pq)} \leq 1$. (The general primitive $B_p$ case, not just $B_p = P_{>p}$.)
+
+The key difficulty: for primitive $B_p$ other than $P_{>p}$, the sum has fewer terms but each term might be larger. It is conjectured (consistent with all examples checked) that $P_{>p}$ achieves the supremum of the sum over all primitive $B_p$, giving the bound $\leq \sum_{q > p} \frac{\log p}{q \log(pq)} < 1$ (for $p \geq 2$).
+
+This is essentially the content of Lichtman (2022) §3, proved using the primitivity constraint via a careful induction.

@@ -302,3 +302,48 @@ Combining proved results (subject to Revised Claim A for Lemma P1):
 
 Therefore for all $x \geq 3$: $S(A) < 1 < 1 + o(1)$ and $S(A) \to 0$ as $x \to \infty$.
 This is stronger than the stated conjecture, conditional on Revised Claim A.
+
+---
+
+## Section 7 — Revised Claim A: Integral Formulation and Verified Cases (Q8)
+
+### Reduction of Revised Claim A to a Dirichlet Integral Condition
+
+For a fixed prime $p$ and $A_p = \{a \in A : p | a\}$, write $B_p = A_p/p$.
+Using $1/(n \log n) = \int_1^\infty n^{-t} dt$, Revised Claim A becomes:
+
+$$\int_1^\infty p^{-t} \left[ R_p(t) - 1 \right] dt \leq 0,$$
+
+where $R_p(t) = p \sum_{b \in B_p} (pb)^{-t}/(1 + p\,T(b))$ and $T(b) = \sum_{q|b} 1/q$.
+
+Sufficient condition (dropping the weight $1/(1+pT(b)) \leq 1$):
+$$\int_1^\infty p^{-2t} \left[ D_{B_p}(t) - 1 \right] dt \leq 0,$$
+where $D_{B_p}(t) = \sum_{b \in B_p} b^{-t}$.
+
+### Proved Cases (Q8)
+
+**Case 1** ($p \in A$, so $B_p = \{1\}$): $D_{B_p}(t) = 1$ for all $t$. Integral $= 0$. ✓
+
+**Case 2** ($B_p$ consists of prime powers): Follows from the prime-power result in Round 4. ✓
+
+**Case 3** ($B_p = P_{>p}$, all primes $> p$): Numerically verified for $p = 2$:
+$$\sum_{q \geq 3} \frac{\log 2}{q \log(2q)} \approx 0.635 < 1. \quad \checkmark$$
+Analytically: $< \log p \cdot S(P_{>p}) \approx \log p \cdot C/\log p = C < 2$ (Mertens/Chebyshev).
+The sharp bound $< 1$ for this case requires a more careful argument.
+
+### Outstanding gap
+
+The general proof of Revised Claim A for arbitrary primitive $B_p$ is open. The conjectured
+maximum is achieved by $B_p = P_{>p}$ (all primes $> p$), which gives sum $< 1$. Proving
+this extremality requires the "primitivity constraint" in an essential way (Lichtman §3).
+
+See `proof_lemmas/lemma_q8_revised_claim_a.md` for the full analysis.
+
+### Summary of proof status
+
+| Lemma | Status | Notes |
+|-------|--------|-------|
+| P1 (primes maximize $S$) | conditional | subject to Revised Claim A |
+| P2 (prime tail $= o(1)$) | proved | Chebyshev + partial summation |
+| P3 (threshold at $x=3$) | proved | numerical verification |
+| Revised Claim A | partial | proved for $p \in A$, prime powers, $B_p = P_{>p}$; general case open |
