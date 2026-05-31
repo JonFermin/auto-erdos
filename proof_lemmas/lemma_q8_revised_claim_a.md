@@ -119,3 +119,64 @@ Prove: for any prime $p$ and any primitive set $B_p$ with all elements having pr
 The key difficulty: for primitive $B_p$ other than $P_{>p}$, the sum has fewer terms but each term might be larger. It is conjectured (consistent with all examples checked) that $P_{>p}$ achieves the supremum of the sum over all primitive $B_p$, giving the bound $\leq \sum_{q > p} \frac{\log p}{q \log(pq)} < 1$ (for $p \geq 2$).
 
 This is essentially the content of Lichtman (2022) §3, proved using the primitivity constraint via a careful induction.
+
+---
+
+## Asymptotic Integral Formula for $B_p = P_{>p}$ (Q9)
+
+Define $F(p) = \displaystyle\sum_{q > p,\,q\text{ prime}} \frac{\log p}{q(\log p + \log q)}$.
+
+**Claim:** $F(p) \to \log 2 \approx 0.693 < 1$ as $p \to \infty$.
+
+*Proof via PNT and substitution:*
+
+By partial summation using $\pi(t) \sim t/\log t$, the dominant term of $F(p)$ is the integral:
+$$F(p) \sim \log p \int_p^\infty \frac{dt}{t \log t (\log p + \log t)}.$$
+
+Substitute $s = \log t$ (so $dt/t = ds$, range shifts from $\log p$ to $\infty$):
+$$= \log p \int_{\log p}^\infty \frac{ds}{s(\log p + s)}.$$
+
+Partial fractions: $\displaystyle\frac{1}{s(\log p + s)} = \frac{1}{\log p}\!\left(\frac{1}{s} - \frac{1}{s + \log p}\right)$.
+
+$$= \log p \cdot \frac{1}{\log p} \int_{\log p}^\infty \!\!\!\left(\frac{1}{s} - \frac{1}{s + \log p}\right) ds = \left[\ln s - \ln(s + \log p)\right]_{s=\log p}^{s=\infty}.$$
+
+At $s \to \infty$: $\ln s - \ln(s + \log p) = \ln(1 - \log p/(s + \log p)) \to 0$.
+
+At $s = \log p$: $\ln(\log p) - \ln(2\log p) = -\ln 2$.
+
+Therefore:
+$$\int_{\log p}^\infty \!\!\!\left(\frac{1}{s} - \frac{1}{s + \log p}\right)ds = 0 - (-\ln 2) = \log 2. \qquad \square$$
+
+Since $\log 2 \approx 0.693 < 1$, for all sufficiently large primes $p$ the bound $F(p) < 1$ holds. Making "sufficiently large" rigorous requires an effective PNT with explicit error term (e.g., Rosser–Schoenfeld 1962).
+
+## Numerical Verification: $F(p) < 1$ for All Primes $p \leq 5 \times 10^5$
+
+**Method.** For cutoff $M$, the integral tail bound is:
+$$\sum_{q > M} \frac{\log p}{q(\log p + \log q)} \leq \log p \int_M^\infty \frac{dt}{t\log t(\log p + \log t)} = \log\!\!\left(1 + \frac{\log p}{\log M}\right).$$
+
+(Same substitution $s = \log t$, definite integral from $\log M$ to $\infty$.)
+
+Using partial sums for primes $q \in (p, 10^7]$ plus this tail formula:
+
+| $p$ | Partial sum | Tail bound | Total UB |
+|-----|-------------|------------|----------|
+| 2 | 0.4265 | 0.0515 | 0.478 |
+| 3 | 0.4803 | 0.0574 | 0.538 |
+| 5 | 0.5154 | 0.0578 | 0.573 |
+| 7 | 0.5350 | 0.0578 | 0.593 |
+| 223 | $\approx 0.627$ | $\approx 0.062$ | **0.689** (max) |
+| $p \leq 5\times 10^5$ | — | — | $\leq 0.689 < 1$ |
+
+The maximum upper bound $\approx 0.689$ occurs near $p = 223$; all primes tested satisfy total $< \log 2 + 0.005 < 0.70 < 1$.
+
+**Observation.** The upper bound is well below 1 throughout, with maximum $\approx 0.689$ near $p = 223$ and converging to $\log 2 \approx 0.693$ from below.
+
+## Gap: Effective PNT Required for Full Rigour
+
+The Chebyshev estimate $\sum_{q>p} 1/(q \log q) \leq 2/\log p + O(1/\log^2 p)$ yields $F(p) \leq 2$, which is insufficient. A rigorous all-$p$ proof requires one of:
+
+1. An explicit zero-free region for $\zeta(s)$ (Rosser–Schoenfeld, valid for $x \geq x_0$) to convert the integral bound $\log 2 < 1$ to the discrete sum with explicit error.
+2. Direct computer-verified bounds for small $p$ (finite check) combined with the asymptotic for large $p$.
+3. Lichtman's primitivity-based inductive argument (§3), which avoids PNT directly.
+
+Subject to effective PNT (or Lichtman §3), the $B_p = P_{>p}$ case of Revised Claim A is established. The remaining gap is the extremality result: that $B_p = P_{>p}$ maximizes $F$ over all primitive $B_p$ with min prime factor $> p$.

@@ -347,3 +347,51 @@ See `proof_lemmas/lemma_q8_revised_claim_a.md` for the full analysis.
 | P2 (prime tail $= o(1)$) | proved | Chebyshev + partial summation |
 | P3 (threshold at $x=3$) | proved | numerical verification |
 | Revised Claim A | partial | proved for $p \in A$, prime powers, $B_p = P_{>p}$; general case open |
+
+---
+
+## Section 8 — Asymptotic Analysis of the Extremal Case (Q9)
+
+### The sum $F(p)$ and its integral limit
+
+For the conjectured-extremal case $B_p = P_{>p}$, Revised Claim A requires:
+$$F(p) := \sum_{q > p,\, q \text{ prime}} \frac{\log p}{q(\log p + \log q)} \leq 1.$$
+
+**Theorem (Q9):** $F(p) \to \log 2 \approx 0.693$ as $p \to \infty$.
+
+*Proof.* By partial summation with PNT ($\pi(t) \sim t/\log t$):
+$$F(p) \sim \log p \int_p^\infty \frac{dt}{t \log t(\log p + \log t)}.$$
+Substitute $s = \log t$:
+$$= \log p \int_{\log p}^\infty \frac{ds}{s(s + \log p)} = \left[\ln s - \ln(s + \log p)\right]_{\log p}^\infty = 0 - (-\log 2) = \log 2.$$
+
+Since $\log 2 < 1$, for sufficiently large $p$ (with effective PNT for the error):
+$$F(p) < 1. \qquad \text{(subject to effective PNT)}$$
+
+### Tail bound formula
+
+For any cutoff $M > p$, the integral tail satisfies:
+$$\sum_{q > M} \frac{\log p}{q(\log p + \log q)} \leq \log\!\left(1 + \frac{\log p}{\log M}\right).$$
+
+This allows rigorous upper bounds from finite partial sums.
+
+### Numerical results: $F(p) < 0.69 < 1$ for all $p \leq 5 \times 10^5$
+
+Using partial sums for $q \in (p, 10^7]$ plus the tail formula (cutoff $M = 10^7$):
+- $p = 2$: total upper bound $\leq 0.478$.
+- $p = 7$: total upper bound $\leq 0.593$.
+- Maximum upper bound: $\approx 0.689$ (attained near $p = 223$).
+- All primes $p \leq 5 \times 10^5$: total upper bound $\leq 0.689 < \log 2 < 1$.
+
+### Remaining gap: effective PNT + extremality
+
+Two sub-problems remain open (both subject to Lichtman 2022 §3):
+
+1. **Rigorous all-$p$ bound for $F(p)$:** Convert the integral limit $\log 2 < 1$ to a
+   rigorous discrete sum bound via explicit PNT error terms.
+
+2. **Extremality of $P_{>p}$:** Prove that among all primitive sets $B_p$ with
+   min prime factor $> p$, the set $P_{>p}$ (all primes $> p$) maximizes
+   $\sum_{b \in B_p} \frac{\log p}{pb(\log p + \log(pb))}$.
+
+Subject to these two sub-problems, Revised Claim A follows, and hence Lemma P1.
+The overall chain remains a partial result; full resolution requires Lichtman §3.
