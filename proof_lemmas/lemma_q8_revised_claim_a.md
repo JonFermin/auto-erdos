@@ -219,3 +219,52 @@ The challenge: summing over multiple primitive $b_i$ values. Each term is $\leq 
 **Key constraint from primitivity:** For $b_1, b_2 \in B_p$ with $b_1 | b_2$, primitivity is violated (since $pb_1 | pb_2$). So the elements of $B_p$ are pairwise non-divisible, which forces them to be "spread out" in divisibility order. This spreading is what Lichtman exploits to bound the sum.
 
 The general proof requires Lichtman's Lemma 3.2 (the "Fibonacci-type" recursion on the primitive structure), which is the key analytical step of his 2022 paper and is subject to ongoing formalization in this session.
+
+---
+
+## Exchange Lemma: $f(b) \leq f(q)$ for Any Prime Divisor $q \mid b$ (Q11 tool)
+
+**Lemma (Exchange).** For any $b \geq 2$ with all prime factors $> p$, and any prime $q \mid b$:
+$$f(b) := \frac{\log p}{b\log(pb)(1+pT(b))} \leq \frac{\log p}{(q+p)\log(pq)} =: f(q).$$
+
+*Proof.* We show the denominators satisfy $b\log(pb)(1+pT(b)) \geq (q+p)\log(pq)$.
+
+- Since $q \mid b$: $b \geq q$ (both are positive integers, $q \leq b$).
+- Therefore $\log(pb) \geq \log(pq)$.
+- Since $q$ is a prime factor of $b$: $T(b) = \sum_{r \mid b,\, r\text{ prime}} 1/r \geq 1/q$, so $1 + pT(b) \geq 1 + p/q = (q+p)/q$.
+
+Multiplying these three inequalities:
+$$b\log(pb)(1+pT(b)) \geq q \cdot \log(pq) \cdot \frac{q+p}{q} = (q+p)\log(pq). \quad \square$$
+
+**Corollary.** $f(b) \leq \min_{q \mid b,\, q\text{ prime}} f(q) \leq \sum_{q \mid b,\, q\text{ prime}} f(q)$.
+
+In particular: $f(b) \leq f(q^-)$ where $q^- = q^-(b)$ is the smallest prime factor of $b$.
+
+## Revised Claim A for Sets with Distinct Smallest-Prime-Factor
+
+**Proposition.** If $B_p$ is a primitive set such that no two elements of $B_p$ share the same smallest prime factor (i.e., the function $b \mapsto q^-(b)$ is injective on $B_p$), then:
+$$\sum_{b \in B_p} f(b) \leq F(p) < 1.$$
+
+*Proof.* By the Exchange Lemma, $f(b) \leq f(q^-(b))$ for each $b \in B_p$.
+Since $q^-(b)$ is injective, the primes $q^-(b_1), q^-(b_2), \ldots$ are distinct elements of $P_{>p}$.
+Therefore:
+$$\sum_{b \in B_p} f(b) \leq \sum_{b \in B_p} f(q^-(b)) \leq \sum_{q > p,\, q\text{ prime}} f(q) = F(p) < 1. \quad \square$$
+
+This covers: all-prime $B_p$, and more generally any primitive $B_p$ where at most one element has each prime as its smallest factor.
+
+## General Case: Recursive Structure (Q11 open part)
+
+For general primitive $B_p$, partition by smallest prime factor: $B_p = \bigsqcup_{q > p} B_p^{(q)}$ where $B_p^{(q)} = \{b \in B_p : q^-(b) = q\}$.
+
+If $|B_p^{(q)}| \geq 2$, the Exchange Lemma gives $\sum_{b \in B_p^{(q)}} f(b) \leq |B_p^{(q)}| \cdot f(q)$, which could exceed $f(q)$ for the total.
+
+However, **primitivity constrains** $B_p^{(q)}$: writing $B_p^{(q)} = \{qc : c \in C_q\}$, the set $C_q$ is a primitive set with all prime factors $\geq q$ (since if $c_1 \mid c_2$ then $qc_1 \mid qc_2$, contradicting primitivity of $B_p$).
+
+**Recursive Claim (Q11):** For any prime $q > p$ and primitive $C_q$ with all elements $\geq 1$ and all prime factors $\geq q$:
+$$\sum_{c \in C_q} f_p(qc) \leq f_p(q) = \frac{\log p}{(q+p)\log(pq)},$$
+where $f_p(qc) = \frac{\log p}{qc\log(pqc)(1+p/q+pT(c))}$.
+
+The case $C_q = \{1\}$ (i.e., $q \in B_p$): $f_p(q \cdot 1) = f_p(q)$. Equality. ✓
+
+The case $|C_q| \geq 2$: requires Lichtman's recursion with "base prime" $q$ (not $p$). Subject to establishing this recursion, the full Revised Claim A follows by summing over primes $q > p$:
+$$\sum_{b \in B_p} f(b) = \sum_{q > p} \sum_{c \in C_q} f_p(qc) \leq \sum_{q > p} f_p(q) = F(p) < 1. \quad \square \text{ (subject to Q11)}$$

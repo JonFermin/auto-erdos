@@ -426,3 +426,35 @@ The inductive structure (from Lichtman's §3):
 This induction terminates because each step reduces the maximum prime power in the factorizations. The formal bound uses a combinatorial identity relating the weight sum over $B_p$ to weight sums over smaller primitive sets.
 
 **Status:** Single-element case proved. General induction structure identified but not yet formalized. Subject to formalizing Lichtman's Lemma 3.2, Revised Claim A is complete, and hence Lemma P1.
+
+---
+
+## Section 10 — Exchange Lemma and Partial Resolution of Revised Claim A (Q11)
+
+### Exchange Lemma (proved)
+
+**Lemma.** For any integer $b \geq 2$ with all prime factors $> p$, and any prime $q \mid b$:
+$$f(b) = \frac{\log p}{b\log(pb)(1+pT(b))} \leq \frac{\log p}{(q+p)\log(pq)} = f(q).$$
+
+*Proof.* Since $q \mid b$: (i) $b \geq q$, (ii) $\log(pb) \geq \log(pq)$, (iii) $T(b) \geq 1/q$ so $1+pT(b) \geq (q+p)/q$. Multiplying: $b\log(pb)(1+pT(b)) \geq (q+p)\log(pq)$. Take reciprocals. $\square$
+
+**Consequence.** $f(b) \leq f(q^-(b))$ where $q^-(b)$ is the smallest prime factor.
+
+### Revised Claim A for sets with distinct smallest prime factors (proved)
+
+If $B_p$ is a primitive set and the map $b \mapsto q^-(b)$ is injective (i.e., no two elements share the same smallest prime factor), then by the Exchange Lemma:
+$$\sum_{b \in B_p} f(b) \leq \sum_{b \in B_p} f(q^-(b)) \leq \sum_{q > p} f(q) = F(p) < 1.$$
+
+This covers: all-prime $B_p$, all-squarefree $B_p$ (when prime factors are distinct across elements), and any $B_p$ where the smallest-prime-factor map is injective.
+
+### The remaining gap: recursive bound for shared smallest prime factors
+
+Partition $B_p$ by smallest prime factor: $B_p^{(q)} = \{b \in B_p : q^-(b) = q\}$.
+Writing $B_p^{(q)} = \{qc : c \in C_q\}$, the set $C_q$ is a primitive set with all prime factors $\geq q$.
+
+**Required (Q11):** $\sum_{c \in C_q} f_p(qc) \leq f_p(q)$ for each $q$.
+
+If this holds for all primes $q > p$, then summing over $q$: $\sum_{b \in B_p} f(b) \leq \sum_{q>p} f(q) = F(p) < 1$. This IS the content of Lichtman §3.
+
+The base case ($|C_q| = 1$, $c = 1$): equality. ✓
+The induction: $|C_q| \geq 2$ requires Lichtman's Lemma 3.2, subject to ongoing formalization.
