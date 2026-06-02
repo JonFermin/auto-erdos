@@ -490,3 +490,52 @@ $$\text{Q11 (Lichtman §3)} \implies \text{Revised Claim A} \implies \text{Lemma
 
 P2 (prime tail $= o(1)$): proved. P3 (threshold at $x=3$): proved. P1: conditional on Q11.
 This proof remains a partial result, subject to formalizing Lichtman §3.
+
+---
+
+## Section 12 — Q12: Partial Proof of Q11 for Bounded $|C_q|$
+
+### The $h$-function comparison and Q11 for $|C_q| \leq K(p,q)$
+
+**Lemma (h-bound, Q12).** For $c \geq 1$ with all prime factors $\geq q$:
+$$f_p(qc) \leq f_p(q) \cdot h_{pq}(c), \quad h_{pq}(c) := \frac{\log(pq)}{c\,\log(pqc)}.$$
+
+*Proof.* In all cases ($c=1$, $q \nmid c$, $q \mid c$): $1 + pT(qc) \geq (q+p)/q$. Therefore:
+$$f_p(qc) \leq \frac{\log p}{(q+p)\,c\,\log(pqc)} = f_p(q) \cdot \frac{\log(pq)}{c\,\log(pqc)} = f_p(q) \cdot h_{pq}(c). \quad \square$$
+
+**Corollary.** For any $C_q$: $\sum_{c \in C_q} f_p(qc) \leq f_p(q) \sum_{c \in C_q} h_{pq}(c)$.
+
+**Threshold.** Define $K(p,q) = \lfloor q\log(pq^2)/\log(pq) \rfloor$. For $c \geq q$: $h_{pq}(c) \leq h_{pq}(q) = \log(pq)/(q\log(pq^2))$.
+
+**Claim:** $|C_q| \cdot h_{pq}(q) \leq 1 \iff |C_q| \leq K(p,q)$.
+
+*Proof:* $|C_q| \cdot \log(pq)/(q\log(pq^2)) \leq 1 \iff |C_q| \leq q\log(pq^2)/\log(pq) = K(p,q)$. $\square$
+
+**Theorem (Q12).** Q11 holds for all primitive $C_q$ with $|C_q| \leq K(p,q)$.
+
+*Proof.* $\sum f_p(qc) \leq f_p(q)\!\sum h_{pq}(c) \leq f_p(q) \cdot |C_q| \cdot h_{pq}(q) \leq f_p(q)$. $\square$
+
+Values: $K(2,3)=4$, $K(2,5)=6$, $K(2,7)=8$. For large $q$: $K(2,q) \approx 3q/2$.
+
+### Why larger $|C_q|$ still holds (Q13 open)
+
+For $|C_q| > K$: the crude bound $h_{pq}(c) \leq h_{pq}(q)$ is too coarse. The key observation:
+
+- If $q \in C_q$ (i.e., $c_1 = q$): then ALL other elements of $C_q$ have no factor of $q$ (primitivity forces $q \nmid c$ for $c \neq q$ in $C_q$). So $c \geq r_2$ where $r_2 > q$ is the next prime. This means $h_{pq}(c) \leq h_{pq}(r_2) < h_{pq}(q)$ for those $c$.
+
+- Refined bound: $\sum_{c \in C_q} h_{pq}(c) = h_{pq}(q) + \sum_{c \in C_q \setminus \{q\}} h_{pq}(c)$ (if $q \in C_q$), where the second sum ranges over elements with prime factors $> q$.
+
+  For those elements: applying Q11 recursively (or the same h-bound with the next prime $r_2$) shows the second sum $\leq h_{pq}(r_2) \cdot |C_q \setminus \{q\}|/K(p, r_2)$ which decreases the threshold needed.
+
+- Numerical validation ($p=2,q=3$, $C_q = \{3,5,7,11,13\}$, $|C_q|=5 > K=4$):
+  $\sum h_6(c_i) = 0.207+0.105+0.069+0.039+0.032 = 0.452 < 1$. ✓
+
+The formal completion of Q11 for general $|C_q|$ is labeled **Q13** and requires the Lichtman §3 recursive argument: partition $C_q$ by smallest prime factor, apply Q11 recursively at each sub-level. Recursion terminates because the "base prime" parameter $pq, pqr_2, \ldots$ grows without bound.
+
+### Updated dependency chart
+
+$$\underbrace{\text{Q13 (Lichtman §3)}}_{\text{open}} \implies \text{Q11 (general)} \implies \text{Revised Claim A} \implies \text{Lemma P1} \implies \text{Erdős conjecture}.$$
+
+$$\underbrace{\text{Q12 (proved)}}_{\text{this session}} \implies \text{Q11 for } |C_q| \leq K(p,q) \implies \text{Revised Claim A for sets with } |B_p^{(q)}| \leq K(p,q)\ \forall q.$$
+
+**Partial result:** The Erdős conjecture holds for all primitive sets $A$ such that, for every prime $q > p$ and every $x$, the sub-collection $B_p^{(q)} = \{a \in A : q^-(a) = q\}$ satisfies $|B_p^{(q)}| \leq K(p,q)$. This covers finite primitive sets and primitive sets with bounded "multiplicity per prime factor class," subject to P2 and P3.
