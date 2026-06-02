@@ -7,3 +7,4 @@
 {"event":"round","session_id":"s_0531-080642-4825","ts":"2026-05-31T08:47:13+00:00","summary":"Round 6 (Q9): asymptotic integral proof F(p)->log2; numerical verification p<=5e5; tail bound formula","qid":"Q9","status":"keep_progress","commit":"88c5b95"}
 {"event":"session_close","session_id":"s_0531-080642-4825","ts":"2026-05-31T09:16:11+00:00","commit":"5085f97","reason":"reason: token budget low; next: prove Q11 for general primitive C_q (attempt Lichtman \u00a73 recursion)"}
 {"event":"session_open","session_id":"s_0602-080657-f723","ts":"2026-06-02T08:06:57+00:00","commit":"44dc7b0","proof_tag":"primitive_set_erdos","stashed_ref":null,"detected_orphan":null,"released_orphan_qids":[]}
+{"event":"round","session_id":"s_0602-080657-f723","ts":"2026-06-02T08:42:18Z","summary":"Round 10: Q12 proved (Q11 for |C_q|<=K(p,q) via h-function comparison); Q13 opened for general case; keep_progress","qid":"Q12","status":"keep_progress","commit":"9fa4a49"}
