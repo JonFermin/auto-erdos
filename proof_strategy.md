@@ -214,6 +214,64 @@ However, this is NOT a genuine disproof: the conjecture's $o(1)$ error at $x = 2
 No witness block is embedded because this witness does not challenge the conjecture's limit
 statement; $x_{\text{floor}} = 2$ is far from the $x \to \infty$ regime.
 
+## Section 5: Proof structure outline (Q5)
+
+The proof attempt follows the **smallest-prime-factor (spf) reduction** strategy.
+
+### 5.1 Stratification
+
+By Lemma `omega_stratification` (proof_lemmas/lemma_001.md, **proved**), any
+primitive $A \subset [x, \infty)$ decomposes as $A = \bigsqcup_p A_p$ where
+$A_p = \{a \in A : \mathrm{spf}(a) = p\}$.
+
+### 5.2 Key structural lemma (spf-reduction)
+
+By Lemma `spf_reduction` (proof_lemmas/lemma_002.md, **proved**), each fiber
+$B_p = A_p / p$ is a primitive set in $[x/p, \infty)$, and:
+$$\sum_{a \in A} \frac{1}{a \log a} \leq \sum_{p \leq x} \frac{1}{p} \cdot \sum_{b \in B_p} \frac{1}{b \log b}.$$
+
+Defining $M(x) = \sup_{A \subset [x, \infty)} f(A)$, this gives the **functional inequality**:
+$$M(x) \leq \sum_{p \leq x} \frac{M(x/p)}{p}. \tag{$\star$}$$
+
+### 5.3 The hard step
+
+By Lemma `functional_ineq_bound` (proof_lemmas/lemma_003.md, **open**), it remains
+to show that $(\star)$ forces $M(x) \leq 1 + o(1)$.
+
+**Why Lemma 3 is hard**: Direct ansätze fail:
+- $M(x) = C/\log x$ is inconsistent (the sum $\sum_p 1/(p(\log x - \log p))$ blows up).
+- $M(x) = 1 + h(x)$ with $h(x) \to 0$ leads to $\sum_{p \leq x} 1/p + (\text{correction})$
+  which diverges without additional cross-fiber information.
+
+The inequality $(\star)$ treats the fibers $\{B_p\}$ as independent, but they are constrained
+by cross-fiber primitivity. Capturing this information tightly appears to be the crux.
+
+### 5.4 What is easy vs. hard
+
+| Lemma | Status | Difficulty |
+|-------|--------|------------|
+| L1: Omega stratification | **proved** | trivial |
+| L2: spf-reduction, functional inequality $(\star)$ | **proved** | easy |
+| L3: $(\star)$ forces $M(x) \leq 1 + o(1)$ | **open** | hard (research-level) |
+
+The gap at Lemma 3 is genuine: this is the open core of the Erdős conjecture.
+No known elementary argument closes it. The Lichtman-Pomerance (2021) paper
+proves $M(x) \leq e^\gamma \pi/4 + o(1) \approx 1.399$ (F1) using analytic sieve methods,
+but the tighter bound of 1 remains open.
+
+### 5.5 Partial result
+
+**What this attempt has established** (partial result):
+1. The spf-reduction gives the functional inequality $(\star)$ (Lemma 2, proved).
+2. Numerical evidence: no primitive set in $[100, \infty)$ found with sum $> 1$
+   (consistent with conjecture; not a proof).
+3. The $A_k$ sets have sums approaching 1 from below as $k \to \infty$ (F3, for large $k$).
+4. The primes form a primitive set with sum $\approx 1.6366 > 1$, showing the conjecture
+   requires the floor $x$ to be large (the $o(1)$ is not tight for $x = 2$).
+
+**This remains open**: the bound $M(x) \leq 1 + o(1)$ is not proved here. Lemma 3 is the
+blocking gap.
+
 ## Body
 
-(Sections 5+ are added by subsequent rounds. Current state: Sections 1–4 complete.)
+(Section 6 — Q6: Partial result registered. Session ends here.)
