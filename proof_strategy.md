@@ -36,8 +36,8 @@ against it, and decides keep/discard via `proof_log_result.py`.
 - **Open claim asserted resolved without witness**. The conjecture is open.
   Asserting falsity or a disproof without a verifier-accepted `<!-- WITNESS -->`
   block triggers `critic_openness`'s `open-claim-asserted-resolved-without-witness`
-  BLOCKING. The defense-in-depth in `_compute_verdict_hint` independently flags
-  resolution-asserting language (`qed`, `resolves the conjecture`, etc.).
+  BLOCKING. The defense-in-depth in `_compute_verdict_hint` independently detects
+  proof-completion markers (the exact set is in `proof_prepare.py`).
 
 ## Witness format (the only path to a counterexample claim)
 
