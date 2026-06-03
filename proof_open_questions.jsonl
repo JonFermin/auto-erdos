@@ -13,3 +13,4 @@
 {"qid":"Q5","status":"claimed","session_id":"s_0603-080714-20c2","summary":"taking Q5: outline proof structure with Omega-stratification","ts":"2026-06-03T08:23:51+00:00"}
 {"qid":"Q5","status":"resolved","session_id":"s_0603-080714-20c2","summary":"Q5 done: proof structure outlined via spf-reduction; Lemma 1+2 proved, Lemma 3 (main bound) open","ts":"2026-06-03T08:26:46+00:00"}
 {"qid":"Q6","status":"claimed","session_id":"s_0603-080714-20c2","summary":"taking Q6: register partial result and end session","ts":"2026-06-03T08:26:46+00:00"}
+{"qid":"Q6","status":"resolved","session_id":"s_0603-080714-20c2","summary":"Q6 done: partial result registered in proof_strategy.md Section 5; session_end called","ts":"2026-06-03T08:27:18+00:00"}
