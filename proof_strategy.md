@@ -133,6 +133,87 @@ Two possible outcomes:
 We begin with numerical grounding (Q2, Q3, Q4) before deciding which path is
 more promising.
 
+## Section 2: Numerical verification of F3 (Q2)
+
+We compute the truncated sum $T_k^{(N)} = \sum_{a \in A_k, a \leq a_{(N)}} 1/(a \log a)$
+over the first $N = 200$ elements of each stratum $A_k$ and compare with the F3
+asymptotic prediction.
+
+| $k$ | $A_k$ examples | $a_{(200)}$ | $T_k^{(200)}$ | F3 pred. $1 - c k^2/2^k$ |
+|-----|-----------------|-------------|----------------|--------------------------|
+| 1   | 2,3,5,7,11,...  | 1223        | **1.4965**     | 0.9672                   |
+| 2   | 4,6,9,10,14,... | 669         | 0.6819         | 0.9344                   |
+| 3   | 8,12,18,20,...  | 805         | 0.3134         | 0.9262                   |
+| 4   | 16,24,36,40,... | 1292        | 0.1403         | 0.9344                   |
+
+**Key finding**: For $k = 1$ (primes), the truncated sum at 200 elements is already 1.4965,
+far above F3's predicted asymptotic of 0.9672. For $k \geq 2$, the truncated sums are all well
+below 1, consistent with the series converging to values below the F3 prediction (the
+200-element truncation is a lower bound on the full infinite sum, and the series converges slowly).
+
+**Interpretation of the discrepancy for $k = 1$**: F3 is an asymptotic statement for $k \to \infty$.
+The formula $1 - (c + o(1)) k^2/2^k$ has a large implicit error for small $k$. For $k = 1$,
+the actual sum (≈ 1.6366, see Section 3) is ABOVE 1, not below. The F3 formula is accurate
+only for large $k$ where the $o(1)$ correction is dominated by the leading term $c k^2 / 2^k \to 0$.
+
+The leading correction $-c k^2/2^k$ is $-0.0328$ at $k=1$, $-0.0656$ at $k=2$, etc.,
+and goes to 0 as $k \to \infty$. The F3 formula correctly states that $A_k$ sums approach
+1 FROM BELOW as $k \to \infty$, but for small $k$ (especially $k = 1, 2$), the actual
+sums deviate substantially from this asymptotic.
+
+## Section 3: Sum over primes (Q3)
+
+The primes $\{2, 3, 5, 7, \ldots\}$ form a primitive set (no prime divides another prime).
+Their full infinite sum is:
+
+$$\sum_{p \text{ prime}} \frac{1}{p \log p} \approx 1.6366 \quad \text{(convergent)}.$$
+
+Numerical evidence (partial sums + tail estimate $\approx 1/\log x$ for primes $> x$):
+
+| \# primes | last prime | partial sum | tail est. | est. total |
+|-----------|------------|-------------|-----------|------------|
+| 25        | 97         | 1.421567    | 0.218593  | 1.640160   |
+| 200       | 1223       | 1.496452    | 0.140666  | 1.637118   |
+| 2000      | 17389      | 1.534260    | 0.102421  | 1.636682   |
+| 10000     | 104729     | 1.550127    | 0.086512  | 1.636638   |
+
+The estimated total ≈ **1.6366** is stable across all truncation points, confirming convergence.
+
+**Consistency with F1**: F1 states the bound $< e^\gamma \pi/4 \approx 1.399$ for primitive sets.
+The primes (sum ≈ 1.6366) appear to violate this bound. The resolution, per Q3's own note,
+is that F1 applies for $A \subset [x, \infty)$ with $x \to \infty$, not for all of $\mathbb{N}$.
+For $x = 2$ (all primes), the allowed error $o(1)$ is large (≈ 0.636). For primes starting
+at $x = 101$, the sum is only ≈ 0.094, well below 1. The F1 bound becomes tight only for
+large floor $x$, which is exactly the regime of the conjecture.
+
+**The o(1) in the conjecture**: The conjecture's $1 + o(1)$ bound is a LIMIT statement.
+For any fixed finite $x$, the bound $f(x) = 1 + o(1)$ can be large (e.g., $f(2) \approx 1.636$).
+The claim is that $f(x) \to 1$ as $x \to \infty$. For primes $\geq x$:
+$\sum_{p \geq x} 1/(p \log p) \approx 1/\log x \to 0$ as $x \to \infty$.
+
+## Section 4: Witness search (Q4)
+
+We searched for a primitive $A \subset [x_{\text{floor}}, \infty)$ with rigorously verified sum $> 1$
+using `library.primitive_set_witness.verify_witness`.
+
+| $x_{\text{floor}}$ | Candidate | Verified sum | is_valid |
+|--------------------|-----------|--------------|----------|
+| 100                | 500 primes ≥ 101 | 0.0939 | False |
+| 1000               | 500 primes ≥ 1009 | 0.0270 | False |
+| 10000              | 500 primes ≥ 10007 | ≈ 0.009 | False |
+
+**No witness found for $x_{\text{floor}} \geq 100$**: primes alone give sums much less than 1.
+Mixed primitive sets in $[100, \infty)$ combining different strata face the same issue —
+each stratum's sum from 100 is small, and the primitivity constraint prevents freely
+combining strata. This is consistent with the conjecture being true for large $x$.
+
+**Observation on $x_{\text{floor}} = 2$**: The primitive set $\{2, 3, 5\}$ has verified sum
+$\approx 1.149 > 1$ (mechanically verified by the witness verifier, score = 1.149028).
+However, this is NOT a genuine disproof: the conjecture's $o(1)$ error at $x = 2$ is large
+(the maximum sum for primitive sets in $[2, \infty)$ is ≈ 1.636, so the allowed slack is ≈ 0.636).
+No witness block is embedded because this witness does not challenge the conjecture's limit
+statement; $x_{\text{floor}} = 2$ is far from the $x \to \infty$ regime.
+
 ## Body
 
-(Subsequent sections are added by each round. Current state: Section 1 complete.)
+(Sections 5+ are added by subsequent rounds. Current state: Sections 1–4 complete.)
