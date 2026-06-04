@@ -13,3 +13,4 @@
 {"qid":"Q4","status":"resolved","session_id":"s_0604-080657-e722","summary":"Verified: {2,3} witness (x=2, sum=1.025). No witness found for x_floor>=3; max sum at x=100 is 0.294","ts":"2026-06-04T08:28:25+00:00"}
 {"qid":"Q5","status":"claimed","session_id":"s_0604-080657-e722","summary":"Q5: proof structure outline — stratify by Omega, bound each stratum","ts":"2026-06-04T08:28:25+00:00"}
 {"qid":"Q5","status":"resolved","session_id":"s_0604-080657-e722","summary":"Proof outline in Section 4: stratification by Omega, Lemma 1 easy, Lemma 3 is the key open gap","ts":"2026-06-04T08:28:25+00:00"}
+{"qid":"Q6","status":"claimed","session_id":"s_0604-080657-e722","summary":"Q6: partial result — write explicit partial result statement and call session_end","ts":"2026-06-04T08:28:54+00:00"}

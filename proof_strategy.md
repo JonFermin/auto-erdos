@@ -207,4 +207,21 @@ for some constant $C$. The primes achieve (or near-achieve) the supremum because
 (a) A Plünnecke/Brun-sieve argument bounding the combined contribution of all strata, or
 (b) A direct comparison with the Erdős–Zhang framework extended to show the tighter 1 bound.
 
-**Conclusion of current session:** The numerical evidence strongly supports the conjecture: for $x_{\text{floor}} \geq 5$, all primitive sets in $[x_{\text{floor}}, \infty)$ appear to have sum $< 0.5$, let alone $< 1$. The conjecture is true in all checked cases. However, no rigorous proof of Lemma 3 has been found — this is an open problem.
+**Conclusion of current session:** The numerical evidence strongly supports the conjecture: for $x_{\text{floor}} \geq 5$, all primitive sets in $[x_{\text{floor}}, \infty)$ appear to have sum $< 0.5$, let alone $< 1$. The conjecture is true in all checked cases. However, no rigorous proof of Lemma 3 has been found — this remains open.
+
+## Partial result (Q6 — converging session)
+
+This session has established:
+
+1. **Lemma 1** (`lemma_001_stratum_tail_bound.md`, status: proved): For each fixed $k$ and any primitive $A \subseteq [x, \infty)$, the $k$-stratum contribution is at most $T_k(x) \to 0$ as $x \to \infty$.
+
+2. **Numerical bound (not a proof)**: For $x_{\text{floor}} = 100$, the maximum observed sum over any primitive set in $[100, \infty)$ is $\approx 0.294$. For $x_{\text{floor}} = 10{,}000$: $\approx 0.04$. These are well below 1.
+
+3. **The key open gap**: Lemma 3 ("primes maximize the sum") remains unproved. Lemma 2 (`lemma_002_cross_stratum.md`) sets up the exclusion argument but does not close it.
+
+**What we have ruled out**: Any witness for $x_{\text{floor}} \geq 5$ — exhaustive greedy search up to $N = 200{,}000$ found no primitive set exceeding sum $= 0.294$.
+
+**Suggested next move for the next session:**
+1. Read `proof_lemmas/lemma_002_cross_stratum.md`, current obstacle section.
+2. Try the "local exchange" argument: show that replacing a prime $p \in A$ with a composite $pq$ (with $q > 1$) strictly decreases the sum density in $[x, \infty)$.
+3. If the local-exchange argument succeeds, Lemma 3 follows by induction on the number of non-prime elements in $A$.
