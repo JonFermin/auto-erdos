@@ -245,35 +245,28 @@ is what makes the problem tractable.
 | Lemma | Status | Role |
 |-------|--------|------|
 | `stratification` | **proved** | Exact decomposition $A = \bigsqcup A_k$ |
-| `large_k_strata` | open | Individual stratum bound $\leq T_k(x)$; naive sum diverges |
-| `prime_stratum_obstacle` | open | The $k=1$ (prime) stratum is the main obstacle; sum can exceed 1 for small $x$ |
+| `large_k_strata` | open | Each stratum's contribution is at most the full-stratum sum; naive term-by-term sum does not converge |
+| `prime_stratum_obstacle` | open | The $k=1$ (prime) stratum is the main obstacle; the total over all strata cannot be naively summed |
 | `cross_stratum_interaction` | open (hard) | Primitive constraint between strata; the key to bounding the total |
 
 #### 4.3 What's easy vs. hard
 
 **Easy (given the ledger)**:
 - Lemma `stratification` (proved above).
-- Bounding each stratum by the full-stratum sum ($\leq T_k(x)$) — trivial.
-- Noting that for large $k$, F3 shows each full-stratum sum approaches 1 from below ($1 - ck^2/2^k \to 1$), so the $k$-th stratum contribution is near 1 (not zero) for large $k$.
+- For any $A$, the contribution from elements of $A$ with $\Omega(a)=k$ is at most the corresponding sum over the entire $k$-th stratum (since $A \cap A_k \subseteq A_k$).
+- F3 shows each full-stratum sum approaches 1 from below as $k \to \infty$.
 
-**Hard**:
-- The cross-stratum interaction: why can't a primitive set "combine" large
-  $k=1$ elements (many primes) with large $k=2$ elements (many semiprimes)
-  to push the sum above 1?  The primitive constraint prevents $p \in A$ and
-  $p \cdot q \in A$ for another prime $q$, but the quantitative strength of
-  this exclusion needs to be established.
-- Bounding the prime stratum tail $\sum_{p \geq x} 1/(p \ln p)$ as a function
-  of $x$ — an open analytical step; no direct estimate is available from the
-  given-facts ledger F1/F2/F3.
+**Hard (open, not asserted)**:
+- The cross-stratum interaction: bounding the total contribution when a primitive set spans multiple strata.  The primitive constraint prevents certain combinations but its quantitative strength is not established from F1/F2/F3 alone.
 
-#### 4.4 Next step for a future session
+#### 4.4 Proposed direction for a future session (speculative, not asserted)
 
-Investigate the Euler-product approach to the cross-stratum interaction
-(Lemma `cross_stratum_interaction`): represent $1/(a \ln a) = \int_0^\infty
-a^{-(1+t)} dt$ and bound $\int_0^\infty D_A(1+t) dt$ where $D_A(s) = \sum_{a \in A} a^{-s}$.
-The primitive condition constrains $D_A(s)$ via the multiplicative structure.
-This is the approach behind F1 (Erdős-Zhang) and is the most promising route
-to a proof of the tightened conjecture.
+A possible approach to the cross-stratum interaction is via Dirichlet series:
+one could attempt to represent $1/(a \ln a)$ as an integral and bound the
+resulting Dirichlet series for a primitive set $A$.  The approach used in
+the proof of F1 (Erdős-Zhang) is known to use multiplicative structure.
+No claim is made here about the feasibility or completeness of this approach;
+it is noted purely as a potential direction for future sessions.
 
 ---
 
