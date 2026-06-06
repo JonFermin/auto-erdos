@@ -189,12 +189,10 @@ The set $P = \{2, 3, 5, 7, 11, \ldots\}$ of all primes is a primitive set
 $s_1(200\,000) = 1.5547$.  The sum is still increasing; the partial sum
 already exceeds 1 from the first two primes $\{2, 3\}$.
 
-Consistency with F1: F1 bounds the sum by $e^\gamma\pi/4 + o(1) \approx 1.399 + o(1)$
-for any primitive set.  The computation shows $s_1(200\,000) = 1.5547 > 1.399$,
-which means the $o(1)$ correction in F1 is at least $+0.156$ for the primes
-(i.e., the bound is not $1.399$ for sets containing very small elements like 2).
-This is consistent with F1's bound being an asymptotic that tightens as
-$\min(A) \to \infty$.
+Note: F1's bound of $e^\gamma\pi/4 + o(1)$ is an asymptotic as $\min(A) \to \infty$;
+for primes starting at 2, the $o(1)$ is not small and the bound does not apply
+in the form $\approx 1.399$ here.  These numerical computations are observations
+about the $k=1$ stratum behavior; they are not claims derived from F1.
 
 ---
 
