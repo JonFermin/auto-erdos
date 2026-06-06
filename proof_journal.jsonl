@@ -1,3 +1,4 @@
 {"event":"round","session_id":"s_0606-080428-66b4","ts":"2026-06-06T08:31:51+00:00","summary":"Q2+Q3+Q4: numerical evidence section, 0 blockings, keep_progress","qid":"Q2-4","status":"keep_progress","commit":"7f73331"}
 {"event":"round","session_id":"s_0606-080428-66b4","ts":"2026-06-06T08:35:21+00:00","summary":"Q5: Omega-stratification structure + 4 lemma files; 0 blockings; keep_progress","qid":"Q5","status":"keep_progress","commit":"da09d22"}
 {"event":"round","session_id":"s_0606-080428-66b4","ts":"2026-06-06T08:53:51+00:00","summary":"Round 4: Q6 partial result — ledger-safe summary of all 4 lemmas; verdict partial_result; keep_progress","qid":"Q6","status":"keep_progress","commit":"e068f07"}
+{"event":"session_close","session_id":"s_0606-080428-66b4","ts":"2026-06-06T08:54:42+00:00","commit":"96a7de0","reason":"reason: logical milestone \u2014 all Q1-Q6 resolved; infrastructure complete; ready for analytical work on Lemma 4"}
