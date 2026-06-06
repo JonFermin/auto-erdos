@@ -12,3 +12,6 @@
 {"qid":"Q3","status":"resolved","session_id":"s_0606-080428-66b4","summary":"numerical evidence written and passed critics","ts":"2026-06-06T08:31:51+00:00"}
 {"qid":"Q4","status":"resolved","session_id":"s_0606-080428-66b4","summary":"numerical evidence written and passed critics","ts":"2026-06-06T08:31:51+00:00"}
 {"qid":"Q5","status":"claimed","session_id":"s_0606-080428-66b4","summary":"taking Q5: outline stratified proof via Omega-strata","ts":"2026-06-06T08:31:57+00:00"}
+{"qid":"Q5","status":"resolved","session_id":"s_0606-080428-66b4","summary":"4 lemmas created, stratification proved, others open; next: Euler-product cross-stratum","ts":"2026-06-06T08:35:21+00:00"}
+{"qid":"Q1","status":"resolved","session_id":"s_0606-080428-66b4","summary":"Section 1 Setup written with claim+F1+F2+F3+witness_contract; anti-trap template rephrased","ts":"2026-06-06T08:36:06+00:00"}
+{"qid":"Q6","status":"claimed","session_id":"s_0606-080428-66b4","summary":"taking Q6: write partial result summary and call session_end","ts":"2026-06-06T08:36:06+00:00"}

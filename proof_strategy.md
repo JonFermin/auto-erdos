@@ -277,3 +277,63 @@ a^{-(1+t)} dt$ and bound $\int_0^\infty D_A(1+t) dt$ where $D_A(s) = \sum_{a \in
 The primitive condition constrains $D_A(s)$ via the multiplicative structure.
 This is the approach behind F1 (Erdős-Zhang) and is the most promising route
 to a proof of the tightened conjecture.
+
+---
+
+### Section 5 — Partial result and status summary (Q6)
+
+**This proof attempt converged on a partial result after session 1.**
+The conjecture remains open; here is what was established and what remains open.
+
+#### 5.1 What was established (this session)
+
+1. **Setup and ledger** (Section 1): The claim, F1/F2/F3 with sign
+   disambiguations, and witness contract are fully documented.
+
+2. **Numerical evidence** (Sections 2–3):
+   - The $k=1$ stratum (primes) has partial sum $s_1(200\,000) = 1.5547 > 1$;
+     the sum exceeds 1 from the first two primes $\{2,3\}$ alone.
+   - For $k = 2, 3, 4$, partial sums are well below 1 (0.84, 0.47, 0.24 resp.).
+   - F3's formula $1 - (c+o(1))k^2/2^k$ is a large-$k$ asymptotic;
+     for $k=1$ it is far from the actual (large) value.
+   - No witness with $x_\text{floor} \geq 100$ was found; $\{2,3\}$ with
+     $x_\text{floor}=2$ is a verifier-accepted witness (sum 1.0248) but
+     is not a genuine counterexample due to the $o(1)$ slack at $x=2$.
+
+3. **Proof structure** (Section 4):
+   - Lemma `stratification`: proved ($A = \bigsqcup_k A_k$ decomposition).
+   - Lemma `large_k_strata`: identified — the naive stratum-by-stratum bound
+     DIVERGES; the primitive constraint is essential.
+   - Lemma `prime_stratum_obstacle`: identified — for $x \geq 3$ the prime
+     contribution is bounded, but the bound is not in the ledger.
+   - Lemma `cross_stratum_interaction`: identified as the CORE HARD PROBLEM
+     — quantifying how the primitive constraint between strata prevents the
+     sum from exceeding $1 + o(1)$.
+
+#### 5.2 What was ruled out
+
+- **The stratum-sum-only approach** (sum each $T_k(x)$ independently) is
+  RULED OUT as a path to the bound: the sum $\sum_k T_k(x)$ diverges.
+  The primitive constraint MUST be used.
+
+- **Witnesses with $x_\text{floor} \geq 100$**: none found numerically;
+  all tested candidates scored far below 1.0.
+
+- **The primes as a genuine counterexample**: for $x_\text{floor} \geq 3$,
+  the primes give sum $< 1$; the $\{2,3\}$ witness at $x_\text{floor}=2$ is
+  not a genuine counterexample (the $o(1)$ term at $x=2$ is large).
+
+#### 5.3 What remains open (hard)
+
+The core challenge is Lemma `cross_stratum_interaction`: proving that the
+primitive constraint between strata is strong enough to give a total bound
+$< 1 + o(1)$.  The suggested approach (Euler product on $D_A(s)$) requires:
+- Establishing $D_A(1+t)$ bounds for primitive $A \subset [x, \infty)$.
+- Integrating the bound over $t \in [0, \infty)$.
+- Showing the result is $< 1 + o(1)$ with $o(1) \to 0$ as $x \to \infty$.
+
+This is consistent with the approach used to prove F1 (the Erdős-Zhang 1.399
+bound) and is the most promising next direction.
+
+**Status**: partial result. The proof infrastructure is in place; the hard
+analytical work on Lemma `cross_stratum_interaction` is the next session's task.
