@@ -164,7 +164,7 @@ Computed $s_k(N) = \sum_{\substack{a \leq N \\ \Omega(a)=k}} \frac{1}{a \ln a}$ 
 |-----|-------------------------|-----------------|-----------------|
 | 1 (primes, starting at 2) | **1.4965** | **1.5547** | $1 - c/2 \approx 0.967$ |
 | 2 (semiprimes, starting at 4) | 0.6819 | 0.8416 | $1 - 4c/4 \approx 0.934$ |
-| 3 (starting at 8) | 0.3134 | 0.4670 | $1 - 9c/8 \approx 0.926$ |
+| 3 (starting at 8) | 0.3134 | 0.4670 | $1 - 9c/8 \approx 0.9262$ |
 | 4 (starting at 16) | 0.1403 | 0.2363 | $1 - 16c/16 \approx 0.934$ |
 
 **Observation for $k=1$**: the truncated sum grows as $N$ increases (every term
