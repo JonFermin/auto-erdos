@@ -141,10 +141,85 @@ Witness schema:
 
 ---
 
-**Roadmap** (to be filled in by subsequent rounds)
+**Roadmap**
 
-- Q2: Numerically verify F3 for $k = 1, 2, 3, 4$.
-- Q3: Numerically check sum over primes from 2 (primitive set), understand
-  why it exceeds 1 without contradicting F1.
-- Q4: Search computationally for a witness exceeding $\tau = 1.0$.
+- Q2+Q3: *see Section 2 below* — numerical evidence for F3 and the prime sum.
+- Q4: *see Section 3 below* — witness search results.
 - Q5: Outline a stratified proof structure via $\Omega$-strata.
+
+---
+
+### Section 2 — Numerical observations: $A_k$ truncated sums and the prime set (Q2 + Q3)
+
+All numbers below are computations, not facts from the given-facts ledger.
+They are labeled as observations and are consistent with (but not derived
+from) F1, F2, and F3.
+
+#### 2.1 Truncated sums for $k = 1, 2, 3, 4$
+
+Computed $s_k(N) = \sum_{\substack{a \leq N \\ \Omega(a)=k}} \frac{1}{a \ln a}$ for $N = 200\,000$.
+"First-200" column uses the 200 smallest elements of $A_k$.
+
+| $k$ | first-200 elements range | $s_k(\text{first 200})$ | $s_k(200\,000)$ | F3 leading term |
+|-----|--------------------------|-------------------------|-----------------|-----------------|
+| 1 (primes) | $[2, 1223]$ | **1.4965** | **1.5547** | $1 - c/2 \approx 0.967$ |
+| 2 | $[4, 669]$ | 0.6819 | 0.8416 | $1 - 4c/4 \approx 0.934$ |
+| 3 | $[8, 805]$ | 0.3134 | 0.4670 | $1 - 9c/8 \approx 0.926$ |
+| 4 | $[16, 1292]$ | 0.1403 | 0.2363 | $1 - 16c/16 \approx 0.934$ |
+
+**Observation for $k=1$**: the truncated sum grows as $N$ increases (every term
+is positive) and is already $> 1$ from the first two primes alone ($1/(2 \ln 2) +
+1/(3 \ln 3) \approx 0.721 + 0.303 = 1.025 > 1$).  The partial sum at $N=200\,000$
+is $1.5547$, still growing.  F3's leading-term prediction of $0.967$ is a large
+discrepancy — consistent with F3 being a large-$k$ asymptotic (the $o(1)$
+correction in $1 - (c + o(1))k^2/2^k$ is not small for $k=1$).
+
+**Observation for $k = 2, 3, 4$**: partial sums are well below 1 at
+$N = 200\,000$ and consistent in direction with F3's prediction (approaching 1
+from below for large $k$).
+
+**Note on F3 scope**: F3 states the sum $= 1 - (c + o(1))k^2/2^k$ where $o(1) \to 0$
+as $k \to \infty$.  For $k = 1$, the $o(1)$ correction appears large and positive
+(the partial sums exceed 1), so F3's formula is not a good approximation
+for small $k$.  This does NOT challenge F3's validity for large $k$.
+
+#### 2.2 The prime set sum (Q3)
+
+The set $P = \{2, 3, 5, 7, 11, \ldots\}$ of all primes is a primitive set
+(no prime divides another distinct prime).  Its partial sum at $N = 200\,000$ is
+$s_1(200\,000) = 1.5547$.  The sum is still increasing; the partial sum
+already exceeds 1 from the first two primes $\{2, 3\}$.
+
+Consistency with F1: F1 bounds the sum by $e^\gamma\pi/4 + o(1) \approx 1.399 + o(1)$
+for any primitive set.  The computation shows $s_1(200\,000) = 1.5547 > 1.399$,
+which means the $o(1)$ correction in F1 is at least $+0.156$ for the primes
+(i.e., the bound is not $1.399$ for sets containing very small elements like 2).
+This is consistent with F1's bound being an asymptotic that tightens as
+$\min(A) \to \infty$.
+
+---
+
+### Section 3 — Witness search (Q4)
+
+Tested via `library.primitive_set_witness.verify_witness` (threshold $\tau = 1.0$):
+
+| Candidate | $x_\text{floor}$ | Rigorous lower bound | Valid? |
+|-----------|-----------------|----------------------|--------|
+| $\{2, 3\}$ | 2 | **1.0248** | **yes** |
+| All primes in $[100, \sim5000]$ | 100 | 0.1282 | no |
+| All integers in $[100, 199]$ | 100 | 0.1408 | no |
+
+No witness was found for $x_\text{floor} \geq 100$.  For $x_\text{floor} = 1000$ and
+$x_\text{floor} = 10000$ the sums are smaller still.
+
+The $\{2, 3\}$ case is verified: the rigorous lower bound $1.0248 > 1.0$.
+However, by the conjecture's $o(1)$ caveat, this requires the $o(1)$ correction
+at $x = 2$ to be $< 0.0248$ for it to constitute a genuine counterexample.
+Given that $s_1(200\,000) = 1.5547$ (the prime-set sum from 2 is much larger
+than 1), the correction at $x = 2$ is substantial — $\{2, 3\}$ is not a
+genuine counterexample.
+
+**Open question**: can any primitive set $A \subset [x_\text{floor}, \infty)$ with
+$x_\text{floor} \geq 3$ achieve sum $> 1$?  Computations suggest the answer is no
+(all tested candidates fall far below 1), but no rigorous proof is committed
+to this file.
