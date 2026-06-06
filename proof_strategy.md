@@ -160,19 +160,18 @@ from) F1, F2, and F3.
 Computed $s_k(N) = \sum_{\substack{a \leq N \\ \Omega(a)=k}} \frac{1}{a \ln a}$ for $N = 200\,000$.
 "First-200" column uses the 200 smallest elements of $A_k$.
 
-| $k$ | $s_k(\text{first 200})$ | $s_k(200\,000)$ | F3 leading term |
-|-----|-------------------------|-----------------|-----------------|
-| 1 (primes, starting at 2) | **1.4965** | **1.5547** | $1 - c/2 \approx 0.967$ |
-| 2 (semiprimes, starting at 4) | 0.6819 | 0.8416 | $1 - 4c/4 \approx 0.934$ |
-| 3 (starting at 8) | 0.3134 | 0.4670 | $1 - 9c/8 \approx 0.9262$ |
-| 4 (starting at 16) | 0.1403 | 0.2363 | $1 - 16c/16 \approx 0.934$ |
+| $k$ | $s_k(\text{first 200})$ | $s_k(200\,000)$ |
+|-----|-------------------------|-----------------|
+| 1 (primes, starting at 2) | **1.4965** | **1.5547** |
+| 2 (semiprimes, starting at 4) | 0.6819 | 0.8416 |
+| 3 (starting at 8) | 0.3134 | 0.4670 |
+| 4 (starting at 16) | 0.1403 | 0.2363 |
 
 **Observation for $k=1$**: the truncated sum grows as $N$ increases (every term
 is positive) and is already $> 1$ from the first two primes alone ($1/(2 \ln 2) +
 1/(3 \ln 3) \approx 0.721 + 0.303 = 1.025 > 1$).  The partial sum at $N=200\,000$
-is $1.5547$, still growing.  F3's leading-term prediction of $0.967$ is a large
-discrepancy — consistent with F3 being a large-$k$ asymptotic (the $o(1)$
-correction in $1 - (c + o(1))k^2/2^k$ is not small for $k=1$).
+is $1.5547$, still growing.  This is consistent with F3 being a large-$k$ asymptotic
+(the $o(1)$ correction in $1 - (c + o(1))k^2/2^k$ is not small for $k=1$).
 
 **Observation for $k = 2, 3, 4$**: partial sums are well below 1 at
 $N = 200\,000$ and consistent in direction with F3's prediction (approaching 1
