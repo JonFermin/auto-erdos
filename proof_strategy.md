@@ -170,17 +170,16 @@ Computed $s_k(N) = \sum_{\substack{a \leq N \\ \Omega(a)=k}} \frac{1}{a \ln a}$ 
 **Observation for $k=1$**: the truncated sum grows as $N$ increases (every term
 is positive) and is already $> 1$ from the first two primes alone ($1/(2 \ln 2) +
 1/(3 \ln 3) \approx 0.721 + 0.303 = 1.025 > 1$).  The partial sum at $N=200\,000$
-is $1.5547$, still growing.  This is consistent with F3 being a large-$k$ asymptotic
-(the $o(1)$ correction in $1 - (c + o(1))k^2/2^k$ is not small for $k=1$).
+is $1.5547$, still growing.
 
 **Observation for $k = 2, 3, 4$**: partial sums are well below 1 at
-$N = 200\,000$ and consistent in direction with F3's prediction (approaching 1
-from below for large $k$).
+$N = 200\,000$ and growing toward 1 as more terms are included; consistent with
+F3's large-$k$ prediction that each full-stratum sum approaches 1 from below.
 
-**Note on F3 scope**: F3 states the sum $= 1 - (c + o(1))k^2/2^k$ where $o(1) \to 0$
-as $k \to \infty$.  For $k = 1$, the $o(1)$ correction appears large and positive
-(the partial sums exceed 1), so F3's formula is not a good approximation
-for small $k$.  This does NOT challenge F3's validity for large $k$.
+**Note on F3 scope**: F3's asymptotic $1 - (c+o(1))k^2/2^k$ describes the
+large-$k$ behavior ($o(1) \to 0$ as $k \to \infty$).  The numerical values in
+the table are partial sums (up to $N = 200\,000$), not the full infinite stratum
+sums; no comparison between these partial sums and F3's formula is intended here.
 
 #### 2.2 The prime set sum (Q3)
 
@@ -255,7 +254,7 @@ is what makes the problem tractable.
 **Easy (given the ledger)**:
 - Lemma `stratification` (proved above).
 - Bounding each stratum by the full-stratum sum ($\leq T_k(x)$) — trivial.
-- Noting that for large $k$, $T_k(x)$ is small (by F3, approaching $1 - ck^2/2^k < 1$).
+- Noting that for large $k$, F3 shows each full-stratum sum approaches 1 from below ($1 - ck^2/2^k \to 1$), so the $k$-th stratum contribution is near 1 (not zero) for large $k$.
 
 **Hard**:
 - The cross-stratum interaction: why can't a primitive set "combine" large
@@ -263,8 +262,9 @@ is what makes the problem tractable.
   to push the sum above 1?  The primitive constraint prevents $p \in A$ and
   $p \cdot q \in A$ for another prime $q$, but the quantitative strength of
   this exclusion needs to be established.
-- A rigorous bound on $\sum_p 1/(p \ln p)$ for $p \geq x$ (the prime stratum
-  tail) in terms of $x$ — requires PNT-level estimates not in the ledger.
+- Bounding the prime stratum tail $\sum_{p \geq x} 1/(p \ln p)$ as a function
+  of $x$ — an open analytical step; no direct estimate is available from the
+  given-facts ledger F1/F2/F3.
 
 #### 4.4 Next step for a future session
 
