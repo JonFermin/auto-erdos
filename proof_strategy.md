@@ -223,3 +223,57 @@ genuine counterexample.
 $x_\text{floor} \geq 3$ achieve sum $> 1$?  Computations suggest the answer is no
 (all tested candidates fall far below 1), but no rigorous proof is committed
 to this file.
+
+---
+
+### Section 4 — Proof structure via $\Omega$-stratification (Q5)
+
+#### 4.1 Overview
+
+By Lemma `stratification`, any primitive $A \subset [x, \infty)$ decomposes as
+$A = \bigsqcup_k A_k$ where $A_k = A \cap \{n : \Omega(n) = k\}$, and
+$\sum_{a \in A} 1/(a \ln a) = \sum_k \sum_{a \in A_k} 1/(a \ln a)$.
+
+A stratified proof would bound each $\sum_{A_k}$ term and then sum.
+The key difficulty is that the naive stratum bounds are not summable
+(see Lemma `large_k_strata` for details): the sum $\sum_{k \geq 1} T_k(x)$
+(where $T_k(x)$ bounds the $k$-th stratum contribution) diverges because
+each term is $\leq 1$ but there are infinitely many strata.
+
+**The primitive constraint is essential.** The stratification alone does not
+give a bound — the cross-stratum interaction (see Lemma `cross_stratum_interaction`)
+is what makes the problem tractable.
+
+#### 4.2 Lemma roadmap
+
+| Lemma | Status | Role |
+|-------|--------|------|
+| `stratification` | **proved** | Exact decomposition $A = \bigsqcup A_k$ |
+| `large_k_strata` | open | Individual stratum bound $\leq T_k(x)$; naive sum diverges |
+| `prime_stratum_obstacle` | open | The $k=1$ (prime) stratum is the main obstacle; sum can exceed 1 for small $x$ |
+| `cross_stratum_interaction` | open (hard) | Primitive constraint between strata; the key to bounding the total |
+
+#### 4.3 What's easy vs. hard
+
+**Easy (given the ledger)**:
+- Lemma `stratification` (proved above).
+- Bounding each stratum by the full-stratum sum ($\leq T_k(x)$) — trivial.
+- Noting that for large $k$, $T_k(x)$ is small (by F3, approaching $1 - ck^2/2^k < 1$).
+
+**Hard**:
+- The cross-stratum interaction: why can't a primitive set "combine" large
+  $k=1$ elements (many primes) with large $k=2$ elements (many semiprimes)
+  to push the sum above 1?  The primitive constraint prevents $p \in A$ and
+  $p \cdot q \in A$ for another prime $q$, but the quantitative strength of
+  this exclusion needs to be established.
+- A rigorous bound on $\sum_p 1/(p \ln p)$ for $p \geq x$ (the prime stratum
+  tail) in terms of $x$ — requires PNT-level estimates not in the ledger.
+
+#### 4.4 Next step for a future session
+
+Investigate the Euler-product approach to the cross-stratum interaction
+(Lemma `cross_stratum_interaction`): represent $1/(a \ln a) = \int_0^\infty
+a^{-(1+t)} dt$ and bound $\int_0^\infty D_A(1+t) dt$ where $D_A(s) = \sum_{a \in A} a^{-s}$.
+The primitive condition constrains $D_A(s)$ via the multiplicative structure.
+This is the approach behind F1 (Erdős-Zhang) and is the most promising route
+to a proof of the tightened conjecture.

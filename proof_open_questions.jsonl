@@ -8,3 +8,7 @@
 {"qid":"Q2","status":"claimed","session_id":"s_0606-080428-66b4","summary":"taking Q2 in combined round","ts":"2026-06-06T08:26:47+00:00"}
 {"qid":"Q3","status":"claimed","session_id":"s_0606-080428-66b4","summary":"taking Q3 in combined round","ts":"2026-06-06T08:26:47+00:00"}
 {"qid":"Q4","status":"claimed","session_id":"s_0606-080428-66b4","summary":"taking Q4 in combined round","ts":"2026-06-06T08:26:47+00:00"}
+{"qid":"Q2","status":"resolved","session_id":"s_0606-080428-66b4","summary":"numerical evidence written and passed critics","ts":"2026-06-06T08:31:51+00:00"}
+{"qid":"Q3","status":"resolved","session_id":"s_0606-080428-66b4","summary":"numerical evidence written and passed critics","ts":"2026-06-06T08:31:51+00:00"}
+{"qid":"Q4","status":"resolved","session_id":"s_0606-080428-66b4","summary":"numerical evidence written and passed critics","ts":"2026-06-06T08:31:51+00:00"}
+{"qid":"Q5","status":"claimed","session_id":"s_0606-080428-66b4","summary":"taking Q5: outline stratified proof via Omega-strata","ts":"2026-06-06T08:31:57+00:00"}
