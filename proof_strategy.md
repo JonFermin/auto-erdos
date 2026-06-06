@@ -160,12 +160,12 @@ from) F1, F2, and F3.
 Computed $s_k(N) = \sum_{\substack{a \leq N \\ \Omega(a)=k}} \frac{1}{a \ln a}$ for $N = 200\,000$.
 "First-200" column uses the 200 smallest elements of $A_k$.
 
-| $k$ | first-200 elements range | $s_k(\text{first 200})$ | $s_k(200\,000)$ | F3 leading term |
-|-----|--------------------------|-------------------------|-----------------|-----------------|
-| 1 (primes) | $[2, 1223]$ | **1.4965** | **1.5547** | $1 - c/2 \approx 0.967$ |
-| 2 | $[4, 669]$ | 0.6819 | 0.8416 | $1 - 4c/4 \approx 0.934$ |
-| 3 | $[8, 805]$ | 0.3134 | 0.4670 | $1 - 9c/8 \approx 0.926$ |
-| 4 | $[16, 1292]$ | 0.1403 | 0.2363 | $1 - 16c/16 \approx 0.934$ |
+| $k$ | $s_k(\text{first 200})$ | $s_k(200\,000)$ | F3 leading term |
+|-----|-------------------------|-----------------|-----------------|
+| 1 (primes, starting at 2) | **1.4965** | **1.5547** | $1 - c/2 \approx 0.967$ |
+| 2 (semiprimes, starting at 4) | 0.6819 | 0.8416 | $1 - 4c/4 \approx 0.934$ |
+| 3 (starting at 8) | 0.3134 | 0.4670 | $1 - 9c/8 \approx 0.926$ |
+| 4 (starting at 16) | 0.1403 | 0.2363 | $1 - 16c/16 \approx 0.934$ |
 
 **Observation for $k=1$**: the truncated sum grows as $N$ increases (every term
 is positive) and is already $> 1$ from the first two primes alone ($1/(2 \ln 2) +
