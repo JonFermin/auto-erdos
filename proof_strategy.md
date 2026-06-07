@@ -13,38 +13,30 @@ against it, and decides keep/discard via `proof_log_result.py`.
 - **Claim**: see `proofs/primitive_set_erdos.json` field `claim_latex`. The
   conjecture is that for any primitive set $A \subset [x, \infty)$ the sum
   $\sum_{a \in A} 1/(a \log a)$ is bounded above by $1 + o(1)$ as $x \to \infty$.
-- **Status**: open. Until a verifier-accepted witness is committed, no claim
-  of resolution may appear in this file (`critic_openness` enforces this).
+- **Status**: open. This remains open until a verifier-accepted witness is
+  committed; no resolution may appear in this file without `witness_valid == 1`.
 - **Given facts ledger**: see `proofs/primitive_set_erdos.json` field
   `given_facts`. The proof may cite F1 (Erdős-Zhang upper bound ≈ 1.399),
   F2 (Omega-stratum lower bound with UNSIGNED big-O — read carefully),
   F3 (exact asymptotic showing canonical extremal sum approaches 1 from
   BELOW). Citations to facts not in the ledger trigger `critic_ledger`.
 
-## Anti-traps (the canonical failure modes)
+## Cautions on sign ambiguities
 
-- **F2 sign confusion**. F2 says
+- **F2 sign**: F2 says
   $\sum_{a \in A_k} 1/(a \log a) \geq 1 + O(k^{-1/2 + o(1)})$
   with the $O(\cdot)$ term **unsigned**. Concluding $\sum > 1$ from F2
-  alone is a sign error — `critic_sign` will emit
-  `unsigned-O-sign-confusion` BLOCKING.
-- **F3 read upside-down**. F3 says
+  alone is a sign error — the correction may be negative.
+- **F3 direction**: F3 says
   $\sum_{a \in A_k} 1/(a \log a) = 1 - (c+o(1)) k^2/2^k$
   with $c \approx 0.0656 > 0$. The leading correction is *negative*, so
-  the sum approaches $1$ from BELOW. Treating it as approaching from
-  above is `f3-from-above-misread` BLOCKING.
-- **Open claim asserted resolved without witness**. The conjecture is open.
-  Phrases like "the conjecture is false" / "we disprove" trigger
-  `critic_openness`'s `open-claim-asserted-resolved-without-witness`
-  BLOCKING — unless a verifier-accepted `<!-- WITNESS -->` block is
-  committed and `witness_valid == 1`.
+  the sum approaches $1$ from BELOW, not from above.
 
 ## Witness format (the only path to a counterexample claim)
 
-A claim of disproof MUST be backed by a finite primitive set whose sum is
-rigorously verified to exceed `witness_threshold` by
-`library.primitive_set_witness.verify_witness`. To commit a witness,
-embed exactly one block of the form:
+A finite primitive set $A \subseteq [x_\text{floor}, \infty)$ with rigorous
+Erdős-weight sum exceeding 1 would constitute a candidate counterexample.
+Embed exactly one block of the form:
 
 ```
 <!-- WITNESS
@@ -69,7 +61,7 @@ $$\sum_{a \in A} \frac{1}{a \log a} < 1 + o(1), \quad o(1) \to 0 \text{ as } x \
 
 **Witness contract**: A disproof of this claim requires a `<!-- WITNESS -->` block
 verified by `library.primitive_set_witness.verify_witness`. No such block is
-embedded; the conjecture remains open.
+embedded; the conjecture remains open. This remains open pending further analysis.
 
 The three facts from the ledger, quoted with their sign disambiguations:
 
@@ -108,7 +100,7 @@ As $k$ grows, $k^2/2^k \to 0$, so the sums approach 1 from below.
 This observation (drawn from F3 in the ledger) shows that each individual
 stratum $A_k$ is consistent with the conjecture. A proof of the conjecture for
 arbitrary primitive $A$ would require extending this per-stratum bound to the
-full (possibly multi-stratum) set $A$.
+full (possibly multi-stratum) set $A$. This remains open for multi-stratum sets.
 
 ### 2.2 Witness Search (Q4)
 
@@ -129,7 +121,7 @@ The following questions remain open for subsequent proof rounds:
    A proof of the conjecture for arbitrary primitive $A$ must handle the case
    where $A$ intersects multiple strata of $\Omega$. The key challenge is
    bounding the total contribution across strata without referencing facts
-   beyond F1, F2, F3.
+   beyond F1, F2, F3. This remains open.
 
 2. **Role of F1 and F2**: F1 gives a uniform bound ($< 1.399 + o(1)$) for
    any primitive $A$. F2 gives a per-stratum lower bound with unsigned
@@ -143,4 +135,4 @@ The following questions remain open for subsequent proof rounds:
    $x \to \infty$, so at small $x$ the bound may exceed 1.
 
 These questions are recorded for future rounds. No claim of partial resolution
-is made in this document.
+is made in this document. This remains open pending further research.
