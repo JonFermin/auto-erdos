@@ -143,11 +143,11 @@ is made in this document. This remains open pending further research.
 
 We have ruled out the following approaches using the given facts F1, F2, F3:
 
-1. **F3 applied to specific small $k$ (e.g., $k=1$)**: Applying F3 to $k=1$
-   (primes) generates an internal contradiction because F3's formula gives a
-   value less than 1 for the complete prime sum, while the actual infinite prime
-   sum $\sum_p 1/(p \log p)$ diverges. F3 is an asymptotic statement as $k \to \infty$
-   and cannot be applied to fixed small $k$ without additional justification.
+1. **F3 applied to specific small $k$ (e.g., $k=1$)**: F3 is an asymptotic
+   statement as $k \to \infty$; its formula gives a value approaching 1 from
+   below only in that limit. Applying F3 to a fixed small value such as $k=1$
+   goes beyond the stated scope of the asymptotic and cannot be justified from
+   the ledger alone.
 
 2. **F2 sign conclusion**: F2's unsigned $O(k^{-1/2+o(1)})$ correction cannot
    be used to establish sum $> 1$ without knowing the sign of the correction term.
