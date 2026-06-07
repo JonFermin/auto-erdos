@@ -83,7 +83,6 @@ positivity argument for the $O$ term) is a sign error.
 $\sum_{a \in A_k} \frac{1}{a \log a} = 1 - (c+o(1)) \frac{k^2}{2^k}$, $c \approx 0.0656 > 0$.
 Sign: Correction is NEGATIVE ($c > 0$), so the sum is STRICTLY LESS THAN 1
 for every $k \geq 1$, approaching 1 from BELOW as $k \to \infty$.
-F3 is consistent with F2: $|(c+o(1))k^2/2^k|$ is $O(k^{-1/2+o(1)})$.
 
 ---
 
