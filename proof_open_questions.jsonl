@@ -15,3 +15,4 @@
 {"qid":"Q3","status":"resolved","session_id":"s_0607-080507-77d7","summary":"Q3: primes from x → 0 as x→∞, consistent with F1 bound; F3 applies to complete infinite A_k not restriction","ts":"2026-06-07T08:45:50+00:00"}
 {"qid":"Q5","status":"resolved","session_id":"s_0607-080507-77d7","summary":"Q5: proof structure gap identified — per-stratum bounds from F3 don't sum to give total bound; F1 covers cross-stratum but gap remains to 1+o(1)","ts":"2026-06-07T08:45:50+00:00"}
 {"qid":"Q6","status":"claimed","session_id":"s_0607-080507-77d7","summary":"Q6: write partial result conclusion and call session_end","ts":"2026-06-07T08:45:55+00:00"}
+{"qid":"Q6","status":"resolved","session_id":"s_0607-080507-77d7","summary":"Q6: partial result written — three ruled-out approaches, gap identified between F1 bound and conjecture","ts":"2026-06-07T08:48:01+00:00"}
