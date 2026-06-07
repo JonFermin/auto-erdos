@@ -7,3 +7,8 @@
 {"qid":"Q1","status":"claimed","session_id":"s_0607-080507-77d7","summary":"claiming Q1 for minimal round — no specific k application of F3","ts":"2026-06-07T08:36:11+00:00"}
 {"qid":"Q2","status":"claimed","session_id":"s_0607-080507-77d7","summary":"claiming Q2 for minimal round — no specific k application of F3","ts":"2026-06-07T08:36:11+00:00"}
 {"qid":"Q4","status":"claimed","session_id":"s_0607-080507-77d7","summary":"claiming Q4 for minimal round — no specific k application of F3","ts":"2026-06-07T08:36:11+00:00"}
+{"qid":"Q1","status":"resolved","session_id":"s_0607-080507-77d7","summary":"F1/F2/F3 stated with sign disambiguations in Section 1","ts":"2026-06-07T08:44:15+00:00"}
+{"qid":"Q2","status":"resolved","session_id":"s_0607-080507-77d7","summary":"F3 per-stratum bound: each A_k sum < 1 (general, no k=1 application)","ts":"2026-06-07T08:44:15+00:00"}
+{"qid":"Q4","status":"resolved","session_id":"s_0607-080507-77d7","summary":"Witness search: no candidate found for large x_floor","ts":"2026-06-07T08:44:15+00:00"}
+{"qid":"Q3","status":"claimed","session_id":"s_0607-080507-77d7","summary":"Q3: document primes sum behavior vs. F3 restriction; Q5: outline proof structure","ts":"2026-06-07T08:44:22+00:00"}
+{"qid":"Q5","status":"claimed","session_id":"s_0607-080507-77d7","summary":"Q5: outline proof structure — stratify by Omega(a), bound contributions","ts":"2026-06-07T08:44:22+00:00"}
