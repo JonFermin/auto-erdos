@@ -136,3 +136,31 @@ additional techniques not available in F1, F2, F3 alone.
 
 These questions are recorded for future rounds. No claim of partial resolution
 is made in this document. This remains open pending further research.
+
+---
+
+## Section 5 — Partial Result and Ruled-Out Approaches (Q6)
+
+We have ruled out the following approaches using the given facts F1, F2, F3:
+
+1. **F3 applied to specific small $k$ (e.g., $k=1$)**: Applying F3 to $k=1$
+   (primes) generates an internal contradiction because F3's formula gives a
+   value less than 1 for the complete prime sum, while the actual infinite prime
+   sum $\sum_p 1/(p \log p)$ diverges. F3 is an asymptotic statement as $k \to \infty$
+   and cannot be applied to fixed small $k$ without additional justification.
+
+2. **F2 sign conclusion**: F2's unsigned $O(k^{-1/2+o(1)})$ correction cannot
+   be used to establish sum $> 1$ without knowing the sign of the correction term.
+
+3. **Stratification bound via F3**: The bound "each stratum sum $< 1$ by F3"
+   cannot be summed over strata to give a bound on the total sum over $A$, because
+   the sum over all $k$ of per-stratum bounds would diverge.
+
+**What remains open**: The conjecture itself — that for any primitive $A \subseteq [x, \infty)$
+the sum is $< 1 + o(1)$ — is not proved or disproved by the facts F1, F2, F3 alone
+as currently stated. F1 gives the weaker bound $< 1.399 + o(1)$. The gap between
+$1.399$ and $1$ cannot be closed with the given facts. This remains open.
+
+**Convergence assessment**: Given that all direct approaches using F1, F2, F3 have
+been analyzed and found insufficient to prove the conjecture, and no counterexample
+witness has been found, we have converged on a partial result identifying the gap.

@@ -12,3 +12,6 @@
 {"qid":"Q4","status":"resolved","session_id":"s_0607-080507-77d7","summary":"Witness search: no candidate found for large x_floor","ts":"2026-06-07T08:44:15+00:00"}
 {"qid":"Q3","status":"claimed","session_id":"s_0607-080507-77d7","summary":"Q3: document primes sum behavior vs. F3 restriction; Q5: outline proof structure","ts":"2026-06-07T08:44:22+00:00"}
 {"qid":"Q5","status":"claimed","session_id":"s_0607-080507-77d7","summary":"Q5: outline proof structure — stratify by Omega(a), bound contributions","ts":"2026-06-07T08:44:22+00:00"}
+{"qid":"Q3","status":"resolved","session_id":"s_0607-080507-77d7","summary":"Q3: primes from x → 0 as x→∞, consistent with F1 bound; F3 applies to complete infinite A_k not restriction","ts":"2026-06-07T08:45:50+00:00"}
+{"qid":"Q5","status":"resolved","session_id":"s_0607-080507-77d7","summary":"Q5: proof structure gap identified — per-stratum bounds from F3 don't sum to give total bound; F1 covers cross-stratum but gap remains to 1+o(1)","ts":"2026-06-07T08:45:50+00:00"}
+{"qid":"Q6","status":"claimed","session_id":"s_0607-080507-77d7","summary":"Q6: write partial result conclusion and call session_end","ts":"2026-06-07T08:45:55+00:00"}
