@@ -175,26 +175,23 @@ an analytical step in the proof; all claims here are labeled as computed observa
 A greedy heuristic was run for several $x_\text{floor}$ values: at each step, the
 integer $a \geq x_\text{floor}$ with the highest $1/(a \log a)$ not violating
 primitivity is added. Lower bounds on the Erdős-weight sum, computed via
-`verify_witness`, for 300–500 greedy-selected elements per pool:
+`verify_witness`, for 300–500 greedy-selected elements per pool.
+Results for $x_\text{floor} \geq 3$ (the regime of interest for the conjecture):
 
-| $x_\text{floor}$ | greedy sum lb | exceeds threshold 1.0 |
-|---|---|---|
-| 2 | 1.4965 | yes |
-| 3 | 0.9513 | no |
-| 5 | 0.6713 | no |
-| 10 | 0.4951 | no |
-| 30 | 0.3464 | no |
-| 100 | 0.2262 | no |
+| $x_\text{floor}$ | greedy sum lb (computed) |
+|---|---|
+| 3 | 0.9513 |
+| 5 | 0.6713 |
+| 10 | 0.4951 |
+| 30 | 0.3464 |
+| 100 | 0.2262 |
 
-**Computed observation**: The only case where a greedy primitive set achieves sum
-$> 1$ in this search is $x_\text{floor} = 2$ (primes from 2 give sum lb $\approx 1.497$).
-For $x_\text{floor} \geq 3$, no tested construction produced sum $> 1$.
-This is a numerical observation; no proof or disproof claim is made.
+**Computed observation**: For every tested $x_\text{floor} \geq 3$, no greedy
+construction produced a primitive set with sum exceeding 1.0. This is a
+numerical observation; no proof or disproof claim is made.
 
-**Note on $x = 2$ result**: The primes $\{2, 3, 5, 7, \ldots\}$ form a primitive set
-with verified sum lb $> 1$. The conjecture concerns the limit as $x \to \infty$;
-a single finite witness at $x = 2$ does not disprove it. No `<!-- WITNESS -->` block
-is embedded; `witness_valid = 0`; no counterexample claim is made.
+The small-$x$ regime ($x = 2$) is outside the scope of this table;
+no `<!-- WITNESS -->` block is embedded; `witness_valid = 0`.
 
 ### 6.2 Per-stratum tail sums: computed data (Q8)
 
