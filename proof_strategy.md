@@ -212,9 +212,38 @@ is an open sub-question for a future round.
 
 ### 6.3 Open sub-questions for subsequent rounds
 
-**(Q9)** For primitive $A \subseteq [x, \infty)$, every element satisfies
+**(Q9 — density-log bound):** For primitive $A \subseteq [x, \infty)$, every element satisfies
 $a \geq x$, so $\log a \geq \log x$ and $1/(a \log a) \leq 1/(a \log x)$.
 This gives $\sum_{a \in A} 1/(a \log a) \leq (\sum_{a \in A} 1/a) / \log x$.
 Whether $\sum_{a \in A} 1/a$ for primitive $A \subseteq [x, \infty)$ is bounded
-in terms of $\log x$, and whether that bound is derivable from F1/F2/F3,
-is open. No claim is made here.
+by $(1+o(1)) \log x$ is an open sub-question. Achieving this bound would close
+the gap: $\sum 1/(a \log a) \leq (1+o(1))$.
+Analysis in `proof_lemmas/lemma_density_log_bound.md` shows:
+(a) F1 is insufficient (it does not use the restriction $a \geq x$);
+(b) F3 is also insufficient (no explicit ledger statement about tail convergence).
+No claim is made; this remains open.
+
+---
+
+## Section 7 — Gap Analysis: Why F1/F2/F3 Cannot Prove the Conjecture (Q8, Q9)
+
+The fundamental obstacle is that F1, F2, F3 do not use the restriction
+$A \subseteq [x, \infty)$ in any way that improves as $x \to \infty$:
+
+- **F1** bounds $\sum 1/(a \log a) \leq 1.399$ for any primitive $A \subseteq \mathbb{N}$.
+  This bound is independent of $x$; it is the same whether $A \subseteq [2, \infty)$
+  or $A \subseteq [10^{100}, \infty)$.
+
+- **F2** gives a stratum lower bound with an UNSIGNED big-O; it does not use the
+  $x$-restriction and establishes no upper bound.
+
+- **F3** gives the asymptotic for the COMPLETE infinite stratum $A_k$, not for
+  the restriction $A_k \cap [x, \infty)$. Using F3's implied convergence (the
+  full series has a finite value $< 1$, so the tail $\to 0$) would require
+  citing convergence of each stratum series, which is not explicitly in the ledger.
+
+**Conclusion (Q8):** No combination of F1, F2, F3 produces a bound on
+$\sum_{a \in A} 1/(a \log a)$ for $A \subseteq [x, \infty)$ that is better
+than F1's uniform $1.399$. The conjecture's $< 1 + o(1)$ as $x \to \infty$
+requires a fact that distinguishes large-$x$ primitive sets from small-$x$ ones.
+Such a fact is not in the given ledger. This remains open.
