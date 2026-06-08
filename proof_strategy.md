@@ -61,13 +61,15 @@ for every $k \geq 1$, approaching 1 from BELOW as $k \to \infty$.
 
 ### 2.1 Per-Stratum Behavior (Q2)
 
-By F3, for every $k \geq 1$ the Erdős-weight sum over the complete stratum
-$A_k = \{n : \Omega(n) = k\}$ satisfies
-$$\sum_{a \in A_k} \frac{1}{a \log a} = 1 - (c+o(1))\frac{k^2}{2^k} < 1,$$
-where the inequality holds because $c > 0$ and $k^2/2^k > 0$ for all $k \geq 1$.
+By F3's sign disambiguation, for every $k \geq 1$ the Erdős-weight sum over
+the complete stratum $A_k = \{n : \Omega(n) = k\}$ satisfies
+$$\sum_{a \in A_k} \frac{1}{a \log a} < 1.$$
+The sign disambiguation states: "the sum is STRICTLY LESS THAN 1 for every $k \geq 1$."
+The formula $1 - (c+o(1))k^2/2^k$ is the asymptotic as $k \to \infty$; the inequality
+$< 1$ is asserted as a fact for all $k \geq 1$.
 
-This shows that each individual stratum $A_k$ is consistent with the conjecture.
-A proof for arbitrary primitive $A$ must handle the multi-stratum case.
+This shows that each individual complete stratum $A_k$ has sum $< 1$, consistent with
+the conjecture. A proof for arbitrary primitive $A$ must handle the multi-stratum case.
 This remains open for multi-stratum sets.
 
 ### 2.2 Witness Search (Q4)
@@ -273,15 +275,14 @@ This uses only F3 and the elementary fact that "convergent series have vanishing
 No additional ledger entry is cited.
 
 **Why Q10 alone is insufficient (Q11):** Even granting Q10 for each fixed $k$,
-the multi-stratum sum cannot be controlled without a uniform rate. For $k = \lceil \log_2 x \rceil$,
-ALL elements of $A_k$ satisfy $a \geq 2^k \geq x$, so the restriction to $[x, \infty)$
-adds no savings, and the full $A_k$ sum (by F3) is $\approx 1 - (c+o(1))(\log_2 x)^2/x$,
-which approaches 1 as $x \to \infty$. The large-$k$ strata remain near 1 even for
-large $x$.
+the multi-stratum sum cannot be controlled without a uniform rate. For growing
+$k = k(x) \to \infty$ with $x$, the restriction to $[x, \infty)$ may add no extra
+savings (elements of $A_k$ are all $\geq 2^k \geq x$ once $k \geq \log_2 x$), and
+by F3's sign disambiguation, the full $A_k$ sum is $< 1$. As $k$ grows with $x$ in
+this way, F3 says the sum approaches 1 from below; there is no guarantee the
+per-stratum sum is uniformly bounded away from 1.
 
-**What this means:** The $k = \lceil \log_2 x \rceil$ stratum alone contributes nearly
-1 to the theoretical stratum sum, for every $x$. However, this is the contribution
-of the FULL stratum $A_k$. For a PRIMITIVE subset $A \cap A_k$, the contribution
-is bounded by the full stratum sum $< 1$. But whether a primitive subset of the
-$k = \lceil \log_2 x \rceil$ stratum achieves sum close to 1 is an open sub-question;
-it depends on how dense such primitive subsets can be. This remains open.
+**What this means:** The stratum $k = \lceil \log_2 x \rceil$ has full $A_k$ sum $< 1$
+(by F3) but approaching 1. For a PRIMITIVE subset $A \cap A_k$, the contribution
+is bounded by the full stratum sum $< 1$. Whether such a primitive subset achieves
+sum approaching 1 for large $k(x)$ is open. This remains open.
