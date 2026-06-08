@@ -85,20 +85,17 @@ The primes form a primitive set (no prime divides another). For fixed large $x$,
 the sum $\sum_{p \geq x, p \text{ prime}} 1/(p \log p)$ is the contribution of
 the prime stratum $A_1 \cap [x, \infty)$.
 
-F1 asserts that for any primitive $A \subseteq [x, \infty)$ the sum is at most
-$\approx 1.399 + o(1)$ as $x \to \infty$. The prime-restricted sum is one
-instance of this bound. As $x \to \infty$, the restricted prime sum shrinks
-(eventually the tail of a convergent series), so the bound $< 1 + o(1)$ may
-well apply in the limit even for primes.
+F1 asserts that for any primitive $A \subseteq \mathbb{N}$ the sum is at most
+$\approx 1.399 + o(1)$. The prime-restricted sum over primes in $[x, \infty)$ is
+one instance (the primes form a primitive set). F1 bounds it by $\approx 1.399$,
+consistent with the conjecture.
 
 F3 gives the asymptotic for the COMPLETE infinite stratum $A_k$, not for the
-restricted version $A_k \cap [x, \infty)$. The restricted sum $\sum_{p \geq x}
-1/(p \log p)$ approaches $0$ as $x \to \infty$, which is consistent with the
-conjecture's $o(1)$ bound. The claim that primes from $x$ contribute $< 1 + o(1)$
-is thus consistent with F1 (the restriction being a subset of any primitive $A$).
+restriction $A_k \cap [x, \infty)$. How the restricted sum behaves as $x \to \infty$
+is not addressed by F3 directly.
 
-No concrete numerical values are asserted in this section. This remains open
-for a rigorous quantitative estimate.
+No conclusion about the conjecture is drawn from this comparison; this section
+notes consistency with F1, not a proof step. This remains open.
 
 ---
 
@@ -167,81 +164,60 @@ witness has been found, we have converged on a partial result identifying the ga
 
 ---
 
-## Section 6 — Computational Characterization of S(x) (Q7, Q8)
+## Section 6 — Computational Data (Q7, Q8)
 
-Define $S(x) = \sup\{\sum_{a \in A} \frac{1}{a \log a} : A \subseteq [x, \infty) \text{ primitive}\}$.
+All numbers in this section are outputs of `library.primitive_set_witness.verify_witness`,
+which returns rigorous Decimal-precision lower bounds. No claim in this section is
+an analytical step in the proof; all claims here are labeled as computed observations.
 
-### 6.1 Empirical S(x) via greedy search (Q7)
+### 6.1 Greedy primitive set sums (Q7)
 
-A greedy algorithm was run: at each step, add the integer $a \geq x_{\text{floor}}$
-with the highest Erdős weight $1/(a \log a)$ that does not violate primitivity with
-already-selected elements. Results over pool $[x_\text{floor}, x_\text{floor}+2000]$:
+A greedy heuristic was run for several $x_\text{floor}$ values: at each step, the
+integer $a \geq x_\text{floor}$ with the highest $1/(a \log a)$ not violating
+primitivity is added. Lower bounds on the Erdős-weight sum, computed via
+`verify_witness`, for 300–500 greedy-selected elements per pool:
 
-| $x_\text{floor}$ | best sum (lb) | valid ($> 1$) |
+| $x_\text{floor}$ | greedy sum lb | exceeds threshold 1.0 |
 |---|---|---|
-| 2 | 1.4965 | **yes** |
+| 2 | 1.4965 | yes |
 | 3 | 0.9513 | no |
 | 5 | 0.6713 | no |
 | 10 | 0.4951 | no |
 | 30 | 0.3464 | no |
 | 100 | 0.2262 | no |
 
-The empirical supremum $S(x) < 1$ for all $x \geq 3$ in these tests, and the
-only valid-witness construction found uses $x_\text{floor} = 2$.
+**Computed observation**: The only case where a greedy primitive set achieves sum
+$> 1$ in this search is $x_\text{floor} = 2$ (primes from 2 give sum lb $\approx 1.497$).
+For $x_\text{floor} \geq 3$, no tested construction produced sum $> 1$.
+This is a numerical observation; no proof or disproof claim is made.
 
-**The $x=2$ witness (primes from 2)**: The set of all primes $\{2, 3, 5, 7, \ldots\}$
-is a primitive set (no prime divides another) with verified Erdős-weight sum
-$\approx 1.515 > 1.0$. This exceeds the witness threshold, but is NOT a genuine
-counterexample: the conjecture's $o(1)$ term at $x = 2$ is large (the claim is
-asymptotic in $x \to \infty$). For $x \geq 3$, no primitive set was found with sum
-exceeding 1.0.
+**Note on $x = 2$ result**: The primes $\{2, 3, 5, 7, \ldots\}$ form a primitive set
+with verified sum lb $> 1$. The conjecture concerns the limit as $x \to \infty$;
+a single finite witness at $x = 2$ does not disprove it. No `<!-- WITNESS -->` block
+is embedded; `witness_valid = 0`; no counterexample claim is made.
 
-**Optimal construction at $x = 3$**: The greedy selects $\{3, 4\} \cup \{\text{primes} \geq 5\}$.
-Element 3 ($\Omega = 1$) and 4 ($\Omega = 2$) are pairwise non-divisible
-and exclude each other's multiples; primes $\geq 5$ are mutually non-divisible and
-coprime to both 3 and 4. The `verify_witness` verifier computed a rigorous lower
-bound of approximately 0.974 for this construction restricted to the pool
-$\{3, 4\} \cup \{\text{first 500 primes} \geq 5\}$, and this value is less than 1.
-(This is a computed verification result, not a proof from F1/F2/F3 alone.)
+### 6.2 Per-stratum tail sums: computed data (Q8)
 
-So $S(3) \leq 1$ is consistent with the data; the greedy achieves at most
-$\approx 0.974 < 1$. This is substantially below 1.
+For each $k$ from 1 to 10, the sum $\sum_{a : \Omega(a)=k,\, a \geq x} 1/(a \log a)$
+was computed by enumeration over integers in $[x, 20x]$. These are lower bounds
+on the full tail (truncated pool):
 
-### 6.2 Per-stratum tail sums (Q8)
+| $x$ | $k=1$ | $k=2$ | $k=3$ | $k=4$ | $k=5$ |
+|---|---|---|---|---|---|
+| 10 | 0.229 | 0.295 | 0.196 | 0.094 | 0.032 |
+| 100 | 0.084 | 0.147 | 0.126 | 0.076 | 0.040 |
+| 1000 | 0.043 | 0.094 | 0.093 | 0.062 | 0.035 |
+| 10000 | 0.027 | 0.065 | 0.072 | 0.053 | 0.032 |
 
-For each $k$, the full tail $\sum_{a \in A_k,\, a \geq x} \frac{1}{a \log a}$ is:
+Each per-stratum column decreases as $x$ grows. The per-stratum values are
+computed observations. Whether and why they approach 0 as $x \to \infty$
+is an open sub-question for a future round.
 
-| $x$ | $k=1$ | $k=2$ | $k=3$ | $k=4$ | $k=5$ | $k\geq 6$ | total (k=1..10) |
-|---|---|---|---|---|---|---|---|
-| 10 | 0.229 | 0.295 | 0.196 | 0.094 | 0.032 | 0.010 | 0.856 |
-| 100 | 0.084 | 0.147 | 0.126 | 0.076 | 0.040 | 0.029 | 0.502 |
-| 1000 | 0.043 | 0.094 | 0.093 | 0.062 | 0.035 | 0.032 | 0.360 |
-| 10000 | 0.027 | 0.065 | 0.072 | 0.053 | 0.032 | 0.031 | 0.281 |
+### 6.3 Open sub-questions for subsequent rounds
 
-Note: the "total" is NOT an upper bound on $S(x)$, because the strata partition
-all integers and summing over all strata gives the divergent series
-$\sum_{n \geq x} 1/(n \log n) \to \infty$. Primitivity forces the agent to pick
-at most one representative from each "divisibility chain", dramatically reducing
-the achievable sum.
-
-Each per-stratum tail decreases toward 0 as $x \to \infty$ (for each fixed $k$,
-the tail is a tail of a convergent series). However, summing the per-stratum
-bounds naively does not give $S(x) \leq 1$. This is the same gap as Section 4.
-
-### 6.3 Direction for subsequent rounds
-
-Two approaches remain, to be explored in future rounds:
-
-**(A) Density bound (Q9):** For primitive $A \subseteq [x, \infty)$, every element
-satisfies $\log a \geq \log x$, so $\sum_{a \in A} 1/(a \log a) \leq (\sum_{a \in A} 1/a) / \log x$.
-Any bound of the form $\sum_{a \in A} 1/a \leq C \log x$ would yield $\sum 1/(a \log a) \leq C$.
-Whether such a bound on $\sum 1/a$ for primitive sets is provable from the given
-facts (F1, F2, F3) is an open sub-question; no claim is made here.
-
-**(B) Finite effective bound via tail vanishing:** Each per-stratum tail
-$\sum_{a \in A_k \cap [x, \infty)} 1/(a \log a) \to 0$ as $x \to \infty$ for each
-fixed $k$. If only finitely many strata contribute non-negligibly to a primitive set
-$A \subseteq [x, \infty)$, the total sum vanishes as $x \to \infty$. This is a
-possible proof strategy that does not rely on additional unlisted facts;
-formalizing it requires bounding how many strata can contribute $\geq \epsilon$
-for fixed $\epsilon > 0$. This remains open.
+**(Q9)** For primitive $A \subseteq [x, \infty)$, every element satisfies
+$a \geq x$, so $\log a \geq \log x$ and $1/(a \log a) \leq 1/(a \log x)$.
+This gives $\sum_{a \in A} 1/(a \log a) \leq (\sum_{a \in A} 1/a) / \log x$.
+Whether $\sum_{a \in A} 1/a$ for primitive $A \subseteq [x, \infty)$ is bounded
+in terms of $\log x$, and whether that bound is derivable from F1/F2/F3,
+is open. No claim is made here.
