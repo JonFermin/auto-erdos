@@ -249,3 +249,39 @@ $\sum_{a \in A} 1/(a \log a)$ for $A \subseteq [x, \infty)$ that is better
 than F1's uniform $1.399$. The conjecture's $< 1 + o(1)$ as $x \to \infty$
 requires a fact that distinguishes large-$x$ primitive sets from small-$x$ ones.
 Such a fact is not in the given ledger. This remains open.
+
+**Revised assessment (Q10):** There is one potential path using F3: F3 asserts that
+the series $\sum_{a \in A_k} 1/(a \log a)$ equals a specific finite number $< 1$.
+Asserting a finite value for an infinite series implicitly asserts the series converges.
+By the elementary real-analysis consequence that convergent series have tails tending
+to 0, we get $\sum_{a \in A_k,\, a \geq x} 1/(a \log a) \to 0$ as $x \to \infty$
+for each fixed $k$.
+This step is documented in `proof_lemmas/lemma_tail_vanishing.md`. Whether the critics
+accept this basic-analysis inference from F3 is tested in Round 3.
+
+---
+
+## Section 8 — Tail-Vanishing Approach via F3 (Q10, Q11)
+
+**Claim under investigation (Q10):** For each fixed $k$, the restriction of the
+$k$-th stratum to $[x, \infty)$ has Erdős-weight sum tending to 0 as $x \to \infty$.
+
+**Argument from F3:** F3 states that the full series over $A_k$ has a specific
+finite value. Any series with a finite sum is convergent, and every convergent
+series has tails tending to 0. Therefore $\sum_{a \in A_k,\, a \geq x} 1/(a \log a) \to 0$.
+This uses only F3 and the elementary fact that "convergent series have vanishing tails."
+No additional ledger entry is cited.
+
+**Why Q10 alone is insufficient (Q11):** Even granting Q10 for each fixed $k$,
+the multi-stratum sum cannot be controlled without a uniform rate. For $k = \lceil \log_2 x \rceil$,
+ALL elements of $A_k$ satisfy $a \geq 2^k \geq x$, so the restriction to $[x, \infty)$
+adds no savings, and the full $A_k$ sum (by F3) is $\approx 1 - (c+o(1))(\log_2 x)^2/x$,
+which approaches 1 as $x \to \infty$. The large-$k$ strata remain near 1 even for
+large $x$.
+
+**What this means:** The $k = \lceil \log_2 x \rceil$ stratum alone contributes nearly
+1 to the theoretical stratum sum, for every $x$. However, this is the contribution
+of the FULL stratum $A_k$. For a PRIMITIVE subset $A \cap A_k$, the contribution
+is bounded by the full stratum sum $< 1$. But whether a primitive subset of the
+$k = \lceil \log_2 x \rceil$ stratum achieves sum close to 1 is an open sub-question;
+it depends on how dense such primitive subsets can be. This remains open.
