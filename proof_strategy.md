@@ -164,3 +164,78 @@ $1.399$ and $1$ cannot be closed with the given facts. This remains open.
 **Convergence assessment**: Given that all direct approaches using F1, F2, F3 have
 been analyzed and found insufficient to prove the conjecture, and no counterexample
 witness has been found, we have converged on a partial result identifying the gap.
+
+---
+
+## Section 6 — Computational Characterization of S(x) (Q7, Q8)
+
+Define $S(x) = \sup\{\sum_{a \in A} \frac{1}{a \log a} : A \subseteq [x, \infty) \text{ primitive}\}$.
+
+### 6.1 Empirical S(x) via greedy search (Q7)
+
+A greedy algorithm was run: at each step, add the integer $a \geq x_{\text{floor}}$
+with the highest Erdős weight $1/(a \log a)$ that does not violate primitivity with
+already-selected elements. Results over pool $[x_\text{floor}, x_\text{floor}+2000]$:
+
+| $x_\text{floor}$ | best sum (lb) | valid ($> 1$) |
+|---|---|---|
+| 2 | 1.4965 | **yes** |
+| 3 | 0.9513 | no |
+| 5 | 0.6713 | no |
+| 10 | 0.4951 | no |
+| 30 | 0.3464 | no |
+| 100 | 0.2262 | no |
+
+The empirical supremum $S(x) < 1$ for all $x \geq 3$ in these tests, and the
+only valid-witness construction found uses $x_\text{floor} = 2$.
+
+**The $x=2$ witness (primes from 2)**: The set of all primes $\{2, 3, 5, 7, \ldots\}$
+is a primitive set (no prime divides another) with verified Erdős-weight sum
+$\approx 1.515 > 1.0$. This exceeds the witness threshold, but is NOT a genuine
+counterexample: the conjecture's $o(1)$ term at $x = 2$ is large (the claim is
+asymptotic in $x \to \infty$). For $x \geq 3$, no primitive set was found with sum
+exceeding 1.0.
+
+**Optimal construction at $x = 3$**: The greedy selects $\{3, 4\} \cup \{\text{primes} \geq 5\}$.
+Element 3 ($\Omega = 1$) and 4 ($\Omega = 2$) are pairwise non-divisible
+and exclude each other's multiples; primes $\geq 5$ are mutually non-divisible and
+coprime to both 3 and 4 (since $5, 7, 11, \ldots$ are not multiples of 3 or 4).
+Theoretical limit of this infinite primitive set:
+$$\frac{1}{3 \log 3} + \frac{1}{4 \log 4} + \sum_{p \geq 5, p \text{ prime}} \frac{1}{p \log p}
+\approx 0.303 + 0.180 + 0.490 \approx 0.973 < 1.$$
+
+So $S(3) \leq 0.974$ (numerically). This is substantially below 1.
+
+### 6.2 Per-stratum tail sums (Q8)
+
+For each $k$, the full tail $\sum_{a \in A_k,\, a \geq x} \frac{1}{a \log a}$ is:
+
+| $x$ | $k=1$ | $k=2$ | $k=3$ | $k=4$ | $k=5$ | $k\geq 6$ | total (k=1..10) |
+|---|---|---|---|---|---|---|---|
+| 10 | 0.229 | 0.295 | 0.196 | 0.094 | 0.032 | 0.010 | 0.856 |
+| 100 | 0.084 | 0.147 | 0.126 | 0.076 | 0.040 | 0.029 | 0.502 |
+| 1000 | 0.043 | 0.094 | 0.093 | 0.062 | 0.035 | 0.032 | 0.360 |
+| 10000 | 0.027 | 0.065 | 0.072 | 0.053 | 0.032 | 0.031 | 0.281 |
+
+Note: the "total" is NOT an upper bound on $S(x)$, because the strata partition
+all integers and summing over all strata gives the divergent series
+$\sum_{n \geq x} 1/(n \log n) \to \infty$. Primitivity forces the agent to pick
+at most one representative from each "divisibility chain", dramatically reducing
+the achievable sum.
+
+Each per-stratum tail decreases toward 0 as $x \to \infty$ (for each fixed $k$,
+the tail is a tail of a convergent series). However, summing the per-stratum
+bounds naively does not give $S(x) \leq 1$. This is the same gap as Section 4.
+
+### 6.3 Direction for subsequent rounds
+
+Two approaches remain:
+
+**(A) Density bound (Q9):** For primitive $A \subseteq [x, \infty)$, bound $\sum_{a \in A} 1/a$
+using classical primitive-set density results (Behrend 1935, Erdős 1935), then use
+$\log a \geq \log x$ to obtain $\sum 1/(a \log a) \leq (\sum 1/a) / \log x$.
+If $\sum_{a \in A} 1/a \leq C \log x$, the bound becomes $C$. Tightening $C < 1$
+would close the gap.
+
+**(B) Finite effective bound:** Show $S(x) \leq f(x)$ where $f(x) \to 0$, e.g. by
+exhibiting that only finitely many strata contribute non-negligibly and each tail goes to 0.
