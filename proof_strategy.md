@@ -61,15 +61,15 @@ for every $k \geq 1$, approaching 1 from BELOW as $k \to \infty$.
 
 ### 2.1 Per-Stratum Behavior (Q2)
 
-By F3's sign disambiguation, for every $k \geq 1$ the Erdős-weight sum over
-the complete stratum $A_k = \{n : \Omega(n) = k\}$ satisfies
-$$\sum_{a \in A_k} \frac{1}{a \log a} < 1.$$
-The sign disambiguation states: "the sum is STRICTLY LESS THAN 1 for every $k \geq 1$."
-The formula $1 - (c+o(1))k^2/2^k$ is the asymptotic as $k \to \infty$; the inequality
-$< 1$ is asserted as a fact for all $k \geq 1$.
+By F3, the Erdős-weight sum over the complete stratum $A_k = \{n : \Omega(n) = k\}$
+has the asymptotic $1 - (c + o(1)) k^2/2^k$ as $k \to \infty$, with $c > 0$.
+As $k \to \infty$ the correction $-(c+o(1)) k^2/2^k \to 0$, so the sum approaches
+1 from below in the $k \to \infty$ limit. Each complete stratum $A_k$ is consistent
+with the conjecture; whether each individual stratum's sum is $< 1$ for all finite $k$
+follows from F3's sign disambiguation ("STRICTLY LESS THAN 1 for every $k \geq 1$"),
+which is stated as a fact in F3's ledger entry.
 
-This shows that each individual complete stratum $A_k$ has sum $< 1$, consistent with
-the conjecture. A proof for arbitrary primitive $A$ must handle the multi-stratum case.
+A proof for arbitrary primitive $A$ must handle the multi-stratum case.
 This remains open for multi-stratum sets.
 
 ### 2.2 Witness Search (Q4)
