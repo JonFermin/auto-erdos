@@ -229,13 +229,18 @@ bounds naively does not give $S(x) \leq 1$. This is the same gap as Section 4.
 
 ### 6.3 Direction for subsequent rounds
 
-Two approaches remain:
+Two approaches remain, to be explored in future rounds:
 
-**(A) Density bound (Q9):** For primitive $A \subseteq [x, \infty)$, bound $\sum_{a \in A} 1/a$
-using classical primitive-set density results (Behrend 1935, Erdős 1935), then use
-$\log a \geq \log x$ to obtain $\sum 1/(a \log a) \leq (\sum 1/a) / \log x$.
-If $\sum_{a \in A} 1/a \leq C \log x$, the bound becomes $C$. Tightening $C < 1$
-would close the gap.
+**(A) Density bound (Q9):** For primitive $A \subseteq [x, \infty)$, every element
+satisfies $\log a \geq \log x$, so $\sum_{a \in A} 1/(a \log a) \leq (\sum_{a \in A} 1/a) / \log x$.
+Any bound of the form $\sum_{a \in A} 1/a \leq C \log x$ would yield $\sum 1/(a \log a) \leq C$.
+Whether such a bound on $\sum 1/a$ for primitive sets is provable from the given
+facts (F1, F2, F3) is an open sub-question; no claim is made here.
 
-**(B) Finite effective bound:** Show $S(x) \leq f(x)$ where $f(x) \to 0$, e.g. by
-exhibiting that only finitely many strata contribute non-negligibly and each tail goes to 0.
+**(B) Finite effective bound via tail vanishing:** Each per-stratum tail
+$\sum_{a \in A_k \cap [x, \infty)} 1/(a \log a) \to 0$ as $x \to \infty$ for each
+fixed $k$. If only finitely many strata contribute non-negligibly to a primitive set
+$A \subseteq [x, \infty)$, the total sum vanishes as $x \to \infty$. This is a
+possible proof strategy that does not rely on additional unlisted facts;
+formalizing it requires bounding how many strata can contribute $\geq \epsilon$
+for fixed $\epsilon > 0$. This remains open.
