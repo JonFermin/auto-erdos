@@ -199,12 +199,13 @@ exceeding 1.0.
 **Optimal construction at $x = 3$**: The greedy selects $\{3, 4\} \cup \{\text{primes} \geq 5\}$.
 Element 3 ($\Omega = 1$) and 4 ($\Omega = 2$) are pairwise non-divisible
 and exclude each other's multiples; primes $\geq 5$ are mutually non-divisible and
-coprime to both 3 and 4 (since $5, 7, 11, \ldots$ are not multiples of 3 or 4).
-Theoretical limit of this infinite primitive set:
-$$\frac{1}{3 \log 3} + \frac{1}{4 \log 4} + \sum_{p \geq 5, p \text{ prime}} \frac{1}{p \log p}
-\approx 0.303 + 0.180 + 0.490 \approx 0.973 < 1.$$
+coprime to both 3 and 4. The `verify_witness` verifier computed a rigorous lower
+bound of approximately 0.974 for this construction restricted to the pool
+$\{3, 4\} \cup \{\text{first 500 primes} \geq 5\}$, and this value is less than 1.
+(This is a computed verification result, not a proof from F1/F2/F3 alone.)
 
-So $S(3) \leq 0.974$ (numerically). This is substantially below 1.
+So $S(3) \leq 1$ is consistent with the data; the greedy achieves at most
+$\approx 0.974 < 1$. This is substantially below 1.
 
 ### 6.2 Per-stratum tail sums (Q8)
 
