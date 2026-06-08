@@ -286,3 +286,42 @@ per-stratum sum is uniformly bounded away from 1.
 (by F3) but approaching 1. For a PRIMITIVE subset $A \cap A_k$, the contribution
 is bounded by the full stratum sum $< 1$. Whether such a primitive subset achieves
 sum approaching 1 for large $k(x)$ is open. This remains open.
+
+---
+
+## Section 9 — Elementary Octave Bound and Minimum Necessary Fact (Q12, Q13)
+
+### 9.1 Single-octave bound (proved, Q12)
+
+For any $A \subseteq [x, 2x]$ (primitive or not), every element $a \geq x$ satisfies
+$a \log a \geq x \log x$, hence $1/(a \log a) \leq 1/(x \log x)$.
+With $|A| \leq x + 1$ integers in $[x, 2x]$:
+$$\sum_{a \in A} \frac{1}{a \log a} \leq \frac{x+1}{x \log x} \leq \frac{2}{\log x}.$$
+
+This is an elementary inequality using no ledger facts. See
+`proof_lemmas/lemma_octave_bound.md` for the complete proof.
+
+**Limitation:** Summing the bound $2/(j \log 2 + \log x)$ over all octaves
+$j = 0, 1, 2, \ldots$ gives a divergent series. The primitivity constraint
+across octaves must reduce the total.
+
+### 9.2 Minimum necessary fact (Q13)
+
+Let **Fact X** denote: for primitive $A \subseteq [x, \infty)$,
+$\sum_{a \in A} 1/a = O(\log x)$ as $x \to \infty$.
+
+If Fact X holds, then for all $a \geq x$, $\log a \geq \log x$ gives:
+$$\sum_{a \in A} \frac{1}{a \log a} \leq \frac{1}{\log x} \cdot O(\log x) = O(1).$$
+
+For the sharper Fact X': $\sum_{a \in A} 1/a \leq (1 + o(1)) \log x$, the bound
+would give $\sum 1/(a \log a) \leq 1 + o(1)$, which is exactly the conjecture.
+
+**Fact X is not derivable from F1, F2, F3:** None of the ledger facts
+establish a density bound ($\sum 1/a$ bound) for primitive sets. Fact X is a
+density result of the type proved by Behrend and Erdős in work that is NOT
+part of the current ledger. See `proof_lemmas/lemma_minimum_fact.md`.
+
+**Summary of proof attempt:** The gap analysis (Sections 7, 8, 9) exhausts
+all approaches using F1/F2/F3 alone. The conjecture requires a density result
+for primitive sets (Fact X or equivalent) not present in the given ledger.
+This remains open.
