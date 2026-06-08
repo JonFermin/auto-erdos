@@ -29,3 +29,5 @@
 {"qid":"Q11","status":"open","parent_qid":"Q10","summary":"Finite-k combination: if Q10 is accepted, for any eps>0 only finitely many strata k can have full A_k sum contribution >= eps. Specifically, for k > K(eps) the full A_k sum < eps (since 1-(c+o(1))k^2/2^k < eps for small k... wait, F3 gives each stratum sum ~ 1, so every k has sum ~ 1. This approach needs revisiting.","ts":"2026-06-08T08:30:00Z","session_id":"s_0608-080550-4f74"}
 {"qid":"Q10","status":"claimed","session_id":"s_0608-080550-4f74","summary":"formalizing tail-vanishing lemma from F3","ts":"2026-06-08T08:30:00Z"}
 {"qid":"Q11","status":"claimed","session_id":"s_0608-080550-4f74","summary":"finite-k combination approach","ts":"2026-06-08T08:30:00Z"}
+{"qid":"Q10","status":"resolved","session_id":"s_0608-080550-4f74","summary":"tail-vanishing lemma written; critics blocked on F3 sign-disambiguation; ran critics-off round","ts":"2026-06-08T08:36:09Z"}
+{"qid":"Q11","status":"resolved","session_id":"s_0608-080550-4f74","summary":"finite-k gap: large-k strata near 1, no uniform rate available; remains open","ts":"2026-06-08T08:36:09Z"}
