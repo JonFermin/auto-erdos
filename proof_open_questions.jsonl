@@ -23,3 +23,5 @@
 {"qid":"Q7","status":"resolved","session_id":"s_0608-080550-4f74","summary":"witness search complete: no primitive set in [x,inf) with sum>1 found for x>=3; S(x) decreases with x from 0.951 at x=3 to 0.226 at x=100","ts":"2026-06-08T08:23:31Z"}
 {"qid":"Q8","status":"claimed","session_id":"s_0608-080550-4f74","summary":"analyzing why density-log bound is insufficient; documenting gap between F1 and conjecture","ts":"2026-06-08T08:24:46Z"}
 {"qid":"Q9","status":"claimed","session_id":"s_0608-080550-4f74","summary":"density-log bound lemma: document approach and failure mode","ts":"2026-06-08T08:24:46Z"}
+{"qid":"Q8","status":"resolved","session_id":"s_0608-080550-4f74","summary":"per-stratum tail sums computed and documented; gap analysis shows F1/F2/F3 all lack x-sensitivity needed for conjecture","ts":"2026-06-08T08:26:52Z"}
+{"qid":"Q9","status":"resolved","session_id":"s_0608-080550-4f74","summary":"density-log bound: approach identified but shown insufficient with given facts; lemma file created","ts":"2026-06-08T08:26:52Z"}
