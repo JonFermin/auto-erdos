@@ -206,8 +206,10 @@ on the full tail (truncated pool):
 | 1000 | 0.043 | 0.094 | 0.093 | 0.062 | 0.035 |
 | 10000 | 0.027 | 0.065 | 0.072 | 0.053 | 0.032 |
 
-Each per-stratum column decreases as $x$ grows. The per-stratum values are
-computed observations. Whether and why they approach 0 as $x \to \infty$
+These are LOWER bounds on the full tail: the pool $[x, 20x]$ misses elements $> 20x$.
+The values are computed observations. No monotonicity claim is made;
+the truncated pool means larger-$x$ rows may miss more of the true tail.
+Whether and why the full per-stratum tails approach 0 as $x \to \infty$
 is an open sub-question for a future round.
 
 ### 6.3 Open sub-questions for subsequent rounds
