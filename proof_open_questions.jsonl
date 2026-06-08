@@ -35,3 +35,5 @@
 {"qid":"Q13","status":"open","parent_qid":"Q12","summary":"Minimum-fact identification: the single-octave bound (Q12) gives sum over A∩[x,2x] -> 0. For ALL of A in [x,inf), need to sum over octaves. This requires either: (a) that primitive A clusters near x (bounded number of octaves), or (b) a cross-octave exclusion principle. What MINIMUM additional fact is needed? Document this precisely.","ts":"2026-06-08T08:38:04Z","session_id":"s_0608-080550-4f74"}
 {"qid":"Q12","status":"claimed","session_id":"s_0608-080550-4f74","summary":"single-octave elementary bound","ts":"2026-06-08T08:38:04Z"}
 {"qid":"Q13","status":"claimed","session_id":"s_0608-080550-4f74","summary":"minimum-fact analysis","ts":"2026-06-08T08:38:04Z"}
+{"qid":"Q12","status":"resolved","session_id":"s_0608-080550-4f74","summary":"single-octave bound proved elementarily: sum <= 2/log x for A in [x,2x]; no ledger facts needed","ts":"2026-06-08T08:39:47Z"}
+{"qid":"Q13","status":"resolved","session_id":"s_0608-080550-4f74","summary":"Fact X identified as minimum necessary: sum_{a in A} 1/a = O(log x) for primitive A in [x,inf); not derivable from F1/F2/F3","ts":"2026-06-08T08:39:47Z"}
