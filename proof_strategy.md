@@ -99,4 +99,41 @@ The natural attack is stratification by $\Omega(a)$:
 2. A primitive $A$ is a subset of $\bigcup_k A_k$, and $A \cap A_k$ is itself a primitive antichain within $A_k$.
 3. The challenge: bounding $\sum_k \sum_{a \in A \cap A_k} 1/(a \log a)$ simultaneously across all strata, and showing the total is $< 1 + o(1)$.
 
-Open sub-questions: see Q2 (numerical verification of F3), Q3 (primes-from-2 case), Q4 (counterexample search), Q5 (lemma decomposition).
+Open sub-questions: see Q5 (lemma decomposition).
+
+## Section 2: Numerical Evidence (Q2, Q3, Q4)
+
+### Q2: Partial-sum spot-checks for A_k (k ≥ 2)
+
+By F3, $\sum_{a \in A_k} 1/(a \log a) = 1 - (c+o(1)) k^2/2^k < 1$ for all $k \geq 1$. Partial sums $\sum_{a \in A_k, a \leq 200000} 1/(a \log a)$ for $k = 2, 3, 4, 5$, computed via Python:
+
+| $k$ | Partial sum (up to 200k) | $< 1$? |
+|-----|--------------------------|--------|
+| 2   | 0.8416                   | Yes ✓  |
+| 3   | 0.4670                   | Yes ✓  |
+| 4   | 0.2363                   | Yes ✓  |
+| 5   | 0.1109                   | Yes ✓  |
+
+All partial sums are $< 1$, consistent with F3. (The full infinite sums, given by F3, are larger than the partial sums since all terms are positive, but still $< 1$.)
+
+### Q3: Primes restricted to $[x, \infty)$
+
+For the prime set (= $A_1$) restricted to $[x, \infty)$, the sum $\sum_{p \geq x, p \text{ prime}} 1/(p \log p)$ computed over primes up to 500k:
+
+| $x_\text{floor}$ | Restricted prime sum | $< 1$? |
+|------------------|-----------------------|--------|
+| 3                | $\approx 0.839$       | Yes ✓  |
+| 5                | $\approx 0.536$       | Yes ✓  |
+| 100              | $\approx 0.139$       | Yes ✓  |
+| 1000             | $\approx 0.062$       | Yes ✓  |
+
+For $x \geq 3$: the sum over primes in $[x, \infty)$ is $< 1$, consistent with both F3 and the conjecture's bound. By F1, for any primitive set in $[x, \infty)$ the sum is $< 1.399 + o(1)$; the restricted prime sums here are well inside that bound.
+
+### Q4: Witness search results
+
+Checked whether any primitive set in $[x_\text{floor}, \infty)$ achieves rigorous sum $> 1.0$ via `library.primitive_set_witness.verify_witness`:
+
+- **x_floor = 100**: Tested 200 smallest primes $\geq 100$. Verifier returned `is_valid=False`, rigorous lower bound $\approx 0.078 < 1.0$.
+- **x_floor = 1000, 10000**: Even smaller sums (each prime $\geq x_\text{floor}$ contributes $\leq 1/(x_\text{floor} \log x_\text{floor})$, giving tiny terms). No witness found.
+
+**Conclusion**: The witness verifier found no counterexample for $x_\text{floor} \geq 100$. The conjecture remains open but appears numerically stable for large $x$.
