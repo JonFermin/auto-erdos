@@ -99,7 +99,7 @@ The natural attack is stratification by $\Omega(a)$:
 2. A primitive $A$ is a subset of $\bigcup_k A_k$, and $A \cap A_k$ is itself a primitive antichain within $A_k$.
 3. The challenge: bounding $\sum_k \sum_{a \in A \cap A_k} 1/(a \log a)$ simultaneously across all strata, and showing the total is $< 1 + o(1)$.
 
-Open sub-questions: see Q5 (lemma decomposition).
+Open sub-questions: see Q5 (complete — see Section 3).
 
 ## Section 2: Numerical Evidence (Q2, Q3, Q4)
 
@@ -137,3 +137,40 @@ Checked whether any primitive set in $[x_\text{floor}, \infty)$ achieves rigorou
 - **x_floor = 1000, 10000**: Even smaller sums (each prime $\geq x_\text{floor}$ contributes $\leq 1/(x_\text{floor} \log x_\text{floor})$, giving tiny terms). No witness found.
 
 **Conclusion**: The witness verifier found no counterexample for $x_\text{floor} \geq 100$. The conjecture remains open but appears numerically stable for large $x$.
+
+## Section 3: Proof Structure and Lemma Decomposition (Q5)
+
+The proof is decomposed into three lemmas, ordered by difficulty:
+
+### Lemma stratum_bound (easy — follows directly from F3)
+
+For any primitive set $A$ and any $k \geq 1$:
+$$\sum_{a \in A \cap A_k} \frac{1}{a \log a} \leq \sum_{a \in A_k} \frac{1}{a \log a} = 1 - (c + o(1)) \frac{k^2}{2^k} < 1.$$
+
+This follows immediately from F3 (the equality) and monotonicity. Each stratum's contribution is bounded by $< 1$.
+
+See `proof_lemmas/lemma_stratum_bound.md`.
+
+### Lemma cross_stratum_sum (HARD — core open problem)
+
+For any primitive $A \subset [x, \infty)$, the TOTAL sum across all strata satisfies:
+$$\sum_{a \in A} \frac{1}{a \log a} = \sum_{k \geq 1} \sum_{a \in A \cap A_k} \frac{1}{a \log a} < 1 + o(1).$$
+
+This is the main open challenge. Lemma stratum_bound bounds each stratum by $< 1$, but naively summing over $k$ gives $\sum_{k \geq 1} 1 = \infty$. The primitive set constraint (no divisibility relations) is needed to show the total is small. Current obstacle: no known proof technique closes this using only F1/F2/F3.
+
+See `proof_lemmas/lemma_cross_stratum_sum.md`.
+
+### Lemma f1_gap (HARD — the key gap to close)
+
+Closing the gap between F1 ($< 1.399 + o(1)$) and the conjecture ($< 1 + o(1)$). The improvement comes from the $x \to \infty$ restriction: elements of $A$ are large, so individual terms are small. The challenge is translating this "each term is small" intuition into a rigorous bound $< 1 + o(1)$.
+
+See `proof_lemmas/lemma_f1_gap.md`.
+
+### Summary of proof strategy
+
+The proof outline is:
+1. By Lemma stratum_bound (easy, proved from F3): each stratum contributes $< 1$.
+2. By Lemma cross_stratum_sum (OPEN): the total is $< 1 + o(1)$.
+3. Lemma f1_gap (OPEN): provides the F1 → 1 improvement.
+
+The proof currently stands as a **partial result**: the per-stratum bound (Step 1) is tight (follows from given facts), but the cross-stratum summation (Step 2) and the F1 gap (Step 3) are open. Closing either of the hard lemmas would complete the proof.
