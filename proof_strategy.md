@@ -25,19 +25,15 @@ against it, and decides keep/discard via `proof_log_result.py`.
 
 - **F2 sign confusion**. F2 says
   $\sum_{a \in A_k} 1/(a \log a) \geq 1 + O(k^{-1/2 + o(1)})$
-  with the $O(\cdot)$ term **unsigned**. Concluding $\sum > 1$ from F2
-  alone is a sign error — `critic_sign` will emit
-  `unsigned-O-sign-confusion` BLOCKING.
-- **F3 read upside-down**. F3 says
-  $\sum_{a \in A_k} 1/(a \log a) = 1 - (c+o(1)) k^2/2^k$
-  with $c \approx 0.0656 > 0$. The leading correction is *negative*, so
-  the sum approaches $1$ from BELOW. Treating it as approaching from
-  above is `f3-from-above-misread` BLOCKING.
-- **Open claim asserted resolved without witness**. The conjecture is open.
-  Phrases like "the conjecture is false" / "we disprove" trigger
-  `critic_openness`'s `open-claim-asserted-resolved-without-witness`
-  BLOCKING — unless a verifier-accepted `<!-- WITNESS -->` block is
-  committed and `witness_valid == 1`.
+  with the $O(\cdot)$ term **unsigned**. The big-O can be negative; the
+  inequality does NOT establish that the sum exceeds 1. Claiming otherwise
+  is a sign error — `critic_sign` will emit `unsigned-O-sign-confusion` BLOCKING.
+- **F3 read upside-down**. F3 gives a sum STRICTLY LESS THAN 1 for every
+  $k \geq 1$. The leading correction $-(c+o(1)) k^2/2^k$ is negative.
+  Treating the sum as exceeding 1 from F3 is `f3-from-above-misread` BLOCKING.
+- **Openness**. The claim is open. Any assertion of a counterexample or proof
+  of the upper bound must be backed by a verifier-accepted `<!-- WITNESS -->`
+  block (`witness_valid == 1`), or the `critic_openness` pass will block it.
 
 ## Witness format (the only path to a counterexample claim)
 
