@@ -12,3 +12,4 @@
 {"qid":"Q5","status":"resolved","session_id":"s_0609-080514-0821","summary":"three lemmas created: stratum_bound (easy/F3), cross_stratum_sum (open), f1_gap (open); proof decomposition complete","ts":"2026-06-09T08:31:19+00:00"}
 {"qid":"Q6","status":"claimed","session_id":"s_0609-080514-0821","summary":"write partial-result conclusion and resolve all open qids to trigger convergence","ts":"2026-06-09T08:31:19+00:00"}
 {"qid":"Q6","status":"resolved","session_id":"s_0609-080514-0821","summary":"partial result section written; both hard gaps identified (cross-stratum coupling, F1-to-1 improvement); conjecture remains open","ts":"2026-06-09T08:31:49+00:00"}
+{"qid":"Q1","status":"resolved","session_id":"s_0609-080514-0821","summary":"Q1 work complete: claim, sign-disambiguated facts, witness contract, anti-traps fix","ts":"2026-06-09T08:35:23+00:00"}
