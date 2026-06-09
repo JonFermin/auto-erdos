@@ -1,0 +1,2 @@
+{"event":"round","session_id":"s_0609-080514-0821","ts":"2026-06-09T08:28:52+00:00","summary":"Q2+Q3+Q4 numerical section: 0 blocking, 11 warn, keep_progress","qid":"Q2+Q3+Q4","status":"keep_progress","commit":"7d21fb6"}
+{"event":"round","session_id":"s_0609-080514-0821","ts":"2026-06-09T08:31:19+00:00","summary":"Q5 lemma decomposition: partial_result verdict, 0 blocking, keep_progress","qid":"Q5","status":"keep_progress","commit":"6daead8"}

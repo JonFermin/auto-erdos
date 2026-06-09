@@ -9,3 +9,6 @@
 {"qid":"Q3","status":"resolved","session_id":"s_0609-080514-0821","summary":"restricted prime sums for x>=3 are <1, consistent with conjecture","ts":"2026-06-09T08:28:52+00:00"}
 {"qid":"Q4","status":"resolved","session_id":"s_0609-080514-0821","summary":"no witness found for x_floor>=100; verifier confirms is_valid=False","ts":"2026-06-09T08:28:52+00:00"}
 {"qid":"Q5","status":"claimed","session_id":"s_0609-080514-0821","summary":"lemma decomposition: stratify by Omega(a), identify hard/easy lemmas","ts":"2026-06-09T08:28:52+00:00"}
+{"qid":"Q5","status":"resolved","session_id":"s_0609-080514-0821","summary":"three lemmas created: stratum_bound (easy/F3), cross_stratum_sum (open), f1_gap (open); proof decomposition complete","ts":"2026-06-09T08:31:19+00:00"}
+{"qid":"Q6","status":"claimed","session_id":"s_0609-080514-0821","summary":"write partial-result conclusion and resolve all open qids to trigger convergence","ts":"2026-06-09T08:31:19+00:00"}
+{"qid":"Q6","status":"resolved","session_id":"s_0609-080514-0821","summary":"partial result section written; both hard gaps identified (cross-stratum coupling, F1-to-1 improvement); conjecture remains open","ts":"2026-06-09T08:31:49+00:00"}

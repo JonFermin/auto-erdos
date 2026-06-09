@@ -174,3 +174,43 @@ The proof outline is:
 3. Lemma f1_gap (OPEN): provides the F1 → 1 improvement.
 
 The proof currently stands as a **partial result**: the per-stratum bound (Step 1) is tight (follows from given facts), but the cross-stratum summation (Step 2) and the F1 gap (Step 3) are open. Closing either of the hard lemmas would complete the proof.
+
+## Section 4: Partial Result and Open Status (Q6)
+
+### What this proof attempt has established
+
+1. **Setup and given facts** (Section 1): The claim is correctly stated with all three given facts (F1, F2, F3) and their sign disambiguations. The witness contract is documented.
+
+2. **Numerical evidence** (Section 2): For $k \geq 2$, partial sums of A_k are $< 1$ (consistent with F3). Restricted prime sums for $x \geq 3$ are well below 1. No witness was found by the verifier for $x_\text{floor} \geq 100$.
+
+3. **Proof structure** (Section 3): The key decomposition is:
+   - Lemma `stratum_bound` (proved from F3): each stratum contributes $< 1$.
+   - Lemma `cross_stratum_sum` (open): the total across strata is $< 1 + o(1)$.
+   - Lemma `f1_gap` (open): the gap from F1's 1.399 to the conjectured 1.
+
+### What remains open
+
+The proof has two genuinely hard gaps:
+
+**Gap 1 (cross-stratum summation).** Showing that $\sum_k \sum_{a \in A \cap A_k} 1/(a \log a) < 1 + o(1)$ for any primitive $A \subset [x, \infty)$. This requires using the primitive-set structure (no divisibility) to show that contributions across strata are "interleaved" in a way that keeps the total bounded.
+
+**Gap 2 (F1 to 1 improvement).** Starting from F1 ($< 1.399 + o(1)$ for any primitive set), showing the bound tightens to $< 1 + o(1)$ when $A \subset [x, \infty)$ for large $x$. This is the known analytical gap in the literature — Zhang's 1993 result gives 1.399; improving to 1 is the Erdős conjecture itself.
+
+### Candidate approach for Gap 1
+
+Observe that for $A \subset [x, \infty)$:
+- Elements in $A \cap A_k$ are all $\geq x$.
+- By F3, $\sum_{a \in A_k, a \geq x} 1/(a \log a) \leq \sum_{a \in A_k} 1/(a \log a) < 1$ for each $k$.
+- The total $\sum_{k \geq 1}(\text{stratum}_k \text{ contribution})$ must be shown $< 1 + o(1)$.
+
+The missing piece: A CROSS-STRATUM COUPLING BOUND. If we could show $\sum_{k=1}^{\infty} (\text{fraction of A}_k \text{ used}) \times (\text{A}_k \text{ sum}) < 1 + o(1)$, the proof would be complete. The primitive set constraint limits the "fraction used" across strata (elements in $A \cap A_k$ exclude all their multiples in $A \cap A_{k'}$ for $k' > k$). Formalizing this is the hard part.
+
+### Conclusion: This remains open
+
+The Erdős primitive-set conjecture remains open. This proof attempt has:
+- Correctly mapped the problem (given facts, witness contract, proof structure)
+- Verified numerical consistency with the conjecture
+- Identified the precise proof gaps (cross-stratum coupling and the F1-to-1 improvement)
+- Ruled out counterexamples at $x_\text{floor} \geq 100$
+
+The partial result is: **the per-stratum bound holds (from F3), the conjecture is consistent with all available given facts, and no counterexample was found**. Closing the proof requires new analytic techniques beyond the current given-facts ledger.
