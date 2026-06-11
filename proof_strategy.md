@@ -103,18 +103,14 @@ Open sub-questions: see Q5 (complete — see Section 3).
 
 ## Section 2: Numerical Evidence (Q2, Q3, Q4)
 
-### Q2: Partial-sum spot-checks for A_k (k ≥ 2)
+### Q2: Stratum sum bounds from F3
 
-By F3, $\sum_{a \in A_k} 1/(a \log a) = 1 - (c+o(1)) k^2/2^k < 1$ for all $k \geq 1$. Partial sums $\sum_{a \in A_k, a \leq 200000} 1/(a \log a)$ for $k = 2, 3, 4, 5$, computed via Python:
+By F3, for all $k \geq 1$:
+$$\sum_{a \in A_k} \frac{1}{a \log a} = 1 - (c + o(1)) \frac{k^2}{2^k} < 1.$$
 
-| $k$ | Partial sum (up to 200k) | $< 1$? |
-|-----|--------------------------|--------|
-| 2   | 0.8416                   | Yes ✓  |
-| 3   | 0.4670                   | Yes ✓  |
-| 4   | 0.2363                   | Yes ✓  |
-| 5   | 0.1109                   | Yes ✓  |
+This is an ANALYTIC result from the given-facts ledger (F3). No numerical verification is needed: the inequality $< 1$ follows from $c > 0$ and $k^2/2^k > 0$. The strata with the largest sums are the low-$k$ strata (small $k$, many large prime-power-products), but all sums converge to 1 from below as $k \to \infty$.
 
-All partial sums are $< 1$, consistent with F3. (The full infinite sums, given by F3, are larger than the partial sums since all terms are positive, but still $< 1$.)
+This sub-question (Q2) is answered directly by F3 and needs no further computation.
 
 ### Q3: Primes restricted to $[x, \infty)$
 
@@ -152,14 +148,25 @@ This shows that even the densest possible primitive set in a dyadic interval has
 
 The proof is decomposed into three lemmas, ordered by difficulty:
 
-### Lemma stratum_bound (easy — follows directly from F3)
+### Lemma stratum_bound (PROVED — from F3 and monotonicity)
 
 For any primitive set $A$ and any $k \geq 1$:
 $$\sum_{a \in A \cap A_k} \frac{1}{a \log a} \leq \sum_{a \in A_k} \frac{1}{a \log a} = 1 - (c + o(1)) \frac{k^2}{2^k} < 1.$$
 
-This follows immediately from F3 (the equality) and monotonicity. Each stratum's contribution is bounded by $< 1$.
+The first inequality holds because $A \cap A_k \subseteq A_k$ and all terms are positive. The equality is F3. The $< 1$ follows from F3's sign disambiguation ($c > 0$). Status: **proved** (round 5).
 
 See `proof_lemmas/lemma_stratum_bound.md`.
+
+### Lemma single_interval (PROVED — elementary calculus, no ledger facts)
+
+For any $A \subseteq [x, 2x)$ (which is automatically primitive, since $b/a \in (1,2)$ for any $a < b$ in the interval):
+$$\sum_{a \in A} \frac{1}{a \log a} < \frac{\log 2}{\log x} \to 0 \quad \text{as } x \to \infty.$$
+
+Proof uses only: integral comparison $\sum \leq \int_x^{2x} dt/(t\log t) = \log(\log 2x/\log x)$ and $\log(1+u) < u$. No F1/F2/F3 needed.
+
+This proves the SINGLE-BLOCK CASE of Lemma f1_gap: for $A$ contained in one dyadic interval, the sum is $o(1)$. Status: **proved** (round 5).
+
+See `proof_lemmas/lemma_single_interval.md`.
 
 ### Lemma cross_stratum_sum (HARD — partial proof available)
 
@@ -191,13 +198,15 @@ The proof outline is:
 2. By Lemma cross_stratum_sum (partially proved, open for constant 1): the total is $< 1.399$ (proved via F1) and $< 1 + o(1)$ (open).
 3. Lemma f1_gap (OPEN): provides the F1 → 1 improvement; dyadic decomposition identifies the core obstacle.
 
-**Provable partial results (from Q7):**
-- $\sum_{a \in A} f(a) < 1.399$ (F1) — closed.
-- For any fixed $K$: the low-$k$ strata contribute $o(1)$ as $x \to \infty$ (tail argument) — closed.
+**Proved partial results:**
+- $\sum_{a \in A} f(a) < 1.399$ for any primitive $A$ (F1) — **proved**.
+- Lemma `stratum_bound`: each stratum contributes $< 1$ (F3 + monotonicity) — **proved** (round 5).
+- Lemma `single_interval`: for $A \subseteq [x, 2x)$, sum $< \log 2/\log x \to 0$ (calculus) — **proved** (round 5).
+- For any fixed $K$: the low-$k$ strata contribute $o(1)$ as $x \to \infty$ (F3 convergence) — **proved**.
 
 **Remaining open gaps:**
-- High-$k$ strata require cross-stratum coupling via the primitive antichain constraint (beyond F1/F2/F3).
-- The F1-to-1 improvement requires a new sieve/smooth-number argument.
+- Lemma `cross_stratum_sum` (high-$k$ part): the primitive antichain constraint must suppress simultaneous large contributions across all high-$k$ strata. Not provable from F1/F2/F3 alone.
+- Lemma `f1_gap` (multi-block case): extending Lemma single_interval from one dyadic block to $A$ spanning multiple blocks. This is the core of the conjecture.
 
 Closing either gap would constitute a significant new result beyond Zhang 1993.
 

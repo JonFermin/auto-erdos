@@ -1,8 +1,8 @@
 ---
 id: stratum_bound
-status: open
+status: proved
 depends_on: []
-discharged_by_round: null
+discharged_by_round: 5
 introduced_at_round: 4
 ---
 
