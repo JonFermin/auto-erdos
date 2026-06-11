@@ -13,3 +13,5 @@
 {"qid":"Q6","status":"claimed","session_id":"s_0609-080514-0821","summary":"write partial-result conclusion and resolve all open qids to trigger convergence","ts":"2026-06-09T08:31:19+00:00"}
 {"qid":"Q6","status":"resolved","session_id":"s_0609-080514-0821","summary":"partial result section written; both hard gaps identified (cross-stratum coupling, F1-to-1 improvement); conjecture remains open","ts":"2026-06-09T08:31:49+00:00"}
 {"qid":"Q1","status":"resolved","session_id":"s_0609-080514-0821","summary":"Q1 work complete: claim, sign-disambiguated facts, witness contract, anti-traps fix","ts":"2026-06-09T08:35:23+00:00"}
+{"qid":"Q7","status":"claimed","session_id":"s_0611-080505-e1cc","summary":"cross_stratum_sum: F1-based partial proof + tail argument for low-k strata","ts":"2026-06-11T08:09:15+00:00"}
+{"qid":"Q8","status":"claimed","session_id":"s_0611-080505-e1cc","summary":"f1_gap: x-restricted analysis via dyadic decomposition","ts":"2026-06-11T08:09:15+00:00"}

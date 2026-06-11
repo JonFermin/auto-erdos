@@ -151,18 +151,26 @@ This follows immediately from F3 (the equality) and monotonicity. Each stratum's
 
 See `proof_lemmas/lemma_stratum_bound.md`.
 
-### Lemma cross_stratum_sum (HARD — core open problem)
+### Lemma cross_stratum_sum (HARD — partial proof available)
 
 For any primitive $A \subset [x, \infty)$, the TOTAL sum across all strata satisfies:
 $$\sum_{a \in A} \frac{1}{a \log a} = \sum_{k \geq 1} \sum_{a \in A \cap A_k} \frac{1}{a \log a} < 1 + o(1).$$
 
-This is the main open challenge. Lemma stratum_bound bounds each stratum by $< 1$, but naively summing over $k$ gives $\sum_{k \geq 1} 1 = \infty$. The primitive set constraint (no divisibility relations) is needed to show the total is small. Current obstacle: no known proof technique closes this using only F1/F2/F3.
+**Partial proof (proved from given facts):**
+- **F1-based bound**: By F1 directly, the sum is $< 1.399 + o(1)$ for any primitive $A$. This is a proved bound with the wrong constant.
+- **Tail argument (fixed $K$)**: For any fixed $K$, the strata $k = 1, \ldots, K$ contribute $o(1)$ as $x \to \infty$. Proof: $\sum_{a \in A_k} f(a)$ converges by F3, so its tail $\sum_{a \in A_k, a \geq x} f(a) \to 0$ for each fixed $k$. Since $A \cap A_k \subseteq A_k \cap [x, \infty)$, the low-$k$ contribution vanishes.
+
+**Remaining gap (OPEN):** The high-$k$ strata ($k > K$) need a new cross-stratum bound using the primitive antichain constraint. The naive stratum bound gives $\leq 1$ per stratum; summing over all $k > K$ diverges. The primitive constraint must prevent simultaneous large contributions across many high-$k$ strata, but this cannot be proved from F1/F2/F3 alone.
 
 See `proof_lemmas/lemma_cross_stratum_sum.md`.
 
-### Lemma f1_gap (HARD — the key gap to close)
+### Lemma f1_gap (HARD — dyadic analysis identifies the obstacle)
 
-Closing the gap between F1 ($< 1.399 + o(1)$) and the conjecture ($< 1 + o(1)$). The improvement comes from the $x \to \infty$ restriction: elements of $A$ are large, so individual terms are small. The challenge is translating this "each term is small" intuition into a rigorous bound $< 1 + o(1)$.
+Closing the gap between F1 ($< 1.399 + o(1)$) and the conjecture ($< 1 + o(1)$).
+
+**Dyadic decomposition analysis:** Splitting $A = \bigsqcup_{j \geq 0} A \cap [2^j x, 2^{j+1} x)$, the naive bound gives contribution $\leq 1/\log(2^j x)$ per block, but $\sum_j 1/(\log x + j \log 2)$ diverges. The single-block triviality (every subset of $[N, 2N)$ is primitive) means the antichain constraint contributes nothing within a block — only cross-block constraints matter.
+
+**Key obstacle:** The restriction $A \subset [x, \infty)$ does NOT prevent elements from having small prime factors ($p = 2, 3, \ldots$). Zhang's sieve argument uses all prime factors; the $x$-restriction does not improve the prime product in the sieve bound. Closing the gap from $1.399$ to $1$ requires either (a) a new sieve argument that uses the large-element constraint, or (b) a smooth-number decomposition separating rough-part (all factors $\geq y$) from smooth-part (some factor $< y$).
 
 See `proof_lemmas/lemma_f1_gap.md`.
 
@@ -170,12 +178,20 @@ See `proof_lemmas/lemma_f1_gap.md`.
 
 The proof outline is:
 1. By Lemma stratum_bound (easy, proved from F3): each stratum contributes $< 1$.
-2. By Lemma cross_stratum_sum (OPEN): the total is $< 1 + o(1)$.
-3. Lemma f1_gap (OPEN): provides the F1 → 1 improvement.
+2. By Lemma cross_stratum_sum (partially proved, open for constant 1): the total is $< 1.399$ (proved via F1) and $< 1 + o(1)$ (open).
+3. Lemma f1_gap (OPEN): provides the F1 → 1 improvement; dyadic decomposition identifies the core obstacle.
 
-The proof currently stands as a **partial result**: the per-stratum bound (Step 1) is tight (follows from given facts), but the cross-stratum summation (Step 2) and the F1 gap (Step 3) are open. Closing either of the hard lemmas would complete the proof.
+**Provable partial results (from Q7):**
+- $\sum_{a \in A} f(a) < 1.399$ (F1) — closed.
+- For any fixed $K$: the low-$k$ strata contribute $o(1)$ as $x \to \infty$ (tail argument) — closed.
 
-## Section 4: Partial Result and Open Status (Q6)
+**Remaining open gaps:**
+- High-$k$ strata require cross-stratum coupling via the primitive antichain constraint (beyond F1/F2/F3).
+- The F1-to-1 improvement requires a new sieve/smooth-number argument.
+
+Closing either gap would constitute a significant new result beyond Zhang 1993.
+
+## Section 4: Partial Result and Open Status (Q6, Q7, Q8)
 
 ### What this proof attempt has established
 
@@ -185,32 +201,29 @@ The proof currently stands as a **partial result**: the per-stratum bound (Step 
 
 3. **Proof structure** (Section 3): The key decomposition is:
    - Lemma `stratum_bound` (proved from F3): each stratum contributes $< 1$.
-   - Lemma `cross_stratum_sum` (open): the total across strata is $< 1 + o(1)$.
-   - Lemma `f1_gap` (open): the gap from F1's 1.399 to the conjectured 1.
+   - Lemma `cross_stratum_sum` (partial — see Q7 analysis below).
+   - Lemma `f1_gap` (open — see Q8 analysis below).
+
+4. **Q7 — cross_stratum_sum partial proof**: Two sub-results proved from given facts:
+   - *F1-based bound*: $\sum_{a \in A} f(a) < 1.399$ for any primitive $A$ (F1 directly). The cross-stratum sum lemma holds with constant 1.399.
+   - *Tail argument*: For fixed $K$, strata $k \leq K$ contribute $o(1)$ as $x \to \infty$ (since each stratum sum converges by F3, so its tail vanishes). This shows low-$k$ strata asymptotically contribute nothing.
+   - *High-$k$ gap*: Strata $k > K$ require the primitive antichain constraint across strata. Not closed from F1/F2/F3.
+
+5. **Q8 — f1_gap analysis**: The dyadic decomposition (splitting $A$ into $[2^j x, 2^{j+1} x)$ blocks) gives per-block bound $1/\log(2^j x)$, but the sum over blocks diverges because the within-block antichain constraint is trivially empty. Cross-block primitivity constraints are what Zhang's sieve uses. The $x$-restriction does not remove small prime factors from elements of $A$, so the standard sieve bound (1.399) does not improve. A smooth-number decomposition (separating rough and smooth parts) is the most promising avenue.
 
 ### What remains open
 
-The proof has two genuinely hard gaps:
+**Gap 1 (high-$k$ cross-stratum sum).** For large $k$ ($k > \log_2 x$), all $k$-almost-primes are automatically $\geq x$, so low-$k$ strata don't help directly. The primitive antichain constraint must prevent simultaneous large contributions across all high-$k$ strata. No argument from F1/F2/F3 achieves this.
 
-**Gap 1 (cross-stratum summation).** Showing that $\sum_k \sum_{a \in A \cap A_k} 1/(a \log a) < 1 + o(1)$ for any primitive $A \subset [x, \infty)$. This requires using the primitive-set structure (no divisibility) to show that contributions across strata are "interleaved" in a way that keeps the total bounded.
-
-**Gap 2 (F1 to 1 improvement).** Starting from F1 ($< 1.399 + o(1)$ for any primitive set), showing the bound tightens to $< 1 + o(1)$ when $A \subset [x, \infty)$ for large $x$. This is the known analytical gap in the literature — Zhang's 1993 result gives 1.399; improving to 1 is the Erdős conjecture itself.
-
-### Candidate approach for Gap 1
-
-Observe that for $A \subset [x, \infty)$:
-- Elements in $A \cap A_k$ are all $\geq x$.
-- By F3, $\sum_{a \in A_k, a \geq x} 1/(a \log a) \leq \sum_{a \in A_k} 1/(a \log a) < 1$ for each $k$.
-- The total $\sum_{k \geq 1}(\text{stratum}_k \text{ contribution})$ must be shown $< 1 + o(1)$.
-
-The missing piece: A CROSS-STRATUM COUPLING BOUND. If we could show $\sum_{k=1}^{\infty} (\text{fraction of A}_k \text{ used}) \times (\text{A}_k \text{ sum}) < 1 + o(1)$, the proof would be complete. The primitive set constraint limits the "fraction used" across strata (elements in $A \cap A_k$ exclude all their multiples in $A \cap A_{k'}$ for $k' > k$). Formalizing this is the hard part.
+**Gap 2 (F1 to 1 improvement).** The dyadic analysis identifies WHY the $x$-restriction doesn't straightforwardly improve F1: elements of $A \subset [x, \infty)$ can still have small prime factors (e.g., $a = 2m$ for $m \geq x/2$). Closing this gap requires a new sieve or smooth-number argument not derivable from the given-facts ledger alone.
 
 ### Conclusion: This remains open
 
 The Erdős primitive-set conjecture remains open. This proof attempt has:
 - Correctly mapped the problem (given facts, witness contract, proof structure)
 - Verified numerical consistency with the conjecture
-- Identified the precise proof gaps (cross-stratum coupling and the F1-to-1 improvement)
+- **Proved** (Q7): the cross-stratum sum bound $< 1.399$ from F1, and the low-$k$ tail vanishing as $x \to \infty$
+- **Identified** (Q8): the precise obstacle for the F1-to-1 improvement — the dyadic analysis shows why the $x$-restriction alone is insufficient without a new cross-block sieve argument
 - Ruled out counterexamples at $x_\text{floor} \geq 100$
 
-The partial result is: **the per-stratum bound holds (from F3), the conjecture is consistent with all available given facts, and no counterexample was found**. Closing the proof requires new analytic techniques beyond the current given-facts ledger.
+The partial result is: **the per-stratum bound holds (from F3); the cross-stratum sum is bounded by 1.399 (from F1); low-$k$ strata contribute $o(1)$ for large $x$ (from F3 convergence); the hard gaps are precisely identified as the high-$k$ coupling and the F1-to-1 improvement**. Closing the proof requires new analytic techniques beyond the current given-facts ledger.
