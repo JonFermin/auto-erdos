@@ -245,4 +245,14 @@ The Erdős primitive-set conjecture remains open. This proof attempt has:
 - **Identified** (Q8): the precise obstacle for the F1-to-1 improvement — the dyadic analysis shows why the $x$-restriction alone is insufficient without a new cross-block sieve argument
 - Ruled out counterexamples at $x_\text{floor} \geq 100$
 
-The partial result is: **the per-stratum bound holds (from F3); the cross-stratum sum is bounded by 1.399 (from F1); low-$k$ strata contribute $o(1)$ for large $x$ (from F3 convergence); the hard gaps are precisely identified as the high-$k$ coupling and the F1-to-1 improvement**. Closing the proof requires new analytic techniques beyond the current given-facts ledger.
+**Cumulative proved results (this attempt):**
+1. Lemma `stratum_bound` (F3 + monotonicity): each stratum $< 1$ — **proved**.
+2. Lemma `single_interval` (calculus): sum over any $A \subseteq [x, 2x)$ is $< \log 2/\log x \to 0$ — **proved**.
+3. Partial cross_stratum bound (F1): $\sum_{a \in A} f(a) < 1.399$ for any primitive $A$ — **proved**.
+4. Tail argument (F3 convergence): for any fixed $K$, strata $k \leq K$ contribute $o(1)$ as $x \to \infty$ — **proved**.
+
+**Still open (the hard gaps):**
+- High-$k$ coupling (cross_stratum_sum): showing that the primitive antichain constraint limits the total across all high-$k$ strata to $< 1 + o(1)$.
+- Multi-block case (f1_gap): extending Lemma single_interval from one dyadic block to $A$ spanning multiple dyadic blocks. The dyadic sum $\sum_j \log 2/(\log x + j\log 2)$ diverges when $j$ grows without bound — cross-block primitive constraints must limit which blocks contribute.
+
+The partial result is: **two new lemmas are proved (stratum_bound and single_interval); the cross-stratum bound of 1.399 is proved from F1; low-$k$ strata asymptotically vanish; the precise obstacles for the full conjecture are identified as the high-$k$ coupling and multi-block case of f1_gap**. Closing the proof requires analytic tools beyond the current given-facts ledger.
