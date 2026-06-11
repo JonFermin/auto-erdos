@@ -56,28 +56,38 @@ The total number of "exclusions" from all $a \in A^{(j)}$ in block $j'$ is at mo
 
 ---
 
-## Connection to F1 proof structure
+## Empirical evidence from witness search (Q4)
 
-Zhang's proof of the $1.399$ bound proceeds by:
-1. Bounding $\sum_{a \in A} f(a)$ by a product over prime factors of elements in $A$.
-2. Using Mertens' theorem to bound the prime product by $e^{\gamma} \pi/4 \approx 1.399$.
+Witness search via `library.primitive_set_witness.verify_witness` on several candidate types shows the sum is well below 1 for $x \geq 100$:
 
-The improvement from $1.399$ to $1 + o(1)$ with the $x$-restriction would require:
-- Showing that for $A \subset [x, \infty)$, the "prime product" in Zhang's argument is bounded by $1 + C/\log x$, not $1.399$.
-- This would follow if the small-prime contributions to the product vanish when $A \subset [x, \infty)$ — but small primes ($p < x$) can still divide elements of $A$ even when $A \subset [x, \infty)$.
+| Candidate | $x_\text{floor}$ | Sum (rigorous lower bound) |
+|---|---|---|
+| 50 primes in $[1000, 2000]$ | 1000 | $\approx 0.0061$ |
+| 100 primes in $[10000, 20000]$ | 10000 | $\approx 0.0010$ |
+| All 100 integers in $[101, 201)$ | 101 | $\approx 0.1396$ |
+| All 1000 integers in $[1001, 2001)$ | 1001 | $\approx 0.0956$ |
 
-**Fundamental obstacle.** An element $a \in A$ with $a \geq x$ can have a prime factor $p = 2$ (e.g., $a = 2m$ for any large $m$). Thus the restriction $A \subset [x, \infty)$ does NOT prevent small primes from appearing as factors. The sieve argument is not straightforwardly improved by the $x$-restriction.
+The "fat antichain" rows (all integers in a dyadic interval) are the most adversarial: they maximize density within a dyadic block. Yet their sum is $\ll 1$ for $x \geq 100$. This strongly suggests the conjecture holds, though numerical evidence does not constitute a proof.
+
+**Monotonicity of the fat antichain sum.** For $A = \{N, N+1, \ldots, 2N-1\}$:
+$$\sum_{a=N}^{2N-1} \frac{1}{a \log a} < \int_{N}^{2N} \frac{dt}{t \log t} = \log\!\left(\frac{\log 2N}{\log N}\right) = \log\!\left(1 + \frac{\log 2}{\log N}\right) \approx \frac{\log 2}{\log N} \to 0.$$
+This integral bound uses only basic calculus (no ledger fact needed). It proves that the fat antichain sum is $O(1/\log N)$, consistent with $o(1)$ as $N \to \infty$.
+
+**Observation.** The fat antichain is NOT a primitive set over all of $[x, \infty)$ — it only covers one dyadic block. When concatenating fat antichains from multiple blocks, cross-block primitivity constraints kick in and restrict which elements can coexist. Whether the multi-block cross-constraint keeps the total $< 1 + o(1)$ is the open question.
 
 ---
 
-## Alternative approach: Smooth number filtering
+## Alternative approach: Smooth-rough decomposition
 
-One approach to improve F1: restrict to elements of $A$ with ALL prime factors $\geq y$ for some threshold $y = y(x)$.
+Split $A = A_{\mathrm{rough}} \cup A_{\mathrm{smooth}}$ where:
+- $A_{\mathrm{rough}}$: elements whose smallest prime factor $p(a) \geq y(x)$ for some threshold $y(x)$.
+- $A_{\mathrm{smooth}}$: elements with $p(a) < y(x)$.
 
-- For $a \in A$ with smallest prime factor $p(a) \geq y$: each such $a \geq y^k$ for $k$-almost-primes, so elements are spread more sparsely.
-- For $a \in A$ with $p(a) < y$: these are $y$-smooth-above elements; their contribution can be bounded using the $y$-smooth number counting function.
+For $A_{\mathrm{smooth}}$: each element $a$ has a small prime factor $\leq y(x)$; bounding the contribution of $A_{\mathrm{smooth}}$ requires controlling how many "smooth-above" elements from $[x, \infty)$ can coexist in a primitive set.
 
-This decomposition (rough-part / smooth-part) is used in analytic number theory to sharpen sieve bounds. Whether it can push the constant below $1.399$ when $A \subset [x, \infty)$ is an open question — it would require the smooth-part contribution to be $o(1)$ and the rough-part to be $\leq 1 + o(1)$.
+For $A_{\mathrm{rough}}$: elements are "$y$-rough", so their smallest prime factor is $\geq y$. For large $y$, rough elements are sparse in $[x, \infty)$, suggesting their contribution is $o(1)$.
+
+Whether this decomposition closes the gap from $1.399$ to $1 + o(1)$ is an open question. Both parts are bounded by F1 (giving 1.399 total), and tightening requires new analytic estimates outside the current given-facts ledger.
 
 ---
 

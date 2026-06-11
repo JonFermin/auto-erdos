@@ -129,14 +129,24 @@ For the prime set (= $A_1$) restricted to $[x, \infty)$, the sum $\sum_{p \geq x
 
 For $x \geq 3$: the sum over primes in $[x, \infty)$ is $< 1$, consistent with both F3 and the conjecture's bound. By F1, for any primitive set in $[x, \infty)$ the sum is $< 1.399 + o(1)$; the restricted prime sums here are well inside that bound.
 
-### Q4: Witness search results
+### Q4: Witness search results (extended)
 
 Checked whether any primitive set in $[x_\text{floor}, \infty)$ achieves rigorous sum $> 1.0$ via `library.primitive_set_witness.verify_witness`:
 
-- **x_floor = 100**: Tested 200 smallest primes $\geq 100$. Verifier returned `is_valid=False`, rigorous lower bound $\approx 0.078 < 1.0$.
-- **x_floor = 1000, 10000**: Even smaller sums (each prime $\geq x_\text{floor}$ contributes $\leq 1/(x_\text{floor} \log x_\text{floor})$, giving tiny terms). No witness found.
+| Candidate set | $x_\text{floor}$ | $|A|$ | Rigorous lower bound | $\geq 1.0$? |
+|---|---|---|---|---|
+| 200 smallest primes $\geq 100$ | 100 | 200 | $\approx 0.078$ | No |
+| 50 primes in $[1000, 2000]$ | 1000 | 50 | $\approx 0.0061$ | No |
+| 100 primes in $[10000, 20000]$ | 10000 | 100 | $\approx 0.0010$ | No |
+| All 100 integers in $[101, 201)$ (fat antichain) | 101 | 100 | $\approx 0.1396$ | No |
+| All 1000 integers in $[1001, 2001)$ (fat antichain) | 1001 | 1000 | $\approx 0.0956$ | No |
+| 42 3-almost-primes in $[100, 500)$ | 100 | 42 | $\approx 0.0379$ | No |
 
-**Conclusion**: The witness verifier found no counterexample for $x_\text{floor} \geq 100$. The conjecture remains open but appears numerically stable for large $x$.
+The "fat antichain" rows are notable: every subset of $[N, 2N)$ is a primitive set (no element can divide another since $b/a \in (1, 2)$ for $N \leq a < b < 2N$, which is never an integer). This means the fat antichain $\{N, N+1, \ldots, 2N-1\}$ is as "dense" as any primitive set in a dyadic interval, and its sum is $\sum_{a=N}^{2N-1} 1/(a \log a) < \int_{N}^{2N} 1/(t \log t)\,dt = \log(2\log(2N)/\log N) \approx \log 2 / \log N \to 0$.
+
+This shows that even the densest possible primitive set in a dyadic interval has a sum that tends to 0. The conjecture predicts the total over $[x, \infty)$ is also $< 1 + o(1)$.
+
+**Conclusion**: No counterexample found for $x_\text{floor} \geq 100$ across multiple candidate structures (primes, fat antichains, $k$-almost-primes). The conjecture appears numerically robust.
 
 ## Section 3: Proof Structure and Lemma Decomposition (Q5)
 
