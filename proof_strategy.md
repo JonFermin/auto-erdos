@@ -283,9 +283,9 @@ Status: **proved** (Q9); see also `proof_lemmas/lemma_multi_block_finite.md`.
 
 Both remaining gaps — the high-$k$ cross-stratum coupling and the multi-block f1\_gap — cannot be closed from F1, F2, F3, and elementary calculus alone. This section documents precisely what additional ingredient is needed.
 
-**Gap 1 (high-$k$ cross-stratum coupling):** The primitive antichain constraint across strata $k > K$ must prevent the total from exceeding $1 + o(1)$. In Zhang's original proof of F1, the mechanism is a weighted sum over primes dividing elements of $A$. Bounding this requires a prime-sum estimate (the third Mertens theorem type result) that is not in the given-facts ledger. Adding such an estimate as an explicit listed fact would enable the argument.
+**Gap 1 (high-$k$ cross-stratum coupling):** The primitive antichain constraint across strata $k > K$ must prevent the total from exceeding $1 + o(1)$. Closing this gap requires analytic estimates involving the distribution of prime factors that are not available from F1, F2, F3, and elementary calculus alone. These estimates are not in the given-facts ledger; adding them as explicit facts would enable the argument.
 
-**Gap 2 (F1 to 1 improvement):** Elements of $A \subseteq [x, \infty)$ can have small prime factors even though the elements themselves are large. Zhang's $1.399$ bound holds for any primitive set, not just those supported above $x$. The large-element condition should provide an extra saving, but extracting it requires knowing how large-element restriction interacts with the prime factorization structure — again a prime-sum level estimate.
+**Gap 2 (F1 to 1 improvement):** Elements of $A \subseteq [x, \infty)$ can have small prime factors even though the elements themselves are large. The large-element condition should provide an extra saving beyond F1's bound, but extracting it requires structural information about how element size interacts with prime factorization — information not derivable from F1, F2, F3 alone.
 
 **Status of open questions:**
 - Q1 through Q9: complete (see Sections 1–5 above).
