@@ -178,7 +178,7 @@ Closing the gap between F1 ($< 1.399 + o(1)$) and the conjecture ($< 1 + o(1)$).
 
 **Dyadic decomposition analysis:** Splitting $A = \bigsqcup_{j \geq 0} A \cap [2^j x, 2^{j+1} x)$, the naive bound gives contribution $\leq 1/\log(2^j x)$ per block, but $\sum_j 1/(\log x + j \log 2)$ diverges. The single-block triviality (every subset of $[N, 2N)$ is primitive) means the antichain constraint contributes nothing within a block — only cross-block constraints matter.
 
-**Key obstacle:** The restriction $A \subset [x, \infty)$ does NOT prevent elements from having small prime factors ($p = 2, 3, \ldots$). Zhang's sieve argument uses all prime factors; the $x$-restriction does not improve the prime product in the sieve bound. Closing the gap from $1.399$ to $1$ requires either (a) a new sieve argument that uses the large-element constraint, or (b) a smooth-number decomposition separating rough-part (all factors $\geq y$) from smooth-part (some factor $< y$).
+**Key obstacle:** The restriction $A \subset [x, \infty)$ does NOT prevent elements from having small prime factors ($p = 2, 3, \ldots$). Elements of $A$ are large but can be highly composite with small prime factors. The upper bound F1 holds for any primitive set regardless of element size; the $x$-restriction alone does not improve the constant 1.399. Closing the gap from $1.399$ to $1$ requires either (a) a new argument that explicitly uses the large-element constraint, or (b) a smooth-number decomposition separating rough-part (all factors $\geq y$) from smooth-part (some factor $< y$).
 
 See `proof_lemmas/lemma_f1_gap.md`.
 
@@ -264,7 +264,7 @@ No primitivity is needed; the bound holds for any $A \subseteq [x,4x)$.
 **General case — Lemma multi\_block\_finite (K blocks).** For any $A \subseteq [x, 2^K x)$ and integer $K \geq 1$:
 $$\sum_{a \in A} \frac{1}{a \log a} < \frac{K \log 2}{\log x}.$$
 
-*Proof (induction on $K$).* $K=1$: Lemma single\_interval with parameter $x$. $K \to K+1$: split $[x, 2^{K+1}x) = [x, 2^Kx) \cup [2^Kx, 2^{K+1}x)$. By induction, the first piece gives sum $< K\log 2/\log x$. By Lemma single\_interval (with parameter $x' = 2^K x$), the second piece gives sum $< \log 2/\log(2^K x) \leq \log 2/\log x$. Adding: total $< (K+1)\log 2/\log x$. $\square$
+*Proof (induction on $K$; $K$ is a fixed positive integer; all bounds are for fixed $K$ and $x \to \infty$).* $K=1$: Lemma single\_interval with parameter $x$. $K \to K+1$: split $[x, 2^{K+1}x) = [x, 2^Kx) \cup [2^Kx, 2^{K+1}x)$. By induction (fixed $K$), the first piece gives sum $< K\log 2/\log x$. By Lemma single\_interval (with parameter $x' = 2^K x$), the second piece gives sum $< \log 2/\log(2^K x) \leq \log 2/\log x$ (since $\log(2^K x) \geq \log x$ for $K \geq 1$). Adding: total $< (K+1)\log 2/\log x$. $\square$
 
 Status: **proved** (Q9); see also `proof_lemmas/lemma_multi_block_finite.md`.
 
@@ -289,7 +289,7 @@ Both remaining gaps — the high-$k$ cross-stratum coupling and the multi-block 
 
 **Status of open questions:**
 - Q1 through Q9: complete (see Sections 1–5 above).
-- Q10: obstacle confirmed — cross-block 2a-exclusion improves the two-block bound but does not close the infinite-extent case.
+- Q10: obstacle confirmed — finite-range analysis shows the infinite-extent case requires arguments beyond dyadic block decomposition.
 - Q11: this section — gap analysis complete.
 - **What remains**: adding analytic prime-sum tools to the given-facts ledger, or finding a purely elementary argument that avoids them. The partial result stands as the best provable outcome from the current ledger.
 
