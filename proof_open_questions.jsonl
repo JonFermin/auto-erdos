@@ -17,3 +17,4 @@
 {"qid":"Q8","status":"claimed","session_id":"s_0611-080505-e1cc","summary":"f1_gap: x-restricted analysis via dyadic decomposition","ts":"2026-06-11T08:09:15+00:00"}
 {"qid":"Q7","status":"resolved","session_id":"s_0611-080505-e1cc","summary":"F1 gives cross_stratum_sum < 1.399 (proved); tail argument proves low-k strata vanish (proved from F3); high-k coupling remains open","ts":"2026-06-11T08:33:34Z"}
 {"qid":"Q8","status":"resolved","session_id":"s_0611-080505-e1cc","summary":"single-block case proved (Lemma single_interval via calculus); multi-block / cross-interval case remains open as f1_gap","ts":"2026-06-11T08:33:34Z"}
+{"qid":"Q9","status":"claimed","session_id":"s_0612-080410-fd09","summary":"Q9: multi_block_finite — finite-range generalization of single_interval","ts":"2026-06-12T08:26:04+00:00"}

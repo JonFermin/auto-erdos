@@ -175,7 +175,7 @@ $$\sum_{a \in A} \frac{1}{a \log a} = \sum_{k \geq 1} \sum_{a \in A \cap A_k} \f
 
 **Partial proof (proved from given facts):**
 - **F1-based bound**: By F1 directly, the sum is $< 1.399 + o(1)$ for any primitive $A$. This is a proved bound with the wrong constant.
-- **Tail argument (fixed $K$)**: For any fixed $K$, the strata $k = 1, \ldots, K$ contribute $o(1)$ as $x \to \infty$. Proof: $\sum_{a \in A_k} f(a)$ converges by F3, so its tail $\sum_{a \in A_k, a \geq x} f(a) \to 0$ for each fixed $k$. Since $A \cap A_k \subseteq A_k \cap [x, \infty)$, the low-$k$ contribution vanishes.
+- **Tail argument (fixed $K$)**: For any fixed $K$, the strata $k = 1, \ldots, K$ contribute $o(1)$ as $x \to \infty$. By F3, each stratum sum $\sum_{a \in A_k} 1/(a \log a)$ is a finite positive real; hence its restriction to elements $\geq x$ vanishes as $x \to \infty$. Since $A \cap A_k \subseteq A_k \cap [x, \infty)$, the low-$k$ contribution vanishes.
 
 **Remaining gap (OPEN):** The high-$k$ strata ($k > K$) need a new cross-stratum bound using the primitive antichain constraint. The naive stratum bound gives $\leq 1$ per stratum; summing over all $k > K$ diverges. The primitive constraint must prevent simultaneous large contributions across many high-$k$ strata, but this cannot be proved from F1/F2/F3 alone.
 
@@ -256,3 +256,27 @@ The Erdős primitive-set conjecture remains open. This proof attempt has:
 - Multi-block case (f1_gap): extending Lemma single_interval from one dyadic block to $A$ spanning multiple dyadic blocks. The dyadic sum $\sum_j \log 2/(\log x + j\log 2)$ diverges when $j$ grows without bound — cross-block primitive constraints must limit which blocks contribute.
 
 The partial result is: **two new lemmas are proved (stratum_bound and single_interval); the cross-stratum bound of 1.399 is proved from F1; low-$k$ strata asymptotically vanish; the precise obstacles for the full conjecture are identified as the high-$k$ coupling and multi-block case of f1_gap**. Closing the proof requires analytic tools beyond the current given-facts ledger.
+
+## Section 5: Finite Dyadic Range (Q9)
+
+### Lemma multi_block_finite (PROVED)
+
+**Statement.** For any set $A \subseteq [x, 4x)$ (two consecutive dyadic blocks):
+$$\sum_{a \in A} \frac{1}{a \log a} < \frac{\log 2}{\log x} + \frac{\log 2}{\log(2x)} \to 0 \quad \text{as } x \to \infty.$$
+
+The bound $\to 0$ since both $\log 2/\log x$ and $\log 2/\log(2x)$ tend to $0$.
+
+**Proof.** By Lemma single\_interval applied to each block: $A \cap [x,2x)$ contributes $< \log 2/\log x$, and $A \cap [2x,4x)$ contributes $< \log 2/\log(2x)$. Sum these two bounds. $\square$
+
+No primitivity is needed; the bound holds for any $A \subseteq [x,4x)$.
+
+**General case.** For $A$ in a union of $K$ consecutive dyadic blocks above $x$, the bound is a finite sum of terms each tending to $0$ — hence the total is still $o(1)$. Full statement and integral-comparison proof: `proof_lemmas/lemma_multi_block_finite.md`. Status: **proved** (Q9).
+
+**Corollary.** The conjecture $\sum_{a \in A} 1/(a \log a) < 1 + o(1)$ holds for any primitive set $A$ confined to a bounded ratio above $x$. The genuine difficulty is the infinite-extent case, where the per-block bound does not sum to a finite quantity — closing that gap requires cross-block primitive constraints beyond F1/F2/F3.
+
+**Updated cumulative proved results:**
+1. Lemma `stratum_bound` (F3): each stratum $< 1$ — **proved**.
+2. Lemma `single_interval` (calculus): $A \subseteq [x,2x) \Rightarrow$ sum $< \log 2/\log x \to 0$ — **proved**.
+3. Lemma `multi_block_finite` (two-block): $A \subseteq [x,4x) \Rightarrow$ sum $< \log 2/\log x + \log 2/\log(2x) \to 0$ — **proved** (Q9).
+4. Cross-stratum bound (F1): sum $< 1.399$ for any primitive $A$ — **proved**.
+5. Low-$k$ tail (F3): strata $k \leq K$ contribute $o(1)$ — **proved**.
