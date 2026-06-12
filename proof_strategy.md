@@ -245,12 +245,9 @@ The partial result is: **two new lemmas are proved (stratum_bound and single_int
 
 ### Lemma multi_block_finite (PROVED)
 
-**Statement.** For any set $A \subseteq [x, 4x)$ (two consecutive dyadic blocks):
-$$\sum_{a \in A} \frac{1}{a \log a} < \frac{\log 2}{\log x} + \frac{\log 2}{\log(2x)} \to 0 \quad \text{as } x \to \infty.$$
+**Statement.** For any set $A \subseteq [x, 4x)$ (two consecutive dyadic blocks), $\sum_{a \in A} 1/(a \log a) \to 0$ as $x \to \infty$.
 
-The bound $\to 0$ since both $\log 2/\log x$ and $\log 2/\log(2x)$ tend to $0$.
-
-**Proof.** Apply Lemma single\_interval (with parameter $x$) to $A \cap [x,2x)$: contribution $< \log 2/\log x$. Apply Lemma single\_interval (with parameter $x' = 2x$) to $A \cap [2x,4x)$: contribution $< \log 2/\log(2x)$. Sum the two bounds. $\square$
+**Proof.** Apply Lemma single\_interval (with parameter $x$) to $A \cap [x,2x)$: contribution $< \log 2/\log x$. Apply Lemma single\_interval (with parameter $x' = 2x$) to $A \cap [2x,4x)$: contribution $< \log 2/\log(2x)$. Both $\log 2/\log x$ and $\log 2/\log(2x)$ tend to $0$ as $x \to \infty$, so the sum of contributions tends to $0$. $\square$
 
 No primitivity is needed; the bound holds for any $A \subseteq [x,4x)$.
 
