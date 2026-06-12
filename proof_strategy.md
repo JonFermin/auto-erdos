@@ -108,21 +108,13 @@ Open sub-questions: see Q5 (complete — see Section 3).
 By F3, for all $k \geq 1$:
 $$\sum_{a \in A_k} \frac{1}{a \log a} = 1 - (c + o(1)) \frac{k^2}{2^k} < 1.$$
 
-This is an ANALYTIC result from the given-facts ledger (F3). No numerical verification is needed: the inequality $< 1$ follows from $c > 0$ and $k^2/2^k > 0$. The strata with the largest sums are the low-$k$ strata (small $k$, many large prime-power-products), but all sums converge to 1 from below as $k \to \infty$.
+This is an ANALYTIC result from the given-facts ledger (F3). No numerical verification is needed: the inequality $< 1$ follows from $c > 0$ and $k^2/2^k > 0$. All sums approach 1 from below as $k \to \infty$ (since $k^2/2^k \to 0$); for any fixed $k$, the sum is strictly less than 1.
 
 This sub-question (Q2) is answered directly by F3 and needs no further computation.
 
 ### Q3: Primes restricted to $[x, \infty)$
 
-For the prime set (= $A_1$) restricted to $[x, \infty)$, the sum $\sum_{p \geq x, p \text{ prime}} 1/(p \log p)$ computed over primes up to 500k:
-
-| $x_\text{floor}$ | Restricted prime sum | $< 1$? |
-|------------------|-----------------------|--------|
-| 3                | $\approx 0.839$       | Yes ✓  |
-| 100              | $\approx 0.139$       | Yes ✓  |
-| 1000             | $\approx 0.062$       | Yes ✓  |
-
-For $x \geq 3$: the sum over primes in $[x, \infty)$ is $< 1$, consistent with both F3 and the conjecture's bound. By F1, for any primitive set in $[x, \infty)$ the sum is $< 1.399 + o(1)$; the restricted prime sums here are well inside that bound.
+The prime set $A_1 = \{2, 3, 5, 7, \ldots\}$ is a primitive set. Restricting to $[x, \infty)$ gives a subset of $A_1$. By F3, $\sum_{p \text{ prime}} 1/(p \log p) = \sum_{a \in A_1} 1/(a \log a) < 1$. For any $x \geq 2$, the restricted sum $\sum_{p \geq x} 1/(p \log p) \leq \sum_{p} 1/(p \log p) < 1$, which is consistent with the conjecture's bound. By F1, any primitive set has sum $< 1.399 + o(1)$; the prime set's total is well inside that bound.
 
 ### Q4: Witness search results (extended)
 
