@@ -340,3 +340,40 @@ since each of the finitely many summands $\to 0$ by F3 + tail argument. This cov
 6. Multi-stratum: $A \subseteq \bigcup_{k=1}^K A_k \cap [x,\infty)$ (fixed $K$) $\Rightarrow$ sum $\to 0$ — **proved** (Q13).
 
 **Open case.** All proved results require either (a) bounded support ratio, or (b) support on finitely many strata. The hard open case is $A \subseteq [x, \infty)$ spanning BOTH infinitely many dyadic blocks AND infinitely many strata. This remains open (see Section 6).
+
+## Section 9: Hybrid Case (Q14)
+
+### Theorem hybrid\_case (PROVED — combines bounded\_support and single\_stratum)
+
+**Statement.** Fix $M \geq 2$ and $K \geq 1$. Let $A \subseteq [x, \infty)$ be a primitive set such that every element of $A$ outside $[x, Mx)$ comes from at most $K$ strata:
+$$A \cap [Mx, \infty) \subseteq \bigcup_{k=1}^K A_k.$$
+Then:
+$$\sum_{a \in A} \frac{1}{a \log a} \to 0 \quad \text{as } x \to \infty.$$
+In particular the Erdős conjecture's bound $< 1 + o(1)$ holds for this class.
+
+**Proof.** Decompose $A = A_{\text{near}} \cup A_{\text{far}}$ where $A_{\text{near}} = A \cap [x, Mx)$ and $A_{\text{far}} = A \cap [Mx, \infty)$.
+
+*Near part.* By Theorem bounded\_support (Section 7) with bound $M$ and base $x$:
+$$\sum_{a \in A_{\text{near}}} \frac{1}{a \log a} < \frac{\lceil \log_2 M \rceil \log 2}{\log x} \to 0.$$
+
+*Far part.* By hypothesis $A_{\text{far}} \subseteq \bigcup_{k=1}^K A_k$. For each fixed $k \in \{1,\ldots,K\}$:
+$$\sum_{a \in A_{\text{far}} \cap A_k} \frac{1}{a \log a} \leq \sum_{a \in A_k,\, a \geq Mx} \frac{1}{a \log a} \to 0,$$
+since (by F3) the full $k$-stratum series $\sum_{a \in A_k} 1/(a\log a)$ converges and its tail vanishes. Summing over $k = 1, \ldots, K$:
+$$\sum_{a \in A_{\text{far}}} \frac{1}{a \log a} \leq \sum_{k=1}^K \sum_{a \in A_k,\, a \geq Mx} \frac{1}{a \log a} \to 0.$$
+
+*Conclusion.* Both parts tend to $0$, so the total $\to 0$. $\square$
+
+**Scope.** This theorem covers sets that are "spread out" at large scales but concentrated on finitely many prime-factor-count strata above the threshold $Mx$. It generalises:
+- Theorem bounded\_support: take $A \subseteq [x, Mx)$ entirely (no far part).
+- Theorem single\_stratum: take $K = 1$ and $M$ arbitrary (all far elements in one stratum).
+
+**Updated cumulative proved results:**
+1. Lemma `stratum_bound` — each stratum $< 1$ (F3) — **proved**.
+2. Lemma `single_interval` — $A \subseteq [x,2x) \Rightarrow$ sum $\to 0$ — **proved**.
+3. Lemma `multi_block_finite` — $A \subseteq [x,2^Kx) \Rightarrow$ sum $\to 0$ — **proved**.
+4. Theorem `bounded_support` — $A \subseteq [x,Mx)$ (fixed $M$) $\Rightarrow$ sum $\to 0$ — **proved**.
+5. Theorem `single_stratum` — $A \subseteq A_k \cap [x,\infty)$ (fixed $k$) $\Rightarrow$ sum $\to 0$ — **proved**.
+6. Multi-stratum — $A \subseteq \bigcup_{k \leq K} A_k \cap [x,\infty)$ (fixed $K$) $\Rightarrow$ sum $\to 0$ — **proved**.
+7. Theorem `hybrid_case` — near part bounded, far part in $K$ strata $\Rightarrow$ sum $\to 0$ — **proved** (Q14).
+
+**The remaining open case.** A primitive $A \subseteq [x,\infty)$ with BOTH: (i) unbounded support (not confined to any $[x,Mx)$), AND (ii) infinitely many strata above every threshold $Mx$. Closing this requires analytic cross-stratum tools not in F1/F2/F3.

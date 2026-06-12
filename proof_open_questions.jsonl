@@ -26,3 +26,6 @@
 {"qid":"Q13","status":"open","session_id":"s_0612-080410-fd09","summary":"Q13: can we prove the conjecture for primitive sets restricted to a finite union of Omega-strata? E.g. A contained in A_k1 union...union A_km for fixed k1..km","ts":"2026-06-12T09:04:08+00:00"}
 {"qid":"Q13","status":"claimed","session_id":"s_0612-080410-fd09","summary":"Q13: prove conjecture for A contained in a single Omega-stratum A_k intersect [x,infty)","ts":"2026-06-12T09:05:06+00:00"}
 {"qid":"Q13","status":"resolved","session_id":"s_0612-080410-fd09","summary":"Theorem single_stratum proved: A in A_k∩[x,∞) for fixed k gives sum→0 via F3 tail; multi-stratum extension covers fixed-K stratum unions","ts":"2026-06-12T09:05:41+00:00"}
+{"qid":"Q13","status":"resolved","session_id":"s_0612-080410-fd09","summary":"Theorem single_stratum proved; tail argument from F3 convergence; prime k=1 special case fixed","ts":"2026-06-12T09:24:26+00:00"}
+{"qid":"Q14","status":"open","session_id":"s_0612-080410-fd09","summary":"hybrid case: bounded support ratio outside [x,Mx) + finite strata ","ts":"2026-06-12T09:24:34+00:00"}
+{"qid":"Q14","status":"claimed","session_id":"s_0612-080410-fd09","summary":"taking Q14","ts":"2026-06-12T09:24:34+00:00"}
