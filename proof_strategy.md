@@ -392,7 +392,7 @@ because $K = \lfloor \log_2 x \rfloor = O(\log x)$ while $x \log x$ grows faster
 
 *High strata ($k > K$, possibly infinitely many terms).* For any $k$-almost prime $n$, since all prime factors are $\geq 2$, we have $n \geq 2^k$. Hence for each $a_k \in A_k$:
 $$\frac{1}{a_k \log a_k} \leq \frac{1}{2^k \cdot k \log 2}.$$
-The series $\sum_{k \geq 1} \frac{1}{k \cdot 2^k \cdot \log 2}$ converges (by comparison: $1/(k 2^k \log 2) \leq 1/2^k$ and $\sum 1/2^k$ converges). For any convergent positive series, its tail vanishes: as $K = \lfloor \log_2 x \rfloor \to \infty$:
+The series $\sum_{k \geq 1} \frac{1}{k \cdot 2^k \cdot \log 2}$ converges (by comparison: since $k \log 2 \geq \log 2 > 1/2$ for all $k \geq 1$, we have $1/(k \cdot 2^k \cdot \log 2) < 1/2^{k-1}$, and $\sum_{k \geq 1} 1/2^{k-1} = 2 < \infty$). For any convergent positive series, its tail vanishes: as $K = \lfloor \log_2 x \rfloor \to \infty$:
 $$\sum_{k > K} \frac{1}{a_k \log a_k} \leq \sum_{k > K} \frac{1}{k \cdot 2^k \cdot \log 2} \to 0.$$
 
 *Conclusion.* Both parts tend to $0$, so the total $\to 0$. $\square$
@@ -430,14 +430,6 @@ $$\sum_{k > K} \frac{1}{\log 2 \cdot 2^k} = \frac{1}{\log 2} \cdot \frac{1}{2^K}
 
 *Conclusion.* Both parts tend to $0$, so the total $\to 0$. $\square$
 
-**Note on sharpness.** The density condition $|A \cap A_k| \leq k$ is essentially the threshold: if instead $|A \cap A_k| \leq C \cdot 2^k$ (exponential growth), the high-strata sum becomes $\geq C \cdot \sum_{k>K} 1/\log(2^k) = C \sum_{k>K} 1/(k\log 2) \to \infty$, indicating that exponentially many elements per stratum can produce an infinite sum. The condition $|A \cap A_k| = o(2^k)$ is the sub-exponential threshold at which sum $\to 0$.
-
-**Comparison with proved cases:**
-- Sparse stratum ($|A \cap A_k| \leq 1$): covered (per-stratum contribution $\leq 1/(k\log 2 \cdot 2^k)$, tail converges).
-- Linear density ($|A \cap A_k| \leq k$): proved here (per-stratum contribution $\leq 1/(\log 2 \cdot 2^k)$, geometric sum $\to 0$).
-- Polynomial density ($|A \cap A_k| \leq k^m$ for fixed $m$): same argument; contribution per stratum $\leq k^m/(k\log2\cdot 2^k) \leq k^{m-1}/(\log2\cdot 2^k)$, and $\sum k^{m-1}/2^k$ converges.
-- Exponential density ($|A \cap A_k| \sim 2^k$): the high-strata sum diverges; this case is OPEN.
-
 **Updated cumulative proved results:**
 1. `stratum_bound`: each stratum $< 1$ (F3) — **proved**.
 2. `single_interval`: $A \subseteq [x,2x) \Rightarrow$ sum $\to 0$ — **proved**.
@@ -448,6 +440,5 @@ $$\sum_{k > K} \frac{1}{\log 2 \cdot 2^k} = \frac{1}{\log 2} \cdot \frac{1}{2^K}
 7. `hybrid_case`: near part bounded, far part in $K$ strata $\Rightarrow$ sum $\to 0$ — **proved**.
 8. `sparse_stratum`: $|A \cap A_k| \leq 1$ for all $k \Rightarrow$ sum $\to 0$ — **proved**.
 9. `linear_density`: $|A \cap A_k| \leq k$ for all $k \Rightarrow$ sum $\to 0$ — **proved** (Q16).
-10. By extension: $|A \cap A_k| \leq k^m$ (any fixed $m$) $\Rightarrow$ sum $\to 0$ — **proved** (same argument).
 
-**Open case (final).** The genuinely hard case requires $|A \cap A_k| \geq C \cdot 2^k$ for infinitely many $k$ and unbounded support. This "near-full-stratum" density combined with infinite extent is where the conjecture's proof requires tools beyond F1/F2/F3.
+**Open case (final).** The sub-exponential threshold: when $|A \cap A_k| = o(2^k)$, the high-strata sum is controlled by the geometric tail. The genuinely hard open case requires understanding sets where some strata have near-maximal occupancy (proportional to the stratum size $|A_k|$).
