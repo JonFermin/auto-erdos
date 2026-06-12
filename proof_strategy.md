@@ -119,7 +119,6 @@ For the prime set (= $A_1$) restricted to $[x, \infty)$, the sum $\sum_{p \geq x
 | $x_\text{floor}$ | Restricted prime sum | $< 1$? |
 |------------------|-----------------------|--------|
 | 3                | $\approx 0.839$       | Yes ✓  |
-| 5                | $\approx 0.536$       | Yes ✓  |
 | 100              | $\approx 0.139$       | Yes ✓  |
 | 1000             | $\approx 0.062$       | Yes ✓  |
 
@@ -266,11 +265,16 @@ $$\sum_{a \in A} \frac{1}{a \log a} < \frac{\log 2}{\log x} + \frac{\log 2}{\log
 
 The bound $\to 0$ since both $\log 2/\log x$ and $\log 2/\log(2x)$ tend to $0$.
 
-**Proof.** By Lemma single\_interval applied to each block: $A \cap [x,2x)$ contributes $< \log 2/\log x$, and $A \cap [2x,4x)$ contributes $< \log 2/\log(2x)$. Sum these two bounds. $\square$
+**Proof.** Apply Lemma single\_interval (with parameter $x$) to $A \cap [x,2x)$: contribution $< \log 2/\log x$. Apply Lemma single\_interval (with parameter $x' = 2x$) to $A \cap [2x,4x)$: contribution $< \log 2/\log(2x)$. Sum the two bounds. $\square$
 
 No primitivity is needed; the bound holds for any $A \subseteq [x,4x)$.
 
-**General case.** For $A$ in a union of $K$ consecutive dyadic blocks above $x$, the bound is a finite sum of terms each tending to $0$ — hence the total is still $o(1)$. Full statement and integral-comparison proof: `proof_lemmas/lemma_multi_block_finite.md`. Status: **proved** (Q9).
+**General case — Lemma multi\_block\_finite (K blocks).** For any $A \subseteq [x, 2^K x)$ and integer $K \geq 1$:
+$$\sum_{a \in A} \frac{1}{a \log a} < \frac{K \log 2}{\log x}.$$
+
+*Proof (induction on $K$).* $K=1$: Lemma single\_interval with parameter $x$. $K \to K+1$: split $[x, 2^{K+1}x) = [x, 2^Kx) \cup [2^Kx, 2^{K+1}x)$. By induction, the first piece gives sum $< K\log 2/\log x$. By Lemma single\_interval (with parameter $x' = 2^K x$), the second piece gives sum $< \log 2/\log(2^K x) \leq \log 2/\log x$. Adding: total $< (K+1)\log 2/\log x$. $\square$
+
+Status: **proved** (Q9); see also `proof_lemmas/lemma_multi_block_finite.md`.
 
 **Corollary.** The conjecture $\sum_{a \in A} 1/(a \log a) < 1 + o(1)$ holds for any primitive set $A$ confined to a bounded ratio above $x$. The genuine difficulty is the infinite-extent case, where the per-block bound does not sum to a finite quantity — closing that gap requires cross-block primitive constraints beyond F1/F2/F3.
 
@@ -306,8 +310,8 @@ $$\sum_{a \in A} \frac{1}{a \log a} < \frac{\lceil \log_2 M \rceil \cdot \log 2}
 
 In particular, the Erdős primitive-set conjecture's bound $\sum_{a \in A} 1/(a \log a) < 1 + o(1)$ is confirmed for any primitive set $A$ with bounded support ratio $\max(A)/\min(A) \leq M$ (fixed $M$).
 
-**Proof.** Let $K = \lceil \log_2 M \rceil$. Then $[x, Mx) \subseteq [x, 2^K x)$, so by Lemma multi\_block\_finite:
-$$\sum_{a \in A} \frac{1}{a \log a} \leq \sum_{a \in [x, 2^K x)} \frac{1}{a \log a} < \frac{K \log 2}{\log x} \to 0. \qquad \square$$
+**Proof.** Let $K = \lceil \log_2 M \rceil$. Then $[x, Mx) \subseteq [x, 2^K x)$, and $A \subseteq [x, Mx) \subseteq [x, 2^K x)$. By the general-$K$ Lemma multi\_block\_finite (proved by induction in Section 5):
+$$\sum_{a \in A} \frac{1}{a \log a} < \frac{K \log 2}{\log x} \to 0. \qquad \square$$
 
 **Scope.** The conjecture holds for all "finite-range" primitive sets — those where elements span at most a fixed multiplicative factor. Covered cases:
 - $A \subseteq [x, 2x)$: Lemma single\_interval (sum $< \log 2/\log x$).
