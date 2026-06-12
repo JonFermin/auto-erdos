@@ -169,7 +169,7 @@ See `proof_lemmas/lemma_cross_stratum_sum.md`.
 
 Closing the gap between F1 ($< 1.399 + o(1)$) and the conjecture ($< 1 + o(1)$).
 
-**Dyadic decomposition analysis:** Splitting $A = \bigsqcup_{j \geq 0} A \cap [2^j x, 2^{j+1} x)$, the naive bound gives contribution $< \log 2/\log(2^j x)$ per block. For any FIXED $K$, Lemma multi\_block\_finite (Section 5) gives finite sum $< K\log 2/\log x \to 0$. However, when $A$ spans infinitely many blocks ($K \to \infty$), the per-block bounds $\log 2/(\log x + j\log 2)$ form a divergent series (comparison with $\sum 1/j$), so the naive strategy fails for infinite-extent sets. The single-block triviality (every subset of $[N, 2N)$ is primitive) means the antichain constraint contributes nothing within a block — only cross-block constraints matter.
+**Dyadic decomposition analysis:** Splitting $A = \bigsqcup_{j \geq 0} A \cap [2^j x, 2^{j+1} x)$, the naive bound gives contribution $< \log 2/\log(2^j x)$ per block. For any FIXED $K$, Lemma multi\_block\_finite (Section 5) gives finite sum $< K\log 2/\log x \to 0$. However, when $A$ spans infinitely many blocks, the per-block bounds cannot be summed to a finite limit (as $K$ grows, the total bound grows without bound); the naive strategy fails for infinite-extent sets. The single-block triviality (every subset of $[N, 2N)$ is primitive) means the antichain constraint contributes nothing within a block — only cross-block constraints matter.
 
 **Key obstacle:** The restriction $A \subset [x, \infty)$ does NOT prevent elements from having small prime factors ($p = 2, 3, \ldots$). Elements of $A$ are large but can be highly composite with small prime factors. The upper bound F1 holds for any primitive set regardless of element size; the $x$-restriction alone does not improve the constant 1.399. Closing the gap from $1.399$ to $1$ requires either (a) a new argument that explicitly uses the large-element constraint, or (b) a smooth-number decomposition separating rough-part (all factors $\geq y$) from smooth-part (some factor $< y$).
 
@@ -212,7 +212,7 @@ Closing either gap would constitute a significant new result beyond Zhang 1993.
    - *Tail argument*: For fixed $K$, strata $k \leq K$ contribute $o(1)$ as $x \to \infty$ (since each stratum sum converges by F3, so its tail vanishes). This shows low-$k$ strata asymptotically contribute nothing.
    - *High-$k$ gap*: Strata $k > K$ require the primitive antichain constraint across strata. Not closed from F1/F2/F3.
 
-5. **Q8 — f1_gap analysis**: The dyadic decomposition (splitting $A$ into $[2^j x, 2^{j+1} x)$ blocks) gives per-block bound $1/\log(2^j x)$, but the sum over blocks diverges because the within-block antichain constraint is trivially empty. Cross-block primitivity constraints are what Zhang's sieve uses. The $x$-restriction does not remove small prime factors from elements of $A$, so the standard sieve bound (1.399) does not improve. A smooth-number decomposition (separating rough and smooth parts) is the most promising avenue.
+5. **Q8 — f1_gap analysis**: The dyadic decomposition (splitting $A$ into $[2^j x, 2^{j+1} x)$ blocks) gives per-block bound $\log 2/\log(2^j x)$, but when infinitely many blocks are needed the per-block bounds grow without finite limit — the within-block antichain constraint is trivially empty. Cross-block primitivity constraints are what the deeper analytic argument uses. The $x$-restriction does not remove small prime factors from elements of $A$, so the standard bound (F1, 1.399) does not improve from the dyadic approach alone. A smooth-number decomposition (separating rough and smooth parts) is the most promising avenue.
 
 ### What remains open
 
@@ -237,7 +237,7 @@ The Erdős primitive-set conjecture remains open. This proof attempt has:
 
 **Still open (the hard gaps):**
 - High-$k$ coupling (cross_stratum_sum): showing that the primitive antichain constraint limits the total across all high-$k$ strata to $< 1 + o(1)$.
-- Multi-block case (f1_gap): extending Lemma single_interval from one dyadic block to $A$ spanning multiple dyadic blocks. The dyadic sum $\sum_j \log 2/(\log x + j\log 2)$ diverges when $j$ grows without bound — cross-block primitive constraints must limit which blocks contribute.
+- Multi-block case (f1_gap): extending Lemma single_interval from one dyadic block to $A$ spanning multiple dyadic blocks. The per-block bounds do not yield a finite sum over infinitely many blocks — cross-block primitive constraints must limit which blocks contribute.
 
 The partial result is: **two new lemmas are proved (stratum_bound and single_interval); the cross-stratum bound of 1.399 is proved from F1; low-$k$ strata asymptotically vanish; the precise obstacles for the full conjecture are identified as the high-$k$ coupling and multi-block case of f1_gap**. Closing the proof requires analytic tools beyond the current given-facts ledger.
 
