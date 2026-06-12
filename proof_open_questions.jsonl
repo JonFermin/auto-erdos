@@ -32,3 +32,6 @@
 {"qid":"Q14","status":"resolved","session_id":"s_0612-080410-fd09","summary":"Theorem hybrid_case proved; 0 blocking, keep_progress","ts":"2026-06-12T09:29:25+00:00"}
 {"qid":"Q15","status":"open","session_id":"s_0612-080410-fd09","summary":"sparse stratum lemma: at most one element per stratum → sum → 0","ts":"2026-06-12T09:29:25+00:00"}
 {"qid":"Q15","status":"claimed","session_id":"s_0612-080410-fd09","summary":"taking Q15","ts":"2026-06-12T09:29:25+00:00"}
+{"qid":"Q15","status":"resolved","session_id":"s_0612-080410-fd09","summary":"sparse_stratum proved; convergent-series tail argument; 0 blocking, keep_progress","ts":"2026-06-12T09:42:01+00:00"}
+{"qid":"Q16","status":"open","session_id":"s_0612-080410-fd09","summary":"linear density lemma: at most k elements per k-stratum → sum→0","ts":"2026-06-12T09:42:01+00:00"}
+{"qid":"Q16","status":"claimed","session_id":"s_0612-080410-fd09","summary":"taking Q16","ts":"2026-06-12T09:42:01+00:00"}

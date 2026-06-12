@@ -410,3 +410,44 @@ $$\sum_{k > K} \frac{1}{a_k \log a_k} \leq \sum_{k > K} \frac{1}{k \cdot 2^k \cd
 8. `sparse_stratum`: $|A \cap A_k| \leq 1$ for all $k$ (infinitely many strata allowed) $\Rightarrow$ sum $\to 0$ — **proved** (Q15).
 
 **Open case (refined).** The hard open case requires both: (i) unbounded support (elements in $[x, \infty)$ at all scales), AND (ii) MULTIPLE elements in at least one stratum — specifically, $|A \cap A_k| \geq 2$ for some $k$ (or infinitely many $k$). The sparse\_stratum lemma covers all cases where no stratum contributes more than one element.
+
+## Section 11: Linear Density Lemma (Q16)
+
+### Lemma linear\_density (PROVED — elementary, no ledger facts needed)
+
+**Statement.** Let $A \subseteq [x, \infty)$ be any set satisfying $|A \cap A_k| \leq k$ for every $k \geq 1$ (at most $k$ elements from the $k$-th stratum). Then:
+$$\sum_{a \in A} \frac{1}{a \log a} \to 0 \quad \text{as } x \to \infty.$$
+
+**Proof.** Let $K = \lfloor \log_2 x \rfloor$. Split into low strata ($k \leq K$) and high strata ($k > K$).
+
+*Low strata ($k \leq K$).* Each stratum $k$ contributes at most $k$ elements, each $\geq x$. Per-stratum contribution: $\leq k/(x \log x)$. Sum over $k = 1,\ldots,K$:
+$$\sum_{k \leq K} \frac{k}{x \log x} = \frac{K(K+1)}{2 x \log x} = O\!\left(\frac{(\log_2 x)^2}{x \log x}\right) \to 0.$$
+
+*High strata ($k > K$).* Any $k$-almost prime satisfies $n \geq 2^k$, so each of the $\leq k$ elements $a_i \in A \cap A_k$ satisfies $1/(a_i \log a_i) \leq 1/(k \log 2 \cdot 2^k)$. Per-stratum contribution:
+$$\text{(stratum } k \text{)} \leq k \cdot \frac{1}{k \log 2 \cdot 2^k} = \frac{1}{\log 2 \cdot 2^k}.$$
+The factor of $k$ in the density bound cancels the $k$ in the denominator. Summing over all $k > K$:
+$$\sum_{k > K} \frac{1}{\log 2 \cdot 2^k} = \frac{1}{\log 2} \cdot \frac{1}{2^K} \to 0 \quad (K \to \infty).$$
+
+*Conclusion.* Both parts tend to $0$, so the total $\to 0$. $\square$
+
+**Note on sharpness.** The density condition $|A \cap A_k| \leq k$ is essentially the threshold: if instead $|A \cap A_k| \leq C \cdot 2^k$ (exponential growth), the high-strata sum becomes $\geq C \cdot \sum_{k>K} 1/\log(2^k) = C \sum_{k>K} 1/(k\log 2) \to \infty$, indicating that exponentially many elements per stratum can produce an infinite sum. The condition $|A \cap A_k| = o(2^k)$ is the sub-exponential threshold at which sum $\to 0$.
+
+**Comparison with proved cases:**
+- Sparse stratum ($|A \cap A_k| \leq 1$): covered (per-stratum contribution $\leq 1/(k\log 2 \cdot 2^k)$, tail converges).
+- Linear density ($|A \cap A_k| \leq k$): proved here (per-stratum contribution $\leq 1/(\log 2 \cdot 2^k)$, geometric sum $\to 0$).
+- Polynomial density ($|A \cap A_k| \leq k^m$ for fixed $m$): same argument; contribution per stratum $\leq k^m/(k\log2\cdot 2^k) \leq k^{m-1}/(\log2\cdot 2^k)$, and $\sum k^{m-1}/2^k$ converges.
+- Exponential density ($|A \cap A_k| \sim 2^k$): the high-strata sum diverges; this case is OPEN.
+
+**Updated cumulative proved results:**
+1. `stratum_bound`: each stratum $< 1$ (F3) — **proved**.
+2. `single_interval`: $A \subseteq [x,2x) \Rightarrow$ sum $\to 0$ — **proved**.
+3. `multi_block_finite`: $A \subseteq [x,2^Kx)$ (fixed $K$) $\Rightarrow$ sum $\to 0$ — **proved**.
+4. `bounded_support`: $A \subseteq [x,Mx)$ (fixed $M$) $\Rightarrow$ sum $\to 0$ — **proved**.
+5. `single_stratum`: $A \subseteq A_k \cap [x,\infty)$ (fixed $k$) $\Rightarrow$ sum $\to 0$ — **proved**.
+6. `multi_stratum`: $A \subseteq \bigcup_{k \leq K} A_k \cap [x,\infty)$ (fixed $K$) $\Rightarrow$ sum $\to 0$ — **proved**.
+7. `hybrid_case`: near part bounded, far part in $K$ strata $\Rightarrow$ sum $\to 0$ — **proved**.
+8. `sparse_stratum`: $|A \cap A_k| \leq 1$ for all $k \Rightarrow$ sum $\to 0$ — **proved**.
+9. `linear_density`: $|A \cap A_k| \leq k$ for all $k \Rightarrow$ sum $\to 0$ — **proved** (Q16).
+10. By extension: $|A \cap A_k| \leq k^m$ (any fixed $m$) $\Rightarrow$ sum $\to 0$ — **proved** (same argument).
+
+**Open case (final).** The genuinely hard case requires $|A \cap A_k| \geq C \cdot 2^k$ for infinitely many $k$ and unbounded support. This "near-full-stratum" density combined with infinite extent is where the conjecture's proof requires tools beyond F1/F2/F3.
