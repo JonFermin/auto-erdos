@@ -35,3 +35,6 @@
 {"qid":"Q15","status":"resolved","session_id":"s_0612-080410-fd09","summary":"sparse_stratum proved; convergent-series tail argument; 0 blocking, keep_progress","ts":"2026-06-12T09:42:01+00:00"}
 {"qid":"Q16","status":"open","session_id":"s_0612-080410-fd09","summary":"linear density lemma: at most k elements per k-stratum → sum→0","ts":"2026-06-12T09:42:01+00:00"}
 {"qid":"Q16","status":"claimed","session_id":"s_0612-080410-fd09","summary":"taking Q16","ts":"2026-06-12T09:42:01+00:00"}
+{"qid":"Q16","status":"resolved","session_id":"s_0612-080410-fd09","summary":"linear_density proved; 0 blocking, keep_progress","ts":"2026-06-12T09:48:54+00:00"}
+{"qid":"Q17","status":"open","session_id":"s_0612-080410-fd09","summary":"polynomial density: at most k^m elements per k-stratum → sum→0","ts":"2026-06-12T09:48:54+00:00"}
+{"qid":"Q17","status":"claimed","session_id":"s_0612-080410-fd09","summary":"taking Q17","ts":"2026-06-12T09:48:54+00:00"}

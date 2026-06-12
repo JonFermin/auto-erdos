@@ -443,3 +443,29 @@ $$\sum_{k > K} \frac{1}{\log 2 \cdot 2^k} = \frac{1}{\log 2} \cdot \frac{1}{2^K}
 9. `linear_density`: $|A \cap A_k| \leq k$ for all $k \Rightarrow$ sum $\to 0$ — **proved** (Q16).
 
 **Open case (final).** The sub-exponential threshold: when $|A \cap A_k| = o(2^k)$, the high-strata sum is controlled by the geometric tail. The genuinely hard open case requires understanding sets where some strata have near-maximal occupancy (proportional to the stratum size $|A_k|$).
+
+## Section 12: Polynomial Density (Q17)
+
+### Lemma polynomial\_density (PROVED — elementary ratio test, no ledger facts)
+
+**Statement.** Let $m \geq 1$ be a fixed integer. Let $A \subseteq [x, \infty)$ satisfy $|A \cap A_k| \leq k^m$ for every $k \geq 1$. Then:
+$$\sum_{a \in A} \frac{1}{a \log a} \to 0 \quad \text{as } x \to \infty.$$
+
+**Proof.** Let $K = \lfloor \log_2 x \rfloor$. Split into low and high strata.
+
+*Low strata ($k \leq K$).* Each of the $\leq k^m$ elements in $A \cap A_k$ satisfies $a \geq x$. Per-stratum contribution $\leq k^m/(x \log x)$. Summing over $k = 1,\ldots,K$: the sum is $\leq K^{m+1}/(x\log x)$. Since $K = \lfloor \log_2 x \rfloor$ grows only logarithmically while $x\log x \to \infty$ much faster (for any fixed $m$), this tends to $0$.
+
+*High strata ($k > K$).* Each of the $\leq k^m$ elements in $A \cap A_k$ satisfies $a \geq 2^k$, so $1/(a\log a) \leq 1/(k\log2 \cdot 2^k)$. Per-stratum contribution: $\leq k^m \cdot 1/(k\log2 \cdot 2^k) = k^{m-1}/(\log2 \cdot 2^k)$. The series $\sum_{k \geq 1} k^{m-1}/2^k$ converges by the ratio test:
+$$\frac{(k+1)^{m-1}/2^{k+1}}{k^{m-1}/2^k} = \frac{1}{2}\left(1 + \frac{1}{k}\right)^{m-1} \to \frac{1}{2} < 1 \quad (k \to \infty).$$
+For any convergent positive series, its tail vanishes as the truncation point $K \to \infty$:
+$$\sum_{k > K} \frac{k^{m-1}}{\log 2 \cdot 2^k} \to 0.$$
+
+*Conclusion.* Both parts tend to $0$, so the total $\to 0$. $\square$
+
+**Note.** This includes the linear-density case ($m=1$) as a special case (ratio test gives limit $1/2$), and extends to all polynomial growth rates. The key is that $k^{m-1}/2^k \to 0$ exponentially fast for any fixed $m$, no matter how large.
+
+**Updated cumulative proved results:**
+1.–9. (see Sections 10–11)
+10. `polynomial_density`: $|A \cap A_k| \leq k^m$ (fixed $m \geq 1$) for all $k \Rightarrow$ sum $\to 0$ — **proved** (Q17).
+
+The density threshold is now: sub-polynomial growth (up to any $k^m$) is covered. Exponential growth $|A \cap A_k| \sim 2^k$ is the open boundary.
