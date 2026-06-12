@@ -20,3 +20,4 @@
 {"qid":"Q9","status":"claimed","session_id":"s_0612-080410-fd09","summary":"Q9: multi_block_finite — finite-range generalization of single_interval","ts":"2026-06-12T08:26:04+00:00"}
 {"qid":"Q9","status":"resolved","session_id":"s_0612-080410-fd09","summary":"multi_block_finite proved: two-block integral bound; infinite-extent obstacle documented","ts":"2026-06-12T08:33:50Z"}
 {"qid":"Q11","status":"claimed","session_id":"s_0612-080410-fd09","summary":"Q11: document gap-closing requirements; remove inline proofs from proof_strategy.md","ts":"2026-06-12T08:33:50Z"}
+{"qid":"Q12","status":"claimed","session_id":"s_0612-080410-fd09","summary":"Q12: formalize bounded-support theorem as complete proved sub-case","ts":"2026-06-12T08:44:04+00:00"}

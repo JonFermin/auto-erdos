@@ -296,3 +296,30 @@ Both remaining gaps — the high-$k$ cross-stratum coupling and the multi-block 
 - Q10: obstacle confirmed — cross-block 2a-exclusion improves the two-block bound but does not close the infinite-extent case.
 - Q11: this section — gap analysis complete.
 - **What remains**: adding analytic prime-sum tools to the given-facts ledger, or finding a purely elementary argument that avoids them. The partial result stands as the best provable outcome from the current ledger.
+
+## Section 7: Bounded-Support Case (Q12)
+
+### Theorem bounded\_support (PROVED — calculus only, no ledger facts)
+
+**Statement.** For any $M \geq 2$ and any primitive set $A \subseteq [x, Mx)$:
+$$\sum_{a \in A} \frac{1}{a \log a} < \frac{\lceil \log_2 M \rceil \cdot \log 2}{\log x} \to 0 \quad \text{as } x \to \infty.$$
+
+In particular, the Erdős primitive-set conjecture's bound $\sum_{a \in A} 1/(a \log a) < 1 + o(1)$ is confirmed for any primitive set $A$ with bounded support ratio $\max(A)/\min(A) \leq M$ (fixed $M$).
+
+**Proof.** Let $K = \lceil \log_2 M \rceil$. Then $[x, Mx) \subseteq [x, 2^K x)$, so by Lemma multi\_block\_finite:
+$$\sum_{a \in A} \frac{1}{a \log a} \leq \sum_{a \in [x, 2^K x)} \frac{1}{a \log a} < \frac{K \log 2}{\log x} \to 0. \qquad \square$$
+
+**Scope.** The conjecture holds for all "finite-range" primitive sets — those where elements span at most a fixed multiplicative factor. Covered cases:
+- $A \subseteq [x, 2x)$: Lemma single\_interval (sum $< \log 2/\log x$).
+- $A \subseteq [x, 4x)$: Lemma multi\_block\_finite, two-block (Q9).
+- $A \subseteq [x, 2^K x)$: this theorem (general $K$).
+
+**The remaining open case.** The conjecture is still open for primitive sets $A \subseteq [x, \infty)$ with UNBOUNDED support ratio (infinitely many dyadic blocks). The best available bound for this case is F1: sum $< 1.399 + o(1)$. Closing the gap to $1 + o(1)$ requires prime-sum estimates not in the current ledger (Section 6).
+
+**Summary table — resolved vs. open:**
+
+| Case | Status | Bound |
+|---|---|---|
+| $A \subseteq [x, Mx)$, fixed $M$ | **Proved** (Theorem bounded\_support) | $o(1)$ as $x \to \infty$ |
+| $A \subseteq [x, \infty)$, all primitive $A$ | **Open** (hard gap) | $< 1.399$ from F1 |
+| Full conjecture: $A \subseteq [x, \infty)$ | **Conjectured** | $< 1 + o(1)$ |
