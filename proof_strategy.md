@@ -122,10 +122,9 @@ Checked whether any primitive set in $[x_\text{floor}, \infty)$ achieves rigorou
 
 Several candidates were tested: primes in $[x, \infty)$ for various $x$; fat antichains $\{N, N+1, \ldots, 2N-1\}$ (which are automatically primitive since $b/a \in (1,2)$ is never an integer); and $k$-almost-primes in intervals. All produced sums well below 1.0.
 
-The fat antichain $\{N, N+1, \ldots, 2N-1\}$ is the densest possible primitive set in a dyadic interval. Its sum satisfies:
-$$\sum_{a=N}^{2N-1} \frac{1}{a \log a} < \int_N^{2N} \frac{dt}{t \log t} = \log\frac{\log(2N)}{\log N} \to 0 \quad \text{as } N \to \infty.$$
+The fat antichain $\{N, N+1, \ldots, 2N-1\}$ is the densest possible primitive set in a dyadic interval. By Lemma single\_interval (with $x = N$), its sum is $< \log 2/\log N \to 0$ as $N \to \infty$.
 
-This shows the densest single-block primitive set already has sum $\to 0$, consistent with Lemma single\_interval. No witness achieving sum $\geq 1$ was found.
+This shows the densest single-block primitive set already has sum $\to 0$. No witness achieving sum $\geq 1$ was found.
 
 **Conclusion**: No counterexample found across all candidate structures tested. The conjecture appears numerically robust.
 
@@ -170,7 +169,7 @@ See `proof_lemmas/lemma_cross_stratum_sum.md`.
 
 Closing the gap between F1 ($< 1.399 + o(1)$) and the conjecture ($< 1 + o(1)$).
 
-**Dyadic decomposition analysis:** Splitting $A = \bigsqcup_{j \geq 0} A \cap [2^j x, 2^{j+1} x)$, the naive bound gives contribution $\leq \log 2/\log(2^j x)$ per block, but the series $\sum_{j \geq 0} \log 2/(\log x + j \log 2)$ diverges as $j \to \infty$. Note: for any FIXED number of blocks $K$, Lemma multi\_block\_finite (Section 5) gives finite sum $< K\log 2/\log x$; the divergence is the $K \to \infty$ limit, which is NOT covered by that lemma. The single-block triviality (every subset of $[N, 2N)$ is primitive) means the antichain constraint contributes nothing within a block — only cross-block constraints matter.
+**Dyadic decomposition analysis:** Splitting $A = \bigsqcup_{j \geq 0} A \cap [2^j x, 2^{j+1} x)$, the naive bound gives contribution $< \log 2/\log(2^j x)$ per block. For any FIXED $K$, Lemma multi\_block\_finite (Section 5) gives finite sum $< K\log 2/\log x \to 0$. However, when $A$ spans infinitely many blocks ($K \to \infty$), the per-block bounds $\log 2/(\log x + j\log 2)$ form a divergent series (comparison with $\sum 1/j$), so the naive strategy fails for infinite-extent sets. The single-block triviality (every subset of $[N, 2N)$ is primitive) means the antichain constraint contributes nothing within a block — only cross-block constraints matter.
 
 **Key obstacle:** The restriction $A \subset [x, \infty)$ does NOT prevent elements from having small prime factors ($p = 2, 3, \ldots$). Elements of $A$ are large but can be highly composite with small prime factors. The upper bound F1 holds for any primitive set regardless of element size; the $x$-restriction alone does not improve the constant 1.399. Closing the gap from $1.399$ to $1$ requires either (a) a new argument that explicitly uses the large-element constraint, or (b) a smooth-number decomposition separating rough-part (all factors $\geq y$) from smooth-part (some factor $< y$).
 
