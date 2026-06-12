@@ -7,3 +7,4 @@
 {"event":"round","session_id":"s_0611-080505-e1cc","ts":"2026-06-11T08:34:47Z","summary":"Q7+Q8 resolved as partial; 4 proved results in Section 4; multi-block case as precise obstacle","qid":"Q7","status":"keep_progress","commit":"f9580f4"}
 {"event":"session_close","session_id":"s_0611-080505-e1cc","ts":"2026-06-11T08:35:17+00:00","commit":"f9580f4","reason":"reason: 4 rounds complete; two new lemmas proved; Q7+Q8 resolved as partial; context approaching limit"}
 {"event":"session_open","session_id":"s_0612-080410-fd09","ts":"2026-06-12T08:26:04+00:00","commit":"b952f2e","proof_tag":"primitive_set_erdos","stashed_ref":null,"detected_orphan":null,"released_orphan_qids":[]}
+{"event":"round","session_id":"s_0612-080410-fd09","ts":"2026-06-12T08:33:50Z","summary":"Q9: multi_block_finite proved (two-block integral); tail argument re-phrased; 0 blocking, keep_progress","qid":"Q9","status":"keep_progress","commit":"6acce6c"}

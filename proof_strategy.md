@@ -162,7 +162,7 @@ See `proof_lemmas/lemma_stratum_bound.md`.
 For any $A \subseteq [x, 2x)$ (which is automatically primitive, since $b/a \in (1,2)$ for any $a < b$ in the interval):
 $$\sum_{a \in A} \frac{1}{a \log a} < \frac{\log 2}{\log x} \to 0 \quad \text{as } x \to \infty.$$
 
-Proof uses only: integral comparison $\sum \leq \int_x^{2x} dt/(t\log t) = \log(\log 2x/\log x)$ and $\log(1+u) < u$. No F1/F2/F3 needed.
+Proof: integral comparison with the antiderivative of $1/(t \log t)$; no F1/F2/F3 needed. See `proof_lemmas/lemma_single_interval.md`.
 
 This proves the SINGLE-BLOCK CASE of Lemma f1_gap: for $A$ contained in one dyadic interval, the sum is $o(1)$. Status: **proved** (round 5).
 
@@ -280,3 +280,19 @@ No primitivity is needed; the bound holds for any $A \subseteq [x,4x)$.
 3. Lemma `multi_block_finite` (two-block): $A \subseteq [x,4x) \Rightarrow$ sum $< \log 2/\log x + \log 2/\log(2x) \to 0$ — **proved** (Q9).
 4. Cross-stratum bound (F1): sum $< 1.399$ for any primitive $A$ — **proved**.
 5. Low-$k$ tail (F3): strata $k \leq K$ contribute $o(1)$ — **proved**.
+
+## Section 6: Gap Analysis and Ledger Requirements (Q11)
+
+### Why the hard gaps require additional tools
+
+Both remaining gaps — the high-$k$ cross-stratum coupling and the multi-block f1\_gap — cannot be closed from F1, F2, F3, and elementary calculus alone. This section documents precisely what additional ingredient is needed.
+
+**Gap 1 (high-$k$ cross-stratum coupling):** The primitive antichain constraint across strata $k > K$ must prevent the total from exceeding $1 + o(1)$. In Zhang's original proof of F1, the mechanism is a weighted sum over primes dividing elements of $A$. Bounding this requires a prime-sum estimate (the third Mertens theorem type result) that is not in the given-facts ledger. Adding such an estimate as an explicit listed fact would enable the argument.
+
+**Gap 2 (F1 to 1 improvement):** Elements of $A \subseteq [x, \infty)$ can have small prime factors even though the elements themselves are large. Zhang's $1.399$ bound holds for any primitive set, not just those supported above $x$. The large-element condition should provide an extra saving, but extracting it requires knowing how large-element restriction interacts with the prime factorization structure — again a prime-sum level estimate.
+
+**Status of open questions:**
+- Q1 through Q9: complete (see Sections 1–5 above).
+- Q10: obstacle confirmed — cross-block 2a-exclusion improves the two-block bound but does not close the infinite-extent case.
+- Q11: this section — gap analysis complete.
+- **What remains**: adding analytic prime-sum tools to the given-facts ledger, or finding a purely elementary argument that avoids them. The partial result stands as the best provable outcome from the current ledger.
