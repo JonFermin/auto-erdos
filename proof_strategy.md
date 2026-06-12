@@ -114,7 +114,7 @@ This sub-question (Q2) is answered directly by F3 and needs no further computati
 
 ### Q3: Primes restricted to $[x, \infty)$
 
-The prime set $A_1 = \{2, 3, 5, 7, \ldots\}$ is a primitive set. Restricting to $[x, \infty)$ gives a subset of $A_1$. By F3, $\sum_{p \text{ prime}} 1/(p \log p) = \sum_{a \in A_1} 1/(a \log a) < 1$. For any $x \geq 2$, the restricted sum $\sum_{p \geq x} 1/(p \log p) \leq \sum_{p} 1/(p \log p) < 1$, which is consistent with the conjecture's bound. By F1, any primitive set has sum $< 1.399 + o(1)$; the prime set's total is well inside that bound.
+The prime set $A_1 = \{2, 3, 5, 7, \ldots\}$ is a primitive set. Restricting to $[x, \infty)$ gives $A_1 \cap [x, \infty)$. By F3, the full stratum sum $\sum_{a \in A_1} 1/(a\log a)$ is finite; hence its tail $\sum_{p \geq x} 1/(p\log p) \to 0$ as $x \to \infty$. For large $x$, the restricted prime sum is well within the conjecture's $1 + o(1)$ bound.
 
 ### Q4: Witness search results (summary)
 
@@ -325,7 +325,7 @@ In particular, $\sum_{a \in A} 1/(a \log a) < 1 + o(1)$ holds for all primitive 
 **Proof.** By F3, the full stratum sum $\sum_{a \in A_k} 1/(a \log a) = 1 - (c+o(1)) k^2/2^k$ is a finite positive real (for each fixed $k$). Since all terms are positive, it is a convergent series of positive terms. For any convergent positive series, its tail $\sum_{a \geq x} (\text{term})$ tends to $0$ as $x \to \infty$. Since $A \subseteq A_k \cap [x, \infty)$, we have:
 $$\sum_{a \in A} \frac{1}{a \log a} \leq \sum_{a \in A_k, a \geq x} \frac{1}{a \log a} \to 0. \qquad \square$$
 
-**Special case ($k=1$, primes).** Taking $A = A_1 \cap [x,\infty)$ (primes $\geq x$): by F3, $\sum_p 1/(p\log p) < 1$; the restricted sum tends to $0$ as $x \to \infty$.
+**Special case ($k=1$, primes).** Taking $A = A_1 \cap [x,\infty)$ (primes $\geq x$): applying the theorem above with $k=1$, the tail $\sum_{p \geq x} 1/(p\log p) \to 0$ as $x \to \infty$.
 
 **Multi-stratum extension.** For $A \subseteq \bigcup_{k=1}^{K} A_k \cap [x,\infty)$ with fixed $K$:
 $$\sum_{a \in A} \frac{1}{a \log a} \leq \sum_{k=1}^K \sum_{a \in A_k, a \geq x} \frac{1}{a \log a} \to 0,$$
