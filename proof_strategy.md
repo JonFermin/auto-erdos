@@ -116,24 +116,18 @@ This sub-question (Q2) is answered directly by F3 and needs no further computati
 
 The prime set $A_1 = \{2, 3, 5, 7, \ldots\}$ is a primitive set. Restricting to $[x, \infty)$ gives a subset of $A_1$. By F3, $\sum_{p \text{ prime}} 1/(p \log p) = \sum_{a \in A_1} 1/(a \log a) < 1$. For any $x \geq 2$, the restricted sum $\sum_{p \geq x} 1/(p \log p) \leq \sum_{p} 1/(p \log p) < 1$, which is consistent with the conjecture's bound. By F1, any primitive set has sum $< 1.399 + o(1)$; the prime set's total is well inside that bound.
 
-### Q4: Witness search results (extended)
+### Q4: Witness search results (summary)
 
-Checked whether any primitive set in $[x_\text{floor}, \infty)$ achieves rigorous sum $> 1.0$ via `library.primitive_set_witness.verify_witness`:
+Checked whether any primitive set in $[x_\text{floor}, \infty)$ achieves rigorous sum $> 1.0$ via `library.primitive_set_witness.verify_witness`.
 
-| Candidate set | $x_\text{floor}$ | $|A|$ | Rigorous lower bound | $\geq 1.0$? |
-|---|---|---|---|---|
-| 200 smallest primes $\geq 100$ | 100 | 200 | $\approx 0.078$ | No |
-| 50 primes in $[1000, 2000]$ | 1000 | 50 | $\approx 0.0061$ | No |
-| 100 primes in $[10000, 20000]$ | 10000 | 100 | $\approx 0.0010$ | No |
-| All 100 integers in $[101, 201)$ (fat antichain) | 101 | 100 | $\approx 0.1396$ | No |
-| All 1000 integers in $[1001, 2001)$ (fat antichain) | 1001 | 1000 | $\approx 0.0956$ | No |
-| 42 3-almost-primes in $[100, 500)$ | 100 | 42 | $\approx 0.0379$ | No |
+Several candidates were tested: primes in $[x, \infty)$ for various $x$; fat antichains $\{N, N+1, \ldots, 2N-1\}$ (which are automatically primitive since $b/a \in (1,2)$ is never an integer); and $k$-almost-primes in intervals. All produced sums well below 1.0.
 
-The "fat antichain" rows are notable: every subset of $[N, 2N)$ is a primitive set (no element can divide another since $b/a \in (1, 2)$ for $N \leq a < b < 2N$, which is never an integer). This means the fat antichain $\{N, N+1, \ldots, 2N-1\}$ is as "dense" as any primitive set in a dyadic interval, and its sum is $\sum_{a=N}^{2N-1} 1/(a \log a) < \int_{N}^{2N} 1/(t \log t)\,dt = \log(2\log(2N)/\log N) \approx \log 2 / \log N \to 0$.
+The fat antichain $\{N, N+1, \ldots, 2N-1\}$ is the densest possible primitive set in a dyadic interval. Its sum satisfies:
+$$\sum_{a=N}^{2N-1} \frac{1}{a \log a} < \int_N^{2N} \frac{dt}{t \log t} = \log\frac{\log(2N)}{\log N} \to 0 \quad \text{as } N \to \infty.$$
 
-This shows that even the densest possible primitive set in a dyadic interval has a sum that tends to 0. The conjecture predicts the total over $[x, \infty)$ is also $< 1 + o(1)$.
+This shows the densest single-block primitive set already has sum $\to 0$, consistent with Lemma single\_interval. No witness achieving sum $\geq 1$ was found.
 
-**Conclusion**: No counterexample found for $x_\text{floor} \geq 100$ across multiple candidate structures (primes, fat antichains, $k$-almost-primes). The conjecture appears numerically robust.
+**Conclusion**: No counterexample found across all candidate structures tested. The conjecture appears numerically robust.
 
 ## Section 3: Proof Structure and Lemma Decomposition (Q5)
 
@@ -176,7 +170,7 @@ See `proof_lemmas/lemma_cross_stratum_sum.md`.
 
 Closing the gap between F1 ($< 1.399 + o(1)$) and the conjecture ($< 1 + o(1)$).
 
-**Dyadic decomposition analysis:** Splitting $A = \bigsqcup_{j \geq 0} A \cap [2^j x, 2^{j+1} x)$, the naive bound gives contribution $\leq 1/\log(2^j x)$ per block, but $\sum_j 1/(\log x + j \log 2)$ diverges. The single-block triviality (every subset of $[N, 2N)$ is primitive) means the antichain constraint contributes nothing within a block — only cross-block constraints matter.
+**Dyadic decomposition analysis:** Splitting $A = \bigsqcup_{j \geq 0} A \cap [2^j x, 2^{j+1} x)$, the naive bound gives contribution $\leq \log 2/\log(2^j x)$ per block, but the series $\sum_{j \geq 0} \log 2/(\log x + j \log 2)$ diverges as $j \to \infty$. Note: for any FIXED number of blocks $K$, Lemma multi\_block\_finite (Section 5) gives finite sum $< K\log 2/\log x$; the divergence is the $K \to \infty$ limit, which is NOT covered by that lemma. The single-block triviality (every subset of $[N, 2N)$ is primitive) means the antichain constraint contributes nothing within a block — only cross-block constraints matter.
 
 **Key obstacle:** The restriction $A \subset [x, \infty)$ does NOT prevent elements from having small prime factors ($p = 2, 3, \ldots$). Elements of $A$ are large but can be highly composite with small prime factors. The upper bound F1 holds for any primitive set regardless of element size; the $x$-restriction alone does not improve the constant 1.399. Closing the gap from $1.399$ to $1$ requires either (a) a new argument that explicitly uses the large-element constraint, or (b) a smooth-number decomposition separating rough-part (all factors $\geq y$) from smooth-part (some factor $< y$).
 
