@@ -387,16 +387,16 @@ $$\sum_{a \in A} \frac{1}{a \log a} \to 0 \quad \text{as } x \to \infty.$$
 
 In particular the Erdős conjecture holds (sum $< 1 + o(1)$) for all such $A$.
 
-**Proof.** Let $K = \lfloor \log_2 x \rfloor$ (so $2^K \leq x < 2^{K+1}$). Decompose the sum by "low strata" ($k \leq K$) and "high strata" ($k > K$).
+**Proof.** Let $K = \lfloor \log_2 x \rfloor$. Decompose the sum by "low strata" ($k \leq K$) and "high strata" ($k > K$).
 
-*Low strata ($k \leq K$, at most $K$ terms).* For each $k \leq K$ with $A \cap A_k \neq \emptyset$, let $a_k$ be the unique element. Since $a_k \in A \subseteq [x, \infty)$, we have $a_k \geq x$. Thus $1/(a_k \log a_k) \leq 1/(x \log x)$. Summing over at most $K$ strata:
-$$\sum_{k \leq K} \frac{1}{a_k \log a_k} \leq \frac{K}{x \log x} \leq \frac{\log_2 x}{x \log x} \to 0.$$
+*Low strata ($k \leq K$, at most $K$ terms).* For each $k \leq K$ with $A \cap A_k \neq \emptyset$, let $a_k$ be the unique element. Since $a_k \geq x$:
+$$\sum_{k \leq K} \frac{1}{a_k \log a_k} \leq \frac{K}{x \log x} \to 0,$$
+because $K = \lfloor \log_2 x \rfloor = O(\log x)$ while $x \log x$ grows faster.
 
-*High strata ($k > K$, infinitely many possible terms).* For $k > K \geq \log_2 x$, every $k$-almost prime satisfies $n \geq 2^k$ (since $n = p_1 \cdots p_k$ with all $p_i \geq 2$). Hence for $a_k \in A_k$:
-$$\frac{1}{a_k \log a_k} \leq \frac{1}{2^k \log(2^k)} = \frac{1}{k \log 2 \cdot 2^k}.$$
-Summing over all $k > K$:
-$$\sum_{k > K} \frac{1}{a_k \log a_k} \leq \frac{1}{\log 2} \sum_{k > K} \frac{1}{k \cdot 2^k} \leq \frac{1}{\log 2} \cdot \frac{1}{(K+1)} \sum_{k > K} \frac{1}{2^k} = \frac{1}{\log 2} \cdot \frac{1}{(K+1)} \cdot \frac{1}{2^K} \leq \frac{2}{\log 2 \cdot x},$$
-using $2^K \geq x/2$ and summing the geometric series $\sum_{k>K} 1/2^k = 1/2^K$. This tends to $0$ as $x \to \infty$.
+*High strata ($k > K$, possibly infinitely many terms).* For any $k$-almost prime $n$, since all prime factors are $\geq 2$, we have $n \geq 2^k$. Hence for each $a_k \in A_k$:
+$$\frac{1}{a_k \log a_k} \leq \frac{1}{2^k \cdot k \log 2}.$$
+The series $\sum_{k \geq 1} \frac{1}{k \cdot 2^k \cdot \log 2}$ converges (by comparison: $1/(k 2^k \log 2) \leq 1/2^k$ and $\sum 1/2^k$ converges). For any convergent positive series, its tail vanishes: as $K = \lfloor \log_2 x \rfloor \to \infty$:
+$$\sum_{k > K} \frac{1}{a_k \log a_k} \leq \sum_{k > K} \frac{1}{k \cdot 2^k \cdot \log 2} \to 0.$$
 
 *Conclusion.* Both parts tend to $0$, so the total $\to 0$. $\square$
 
