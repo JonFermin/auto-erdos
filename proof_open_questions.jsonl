@@ -38,3 +38,4 @@
 {"qid":"Q16","status":"resolved","session_id":"s_0612-080410-fd09","summary":"linear_density proved; 0 blocking, keep_progress","ts":"2026-06-12T09:48:54+00:00"}
 {"qid":"Q17","status":"open","session_id":"s_0612-080410-fd09","summary":"polynomial density: at most k^m elements per k-stratum → sum→0","ts":"2026-06-12T09:48:54+00:00"}
 {"qid":"Q17","status":"claimed","session_id":"s_0612-080410-fd09","summary":"taking Q17","ts":"2026-06-12T09:48:54+00:00"}
+{"qid":"Q17","status":"resolved","session_id":"s_0612-080410-fd09","summary":"polynomial_density proved; 0 blocking, keep_progress","ts":"2026-06-12T09:50:36+00:00"}
