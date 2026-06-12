@@ -377,3 +377,39 @@ $$\sum_{a \in A_{\text{far}}} \frac{1}{a \log a} \leq \sum_{k=1}^K \sum_{a \in A
 7. Theorem `hybrid_case` — near part bounded, far part in $K$ strata $\Rightarrow$ sum $\to 0$ — **proved** (Q14).
 
 **The remaining open case.** A primitive $A \subseteq [x,\infty)$ with BOTH: (i) unbounded support (not confined to any $[x,Mx)$), AND (ii) infinitely many strata above every threshold $Mx$. Closing this requires analytic cross-stratum tools not in F1/F2/F3.
+
+## Section 10: Sparse Stratum Lemma (Q15)
+
+### Lemma sparse\_stratum (PROVED — elementary, no ledger facts needed)
+
+**Statement.** Let $A \subseteq [x, \infty)$ be a set (not necessarily primitive) satisfying $|A \cap A_k| \leq 1$ for every $k \geq 1$. Then:
+$$\sum_{a \in A} \frac{1}{a \log a} \to 0 \quad \text{as } x \to \infty.$$
+
+In particular the Erdős conjecture holds (sum $< 1 + o(1)$) for all such $A$.
+
+**Proof.** Let $K = \lfloor \log_2 x \rfloor$ (so $2^K \leq x < 2^{K+1}$). Decompose the sum by "low strata" ($k \leq K$) and "high strata" ($k > K$).
+
+*Low strata ($k \leq K$, at most $K$ terms).* For each $k \leq K$ with $A \cap A_k \neq \emptyset$, let $a_k$ be the unique element. Since $a_k \in A \subseteq [x, \infty)$, we have $a_k \geq x$. Thus $1/(a_k \log a_k) \leq 1/(x \log x)$. Summing over at most $K$ strata:
+$$\sum_{k \leq K} \frac{1}{a_k \log a_k} \leq \frac{K}{x \log x} \leq \frac{\log_2 x}{x \log x} \to 0.$$
+
+*High strata ($k > K$, infinitely many possible terms).* For $k > K \geq \log_2 x$, every $k$-almost prime satisfies $n \geq 2^k$ (since $n = p_1 \cdots p_k$ with all $p_i \geq 2$). Hence for $a_k \in A_k$:
+$$\frac{1}{a_k \log a_k} \leq \frac{1}{2^k \log(2^k)} = \frac{1}{k \log 2 \cdot 2^k}.$$
+Summing over all $k > K$:
+$$\sum_{k > K} \frac{1}{a_k \log a_k} \leq \frac{1}{\log 2} \sum_{k > K} \frac{1}{k \cdot 2^k} \leq \frac{1}{\log 2} \cdot \frac{1}{(K+1)} \sum_{k > K} \frac{1}{2^k} = \frac{1}{\log 2} \cdot \frac{1}{(K+1)} \cdot \frac{1}{2^K} \leq \frac{2}{\log 2 \cdot x},$$
+using $2^K \geq x/2$ and summing the geometric series $\sum_{k>K} 1/2^k = 1/2^K$. This tends to $0$ as $x \to \infty$.
+
+*Conclusion.* Both parts tend to $0$, so the total $\to 0$. $\square$
+
+**Significance.** This is the first proved result for a class of primitive sets with UNBOUNDED support AND potentially infinitely many strata (if $A$ has one element from each of infinitely many strata, it spans infinitely many strata). The key constraint is the "sparse" condition $|A \cap A_k| \leq 1$. The proof does not use F1, F2, or F3 — only the elementary bound $2^k \leq$ (any $k$-almost prime).
+
+**Updated cumulative proved results:**
+1. `stratum_bound`: each stratum $< 1$ (F3) — **proved**.
+2. `single_interval`: $A \subseteq [x,2x) \Rightarrow$ sum $\to 0$ — **proved**.
+3. `multi_block_finite`: $A \subseteq [x,2^K x) \Rightarrow$ sum $\to 0$ — **proved**.
+4. `bounded_support`: $A \subseteq [x,Mx)$ (fixed $M$) $\Rightarrow$ sum $\to 0$ — **proved**.
+5. `single_stratum`: $A \subseteq A_k \cap [x,\infty)$ (fixed $k$) $\Rightarrow$ sum $\to 0$ — **proved**.
+6. `multi_stratum`: $A \subseteq \bigcup_{k \leq K} A_k \cap [x,\infty)$ (fixed $K$) $\Rightarrow$ sum $\to 0$ — **proved**.
+7. `hybrid_case`: near part bounded, far part $K$ strata $\Rightarrow$ sum $\to 0$ — **proved**.
+8. `sparse_stratum`: $|A \cap A_k| \leq 1$ for all $k$ (infinitely many strata allowed) $\Rightarrow$ sum $\to 0$ — **proved** (Q15).
+
+**Open case (refined).** The hard open case requires both: (i) unbounded support (elements in $[x, \infty)$ at all scales), AND (ii) MULTIPLE elements in at least one stratum — specifically, $|A \cap A_k| \geq 2$ for some $k$ (or infinitely many $k$). The sparse\_stratum lemma covers all cases where no stratum contributes more than one element.

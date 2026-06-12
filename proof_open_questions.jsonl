@@ -29,3 +29,6 @@
 {"qid":"Q13","status":"resolved","session_id":"s_0612-080410-fd09","summary":"Theorem single_stratum proved; tail argument from F3 convergence; prime k=1 special case fixed","ts":"2026-06-12T09:24:26+00:00"}
 {"qid":"Q14","status":"open","session_id":"s_0612-080410-fd09","summary":"hybrid case: bounded support ratio outside [x,Mx) + finite strata ","ts":"2026-06-12T09:24:34+00:00"}
 {"qid":"Q14","status":"claimed","session_id":"s_0612-080410-fd09","summary":"taking Q14","ts":"2026-06-12T09:24:34+00:00"}
+{"qid":"Q14","status":"resolved","session_id":"s_0612-080410-fd09","summary":"Theorem hybrid_case proved; 0 blocking, keep_progress","ts":"2026-06-12T09:29:25+00:00"}
+{"qid":"Q15","status":"open","session_id":"s_0612-080410-fd09","summary":"sparse stratum lemma: at most one element per stratum → sum → 0","ts":"2026-06-12T09:29:25+00:00"}
+{"qid":"Q15","status":"claimed","session_id":"s_0612-080410-fd09","summary":"taking Q15","ts":"2026-06-12T09:29:25+00:00"}
