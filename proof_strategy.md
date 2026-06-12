@@ -421,7 +421,8 @@ $$\sum_{a \in A} \frac{1}{a \log a} \to 0 \quad \text{as } x \to \infty.$$
 **Proof.** Let $K = \lfloor \log_2 x \rfloor$. Split into low strata ($k \leq K$) and high strata ($k > K$).
 
 *Low strata ($k \leq K$).* Each stratum $k$ contributes at most $k$ elements, each $\geq x$. Per-stratum contribution: $\leq k/(x \log x)$. Sum over $k = 1,\ldots,K$:
-$$\sum_{k \leq K} \frac{k}{x \log x} = \frac{K(K+1)}{2 x \log x} = O\!\left(\frac{(\log_2 x)^2}{x \log x}\right) \to 0.$$
+$$\sum_{k \leq K} \frac{k}{x \log x} = \frac{K(K+1)}{2 x \log x} \to 0,$$
+since $K = \lfloor \log_2 x \rfloor$ grows at most logarithmically while $x \log x \to \infty$ much faster.
 
 *High strata ($k > K$).* Any $k$-almost prime satisfies $n \geq 2^k$, so each of the $\leq k$ elements $a_i \in A \cap A_k$ satisfies $1/(a_i \log a_i) \leq 1/(k \log 2 \cdot 2^k)$. Per-stratum contribution:
 $$\text{(stratum } k \text{)} \leq k \cdot \frac{1}{k \log 2 \cdot 2^k} = \frac{1}{\log 2 \cdot 2^k}.$$
