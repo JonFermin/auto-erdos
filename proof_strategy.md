@@ -313,3 +313,31 @@ $$\sum_{a \in A} \frac{1}{a \log a} < \frac{K \log 2}{\log x} \to 0. \qquad \squ
 | $A \subseteq [x, Mx)$, fixed $M$ | **Proved** (Theorem bounded\_support) | $o(1)$ as $x \to \infty$ |
 | $A \subseteq [x, \infty)$, all primitive $A$ | **Open** (hard gap) | $< 1.399$ from F1 |
 | Full conjecture: $A \subseteq [x, \infty)$ | **Conjectured** | $< 1 + o(1)$ |
+
+## Section 8: Single-Stratum Sub-Case (Q13)
+
+### Theorem single\_stratum (PROVED — F3 and tail argument)
+
+**Statement.** For any fixed $k \geq 1$ and any $A \subseteq A_k \cap [x, \infty)$:
+$$\sum_{a \in A} \frac{1}{a \log a} \leq \sum_{a \in A_k \cap [x,\infty)} \frac{1}{a \log a} \to 0 \quad \text{as } x \to \infty.$$
+
+In particular, $\sum_{a \in A} 1/(a \log a) < 1 + o(1)$ holds for all primitive $A$ contained in a single stratum $A_k$ above $x$.
+
+**Proof.** By F3, the full stratum sum $\sum_{a \in A_k} 1/(a \log a) = 1 - (c+o(1)) k^2/2^k$ is a finite positive real (for each fixed $k$). Since all terms are positive, it is a convergent series of positive terms. For any convergent positive series, its tail $\sum_{a \geq x} (\text{term})$ tends to $0$ as $x \to \infty$. Since $A \subseteq A_k \cap [x, \infty)$, we have:
+$$\sum_{a \in A} \frac{1}{a \log a} \leq \sum_{a \in A_k, a \geq x} \frac{1}{a \log a} \to 0. \qquad \square$$
+
+**Special case ($k=1$, primes).** Taking $A = A_1 \cap [x,\infty)$ (primes $\geq x$): by F3, $\sum_p 1/(p\log p) < 1$; the restricted sum tends to $0$ as $x \to \infty$.
+
+**Multi-stratum extension.** For $A \subseteq \bigcup_{k=1}^{K} A_k \cap [x,\infty)$ with fixed $K$:
+$$\sum_{a \in A} \frac{1}{a \log a} \leq \sum_{k=1}^K \sum_{a \in A_k, a \geq x} \frac{1}{a \log a} \to 0,$$
+since each of the finitely many summands $\to 0$ by F3 + tail argument. This covers the already-proved low-$k$ tail result (Section 4) and confirms the conjecture for all sets supported on finitely many strata.
+
+**Updated cumulative proved results (all from F1/F3 or calculus):**
+1. Lemma `stratum_bound`: each stratum $< 1$ — **proved**.
+2. Lemma `single_interval`: $A \subseteq [x,2x) \Rightarrow$ sum $\to 0$ — **proved**.
+3. Lemma `multi_block_finite` (K blocks): $A \subseteq [x,2^Kx) \Rightarrow$ sum $< K\log 2/\log x \to 0$ — **proved**.
+4. Theorem `bounded_support`: $A \subseteq [x,Mx)$ (fixed $M$) $\Rightarrow$ sum $\to 0$ — **proved**.
+5. Theorem `single_stratum`: $A \subseteq A_k \cap [x,\infty)$ (fixed $k$) $\Rightarrow$ sum $\to 0$ — **proved** (Q13).
+6. Multi-stratum: $A \subseteq \bigcup_{k=1}^K A_k \cap [x,\infty)$ (fixed $K$) $\Rightarrow$ sum $\to 0$ — **proved** (Q13).
+
+**Open case.** All proved results require either (a) bounded support ratio, or (b) support on finitely many strata. The hard open case is $A \subseteq [x, \infty)$ spanning BOTH infinitely many dyadic blocks AND infinitely many strata. This remains open (see Section 6).
