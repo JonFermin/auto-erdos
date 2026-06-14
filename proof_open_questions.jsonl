@@ -44,3 +44,4 @@
 {"qid":"Q18","status":"resolved","session_id":"s_0614-080348-5769","summary":"Lemma sub_exponential_density proved; ratio test on (C/2)^k; 0 blocking critics, keep_progress","ts":"2026-06-14T08:08:29Z"}
 {"qid":"Q19","status":"open","session_id":"s_0614-080348-5769","summary":"unifying density theorem: sum |A∩A_k|/(k·2^k) < ∞ → sum→0; subsumes all prior lemmas","ts":"2026-06-14T08:08:35Z"}
 {"qid":"Q19","status":"claimed","session_id":"s_0614-080348-5769","summary":"taking Q19","ts":"2026-06-14T08:08:35Z"}
+{"qid":"Q21","status":"resolved","session_id":"s_0614-080348-5769","summary":"count_bound proved + density_convergence proof fixed; 0 blocking, keep_progress","ts":"2026-06-14T08:38:10Z"}
