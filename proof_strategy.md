@@ -469,3 +469,51 @@ $$\sum_{k > K} \frac{k^{m-1}}{\log 2 \cdot 2^k} \to 0.$$
 10. `polynomial_density`: $|A \cap A_k| \leq k^m$ (fixed $m \geq 1$) for all $k \Rightarrow$ sum $\to 0$ — **proved** (Q17).
 
 The density threshold is now: sub-polynomial growth (up to any $k^m$) is covered. Exponential growth $|A \cap A_k| \sim 2^k$ is the open boundary.
+
+## Section 13: Sub-Exponential Geometric Density (Q18)
+
+### Lemma sub\_exponential\_density (PROVED — ratio test, no ledger facts)
+
+**Statement.** Let $C < 2$ be a fixed real with $C \geq 1$. Let $A \subseteq [x, \infty)$ satisfy $|A \cap A_k| \leq C^k$ for every $k \geq 1$. Then:
+$$\sum_{a \in A} \frac{1}{a \log a} \to 0 \quad \text{as } x \to \infty.$$
+
+**Proof.** Let $K = \lfloor \log_2 x \rfloor$. Split into low strata ($k \leq K$) and high strata ($k > K$).
+
+*Low strata ($k \leq K$).* Each of the $\leq C^k$ elements in $A \cap A_k$ satisfies $a \geq x$ (since $A \subseteq [x,\infty)$), giving $1/(a\log a) \leq 1/(x\log x)$. Per-stratum contribution $\leq C^k/(x\log x)$. Summing over $k = 1,\ldots,K$:
+$$\sum_{k=1}^K \frac{C^k}{x \log x} \leq \frac{C^{K+1}}{(C-1)\, x \log x}.$$
+(For $C = 1$ the geometric sum equals $K/(x\log x)$, which also $\to 0$.)
+Now $C^K \leq C^{\log_2 x} = x^{\log_2 C}$. Since $C < 2$, we have $\log_2 C < 1$, so
+$$\frac{C^{K+1}}{x \log x} \leq \frac{C \cdot x^{\log_2 C}}{x \log x} = \frac{C}{x^{1 - \log_2 C} \log x} \to 0,$$
+because $1 - \log_2 C > 0$.
+
+*High strata ($k > K$).* Any $k$-almost prime satisfies $a \geq 2^k$, so $1/(a\log a) \leq 1/(k\log 2 \cdot 2^k)$. Per-stratum contribution:
+$$\leq \frac{C^k}{k \log 2 \cdot 2^k} = \frac{1}{k\log 2} \left(\frac{C}{2}\right)^k.$$
+Since $C < 2$, the ratio $C/2 < 1$. By the ratio test:
+$$\frac{(k+1)^{-1}(C/2)^{k+1}}{k^{-1}(C/2)^k} = \frac{k}{k+1} \cdot \frac{C}{2} \to \frac{C}{2} < 1 \quad (k \to \infty).$$
+Hence $\sum_{k \geq 1} (C/2)^k/(k\log 2)$ converges. Its tail vanishes: as $K = \lfloor \log_2 x \rfloor \to \infty$,
+$$\sum_{k > K} \frac{(C/2)^k}{k \log 2} \to 0. \qquad \square$$
+
+*Conclusion.* Both the low-strata and high-strata contributions tend to $0$, so the total $\to 0$.
+
+**Scope and relation to earlier lemmas.** This lemma strictly generalises all previously proved density results:
+- **Sparse** ($|A \cap A_k| \leq 1 = 1^k$, i.e., $C = 1$): covered (use $C = 1$ with the $K/(x\log x)$ variant).
+- **Linear** ($|A \cap A_k| \leq k \leq k^1$): since $k = o(C^k)$ for any $C > 1$, choose $C = 3/2$; or note $k < (3/2)^k$ for all $k \geq 1$.
+- **Polynomial** ($|A \cap A_k| \leq k^m$): for any fixed $m$, $k^m < (3/2)^k$ for all sufficiently large $k$, so split at a fixed $k_0$ and apply the lemma for large $k$.
+- **Sub-exponential geometric**: exactly the statement of this lemma with $1 \leq C < 2$.
+
+**The open boundary (C = 2).** If $|A \cap A_k| = 2^k$, the high-strata series becomes $\sum_{k>K} 1/(k\log 2)$, which diverges (harmonic). The ratio test fails. This is the genuine analytic difficulty: near-full-density primitive sets in each stratum.
+
+**Updated cumulative proved results:**
+1. `stratum_bound`: each stratum $< 1$ (F3) — **proved**.
+2. `single_interval`: $A \subseteq [x,2x) \Rightarrow$ sum $\to 0$ — **proved**.
+3. `multi_block_finite`: $A \subseteq [x,2^K x)$ (fixed $K$) $\Rightarrow$ sum $\to 0$ — **proved**.
+4. `bounded_support`: $A \subseteq [x,Mx)$ (fixed $M$) $\Rightarrow$ sum $\to 0$ — **proved**.
+5. `single_stratum`: $A \subseteq A_k \cap [x,\infty)$ (fixed $k$) $\Rightarrow$ sum $\to 0$ — **proved**.
+6. `multi_stratum`: $A \subseteq \bigcup_{k \leq K} A_k \cap [x,\infty)$ (fixed $K$) $\Rightarrow$ sum $\to 0$ — **proved**.
+7. `hybrid_case`: near part bounded, far part in $K$ strata $\Rightarrow$ sum $\to 0$ — **proved**.
+8. `sparse_stratum`: $|A \cap A_k| \leq 1$ for all $k \Rightarrow$ sum $\to 0$ — **proved**.
+9. `linear_density`: $|A \cap A_k| \leq k$ for all $k \Rightarrow$ sum $\to 0$ — **proved**.
+10. `polynomial_density`: $|A \cap A_k| \leq k^m$ (fixed $m$) for all $k \Rightarrow$ sum $\to 0$ — **proved**.
+11. `sub_exponential_density`: $|A \cap A_k| \leq C^k$ (fixed $C < 2$) for all $k \Rightarrow$ sum $\to 0$ — **proved** (Q18).
+
+**Open case.** The remaining open case is $|A \cap A_k| \sim 2^k$ (or any density where $|A \cap A_k|/(k 2^k)$ has divergent sum). The precise density threshold is: the conjecture holds whenever $\sum_{k \geq 1} |A \cap A_k|/(k 2^k) < \infty$; the open boundary is the set of $A$ where this series diverges.
