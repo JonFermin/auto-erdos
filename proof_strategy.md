@@ -557,3 +557,54 @@ The open boundary is exactly $D(A) = \infty$, which occurs precisely when $|A \c
 **Precise statement of the open case.** The Erdős primitive-set conjecture requires proving that for any PRIMITIVE $A \subseteq [x,\infty)$:
 $$\sum_{a \in A} \frac{1}{a \log a} < 1 + o(1),$$
 even when $D(A) = \infty$. This is the genuinely open part: the conjecture's bound of $1 + o(1)$ must come from the joint constraint that $A$ is a primitive antichain AND elements are $\geq x$, not from density alone.
+
+## Section 15: Classification Theorem (Q20)
+
+### Theorem partial\_classification (PROVED)
+
+We collect all proved cases into a three-tier classification.
+
+**Tier 1 — Bounded-support (dyadic analysis, no ledger facts needed):**
+
+| Class | Condition | Status | Bound |
+|---|---|---|---|
+| Single block | $A \subseteq [x, 2x)$ | **Proved** | $< \log 2/\log x \to 0$ |
+| $K$-blocks | $A \subseteq [x, 2^K x)$ (fixed $K$) | **Proved** | $< K\log 2/\log x \to 0$ |
+| Ratio-bounded | $A \subseteq [x, Mx)$ (fixed $M$) | **Proved** | $< \lceil\log_2 M\rceil\log 2/\log x \to 0$ |
+
+**Tier 2 — Finite strata (F3 tail argument):**
+
+| Class | Condition | Status | Bound |
+|---|---|---|---|
+| Single stratum | $A \subseteq A_k \cap [x,\infty)$ (fixed $k$) | **Proved** | tail of convergent series $\to 0$ |
+| Finitely many strata | $A \subseteq \bigcup_{k \leq K} A_k \cap [x,\infty)$ (fixed $K$) | **Proved** | sum of $K$ tails $\to 0$ |
+| Hybrid | near bounded + far $\leq K$ strata | **Proved** | both parts $\to 0$ |
+
+**Tier 3 — Density convergence (elementary, no ledger facts needed):**
+
+| Class | $\vert A \cap A_k\vert$ condition | $D(A)$ value | Status |
+|---|---|---|---|
+| Sparse | $\leq 1$ for all $k$ | $= \log 2$ | **Proved** |
+| Linear | $\leq k$ for all $k$ | $\leq 1$ | **Proved** |
+| Polynomial | $\leq k^m$ (fixed $m$) | $< \infty$ | **Proved** |
+| Sub-exp. geometric | $\leq C^k$ (fixed $C < 2$) | $\leq -\log(1-C/2)/\log 2$ | **Proved** |
+| General convergence | $D(A) < \infty$ (any) | given | **Proved** |
+
+**Open case (Tier 4):**
+
+| Class | Condition | Status | Known bound |
+|---|---|---|---|
+| Full conjecture | Any primitive $A \subseteq [x,\infty)$ | **Open** | $< 1.399$ from F1 |
+
+**Proof of the Theorem.** All Tier 1, 2, and 3 entries follow immediately from the cited lemmas in Sections 5–14. The Tier 4 open case: F1 gives $< 1.399$; proving $< 1 + o(1)$ for all primitive $A$ with $D(A) = \infty$ requires going beyond F1, F2, F3, and elementary density analysis. $\square$
+
+**Formal statement of the partial result:**
+
+*Theorem partial\_classification.* Let $A \subseteq [x,\infty)$ be a primitive set. The Erdős primitive-set conjecture ($\sum_{a \in A} 1/(a\log a) < 1 + o(1)$) holds in each of the following cases:
+1. (**Tier 1**) $A \subseteq [x, Mx)$ for any fixed $M$ (bounded-support case).
+2. (**Tier 2**) $A \subseteq \bigcup_{k=1}^K A_k \cap [x,\infty)$ for any fixed $K$ (finite-strata case).
+3. (**Tier 3**) The density series $D(A) = \sum_{k \geq 1} \vert A \cap A_k\vert/(k \cdot 2^k)$ is finite (density-convergence case).
+
+In all three cases the sum is in fact $o(1)$ (stronger than $< 1 + o(1)$). The open case is Tier 4: primitive $A$ with $D(A) = \infty$ that spans both infinitely many dyadic blocks and infinitely many strata.
+
+**Gap requirement for Tier 4.** The primitive antichain constraint and the element-size lower bound together must force the sum $< 1 + o(1)$ in the $D(A) = \infty$ case. Neither F1 ($< 1.399$), nor F2 (unsigned big-O lower bound on strata), nor F3 (stratum asymptotics) alone is strong enough. The gap requires analytic prime-distribution estimates that quantify how the primitivity constraint limits the density $\vert A \cap A_k\vert$ across strata — facts not available from F1, F2, F3 and elementary calculus.
