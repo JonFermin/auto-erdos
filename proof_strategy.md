@@ -522,21 +522,25 @@ $$\sum_{k > K} \frac{(C/2)^k}{k \log 2} \to 0. \qquad \square$$
 
 ### Theorem density\_convergence (PROVED — comparison and tail, no ledger facts)
 
-**Statement.** Let $A \subseteq [x, \infty)$ (not necessarily primitive). Define the **density series**:
-$$D(A) := \sum_{k=1}^{\infty} \frac{|A \cap A_k|}{k \cdot 2^k}.$$
-If $D(A) < \infty$, then:
-$$\sum_{a \in A} \frac{1}{a \log a} \to 0 \quad \text{as } x \to \infty.$$
+**Statement.** Let $A_0 \subseteq \mathbb{N}$ be a **fixed** set (not necessarily primitive). Define the **density series**:
+$$D(A_0) := \sum_{k=1}^{\infty} \frac{|A_0 \cap A_k|}{k \cdot 2^k}.$$
+If $D(A_0) < \infty$, then the tail sum tends to $0$ as the threshold $x \to \infty$:
+$$\sum_{\substack{a \in A_0 \\ a \geq x}} \frac{1}{a \log a} \to 0 \quad \text{as } x \to \infty.$$
 
-**Proof.** First we show the total sum $\sum_{a \in A} 1/(a\log a)$ is finite.
+**Proof.** The fixed set $A_0$ is treated as a single (possibly infinite) object; $x$ is an external threshold that we send to $\infty$.
 
 For any $k \geq 1$ and any $a \in A_k$, we have $a \geq 2^k$ (since $a$ has $k$ prime factors, each $\geq 2$), so:
 $$\frac{1}{a \log a} \leq \frac{1}{2^k \cdot k \log 2}.$$
-Summing over all $a \in A$:
-$$\sum_{a \in A} \frac{1}{a \log a} = \sum_{k \geq 1} \sum_{a \in A \cap A_k} \frac{1}{a \log a}
-\leq \sum_{k \geq 1} |A \cap A_k| \cdot \frac{1}{k \log 2 \cdot 2^k} = \frac{D(A)}{\log 2} < \infty.$$
+Summing over all $a \in A_0$:
+$$\sum_{a \in A_0} \frac{1}{a \log a}
+\leq \sum_{k \geq 1} |A_0 \cap A_k| \cdot \frac{1}{k \log 2 \cdot 2^k} = \frac{D(A_0)}{\log 2} < \infty.$$
 
-Thus $\sum_{a \in A} 1/(a\log a)$ is a convergent series of positive terms. Its tail (restricted to elements $\geq x$) therefore tends to $0$ as $x \to \infty$:
-$$\sum_{\substack{a \in A \\ a \geq x}} \frac{1}{a \log a} \to 0. \qquad \square$$
+Thus $\sum_{a \in A_0} 1/(a\log a)$ is a convergent series (of positive terms) over the fixed index set $A_0$. For any convergent series of positive terms, the tail sum $\sum_{a \in A_0, a \geq x}$ tends to $0$ as $x \to \infty$ — this is a standard result: the partial sums converge, so the tail (the remainder) must vanish. Hence:
+$$\sum_{\substack{a \in A_0 \\ a \geq x}} \frac{1}{a \log a} \to 0. \qquad \square$$
+
+**Application to the Erdős conjecture.** For a fixed primitive $A_0 \subseteq \mathbb{N}$ with $D(A_0) < \infty$, the theorem gives: the restricted primitive set $A_0 \cap [x, \infty)$ satisfies $\sum_{a \in A_0, a \geq x} 1/(a \log a) \to 0$ as $x \to \infty$. In particular, $A_0 \cap [x, \infty)$ satisfies the Erdős conjecture's bound $< 1 + o(1)$ for large $x$.
+
+**Note on the varying-$A$ case.** The direct proofs of sparse\_stratum, linear\_density, polynomial\_density, and sub\_exponential\_density (Sections 10–13) prove the result for a VARYING family $A(x) \subseteq [x, \infty)$ — they work for any $A$ supported above $x$, not just restrictions of a fixed $A_0$. Theorem density\_convergence gives an alternative unified proof only for the FIXED-$A_0$ case.
 
 **Corollary (all prior density lemmas as special cases).** The Theorem density\_convergence subsumes every proved density lemma via the following verifications that $D(A) < \infty$:
 - **sparse\_stratum** ($|A \cap A_k| \leq 1$): $D(A) \leq \sum_{k \geq 1} 1/(k 2^k) = \log 2 < \infty$ (since $\sum k^{-1} z^k = -\log(1-z)$ at $z = 1/2$). ✓
@@ -608,3 +612,33 @@ We collect all proved cases into a three-tier classification.
 In all three cases the sum is in fact $o(1)$ (stronger than $< 1 + o(1)$). The open case is Tier 4: primitive $A$ with $D(A) = \infty$ that spans both infinitely many dyadic blocks and infinitely many strata.
 
 **Gap requirement for Tier 4.** The primitive antichain constraint and the element-size lower bound together must force the sum $< 1 + o(1)$ in the $D(A) = \infty$ case. Neither F1 ($< 1.399$), nor F2 (unsigned big-O lower bound on strata), nor F3 (stratum asymptotics) alone is strong enough. The gap requires analytic prime-distribution estimates that quantify how the primitivity constraint limits the density $\vert A \cap A_k\vert$ across strata — facts not available from F1, F2, F3 and elementary calculus.
+
+## Section 16: Count Bound (Q21)
+
+### Lemma count\_bound (PROVED — one-line bound)
+
+**Statement.** For any set $A \subseteq [x, \infty)$ with $N = |A|$ elements:
+$$\sum_{a \in A} \frac{1}{a \log a} \leq \frac{N}{x \log x}.$$
+
+**Proof.** Every $a \in A$ satisfies $a \geq x > e$, so $1/(a \log a) \leq 1/(x \log x)$ (since $t \mapsto t \log t$ is increasing for $t > e$). Summing over $N$ elements gives the bound. $\square$
+
+**Corollary.** For any primitive $A \subseteq [x, \infty)$: the Erdős conjecture holds (sum $< 1 + o(1)$) whenever $N = |A| < (1 + o(1)) \cdot x \log x$.
+
+**Tier 4 sub-case.** When $D(A) = \infty$ (Tier 4) but $|A| = N = N(x)$ is controlled: sum $\leq N/(x \log x)$. In particular:
+- $N = o(x \log x)$: sum $\to 0$. The conjecture holds — this is the **moderate-count Tier 4** sub-case.
+- $N \leq x$: sum $\leq 1/\log x \to 0$. (E.g., any primitive set confined to one dyadic block has $\leq x$ elements.)
+- $N = O(x)$: sum $\leq C/\log x \to 0$ for any constant $C$.
+
+**What count bound misses.** For the Erdős conjecture (sum $< 1 + o(1)$) to FAIL using the count bound alone, we would need $N \geq (1 + \varepsilon) x \log x$ for some $\varepsilon > 0$. No known construction of a primitive set in $[x, \infty)$ achieves $|A| \geq c \cdot x \log x$ — the densest known primitive sets (fat antichains in $[x, 2x)$) have $|A| \leq x$ elements. However, a primitive set spanning many dyadic blocks could in principle have $|A| = o(x \log x)$ elements whose sum still approaches 1, by concentrating on high-stratum elements with large individual contributions.
+
+**Updated cumulative proved results:**
+1.–12. (see Sections 10–15)
+13. `count_bound`: $|A| = N \leq x \Rightarrow$ sum $\leq N/(x \log x) \leq 1/\log x \to 0$ — **proved** (Q21).
+
+**Formal statement of the final open case.** The Erdős conjecture is open for primitive $A \subseteq [x,\infty)$ satisfying ALL of:
+1. $D(A) = \infty$ (not Tier 3),
+2. $|A| \geq c \cdot x \log x$ for some $c > 0$ (not covered by count\_bound),
+3. $A$ spans infinitely many dyadic blocks (not Tier 1),
+4. $A$ spans infinitely many $\Omega$-strata (not Tier 2).
+
+Such $A$ must be simultaneously large (many elements), spread across scales, and dense in multiple strata — this is the genuine hardness of the open case.
