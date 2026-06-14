@@ -517,3 +517,43 @@ $$\sum_{k > K} \frac{(C/2)^k}{k \log 2} \to 0. \qquad \square$$
 11. `sub_exponential_density`: $|A \cap A_k| \leq C^k$ (fixed $C < 2$) for all $k \Rightarrow$ sum $\to 0$ — **proved** (Q18).
 
 **Open case.** The remaining open case is $|A \cap A_k| \sim 2^k$ (or any density where $|A \cap A_k|/(k 2^k)$ has divergent sum). The precise density threshold is: the conjecture holds whenever $\sum_{k \geq 1} |A \cap A_k|/(k 2^k) < \infty$; the open boundary is the set of $A$ where this series diverges.
+
+## Section 14: Density Convergence Theorem (Q19)
+
+### Theorem density\_convergence (PROVED — comparison and tail, no ledger facts)
+
+**Statement.** Let $A \subseteq [x, \infty)$ (not necessarily primitive). Define the **density series**:
+$$D(A) := \sum_{k=1}^{\infty} \frac{|A \cap A_k|}{k \cdot 2^k}.$$
+If $D(A) < \infty$, then:
+$$\sum_{a \in A} \frac{1}{a \log a} \to 0 \quad \text{as } x \to \infty.$$
+
+**Proof.** First we show the total sum $\sum_{a \in A} 1/(a\log a)$ is finite.
+
+For any $k \geq 1$ and any $a \in A_k$, we have $a \geq 2^k$ (since $a$ has $k$ prime factors, each $\geq 2$), so:
+$$\frac{1}{a \log a} \leq \frac{1}{2^k \cdot k \log 2}.$$
+Summing over all $a \in A$:
+$$\sum_{a \in A} \frac{1}{a \log a} = \sum_{k \geq 1} \sum_{a \in A \cap A_k} \frac{1}{a \log a}
+\leq \sum_{k \geq 1} |A \cap A_k| \cdot \frac{1}{k \log 2 \cdot 2^k} = \frac{D(A)}{\log 2} < \infty.$$
+
+Thus $\sum_{a \in A} 1/(a\log a)$ is a convergent series of positive terms. Its tail (restricted to elements $\geq x$) therefore tends to $0$ as $x \to \infty$:
+$$\sum_{\substack{a \in A \\ a \geq x}} \frac{1}{a \log a} \to 0. \qquad \square$$
+
+**Corollary (all prior density lemmas as special cases).** The Theorem density\_convergence subsumes every proved density lemma via the following verifications that $D(A) < \infty$:
+- **sparse\_stratum** ($|A \cap A_k| \leq 1$): $D(A) \leq \sum_{k \geq 1} 1/(k 2^k) = \log 2 < \infty$ (since $\sum k^{-1} z^k = -\log(1-z)$ at $z = 1/2$). ✓
+- **linear\_density** ($|A \cap A_k| \leq k$): $D(A) \leq \sum_{k \geq 1} k/(k 2^k) = \sum_{k \geq 1} 1/2^k = 1 < \infty$. ✓
+- **polynomial\_density** ($|A \cap A_k| \leq k^m$): $D(A) \leq \sum_{k \geq 1} k^{m-1}/2^k < \infty$ (ratio test, limit $1/2$). ✓
+- **sub\_exponential\_density** ($|A \cap A_k| \leq C^k$, $C < 2$): $D(A) \leq \sum_{k \geq 1} (C/2)^k/k = -\log(1 - C/2) < \infty$ (power series, $|C/2| < 1$). ✓
+
+**Characterization of the density threshold.** The theorem gives a sharp necessary condition for the elementary approach:
+$$\text{sum} \to 0 \text{ whenever } D(A) < \infty.$$
+The open boundary is exactly $D(A) = \infty$, which occurs precisely when $|A \cap A_k|/(k 2^k)$ has divergent sum. For example, $|A \cap A_k| = 2^k$ gives $D(A) = \sum_{k \geq 1} 1/k = \infty$ (harmonic divergence).
+
+**Connection to the conjecture.** For a primitive $A \subseteq [x, \infty)$, the density $|A \cap A_k|$ is constrained by the primitivity condition. However, the density alone (without primitivity structure) cannot give $D(A) < \infty$ when $|A \cap A_k| \sim 2^k$. The full conjecture asserts that primitivity provides additional constraints that force the sum $< 1 + o(1)$ even when $D(A) = \infty$ — this is precisely what the current elementary approach cannot prove.
+
+**Updated cumulative proved results:**
+1.–11. (see Sections 10–13)
+12. `density_convergence`: $D(A) = \sum |A \cap A_k|/(k 2^k) < \infty \Rightarrow$ sum $\to 0$ — **proved** (Q19). All prior density lemmas (sparse, linear, polynomial, sub-exponential) are corollaries.
+
+**Precise statement of the open case.** The Erdős primitive-set conjecture requires proving that for any PRIMITIVE $A \subseteq [x,\infty)$:
+$$\sum_{a \in A} \frac{1}{a \log a} < 1 + o(1),$$
+even when $D(A) = \infty$. This is the genuinely open part: the conjecture's bound of $1 + o(1)$ must come from the joint constraint that $A$ is a primitive antichain AND elements are $\geq x$, not from density alone.

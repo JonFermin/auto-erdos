@@ -41,3 +41,6 @@
 {"qid":"Q17","status":"resolved","session_id":"s_0612-080410-fd09","summary":"polynomial_density proved; 0 blocking, keep_progress","ts":"2026-06-12T09:50:36+00:00"}
 {"qid":"Q18","status":"open","session_id":"s_0614-080348-5769","summary":"sub-exponential geometric density: |A ∩ A_k| ≤ C^k for fixed C < 2 → sum → 0","ts":"2026-06-14T08:07:03Z"}
 {"qid":"Q18","status":"claimed","session_id":"s_0614-080348-5769","summary":"taking Q18: sub-exponential geometric density lemma","ts":"2026-06-14T08:07:03Z"}
+{"qid":"Q18","status":"resolved","session_id":"s_0614-080348-5769","summary":"Lemma sub_exponential_density proved; ratio test on (C/2)^k; 0 blocking critics, keep_progress","ts":"2026-06-14T08:08:29Z"}
+{"qid":"Q19","status":"open","session_id":"s_0614-080348-5769","summary":"unifying density theorem: sum |A∩A_k|/(k·2^k) < ∞ → sum→0; subsumes all prior lemmas","ts":"2026-06-14T08:08:35Z"}
+{"qid":"Q19","status":"claimed","session_id":"s_0614-080348-5769","summary":"taking Q19","ts":"2026-06-14T08:08:35Z"}
