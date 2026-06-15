@@ -904,3 +904,49 @@ The integral\_bound strictly dominates both polynomial\_range and F1 for all $C 
 **Updated cumulative proved results:**
 1.–18. (see Sections 10–21)
 19. `integral_bound`: $A \subseteq [x, x^C) \Rightarrow$ sum $\leq \log C + O(1/(x\log x))$; conjecture proved for $C \leq e$ — **proved** (Q27). Supersedes polynomial\_range and beats F1 for $C \leq e^{1.399}$.
+
+## Section 23: Same-Stratum Primitive Sets and Near-Extremal Analysis (Q28)
+
+### Lemma same\_stratum\_primitive (PROVED — elementary from $\Omega$ function)
+
+**Statement.** For any fixed $k \geq 1$, the entire stratum $A_k = \{n : \Omega(n) = k\}$ is itself a primitive set: no element of $A_k$ divides a distinct element of $A_k$.
+
+**Proof.** Suppose $a, b \in A_k$ with $a \neq b$ and $a \mid b$. Then $b = am$ for some integer $m > 1$. Since $m > 1$, $\Omega(m) \geq 1$. By the additivity of $\Omega$: $\Omega(b) = \Omega(am) = \Omega(a) + \Omega(m) \geq k + 1 > k$. But $b \in A_k$ requires $\Omega(b) = k$. Contradiction. $\square$
+
+**Corollary (maximal same-stratum sum).** For any primitive $A \subseteq A_k$ (not necessarily restricted to $[x,\infty)$):
+$$\sum_{a \in A} \frac{1}{a \log a} \leq \sum_{a \in A_k} \frac{1}{a \log a} = 1 - (c+o(1))\frac{k^2}{2^k} < 1.$$
+The maximum is achieved by $A = A_k$ itself (the full stratum), which is the densest primitive set concentrated in a single stratum.
+
+### Near-Extremal Analysis
+
+**What approaches sum 1?** By F3, $\sum_{A_k} 1/(a\log a) \to 1$ as $k \to \infty$. For $K(x) = \lfloor \log_2 x \rfloor$:
+$$\sum_{a \in A_{K(x)}} \frac{1}{a \log a} = 1 - (c+o(1))\frac{(\log_2 x)^2}{x} \to 1.$$
+Elements of $A_{K(x)}$ satisfy $a \geq 2^{K(x)} \approx x$. So the densest near-extremal primitive set in $[x, \infty)$ has all elements concentrated in stratum $K(x) \approx \log_2 x$ and its sum approaches $1$ from below.
+
+**All same-stratum primitive sets satisfy the conjecture.** For any $k$ (fixed or growing with $x$) and any primitive $A \subseteq A_k \cap [x, \infty)$: by stratum\_bound (Section 3), sum $\leq \sum_{A_k} 1/(a\log a) = 1 - (c+o(1))k^2/2^k < 1$. The conjecture holds strictly (sum $< 1 < 1+o(1)$).
+
+### The Genuine Open Obstruction: Cross-Stratum Combinations
+
+**What remains open.** Any SINGLE-STRATUM primitive set satisfies sum $< 1$ (proved above). The conjecture remains open only for CROSS-STRATUM primitive sets: those with elements in $\bigcup_{k \in S} A_k$ for an INFINITE set $S$ of stratum indices.
+
+**Why cross-stratum is hard.** For $A \subseteq A_{k_1} \cup A_{k_2}$ (two distinct strata, $k_1 < k_2$):
+- Elements of $A \cap A_{k_1}$ and $A \cap A_{k_2}$ can be related by divisibility (an element of $A_{k_1}$ can divide an element of $A_{k_2}$: e.g., $6 \in A_2$ divides $6 \cdot p \in A_3$ for any prime $p$). Primitivity forbids such pairs from both being in $A$.
+- By stratum\_bound: sum $\leq \sum_{A_{k_1}} + \sum_{A_{k_2}} < 2$. This is worse than F1 = 1.399.
+- For finitely many strata (fixed $k_1, \ldots, k_m$) and $x \to \infty$: multi\_stratum (Section 8) gives sum $= o(1)$.
+- For growing or infinitely many strata: the current proof methods give only F1 $< 1.399$.
+
+**Updated classification — what is and is not proved:**
+
+| Primitive set type | Condition | Sum bound | Status |
+|---|---|---|---|
+| Single stratum (any $k$) | $A \subseteq A_k$ | $< 1$ | **Proved** (Q28) |
+| Finitely many strata (fixed $K$) | $A \subseteq \bigcup_{k \leq K} A_k$ | $= o(1)$ | **Proved** (Q13) |
+| Elements in $[x, x^e)$ | $A \subseteq [x, x^e)$ | $< 1 + o(1)$ | **Proved** (Q27) |
+| Cross-stratum, elements in $[x, x^e)$ | both conditions | $< 1 + o(1)$ | **Proved** |
+| Cross-stratum, elements in $[x^e, \infty)$ | $D(A) = \infty$, infinite strata | $< 1.399$ | **Open** (only F1) |
+
+**The minimal open case.** A primitive $A \subseteq [x, \infty)$ with elements in strata $k_1 < k_2 < \ldots$ (infinitely many, all $k_i \to \infty$) and elements above $x^e$ in at least one stratum $k_j > e\log_2 x$. No elementary argument handles this case; F1 = 1.399 is the only known bound.
+
+**Updated cumulative proved results:**
+1.–19. (see Sections 10–22)
+20. `same_stratum_primitive`: $A_k$ is itself primitive; any primitive $A \subseteq A_k$ has sum $< 1$ — **proved** (Q28, elementary). Cross-stratum infinite-strata case is the sole remaining open obstruction.

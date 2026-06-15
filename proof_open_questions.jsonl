@@ -53,3 +53,6 @@
 {"qid":"Q26","status":"claimed","session_id":"s_0615-080512-4387","summary":"quadratic range conjecture proof + refined open case: conjecture proved for A in [x,x^2), open case is super-quadratic range","ts":"2026-06-15T08:41:10+00:00"}
 {"qid":"Q26","status":"claimed","session_id":"s_0615-080512-4387","summary":"quadratic range conjecture + refined open case","ts":"2026-06-15T08:46:18+00:00"}
 {"qid":"Q27","status":"claimed","session_id":"s_0615-080512-4387","summary":"integral_bound — sharp bound log C for A in [x,x^C); conjecture proved for C<=e","ts":"2026-06-15T08:46:18+00:00"}
+{"qid":"Q26","status":"resolved","session_id":"s_0615-080512-4387","summary":"quadratic_range_conjecture proved; refined open case is super-quadratic range","ts":"2026-06-15T08:48:56+00:00"}
+{"qid":"Q27","status":"resolved","session_id":"s_0615-080512-4387","summary":"integral_bound proved: sum<=logC for A in [x,x^C); conjecture proved C<=e; supersedes polynomial_range","ts":"2026-06-15T08:48:56+00:00"}
+{"qid":"Q28","status":"claimed","session_id":"s_0615-080512-4387","summary":"same_stratum_primitive: A_k is primitive; near-extremal analysis; cross-stratum is sole open obstruction","ts":"2026-06-15T08:48:56+00:00"}
