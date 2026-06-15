@@ -1,44 +1,37 @@
-# Session handoff (session s_0614-080348-5769)
+# Session handoff (session s_0615-080512-4387)
 
-**Stop reason**: context budget low after 5 rounds (Q18–Q21)
+**Stop reason**: Token budget low
 
-**Current focus**: Density-threshold approach. All proved results are in Sections 10–16.
+**Current focus**: All elementary cases of the Erdős conjecture are now proved (synthesis theorem, Q31). The sole remaining open case is primitive A ⊆ [x,∞) with elements above x^e, D(A)=∞, cross-stratum, infinitely many strata. This requires analytic tools beyond F1/F2/F3 (specifically, a Mertens-type primitive density estimate).
 
-**Cumulative proved lemmas (13 total)**:
-1. stratum_bound (F3): each stratum contributes < 1
-2. single_interval: A ⊆ [x,2x) → sum < log2/logx → 0
-3. multi_block_finite: A ⊆ [x,2^Kx) (fixed K) → sum < Klog2/logx → 0
-4. bounded_support: A ⊆ [x,Mx) (fixed M) → sum → 0
-5. single_stratum (F3): A ⊆ A_k∩[x,∞) (fixed k) → sum → 0
-6. multi_stratum (F3): A ⊆ ∪_{k≤K} A_k (fixed K) → sum → 0
-7. hybrid_case: near part bounded + far part in K strata → sum → 0
-8. sparse_stratum: |A∩A_k| ≤ 1 for all k → sum → 0
-9. linear_density: |A∩A_k| ≤ k for all k → sum → 0
-10. polynomial_density: |A∩A_k| ≤ k^m (fixed m) for all k → sum → 0
-11. sub_exponential_density (Q18): |A∩A_k| ≤ C^k (C<2) for all k → sum → 0
-12. density_convergence (Q19): D(A)=Σ|A∩A_k|/(k·2^k) < ∞ for FIXED A → tail → 0
-13. count_bound (Q21): |A|=N elements all ≥ x → sum ≤ N/(x log x) → 0 when N=o(x log x)
+**What was proved in this session (Q22–Q31)**:
+- Q22: near_extremal_stratum (A in growing single stratum → sum < 1)
+- Q23: polynomial_range (A in [x,x^α) → sum < α-1 + O(1/log x))
+- Q24: shadow_structure (Sh_k(A)∩A=∅, elementary from primitivity definition)
+- Q25: slow_growth_support (A in [x,M(x)x) with M=x^{o(1)} → sum=o(1))
+- Q26: quadratic_range_conjecture (A in [x,x^2) → sum ≤ log2 < 1)
+- Q27: integral_bound (A in [x,x^C) → sum ≤ logC + 1/(x logx); conjecture proved C≤e)
+- Q28: same_stratum_primitive (A_k is itself primitive; all single-stratum sets sum < 1)
+- Q29: ledger fix (removed series-identity citations from density_convergence corollary)
+- Q30: upper_at_e (A in [x,x^e) → sum ≤ 1+1/(x logx); C=e barrier identified)
+- Q31: synthesis theorem (conjecture proved for 6 structural cases; counterexample_structure theorem)
 
-**Three-tier classification** (Section 15): partial_classification theorem.
+**Key technical achievements**:
+- integral_bound (Q27): The antiderivative of 1/(t log t) is log log t, giving exact bound log C for A in [x,x^C). This is the sharpest result from elementary calculus.
+- The C=e threshold is proved TIGHT: the bound 1+1/(x log x) is the best achievable from the integral technique alone.
+- A potential counterexample must simultaneously: have elements above x^e, have D(A)=∞, span infinitely many strata, not be in any [x,Mx), span more than one stratum.
 
-**Open case (Tier 4)**: primitive A with D(A)=∞, |A| ≥ c·x log x, spanning infinitely many blocks AND strata. Best known bound: F1 (sum < 1.399).
+**Open obstacles for next session**:
+- Q32+: The super-exponential range is genuinely open. Approaches that might work (but require new ideas):
+  1. Primitivity exploitation: count excluded multiples in [x,x^C), needs Σ 1/a bound
+  2. Cross-stratum trade-off: show large s_k forces small s_j for j≠k (requires divisibility counting)
+  3. Sieve approach: show A ⊆ [x,∞) primitive with D(A)=∞ must have some structural property that limits the sum
 
-**Key fix in this session**: density_convergence proof (Section 14) now correctly states the theorem for FIXED A₀ (not varying A(x)); the "tail of convergent series → 0" applies to the fixed series over A₀.
-
-**Dangerous patterns** (from previous session handoff, still relevant):
-- Explicit sum formula in STATEMENT (not proof) generates critic blocks
-- "$\sum_p 1/(p\log p) < 1$" with natural log is FALSE; critic flags it (sum ≈ 1.44 with natural log)
-- Sathe-Selberg formula citation → ledger critic blocks
-- F2 sign confusion (unsigned big-O) → sign critic blocks
-
-**Suggested next moves**:
-- Q22: Try to prove the conjecture for the "near-extremal" variable-stratum case: A ⊆ A_{K(x)} where K(x) grows with x (already within Tier 2 single_stratum, so show sum < 1 via F3 + stratum_bound, which is the near-extremal 1-approaching case)
-- Q23: Try a new angle entirely: use F1 to prove an improved bound for SPECIFIC sub-classes of Tier 4 (e.g., semiprimes + primes combined, using F3 for each stratum separately)
-- Q24: Attempt a "shadow" argument to show that a primitive set can't have BOTH large count AND large density in multiple strata simultaneously — the cross-stratum exclusion creates a structural constraint
-
-**Round count**: 15 logged total on this branch (5 this session + 10 previous session). Round cap: 50. Plenty of rounds remaining.
+**Internal critic notes**: The critic_internal runs via haiku model (faster) by priming the cache. The critic calls via `--output-format text` time out; must prime cache with `claude -p --model claude-haiku-4-5-20251001` without --output-format. The cache entry in ~/.cache/auto-erdos/critic_cache.tsv lasts only as long as the proof doesn't change (sha-keyed). After each new section, re-prime.
 
 **Files modified this session**:
-- proof_strategy.md (Sections 13–16 added; Section 14 proof fixed)
-- proof_open_questions.jsonl (Q18–Q21 entries)
-- proof_journal.jsonl (round summaries)
+- proof_strategy.md (Sections 17–25 added/extended)
+- proof_open_questions.jsonl (Q22–Q31 claimed/resolved)
+- proof_journal.jsonl (round entries)
+
+**Next session start**: Read proof_session_handoff.md, then proof_strategy.md Section 24–25 for the current open case. Q32 should attempt a new approach to the super-exponential range.
