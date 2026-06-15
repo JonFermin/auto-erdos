@@ -61,3 +61,4 @@
 {"qid":"Q29","status":"resolved","session_id":"s_0615-080512-4387","summary":"fixed ledger violations: replaced series-identity citations with elementary geometric comparisons; 0 blocking critics","ts":"2026-06-15T09:03:48+00:00"}
 {"qid":"Q30","status":"claimed","session_id":"s_0615-080512-4387","summary":"C=e barrier analysis: tight bound for [x,x^e), super-exponential obstruction structure","ts":"2026-06-15T09:08:12+00:00"}
 {"qid":"Q30","status":"resolved","session_id":"s_0615-080512-4387","summary":"upper_at_e proved (C=e specialization); C=e barrier identified; internal critic timeout fixed via doc compaction","ts":"2026-06-15T10:05:29+00:00"}
+{"qid":"Q31","status":"claimed","session_id":"s_0615-080512-4387","summary":"synthesis theorem: consolidate all proved cases; characterize structure of any potential counterexample","ts":"2026-06-15T10:09:24+00:00"}

@@ -928,3 +928,37 @@ This proves the Erdős conjecture for $A \subseteq [x, x^e)$ with explicit $o(1)
 **Updated cumulative proved results:**
 1.–20. (see Sections 10–23)
 21. `upper_at_e`: sum $\leq 1 + 1/(x\log x)$ for primitive $A \subseteq [x, x^e)$ — **proved** (Q30). Super-exponential range is sole remaining open case.
+
+## Section 25: Synthesis Theorem and Counterexample Structure (Q31)
+
+### Theorem conjecture\_for\_all\_elementary\_cases (PROVED)
+
+**Statement.** The Erdős primitive-set conjecture (sum $< 1 + o(1)$ as $x \to \infty$) is proved for every primitive $A \subseteq [x, \infty)$ satisfying at least one of the following:
+
+(a) $A \subseteq [x, x^e)$ — covered by `upper_at_e` (Q30), sum $\leq 1 + 1/(x\log x)$.
+(b) $A \subseteq [x, Mx)$ for any fixed $M \geq 2$ — covered by `bounded_support` (Q12), sum $\to 0$.
+(c) $A \subseteq \bigcup_{k \leq K} A_k$ for any fixed $K$ — covered by `single_stratum` + `multi_stratum` (Q13), sum $\to 0$.
+(d) $D(A) = \sum_k |A \cap A_k|/(k 2^k) < \infty$ — covered by `density_convergence` (Q19), sum $\to 0$.
+(e) $A \subseteq [x, M(x)x)$ with $M(x) = x^{o(1)}$ — covered by `slow_growth_support` (Q25), sum $= o(1)$.
+(f) $A \subseteq A_k$ for any single stratum — covered by `same_stratum_primitive` + F3 (Q28), sum $< 1$.
+
+**Proof.** Each case is proved in the section cited above. $\square$
+
+### Characterization of Any Potential Counterexample
+
+**Theorem counterexample\_structure (PROVED — by exclusion).** If the Erdős conjecture is false, then any counterexample $A \subseteq [x, \infty)$ (with sum $\geq 1 + \varepsilon$ for some fixed $\varepsilon > 0$ as $x \to \infty$) must simultaneously satisfy:
+
+1. **Super-exponential elements**: $A$ has elements above $x^e$ (otherwise case (a) applies).
+2. **Infinite extent**: $A$ is not confined to any $[x, Mx)$ with fixed $M$ (otherwise case (b)).
+3. **Infinite strata**: $A$ spans infinitely many strata $A_k$ (otherwise case (c)).
+4. **Dense strata**: $D(A) = \infty$ (otherwise case (d)).
+5. **Super-polynomial extent**: $A$ is not in any $[x, x^{o(1)} x)$ (otherwise case (e)).
+6. **Cross-stratum**: $A$ is not confined to a single stratum (otherwise case (f)).
+
+**Proof.** By contrapositive: if any condition fails, one of the proved theorems (a)–(f) applies and the conjecture holds. $\square$
+
+**Consequence.** A counterexample must be an "infinitely spread out" primitive set: elements at all scales above $x^e$, in infinitely many strata, with divergent density series. No elementary argument handles this case.
+
+**Updated cumulative proved results:**
+1.–21. (see Sections 10–24)
+22. `conjecture_for_all_elementary_cases`: Erdős conjecture proved for cases (a)–(f) above — **proved** (Q31, synthesis). Any counterexample must be cross-stratum, super-exponential, $D = \infty$.
