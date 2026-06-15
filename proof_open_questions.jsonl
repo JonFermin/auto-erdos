@@ -58,3 +58,4 @@
 {"qid":"Q28","status":"claimed","session_id":"s_0615-080512-4387","summary":"same_stratum_primitive: A_k is primitive; near-extremal analysis; cross-stratum is sole open obstruction","ts":"2026-06-15T08:48:56+00:00"}
 {"qid":"Q28","status":"resolved","session_id":"s_0615-080512-4387","summary":"same_stratum_primitive proved: A_k is primitive; cross-stratum infinite-strata is sole open case","ts":"2026-06-15T08:53:54+00:00"}
 {"qid":"Q29","status":"claimed","session_id":"s_0615-080512-4387","summary":"fix ledger violations: replace series-identity citations with elementary geometric comparisons","ts":"2026-06-15T08:59:36+00:00"}
+{"qid":"Q29","status":"resolved","session_id":"s_0615-080512-4387","summary":"fixed ledger violations: replaced series-identity citations with elementary geometric comparisons; 0 blocking critics","ts":"2026-06-15T09:03:48+00:00"}
