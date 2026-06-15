@@ -48,3 +48,4 @@
 {"qid":"Q22","status":"claimed","session_id":"s_0615-080512-4387","summary":"near-extremal growing-stratum case: A in A_{K(x)} with K(x)->inf","ts":"2026-06-15T08:23:17+00:00"}
 {"qid":"Q22","status":"resolved","session_id":"s_0615-080512-4387","summary":"near_extremal_stratum proved: A in A_{K(x)} cap [x,inf) gives sum < 1 via F3 monotonicity","ts":"2026-06-15T08:25:48+00:00"}
 {"qid":"Q23","status":"claimed","session_id":"s_0615-080512-4387","summary":"two-strata primitivity interaction: A in A_j cup A_k, bound via cross-stratum primitivity constraint","ts":"2026-06-15T08:25:53+00:00"}
+{"qid":"Q25","status":"claimed","session_id":"s_0615-080512-4387","summary":"slow-growth support: A in [x,M(x)x) with log M = o(log x); extends bounded_support to growing M","ts":"2026-06-15T08:36:42+00:00"}

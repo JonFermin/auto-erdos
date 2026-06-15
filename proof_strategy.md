@@ -760,3 +760,54 @@ The shadow framework shows that primitivity creates genuine cross-stratum constr
 **Updated cumulative proved results:**
 1.–15. (see Sections 10–18)
 16. `shadow_structure`: $\text{Sh}_k(A) \cap A = \emptyset$ for any primitive $A$ — **proved** (Q24, elementary). Shadow weight bound requires prime reciprocal estimates outside F1/F2/F3; gap documented.
+
+## Section 20: Slow-Growth Support Generalization (Q25)
+
+### Theorem slow\_growth\_support (PROVED — multi\_block\_finite + calculus)
+
+**Statement.** Let $M : [2, \infty) \to [1, \infty)$ be any function with $\log M(x) = o(\log x)$ (equivalently, $M(x) = x^{o(1)}$ — sub-polynomial growth). For any set $A \subseteq [x, M(x) \cdot x)$:
+$$\sum_{a \in A} \frac{1}{a \log a} < \frac{(\log_2 M(x) + 1) \log 2}{\log x} = \frac{\log M(x)}{\log x} + \frac{\log 2}{\log x} \to 0 \quad \text{as } x \to \infty.$$
+
+In particular, the Erdős conjecture bound $< 1 + o(1)$ holds for all $A$ with sub-polynomial support growth.
+
+**Proof.** Let $K = \lceil \log_2 M(x) \rceil$. Then $2^K \cdot x \geq M(x) \cdot x$, so $[x, M(x) \cdot x) \subseteq [x, 2^K x)$. By Lemma multi\_block\_finite with base $x$ and $K$ blocks:
+$$\sum_{a \in A} \frac{1}{a \log a} < \frac{K \log 2}{\log x} \leq \frac{(\log_2 M(x) + 1) \log 2}{\log x} = \frac{\log M(x) + \log 2}{\log x}.$$
+Since $\log M(x) = o(\log x)$, this bound is $o(1) + O(1/\log x) = o(1)$. $\square$
+
+**Examples:**
+
+| $M(x)$ | Growth type | Bound | Sum behavior |
+|---|---|---|---|
+| Fixed $C$ | bounded (Thm bounded\_support) | $\frac{\lceil\log_2 C\rceil\log 2}{\log x}$ | $O(1/\log x)$ |
+| $(\log x)^C$ | polylogarithmic | $\frac{C\log\log x}{\log x}$ | $o(1)$ |
+| $\exp(\sqrt{\log x})$ | sub-exponential | $\frac{\sqrt{\log x}}{2\log x}$ | $o(1)$ |
+| $x^{1/\log\log x}$ | sub-polynomial | $\frac{1}{\log\log x}$ | $o(1)$ |
+| $x^c$ (fixed $c > 0$) | polynomial | $c + O(1/\log x)$ | NOT $o(1)$ |
+
+The last row ($M(x) = x^c$) is covered by Theorem polynomial\_range (Q23), not this theorem: $\log M(x) = c \log x$ is NOT $o(\log x)$.
+
+**Relation to prior results:**
+- **Theorem bounded\_support** (Section 7): $M(x) = M$ fixed. Special case of this theorem.
+- **Theorem polynomial\_range** (Section 18): $M(x) = x^{\alpha-1}$ (so $A \subseteq [x, x^\alpha)$). Gives sum $< (\alpha-1) + o(1)$; for $\alpha = 2$, sum $< 1 + o(1)$.
+- **This theorem**: $M(x) = x^{o(1)}$ (slower than any power of $x$). Gives sum $= o(1)$.
+
+**Updated support-growth classification:**
+
+| $M(x)$ growth | Sum behavior | Theorem |
+|---|---|---|
+| $M$ constant | $O(1/\log x) = o(1)$ | bounded\_support |
+| $M(x) = x^{o(1)}$ | $o(1)$ | slow\_growth\_support (Q25) |
+| $M(x) = x^{\alpha-1}$ (fixed $\alpha > 1$) | $< (\alpha-1) + o(1)$ | polynomial\_range |
+| $M(x) = x$ (full range) | $< 1.399$ (F1) | full conjecture (OPEN) |
+
+The "phase transition" occurs at polynomial growth $M(x) = x^c$: below that, sum $= o(1)$; above (polynomial M), the bound exceeds 0.
+
+**Corollary (union of both theorems).** For any $A \subseteq [x, \infty)$ and any $1 \leq \alpha(x) \leq 2$:
+- If $A \subseteq [x, x^{\alpha(x)})$ and $\alpha(x) \to 1$ (sub-polynomial range): sum $\to 0$.
+- If $A \subseteq [x, x^{\alpha(x)})$ and $\alpha(x) \to 2$ (approaching quadratic range): sum $< 1 + o(1)$.
+
+For $1 \leq \alpha(x) < 2$, the explicit bound is $\alpha(x) - 1 + o(1)$. For $\alpha(x) = 2$: sum $< 1 + \log 2/\log x$.
+
+**Updated cumulative proved results:**
+1.–16. (see Sections 10–19)
+17. `slow_growth_support`: $A \subseteq [x, M(x)x)$ with $M(x) = x^{o(1)}$ $\Rightarrow$ sum $= o(1)$ — **proved** (Q25).
