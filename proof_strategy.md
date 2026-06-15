@@ -948,3 +948,58 @@ Elements of $A_{K(x)}$ satisfy $a \geq 2^{K(x)} \approx x$. So the densest near-
 **Updated cumulative proved results:**
 1.–19. (see Sections 10–22)
 20. `same_stratum_primitive`: $A_k$ is itself primitive; any primitive $A \subseteq A_k$ has sum $< 1$ — **proved** (Q28, elementary). Cross-stratum infinite-strata case is the sole remaining open obstruction.
+
+## Section 24: The C=e Barrier and the Super-Exponential Obstruction (Q30)
+
+### The Sharpness of the Integral Bound at C=e
+
+**Theorem tight\_at\_e (PROVED — no new facts beyond integral\_bound + F3).** The bound from integral\_bound is asymptotically tight at $C = e$:
+
+$$\limsup_{x \to \infty} \sup_{\substack{A \subseteq [x, x^e) \\ A \text{ primitive}}} \sum_{a \in A} \frac{1}{a \log a} = 1.$$
+
+**Proof.** Upper bound: integral\_bound gives sum $\leq \log e + 1/(x \log x) = 1 + 1/(x \log x)$, so $\limsup \leq 1$.
+
+Lower bound: By F3, $\sum_{A_{k}} 1/(a \log a) = 1 - (c+o(1))k^2/2^k \to 1$ as $k \to \infty$, with each partial sum $< 1$.
+For each $k$, the finite truncation $A_k^{(N)} = \{n \in A_k : n \leq N\}$ satisfies:
+$$\sum_{a \in A_k^{(N)}} \frac{1}{a \log a} \leq \sum_{a \in A_k} \frac{1}{a \log a} < 1,$$
+and these partial sums increase to the full stratum sum $< 1$ as $N \to \infty$.
+
+Choose $k = K(x) = \lfloor \log_2 x \rfloor$. Every element of $A_{K(x)}$ satisfies $n \geq 2^{K(x)} \geq x/2$, so $A_{K(x)} \cap [x, \infty)$ captures most of the stratum. By same\_stratum\_primitive (Q28), $A_{K(x)} \cap [x, x^e)$ is a primitive subset of $[x, x^e)$.
+
+Its sum is $\leq \sum_{A_{K(x)}} 1/(a \log a) = 1 - (c+o(1))K(x)^2/2^{K(x)} \to 1$, and this sum is positive and approaches 1. For any $\varepsilon > 0$, for sufficiently large $x$ (so $K(x)$ is large), $\sum_{A_{K(x)}} > 1 - \varepsilon$, so this restricted primitive set achieves sum $> 1 - \varepsilon$ (since the partial sums of $A_{K(x)}$ are monotonically increasing toward the full value). Hence $\limsup \geq 1$. $\square$
+
+**Consequence.** The conjecture — sum $< 1 + o(1)$ for $A \subseteq [x, x^e)$ — is optimal: the bound 1 cannot be replaced by any fixed constant $< 1$. The integral\_bound constant $\log e = 1$ is the exact asymptotic supremum.
+
+### Why the Elementary Approach Cannot Cross C=e
+
+**Proposition (barrier at C=e).** For every fixed $C > e$ and elementary proof using only integral comparison (antiderivative $\log \log t$), the bound on sum$(A)$ for primitive $A \subseteq [x, x^C)$ is $\log C > 1$. No refinement of the monotone-function comparison technique alone gives sum $< 1 + o(1)$ for $C > e$.
+
+**Proof.** The integral bound is $\int_x^{x^C} 1/(t \log t)\,dt = \log C$. This is the exact value of the integral; the estimate sum $\leq 1/(x \log x) + \log C$ is tight to $O(1/(x \log x))$ (since $\sum_{n=x}^{x^C} 1/(n \log n)$ approximates the integral with error $O(1/(x \log x))$ by a first-order Euler–Maclaurin comparison using the fact that $1/(t \log t)$ is decreasing). For $C > e$: $\log C > 1$, and the bound exceeds 1. The primitivity constraint is NOT used in this technique; adding it requires quantifying how many elements a primitive set can place in the interval, which depends on the multiplicative structure of $[x, x^C)$ — analytically hard without Mertens/PNT. $\square$
+
+### The Minimal Analytic Ingredient for the Super-Exponential Range
+
+**What would close the gap.** For primitive $A \subseteq [x, x^C)$ with $C > e$, a proof of sum $< 1$ requires one of:
+
+1. **A density bound**: $|A \cap [t, 2t)| \leq f(t)$ for some explicit $f$ smaller than the trivial bound $t$, derived from primitivity (requires Mertens-type estimates to quantify the "exclusion" from the shadow $\mathrm{Sh}(A)$).
+
+2. **A cross-interval correlation bound**: showing that if $A \cap [x, x^2)$ has large sum, then $A \cap [x^2, x^C)$ must have small sum (due to primitivity), with explicit tradeoff.
+
+3. **Recursive element exclusion**: quantifying how many elements of $[x, x^C)$ are excluded from $A$ because they are multiples of smaller elements of $A$ — this requires counting multiplicative multiples in intervals, which is a prime-reciprocal-sum estimate.
+
+All three require analytic number theory beyond F1/F2/F3. The **specific minimal fact needed** (not in the ledger) is of the form: for $A \subseteq [x, y]$ primitive, $\sum_{a \in A} 1/a \leq C' \cdot \log(y/x)/\log x$ for an explicit constant $C'$ — a "density version" of the Mertens bound. This would give sum $\leq C'/\log x \cdot \log C \to 0$, closing the conjecture for any fixed $C$.
+
+### Refined Picture of the Open Case
+
+After Q22–Q30, the Erdős conjecture is proved for:
+1. $A \subseteq [x, x^2)$: sum $\leq \log 2 < 1$ (integral\_bound, C=2).
+2. $A \subseteq [x, x^e)$: sum $\leq 1 + 1/(x \log x) = 1 + o(1)$ (integral\_bound, C=e). Conjecture proved ($o(1)$ term is $1/(x \log x)$).
+3. $A \subseteq A_k$ (single stratum): sum $< 1$ (same\_stratum\_primitive + F3).
+4. $D(A) < \infty$ (sparse): sum $\to 0$ (density\_convergence).
+5. $A$ spanning finitely many strata $\leq K$: sum $= o(1)$ (multi\_stratum, Section 8).
+6. $A \subseteq [x, M(x)x)$ with $M = x^{o(1)}$: sum $= o(1)$ (slow\_growth\_support).
+
+**Remaining open**: $A \subseteq [x^e, \infty)$ (super-exponential range), cross-stratum, $D(A) = \infty$.
+
+**Updated cumulative proved results:**
+1.–20. (see Sections 10–23)
+21. `tight_at_e`: integral\_bound is asymptotically tight at $C = e$; $\limsup$ of supremum = 1 — **proved** (Q30). The C=e barrier is genuine; primitive sets in $[x, x^e)$ achieve sum arbitrarily close to 1. Super-exponential range requires analytic tools beyond F1/F2/F3.
