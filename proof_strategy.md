@@ -673,3 +673,43 @@ For any FIXED $k$, the inner sum $\to 0$ as $x \to \infty$ (F3 tail). But for GR
 **Updated cumulative proved results:**
 1.–13. (see Sections 10–16)
 14. `near_extremal_stratum`: $A(x) \subseteq A_{K(x)} \cap [x,\infty)$, any $K(x) \to \infty$ $\Rightarrow$ sum $< 1$ — **proved** (Q22).
+
+## Section 18: Polynomial-Range Explicit Bound (Q23)
+
+### Theorem polynomial\_range (PROVED — multi\_block\_finite + calculus)
+
+**Statement.** For any $\alpha \geq 1$ and any set $A \subseteq [x, x^\alpha)$ (not necessarily primitive):
+$$\sum_{a \in A} \frac{1}{a \log a} < \frac{\lceil (\alpha - 1) \log_2 x \rceil \cdot \log 2}{\log x}.$$
+In particular:
+1. **Sub-polynomial range** ($\alpha = 1 + t/\log_2 x$ for fixed $t$): sum $< t \log 2 / \log x + O(1/\log x) \to 0$.
+2. **Quadratic range** ($\alpha = 2$, $A \subseteq [x, x^2)$): sum $< 1 + \log 2/\log x$.
+   For $x \geq 6$: sum $< 1 + 0.387 \approx 1.387 < 1.399$, strictly better than F1.
+3. **General power** ($\alpha > 1$ fixed): sum $< (\alpha - 1) + O(1/\log x)$.
+
+**Proof.** Let $K = \lceil (\alpha-1) \log_2 x \rceil$. Then $2^K \cdot x \geq x^{\alpha-1} \cdot x = x^\alpha$, so $[x, x^\alpha) \subseteq [x, 2^K x)$. By Lemma multi\_block\_finite (Section 5) with parameter $x$ and $K$ blocks:
+$$\sum_{a \in A} \frac{1}{a \log a} < \frac{K \log 2}{\log x} = \frac{\lceil (\alpha-1) \log_2 x \rceil \cdot \log 2}{\log x}. \qquad \square$$
+
+**Sharpness.** For $\alpha = 2$, the bound is $\lceil \log_2 x \rceil \cdot \log 2 / \log x$. Since $\log_2 x = \log x / \log 2$, this equals $\lceil \log x / \log 2 \rceil \cdot \log 2 / \log x \leq (\log x / \log 2 + 1) \cdot \log 2 / \log x = 1 + \log 2 / \log x$.
+
+**Comparison with F1 (quadratic range).** For $A \subseteq [x, x^2)$:
+$$\text{polynomial\_range bound:} \quad 1 + \frac{\log 2}{\log x}; \qquad \text{F1 bound:} \quad 1.399.$$
+The polynomial\_range bound is strictly better than F1 when $\log 2 / \log x < 0.399$, i.e., $\log x > \log 2 / 0.399 \approx 1.74$, i.e., $x \geq 6$. For $x \geq 6$ and $A \subseteq [x, x^2)$ primitive:
+$$\sum_{a \in A} \frac{1}{a \log a} < 1 + \frac{\log 2}{\log x} \leq 1 + \frac{\log 2}{\log 6} < 1.387 < 1.399.$$
+
+**Corollary (explicit conjecture form for quadratic range).** For any primitive $A \subseteq [x, x^2)$ and $x \geq 6$:
+$$\sum_{a \in A} \frac{1}{a \log a} < 1 + \frac{\log 2}{\log x}.$$
+This is the Erdős conjecture $< 1 + o(1)$ with explicit error term $\log 2 / \log x$ — for the quadratic range, the conjecture holds and the proof is elementary (no F1, F2, F3 needed).
+
+**Range comparison table:**
+
+| Range | $\alpha$ | Blocks $K$ | Bound | vs.\ F1 |
+|---|---|---|---|---|
+| $[x, x^{1.1})$ | 1.1 | $\sim 0.1\log_2 x$ | $\sim 0.1$ | Stronger |
+| $[x, 2x)$ | $1 + 1/\log_2 x$ | 1 | $\log 2/\log x \to 0$ | Stronger |
+| $[x, x^2)$ | 2 | $\log_2 x$ | $1 + \log 2/\log x$ | Stronger ($x \geq 6$) |
+| $[x, x^{2.4})$ | 2.4 | $1.4\log_2 x$ | $\sim 1.4$ | Weaker |
+| $[x, \infty)$ | $\infty$ | (unbounded) | F1 = $1.399$ | F1 better |
+
+**Updated cumulative proved results:**
+1.–14. (see Sections 10–17)
+15. `polynomial_range`: $A \subseteq [x, x^\alpha)$ (any $\alpha \geq 1$) $\Rightarrow$ sum $< (\alpha-1) + O(1/\log x)$; specifically for $\alpha = 2$ and $x \geq 6$: sum $< 1.387 <$ F1 — **proved** (Q23).
