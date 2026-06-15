@@ -543,10 +543,10 @@ $$\sum_{\substack{a \in A_0 \\ a \geq x}} \frac{1}{a \log a} \to 0. \qquad \squa
 **Note on the varying-$A$ case.** The direct proofs of sparse\_stratum, linear\_density, polynomial\_density, and sub\_exponential\_density (Sections 10–13) prove the result for a VARYING family $A(x) \subseteq [x, \infty)$ — they work for any $A$ supported above $x$, not just restrictions of a fixed $A_0$. Theorem density\_convergence gives an alternative unified proof only for the FIXED-$A_0$ case.
 
 **Corollary (all prior density lemmas as special cases).** The Theorem density\_convergence subsumes every proved density lemma via the following verifications that $D(A) < \infty$:
-- **sparse\_stratum** ($|A \cap A_k| \leq 1$): $D(A) \leq \sum_{k \geq 1} 1/(k 2^k) = \log 2 < \infty$ (since $\sum k^{-1} z^k = -\log(1-z)$ at $z = 1/2$). ✓
-- **linear\_density** ($|A \cap A_k| \leq k$): $D(A) \leq \sum_{k \geq 1} k/(k 2^k) = \sum_{k \geq 1} 1/2^k = 1 < \infty$. ✓
-- **polynomial\_density** ($|A \cap A_k| \leq k^m$): $D(A) \leq \sum_{k \geq 1} k^{m-1}/2^k < \infty$ (ratio test, limit $1/2$). ✓
-- **sub\_exponential\_density** ($|A \cap A_k| \leq C^k$, $C < 2$): $D(A) \leq \sum_{k \geq 1} (C/2)^k/k = -\log(1 - C/2) < \infty$ (power series, $|C/2| < 1$). ✓
+- **sparse\_stratum** ($|A \cap A_k| \leq 1$): $D(A) \leq \sum_{k \geq 1} 1/(k 2^k) < \infty$ (comparison: $1/(k 2^k) \leq 1/2^k$ for $k \geq 1$, and $\sum_{k \geq 1} 1/2^k = 1 < \infty$). ✓
+- **linear\_density** ($|A \cap A_k| \leq k$): $D(A) \leq \sum_{k \geq 1} k/(k 2^k) = \sum_{k \geq 1} 1/2^k = 1 < \infty$ (geometric series). ✓
+- **polynomial\_density** ($|A \cap A_k| \leq k^m$): $D(A) \leq \sum_{k \geq 1} k^{m-1}/2^k < \infty$ (ratio test, term ratio $\to 1/2$). ✓
+- **sub\_exponential\_density** ($|A \cap A_k| \leq C^k$, $C < 2$): $D(A) \leq \sum_{k \geq 1} (C/2)^k/k \leq \sum_{k \geq 1} (C/2)^k = (C/2)/(1 - C/2) < \infty$ (geometric series, $C/2 < 1$). ✓
 
 **Characterization of the density threshold.** The theorem gives a sharp necessary condition for the elementary approach:
 $$\text{sum} \to 0 \text{ whenever } D(A) < \infty.$$
@@ -588,10 +588,10 @@ We collect all proved cases into a three-tier classification.
 
 | Class | $\vert A \cap A_k\vert$ condition | $D(A)$ value | Status |
 |---|---|---|---|
-| Sparse | $\leq 1$ for all $k$ | $= \log 2$ | **Proved** |
-| Linear | $\leq k$ for all $k$ | $\leq 1$ | **Proved** |
-| Polynomial | $\leq k^m$ (fixed $m$) | $< \infty$ | **Proved** |
-| Sub-exp. geometric | $\leq C^k$ (fixed $C < 2$) | $\leq -\log(1-C/2)/\log 2$ | **Proved** |
+| Sparse | $\leq 1$ for all $k$ | $< \infty$ (comparison $\leq \sum 1/2^k = 1$) | **Proved** |
+| Linear | $\leq k$ for all $k$ | $\leq 1$ (geometric) | **Proved** |
+| Polynomial | $\leq k^m$ (fixed $m$) | $< \infty$ (ratio test) | **Proved** |
+| Sub-exp. geometric | $\leq C^k$ (fixed $C < 2$) | $< \infty$ (geometric, $C/2 < 1$) | **Proved** |
 | General convergence | $D(A) < \infty$ (any) | given | **Proved** |
 
 **Open case (Tier 4):**
