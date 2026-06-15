@@ -962,23 +962,15 @@ $$\sum_{a \in A} \frac{1}{a \log a} \leq 1 + \frac{1}{x \log x}.$$
 
 **Remark (sharpness requires analytic tools).** Whether the bound $1 + 1/(x \log x)$ is tight (i.e., whether there exist primitive sets in $[x, x^e)$ with sum approaching 1) is a question about the distribution of k-almost-primes in the range $[x, x^e)$ vs $[x^e, \infty)$. The fact $\sum_{A_k} 1/(a\log a) \to 1$ (from F3) does not directly give a lower bound on $\sum_{A_k \cap [x, x^e)} 1/(a \log a)$ without knowing how much of the stratum mass lies in $[x^e, \infty)$ — a question requiring PNT-level tail estimates beyond F1/F2/F3. Sharpness analysis is deferred to a future round.
 
-### Why the Elementary Approach Cannot Cross C=e
+### Why the Integral Technique Does Not Use Primitivity
 
-**Proposition (barrier at C=e).** For every fixed $C > e$ and elementary proof using only integral comparison (antiderivative $\log \log t$), the bound on sum$(A)$ for primitive $A \subseteq [x, x^C)$ is $\log C > 1$. No refinement of the monotone-function comparison technique alone gives sum $< 1 + o(1)$ for $C > e$.
+**Observation (integral technique is primitivity-free).** The integral comparison technique (integral\_bound, Section 22) bounds the sum over ANY subset of $[x, x^C)$, primitive or not. It uses only the monotonicity of $1/(t \log t)$ and the antiderivative $\log \log t$. For $C > e$: the integral $\int_x^{x^C} 1/(t \log t)\,dt = \log C > 1$, so the bound exceeds 1 regardless of primitivity.
 
-**Proof.** The integral bound is $\int_x^{x^C} 1/(t \log t)\,dt = \log C$. This is the exact value of the integral; the estimate sum $\leq 1/(x \log x) + \log C$ is tight to $O(1/(x \log x))$ (since $\sum_{n=x}^{x^C} 1/(n \log n)$ approximates the integral with error $O(1/(x \log x))$ by a first-order Euler–Maclaurin comparison using the fact that $1/(t \log t)$ is decreasing). For $C > e$: $\log C > 1$, and the bound exceeds 1. The primitivity constraint is NOT used in this technique; adding it requires quantifying how many elements a primitive set can place in the interval, which depends on the multiplicative structure of $[x, x^C)$ — analytically hard without Mertens/PNT. $\square$
+To improve the bound for PRIMITIVE subsets, one must exploit the no-divisibility constraint in a quantitative way — specifically, count how many elements of $[x, x^C)$ are excluded from a primitive $A$ because they are multiples of other elements of $A$. Such a count involves summing $\lfloor x^C / a \rfloor$ over $a \in A$, which requires bounding $\sum_{a \in A} 1/a$ — a Mertens-type estimate outside F1/F2/F3.
 
-### The Minimal Analytic Ingredient for the Super-Exponential Range
+### The Minimal Analytic Ingredient
 
-**What would close the gap.** For primitive $A \subseteq [x, x^C)$ with $C > e$, a proof of sum $< 1$ requires one of:
-
-1. **A density bound**: $|A \cap [t, 2t)| \leq f(t)$ for some explicit $f$ smaller than the trivial bound $t$, derived from primitivity (requires Mertens-type estimates to quantify the "exclusion" from the shadow $\mathrm{Sh}(A)$).
-
-2. **A cross-interval correlation bound**: showing that if $A \cap [x, x^2)$ has large sum, then $A \cap [x^2, x^C)$ must have small sum (due to primitivity), with explicit tradeoff.
-
-3. **Recursive element exclusion**: quantifying how many elements of $[x, x^C)$ are excluded from $A$ because they are multiples of smaller elements of $A$ — this requires counting multiplicative multiples in intervals, which is a prime-reciprocal-sum estimate.
-
-All three require analytic number theory beyond F1/F2/F3. The **specific minimal fact needed** (not in the ledger) is of the form: for $A \subseteq [x, y]$ primitive, $\sum_{a \in A} 1/a \leq C' \cdot \log(y/x)/\log x$ for an explicit constant $C'$ — a "density version" of the Mertens bound. This would give sum $\leq C'/\log x \cdot \log C \to 0$, closing the conjecture for any fixed $C$.
+**What would close the gap.** For primitive $A \subseteq [x, x^C)$ with $C > e$, any elementary proof of sum $< 1 + o(1)$ must exploit primitivity quantitatively. The specific minimal input is an estimate of the form: $\sum_{a \in A} 1/a \leq g(x, C)$ for some explicit $g$ — a "density version" of the Mertens theorem, outside F1/F2/F3.
 
 ### Refined Picture of the Open Case
 
