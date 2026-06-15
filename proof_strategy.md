@@ -196,50 +196,14 @@ Closing either gap would constitute a significant new result beyond Zhang 1993.
 
 ## Section 4: Partial Result and Open Status (Q6, Q7, Q8)
 
-### What this proof attempt has established
+**Q7 (cross_stratum_sum partial proof):** F1 directly gives sum $< 1.399$; for any fixed $K$, strata $k \leq K$ contribute $o(1)$ as $x \to \infty$ (F3 tail vanishing). High-$k$ coupling across strata remains open.
 
-1. **Setup and given facts** (Section 1): The claim is correctly stated with all three given facts (F1, F2, F3) and their sign disambiguations. The witness contract is documented.
+**Q8 (f1_gap):** Dyadic decomposition gives per-block bound $\log 2/\log(2^j x)$; infinitely many blocks give unbounded total — the within-block antichain constraint is vacuous. Cross-block primitivity is the hard gap.
 
-2. **Numerical evidence** (Section 2): For $k \geq 2$, partial sums of A_k are $< 1$ (consistent with F3). Restricted prime sums for $x \geq 3$ are well below 1. No witness was found by the verifier for $x_\text{floor} \geq 100$.
-
-3. **Proof structure** (Section 3): The key decomposition is:
-   - Lemma `stratum_bound` (proved from F3): each stratum contributes $< 1$.
-   - Lemma `cross_stratum_sum` (partial — see Q7 analysis below).
-   - Lemma `f1_gap` (open — see Q8 analysis below).
-
-4. **Q7 — cross_stratum_sum partial proof**: Two sub-results proved from given facts:
-   - *F1-based bound*: $\sum_{a \in A} f(a) < 1.399$ for any primitive $A$ (F1 directly). The cross-stratum sum lemma holds with constant 1.399.
-   - *Tail argument*: For fixed $K$, strata $k \leq K$ contribute $o(1)$ as $x \to \infty$ (since each stratum sum converges by F3, so its tail vanishes). This shows low-$k$ strata asymptotically contribute nothing.
-   - *High-$k$ gap*: Strata $k > K$ require the primitive antichain constraint across strata. Not closed from F1/F2/F3.
-
-5. **Q8 — f1_gap analysis**: The dyadic decomposition (splitting $A$ into $[2^j x, 2^{j+1} x)$ blocks) gives per-block bound $\log 2/\log(2^j x)$, but when infinitely many blocks are needed the per-block bounds grow without finite limit — the within-block antichain constraint is trivially empty. Cross-block primitivity constraints are what the deeper analytic argument uses. The $x$-restriction does not remove small prime factors from elements of $A$, so the standard bound (F1, 1.399) does not improve from the dyadic approach alone. A smooth-number decomposition (separating rough and smooth parts) is the most promising avenue.
-
-### What remains open
-
-**Gap 1 (high-$k$ cross-stratum sum).** For large $k$ ($k > \log_2 x$), all $k$-almost-primes are automatically $\geq x$, so low-$k$ strata don't help directly. The primitive antichain constraint must prevent simultaneous large contributions across all high-$k$ strata. No argument from F1/F2/F3 achieves this.
-
-**Gap 2 (F1 to 1 improvement).** The dyadic analysis identifies WHY the $x$-restriction doesn't straightforwardly improve F1: elements of $A \subset [x, \infty)$ can still have small prime factors (e.g., $a = 2m$ for $m \geq x/2$). Closing this gap requires a new sieve or smooth-number argument not derivable from the given-facts ledger alone.
-
-### Conclusion: This remains open
-
-The Erdős primitive-set conjecture remains open. This proof attempt has:
-- Correctly mapped the problem (given facts, witness contract, proof structure)
-- Verified numerical consistency with the conjecture
-- **Proved** (Q7): the cross-stratum sum bound $< 1.399$ from F1, and the low-$k$ tail vanishing as $x \to \infty$
-- **Identified** (Q8): the precise obstacle for the F1-to-1 improvement — the dyadic analysis shows why the $x$-restriction alone is insufficient without a new cross-block sieve argument
-- Ruled out counterexamples at $x_\text{floor} \geq 100$
-
-**Cumulative proved results (this attempt):**
-1. Lemma `stratum_bound` (F3 + monotonicity): each stratum $< 1$ — **proved**.
-2. Lemma `single_interval` (calculus): sum over any $A \subseteq [x, 2x)$ is $< \log 2/\log x \to 0$ — **proved**.
-3. Partial cross_stratum bound (F1): $\sum_{a \in A} f(a) < 1.399$ for any primitive $A$ — **proved**.
-4. Tail argument (F3 convergence): for any fixed $K$, strata $k \leq K$ contribute $o(1)$ as $x \to \infty$ — **proved**.
-
-**Still open (the hard gaps):**
-- High-$k$ coupling (cross_stratum_sum): showing that the primitive antichain constraint limits the total across all high-$k$ strata to $< 1 + o(1)$.
-- Multi-block case (f1_gap): extending Lemma single_interval from one dyadic block to $A$ spanning multiple dyadic blocks. The per-block bounds do not yield a finite sum over infinitely many blocks — cross-block primitive constraints must limit which blocks contribute.
-
-The partial result is: **two new lemmas are proved (stratum_bound and single_interval); the cross-stratum bound of 1.399 is proved from F1; low-$k$ strata asymptotically vanish; the precise obstacles for the full conjecture are identified as the high-$k$ coupling and multi-block case of f1_gap**. Closing the proof requires analytic tools beyond the current given-facts ledger.
+**Cumulative proved results (Q6–Q8):**
+1. `stratum_bound` (F3 + monotonicity): each stratum $< 1$ — **proved**.
+2. `single_interval` (calculus): sum over $A \subseteq [x, 2x)$ is $< \log 2/\log x \to 0$ — **proved**.
+3. Partial cross\_stratum (F1): sum $< 1.399$ — **proved**.
 
 ## Section 5: Finite Dyadic Range (Q9)
 
@@ -949,41 +913,18 @@ Elements of $A_{K(x)}$ satisfy $a \geq 2^{K(x)} \approx x$. So the densest near-
 1.–19. (see Sections 10–22)
 20. `same_stratum_primitive`: $A_k$ is itself primitive; any primitive $A \subseteq A_k$ has sum $< 1$ — **proved** (Q28, elementary). Cross-stratum infinite-strata case is the sole remaining open obstruction.
 
-## Section 24: The C=e Barrier and the Super-Exponential Obstruction (Q30)
+## Section 24: C=e Specialization and Open Case Summary (Q30)
 
-### The Integral Bound at C=e: Upper Bound and Gap Analysis
+**Theorem upper\_at\_e (PROVED).** For primitive $A \subseteq [x, x^e)$: sum $\leq 1 + 1/(x \log x)$.
 
-**Theorem upper\_at\_e (PROVED — integral\_bound with C=e).** For any primitive $A \subseteq [x, x^e)$:
-$$\sum_{a \in A} \frac{1}{a \log a} \leq 1 + \frac{1}{x \log x}.$$
+**Proof.** Integral\_bound (Section 22) with $C = e$: sum $\leq \log e + 1/(x \log x) = 1 + 1/(x \log x)$. $\square$
 
-**Proof.** Apply integral\_bound (Section 22) with $C = e$: sum $\leq \log e + 1/(x \log x) = 1 + 1/(x \log x)$. $\square$
+This proves the Erdős conjecture for $A \subseteq [x, x^e)$ with explicit $o(1) = 1/(x \log x)$.
 
-**Interpretation.** The Erdős conjecture bound $< 1 + o(1)$ is proved for all primitive $A \subseteq [x, x^e)$, with the explicit $o(1)$ term being $1/(x \log x)$. This is a quantitative strengthening: the conjecture holds for this range with the precise error term $1/(x \log x)$.
+**The integral technique barrier.** For $C > e$, integral\_bound gives $\log C > 1$. The technique does not use primitivity (bounds any subset, not just primitive ones). To improve for primitive $A$ requires counting excluded multiples: $\lfloor x^C/a \rfloor$ over $a \in A$, which requires bounding $\sum_{a \in A} 1/a$ — a Mertens-type estimate outside F1/F2/F3.
 
-**Remark (sharpness requires analytic tools).** Whether the bound $1 + 1/(x \log x)$ is tight (i.e., whether there exist primitive sets in $[x, x^e)$ with sum approaching 1) is a question about the distribution of k-almost-primes in the range $[x, x^e)$ vs $[x^e, \infty)$. The fact $\sum_{A_k} 1/(a\log a) \to 1$ (from F3) does not directly give a lower bound on $\sum_{A_k \cap [x, x^e)} 1/(a \log a)$ without knowing how much of the stratum mass lies in $[x^e, \infty)$ — a question requiring PNT-level tail estimates beyond F1/F2/F3. Sharpness analysis is deferred to a future round.
-
-### Why the Integral Technique Does Not Use Primitivity
-
-**Observation (integral technique is primitivity-free).** The integral comparison technique (integral\_bound, Section 22) bounds the sum over ANY subset of $[x, x^C)$, primitive or not. It uses only the monotonicity of $1/(t \log t)$ and the antiderivative $\log \log t$. For $C > e$: the integral $\int_x^{x^C} 1/(t \log t)\,dt = \log C > 1$, so the bound exceeds 1 regardless of primitivity.
-
-To improve the bound for PRIMITIVE subsets, one must exploit the no-divisibility constraint in a quantitative way — specifically, count how many elements of $[x, x^C)$ are excluded from a primitive $A$ because they are multiples of other elements of $A$. Such a count involves summing $\lfloor x^C / a \rfloor$ over $a \in A$, which requires bounding $\sum_{a \in A} 1/a$ — a Mertens-type estimate outside F1/F2/F3.
-
-### The Minimal Analytic Ingredient
-
-**What would close the gap.** For primitive $A \subseteq [x, x^C)$ with $C > e$, any elementary proof of sum $< 1 + o(1)$ must exploit primitivity quantitatively. The specific minimal input is an estimate of the form: $\sum_{a \in A} 1/a \leq g(x, C)$ for some explicit $g$ — a "density version" of the Mertens theorem, outside F1/F2/F3.
-
-### Refined Picture of the Open Case
-
-After Q22–Q30, the Erdős conjecture is proved for:
-1. $A \subseteq [x, x^2)$: sum $\leq \log 2 < 1$ (integral\_bound, C=2).
-2. $A \subseteq [x, x^e)$: sum $\leq 1 + 1/(x \log x) = 1 + o(1)$ (integral\_bound, C=e). Conjecture proved ($o(1)$ term is $1/(x \log x)$).
-3. $A \subseteq A_k$ (single stratum): sum $< 1$ (same\_stratum\_primitive + F3).
-4. $D(A) < \infty$ (sparse): sum $\to 0$ (density\_convergence).
-5. $A$ spanning finitely many strata $\leq K$: sum $= o(1)$ (multi\_stratum, Section 8).
-6. $A \subseteq [x, M(x)x)$ with $M = x^{o(1)}$: sum $= o(1)$ (slow\_growth\_support).
-
-**Remaining open**: $A \subseteq [x^e, \infty)$ (super-exponential range), cross-stratum, $D(A) = \infty$.
+**Open case after Q30.** Primitive $A \subseteq [x, \infty)$ with elements above $x^e$, $D(A) = \infty$, infinitely many strata. Best known bound: F1 ($< 1.399$).
 
 **Updated cumulative proved results:**
 1.–20. (see Sections 10–23)
-21. `upper_at_e`: sum $\leq 1 + 1/(x \log x)$ for primitive $A \subseteq [x, x^e)$ — **proved** (Q30, integral\_bound C=e). The barrier at C=e is precisely identified; super-exponential range and sharpness require analytic tools beyond F1/F2/F3.
+21. `upper_at_e`: sum $\leq 1 + 1/(x\log x)$ for primitive $A \subseteq [x, x^e)$ — **proved** (Q30). Super-exponential range is sole remaining open case.
