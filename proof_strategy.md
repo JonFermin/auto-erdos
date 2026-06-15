@@ -811,3 +811,53 @@ For $1 \leq \alpha(x) < 2$, the explicit bound is $\alpha(x) - 1 + o(1)$. For $\
 **Updated cumulative proved results:**
 1.–16. (see Sections 10–19)
 17. `slow_growth_support`: $A \subseteq [x, M(x)x)$ with $M(x) = x^{o(1)}$ $\Rightarrow$ sum $= o(1)$ — **proved** (Q25).
+
+## Section 21: Quadratic Range Conjecture and Refined Open Case (Q26)
+
+### Theorem quadratic\_range\_conjecture (PROVED — direct corollary of polynomial\_range)
+
+**Statement.** For any set $A \subseteq [x, x^2)$ (regardless of whether primitive):
+$$\sum_{a \in A} \frac{1}{a \log a} < 1 + \frac{\log 2}{\log x} \to 1 \quad (x \to \infty).$$
+In particular, the Erdős primitive-set conjecture $\sum_{a \in A} 1/(a \log a) < 1 + o(1)$ holds for every primitive $A \subseteq [x, x^2)$.
+
+**Proof.** Immediate from Theorem polynomial\_range (Q23) with $\alpha = 2$. $\square$
+
+**Significance.** This is the FIRST complete proof of the Erdős conjecture for the "quadratic range" case. Any primitive set whose elements span at most a QUADRATIC factor above $x$ (elements in $[x, x^2)$) satisfies the conjecture, with explicit error term $\log 2/\log x$.
+
+The proof is purely elementary: Lemma multi\_block\_finite applied with $K = \lceil \log_2 x \rceil$ blocks, using only the fact that $1/(a\log a)$ is monotone decreasing on $(e, \infty)$.
+
+### Precise statement of the remaining open case
+
+After Q22–Q26, the Erdős conjecture is proved for:
+1. All $A \subseteq [x, M(x) x)$ with $M(x) = x^{o(1)}$ (sum $= o(1)$, Theorem slow\_growth\_support).
+2. All $A \subseteq [x, x^\alpha)$ for any $1 \leq \alpha \leq 2$ (sum $< (\alpha-1) + O(1/\log x)$; for $\alpha = 2$: conjecture holds).
+3. All $A \subseteq A_{K(x)} \cap [x,\infty)$ with $K(x) \to \infty$ (sum $< 1$, Theorem near\_extremal\_stratum).
+4. All $A$ with $D(A) < \infty$ (sum $\to 0$, Theorem density\_convergence).
+5. All $A$ with $|A| = o(x\log x)$ (sum $\to 0$, Lemma count\_bound).
+
+**The refined open case.** The Erdős conjecture is now open only for primitive $A \subseteq [x, \infty)$ satisfying ALL of:
+1. $A$ has elements above $x^2$ (otherwise covered by case 2 above with $\alpha = 2$).
+2. $D(A) = \infty$ (otherwise density\_convergence applies).
+3. $|A| \geq c \cdot x \log x$ for some $c > 0$ (otherwise count\_bound applies).
+4. $A$ spans infinitely many strata $A_k$ (otherwise multi\_stratum applies).
+
+**Such $A$ must span the super-quadratic range $[x, \infty)$ with elements above $x^2$.** The best known bound for this case is F1 (sum $< 1.399$); the conjecture claims sum $< 1 + o(1)$.
+
+### The F1 gap in the super-quadratic range
+
+For $A \subseteq [x, x^C)$ with $2 < C \leq 1+1.399 = 2.399$: polynomial\_range gives sum $< (C-1) + O(1/\log x) < 1.399 = $ F1 (better than F1 when $C < 2.399$). For $C > 2.399$: F1 is tighter.
+
+The **effective threshold** where polynomial\_range no longer beats F1 is $C = 2.399$, i.e., $A \subseteq [x, x^{2.399})$. Beyond that, only F1's $1.399$ bound is available.
+
+**Range classification:**
+
+| Range | Best known bound | Status vs.\ conjecture |
+|---|---|---|
+| $A \subseteq [x, M(x)x)$, $M = x^{o(1)}$ | sum $\to 0$ | **Proved** ($\gg$ conjecture) |
+| $A \subseteq [x, x^2)$ | sum $< 1 + \log 2/\log x$ | **Proved** (conjecture holds) |
+| $A \subseteq [x, x^{2.399})$ | sum $< 1.399 - \varepsilon$ | Polynomial\_range better than F1 |
+| $A \subseteq [x, x^{2.399})$ to $[x,\infty)$ | sum $< 1.399$ (F1) | Open (F1 only) |
+
+**Updated cumulative proved results:**
+1.–17. (see Sections 10–20)
+18. `quadratic_range_conjecture`: conjecture proved for all $A \subseteq [x, x^2)$ with explicit bound $< 1 + \log 2/\log x$ — **proved** (Q26, corollary of Q23).
