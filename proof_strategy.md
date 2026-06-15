@@ -713,3 +713,50 @@ This is the Erdős conjecture $< 1 + o(1)$ with explicit error term $\log 2 / \l
 **Updated cumulative proved results:**
 1.–14. (see Sections 10–17)
 15. `polynomial_range`: $A \subseteq [x, x^\alpha)$ (any $\alpha \geq 1$) $\Rightarrow$ sum $< (\alpha-1) + O(1/\log x)$; specifically for $\alpha = 2$ and $x \geq 6$: sum $< 1.387 <$ F1 — **proved** (Q23).
+
+## Section 19: Shadow Structure and Cross-Stratum Exclusion (Q24)
+
+### Lemma shadow\_structure (PROVED — elementary from primitivity definition)
+
+**Definition.** For a primitive set $A$ and stratum index $k$, the **shadow of $A$ in stratum $k+1$** is:
+$$\text{Sh}_k(A) = \{ p \cdot a : a \in A \cap A_k,\ p \text{ prime},\ p \nmid a \} \subseteq A_{k+1}.$$
+Each element $pa$ has exactly $k+1$ prime factors (counting multiplicity): the $k$ factors of $a$ plus the new prime $p$.
+
+**Statement.** For any primitive set $A$: $\text{Sh}_k(A) \cap A = \emptyset$ for every $k \geq 1$.
+
+**Proof.** Suppose $b \in \text{Sh}_k(A) \cap A$. Then $b = pa$ for some $a \in A \cap A_k$ and prime $p \nmid a$. But $a \mid b$ and $a \neq b$ (since $p \geq 2$ so $b > a$), contradicting primitivity of $A$. $\square$
+
+**Corollary (exclusion count).** For each $a \in A \cap A_k$, the elements $2a, 3a, 5a, 7a, \ldots$ (products with each prime not already dividing $a$) all lie in $A_{k+1}$ and are excluded from $A$. The number of excluded elements per $a$ is at least $\pi(x)$ (the number of primes $\leq x$) when $a \leq x$ (since $pa \leq x \cdot a$... [see gap analysis below]).
+
+### Gap Analysis: Why Shadow Weight Cannot Be Bounded from F1/F2/F3 Alone
+
+**What can be proved elementarily (without new analytic facts).**
+
+1. *Exclusion existence*: For each $a \in A \cap A_k$ and prime $p \leq a$: the element $pa \in A_{k+1}$ is excluded from $A$. This is proved above.
+
+2. *Exclusion count lower bound*: The number of excluded elements in $A_{k+1} \cap [a, a^2]$ from a single $a \in A_k$ is $\geq \pi(a) - \omega(a)$, where $\pi(a) = |\{p \leq a : p \text{ prime}\}|$ and $\omega(a)$ is the number of distinct prime factors of $a$. The subtracted term $\omega(a)$ accounts for primes already dividing $a$ (for which $pa$ would increase the multiplicity, not the number of prime factors).
+
+3. *Structural constraint*: $A \cap A_{k+1} \subseteq A_{k+1} \setminus \text{Sh}_k(A)$. The shadow occupies a structured subset of $A_{k+1}$; its complement contains $A \cap A_{k+1}$.
+
+**What elementary methods cannot prove.**
+
+To bound $\sum_{b \in \text{Sh}_k(A) \cap [x,\infty)} 1/(b \log b)$ — the total WEIGHT excluded from $A_{k+1}$ — we need to know how many shadow elements $pa$ (with $a \geq x$) have large weight $1/(pa \log(pa))$. Summing over primes $p$:
+$$\sum_{\substack{p \text{ prime}}} \frac{1}{pa \log(pa)} = \frac{1}{a} \sum_{p \text{ prime}} \frac{1}{p \log(pa)}.$$
+
+This sum over primes is bounded below by $\sum_{p \leq a} 1/(p \log(a^2))$. Bounding $\sum_{p \leq a} 1/p$ from below requires an estimate on the sum of prime reciprocals — which is NOT derivable from F1 (an upper bound on the sum), F2 (a stratum lower bound), or F3 (an exact asymptotic for full stratum sums). The prime reciprocal sum is an INPUT to the proof, not an output.
+
+**Summary: the shadow gap.**
+
+The shadow structure is provable from the definition of primitivity. The shadow WEIGHT requires prime reciprocal sums, which go beyond F1/F2/F3. Specifically:
+
+- The shadow imposes a *structural* constraint on $A \cap A_{k+1}$: it must avoid $\text{Sh}_k(A)$.
+- Translating this into a *weight* constraint of the form $T_{k+1} \leq S_{k+1} - f(T_k)$ requires an analytic bound on $\sum_{p \leq x} 1/p$.
+- Such a bound is not in the current given-facts ledger.
+
+**What this means for the proof strategy.**
+
+The shadow framework shows that primitivity creates genuine cross-stratum constraints — not just within each stratum independently. The obstacle is purely analytic: quantifying the excluded weight requires prime distribution estimates that lie outside F1/F2/F3. Adding such an estimate to the given-facts ledger would be the natural next step.
+
+**Updated cumulative proved results:**
+1.–15. (see Sections 10–18)
+16. `shadow_structure`: $\text{Sh}_k(A) \cap A = \emptyset$ for any primitive $A$ — **proved** (Q24, elementary). Shadow weight bound requires prime reciprocal estimates outside F1/F2/F3; gap documented.
