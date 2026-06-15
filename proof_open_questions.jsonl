@@ -51,3 +51,5 @@
 {"qid":"Q25","status":"claimed","session_id":"s_0615-080512-4387","summary":"slow-growth support: A in [x,M(x)x) with log M = o(log x); extends bounded_support to growing M","ts":"2026-06-15T08:36:42+00:00"}
 {"qid":"Q25","status":"resolved","session_id":"s_0615-080512-4387","summary":"slow_growth_support proved: A in [x,M(x)x) M=x^{o(1)} gives sum=o(1); full table","ts":"2026-06-15T08:41:10+00:00"}
 {"qid":"Q26","status":"claimed","session_id":"s_0615-080512-4387","summary":"quadratic range conjecture proof + refined open case: conjecture proved for A in [x,x^2), open case is super-quadratic range","ts":"2026-06-15T08:41:10+00:00"}
+{"qid":"Q26","status":"claimed","session_id":"s_0615-080512-4387","summary":"quadratic range conjecture + refined open case","ts":"2026-06-15T08:46:18+00:00"}
+{"qid":"Q27","status":"claimed","session_id":"s_0615-080512-4387","summary":"integral_bound — sharp bound log C for A in [x,x^C); conjecture proved for C<=e","ts":"2026-06-15T08:46:18+00:00"}

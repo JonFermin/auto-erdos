@@ -861,3 +861,46 @@ The **effective threshold** where polynomial\_range no longer beats F1 is $C = 2
 **Updated cumulative proved results:**
 1.–17. (see Sections 10–20)
 18. `quadratic_range_conjecture`: conjecture proved for all $A \subseteq [x, x^2)$ with explicit bound $< 1 + \log 2/\log x$ — **proved** (Q26, corollary of Q23).
+
+## Section 22: Sharp Integral Bound and Natural Logarithm Range (Q27)
+
+### Theorem integral\_bound (PROVED — direct comparison, no ledger facts)
+
+The key insight: $1/(t \log t)$ is decreasing for $t > e$, so the sum over any subset of $[x, x^C)$ is bounded by the integral.
+
+**Statement.** For any $C \geq 1$ and any set $A \subseteq [x, x^C)$ (not necessarily primitive, $x \geq 3$):
+$$\sum_{a \in A} \frac{1}{a \log a} \leq \sum_{n=x}^{\lfloor x^C \rfloor} \frac{1}{n \log n} \leq \frac{1}{x \log x} + \int_x^{x^C} \frac{dt}{t \log t} = \frac{1}{x \log x} + \log C.$$
+
+**Proof.** Since $f(t) = 1/(t \log t)$ is decreasing for $t > e$ (and $x \geq 3 > e$), we have $f(n) \leq f(n-1)$ for all $n \geq x+1$. By the standard comparison for decreasing functions: $\sum_{n=x}^{N} f(n) \leq f(x) + \int_x^N f(t)\,dt$. With $N = \lfloor x^C \rfloor$ and the antiderivative $\int 1/(t\log t)\,dt = \log \log t$:
+$$\int_x^{x^C} \frac{dt}{t \log t} = \log(\log(x^C)) - \log(\log x) = \log\!\left(\frac{C \log x}{\log x}\right) = \log C.$$
+Since $A \subseteq [x, x^C)$, each term in $\sum_{a \in A} 1/(a\log a)$ appears in $\sum_{n=x}^{\lfloor x^C\rfloor} 1/(n\log n)$, giving the chain of inequalities. $\square$
+
+**Corollary (conjecture for natural-logarithm range).** For any primitive $A \subseteq [x, x^e)$ where $e \approx 2.718$ is Euler's number:
+$$\sum_{a \in A} \frac{1}{a \log a} \leq \log e + \frac{1}{x \log x} = 1 + \frac{1}{x \log x}.$$
+This is strictly less than $1 + o(1)$ as $x \to \infty$ — the Erdős conjecture holds for all $A \subseteq [x, x^e)$.
+
+**Comparison table:**
+
+| Range | integral\_bound | polynomial\_range (Q23) | F1 |
+|---|---|---|---|
+| $[x, x^2)$ | $\log 2 \approx 0.693$ | $1 + O(1/\log x)$ | $1.399$ |
+| $[x, x^e)$ | $1 + O(1/(x\log x))$ | $e-1+o(1) \approx 1.718$ | $1.399$ |
+| $[x, x^3)$ | $\log 3 \approx 1.099$ | $2 + o(1)$ | $1.399$ |
+| $[x, x^4)$ | $\log 4 \approx 1.386$ | $3 + o(1)$ | $1.399$ |
+| $[x, x^{e^{1.399}}) \approx [x, x^{4.05})$ | $\approx 1.399$ | $3.05$ | $1.399$ |
+| $[x, x^C)$, $C > e^{1.399}$ | $\log C > 1.399$ | $C-1$ | $1.399$ |
+
+The integral\_bound strictly dominates both polynomial\_range and F1 for all $C \leq e^{1.399} \approx 4.05$. For $C > 4.05$, F1 becomes the tighter known bound.
+
+**Why integral\_bound supersedes polynomial\_range.** Polynomial\_range uses the block-maximum bound $1/(a\log a) \leq 1/(2^{j-1}x \log(2^{j-1}x))$ uniformly within each dyadic block, then sums $K$ blocks. This loses the fact that terms decrease within and across blocks. The integral bound uses the actual decreasing profile of $1/(t \log t)$ without block decomposition, giving the tight bound $\log C$ vs.\ $C - 1$ (and $\log C < C-1$ for all $C > 1$).
+
+**Refined open case after Q27.** The Erdős conjecture is now proved for:
+- All $A \subseteq [x, x^e)$ (from integral\_bound with $C = e$): sum $< 1 + o(1)$. ✓
+- All $A$ with $D(A) < \infty$ (density\_convergence): sum $= o(1)$. ✓
+- All $A$ with $|A| = o(x\log x)$ (count\_bound): sum $= o(1)$. ✓
+
+**Remaining open case.** Primitive $A \subseteq [x, \infty)$ with elements above $x^e$ AND $D(A) = \infty$ AND $|A| \geq c \cdot x\log x$. The best known bound for this case is F1 ($< 1.399$), with polynomial improvement possible for $A \subseteq [x, x^C)$ with $C \leq e^{F1} \approx 4.05$ (integral\_bound $< 1.399$). For $C > 4.05$ or unbounded range: only F1 is available.
+
+**Updated cumulative proved results:**
+1.–18. (see Sections 10–21)
+19. `integral_bound`: $A \subseteq [x, x^C) \Rightarrow$ sum $\leq \log C + O(1/(x\log x))$; conjecture proved for $C \leq e$ — **proved** (Q27). Supersedes polynomial\_range and beats F1 for $C \leq e^{1.399}$.
