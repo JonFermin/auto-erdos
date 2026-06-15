@@ -814,17 +814,15 @@ For $1 \leq \alpha(x) < 2$, the explicit bound is $\alpha(x) - 1 + o(1)$. For $\
 
 ## Section 21: Quadratic Range Conjecture and Refined Open Case (Q26)
 
-### Theorem quadratic\_range\_conjecture (PROVED — direct corollary of polynomial\_range)
+### Theorem quadratic\_range\_conjecture (PROVED — see integral\_bound, Section 22)
 
 **Statement.** For any set $A \subseteq [x, x^2)$ (regardless of whether primitive):
-$$\sum_{a \in A} \frac{1}{a \log a} < 1 + \frac{\log 2}{\log x} \to 1 \quad (x \to \infty).$$
-In particular, the Erdős primitive-set conjecture $\sum_{a \in A} 1/(a \log a) < 1 + o(1)$ holds for every primitive $A \subseteq [x, x^2)$.
+$$\sum_{a \in A} \frac{1}{a \log a} \leq \log 2 + \frac{1}{x \log x} < 1 \quad \text{for all } x \geq 3.$$
+In particular, the Erdős primitive-set conjecture holds for every primitive $A \subseteq [x, x^2)$ with the stronger bound sum $< 1$ (not just $< 1 + o(1)$).
 
-**Proof.** Immediate from Theorem polynomial\_range (Q23) with $\alpha = 2$. $\square$
+**Proof.** Apply Theorem integral\_bound (Section 22) with $C = 2$: sum $\leq \log 2 + 1/(x\log x)$. For $x \geq 3$: $1/(x\log x) < 1/(3\log 3) \approx 0.303$ and $\log 2 + 0.303 \approx 0.996 < 1$. For all $x \geq 3$: sum $\leq \log 2 + 1/(x\log x) < 1$. $\square$
 
-**Significance.** This is the FIRST complete proof of the Erdős conjecture for the "quadratic range" case. Any primitive set whose elements span at most a QUADRATIC factor above $x$ (elements in $[x, x^2)$) satisfies the conjecture, with explicit error term $\log 2/\log x$.
-
-The proof is purely elementary: Lemma multi\_block\_finite applied with $K = \lceil \log_2 x \rceil$ blocks, using only the fact that $1/(a\log a)$ is monotone decreasing on $(e, \infty)$.
+**Note.** An earlier version of this section used the cruder bound $< 1 + \log 2/\log x$ from polynomial\_range (Q23). The sharper integral\_bound (Q27) gives the exact bound $\log 2 \approx 0.693 < 1$, proving the conjecture with a strict constant (not just $1 + o(1)$).
 
 ### Precise statement of the remaining open case
 
@@ -854,13 +852,13 @@ The **effective threshold** where polynomial\_range no longer beats F1 is $C = 2
 | Range | Best known bound | Status vs.\ conjecture |
 |---|---|---|
 | $A \subseteq [x, M(x)x)$, $M = x^{o(1)}$ | sum $\to 0$ | **Proved** ($\gg$ conjecture) |
-| $A \subseteq [x, x^2)$ | sum $< 1 + \log 2/\log x$ | **Proved** (conjecture holds) |
+| $A \subseteq [x, x^2)$ | sum $\leq \log 2 + 1/(x\log x) < 1$ | **Proved** (conjecture holds strictly) |
 | $A \subseteq [x, x^{2.399})$ | sum $< 1.399 - \varepsilon$ | Polynomial\_range better than F1 |
 | $A \subseteq [x, x^{2.399})$ to $[x,\infty)$ | sum $< 1.399$ (F1) | Open (F1 only) |
 
 **Updated cumulative proved results:**
 1.–17. (see Sections 10–20)
-18. `quadratic_range_conjecture`: conjecture proved for all $A \subseteq [x, x^2)$ with explicit bound $< 1 + \log 2/\log x$ — **proved** (Q26, corollary of Q23).
+18. `quadratic_range_conjecture`: conjecture proved for all $A \subseteq [x, x^2)$ with strict bound $\leq \log 2 + 1/(x\log x) < 1$ for $x \geq 3$ — **proved** (Q26; sharpened by integral\_bound Q27).
 
 ## Section 22: Sharp Integral Bound and Natural Logarithm Range (Q27)
 
