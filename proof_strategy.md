@@ -951,24 +951,16 @@ Elements of $A_{K(x)}$ satisfy $a \geq 2^{K(x)} \approx x$. So the densest near-
 
 ## Section 24: The C=e Barrier and the Super-Exponential Obstruction (Q30)
 
-### The Sharpness of the Integral Bound at C=e
+### The Integral Bound at C=e: Upper Bound and Gap Analysis
 
-**Theorem tight\_at\_e (PROVED — no new facts beyond integral\_bound + F3).** The bound from integral\_bound is asymptotically tight at $C = e$:
+**Theorem upper\_at\_e (PROVED — integral\_bound with C=e).** For any primitive $A \subseteq [x, x^e)$:
+$$\sum_{a \in A} \frac{1}{a \log a} \leq 1 + \frac{1}{x \log x}.$$
 
-$$\limsup_{x \to \infty} \sup_{\substack{A \subseteq [x, x^e) \\ A \text{ primitive}}} \sum_{a \in A} \frac{1}{a \log a} = 1.$$
+**Proof.** Apply integral\_bound (Section 22) with $C = e$: sum $\leq \log e + 1/(x \log x) = 1 + 1/(x \log x)$. $\square$
 
-**Proof.** Upper bound: integral\_bound gives sum $\leq \log e + 1/(x \log x) = 1 + 1/(x \log x)$, so $\limsup \leq 1$.
+**Interpretation.** The Erdős conjecture bound $< 1 + o(1)$ is proved for all primitive $A \subseteq [x, x^e)$, with the explicit $o(1)$ term being $1/(x \log x)$. This is a quantitative strengthening: the conjecture holds for this range with the precise error term $1/(x \log x)$.
 
-Lower bound: By F3, $\sum_{A_{k}} 1/(a \log a) = 1 - (c+o(1))k^2/2^k \to 1$ as $k \to \infty$, with each partial sum $< 1$.
-For each $k$, the finite truncation $A_k^{(N)} = \{n \in A_k : n \leq N\}$ satisfies:
-$$\sum_{a \in A_k^{(N)}} \frac{1}{a \log a} \leq \sum_{a \in A_k} \frac{1}{a \log a} < 1,$$
-and these partial sums increase to the full stratum sum $< 1$ as $N \to \infty$.
-
-Choose $k = K(x) = \lfloor \log_2 x \rfloor$. Every element of $A_{K(x)}$ satisfies $n \geq 2^{K(x)} \geq x/2$, so $A_{K(x)} \cap [x, \infty)$ captures most of the stratum. By same\_stratum\_primitive (Q28), $A_{K(x)} \cap [x, x^e)$ is a primitive subset of $[x, x^e)$.
-
-Its sum is $\leq \sum_{A_{K(x)}} 1/(a \log a) = 1 - (c+o(1))K(x)^2/2^{K(x)} \to 1$, and this sum is positive and approaches 1. For any $\varepsilon > 0$, for sufficiently large $x$ (so $K(x)$ is large), $\sum_{A_{K(x)}} > 1 - \varepsilon$, so this restricted primitive set achieves sum $> 1 - \varepsilon$ (since the partial sums of $A_{K(x)}$ are monotonically increasing toward the full value). Hence $\limsup \geq 1$. $\square$
-
-**Consequence.** The conjecture — sum $< 1 + o(1)$ for $A \subseteq [x, x^e)$ — is optimal: the bound 1 cannot be replaced by any fixed constant $< 1$. The integral\_bound constant $\log e = 1$ is the exact asymptotic supremum.
+**Remark (sharpness requires analytic tools).** Whether the bound $1 + 1/(x \log x)$ is tight (i.e., whether there exist primitive sets in $[x, x^e)$ with sum approaching 1) is a question about the distribution of k-almost-primes in the range $[x, x^e)$ vs $[x^e, \infty)$. The fact $\sum_{A_k} 1/(a\log a) \to 1$ (from F3) does not directly give a lower bound on $\sum_{A_k \cap [x, x^e)} 1/(a \log a)$ without knowing how much of the stratum mass lies in $[x^e, \infty)$ — a question requiring PNT-level tail estimates beyond F1/F2/F3. Sharpness analysis is deferred to a future round.
 
 ### Why the Elementary Approach Cannot Cross C=e
 
@@ -1002,4 +994,4 @@ After Q22–Q30, the Erdős conjecture is proved for:
 
 **Updated cumulative proved results:**
 1.–20. (see Sections 10–23)
-21. `tight_at_e`: integral\_bound is asymptotically tight at $C = e$; $\limsup$ of supremum = 1 — **proved** (Q30). The C=e barrier is genuine; primitive sets in $[x, x^e)$ achieve sum arbitrarily close to 1. Super-exponential range requires analytic tools beyond F1/F2/F3.
+21. `upper_at_e`: sum $\leq 1 + 1/(x \log x)$ for primitive $A \subseteq [x, x^e)$ — **proved** (Q30, integral\_bound C=e). The barrier at C=e is precisely identified; super-exponential range and sharpness require analytic tools beyond F1/F2/F3.
