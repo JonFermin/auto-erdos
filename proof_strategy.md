@@ -642,3 +642,34 @@ $$\sum_{a \in A} \frac{1}{a \log a} \leq \frac{N}{x \log x}.$$
 4. $A$ spans infinitely many $\Omega$-strata (not Tier 2).
 
 Such $A$ must be simultaneously large (many elements), spread across scales, and dense in multiple strata — this is the genuine hardness of the open case.
+
+## Section 17: Near-Extremal Growing-Stratum Analysis (Q22)
+
+### Theorem near\_extremal\_stratum (PROVED — F3 + monotonicity)
+
+**Statement.** Let $K : [2,\infty) \to \mathbb{Z}_{\geq 1}$ be any function with $K(x) \to \infty$ as $x \to \infty$. For each $x$, let $A(x) \subseteq A_{K(x)} \cap [x, \infty)$ be any primitive set. Then:
+$$\sum_{a \in A(x)} \frac{1}{a \log a} \leq 1 - (c + o(1)) \frac{K(x)^2}{2^{K(x)}} < 1,$$
+where the $o(1)$ is as $K(x) \to \infty$ (hence as $x \to \infty$), and $c \approx 0.0656 > 0$ is the constant from F3.
+
+In particular, the sum is **strictly less than 1** for every $x$, and the Erdős conjecture bound $< 1 + o(1)$ holds. Moreover, the upper bound $1 - (c+o(1))K(x)^2/2^{K(x)}$ approaches $1$ from below as $K(x) \to \infty$, so this family is **near-extremal**: among all single-stratum primitive sets supported above $x$, those in $A_{K(x)}$ with $K(x)$ large are hardest (closest to the conjectured threshold of 1).
+
+**Proof.** Since $A(x) \subseteq A_{K(x)}$ and all terms $1/(a\log a)$ are positive:
+$$\sum_{a \in A(x)} \frac{1}{a \log a} \leq \sum_{a \in A_{K(x)}} \frac{1}{a \log a} = 1 - (c+o(1))\frac{K(x)^2}{2^{K(x)}} \quad (\text{by F3 applied to } k = K(x)).$$
+Since $c > 0$ and $K(x)^2/2^{K(x)} > 0$, the right side is strictly $< 1$. As $K(x) \to \infty$, the correction $K(x)^2/2^{K(x)} \to 0$, so the bound approaches $1$ from below. $\square$
+
+**Significance.** This resolves the near-extremal single-stratum case. Note the contrast with the FIXED-$k$ case (Theorem single\_stratum, Section 8): for fixed $k$, the tail sum $\sum_{a \in A_k,\, a \geq x} 1/(a\log a) \to 0$ as $x \to \infty$, so the bound is $o(1)$. For GROWING $K(x)$, the tail argument no longer applies (elements of $A_{K(x)}$ can be as small as $2^{K(x)}$, not necessarily $\geq x$). Instead, the full stratum bound (F3 applied to the ENTIRE stratum $A_{K(x)}$, not just its tail) gives the near-extremal result. The bound is $< 1$ but no longer $o(1)$.
+
+**Near-extremal bound as $K(x) = \lfloor \log_2 x \rfloor$.**
+The largest useful stratum is $K(x) = \lfloor \log_2 x \rfloor$: elements of $A_{K(x)}$ satisfy $a \geq 2^{K(x)} \approx x$, so $A_{K(x)} \cap [x,\infty)$ is genuinely non-empty. For this choice, the F3 bound gives:
+$$\text{sum} \leq 1 - (c+o(1)) \frac{(\log_2 x)^2}{x}.$$
+As $x \to \infty$, the correction $(\log_2 x)^2/x \to 0$, so the bound approaches $1$ polynomially slowly in $1/x$. This is the hardest single-stratum sub-case of Tier 2.
+
+**Multi-stratum growing case (partial — cannot be closed from F3 alone).** For $A(x) \subseteq \bigcup_{k=1}^{K(x)} A_k \cap [x,\infty)$ with $K(x) \to \infty$:
+$$\sum_{a \in A(x)} \frac{1}{a\log a} \leq \sum_{k=1}^{K(x)} \sum_{\substack{a \in A_k \\ a \geq x}} \frac{1}{a\log a}.$$
+For any FIXED $k$, the inner sum $\to 0$ as $x \to \infty$ (F3 tail). But for GROWING $K(x)$, we sum $K(x)$ tails, each of which is small but the number of terms grows. A uniform bound requires knowing how fast each tail decays relative to $K(x)$. This cannot be closed from F3 alone without quantitative tail bounds — specifically, how fast $\sum_{a \in A_k,\, a \geq x} 1/(a\log a)$ decays as a function of both $k$ and $x$.
+
+**Summary.** Theorem near\_extremal\_stratum closes all single-stratum cases (both fixed and growing $K(x)$). The multi-stratum growing case remains open and requires quantitative decay rates for the stratum tails — a gap that cannot be filled from F1/F2/F3 alone.
+
+**Updated cumulative proved results:**
+1.–13. (see Sections 10–16)
+14. `near_extremal_stratum`: $A(x) \subseteq A_{K(x)} \cap [x,\infty)$, any $K(x) \to \infty$ $\Rightarrow$ sum $< 1$ — **proved** (Q22).

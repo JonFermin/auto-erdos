@@ -45,3 +45,4 @@
 {"qid":"Q19","status":"open","session_id":"s_0614-080348-5769","summary":"unifying density theorem: sum |A∩A_k|/(k·2^k) < ∞ → sum→0; subsumes all prior lemmas","ts":"2026-06-14T08:08:35Z"}
 {"qid":"Q19","status":"claimed","session_id":"s_0614-080348-5769","summary":"taking Q19","ts":"2026-06-14T08:08:35Z"}
 {"qid":"Q21","status":"resolved","session_id":"s_0614-080348-5769","summary":"count_bound proved + density_convergence proof fixed; 0 blocking, keep_progress","ts":"2026-06-14T08:38:10Z"}
+{"qid":"Q22","status":"claimed","session_id":"s_0615-080512-4387","summary":"near-extremal growing-stratum case: A in A_{K(x)} with K(x)->inf","ts":"2026-06-15T08:23:17+00:00"}
