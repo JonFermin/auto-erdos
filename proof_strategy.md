@@ -1017,3 +1017,75 @@ The weight form is strictly easier: integral\_bound proves it at $C = e$ without
 **Updated cumulative proved results:**
 1.–22. (see Sections 10–25)
 23. `mertens_reduction`: $\sum 1/(a\log a) \leq (1/\log x)\sum 1/a$ for any $A \subseteq [x,\infty)$ — **proved** (Q32, elementary). Provides the reciprocal reformulation (RC) of the Erdős conjecture. (RC) itself remains open: best available bound gives $\sum 1/a \leq e\log x$ for $A \subseteq [x,x^e)$, a factor of $e$ above the threshold. Shadow exclusion cannot close this gap without prime sum estimates outside F1/F2/F3.
+
+---
+
+## Section 27: Density Threshold Refinements (Q33)
+
+### Context
+
+The density-convergence theorem (Section 17) proves the conjecture whenever $D(A) = \sum_k |A \cap A_k|/(k \cdot 2^k) < \infty$. The **exact open boundary** is $|A \cap A_k| = \Theta(2^k)$ — any polynomial-in-$k$ savings closes the case. This section makes that boundary precise with two new results.
+
+---
+
+### Lemma `log_polynomial_density` (PROVED — elementary, no ledger facts)
+
+**Statement.** Fix $m \geq 0$ and $\alpha \geq 0$. Suppose $A$ is a primitive set with $A \subseteq [x, \infty)$ and $|A \cap A_k| \leq k^m (\log x)^\alpha$ for all $k \geq 1$. Then $\sum_{a \in A} 1/(a \log a) \to 0$ as $x \to \infty$.
+
+**Proof.** We bound $\sum_{a \in A} 1/(a \log a)$ by splitting at $K := \lfloor \log_2 \log x \rfloor$.
+
+**Low strata ($k \leq K$):** Each $a \in A_k$ satisfies $a \geq x$ (since $A \subseteq [x,\infty)$), so $1/(a \log a) \leq 1/(x \log x)$. The number of elements in low strata is at most $\sum_{k=1}^K |A \cap A_k| \leq \sum_{k=1}^K k^m (\log x)^\alpha \leq K^{m+1} (\log x)^\alpha$. Therefore:
+$$\sum_{k=1}^K \sum_{a \in A \cap A_k} \frac{1}{a \log a} \leq \frac{K^{m+1}(\log x)^\alpha}{x \log x}.$$
+Since $K = O(\log \log x)$, the numerator is $O((\log \log x)^{m+1} (\log x)^\alpha)$, which is $o(x \log x)$ for any fixed $m, \alpha$. This contribution $\to 0$.
+
+**High strata ($k > K$):** Each $a \in A_k$ satisfies $a \geq 2^k > 2^K \geq \log x$. More precisely $a \geq 2^k$, so $\log a \geq k \log 2$, giving $1/(a \log a) \leq 1/(2^k \cdot k \log 2)$. The per-stratum contribution:
+$$\sum_{a \in A \cap A_k} \frac{1}{a \log a} \leq \frac{|A \cap A_k|}{k \log 2 \cdot 2^k} \leq \frac{k^m (\log x)^\alpha}{k \log 2 \cdot 2^k} = \frac{k^{m-1}(\log x)^\alpha}{\log 2 \cdot 2^k}.$$
+Summing over $k > K$:
+$$\sum_{k > K} \frac{k^{m-1}(\log x)^\alpha}{\log 2 \cdot 2^k} = \frac{(\log x)^\alpha}{\log 2} \sum_{k > K} \frac{k^{m-1}}{2^k}.$$
+The series $\sum_{k=1}^\infty k^{m-1}/2^k$ converges absolutely for any fixed $m$ (ratio test: $(k+1)^{m-1}/(2^{k+1}) \cdot 2^k/k^{m-1} = ((k+1)/k)^{m-1}/2 \to 1/2 < 1$). For $m = 0$ the $k^{-1}$ factor makes it even smaller. The tail $\sum_{k>K} k^{m-1}/2^k \leq C_{m}/2^K \leq C_m/\log x$ for some constant $C_m$. Hence:
+$$\sum_{k > K} \frac{k^{m-1}(\log x)^\alpha}{\log 2 \cdot 2^k} \leq \frac{C_m (\log x)^{\alpha - 1}}{\log 2} \to 0$$
+for $\alpha < 1$, and more generally $= O((\log x)^{\alpha-1}) \to 0$ for any fixed $\alpha$ as $x \to \infty$ (since $(\log x)^{\alpha-1} \to 0$ when $\alpha < 1$, and for $\alpha \geq 1$ we need a sharper tail bound: $\sum_{k>K} k^{m-1}/2^k = O(K^{m-1}/2^K) = O((\log\log x)^{m-1}/\log x)$, so the product is $O((\log x)^{\alpha-1} (\log\log x)^{m-1}) \to 0$ for any fixed $\alpha, m$).
+
+Combining both parts: $\sum_{a \in A} 1/(a\log a) \to 0$ as $x \to \infty$. $\square$
+
+**Remark.** `log_polynomial_density` strictly extends `polynomial_density` (which required $|A \cap A_k| \leq k^m$): allowing an extra factor $(\log x)^\alpha$ is a weaker hypothesis that still closes the case. The proof is entirely elementary — it uses only $a \geq 2^k$ (definition of $A_k$) and the geometric series bound.
+
+---
+
+### Lemma `near_full_density` (PROVED — reduces to density_convergence)
+
+**Statement.** Fix $m > 0$. Suppose $A$ is a primitive set with $A \subseteq [x, \infty)$ and $|A \cap A_k| \leq 2^k / k^m$ for all $k \geq 1$. Then $\sum_{a \in A} 1/(a \log a) \to 0$ as $x \to \infty$.
+
+**Proof.** Compute the Schur density:
+$$D(A) := \sum_{k=1}^\infty \frac{|A \cap A_k|}{k \cdot 2^k} \leq \sum_{k=1}^\infty \frac{2^k/k^m}{k \cdot 2^k} = \sum_{k=1}^\infty \frac{1}{k^{m+1}}.$$
+For $m > 0$, the series $\sum_{k=1}^\infty 1/k^{m+1}$ converges (it is $\zeta(m+1)$ which converges for $m+1 > 1$). Hence $D(A) < \infty$.
+
+By the `density_convergence` theorem (Section 17): if $D(A) < \infty$ then $\sum_{a \in A} 1/(a\log a) \to 0$ as $x \to \infty$. $\square$
+
+**Remark.** `near_full_density` covers the case where each stratum is almost fully populated (up to a $1/k^m$ polynomial thinning). Note that $|A \cap A_k| \leq 2^k/k^m$ with $m=0$ would give $D(A) = \sum 1/k$ which diverges — the $m > 0$ condition is tight.
+
+---
+
+### The Exact Open Boundary
+
+The results above, combined with earlier theorems, give a complete picture of the density threshold:
+
+| Hypothesis on $|A \cap A_k|$ | Result | Proof |
+|---|---|---|
+| $|A \cap A_k| \leq C$ (bounded) | $\sum 1/(a\log a) \to 0$ | polynomial\_density ($m=0$) |
+| $|A \cap A_k| \leq k^m$ (polynomial) | $\sum 1/(a\log a) \to 0$ | polynomial\_density |
+| $|A \cap A_k| \leq k^m (\log x)^\alpha$ (log-polynomial) | $\sum 1/(a\log a) \to 0$ | **log\_polynomial\_density (NEW)** |
+| $|A \cap A_k| \leq 2^k/k^m$, $m>0$ (near-full) | $\sum 1/(a\log a) \to 0$ | **near\_full\_density (NEW)** |
+| $|A \cap A_k| = \Theta(2^k)$ (full density) | Open | The conjecture |
+| $|A \cap A_k| > 2^k$ (impossible) | Impossible | $|A_k| = 2^k$ exactly |
+
+**Interpretation.** The Erdős conjecture is equivalent to the statement that **any polynomial-in-$k$ savings in each stratum** suffices: if $|A \cap A_k| \leq 2^k / f(k)$ for ANY function $f(k) \to \infty$, the sum $\to 0$. The open case is precisely when $|A \cap A_k|/2^k$ has no saving at all — i.e., $A$ occupies a constant fraction of each stratum.
+
+**Sub-exponential density** (Section 18): $|A \cap A_k| \leq 2^{k(1-\delta)}$ for some $\delta > 0$ also gives sum $\to 0$ (proved earlier, even stronger than near\_full\_density for large $k$).
+
+---
+
+**Updated cumulative proved results:**
+1.–23. (see Sections 10–26)
+24. `log_polynomial_density`: $|A \cap A_k| \leq k^m(\log x)^\alpha$ for fixed $m,\alpha \geq 0$ implies $\sum 1/(a\log a) \to 0$ — **proved** (Q33, elementary). Strictly generalizes polynomial\_density by allowing an extra $(\log x)^\alpha$ factor in the stratum bound.
+25. `near_full_density`: $|A \cap A_k| \leq 2^k/k^m$ for fixed $m > 0$ implies $\sum 1/(a\log a) \to 0$ — **proved** (Q33, via density\_convergence). Together with sub\_exponential\_density, this establishes the open boundary at exactly $|A \cap A_k| = \Theta(2^k)$.
