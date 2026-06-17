@@ -68,3 +68,6 @@
 {"qid":"Q33","status":"resolved","session_id":"s_0617-145025-99ae","summary":"proved log_polynomial_density and near_full_density; exact stratum boundary at |A∩A_k|=Theta(2^k)","ts":"2026-06-17T15:48:51+00:00"}
 {"qid":"Q34","status":"open","session_id":"s_0617-145025-99ae","summary":"primitivity antichain bound in A_k: use Dilworth's theorem analog to bound |A cap A_k| below 2^k; stratum-crossing primitivity constraints","ts":"2026-06-17T15:49:24+00:00"}
 {"qid":"Q34","status":"claimed","session_id":"s_0617-145025-99ae","summary":"claiming Q34: antichain/primitivity constraints within strata; stratum-crossing analysis","ts":"2026-06-17T15:49:24+00:00"}
+{"qid":"Q34","status":"resolved","session_id":"s_0617-145025-99ae","summary":"proved single_stratum_conjecture (F3), range_integral_bound (log C bound), doubly_exponential_range","ts":"2026-06-17T15:55:53+00:00"}
+{"qid":"Q35","status":"open","session_id":"s_0617-145025-99ae","summary":"tail-band convergence: high bands n>=N contribute doubly-exp small amount; total across all bands = sum of per-band sums, show this converges","ts":"2026-06-17T15:56:03+00:00"}
+{"qid":"Q35","status":"claimed","session_id":"s_0617-145025-99ae","summary":"claiming Q35: bounding sum over ALL doubly-exponential bands; show infinitely-banded case is still sum<=1+o(1)","ts":"2026-06-17T15:56:03+00:00"}

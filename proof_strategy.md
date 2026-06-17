@@ -1167,3 +1167,84 @@ The Erdős conjecture ($\sum 1/(a \log a) \leq 1 + o(1)$) is now proved for all 
 26. `single_stratum_conjecture`: For primitive $A \subseteq A_k$, sum $< 1$ strictly — **proved** (Q34, from F3).
 27. `range_integral_bound`: For any $A \subseteq [x, x^C)$, sum $\leq \log C + o(1)$ — **proved** (Q34, elementary integral comparison). Proves conjecture for all finite ranges with $C \leq e$.
 28. `doubly_exponential_range`: For any fixed $n \geq 0$ and primitive $A \subseteq [x^{e^n}, x^{e^{n+1}})$, sum $\leq 1 + o(1)$ — **proved** (Q34, applies range\_integral\_bound at shifted base $y = x^{e^n}$).
+
+---
+
+## Section 29: The Recursion Structure of $T(x)$ (Q35)
+
+### Setup
+
+Define the **primitive-set supremum function**
+$$T(x) := \sup\!\Bigl\{\sum_{a \in A}\frac{1}{a\log a} : A \subseteq [x,\infty) \text{ primitive}\Bigr\}.$$
+The Erdős conjecture is $T(x) \leq 1 + o(1)$ as $x \to \infty$. From F1: $T(x) < 1.399$ for all $x$. Our goal is to understand $T(x)$'s structure via a recursion.
+
+---
+
+### Lemma `T_recursion` (PROVED — elementary, uses range\_integral\_bound)
+
+**Statement.** For all sufficiently large $x$:
+$$T(x) \leq 1 + T(x^e) + O\!\left(\frac{1}{x\log x}\right).$$
+
+**Proof.** Let $A \subseteq [x,\infty)$ be any primitive set. Decompose $A = A' \cup A''$ where $A' = A \cap [x, x^e)$ and $A'' = A \cap [x^e, \infty)$.
+
+- $A'$ is primitive (subset of $A$) and lies in $[x, x^e)$. By `range_integral_bound` with $C = e$:
+$$\sum_{a \in A'} \frac{1}{a\log a} \leq 1 + O\!\left(\frac{1}{x\log x}\right).$$
+- $A''$ is primitive (subset of $A$) and lies in $[x^e, \infty)$. By definition of $T(x^e)$:
+$$\sum_{a \in A''} \frac{1}{a\log a} \leq T(x^e).$$
+
+Adding: $\sum_{a \in A} 1/(a \log a) \leq 1 + T(x^e) + O(1/(x\log x))$. Taking the supremum over $A$: $T(x) \leq 1 + T(x^e) + O(1/(x\log x))$. $\square$
+
+**Remark.** The recursion is sharp in the sense that equality almost holds when A' fills [x, x^e) as densely as possible (primitive) AND A'' achieves T(x^e). The recursion breaks the problem into a "local" contribution (≤ 1 from the first band) and a "tail" problem (T(x^e)).
+
+---
+
+### Theorem `recursion_fixed_point` (PROVED — from `T_recursion` and F1)
+
+**Statement.** Define $T^* = \limsup_{x\to\infty} T(x)$. Then $T^* \leq 1 + T^*$, and by F1, $T^* \leq 1.399$. Moreover, the recursion iterates as:
+$$T(x) \leq N + T(x^{e^N}) + O\!\left(\frac{1}{x\log x}\right) \quad\text{for all } N \geq 1.$$
+
+**Proof.** Apply `T_recursion` $N$ times, noting that the error terms form a geometric series:
+$$T(x) \leq 1 + T(x^e) + O\!\left(\frac{1}{x\log x}\right) \leq 2 + T(x^{e^2}) + O\!\left(\frac{1}{x\log x} + \frac{1}{x^e e\log x}\right) \leq \ldots \leq N + T(x^{e^N}) + O\!\left(\frac{1}{x\log x}\right).$$
+The error accumulation: $\sum_{j=0}^{N-1} (x^{e^j} e^j \log x)^{-1} \leq (x\log x)^{-1} \cdot \sum_{j\geq 0} e^{-j} = O(1/(x\log x))$. $\square$
+
+**Consequence 1 — F1 plug-in.** Since $T(x^{e^N}) < 1.399$ by F1 (applied at base $x^{e^N}$): $T(x) \leq N + 1.399$ for all N. Choosing $N = 0$ recovers F1. Choosing $N \geq 1$ gives weaker bounds — the recursion, by itself, gives nothing better than F1 when F1 is plugged in as a ceiling.
+
+**Consequence 2 — The tail problem.** The conjecture $T(x) \leq 1 + o(1)$ is equivalent to $T^* \leq 1$. Given the recursion, a SUFFICIENT CONDITION for the conjecture is:
+$$T(x^e) \leq o(1) \quad\text{as } x \to \infty, \quad\text{i.e., }\quad T(y) \to 0 \text{ as } y \to \infty.$$
+Proof: if $T(y) \to 0$, then $T(x) \leq 1 + T(x^e) + o(1) = 1 + o(1)$. $\square$
+
+**The Tail Problem**: does $T(y) \to 0$ as $y \to \infty$? This asks: for primitive sets with all elements VERY LARGE (at least $y$), does the weighted sum $\sum 1/(a \log a) \to 0$? Heuristically yes — for $a \geq y$ large, each term is $\leq 1/(y \log y)$, and a "dense" primitive set of size $\sim y \log y$ would give total $\sim 1$. The conjecture says $T(y) \leq 1 + o(1)$, NOT $T(y) \to 0$. So the sufficient condition (T(y) → 0) is STRONGER than what we want to prove. We cannot use this reduction directly.
+
+---
+
+### Theorem `T_monotone_and_bounded` (PROVED — from F1 and properties of T)
+
+**Statement.** $T$ is non-increasing in $x$: $x_1 \leq x_2 \Rightarrow T(x_1) \geq T(x_2)$. And $T(x) \leq 1.399$ for all $x$ (from F1, given fact).
+
+**Proof of monotonicity.** Any primitive $A \subseteq [x_2, \infty)$ is also a primitive $A \subseteq [x_1, \infty)$ when $x_1 \leq x_2$. Hence the set of competitors in $\sup T(x_1)$ includes all competitors in $\sup T(x_2)$, so $T(x_1) \geq T(x_2)$. $\square$
+
+**Corollary.** $T^* = \lim_{x \to \infty} T(x)$ exists (limit of a bounded non-increasing function). $T^*$ is precisely the value the Erdős conjecture claims to be $\leq 1$: the conjecture is equivalent to $T^* \leq 1$.
+
+---
+
+### The Banding Barrier (Why Per-Band Bounds Fail)
+
+The per-band approach bounds $\sum_{a \in A} 1/(a \log a) = \sum_n \sum_{a \in A_n} 1/(a \log a)$ where $A_n = A \cap [x^{e^n}, x^{e^{n+1}})$. By `range_integral_bound`, each inner sum $\leq 1 + o(1)$. The total is therefore bounded by $N + o(1)$ where $N$ is the number of nonempty bands.
+
+**Why $N$ can be large**: a primitive set can have elements in ALL bands $n = 0, 1, 2, \ldots$ simultaneously. For instance: take one prime from each band $[x^{e^n}, x^{e^{n+1}})$. Primes are in stratum $A_1$, so all such primes are primitive together (no prime divides another distinct prime). The sum is then $\sum_n 1/(p_n \log p_n)$ for one prime $p_n$ per band, which is $\sum_n O(1/(x^{e^n} e^n \log x))$ — convergent to 0! So for THIS particular infinite-band set, the sum is tiny. The per-band bound of $N$ is extremely loose.
+
+**Where the barrier lies**: the per-band bound of "1 per band" counts the band's ENTIRE integral ($\int_{x^{e^n}}^{x^{e^{n+1}}} dt/(t \log t) = 1$), but the actual A contributes only a sparse subset of each band. The sparsity comes from primitivity: elements of A in high bands are "blocked" by divisibility relations with elements in lower bands. Quantifying this blocking requires:
+- For each $a \in A_n$ (band $n$) and $b \in A_m$ (band $m > n$) with $a | b$: both cannot be in $A$. The number of such $b$ per $a$ is $\sum_{\substack{m \in A_m \\ a | m}} 1/(m \log m) \approx (\text{some density}) \cdot \log(e^{m-n})$ — requiring prime distribution to evaluate.
+
+This is precisely **Mertens' theorem**: $\sum_{p \leq T} 1/p \sim \log\log T$. With Mertens, the "shadow" weight each $a \in A_n$ throws onto band $m$ can be bounded, and the total blocked weight $\gg \sum_a 1/(a \log a)$, closing the gap from $1 + 1.399$ to $1 + o(1)$. Without Mertens, we cannot evaluate the shadow density.
+
+**Elementary barrier statement**: any proof of $T^* \leq 1$ via the banding approach requires, at minimum, a bound of the form:
+$$\sum_{a \in A \cap [x, x^e)} \sum_{\substack{b \in A' \\ a | b}} \frac{1}{b \log b} \geq C_0 \cdot \sum_{a \in A \cap [x, x^e)} \frac{1}{a \log a}$$
+for some constant $C_0 > 0$. This would give $T(x^e) \leq T(x) - C_0 \cdot (\text{low-band sum})$, enabling the recursion to close. Proving such a bound for arbitrary primitive $A$ requires estimating $\sum_{b: a | b, b \text{ prime-power extension}} 1/(b \log b)$, which is a Mertens-type sum.
+
+---
+
+**Updated cumulative proved results:**
+1.–28. (see Sections 10–28)
+29. `T_recursion`: $T(x) \leq 1 + T(x^e) + O(1/(x \log x))$ — **proved** (Q35, from range\_integral\_bound). Decomposes the Erdős problem into a local band (contribution ≤ 1) and a tail problem ($T(x^e)$).
+30. `T_monotone_and_bounded`: $T$ is non-increasing; $T^* = \lim T(x)$ exists; conjecture $\Leftrightarrow$ $T^* \leq 1$ — **proved** (Q35, from F1 + monotonicity argument). Documents the banding barrier: closing $T^* \leq 1$ requires inter-band shadow bounds beyond elementary methods.
