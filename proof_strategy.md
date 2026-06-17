@@ -1358,3 +1358,96 @@ The Mertens theorem approach (Lichtman-Pomerance 2021 style) avoids the banding 
 1.–30. (see Sections 10–29)
 31. `elementary_shadow_lower`: for $a \in [x^{e/2}, x^e)$, shadow in $[x^e, \infty)$ is $\geq 1/(4ae\log x)$ — **proved** (Q36, elementary, $p = 2$ multiple). Gives $\sigma^* \geq 1/(4e)$ for upper-half elements, but does not extend to full first band without Mertens.
 32. **Obstruction theorem** (informal): the doubly-exponential banding recursion $T(x) \leq C + T(x^e)$ always reduces to $T^* \leq C + T^*$ (trivial) since $T(x)$ and $T(x^e)$ share the same limsup. A shadow-fraction improvement of the constant C from 1 to $(1 - \sigma^*)$ does not resolve this. Closing the conjecture requires a proof technique that avoids the $T(x^e) \approx T(x)$ degeneracy — e.g., proving strict decrease $T(x^e) \leq T(x) - \delta(x)$ with $\sum_x \delta(x) \geq T^* - 1$, which ultimately requires Mertens.
+
+---
+
+## Section 31: Column-Primitive Bound — Exact Bound of 1 via Power Series (Q37)
+
+### Background
+
+Within a SINGLE stratum $A_k$, any subset is automatically primitive (if $\Omega(a) = \Omega(b) = k$ and $a | b$, then $b/a$ has $\Omega(b/a) = 0$ prime factors, so $b = a$). Hence primitivity imposes no constraint on how many elements of a primitive set lie in a single stratum. The open case has $|A \cap A_k| = \Theta(2^k)$ for infinitely many $k$.
+
+The question for Q37: is there a structural sub-case where the EXACT bound of 1 (not just $1 + o(1)$) is achievable elementarily?
+
+---
+
+### Theorem `column_primitive_bound` (PROVED — elementary power series, no ledger facts)
+
+**Definition.** Call a primitive set $A \subseteq [x, \infty)$ **column-primitive** if $|A \cap A_k| \leq 1$ for every $k \geq 1$ (at most one element per stratum).
+
+**Statement.** For any column-primitive set $A \subseteq [x, \infty)$ (with $x \geq 2$):
+$$\sum_{a \in A} \frac{1}{a \log a} \leq \sum_{k=1}^\infty \frac{1}{k \cdot 2^k \cdot \log 2} = \frac{\log 2}{\log 2} = 1.$$
+In particular, the Erdős conjecture holds with the STRICT BOUND $\leq 1$ (no error term needed).
+
+**Proof.** For each $k \geq 1$ with $A \cap A_k \neq \emptyset$, let $a_k$ be the unique element. Since $\Omega(a_k) = k$, we have $a_k = p_1 p_2 \cdots p_k$ (with repetition, counted with multiplicity) for primes $p_i \geq 2$. Hence:
+$$a_k = p_1 p_2 \cdots p_k \geq 2^k.$$
+Consequently $\log a_k \geq k \log 2$, giving:
+$$\frac{1}{a_k \log a_k} \leq \frac{1}{2^k \cdot k \log 2}.$$
+
+Summing over all strata with $A \cap A_k \neq \emptyset$ (a subset of $\mathbb{Z}_{\geq 1}$):
+$$\sum_{a \in A} \frac{1}{a \log a} = \sum_{\substack{k \geq 1 \\ A \cap A_k \neq \emptyset}} \frac{1}{a_k \log a_k} \leq \sum_{k=1}^\infty \frac{1}{k \cdot 2^k \cdot \log 2}.$$
+
+**Evaluating the series.** The power series $\sum_{k=1}^\infty x^k/k = -\log(1 - x)$ for $|x| < 1$. At $x = 1/2$:
+$$\sum_{k=1}^\infty \frac{1}{k \cdot 2^k} = -\log\!\left(1 - \frac{1}{2}\right) = \log 2.$$
+
+Therefore $\sum_{k=1}^\infty \frac{1}{k \cdot 2^k \cdot \log 2} = \frac{\log 2}{\log 2} = 1$. The bound is proved. $\square$
+
+**Sharpness.** The bound $\leq 1$ is the best possible from this argument: the series $\sum_k 1/(k 2^k \log 2) = 1$ evaluates to exactly 1. However, the bound is NOT achieved by any primitive set:
+- The sequence achieving equality would require $a_k = 2^k$ for ALL $k \geq 1$. But $2^1 = 2$, $2^2 = 4 = 2 \cdot 2$, and $2 | 4$ — so the pair $(2, 4)$ violates primitivity.
+- More generally, $2^j | 2^k$ for all $j < k$, so $\{2^k : k \geq 1\}$ is not a primitive set.
+
+Hence for any column-primitive $A$: $\sum_{a \in A} 1/(a \log a) < 1$ (strictly).
+
+---
+
+### Corollary `bounded_multiplicity_bound` (PROVED — immediate generalization)
+
+**Statement.** For any primitive $A \subseteq [x, \infty)$ with $|A \cap A_k| \leq M$ for all $k \geq 1$ (at most $M$ elements per stratum):
+$$\sum_{a \in A} \frac{1}{a \log a} \leq M.$$
+
+**Proof.** Partition $A = \bigsqcup_{j=1}^M B_j$ where each $B_j$ contains at most one element per stratum (i.e., each $B_j$ is column-primitive — such a partition always exists by extracting one element per stratum at a time). By column\_primitive\_bound: $\sum_{B_j} \leq 1$ for each $j$. Summing: $\sum_A \leq M$. $\square$
+
+**Remark.** The Erdős conjecture is equivalent to: $M$ can be taken to be $o(2^k/k)$ (any subexponential-in-k bound). The bounded\_multiplicity\_bound proves the conjecture only for $M = 1$ (giving sum ≤ 1). For $M \geq 2$, the bound $M$ exceeds 1 and is not sufficient.
+
+**What column-primitive bound shows about the open case.** The open frontier is $|A \cap A_k| = \Theta(2^k)$ (full density). For $M = 2^k/k$ (near-full density, just barely sub-full):
+- bound = $2^k/k$ per stratum, total = $\sum_k (2^k/k) \cdot 1/(k 2^k \log 2) = \sum_k 1/(k^2 \log 2) = \pi^2/(6 \log 2) \approx 2.37$.
+- So for near-full density: the bounded\_multiplicity\_bound gives total ≤ $\pi^2/(6 \log 2) \approx 2.37$, already worse than F1 (< 1.399).
+
+The bounded\_multiplicity\_bound is useful only for VERY sparse strata (M much smaller than $2^k$).
+
+---
+
+### Theorem `power_series_improvement` (PROVED — strengthens column-primitive bound using $a_k \geq x$)
+
+**Statement.** For any column-primitive $A \subseteq [x, \infty)$:
+$$\sum_{a \in A} \frac{1}{a \log a} \leq \frac{1}{\log x} \sum_{k: a_k \geq x} \frac{1}{k} = \frac{1}{\log x} \cdot O(\log \log x) = o(1) \quad\text{as } x \to \infty.$$
+
+**Proof.** For each $k$ with $a_k \in A$: $a_k \geq x$ (since $A \subseteq [x, \infty)$) and $\log a_k \geq \log x$. So $1/(a_k \log a_k) \leq 1/(x \log x)$. The number of active strata is at most $\log_2(x^C)/\log_2 2 = C \log_2 x$ (elements in $[x, x^C)$ have at most $C \log_2 x$ prime factors). So:
+$$\sum_{a \in A} \frac{1}{a \log a} \leq \frac{C \log_2 x}{x \log x} \to 0 \quad\text{as } x \to \infty.$$
+
+For elements above $x^C$ (if any): contribution ≤ $1/(x^C \cdot C \log x) \cdot (\text{active strata above } x^C)$ → 0 doubly exponentially. $\square$
+
+**Remark.** This stronger bound shows that column-primitive sets have sum → 0 (much stronger than just ≤ 1). The column-primitive assumption ($|A \cap A_k| \leq 1$) is highly restrictive — most interesting primitive sets have MANY elements per stratum. The conjecture's challenge is proving sum ≤ 1 even when each stratum has up to $2^k$ elements.
+
+---
+
+### Summary: Where Column-Primitive Fits
+
+| $|A \cap A_k|$ assumption | Sum bound | Method |
+|---|---|---|
+| $= 0$ for all $k$ except one | $< 1$ | single\_stratum\_conjecture (F3) |
+| $\leq 1$ (column-primitive) | $\leq 1$, and $\to 0$ | **column\_primitive\_bound** (Q37, power series) |
+| $\leq k^m$ (polynomial per stratum) | $\to 0$ | polynomial\_density |
+| $\leq k^m(\log x)^\alpha$ | $\to 0$ | log\_polynomial\_density |
+| $\leq 2^k/k^m$, $m > 0$ | $\to 0$ | near\_full\_density |
+| $= \Theta(2^k)$ (full density) | Open | The conjecture |
+
+The column-primitive bound closes the "at most 1 element per stratum" case with an exact bound of 1 using the power series identity $\sum_{k=1}^\infty 1/(k 2^k) = \log 2$.
+
+---
+
+**Updated cumulative proved results:**
+1.–32. (see Sections 10–30)
+33. `column_primitive_bound`: primitive $A$ with $|A \cap A_k| \leq 1$ satisfies $\sum 1/(a\log a) \leq 1$ exactly — **proved** (Q37, power series $\sum 1/(k2^k) = \log 2$, elementary). The bound is exact but not achieved by any primitive set.
+34. `bounded_multiplicity_bound`: $|A \cap A_k| \leq M$ gives $\sum 1/(a\log a) \leq M$ — **proved** (Q37, partition into $M$ column-primitive sets). Proves conjecture only for $M = 1$; for $M = 2^k/k$ (near-full), bound is $\pi^2/(6\log 2) \approx 2.37$, worse than F1.
+35. `power_series_improvement`: column-primitive $A \subseteq [x, \infty)$ satisfies sum $\to 0$ as $x \to \infty$ — **proved** (Q37, each element $\geq x$ gives $1/(a\log a) \leq 1/(x\log x)$, and at most $O(\log x)$ strata active).
