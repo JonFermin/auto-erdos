@@ -798,12 +798,12 @@ After Q22–Q26, the Erdős conjecture is proved for:
 5. All $A$ with $|A| = o(x\log x)$ (sum $\to 0$, Lemma count\_bound).
 
 **The refined open case.** The Erdős conjecture is now open only for primitive $A \subseteq [x, \infty)$ satisfying ALL of:
-1. $A$ has elements above $x^2$ (otherwise covered by case 2 above with $\alpha = 2$).
+1. $A$ has elements above $x^e$ (otherwise covered by Theorem integral\_bound with $C = e$: sum $\leq 1 + 1/(x\log x)$).
 2. $D(A) = \infty$ (otherwise density\_convergence applies).
 3. $|A| \geq c \cdot x \log x$ for some $c > 0$ (otherwise count\_bound applies).
 4. $A$ spans infinitely many strata $A_k$ (otherwise multi\_stratum applies).
 
-**Such $A$ must span the super-quadratic range $[x, \infty)$ with elements above $x^2$.** The best known bound for this case is F1 (sum $< 1.399$); the conjecture claims sum $< 1 + o(1)$.
+**Such $A$ must span the super-exponential range $[x, \infty)$ with elements above $x^e$.** The best known bound for this case is F1 (sum $< 1.399$); the conjecture claims sum $< 1 + o(1)$.
 
 ### The F1 gap in the super-quadratic range
 
@@ -962,3 +962,58 @@ This proves the Erdős conjecture for $A \subseteq [x, x^e)$ with explicit $o(1)
 **Updated cumulative proved results:**
 1.–21. (see Sections 10–24)
 22. `conjecture_for_all_elementary_cases`: Erdős conjecture proved for cases (a)–(f) above — **proved** (Q31, synthesis). Any counterexample must be cross-stratum, super-exponential, $D = \infty$.
+
+## Section 26: Reciprocal Sum Reformulation (Q32)
+
+### Lemma mertens\_reduction (PROVED — elementary inequality, no ledger facts)
+
+**Statement.** For any set $A \subseteq [x, \infty)$ and $x \geq 2$:
+$$\sum_{a \in A} \frac{1}{a \log a} \leq \frac{1}{\log x} \sum_{a \in A} \frac{1}{a}.$$
+
+**Proof.** For each $a \in A$: $a \geq x$ gives $\log a \geq \log x > 0$, so $1/\log a \leq 1/\log x$. Therefore $1/(a \log a) = (1/a)(1/\log a) \leq (1/a)(1/\log x)$. Summing over $A$ gives the result. $\square$
+
+**Lower bound companion.** For $A \subseteq [x, x^C)$ with $C \geq 1$: every $a \in A$ satisfies $\log a < C \log x$, giving:
+$$\sum_{a \in A} \frac{1}{a \log a} \geq \frac{1}{C \log x} \sum_{a \in A} \frac{1}{a}.$$
+Together: $\displaystyle\frac{1}{C \log x}\sum_{a\in A}\frac{1}{a} \leq \sum_{a\in A}\frac{1}{a\log a} \leq \frac{1}{\log x}\sum_{a\in A}\frac{1}{a}$ for $A \subseteq [x, x^C)$.
+
+### Corollary: Reciprocal Reformulation
+
+**Statement.** The Erdős conjecture is implied by the **reciprocal bound** (RC):
+$$\text{(RC)} \quad \forall \text{ primitive } A \subseteq [x, \infty):\quad \sum_{a \in A} \frac{1}{a} \leq (1 + o(1)) \log x.$$
+
+**Proof.** Apply Lemma mertens\_reduction: $\sum 1/(a\log a) \leq (1/\log x)\cdot(1+o(1))\log x = 1+o(1)$. $\square$
+
+### The $C = e$ Case: Whether (RC) Follows from Integral Bound
+
+For primitive $A \subseteq [x, x^e)$: by upper\_at\_e (Section 24), $\sum 1/(a\log a) \leq 1 + 1/(x\log x)$. Applying the lower companion bound with $C = e$:
+$$\sum_{a\in A} \frac{1}{a} \leq e\log x \cdot \left(1 + \frac{1}{x\log x}\right) = e\log x + \frac{e}{x}.$$
+
+This gives $\sum 1/a \leq e\log x + o(1)$, which EXCEEDS the reciprocal threshold $(1+o(1))\log x$ by a factor of $e$. The integral\_bound technique does not directly establish (RC) for $C = e$.
+
+**Non-primitive comparison.** The all-integer sum $\sum_{n=x}^{x^e} 1/n \approx \int_x^{x^e} dt/t = (e-1)\log x \approx 1.718\log x$. A primitive $A \subseteq [x,x^e)$ is a subset, giving $\sum_{a\in A} 1/a \leq (e-1)\log x + O(1)$. This still exceeds (RC)'s bound of $\log x$ by factor $e - 1 \approx 1.718$.
+
+**Conclusion.** The reciprocal bound (RC) is neither proved nor disproved from the current elementary framework. Neither integral\_bound nor the trivial subset bound pins down $\sum 1/a$ to $(1+o(1))\log x$ even for $A \subseteq [x, x^e)$.
+
+### Shadow Exclusion and the Reciprocal Gap
+
+Each $a \in A \cap A_k$ excludes from $A$ all elements $b = pa$ (prime $p \nmid a$, $b \geq x$) by primitivity. The excluded reciprocal weight per $a$:
+$$W_{\text{excl}}(a) := \sum_{\substack{p \text{ prime},\, p \nmid a \\ pa \geq x}} \frac{1}{pa}.$$
+
+**Elementarily provable.** For each $a \in A \cap A_k$, there exists at least one prime $p \nmid a$ with $pa \geq x$ (take any prime $p$ not dividing $a$; if $a \leq x$, choose $p \geq x/a \geq 1$ — such primes exist by Euclid). Hence $W_{\text{excl}}(a) \geq 1/(p^* a)$ for some prime $p^* \nmid a$, giving a lower bound of $1/(\text{least-qualifying-prime} \cdot a)$. This counts ONE excluded element per $a$.
+
+**What elementary methods cannot show.** To establish (RC) via shadow exclusion, we need the TOTAL excluded weight $\sum_{a\in A} W_{\text{excl}}(a)$ to compensate the excess $(e-1)\log x - \log x = (e-2)\log x$ in the trivial subset bound. Bounding $\sum_{p \text{ prime}, p \nmid a, pa \geq x} 1/p$ requires estimating a sum over primes, which is outside F1/F2/F3.
+
+### Gap Summary
+
+The Erdős conjecture for super-exponential $A$ takes two equivalent forms:
+
+| Form | Statement | Status for $A \subseteq [x, x^e)$ | Status for elements above $x^e$ |
+|---|---|---|---|
+| Weight form | $\sum 1/(a\log a) < 1 + o(1)$ | **Proved** (upper\_at\_e) | **Open** (F1: $< 1.399$) |
+| Reciprocal form (RC) | $\sum 1/a \leq (1+o(1))\log x$ | **Open** (best: $\leq e\log x$) | **Open** |
+
+The weight form is strictly easier: integral\_bound proves it at $C = e$ without needing (RC). The reciprocal form (RC) would imply the weight form, but is not necessary — the weight form for $C \leq e$ is already proved without (RC).
+
+**Updated cumulative proved results:**
+1.–22. (see Sections 10–25)
+23. `mertens_reduction`: $\sum 1/(a\log a) \leq (1/\log x)\sum 1/a$ for any $A \subseteq [x,\infty)$ — **proved** (Q32, elementary). Provides the reciprocal reformulation (RC) of the Erdős conjecture. (RC) itself remains open: best available bound gives $\sum 1/a \leq e\log x$ for $A \subseteq [x,x^e)$, a factor of $e$ above the threshold. Shadow exclusion cannot close this gap without prime sum estimates outside F1/F2/F3.
