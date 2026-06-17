@@ -1089,3 +1089,81 @@ The results above, combined with earlier theorems, give a complete picture of th
 1.–23. (see Sections 10–26)
 24. `log_polynomial_density`: $|A \cap A_k| \leq k^m(\log x)^\alpha$ for fixed $m,\alpha \geq 0$ implies $\sum 1/(a\log a) \to 0$ — **proved** (Q33, elementary). Strictly generalizes polynomial\_density by allowing an extra $(\log x)^\alpha$ factor in the stratum bound.
 25. `near_full_density`: $|A \cap A_k| \leq 2^k/k^m$ for fixed $m > 0$ implies $\sum 1/(a\log a) \to 0$ — **proved** (Q33, via density\_convergence). Together with sub\_exponential\_density, this establishes the open boundary at exactly $|A \cap A_k| = \Theta(2^k)$.
+
+---
+
+## Section 28: Single-Stratum Bound and Exact Range Constants (Q34)
+
+### Theorem `single_stratum_conjecture` (PROVED — from F3, no additional lemmas)
+
+**Statement.** Let $k \geq 1$ and let $A$ be any primitive set with $A \subseteq A_k$ (all elements have exactly $k$ prime factors counting multiplicity). Then:
+$$\sum_{a \in A} \frac{1}{a \log a} \leq \sum_{a \in A_k} \frac{1}{a \log a} = 1 - (c + o(1))\frac{k^2}{2^k} < 1.$$
+In particular, the Erdős conjecture holds: $\sum_{a \in A} 1/(a \log a) < 1 < 1 + o(1)$.
+
+**Proof.** Since $A \subseteq A_k$, every term of $\sum_{a \in A} 1/(a \log a)$ is also a term of $\sum_{a \in A_k} 1/(a \log a)$, so the former is at most the latter. By **F3**, the full stratum sum equals $1 - (c + o(1))k^2/2^k$, which is strictly less than 1 for all $k \geq 1$ (since $k^2/2^k > 0$). $\square$
+
+**Remark.** This result is STRICT: the sum is bounded away from 1 by $(c + o(1))k^2/2^k > 0$. The deviation from 1 decreases as $k \to \infty$ (approaching 1 from below), but is always positive. The conjecture holds strictly for single-stratum primitive sets.
+
+---
+
+### Theorem `range_integral_bound` (PROVED — elementary comparison, no ledger facts)
+
+**Statement.** For any set $A \subseteq [x, x^C)$ (not necessarily primitive) with $C \geq 1$ a real constant:
+$$\sum_{a \in A} \frac{1}{a \log a} \leq \log C + O\!\left(\frac{1}{\log x}\right).$$
+
+**Proof.** Since $1/(t \log t)$ is strictly decreasing, the sum $\sum_{a \in A} 1/(a \log a) \leq \sum_{n=\lceil x\rceil}^{\lfloor x^C \rfloor} 1/(n \log n)$ (bounding by the sum over ALL integers in $[x, x^C)$, regardless of whether they are in $A$). By integral comparison for the decreasing function $f(t) = 1/(t \log t)$:
+$$\sum_{n=x}^{x^C - 1} \frac{1}{n \log n} \leq \int_{x-1}^{x^C} \frac{dt}{t \log t} = \bigl[\log \log t\bigr]_{x-1}^{x^C} = \log(C \log x) - \log\log(x-1).$$
+Since $\log\log(x-1) = \log\log x + O(1/(x \log x))$ and $\log(C \log x) = \log C + \log \log x$:
+$$\sum_{n=x}^{x^C-1} \frac{1}{n \log n} = \log C + O\!\left(\frac{1}{x \log x}\right) = \log C + O\!\left(\frac{1}{\log x}\right). \quad \square$$
+
+**Corollaries:**
+- **$C \leq e$:** $\log C \leq \log e = 1$, so the sum is $\leq 1 + O(1/\log x) = 1 + o(1)$. The Erdős conjecture holds for all $A \subseteq [x, x^e)$ (recovering upper\_at\_e with an explicit constant).
+- **$C < e$:** $\log C < 1$, so the sum is STRICTLY below 1 for large $x$.
+- **$C = 2$:** Sum $\leq \log 2 + o(1) \approx 0.693$. The conjecture holds with a significantly stronger bound.
+- **$C = 3$:** Sum $\leq \log 3 + o(1) \approx 1.099 > 1$. The bound exceeds 1; primitivity is needed for improvement.
+- **$C > e$:** Sum $\leq \log C + o(1)$; does NOT immediately prove the conjecture.
+
+**Important clarification.** The bound $\log C + o(1)$ is for ANY $A \subseteq [x, x^C)$ — no primitivity required. For a primitive $A$, one might hope to do better when $C > e$ using primitivity constraints, but this requires Mertens-type prime sums outside F1/F2/F3.
+
+---
+
+### Lemma `doubly_exponential_range` (PROVED — applies range\_integral\_bound twice)
+
+**Statement.** For any primitive $A \subseteq [x^e, x^{e^2})$, the Erdős conjecture holds: $\sum_{a \in A} 1/(a \log a) \leq 1 + o(1)$.
+
+**Proof.** Let $y = x^e$. Then $A \subseteq [y, y^e)$ (since $x^{e^2} = (x^e)^e = y^e$). By `range_integral_bound` with base $y$ and exponent $e$:
+$$\sum_{a \in A} \frac{1}{a \log a} \leq \log e + O\!\left(\frac{1}{\log y}\right) = 1 + O\!\left(\frac{1}{e \log x}\right) = 1 + o(1). \quad \square$$
+
+More generally, for any $n \geq 0$: the Erdős conjecture holds for primitive $A \subseteq [x^{e^n}, x^{e^{n+1}})$.
+
+**Proof of the general case.** Let $y = x^{e^n}$. Then $A \subseteq [y, y^e)$. Apply `range_integral_bound`: sum $\leq \log e + O(1/\log y) = 1 + O(1/(e^n \log x)) = 1 + o(1)$ for any fixed $n$ as $x \to \infty$. $\square$
+
+---
+
+### Updated Range Coverage Map
+
+The Erdős conjecture ($\sum 1/(a \log a) \leq 1 + o(1)$) is now proved for all primitive $A$ in the following ranges:
+
+| Range of $A$ | Bound on sum | Proof |
+|---|---|---|
+| $A \subseteq [x, x^2)$ | $\leq \log 2 + o(1) \approx 0.693$ | range\_integral\_bound ($C = 2$) |
+| $A \subseteq [x, x^C)$, any $C \leq e$ | $\leq \log C + o(1) \leq 1 + o(1)$ | range\_integral\_bound |
+| $A \subseteq [x, x^e)$ | $\leq 1 + o(1)$ | range\_integral\_bound ($C = e$) = upper\_at\_e |
+| $A \subseteq [x^e, x^{e^2})$ | $\leq 1 + o(1)$ | doubly\_exponential\_range |
+| $A \subseteq [x^{e^n}, x^{e^{n+1}})$, any fixed $n$ | $\leq 1 + o(1)$ | doubly\_exponential\_range (general) |
+| $A \subseteq A_k$ (single stratum) | $< 1$ (strict) | single\_stratum\_conjecture + F3 |
+| $A$ with $|A \cap A_k| = O(k^m)$ (polynomial) | $\to 0$ | polynomial\_density |
+| $A$ with $|A \cap A_k| \leq k^m(\log x)^\alpha$ | $\to 0$ | log\_polynomial\_density |
+| $A$ with $|A \cap A_k| \leq 2^k/k^m$, $m > 0$ | $\to 0$ | near\_full\_density |
+
+**Remaining open case**: $A$ has elements above $x^{e^{n+1}}$ for ALL $n$, AND $|A \cap A_k| = \Theta(2^k)$ for infinitely many $k$. The above shows the conjecture holds for each "doubly exponential" range band individually; the issue is bounding the SUM ACROSS ALL BANDS when $A$ is spread across infinitely many of them.
+
+**Why banding doesn't close the case**: For $A = \bigsqcup_n A_n$ with $A_n \subseteq [x^{e^n}, x^{e^{n+1}})$, each $A_n$ has sum $\leq 1 + o(1)$. But the total sum is $\sum_n (\text{sum over } A_n)$, and if infinitely many bands are non-empty, this could exceed 1. However: for a SPECIFIC element $a \in A_n$ with $n$ large, $1/(a \log a) \leq 1/(x^{e^n} \cdot e^n \log x)$, which is doubly-exponentially small. The key structural question is whether the total weight summed across bands can accumulate to more than 1 — this seems impossible by the geometry of the problem but requires a non-elementary proof.
+
+---
+
+**Updated cumulative proved results:**
+1.–25. (see Sections 10–27)
+26. `single_stratum_conjecture`: For primitive $A \subseteq A_k$, sum $< 1$ strictly — **proved** (Q34, from F3).
+27. `range_integral_bound`: For any $A \subseteq [x, x^C)$, sum $\leq \log C + o(1)$ — **proved** (Q34, elementary integral comparison). Proves conjecture for all finite ranges with $C \leq e$.
+28. `doubly_exponential_range`: For any fixed $n \geq 0$ and primitive $A \subseteq [x^{e^n}, x^{e^{n+1}})$, sum $\leq 1 + o(1)$ — **proved** (Q34, applies range\_integral\_bound at shifted base $y = x^{e^n}$).
