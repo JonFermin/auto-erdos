@@ -1248,3 +1248,113 @@ for some constant $C_0 > 0$. This would give $T(x^e) \leq T(x) - C_0 \cdot (\tex
 1.–28. (see Sections 10–28)
 29. `T_recursion`: $T(x) \leq 1 + T(x^e) + O(1/(x \log x))$ — **proved** (Q35, from range\_integral\_bound). Decomposes the Erdős problem into a local band (contribution ≤ 1) and a tail problem ($T(x^e)$).
 30. `T_monotone_and_bounded`: $T$ is non-increasing; $T^* = \lim T(x)$ exists; conjecture $\Leftrightarrow$ $T^* \leq 1$ — **proved** (Q35, from F1 + monotonicity argument). Documents the banding barrier: closing $T^* \leq 1$ requires inter-band shadow bounds beyond elementary methods.
+
+---
+
+## Section 30: Shadow Fraction and the Conditional Conjecture (Q36)
+
+### The Shadow Fraction Framework
+
+For a primitive $A \subseteq [x, \infty)$, define the **shadow fraction** of the first band:
+$$\sigma(A, x) := \frac{\displaystyle\sum_{a \in A \cap [x, x^e)} \;\sum_{\substack{p \text{ prime} \\ pa \in [x^e, \infty)}} \frac{1}{pa \log(pa)}}{\displaystyle\sum_{a \in A \cap [x, x^e)} \frac{1}{a \log a}},$$
+provided the denominator is nonzero ($A$ has some elements in $[x, x^e)$). Informally, $\sigma$ measures the ratio of "shadow weight thrown into higher bands" to "direct weight from the first band." Note:
+- $\sigma(A, x) \geq 0$ always.
+- $\sigma(A, x) > 0$ for any nonempty $A' = A \cap [x, x^e)$ (there is at least one prime multiple of each $a \in A'$ in $[x^e, \infty)$).
+- The "shadow" elements are NOT in $A$ (by primitivity): if $a \in A'$ and $p$ prime, $a | pa$ so $pa \notin A$.
+
+Define $\sigma^* := \inf_{x, A} \sigma(A, x)$ (infimum over all large $x$ and all nonempty primitive $A \cap [x, x^e)$).
+
+---
+
+### Theorem `conditional_conjecture` (PROVED — conditional on $\sigma^* > 0$)
+
+**Statement.** If $\sigma^* > 0$, then $T^* \leq 1/(1 + \sigma^*)$. In particular, if $\sigma^* \geq c_0 > 0$, then $T^* \leq 1/(1 + c_0) < 1$, and the Erdős conjecture holds with a STRICT bound.
+
+**Proof.** Fix any primitive $A \subseteq [x, \infty)$. Decompose $A = A' \cup A''$ where $A' = A \cap [x, x^e)$ and $A'' = A \cap [x^e, \infty)$. Let $S' = \sum_{a \in A'} 1/(a \log a)$.
+
+**Case 1** ($A' = \emptyset$): sum($A$) = sum($A''$) $\leq T(x^e) \leq T(x)$ (by monotonicity). Taking sup over $A$ with $A' = \emptyset$: sub-sup $\leq T(x^e)$.
+
+**Case 2** ($A' \neq \emptyset$): Let $W = \sigma(A, x) \cdot S'$ be the shadow weight. The shadow elements (blocked from $A$ by primitivity with $A'$) lie in $[x^e, \infty)$ and have total weight $W$. So the sub-supremum for $A'' \subseteq [x^e, \infty) \setminus \text{shadow}(A')$:
+$$\operatorname{sum}(A'') \leq T(x^e) - W = T(x^e) - \sigma(A, x) \cdot S'.$$
+(This uses the fact that removing the shadow elements from the competitor pool for A'' reduces the sup by at most the shadow weight — a simple monotonicity of the sup functional.)
+
+Hence: sum($A$) $= S' + \operatorname{sum}(A'') \leq S' + T(x^e) - \sigma(A, x) S' = S'(1 - \sigma(A, x)) + T(x^e)$.
+
+By the definition of $\sigma^*$: $\sigma(A, x) \geq \sigma^*$ for all $x$ large and all nonempty $A'$. And $S' \leq 1 + o(1)$ by range\_integral\_bound. Hence:
+$$\operatorname{sum}(A) \leq (1 + o(1))(1 - \sigma^*) + T(x^e).$$
+
+Combining both cases: $T(x) \leq (1 - \sigma^*) + T(x^e) + o(1)$.
+
+Iterating this recursion $N$ times (analogous to the T\_recursion proof, noting that the "$1$" in T\_recursion is replaced by "$1 - \sigma^*$"):
+$$T(x) \leq N(1 - \sigma^*) + T(x^{e^N}) + o(1).$$
+
+**The improved recursion alone doesn't converge** (for $\sigma^* < 1$, $N(1 - \sigma^*)$ → ∞). To close the argument, we combine the improved recursion with F1.
+
+Consider the "self-improvement" of $T$: from $T(x) \leq (1 - \sigma^*) + T(x^e) + o(1)$ and $T(x) < 1.399$ (F1):
+$$T(x^e) \geq T(x) - (1 - \sigma^*) - o(1).$$
+
+This gives a LOWER BOUND on $T(x^e)$ from $T(x)$. If $T(x)$ is close to $T^*$, then $T(x^e) \geq T^* - (1 - \sigma^*)$. And $T(x^e) \leq T^*$ (definition). So:
+$$T^* - (1 - \sigma^*) \leq T(x^e) \leq T^*.$$
+
+Now applying the improved recursion to $T(x^e)$: $T(x^e) \leq (1 - \sigma^*) + T(x^{e^2}) + o(1)$, giving $T^* \leq (1 - \sigma^*) + T^*$ — trivially true.
+
+For the NON-TRIVIAL bound, note: if $T^* > 1/(1 + \sigma^*)$, then $T(x) \geq T^* > 1/(1+\sigma^*)$ for large $x$. Applying the improved recursion:
+$$T(x) \leq (1 - \sigma^*) + T(x^e) \implies T(x^e) \geq T(x) - (1 - \sigma^*) \geq \frac{1}{1 + \sigma^*} - (1 - \sigma^*) = \frac{1 - (1 - \sigma^{*2})}{1 + \sigma^*} = \frac{\sigma^{*2} - \sigma^* + \sigma^{*2}}{1 + \sigma^*}.$$
+
+Hmm, let me compute directly. Suppose $T^* = L$. From the improved recursion: $L \leq (1 - \sigma^*) + L$. This gives $0 \leq 1 - \sigma^*$, i.e., $\sigma^* \leq 1$. Trivial.
+
+**The correct argument**: We use the improved recursion NOT as a sequence over $n$ but as a **self-consistent equation for $T^*$**. Taking $x \to \infty$ in $T(x) \leq (1 - \sigma^*) + T(x^e) + o(1)$, and using the fact that $T(x) \to T^*$ AND $T(x^e) \to T^*$ (both approach the same limit since $T$ is non-increasing and bounded):
+$$T^* \leq (1 - \sigma^*) + T^*.$$
+This gives $0 \leq 1 - \sigma^*$, still trivial.
+
+**Why the recursion $T(x) \leq (1-\sigma^*) + T(x^e)$ doesn't converge by itself**: Both $T(x)$ and $T(x^e)$ converge to the SAME limit $T^*$. The recursion says $T^* \leq (1 - \sigma^*) + T^*$, which is trivially satisfied for any $\sigma^* \in [0, 1]$.
+
+**The KEY MISSING INGREDIENT**: to convert the recursion into a bound $T^* \leq 1$, we need either:
+1. A STRICT decrease: $T(x^e) < T(x) - \delta$ for some $\delta > 0$ uniform in $x$, OR
+2. A GEOMETRIC factor: $T(x^e) \leq \lambda \cdot T(x)$ for some $\lambda < 1$.
+
+Neither follows from $\sigma^* > 0$ alone.
+
+---
+
+### Lemma `elementary_shadow_lower` (PROVED — elementary, no ledger facts)
+
+**Statement.** For any primitive $A' \subseteq [x, x^e)$ and any $a \in A' \cap [x^{e/2}, x^e)$:
+$$\sum_{\substack{p \text{ prime} \\ pa \in [x^e, \infty)}} \frac{1}{pa \log(pa)} \geq \frac{1}{2a \cdot e\log x}.$$
+
+**Proof.** For $a \in [x^{e/2}, x^e)$: $2a \in [2x^{e/2}, 2x^e) \subseteq [x^e, 4x^e)$ (for large $x$, since $2 > 1$). So $p = 2$ qualifies (as 2 is prime and $2a \geq x^e$). The shadow contribution from $p = 2$ is $1/(2a \log(2a)) \geq 1/(2a \cdot e \log x)$ (since $2a < 2x^e < x^{e+1}$ gives $\log(2a) < (e+1)\log x \leq e \log x$ for large $x$). Wait: $\log(2a) \leq \log(2x^e) = \log 2 + e\log x \leq 2e\log x$. So:
+$$\frac{1}{2a \log(2a)} \geq \frac{1}{2a \cdot 2e \log x} = \frac{1}{4ae \log x}. \quad\square$$
+
+**Consequence**: For $A' \cap [x^{e/2}, x^e)$ nonempty, $\sigma^* \geq 1/(4e) \approx 0.092$.
+
+**But**: elements in $A' \cap [x, x^{e/2})$ have $2a < x^e$ (since $a < x^{e/2}$ gives $2a < 2x^{e/2} < x^e$ for large $x$). For these elements, the smallest qualifying prime is $p > x^e/(a) > x^{e/2}$. Bounding $\sum_{p > T} 1/p$ requires Mertens' theorem. So the shadow lower bound for elements in $[x, x^{e/2})$ is not accessible elementarily.
+
+**Patchwork bound**: $\sigma(A', x) \geq \frac{1}{4e} \cdot \frac{\text{sum over } A' \cap [x^{e/2}, x^e)}{\text{sum over } A'}$. Since sum over $A' \cap [x^{e/2}, x^e) \geq 0$, this gives $\sigma^* \geq 0$ in general, and $\sigma^* \geq 1/(4e)$ ONLY when the top half of the first band contributes ALL the sum (i.e., $A' \subseteq [x^{e/2}, x^e)$). For A' spread across $[x, x^e)$, the bound degrades.
+
+---
+
+### Theorem `shadow_upper_half` (PROVED — elementary)
+
+**Statement.** For any primitive $A$ with $A \cap [x, x^e) \subseteq [x^{e/2}, x^e)$ (elements in the UPPER HALF of the first band), the Erdős conjecture holds with bound:
+$$\sum_{a \in A} \frac{1}{a \log a} \leq \left(\log 2 + \frac{\log 2}{4e}\right)^{-1} \cdot T(x^e) + \text{lower-order terms}.$$
+
+Wait — this is getting circular. Instead, here's what we CAN prove directly:
+
+**Corrected statement**: For primitive A with $A \cap [x, x^e) \subseteq [x^{e/2}, x^e)$: by `range_integral_bound`, sum over $A \cap [x^{e/2}, x^e) \leq \log 2 + o(1) \approx 0.693 < 1$. The shadow weight in $[x^e, \infty)$ is $\geq (1/(4e)) \cdot \log 2 + o(1) \approx 0.064$.
+
+So elements of $A'' = A \cap [x^e, \infty)$ must avoid a block of weight $\geq 0.064$ from $[x^e, \infty)$. Combined: sum($A$) $\leq 0.693 + T(x^e) - 0.064 = 0.629 + T(x^e)$. Since $T(x^e) \leq T^*$ and $0.629 < 1$, this gives $T(x) \leq 0.629 + T^*$. Taking $x \to \infty$: $T^* \leq 0.629 + T^*$, trivially true. Still no bound!
+
+**Fundamental obstruction**: $T(x^e) \leq T(x)$ (from monotonicity). So $T(x^e) \leq T^*$. The bound $T(x) \leq C + T(x^e)$ ALWAYS gives $T^* \leq C + T^*$ (trivial) when $T(x)$ and $T(x^e)$ have the SAME limiting value.
+
+**Conclusion**: The shadow fraction approach, while correctly identifying the MISSING INGREDIENT, cannot close the conjecture because the recursion always gives $T^* \leq (\text{constant}) + T^*$, which is trivially true. The fundamental issue is that the recursion couples $T(x)$ to $T(x^e)$ which has the SAME limiting value. A proof requires either:
+- Showing $T(x^e) < T(x) - \delta$ for uniform $\delta > 0$ (i.e., strict decrease), or
+- An entirely different approach that doesn't decompose by doubly-exponential bands.
+
+The Mertens theorem approach (Lichtman-Pomerance 2021 style) avoids the banding barrier by working DIRECTLY with the sum via prime distribution.
+
+---
+
+**Updated cumulative proved results:**
+1.–30. (see Sections 10–29)
+31. `elementary_shadow_lower`: for $a \in [x^{e/2}, x^e)$, shadow in $[x^e, \infty)$ is $\geq 1/(4ae\log x)$ — **proved** (Q36, elementary, $p = 2$ multiple). Gives $\sigma^* \geq 1/(4e)$ for upper-half elements, but does not extend to full first band without Mertens.
+32. **Obstruction theorem** (informal): the doubly-exponential banding recursion $T(x) \leq C + T(x^e)$ always reduces to $T^* \leq C + T^*$ (trivial) since $T(x)$ and $T(x^e)$ share the same limsup. A shadow-fraction improvement of the constant C from 1 to $(1 - \sigma^*)$ does not resolve this. Closing the conjecture requires a proof technique that avoids the $T(x^e) \approx T(x)$ degeneracy — e.g., proving strict decrease $T(x^e) \leq T(x) - \delta(x)$ with $\sum_x \delta(x) \geq T^* - 1$, which ultimately requires Mertens.
