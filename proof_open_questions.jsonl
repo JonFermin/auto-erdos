@@ -77,3 +77,4 @@
 {"qid":"Q36","status":"resolved","session_id":"s_0617-145025-99ae","summary":"shadow fraction framework proved, elementary lower bound for p=2 shadow, obstruction theorem for banding approach","ts":"2026-06-17T16:05:37+00:00"}
 {"qid":"Q37","status":"open","session_id":"s_0617-145025-99ae","summary":"column-primitive bound: at most 1 element per stratum, use a_k>=2^k and sum 1/(k2^k)=log2 to get sum<=1 exactly; also bounded-multiplicity generalization","ts":"2026-06-17T16:10:10+00:00"}
 {"qid":"Q37","status":"claimed","session_id":"s_0617-145025-99ae","summary":"claiming Q37: column_primitive_bound via power series sum 1/(k2^k)=log2; first elementary proof of exact bound 1 for this case","ts":"2026-06-17T16:10:10+00:00"}
+{"qid":"Q37","status":"resolved","session_id":"s_0617-145025-99ae","summary":"proved column_primitive_bound (sum<=1 exactly via power series), bounded_multiplicity, power_series_improvement","ts":"2026-06-17T16:11:29+00:00"}

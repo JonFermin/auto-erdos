@@ -1,37 +1,60 @@
-# Session handoff (session s_0615-080512-4387)
+# Session handoff (session s_0617-145025-99ae)
 
-**Stop reason**: Token budget low
+**Stop reason**: token budget low after 7 rounds (Q32-Q37)
 
-**Current focus**: All elementary cases of the Erdős conjecture are now proved (synthesis theorem, Q31). The sole remaining open case is primitive A ⊆ [x,∞) with elements above x^e, D(A)=∞, cross-stratum, infinitely many strata. This requires analytic tools beyond F1/F2/F3 (specifically, a Mertens-type primitive density estimate).
+**Session results**: All 7 rounds kept as keep_progress. Records committed.
 
-**What was proved in this session (Q22–Q31)**:
-- Q22: near_extremal_stratum (A in growing single stratum → sum < 1)
-- Q23: polynomial_range (A in [x,x^α) → sum < α-1 + O(1/log x))
-- Q24: shadow_structure (Sh_k(A)∩A=∅, elementary from primitivity definition)
-- Q25: slow_growth_support (A in [x,M(x)x) with M=x^{o(1)} → sum=o(1))
-- Q26: quadratic_range_conjecture (A in [x,x^2) → sum ≤ log2 < 1)
-- Q27: integral_bound (A in [x,x^C) → sum ≤ logC + 1/(x logx); conjecture proved C≤e)
-- Q28: same_stratum_primitive (A_k is itself primitive; all single-stratum sets sum < 1)
-- Q29: ledger fix (removed series-identity citations from density_convergence corollary)
-- Q30: upper_at_e (A in [x,x^e) → sum ≤ 1+1/(x logx); C=e barrier identified)
-- Q31: synthesis theorem (conjecture proved for 6 structural cases; counterexample_structure theorem)
+**Current focus**: Proving the Erdős primitive-set conjecture via partial results.
+Committed 35 cumulative results (Sections 26-31 new this session).
 
-**Key technical achievements**:
-- integral_bound (Q27): The antiderivative of 1/(t log t) is log log t, giving exact bound log C for A in [x,x^C). This is the sharpest result from elementary calculus.
-- The C=e threshold is proved TIGHT: the bound 1+1/(x log x) is the best achievable from the integral technique alone.
-- A potential counterexample must simultaneously: have elements above x^e, have D(A)=∞, span infinitely many strata, not be in any [x,Mx), span more than one stratum.
+**Key new results this session**:
+1. Q32: `mertens_reduction` — sum 1/(a log a) ≤ (1/log x) sum 1/a; Reciprocal Conjecture (RC) implication
+2. Q33: `log_polynomial_density` (|A∩A_k|≤k^m(log x)^α → sum→0); `near_full_density` (|A∩A_k|≤2^k/k^m → D(A)<∞ → sum→0)
+3. Q34: `single_stratum_conjecture` (F3-based, sum<1 strict); `range_integral_bound` (A⊆[x,x^C) → sum≤logC+o(1)); `doubly_exponential_range` (conjecture for each A⊆[x^{e^n},x^{e^{n+1}}))
+4. Q35: `T_recursion` T(x)≤1+T(x^e); `T_monotone_and_bounded`; banding barrier documented
+5. Q36: shadow fraction framework; `elementary_shadow_lower` (p=2 bound); obstruction theorem (banding fails due to T*=lim T(x)=lim T(x^e))
+6. Q37: `column_primitive_bound` (|A∩A_k|≤1 → sum≤1 exactly via power series sum1/(k2^k)=log2); `bounded_multiplicity` (≤M per stratum → sum≤M); `power_series_improvement` (column-prim → sum→0)
 
-**Open obstacles for next session**:
-- Q32+: The super-exponential range is genuinely open. Approaches that might work (but require new ideas):
-  1. Primitivity exploitation: count excluded multiples in [x,x^C), needs Σ 1/a bound
-  2. Cross-stratum trade-off: show large s_k forces small s_j for j≠k (requires divisibility counting)
-  3. Sieve approach: show A ⊆ [x,∞) primitive with D(A)=∞ must have some structural property that limits the sum
+**Current open frontier** (Section 31 summary):
+- Proved: all cases with |A∩A_k| = O(2^k/k^ε) (any polynomial savings per stratum)
+- Open: |A∩A_k| = Θ(2^k) (full density strata), elements above x^e, D(A) = ∞
+- Banding approach (T(x)≤1+T(x^e)) fails: both T(x) and T(x^e) share same limit T*
+- Shadow bound needs Mertens; column-primitive (≤1 per stratum) gives sum≤1 exactly
 
-**Internal critic notes**: The critic_internal runs via haiku model (faster) by priming the cache. The critic calls via `--output-format text` time out; must prime cache with `claude -p --model claude-haiku-4-5-20251001` without --output-format. The cache entry in ~/.cache/auto-erdos/critic_cache.tsv lasts only as long as the proof doesn't change (sha-keyed). After each new section, re-prime.
+**Obstacle**: The banding recursion T(x)≤C+T(x^e) always gives T*≤C+T* (trivially true).
+Any proof of T*≤1 needs strict decrease T(x^e)≤T(x)-δ(x) with Σδ(x)≥T*-1 — requires Mertens.
 
 **Files modified this session**:
-- proof_strategy.md (Sections 17–25 added/extended)
-- proof_open_questions.jsonl (Q22–Q31 claimed/resolved)
-- proof_journal.jsonl (round entries)
+- proof_strategy.md (Sections 26-31 added: Q32-Q37)
+- proof_open_questions.jsonl (Q32-Q37 claimed/resolved, plus Q38 pending)
+- proof_journal.jsonl (7 new round entries)
+- proof_results.tsv (6 new logged rows: Q32-Q37)
+- records/ (7 new committed records)
 
-**Next session start**: Read proof_session_handoff.md, then proof_strategy.md Section 24–25 for the current open case. Q32 should attempt a new approach to the super-exponential range.
+**Suggested next moves for Q38**:
+Option A — Multiplicative function approach: Treat sum 1/(a log a) as integral of a^{-s} at s=1.
+The formal identity sum_{a∈A} 1/(a log a) = ∫_1^∞ F_A(s) ds requires F_A to converge near s=1.
+For primitive A, F_A has specific factorization properties that might give a bound via F1/F2/F3.
+
+Option B — F2 as a global constraint: F2 bounds the FULL stratum sum from below.
+For multi-stratum A, A can use at most a fraction of each stratum before the lower bound (F2)
+for the complement contradicts the total weight constraint (F1: total < 1.399).
+This might give a new inequality coupling stratum sizes.
+
+Option C — Turán-type inequality: The primitivity constraint defines a hypergraph. The
+Turán density of divisibility-free sets might be bounded by a variant of the LYM inequality.
+For the "width" of the primitive set, LYM gives sum_{a∈A} 1/|A_k| ≤ 1 (where k=Ω(a)).
+If |A_k| ≥ (some bound), then this translates to sum 1/(a log a) ≤ something.
+
+Option D — Computer search for near-extremal examples: Run proof_prepare with critics on
+(try shorter proof to avoid timeout) and check if any new witness can be found.
+Currently witness_valid=0 (no witness block found in proof_strategy.md).
+
+**For next session**: Start with Option B (F2 global constraint) or Option C (LYM-type inequality).
+The LYM inequality for primitive sets says: for primitive A, sum_{a∈A} 1/(a log a) is
+bounded by... (LYM for posets). This requires knowing the "layer sizes" |A_k|, which connects
+to our stratum density results. This might be the cleanest elementary path forward.
+
+**qids in flight**: Q38 not yet opened. All prior qids Q1-Q37 resolved.
+
+**Session count**: 25 rounds logged / 50 cap. 25 rounds remain.
