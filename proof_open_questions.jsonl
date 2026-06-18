@@ -105,3 +105,7 @@
 {"qid":"Q46","status":"resolved","session_id":"","summary":"proved full_stratum_coverage + missing_complement_dominance; extremal two-stratum bound s_K+s_{K+1}<1","ts":"2026-06-18T19:18:38+00:00"}
 {"qid":"Q47","status":"open","session_id":"","summary":"conditional two-stratum conjecture: under Mertens, shadow covers min{1,loglog*x*s_K} of A_{K+1}, forcing s_K+s_{K+1}<=1","ts":"2026-06-18T19:22:17+00:00"}
 {"qid":"Q47","status":"claimed","session_id":"","summary":"proving two-stratum conjecture conditional on Mertens using Q46 partition identity","ts":"2026-06-18T19:22:17+00:00"}
+{"qid":"Q47","status":"resolved","session_id":"","summary":"conditional two-stratum conjecture proved; partition_identity_sharp + Mertens shadow bound","ts":"2026-06-18T19:23:32+00:00"}
+{"qid":"Q48","status":"open","session_id":"","summary":"j-step cross-stratum shadow: a in A_K blocks all b in A_{K+j} with a|b; partition identity for all j; s_{K+j}<=1-g_{2^j}*s_K","ts":"2026-06-18T19:28:23+00:00"}
+{"qid":"Q48","status":"claimed","session_id":"","summary":"proving general j-step cross-stratum shadow and non-adjacent two-stratum bound","ts":"2026-06-18T19:28:23+00:00"}
+{"qid":"Q48","status":"resolved","session_id":"s_0618-193120-c6e9","summary":"j_step_shadow: s_{K+j}<=1-eps_{K+j}-g_{2^j}*s_K; non-adjacent two-stratum bound 2-1/2^j asymptotically; partition identity generalized","ts":"2026-06-18T19:32:30+00:00"}

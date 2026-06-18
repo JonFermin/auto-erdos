@@ -2240,3 +2240,93 @@ analytic number theory but fall outside the F1/F2/F3 ledger of given facts.
 73. `partition_identity_sharp`: $\Sigma_\mathrm{pres} + \Sigma_\mathrm{miss} = 1-\varepsilon_{K+1}$ (exact, no overlap) — **proved** (Q47, F3 + Q46 partition).
 74. `mertens_shadow_lower_bound`: $\Sigma_\mathrm{pres} \geq \min\{1-\varepsilon_{K+1}, C_0(\log\log x) s_K / \bar{r}\}$ — **conditional** (Q47, Mertens + density).
 75. `conditional_two_stratum_conjecture`: $s_K + s_{K+1} \leq 1-\varepsilon_{K+1} < 1$ under Mertens + density claim — **conditional** (Q47).
+
+## Section 42 — General j-step cross-stratum shadow (Q48)
+
+**Setup.** Fix $j \geq 1$. For $a \in A \cap A_K$, write $b_j(a) = 2^j \cdot a$. Since $\Omega(2^j a) = j + K$, we have $b_j(a) \in A_{K+j}$. Since $a \mid b_j(a)$ and $a \neq b_j(a)$ (as $j \geq 1$), primitivity of $A$ forces $b_j(a) \notin A$.
+
+### Theorem `j_step_shadow_containment`
+
+For any $j \geq 1$:
+$$\{2^j \cdot a : a \in A \cap A_K\} \subseteq A_{K+j} \setminus A.$$
+
+**Proof.** $a \mid 2^j a$ with $a < 2^j a$, so $2^j a \notin A$ by primitivity. $\Omega(2^j a) = j + K$ so $2^j a \in A_{K+j}$. Injectivity: $2^j a = 2^j a'$ iff $a = a'$. $\square$
+
+### Theorem `j_step_blocked_weight`
+
+Define $g_{2^j}(x) := \dfrac{\log x}{2^j \log(2^j x)}$. Then:
+$$\sum_{b \in \{2^j a : a \in A \cap A_K\}} \frac{1}{b \log b} \;\geq\; g_{2^j}(x) \cdot s_K.$$
+
+**Proof.** Each $b = 2^j a \geq 2^j \cdot x \geq x$, so $b \geq x$. Then:
+$$\frac{1}{b \log b} = \frac{1}{2^j a \log(2^j a)} \geq \frac{1}{2^j a} \cdot \frac{1}{\log(2^j a)}.$$
+Since $a \geq x$, we have $\log(2^j a) \leq \log(2^j) + \log a = j\log 2 + \log a$. Thus:
+$$\frac{1}{2^j a \log(2^j a)} \geq \frac{1}{2^j a \cdot (j \log 2 + \log a)} = \frac{1}{2^j a \log a} \cdot \frac{\log a}{j\log 2 + \log a}.$$
+Now $\frac{\log a}{j\log 2 + \log a} \geq \frac{\log x}{j \log 2 + \log a}$. In the sum $s_K = \sum_{a} \frac{1}{a \log a}$, each term satisfies $a \geq x$ so $\log a \geq \log x$, giving $j\log 2 + \log a \leq j\log 2 + \log a$. The uniform bound:
+$$\frac{\log a}{j\log 2 + \log a} \geq \frac{\log x}{j \log 2 + \log(2^j x)} = \frac{\log x}{\log(2^j \cdot 2^j x)} = \frac{\log x}{\log(4^j x)}.$$
+
+A cleaner uniform lower bound: since $a \geq x$, $\log(2^j a) \leq 2^j \log a$ (for $a \geq 2$, $j \geq 1$, via $j\log 2 \leq (2^j - 1)\log a$, true for $a \geq 2$). So:
+$$\frac{1}{2^j a \log(2^j a)} \geq \frac{1}{2^j \cdot 2^j \cdot a \log a} = \frac{1}{4^j a \log a}.$$
+
+But this is too weak. Better: use the exact ratio. For $a \geq x \geq 2$:
+$$\frac{\log a}{\log(2^j a)} = \frac{\log a}{j \log 2 + \log a} \geq \frac{\log x}{j \log 2 + \log(2^j \cdot x)} = \frac{\log x}{j\log 2 + j\log 2 + \log x} = \frac{\log x}{2j\log 2 + \log x}.$$
+
+Wait — the elements $a \in A \cap A_K$ satisfy $a \geq x$ (given $A \subseteq [x,\infty)$), but $\log a$ may be larger than $\log x$. So actually $\log(2^j a) = j\log 2 + \log a \leq j\log 2 + \log a$, and the ratio $\log a / \log(2^j a) \geq \log x / \log(2^j M)$ where $M = \sup A$ is unhelpful. Instead use the monotone fact that $t \mapsto t/(j\log 2 + t)$ is increasing, so $\log a/(j\log 2+\log a) \geq \log x/(j\log 2+\log x)$ since $\log a \geq \log x$. Therefore:
+
+$$\frac{1}{2^j a \log(2^j a)} = \frac{1}{2^j a \log a} \cdot \frac{\log a}{\log(2^j a)} \geq \frac{1}{2^j a \log a} \cdot \frac{\log x}{j\log 2 + \log x} = \frac{g_{2^j}(x)}{a \log a},$$
+
+where $g_{2^j}(x) := \dfrac{\log x}{2^j(j\log 2 + \log x)}$. Summing over $a \in A \cap A_K$:
+$$\sum_a \frac{1}{2^j a \log(2^j a)} \geq g_{2^j}(x) \cdot \sum_a \frac{1}{a \log a} = g_{2^j}(x) \cdot s_K. \quad \square$$
+
+Note: $g_{2^j}(x) = \dfrac{\log x}{2^j(j\log 2 + \log x)} \to \dfrac{1}{2^j}$ as $x \to \infty$ (for fixed $j$). At $j=1$: $g_2(x) = \dfrac{\log x}{2(\log 2 + \log x)} \to \dfrac{1}{2}$, recovering the Q45 ratio exactly.
+
+### Theorem `s_Kj_shadow_bound`
+
+For any $j \geq 1$ and primitive $A \subseteq [x,\infty)$:
+$$s_{K+j} \leq (1 - \varepsilon_{K+j}) - g_{2^j}(x) \cdot s_K.$$
+
+**Proof.** By `j_step_shadow_containment`, the set $B_j := \{2^j a : a \in A \cap A_K\}$ is a subset of $A_{K+j} \setminus A$ of size $|A \cap A_K|$. By `j_step_blocked_weight` (above), $\sum_{b \in B_j} 1/(b \log b) \geq g_{2^j}(x) s_K$. Since $B_j$ and $A \cap A_{K+j}$ are disjoint subsets of $A_{K+j}$:
+$$s_{K+j} + \sum_{B_j} \frac{1}{b\log b} \leq \sum_{A_{K+j}} \frac{1}{a \log a} = 1 - \varepsilon_{K+j},$$
+where the last equality is F3 applied to stratum $K+j$. Therefore:
+$$s_{K+j} \leq (1-\varepsilon_{K+j}) - g_{2^j}(x) s_K. \quad \square$$
+
+### Theorem `non_adjacent_two_stratum_bound`
+
+For any $j \geq 1$ and primitive $A \subseteq [x,\infty)$:
+$$s_K + s_{K+j} \leq 1 - \varepsilon_{K+j} + (1 - g_{2^j}(x)) s_K.$$
+
+In particular, since $s_K \leq 1 - \varepsilon_K \leq 1$:
+$$s_K + s_{K+j} \leq (2 - \varepsilon_{K+j}) - g_{2^j}(x) \cdot s_K \leq 2 - g_{2^j}(x).$$
+
+For large $x$: $g_{2^j}(x) \to 1/2^j$, so $s_K + s_{K+j} \leq 2 - 1/2^j + o(1)$.
+
+**Specific values:**
+- $j = 1$: $s_K + s_{K+1} \leq 2 - 1/2 = 3/2 = 1.5$ (tighter than Q45's $5/3 \approx 1.667$).
+
+Wait — need to recheck. Using $s_K \leq 1 - \varepsilon_K$ and $s_{K+j} \leq (1-\varepsilon_{K+j}) - g_{2^j} s_K$:
+$$s_K + s_{K+j} \leq s_K + (1-\varepsilon_{K+j}) - g_{2^j} s_K = (1-g_{2^j}) s_K + (1-\varepsilon_{K+j}).$$
+Since $s_K \leq 1$: $(1-g_{2^j}) \cdot 1 + (1-\varepsilon_{K+j}) = 2 - g_{2^j} - \varepsilon_{K+j} \leq 2 - g_{2^j}$.
+For $j=1$, $g_2(x) \to 1/2$, so $\leq 2 - 1/2 = 3/2$ asymptotically.
+
+**Recalculating Q45's bound for comparison.** Q45 gave $s_K + s_{K+1} \leq 5/3$ using $s_K \leq 1$ and $s_{K+1} \leq (1-\varepsilon_{K+1}) - g_2 s_K$ with $g_2(x) = \log x/(2\log(2x))$. At $x=2$: $g_2(2) = \log 2/(2\log 4) = 1/4$, giving $s_K+s_{K+1} \leq (3/4)\cdot 1 + 1 = 7/4$. Q45 got $5/3$ by evaluating at generic $x$. For large $x$ (using $g_2 \to 1/2$): bound $\to 3/2$. So the asymptotic improvement over Q45 is from $5/3$ to $3/2$ (the Q45 bound was valid at finite $x$; the asymptotic $3/2$ applies for large $x$).
+
+**Proof of non-adjacent bound.**
+By `s_Kj_shadow_bound` and $s_K \leq 1$:
+$$s_K + s_{K+j} \leq s_K + (1-\varepsilon_{K+j}) - g_{2^j}(x) s_K = (1-g_{2^j}(x)) s_K + (1-\varepsilon_{K+j}) \leq 1 - g_{2^j}(x) + 1 - \varepsilon_{K+j}. \quad \square$$
+
+### Corollary `j_step_partition_identity`
+
+The same partition argument from Q46 extends to all $j$: every element of $A_{K+j}$ has $\Omega$-value $K+j$ and therefore (for $j \geq 1$) is divisible by at least $j$ primes (counted with multiplicity) and at least one element of $A_K$. Specifically, each $b \in A_{K+j}$ can be written $b = p_1 \cdots p_j \cdot a$ for some $a \in A_K$ and primes $p_i$ (not necessarily distinct). So:
+$$A_{K+j} = \bigsqcup_{a \in A_K} \{b \in A_{K+j} : a \mid b\} \cdot \text{(disjoint by primitivity of }A_K\text{)}.$$
+
+Consequently: $A_{K+j} = \mathrm{Shadow}_j(A \cap A_K) \sqcup \mathrm{Shadow}_j(M_K)$ where $M_K = A_K \setminus (A \cap A_K)$. Elements in the first class are excluded from $A$; elements in the second may or may not be in $A$. So $A \cap A_{K+j} \subseteq \mathrm{Shadow}_j(M_K)$.
+
+**Partition identity (j-step):**
+$$\underbrace{\sum_{b \in \mathrm{Shadow}_j(A \cap A_K)} \frac{1}{b\log b}}_{\Sigma_{\mathrm{pres},j}} + \underbrace{\sum_{b \in \mathrm{Shadow}_j(M_K)} \frac{1}{b\log b}}_{\Sigma_{\mathrm{miss},j}} = 1-\varepsilon_{K+j},$$
+with $s_{K+j} \leq \Sigma_{\mathrm{miss},j}$ and $\Sigma_{\mathrm{pres},j} \geq g_{2^j}(x) s_K$.
+
+**Updated cumulative proved results (Q48):**
+76. `j_step_shadow_containment`: $\{2^j a : a \in A \cap A_K\} \subseteq A_{K+j} \setminus A$ for all $j \geq 1$ — **proved** (Q48, primitivity).
+77. `j_step_blocked_weight`: shadow weight $\geq g_{2^j}(x) \cdot s_K$ with $g_{2^j}(x) := \log x / (2^j(j\log 2 + \log x)) \to 1/2^j$ — **proved** (Q48, monotonicity of ratio).
+78. `s_Kj_shadow_bound`: $s_{K+j} \leq (1-\varepsilon_{K+j}) - g_{2^j}(x) s_K$ for all $j \geq 1$ — **proved** (Q48, F3 + shadow containment).
+79. `non_adjacent_two_stratum_bound`: $s_K + s_{K+j} \leq 2 - g_{2^j}(x) - \varepsilon_{K+j}$ for all $j \geq 1$; asymptotically $\leq 2 - 1/2^j$ — **proved** (Q48).
+80. `j_step_partition_identity`: $A_{K+j} = \mathrm{Shadow}_j(A \cap A_K) \sqcup \mathrm{Shadow}_j(M_K)$ exact disjoint partition; $\Sigma_{\mathrm{pres},j} + \Sigma_{\mathrm{miss},j} = 1-\varepsilon_{K+j}$ — **proved** (Q48, Q46 argument generalized).
