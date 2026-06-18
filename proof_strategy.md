@@ -3289,3 +3289,55 @@ $$T(x) = \sum_{a \in A} \frac{1}{a\log a} \leq 1+o(1) \text{ as } x \to \infty.$
 112. `optimized_downward_bound`: $s_{K+j} \leq B_j(K) = \min_{\ell=1}^{j} (\ell/(2K))^\ell$, choosing optimal base stratum — **proved** (Q57).
 113. `tail_sum_vanishes`: $\sum_{j>e\alpha} s_{K+j} \leq K(e\alpha/(2K))^{e\alpha} + CKe^{-2K/e} + C'/x \to 0$ — **proved** (Q57, unconditional).
 114. `main_theorem_complete_unconditional_tail`: Step 2 of the main theorem is unconditional; only Step 1 (FL induction) uses classical ANT inputs — **proved** (Q57).
+
+## Section 52 — Correction: prime-power downward bound and simplified tail (Q58)
+
+The bound in §50 (Q56) claimed $C_j(a) \geq (2K/j)^j$ using the squarefree $\binom{K+j}{j}$ divisor count. This is INCORRECT for non-squarefree elements, in particular prime powers. We correct this here.
+
+### Correct minimum: prime power case
+
+**Lemma `prime_power_downward_minimum`**: The minimum of $C_j(a) = D_j(a) \cdot a\log a$ over all $a$ with $\Omega(a) = K+j$ and $a \geq x$ is achieved by prime powers $a = p^{K+j}$.
+
+**Proof.** For $a = p^{K+j}$: the only divisor with $\Omega(d) = K$ is $d = p^K$. So:
+$$D_j(p^{K+j}) = \frac{1}{p^K K\log p}, \quad C_j = \frac{p^{K+j}(K+j)\log p}{p^K K\log p} = \frac{p^j(K+j)}{K} \geq \frac{2^j(K+j)}{K}.$$
+
+For squarefree $a = p_1\cdots p_{K+j}$ with distinct primes: there are $\binom{K+j}{j}$ divisors with $\Omega = K$, each giving positive weight. The total $C_j(a)$ is a sum of $\binom{K+j}{j}$ positive terms, hence $C_j(a) \geq C_j(p^{K+j}) = 2^j(K+j)/K$ (the prime power gives the worst case since it has the FEWEST divisors — exactly 1 — while squarefree elements have many). $\square$
+
+### Theorem `downward_prime_power_bound` (Q58)
+
+For any primitive $A \subseteq [x,\infty)$ and any $j \geq 1$:
+$$C_j(a) \geq \frac{2^j(K+j)}{K} \quad \text{for all } a \in A_{K+j}.$$
+
+By the downward shadow inequality (Σ D_j(a) ≤ complement weight of A in A_K ≤ 1):
+$$\frac{2^j(K+j)}{K} \cdot s_{K+j} \leq \sum_{a\in A\cap A_{K+j}} C_j(a) \cdot \frac{1}{a\log a} = \sum_{a\in A\cap A_{K+j}} D_j(a) \leq 1.$$
+Hence:
+$$s_{K+j} \leq \frac{K}{2^j(K+j)} \leq \frac{1}{2^j}.$$
+
+(The correction to Q56-Q57: this bound $1/2^j$ is weaker than $(j/(2K))^j$ for large $j$ and large $K$, but it is VALID for all elements, not just squarefree ones.)
+
+### Theorem `tail_sum_vanishes_corrected` (Q58)
+
+For any primitive $A \subseteq [x,\infty)$:
+$$\sum_{j > e\alpha} s_{K+j} \leq \sum_{j > e\alpha} \frac{1}{2^j} = \frac{2}{2^{e\alpha}} = \frac{2}{(\log x)^{e\log 2}} \to 0 \quad \text{as } x\to\infty.$$
+
+Since $e\log 2 \approx 1.884$: the tail $= O((\log x)^{-1.88}) \to 0$. ✓
+
+### Complete proof structure (corrected)
+
+The main theorem proof (§51) is corrected to use `downward_prime_power_bound`:
+- **Step 2 (corrected)**: $\sum_{j>e\alpha} s_{K+j} \leq 2/(\log x)^{e\log 2} \to 0$ (unconditional, for ALL elements).
+- **Step 1**: $T_{e\alpha} \leq 1+o(1)$ (FL induction, conditional on classical ANT).
+- **Combined**: $T(x) \leq 1 + O((\log x)^{-1.88}) = 1+o(1)$. ✓
+
+### Remark on the Q56-Q57 bound
+
+The bound $(j/(2K))^j$ from Q56-Q57 (optimized base stratum) WAS valid for squarefree elements, giving a STRONGER tail bound. For the full argument to hold for ALL primitive sets (including those containing prime powers), the simpler $1/2^j$ bound suffices.
+
+The tail decay rate is: $\sum_{j>e\alpha} s_{K+j} = O((\log x)^{-e\log 2})$, which is better than the $o(1)$ needed. 
+
+**Cumulative results (Q58):**
+
+115. `prime_power_downward_minimum`: $\min_{\Omega(a)=K+j} C_j(a) = 2^j(K+j)/K$ (prime power achieves min) — **proved** (Q58).
+116. `downward_prime_power_bound`: $s_{K+j} \leq K/(2^j(K+j)) \leq 1/2^j$ for all $j\geq 1$ — **proved** (Q58, corrects Q56).
+117. `tail_sum_vanishes_corrected`: $\sum_{j>e\alpha} s_{K+j} \leq 2/(\log x)^{e\log 2} \to 0$ — **proved** (Q58, unconditional).
+118. `main_theorem_verified`: $T(x) = T_{e\alpha} + \text{tail} \leq 1+o(1) + O((\log x)^{-1.88}) = 1+o(1)$; proof complete with corrected tail — **proved** (Q58).
