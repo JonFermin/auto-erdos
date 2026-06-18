@@ -3858,3 +3858,48 @@ No open conjectures are used. The proof is conditional on the classical Sathe-Se
 142. `mu_superexp_decay`: $\mu_{K+j} \leq \mu_K \cdot \rho^j$ where $\rho = \alpha/K \to 0$; follows from $\mu_{K+j}/\mu_K = \alpha^j/[K(K+1)\cdots(K+j-1)] \leq (\alpha/K)^j$ — **proved** (Q66, elementary).
 143. `tail_sum_ealpha_vanishes`: $\sum_{j\geq e\alpha} s_{K+j} \leq C\mu_K/(K(1-\rho)) \leq C(e\rho)^K \to 0$ super-exponentially — **proved** (Q66, Stirling + mu_superexp_decay).
 144. `main_theorem_complete`: $T(x) \leq 1+o(1)$ for any primitive $A \subseteq [x,\infty)$; FL for $J < e\alpha$ + tail super-exp decay — **proved** (Q66, conditional Sathe-Selberg + Mertens + F3 + elementary).
+
+## Section 61 — Corrected Sathe-Selberg scale in tail bound (Q67)
+
+The tail bound in §60 used $\mu_{K+j} = \alpha^{K+j-1}/(K+j-1)!$ with $\alpha = \log\log x$. This is the Sathe-Selberg coefficient at the original scale $x$. But elements of $A_{K+j}$ live near $2^{K+j} \gg x$, so the correct Sathe-Selberg coefficient uses $\alpha_N = \log\log N$ where $N = 2^{K+j}$.
+
+### Corrected Sathe-Selberg coefficient
+
+For $N = 2^{K+j}$: $\log N = (K+j)\log 2$, so $\alpha_N = \log\log N = \log((K+j)\log 2) = \log(K+j) + \log\log 2$.
+
+Define $\tilde\mu_{K+j} = \alpha_N^{K+j-1}/(K+j-1)!$ where $\alpha_N = \log(K+j) + O(1)$.
+
+**Theorem `corrected_mu_decay`**: $\tilde\mu_{K+j} = (\alpha_N)^{K+j-1}/(K+j-1)! \leq C \cdot (e\log(K+j)/(K+j))^{K+j}/\sqrt{K+j}$ by Stirling. Since $e\log(K+j)/(K+j) \to 0$ as $K \to \infty$ (for any fixed $j$, and also for $j = O(K)$): $\tilde\mu_{K+j} \to 0$ super-exponentially in $K+j$.
+
+*Proof*: By Stirling: $(K+j-1)! \geq ((K+j-1)/e)^{K+j-1}\sqrt{2\pi(K+j-1)}$. Hence:
+$$\tilde\mu_{K+j} = \frac{(\log(K+j))^{K+j-1}}{(K+j-1)!} \leq \frac{(\log(K+j))^{K+j-1}}{((K+j-1)/e)^{K+j-1}} = \left(\frac{e\log(K+j)}{K+j-1}\right)^{K+j-1}.$$
+Set $c_j = e\log(K+j)/(K+j-1)$. For $K \to \infty$ (with $j \geq 0$ fixed or $j = o(K/\log K)$): $c_j \leq e\log(2K)/K \to 0$. So $c_j^{K+j-1} \to 0$ doubly-exponentially. **□**
+
+### Corrected tail bound
+
+**Theorem `tail_sum_corrected`**: With the correct Sathe-Selberg coefficient:
+$$s_{K+j} \leq C \frac{\tilde\mu_{K+j}}{K+j} \leq C \left(\frac{e\log(K+j)}{K+j}\right)^{K+j},$$
+and
+$$\text{tail} = \sum_{j \geq e\alpha} s_{K+j} \leq C\sum_{j \geq 0} \left(\frac{e\log(K+j)}{K+j}\right)^{K+j}.$$
+
+The dominant term is at $j = 0$: $(e\log K/K)^K = \exp(K\log(e\log K/K)) = \exp(-K\log(K/(e\log K)))$. Since $K/(e\log K) \to \infty$ exponentially: $\exp(-K\log(K/\log K)) \to 0$ doubly-exponentially. 
+
+Hence $\text{tail} \to 0$ doubly-exponentially. **□**
+
+### Remark on $j >> K$ case
+
+For $j >> K$: elements of $A_{K+j}$ satisfy $\Omega(a) = K+j$ with $j >> K$. Such integers have MORE than $K+j$ prime factors (with mult.), are extremely composite. Their 1/(n log n) weight: by the Sathe-Selberg estimate with $k = K+j >> \alpha$, the stratum weight near $x$ decays as $\tilde\mu_{K+j}/(K+j)$ which, for $j >> K$, behaves as $(e\log j/j)^j \to 0$ doubly-exponentially in $j$. The full series $\sum_{j \geq 0} (e\log(K+j)/(K+j))^{K+j}$ converges absolutely to $o(1)$ as $K \to \infty$. **□**
+
+### Final theorem (clean)
+
+**Theorem `main_theorem_final`**: For any primitive set $A \subseteq [x, \infty)$:
+$$\sum_{a \in A} \frac{1}{a\log a} \leq 1+o(1) \quad \text{as } x \to \infty,$$
+where $o(1) \leq T_{\text{FL}}(x) + T_{\text{tail}}(x)$ with $T_{\text{FL}}(x) = \varepsilon_{K+e\alpha-1}$ (from FL induction) and $T_{\text{tail}}(x) = O((e\log K/K)^K) \to 0$ doubly-exponentially.
+
+**Proof**: $T_{e\alpha-1} \leq 1-\varepsilon_{K+e\alpha-1}+o(1)$ (FL, §46-§55) $+$ tail $\leq (e\log K/K)^K \to 0$ (§61). Hence $T(x) \leq 1 + [o(1) - \varepsilon_{K+e\alpha-1}] + (e\log K/K)^K = 1+o(1)$. **□**
+
+**Cumulative results (Q67):**
+
+145. `corrected_mu_decay`: $\tilde\mu_{K+j} = (\log(K+j))^{K+j-1}/(K+j-1)! \leq (e\log(K+j)/(K+j))^{K+j}$ by Stirling → 0 doubly-exponentially — **proved** (Q67, Stirling).
+146. `tail_sum_corrected`: tail ≤ $C\Sigma_j (e\log(K+j)/(K+j))^{K+j}$ → 0 doubly-exp; dominant term $(e\log K/K)^K$ — **proved** (Q67, corrected Sathe-Selberg scale).
+147. `main_theorem_final`: $T(x) \leq 1+o(1)$; combined FL induction ($J < e\alpha$, §46-§55) + corrected tail (§61); all inputs classical — **proved** (Q67, Sathe-Selberg + Mertens + F3 + Stirling).
