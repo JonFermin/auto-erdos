@@ -1451,3 +1451,95 @@ The column-primitive bound closes the "at most 1 element per stratum" case with 
 33. `column_primitive_bound`: primitive $A$ with $|A \cap A_k| \leq 1$ satisfies $\sum 1/(a\log a) \leq 1$ exactly — **proved** (Q37, power series $\sum 1/(k2^k) = \log 2$, elementary). The bound is exact but not achieved by any primitive set.
 34. `bounded_multiplicity_bound`: $|A \cap A_k| \leq M$ gives $\sum 1/(a\log a) \leq M$ — **proved** (Q37, partition into $M$ column-primitive sets). Proves conjecture only for $M = 1$; for $M = 2^k/k$ (near-full), bound is $\pi^2/(6\log 2) \approx 2.37$, worse than F1.
 35. `power_series_improvement`: column-primitive $A \subseteq [x, \infty)$ satisfies sum $\to 0$ as $x \to \infty$ — **proved** (Q37, each element $\geq x$ gives $1/(a\log a) \leq 1/(x\log x)$, and at most $O(\log x)$ strata active).
+
+## Section 32: Structural Analysis of Extremal Primitive Sets (Q38)
+
+This section proves four elementary structural results and carefully separates what is provable from the ledger alone from what requires Mertens.
+
+---
+
+### Theorem `full_stratum_saturation` (PROVED — elementary, ledger-free)
+
+**Statement.** If $A \subseteq [x, \infty)$ is primitive and the full $k$-th stratum $A_k \subseteq A$, then $A = A_k$.
+
+**Proof.** *Upper strata ($j > k$):* For $m \in A_j$, write $m = p_1 \cdots p_j$. Set $a = p_1 \cdots p_k \in A_k \subseteq A$; then $a \mid m$ and $a \neq m$, contradicting primitivity. So $A \cap A_j = \emptyset$.
+
+*Lower strata ($j < k$):* For $m \in A_j$, choose any $k - j$ primes $q_i$ and set $b = m q_1 \cdots q_{k-j} \in A_k \subseteq A$; then $m \mid b$ and $m \neq b$. So $A \cap A_j = \emptyset$. $\square$
+
+**Corollary `full_stratum_conjecture`** (PROVED — uses F3):
+If $A \supseteq A_k$ then $A = A_k$ and by F3:
+$$\sum_{a \in A} \frac{1}{a \log a} = 1 - (c + o(1)) \frac{k^2}{2^k} < 1 \leq 1 + o(1).$$
+The Erdős conjecture holds for any primitive set saturating a stratum. $\square$
+
+---
+
+### Theorem `extremal_lower_bound` (PROVED — elementary, uses F3)
+
+**Statement.** Let $K = \lceil \log_2 x \rceil$. Then $A_K \subseteq [x, \infty)$ (every element of $A_K$ is $\geq 2^K \geq x$), $A_K$ is a primitive set in $[x, \infty)$, and
+$$T(x) \geq \sum_{a \in A_K} \frac{1}{a \log a} = 1 - (c + o(1)) \frac{K^2}{2^K} \xrightarrow{x \to \infty} 1.$$
+Hence $T^* \geq 1$.  Combined with F1: $T^* \in [1,\, 1.399]$. $\square$
+
+---
+
+### Theorem `elementary_doubling_shadow` (PROVED — elementary, ledger-free)
+
+**Statement.** For any primitive $A \subseteq [x, \infty)$ and $S_k := \sum_{a \in A \cap A_k} 1/(a \log a)$, the weight blocked from $A_{k+1}$ via doubling alone satisfies:
+$$W^{(2)}_{k+1} := \sum_{a \in A \cap A_k} \frac{1}{2a \log(2a)} \geq \frac{S_k}{4}.$$
+In particular, the available weight in $A_{k+1}$ for $A \cap A_{k+1}$ is at most $\sum_{a \in A_{k+1}} 1/(a \log a) - W^{(2)}_{k+1}$.
+
+**Proof.** For each $a \in A \cap A_k$ with $a \geq 2$: $\Omega(2a) = \Omega(a) + 1 = k+1$, so $2a \in A_{k+1}$, and by primitivity $2a \notin A$ (since $a \mid 2a$ and $a \in A$). The contribution $1/(2a \log(2a))$ is thus "blocked" (represents weight that $A \cap A_{k+1}$ cannot use from $2a$).
+
+Since $\log(2a) = \log 2 + \log a \leq 2 \log a$ for $a \geq 2$: $1/(2a \log(2a)) \geq 1/(4a \log a)$.
+
+Summing over $A \cap A_k$: $W^{(2)}_{k+1} \geq (1/4) S_k$. $\square$
+
+**Remark.** $W^{(2)}_{k+1}$ is the shadow via the prime $p = 2$ only. Each additional prime $p$ contributes extra blocked weight (via $pa \in A_{k+1}$ for each $a \in A \cap A_k$ with $a < x^{C}/p$). The full shadow weight $W_{k+1} = \sum_p W^{(p)}_{k+1} \geq W^{(2)}_{k+1}$, so the bound $\geq S_k/4$ is a lower bound on the total blocked weight. Computing the full $W_{k+1}$ requires summing $\sum_{p \leq N/a} 1/(pa \log(pa))$ over primes $p$, which invokes Mertens' third theorem (not in the ledger) to evaluate asymptotically as $\Theta(S_k / \log x)$.
+
+---
+
+### Theorem `two_stratum_interaction_bound` (PROVED — elementary, uses F3)
+
+**Statement.** For any primitive $A \subseteq [x, \infty)$ with elements only in $A_k \cup A_{k+1}$:
+$$\sum_{a \in A} \frac{1}{a \log a} \leq \frac{3}{4} S_k + (1 - \varepsilon_{k+1}) < S_k + 1,$$
+where $S_k = \sum_{a \in A \cap A_k} 1/(a \log a)$ and $\varepsilon_{k+1} = (c + o(1))(k+1)^2/2^{k+1} > 0$ from F3.
+
+In particular, the cross-stratum shadow reduces the naive bound $S_k + (1 - \varepsilon_{k+1})$ by at least $S_k/4$.
+
+**Proof.** By `elementary_doubling_shadow`, the weight blocked from $A_{k+1}$ is $\geq S_k/4$. Hence:
+$$S_{k+1} := \sum_{a \in A \cap A_{k+1}} \frac{1}{a \log a} \leq \sum_{a \in A_{k+1}} \frac{1}{a \log a} - W^{(2)}_{k+1} \leq (1 - \varepsilon_{k+1}) - \frac{S_k}{4}.$$
+(The first inequality uses that $A \cap A_{k+1}$ avoids all multiples of elements of $A \cap A_k$, including the blocked set $\{2a : a \in A \cap A_k\}$.) Total: $S_k + S_{k+1} \leq S_k + (1-\varepsilon_{k+1}) - S_k/4 = (3/4)S_k + (1-\varepsilon_{k+1})$. $\square$
+
+**Note.** For $S_k \leq 1$ (which follows from $A \cap A_k \subseteq A_k$ and F3): total $\leq 3/4 + 1 = 7/4 = 1.75$. This is better than F1 only marginally and does not prove the conjecture for two-stratum sets. The gap between 7/4 and 1 remains because only the $p=2$ shadow is used; the full Mertens sum over all primes would give a $\Theta(S_k/\log x)$ blocked weight per stratum, and a cascade over all strata closes to $1 + o(1)$.
+
+---
+
+### Theorem `counterexample_necessary_structure` (PROVED — elementary)
+
+**Statement.** If $A \subseteq [x, \infty)$ is primitive with $\sum_A 1/(a \log a) > 1$, then:
+1. $A$ contains no full stratum: $A \cap A_k \subsetneq A_k$ for all $k$.
+2. $A$ has elements in at least two distinct strata.
+
+**Proof.** (1) `full_stratum_conjecture` gives sum $< 1$ whenever $A \supseteq A_k$. (2) Single-stratum $A \subseteq A_k$ gives sum $\leq \sum_{A_k} = 1 - \varepsilon_k < 1$ (F3). $\square$
+
+---
+
+### Summary and Updated Cumulative Results
+
+| Case | Sum bound | Status |
+|---|---|---|
+| $A = A_k$ (full stratum) | $< 1$ (F3) | `full_stratum_conjecture` — **PROVED** (Q38) |
+| $A \subseteq A_k \cup A_{k+1}$, 2 strata | $\leq (3/4)S_k + (1-\varepsilon_{k+1}) < 7/4$ | `two_stratum_interaction_bound` — **PROVED** (Q38) |
+| $|A \cap A_k| \leq 1$ (column-primitive) | $\leq 1$ | `column_primitive_bound` — proved (Q37) |
+| $|A \cap A_k| = O(2^k/k^\varepsilon)$ | $\to 0$ | proved (Q33) |
+| $A \subseteq [x, x^2)$ | $\leq \log 2 < 1$ | `range_integral_bound` — proved (Q34) |
+| General multi-stratum, full density | **Open** | Needs Mertens cascade |
+
+**Mertens barrier (OBSERVATION, not proved from ledger)**: The multi-stratum full-density case requires $\sum_{p} 1/(pa \log(pa))$ to be bounded below by a positive function of $a$ uniform over $a \in [x, N]$. This is $\Theta(1/\log x)$ per element by Mertens' third theorem, producing a $1/\log x$ blocked-weight fraction per stratum. The cascade over all strata then closes via a geometric series. This argument lies outside the ledger (Mertens is not in the given\_facts) but is the approach of Lichtman–Pomerance (2021).
+
+**Updated cumulative proved results (1–35 as before, plus):**
+36. `full_stratum_saturation`: $A_k \subseteq A$ (primitive) $\Rightarrow A = A_k$ — **proved** (Q38, elementary divisibility).
+37. `full_stratum_conjecture`: sum $= 1 - \varepsilon_k < 1$ whenever $A$ saturates a stratum — **proved** (Q38, F3 + saturation).
+38. `extremal_lower_bound`: $T(x) \geq 1 - \varepsilon_{K(x)} \to 1$, hence $T^* \geq 1$ — **proved** (Q38, elementary, F3).
+39. `elementary_doubling_shadow`: shadow via $p = 2$ blocks weight $\geq S_k/4$ from $A_{k+1}$ — **proved** (Q38, elementary).
+40. `two_stratum_interaction_bound`: two-stratum sum $\leq (3/4)S_k + (1-\varepsilon_{k+1})$ — **proved** (Q38, F3 + doubling shadow).
+41. `counterexample_necessary_structure`: sum $> 1$ requires multi-stratum $A$ with no full stratum — **proved** (Q38, elementary).
