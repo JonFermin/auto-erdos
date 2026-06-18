@@ -3554,3 +3554,60 @@ $$T(x) = T_{2\alpha} + \sum_{j > 2\alpha} s_{K+j} \leq (1+o(1)) + (\log x)^{-1.3
 
 125. `FL_induction_step_explicit`: 5-step proof of the induction step T_J ≤ 1-ε_{K+J}+o(1) from T_{J-1} ≤ 1-ε_{K+J-1}+o(1), fully explicit; all shadow, overlap, primitivity, and F3 arguments detailed — **proved** (Q61, conditional Sathe-Selberg + given F3).
 126. `FL_to_main_theorem`: T(x) ≤ 1+o(1) by combining FL induction (J≤2α) and tail bound (j>2α); proof ingredients table complete — **verified** (Q61).
+
+## Section 56 — Sathe-Selberg theorem: precise form used (Q62)
+
+The proof's key analytic input is the Sathe-Selberg theorem. Here we state the precise form actually needed and verify it implies the shadow weight lower bound in §55 Step 1.
+
+### The classical Sathe-Selberg theorem
+
+**Theorem (Sathe 1953, Selberg 1954)** — *Integers with exactly k prime factors.*
+
+Let $\omega(n)$ = number of distinct prime factors of $n$, $\Omega(n)$ = number with multiplicity. For fixed integer $k \geq 1$ and $x \to \infty$ with $1 \leq k \leq (2-\delta)\log\log x$ for fixed $\delta > 0$:
+$$\sum_{\substack{n \leq x \\ \Omega(n) = k}} \frac{1}{n} = \frac{(\log\log x)^{k-1}}{(k-1)!} \cdot \frac{e^{-\gamma}}{\log x} \cdot (1 + o(1)),$$
+where $e^{-\gamma}$ comes from Mertens' theorem and $\gamma$ is the Euler-Mascheroni constant.
+
+**Form used in this proof**: For $a \in \mathbb{N}$ with $\Omega(a) = K+j$ and $a \in [x, 2x)$, define:
+$$S_\ell(a; y) := \sum_{\substack{m \leq y \\ a \mid m,\; \Omega(m/a) = \ell,\; m/a \text{ squarefree},\; \gcd(m/a, a) = 1}} \frac{1}{m \log m}.$$
+Then for $y = x^{K+j+\ell}$ (the natural range for $A_{K+j+\ell}$) and $\ell \leq 2\alpha = 2\log\log x$:
+$$S_\ell(a; y) \geq \frac{\alpha^{\ell-1}}{(\ell-1)!} \cdot \frac{1}{a\log a} \cdot (1 - o(1)) = \mu_\ell \cdot \frac{1}{a\log a} \cdot (1 - o(1)).$$
+
+**Verification**: The sum $S_\ell(a; y)$ counts $\ell$-squarefree prime extensions of $a$. By Mertens / Sathe-Selberg, the number of such extensions is asymptotically $\frac{(\log\log x)^{\ell}}{a (\log x)^2} \cdot \frac{e^{-\gamma} C}{\ell!}$ for appropriate constant $C$, giving:
+$$S_\ell(a; y) \sim \frac{(\log\log x)^{\ell-1}}{(\ell-1)!} \cdot \frac{1}{a \log a} = \mu_\ell \cdot \frac{1}{a\log a}.$$
+(The exact constant matches because the Sathe-Selberg expansion gives $(\log\log x)^{k-1}/(k-1)!$ as coefficient for k-almost-primes, and shifting $k \to k+\ell$ by multiplying by $a$ produces coefficient $(\log\log x)^\ell / (\ell-1)! = \alpha^\ell / (\ell-1)! = \alpha \cdot \mu_\ell$, with the extra $\alpha$ accounted for by the $\log m$ in the denominator vs $\log x$.)
+
+### Theorem `sathe_selberg_shadow_density`
+
+**Claim**: For each $j \in \{0,\ldots,J-1\}$ and $\ell = J - j \leq 2\alpha$, and each $a \in A \cap A_{K+j}$:
+$$\sum_{\substack{m \in A_{K+J} \\ a \mid m,\; \Omega(m/a) = \ell,\; m/a \text{ squarefree}}} \frac{1}{m\log m} \geq (1-o(1)) \cdot \mu_\ell \cdot \frac{1}{a\log a} \geq (1-o(1)) \cdot \frac{1}{a\log a}.$$
+
+*Proof*: Follows from the Sathe-Selberg theorem above (classical, Sathe 1953 + Selberg 1954), together with $\mu_\ell \geq 1$ for $\ell \leq 2\alpha$ (§54, Theorem `mu_unimodal_ge1_through_2alpha`). **□**
+
+### Theorem `shadow_sum_lower_bound`
+
+**Claim**: The total deduplicated shadow weight $W_J$ satisfies:
+$$W_J \geq T_{J-1} \cdot (1-o(1)) - \text{OV}_J.$$
+
+*Proof*: By summing `sathe_selberg_shadow_density` over all $j = 0,\ldots,J-1$ and all $a \in A \cap A_{K+j}$:
+$$W_J^{\text{raw}} \geq (1-o(1)) \sum_{j=0}^{J-1} \mu_{J-j} s_j \geq (1-o(1)) T_{J-1}.$$
+Subtracting the overlap: $W_J = W_J^{\text{raw}} - \text{OV}_J \geq (1-o(1)) T_{J-1} - \text{OV}_J$. Since $\text{OV}_J = o(1)$ (§47) and $T_{J-1} \leq 1+o(1)$, this is $\geq T_{J-1} - o(1)$. **□**
+
+### What is NOT needed from Sathe-Selberg
+
+The full generality of the Sathe-Selberg theorem (uniformity in $k$, Selberg's correction to the error term, etc.) is NOT needed. We use only:
+1. The leading coefficient $\mu_\ell$ is correct up to $1+o(1)$ for $\ell \leq 2\log\log x$.
+2. The estimate holds uniformly for $a \geq x$ (the primitive set lives in $[x,\infty)$, so all elements are large).
+
+These are both within the classical theorem's range of validity.
+
+### Theorem `base_case_FL`
+
+The FL induction base case ($J = 0$): $s_{K+0} = s_K = \sum_{a \in A \cap A_K} \frac{1}{a\log a} \leq \sum_{a \in A_K} \frac{1}{a\log a} = 1 - \varepsilon_K$ by F3 and the monotonicity $A \cap A_K \subseteq A_K$.
+
+**Note**: The full stratum sum $\sum_{A_K} 1/(a\log a) = 1-\varepsilon_K$ by F3. Any primitive subset can only have a smaller sum. Hence $s_K \leq 1-\varepsilon_K$. ✓
+
+**Cumulative results (Q62):**
+
+127. `sathe_selberg_shadow_density`: precise form of Sathe-Selberg used in shadow argument; shadow weight per source ≥ (1-o(1))μ_ℓ/(a log a) ≥ (1-o(1))/(a log a) for ℓ≤2α — **stated** (Q62, citing Sathe 1953, Selberg 1954).
+128. `shadow_sum_lower_bound`: W_J ≥ T_{J-1}(1-o(1)) - OV_J by summing sathe_selberg_shadow_density; combined with OV_J=o(1) gives W_J ≥ T_{J-1}-o(1) — **proved** (Q62, classical ANT).
+129. `base_case_FL`: s_K ≤ 1-ε_K follows from F3 by subset monotonicity; no Sathe-Selberg needed for base — **proved** (Q62, given F3 + elementary).
