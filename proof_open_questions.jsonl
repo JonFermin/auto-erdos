@@ -96,3 +96,6 @@
 {"qid":"Q43","status":"resolved","session_id":"s_0618-174505-0e6d","summary":"proved T(2)>1 via {2,3} and T(2)>=1.213 via {2,3,5,7}; log bounds proved","ts":"2026-06-18T18:57:05+00:00"}
 {"qid":"Q44","status":"open","session_id":"s_0618-174505-0e6d","summary":"convergence_rate_stratum: epsilon_{K+j} decays exponentially as c(K+j)^2/2^{K+j}; j=O(log(1/eps)) strata needed; explicit T(x) lower bound formula","ts":"2026-06-18T18:57:05+00:00"}
 {"qid":"Q44","status":"claimed","session_id":"s_0618-174505-0e6d","summary":"claiming Q44","ts":"2026-06-18T18:57:05+00:00"}
+{"qid":"Q44","status":"resolved","session_id":"","summary":"stratum_gap_formula + convergence_rate proved; epsilon_{K+j} decays exponentially","ts":"2026-06-18T19:00:17+00:00"}
+{"qid":"Q45","status":"open","session_id":"","summary":"cross-stratum blocking lemma: shadow of A_K forces s_{K+1} below 1-s_K for large x","ts":"2026-06-18T19:07:48+00:00"}
+{"qid":"Q45","status":"claimed","session_id":"","summary":"proving two-stratum bound via doubling shadow, no Mertens","ts":"2026-06-18T19:07:48+00:00"}

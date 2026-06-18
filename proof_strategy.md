@@ -1929,3 +1929,125 @@ The conjecture asserts that $T(x) \to 1$ (the lower end), so the upper bound mus
 60. `stratum_gap_formula`: $\varepsilon_{K+j} = (c+o(1))(K+j)^2/2^{K+j} = \varepsilon_K \cdot (1+j/K)^2/2^j$ — **proved** (Q44, F3 + algebra).
 61. `convergence_rate_stratum`: $\varepsilon_{K+j} = O(j^2/2^j)$ exponential convergence — **proved** (Q44, F3).
 62. `T_lower_bound_formula`: $T(x) \geq 1 - (c+o(1))m^2/2^m$ for any $m \geq K(x)$ — **proved** (Q44, F3).
+
+---
+
+## Section 39 — Cross-stratum blocking and two-stratum sum bound (Q45)
+
+**Setup.** Fix $x \geq 4$, $K = K(x) = \lceil \log_2 x \rceil$. Let $A \subseteq [x,\infty)$ be primitive with elements
+in strata $K$ and $K+1$ only. Write
+$$s_k = \sum_{a \in A \cap A_k} \frac{1}{a \log a}, \quad k \in \{K, K+1\}.$$
+The goal is a rigorous upper bound on $s_K + s_{K+1}$ using only F3 and elementary computation.
+
+**Key observation.** For any $a \in A \cap A_K$ and prime $p$, the product $ap$ satisfies $\Omega(ap) = K+1$,
+so $ap \in A_{K+1}$. Since $a \geq x$ and $p \geq 2$, we have $ap \geq 2x > x$, so $ap \in A_{K+1} \cap [x,\infty)$.
+By primitivity of $A$: $a \in A$ and $a \mid ap$, so $ap \notin A$.
+
+### Definition `stratum_shadow`
+
+For a primitive $A \subseteq [x,\infty)$ and $k \geq K$, define
+$$\mathrm{Shadow}_k(A) := \{ap : a \in A \cap A_k,\ p \text{ prime}\} \subseteq A_{k+1}.$$
+By the observation above, $\mathrm{Shadow}_K(A) \cap A = \emptyset$.
+
+### Theorem `shadow_containment` (PROVED — primitivity)
+
+**Statement.** For any prime $q$, the set $\{qa : a \in A \cap A_K\}$ is a subset of
+$\mathrm{Shadow}_K(A)$ consisting of pairwise distinct elements of $A_{K+1} \setminus A$.
+
+**Proof.** Each $qa$ has $\Omega(qa) = K+1$ (since $\Omega(a)=K$, $\Omega(q)=1$), so $qa \in A_{K+1}$.
+The elements $\{qa\}$ are distinct since $a$ ranges over distinct positive integers.
+They lie in $A_{K+1} \cap [x,\infty)$ since $qa \geq qx \geq 2x > x$.
+By primitivity: $a \mid qa$ and $a \in A$ imply $qa \notin A$. $\square$
+
+### Theorem `blocked_weight_lower_bound` (PROVED — primitivity + F3)
+
+**Statement.** Using only $q=2$:
+$$\sum_{b \in \mathrm{Shadow}_K(A)} \frac{1}{b \log b}
+  \geq \sum_{a \in A \cap A_K} \frac{1}{2a \log(2a)}
+  \geq s_K \cdot g_2(x),$$
+where $g_2(x) := \dfrac{\log x}{2(\log x + \log 2)}$.
+
+**Proof.** By `shadow_containment`, $\{2a : a \in A \cap A_K\} \subseteq \mathrm{Shadow}_K(A)$ (distinct elements).
+So $\sum_{\mathrm{Shadow}} 1/(b\log b) \geq \sum_a 1/(2a\log(2a))$.
+
+For each $a \geq x$:
+$$\frac{1}{2a\log(2a)} = \frac{1}{a \log a} \cdot \frac{\log a}{2\log(2a)} = \frac{1}{a\log a} \cdot \frac{1}{2(1 + \log 2/\log a)}.$$
+Since $a \geq x$ implies $\log a \geq \log x$, the ratio $\log a/(2\log(2a)) \geq \log x / (2\log(2x)) = g_2(x)$.
+Summing: $\sum_a 1/(2a\log(2a)) \geq g_2(x) \cdot s_K$. $\square$
+
+**Values of $g_2(x)$:**
+
+| $x$ | $\log x$ | $g_2(x) = \log x/(2\log x + 2\log 2)$ |
+|---|---|---|
+| $4 = 2^2$ | $2\log 2$ | $2\log2/(4\log2+2\log2) = 1/3 \approx 0.333$ |
+| $e^{10} \approx 22026$ | $10$ | $10/21.386 \approx 0.467$ |
+| $e^{100}$ | $100$ | $100/201.386 \approx 0.497$ |
+| $x \to \infty$ | $\to\infty$ | $\to 1/2$ |
+
+### Theorem `s_K1_shadow_bound` (PROVED — F3 + `blocked_weight_lower_bound`)
+
+**Statement.** For $A \subseteq [x,\infty)$ primitive with elements in strata $K$ and $K+1$:
+$$s_{K+1} \leq (1 - \varepsilon_{K+1}) - g_2(x) \cdot s_K.$$
+
+**Proof.** By F3: $\sum_{b \in A_{K+1}} 1/(b\log b) = 1 - \varepsilon_{K+1}$.
+Decompose: $A_{K+1} = (A_{K+1} \cap A) \sqcup (A_{K+1} \setminus A)$, so
+$$s_{K+1} = \sum_{b \in A \cap A_{K+1}} \frac{1}{b\log b} \leq \sum_{b \in A_{K+1} \setminus \mathrm{Shadow}_K(A)} \frac{1}{b\log b}$$
+since $A \cap A_{K+1} \subseteq A_{K+1} \setminus \mathrm{Shadow}_K(A)$ (shadow is disjoint from $A$).
+Therefore:
+$$s_{K+1} \leq (1-\varepsilon_{K+1}) - \sum_{b \in \mathrm{Shadow}_K(A)} \frac{1}{b\log b} \leq (1-\varepsilon_{K+1}) - g_2(x) s_K. \quad\square$$
+
+### Theorem `two_stratum_sum_bound` (PROVED — F3 + `s_K1_shadow_bound`)
+
+**Statement.** For $A \subseteq [x,\infty)$ primitive with $x \geq 4$, elements only in strata $K$ and $K+1$:
+$$s_K + s_{K+1} \leq (1 - g_2(x)) s_K + (1 - \varepsilon_{K+1}).$$
+In particular, using $s_K \leq 1 - \varepsilon_K \leq 1$ and $g_2(x) \geq 1/3$ (for $x \geq 4$):
+$$s_K + s_{K+1} \leq \frac{2}{3}(1 - \varepsilon_K) + (1 - \varepsilon_{K+1}) \leq \frac{5}{3} - \varepsilon_K - \varepsilon_{K+1}$$
+and asymptotically (as $x \to \infty$, $g_2(x) \to 1/2$, $\varepsilon_K, \varepsilon_{K+1} \to 0$):
+$$\limsup_{x \to \infty}\ (s_K + s_{K+1}) \leq \frac{1}{2} s_K + 1 \leq \frac{3}{2}.$$
+
+**Proof.** Add $s_K$ to both sides of `s_K1_shadow_bound`:
+$s_K + s_{K+1} \leq s_K + (1-\varepsilon_{K+1}) - g_2(x) s_K = (1-g_2(x)) s_K + (1-\varepsilon_{K+1})$.
+Bound $s_K \leq 1-\varepsilon_K \leq 1$ and $g_2(x) \geq 1/3$. $\square$
+
+**Comparison with prior bounds:**
+- Zhang bound (F1): any primitive $A$ has total sum $< 1.399$, no stratum restriction.
+- `refined_doubling_shadow` (Q35): two-stratum asymptotic bound $\leq 3/2$.
+- `two_stratum_sum_bound` (Q45): **proves** the $3/2$ asymptotic rigorously with explicit $g_2(x)$.
+
+### Theorem `three_prime_shadow_ratio` (PROVED — explicit prime computation)
+
+**Statement.** For any prime $p \in \{2, 3, 5\}$ and any $a \geq x$, the ratio
+$$r_p(a) := \frac{1/(pa \log(pa))}{1/(a\log a)} = \frac{\log a}{p \log(pa)}
+= \frac{1}{p(1 + \log p / \log a)}$$
+satisfies $r_p(a) \geq r_p(x) = \frac{1}{p(1 + \log p / \log x)}$, and the sum
+$$r_2(x) + r_3(x) + r_5(x) = \frac{1}{2(1+\tfrac{\log2}{\log x})} + \frac{1}{3(1+\tfrac{\log3}{\log x})} + \frac{1}{5(1+\tfrac{\log5}{\log x})}.$$
+As $x \to \infty$, this approaches $1/2 + 1/3 + 1/5 = 31/30 > 1$.
+
+**Explicit threshold.** At $x = e^{1000}$ ($\log x = 1000$):
+$$r_2 + r_3 + r_5 \approx \frac{1}{2.00069} + \frac{1}{3.00110} + \frac{1}{5.00161} \approx 0.4998 + 0.3330 + 0.1999 = 1.0327 > 1. \checkmark$$
+At $x = e^{50}$ ($\log x = 50$):
+$$r_2+r_3+r_5 \approx \frac{1}{2.0139} + \frac{1}{3.0220} + \frac{1}{5.0322} \approx 0.4966 + 0.3311 + 0.1987 = 1.0264 > 1. \checkmark$$
+At $x = e^{20}$: $r_2+r_3+r_5 \approx 0.491+0.319+0.190 = 1.000$. Threshold near $x = e^{20}$.
+
+### Observation `three_prime_two_stratum_claim` (CLAIM — double-counting not yet fully bounded)
+
+**Statement.** For $x \geq e^{20}$ (approximately), if the elements $\{2a\}$, $\{3a\}$, $\{5a\}$
+for $a \in A \cap A_K$ have no pairwise overlaps (i.e., $2a \neq 3a'$ and $2a \neq 5a'$ and $3a \neq 5a'$
+for all $a \neq a' \in A \cap A_K$), then $\sum_{\mathrm{Shadow}_K} 1/(b\log b) \geq (r_2+r_3+r_5) s_K > s_K$,
+and therefore $s_{K+1} \leq (1-\varepsilon_{K+1}) - s_K$, giving $s_K + s_{K+1} < 1$.
+
+**Status: CLAIM (not proved here).** The overlap condition requires an additional primitivity or density argument.
+The overlap case $2a = 3a'$ requires $a' = 2a/3$; if $3 \nmid a$ for all $a \in A \cap A_K$, the overlap
+is empty. For general primitive sets, an explicit overlap bound is needed to promote this to PROVED.
+
+**Blocking implication.** Even without the claim, `two_stratum_sum_bound` already proves:
+- $s_K + s_{K+1} \leq (1 - g_2(x)) + (1-\varepsilon_{K+1}) \to 3/2$ as $x \to \infty$.
+- For a single stratum ($s_K$ or $s_{K+1}$ alone): sum $< 1$ by F3.
+- The conjecture requires showing the two contributions TOGETHER stay $< 1 + o(1)$ even when summed over all strata.
+
+**Updated cumulative proved results (Q45):**
+63. `shadow_containment`: $\{qa : a \in A \cap A_K\} \subseteq \mathrm{Shadow}_K(A) \setminus A$ (distinct) — **proved** (Q45, primitivity).
+64. `blocked_weight_lower_bound`: shadow weight $\geq g_2(x) \cdot s_K$ using $q=2$ only — **proved** (Q45, F3).
+65. `s_K1_shadow_bound`: $s_{K+1} \leq (1-\varepsilon_{K+1}) - g_2(x) s_K$ — **proved** (Q45, F3 + shadow).
+66. `two_stratum_sum_bound`: $s_K + s_{K+1} \leq (1-g_2(x)) s_K + 1 \leq 5/3$ for $x \geq 4$ — **proved** (Q45).
+67. `three_prime_shadow_ratio`: ratio $r_2+r_3+r_5 \to 31/30 > 1$ as $x \to \infty$; explicit at $x=e^{20}$ — **proved** (Q45).
