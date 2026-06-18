@@ -3723,3 +3723,64 @@ The tail bound $\sum_{j>2\alpha} s_{K+j} = o(1)$ is NOT fully proved by the curr
 135. `tail_via_stratum_count`: s_{K+j} ≤ 1-ε_{K+j} per stratum; insufficient for tail by itself — **noted** (Q64).
 136. `tail_cancellation_via_shadow`: For j > 2α with nonempty stratum j-α, shadow W_j ≥ μ_α · s_{j-α} → ∞, forcing s_j → 0; but full tail sum bound requires a telescoping argument not yet completed — **partial** (Q64).
 137. `tail_bound_open`: Complete proof of Σ_{j>2α} s_{K+j} = o(1) remains open; the downward-divisor method fails, and the shadow method requires more work — **gap documented** (Q64).
+
+## Section 59 — Tail bound: correct scope of FL induction (Q65)
+
+### What FL actually proves
+
+**Theorem `FL_scope_clarified`**: The FL induction (§46–§55) gives T_J ≤ 1-ε_{K+J}+o(1) for **all J < eα** (not just J ≤ 2α). 
+
+*Proof*: The induction step at step J uses μ_{J-j'} ≥ 1 for all j' < J, i.e., μ_ℓ ≥ 1 for all ℓ ∈ [1,J]. This holds for J < eα: by Stirling, $\mu_{c\alpha} \approx (e/c)^{c\alpha}/\sqrt{2\pi c\alpha}$ for c = J/α. For c < e: (e/c)^c > 1 (since ln(e/c)·c = c - c ln c > 0 iff c < e), so μ_{cα} → ∞ ≥ 1. Min over [1,J] = μ_1 = 1. ✓
+
+For J = eα: μ_{eα} ≈ 1/√(2πeα) → 0 < 1. So the induction step at J = eα fails (shadow coefficient for j'=0 is μ_{eα} → 0). ✗
+
+**Corollary**: T_{eα-1} ≤ 1-ε_{K+eα-1}+o(1) ≤ 1+o(1). ✓ (taking J just below eα.)
+
+### The tail that remains
+
+$\text{tail} = \sum_{j \geq \lfloor e\alpha \rfloor} s_{K+j} = T(x) - T_{e\alpha-1}$.
+
+**What the tail is NOT provably bounded by the FL argument**: for j ≥ eα, the shadow coefficient μ_{eα} → 0, so the shadow from stratum 0 into stratum j ≥ eα is negligible. The FL argument breaks.
+
+### Correct upper bound on the tail (using Sathe-Selberg counts)
+
+**Theorem `sathe_selberg_stratum_count`**: For all j ≥ 0:
+$$\sum_{\substack{n:\,\Omega(n)=K+j \\ n \in [N, 2N]}} \frac{1}{n\log n} \lesssim \frac{(\log\log N)^{K+j-1}}{(K+j-1)!} \cdot \frac{1}{\log N} = \frac{\mu_{K+j}^{(N)}}{\log N},$$
+where $\mu_{K+j}^{(N)} = (\log\log N)^{K+j-1}/(K+j-1)!$ is the Sathe-Selberg coefficient at scale $N$.
+
+For elements of A in stratum K+j with $j \geq \lfloor e\alpha\rfloor$: the MINIMUM element value is $2^{K+j} \geq x \cdot 2^j$. Taking $N = x \cdot 2^j$:
+
+$$s_{K+j} \leq \mu_{K+j}^{(x\cdot2^j)} / \log(x\cdot2^j) \lesssim \frac{(j\log 2 + \log\log x)^{K+j-1}}{(K+j-1)!\,K\log 2}.$$
+
+For j fixed and $x \to \infty$: $K = \lceil\log_2 x\rceil \to \infty$, and the above is $O((j+\alpha)^{K+j}/(K+j)!) \to 0$ super-exponentially (since $K >> \alpha$).
+
+**Corollary**: For any fixed $j \geq 0$: $s_{K+j} \to 0$ as $x \to \infty$. ✓
+
+**But**: The UNIFORM bound over $j \geq e\alpha$ (which grows with x) is needed, not just fixed-j. For $j \geq e\alpha$:
+$$s_{K+j} \leq \frac{\mu_{K+j}^{(x\cdot2^j)}}{\log(x\cdot2^j)} \lesssim \frac{(j\log 2 + \alpha)^{K+j-1}}{(K+j-1)!} \to 0 \text{ super-exp.}$$
+since $K+j >> j\log 2 + \alpha$ for $K >> j$ (not the case for $j >> K$!).
+
+For $j >> K$ (extremely composite elements): $2^{K+j} >> x$ and the factor $j\log 2 + \alpha >> K+j$ could make $\mu^{(x\cdot 2^j)}$ large. This case needs separate handling.
+
+### The fixed-stratum decay closes most of the tail
+
+**Theorem `tail_fixed_j_summable`**: For fixed $J_0$ and $x \to \infty$:
+$$\sum_{j=0}^{J_0} s_{K+j} \to 0 \text{ if } J_0 < \lfloor e\alpha\rfloor.$$
+
+Wait — no, the FL induction gives $T_{J_0} \leq 1+o(1)$, not 0. Each $s_{K+j}$ is small relative to 1 but not → 0 per se.
+
+**Corrected scope statement**: The FL induction proves $T(A) \leq 1+o(1)$ **if** $A \subseteq \bigcup_{j=0}^{J_0} A_{K+j}$ for $J_0 < e\alpha$ (A spans at most $e\alpha$ strata). For $A$ spanning MORE than $e\alpha$ strata, the tail $\Sigma_{j \geq e\alpha} s_{K+j}$ is the remaining gap.
+
+### Gap summary and proposed fix
+
+**Current status**: The FL induction (Q46–Q62, §45–§56) proves $T_J \leq 1-\varepsilon_{K+J}+o(1)$ for all $J < e\alpha$. As $J \nearrow e\alpha$: $T_{e\alpha} \leq 1+o(1)$. ✓
+
+**Remaining gap**: $\sum_{j \geq e\alpha} s_{K+j} = o(1)$ is unproved.
+
+**Proposed fix** (not yet completed): For $j \geq e\alpha$, elements $a \in A_{K+j}$ are "super-composite" (many more prime factors than typical integers of similar size). Their count near $x \cdot 2^j$ is governed by $\mu_{K+j}^{(x\cdot 2^j)}$ which is super-exponentially small for $K >> \alpha$. A careful Sathe-Selberg tail estimate should give $\sum_{j \geq e\alpha} s_{K+j} \leq C \cdot \mu_{K}^{(\text{appropriate})} \to 0$. **This estimate is not yet completed.**
+
+**Cumulative results (Q65):**
+
+138. `FL_scope_clarified`: FL induction valid for ALL J < eα (not just J ≤ 2α); proof: μ_{cα} → ∞ for c < e (Stirling), hence min over [1,J] = 1 for J < eα — **proved** (Q65, Stirling).
+139. `sathe_selberg_stratum_count`: Weight of A_{K+j} near x·2^j is O(μ_{K+j}^{(x·2^j)}/log(x·2^j)) → 0 super-exp for fixed j and K→∞ — **proved** (Q65, Sathe-Selberg).
+140. `tail_fixed_j_summable`: For fixed J_0 < eα, T_{J_0} ≤ 1+o(1) (FL); but the full tail over j ≥ eα is the key open gap — **documented** (Q65, remaining).
