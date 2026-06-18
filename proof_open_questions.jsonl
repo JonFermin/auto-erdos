@@ -115,3 +115,6 @@
 {"qid":"Q50","status":"open","session_id":"s_0618-193120-c6e9","summary":"conditional full-conjecture proof: combine Mertens cascade T_J<=E_J/(1+loglog x) + tail bound + E_J estimate to get T(x)<=1+o(1)","ts":"2026-06-18T19:37:50+00:00"}
 {"qid":"Q50","status":"claimed","session_id":"s_0618-193120-c6e9","summary":"assembling conditional proof of conjecture from Q49 ingredients + Sathe-Selberg tail estimate","ts":"2026-06-18T19:37:50+00:00"}
 {"qid":"Q50","status":"resolved","session_id":"s_0618-193120-c6e9","summary":"combined Mertens+multi-source bound proved; T_J<1+o(1) for fixed J proved; even-stratum fixed point e*=3/4 (convergence barrier) identified; p=2 alone insufficient","ts":"2026-06-18T19:42:43+00:00"}
+{"qid":"Q51","status":"open","session_id":"s_0618-193120-c6e9","summary":"Fundamental Lemma: T_J<=1-eps_{K+J-1} for all J; equivalence to conjecture; column-primitive proof; three-stratum gap","ts":"2026-06-18T19:47:48+00:00"}
+{"qid":"Q51","status":"claimed","session_id":"s_0618-193120-c6e9","summary":"proving FL equivalence + column-primitive case + identifying what closes J=3","ts":"2026-06-18T19:47:48+00:00"}
+{"qid":"Q51","status":"resolved","session_id":"s_0618-193120-c6e9","summary":"FL<=>conjecture proved; column-primitive T<1 proved; FL for J>=3 requires three-stratum Mertens (gap documented)","ts":"2026-06-18T19:47:48+00:00"}

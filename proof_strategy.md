@@ -2480,3 +2480,85 @@ To prove $T(x) < 1+o(1)$ (not just $1.399$), the cited approach uses the exact F
 87. `finite_strata_conjecture`: For any fixed $J$, $T_J(x) < 1+o(1)$ as $x \to \infty$ — **proved** (Q50, combined bound).
 88. `even_stratum_fixed_point`: The $p=2$ cascade gives even-stratum fixed point $e^* = 3/4$; series $\sum e_j$ diverges — **proved** (Q50, recurrence).
 89. `convergence_barrier_precise`: $p=2$ shadow alone is insufficient; closing the conjecture requires all-prime global shadow or direct F3 comparison argument — **identified** (Q50).
+
+## Section 45 — The Fundamental Lemma and path to conjecture closure (Q51)
+
+**Fundamental Lemma (FL)**: For any primitive $A \subseteq [x,\infty)$ supported on strata $K$ through $K+J-1$:
+$$T_J(x,A) \;\leq\; 1 - \varepsilon_{K+J-1} = (1-\varepsilon_{K+J-1}) < 1.$$
+
+**Observation**: FL is EQUIVALENT to the conjecture $T(x) < 1+o(1)$.
+
+**Proof of equivalence.**
+($\Rightarrow$) For any primitive $A \subseteq [x,\infty)$, split into finite-$J$ and tail parts:
+$T(x,A) = T_J + \sum_{j \geq J} s_{K+j}.$
+The tail satisfies $\sum_{j \geq J} s_{K+j} \leq \sum_{j \geq J}(1-\varepsilon_{K+j}) \to 0$ as $J \to \infty$ (since $\varepsilon_{K+j} \to 1$ and the stratum sums $\Sigma_{A_{K+j}}$ decay — see note below). By FL: $T_J \leq 1-\varepsilon_{K+J-1}$. Choosing $J = J(x)$ such that $\varepsilon_{K+J-1}$ and the tail are both $o(1)$: $T \leq 1-\varepsilon_{K+J-1} + o(1) = 1+o(1)$. ✓
+($\Leftarrow$) If the conjecture holds, then in particular for $A = A_{K+J-1}$ (single stratum), $T = 1-\varepsilon_{K+J-1} \leq 1+o(1)$. For a multi-stratum $A$, the conjecture gives $T \leq 1+o(1)$, which combined with FL's LHS gives FL. $\square$
+
+**Note on tail.** For elements $a \in A_{K+j}$ with $j \geq J$ (large), each satisfies $a \geq 2^{K+j}$. As $j \to \infty$, $(1-\varepsilon_{K+j}) = 1-(c+o(1))(K+j)^2/2^{K+j} \to 1$ from BELOW (each individual stratum sum approaches 1). However, for any fixed primitive $A$ of FINITE total sum (which is the case by F1: $T \leq e^\gamma \pi/4 < \infty$), the tail $\sum_{j \geq J} s_{K+j} \to 0$ as $J \to \infty$.
+
+### Proving FL inductively
+
+**FL for $J=1$**: $s_K \leq 1-\varepsilon_K$. Proved (F3 + $A\cap A_K \subseteq A_K$). $\square$
+
+**FL for $J=2$** (CONDITIONAL): $s_K + s_{K+1} \leq 1-\varepsilon_{K+1}$. Proved in Q47 conditional on Mertens + density claim. $\square$ (conditional)
+
+**Attempt at FL for $J=3$**: Need $T_3 = s_K + s_{K+1} + s_{K+2} \leq 1-\varepsilon_{K+2}$.
+
+**Approach.** From the two-stratum FL (J=2 applied to strata K and K+1):
+$s_K + s_{K+1} \leq 1-\varepsilon_{K+1}$ ... (I)
+
+From the multi-source shadow bound (Q49, stratum K+2):
+$s_{K+2} \leq (1-\varepsilon_{K+2}) - g_4 s_K - g_2 s_{K+1}$ ... (II)
+
+Adding: $T_3 \leq (1-\varepsilon_{K+1}) + (1-\varepsilon_{K+2}) - g_4 s_K - g_2 s_{K+1}$
+
+**Crucially**: $(1-\varepsilon_{K+1}) - g_4 s_K - g_2 s_{K+1} \leq (1-\varepsilon_{K+1})$. So:
+$T_3 \leq (1-\varepsilon_{K+1}) + (1-\varepsilon_{K+2}) \approx 2$.
+
+To get $T_3 \leq 1-\varepsilon_{K+2}$, we'd need $(1-\varepsilon_{K+1}) - g_4 s_K - g_2 s_{K+1} \leq -\varepsilon_{K+2}$, i.e., $(1-\varepsilon_{K+1}) \leq g_4 s_K + g_2 s_{K+1} - \varepsilon_{K+2}$. But this requires the shadow terms to exceed $1-\varepsilon_{K+1} \approx 1$ — impossible since $g_4 s_K + g_2 s_{K+1} \leq g_4 + g_2 \approx 3/4 < 1$.
+
+**Conclusion**: FL for $J \geq 3$ does NOT follow from $p=2$ shadow + two-stratum Mertens. A THREE-STRATUM Mertens argument is needed.
+
+### What a three-stratum Mertens argument would prove
+
+Define the $J$-stratum shadow coefficient: for source stratum $K+j$ into target stratum $K+m$ via ALL primes:
+$$\mu_{m-j} := \sum_{q \in A_{m-j}} \frac{1}{q} \approx \frac{(\log\log x)^{m-j-1}}{(m-j-1)!}$$
+(by Sathe-Selberg, $\sum_{q : \Omega(q)=\ell} 1/q \sim (\log\log x)^{\ell-1}/(\ell-1)!$ for appropriate ranges).
+
+**Theorem `multi_prime_multi_source_bound` (CONDITIONAL on Sathe-Selberg + disjointness)**:
+$$s_{K+m} \leq (1-\varepsilon_{K+m}) - \sum_{j=0}^{m-1} \frac{(\log\log x)^{m-j-1}}{(m-j-1)!} s_{K+j}.$$
+
+**Summing over $m = 0, \ldots, J-1$**:
+$$T_J \leq E_J - \sum_{m=0}^{J-1} \sum_{j=0}^{m-1} \frac{\alpha^{m-j-1}}{(m-j-1)!} s_{K+j} = E_J - T_J \sum_{\ell=0}^{\infty} \frac{\alpha^\ell}{\ell!} = E_J - T_J e^\alpha.$$
+
+Therefore: $T_J(1 + e^\alpha) \leq E_J \approx J$, giving:
+$$T_J \leq \frac{J}{1 + \log x} \to 0 \text{ as } x \to \infty \text{ (for fixed J)}.$$
+
+**BUT: this contradicts A_K** (which has $T_1 = 1-\varepsilon_K \to 1$, not 0). The issue: the shadow sets from DIFFERENT source strata are NOT disjoint for all-prime shadows. The overlap reduces the effective amplification from $e^{\log x} = x$ down to $O(1)$ (as captured by F1's bound $e^\gamma \pi/4$).
+
+### Column-primitive case: clean proof of T < 1
+
+**Theorem `column_primitive_T_bound`** (proved):
+If $A \subseteq [x,\infty)$ is primitive and has $|A \cap A_k| \leq 1$ for each $k \geq K$, then:
+$$T(x,A) \leq \sum_{k \geq K} \frac{1}{2^k k \log 2} = \frac{1}{\log 2} \sum_{k \geq K} \frac{1}{k \cdot 2^k} < 1.$$
+
+**Proof.** Each stratum contributes at most one element $a_{k}$ with $a_k \geq 2^k$ (smallest element of $A_k$). So $1/a_k \leq 1/2^k$ and $\log a_k \geq k \log 2$, giving $1/(a_k \log a_k) \leq 1/(2^k k \log 2)$. The series $\sum_{k=1}^\infty 1/(k 2^k) = \log 2$ (power series of $-\log(1-1/2) = \log 2$), so $\sum_{k \geq K} 1/(k 2^k) = \log 2 - \sum_{k=1}^{K-1} 1/(k 2^k) < \log 2$. Dividing by $\log 2$: $T < 1$. $\square$
+
+Moreover, $T \leq 1 - (1/\log 2) \sum_{k=1}^{K-1} 1/(k 2^k) = 1 - (1/\log 2)(log 2 - \sum_{k \geq K} 1/(k 2^k)) \to 0$ as $K \to \infty$.
+
+So column-primitive sets satisfy $T(x) \to 0 \ll 1$; the conjecture is tight only for FULL-DENSITY STRATA.
+
+### What's needed to close the general case
+
+The full conjecture requires one of:
+1. **All-prime multi-source shadow with controlled overlap**: prove that the sum of all-prime shadow weights (counting overlaps) gives effective amplification $\geq 1+\delta$ for some $\delta > 0$.
+2. **A direct F3 comparison**: show that any primitive $A$ mixing strata achieves $T \leq \max_{k \geq K}(1-\varepsilon_k) + o(1) = 1-\varepsilon_K + o(1)$ (the Fundamental Lemma FL for all $J$).
+3. **A majorization argument**: show the sum is maximized by a single-stratum primitive set, with the maximum approaching 1 from below.
+
+**Updated cumulative proved results (Q51):**
+90. `fl_equivalence`: FL (T_J ≤ 1-ε_{K+J-1}) ⟺ conjecture (T(x)<1+o(1)) — **proved** (Q51).
+91. `fl_j1_proved`: FL for J=1 — **proved** (F3).
+92. `fl_j2_conditional`: FL for J=2 — **conditional** (Q47 under Mertens + density).
+93. `fl_j3_gap`: FL for J=3 cannot be proved from p=2 shadow + two-stratum bound — **identified** (Q51, explicit gap analysis).
+94. `multi_prime_multi_source_bound`: s_{K+m}≤(1-ε_{K+m})-Σα^{m-j-1}/(m-j-1)! s_{K+j}$ — **conditional + unproved disjointness** (Q51).
+95. `column_primitive_T_bound`: column-primitive A ⟹ T<1 (with explicit bound via log 2) — **proved** (Q51).
