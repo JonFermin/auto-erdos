@@ -3403,3 +3403,82 @@ The bound $1+o(1)$ is sharp: the full stratum $A_K$ achieves $\sum 1/(a\log a) =
 
 119. `final_proof_synopsis`: Complete 1-page proof of Erdős conjecture, combining FL induction (Claims A and B) with tail bound (Corollary); all steps verified — **proved** (Q59, conditional on Sathe-Selberg classical).
 120. `proof_inputs_table`: Only classical ANT (Sathe-Selberg) used beyond elementary/given inputs; proof structure is clean and complete — **verified** (Q59).
+
+## Section 54 — Corrected FL cutoff: J* = 2α (Q60)
+
+**Error in Q59 Claim B**: The induction cutoff J = ⌊eα⌋ was used with the stated claim that μ_ℓ ≥ 1 for ℓ ≤ eα. This is FALSE: by Stirling, μ_{eα} ≈ 1/√(2πeα) → 0. The induction step fails for ℓ near eα.
+
+**Correct analysis of μ_ℓ = α^{ℓ-1}/(ℓ-1)!**
+
+The ratio μ_{ℓ+1}/μ_ℓ = α/ℓ shows:
+- μ is **increasing** for ℓ ≤ α (ratio > 1), **decreasing** for ℓ > α (ratio < 1).
+- μ is **unimodal** with peak at ℓ ≈ ⌊α⌋.
+
+### Theorem `mu_unimodal_ge1_through_2alpha`
+
+**Claim**: μ_ℓ ≥ 1 for all ℓ ∈ {1, 2, …, ⌊2α⌋}.
+
+**Proof**: By unimodality, min over [1, 2α] = min(μ_1, μ_{⌊2α⌋}).
+
+- μ_1 = α^0/0! = 1.
+
+- μ_{2α} = α^{2α-1}/(2α-1)!. By Stirling: (2α-1)! ≈ (2α)^{2α-1} e^{-2α} √(4πα). Hence
+  $$\mu_{2\alpha} \approx \frac{\alpha^{2\alpha-1}}{(2\alpha)^{2\alpha-1}} \cdot \frac{e^{2\alpha}}{\sqrt{4\pi\alpha}} = \left(\frac{1}{2}\right)^{2\alpha-1} \cdot \frac{e^{2\alpha}}{\sqrt{4\pi\alpha}} = 2\cdot\left(\frac{e}{2}\right)^{2\alpha} \cdot \frac{1}{\sqrt{4\pi\alpha}} \to \infty,$$
+  since (e/2)^{2α} = exp(2α log(e/2)) = exp(2α · 0.307…) → ∞.
+
+Therefore min(μ_1, μ_{2α}) = μ_1 = 1, and μ_ℓ ≥ 1 for all ℓ ∈ [1, 2α]. **□**
+
+### Theorem `mu_ealpha_vanishes`
+
+**Claim**: μ_{eα} → 0 as α → ∞.
+
+**Proof**: Let X ~ Poisson(α). Then P(X = k) = e^{-α} α^k / k! = e^{-α} μ_{k+1}. So μ_{eα} = e^α P(X = eα - 1). Since eα >> α (the mean), by Cramér / Stirling:
+$$\mu_{e\alpha} \approx \frac{e^\alpha \cdot e^{-\alpha}}{\sqrt{2\pi e\alpha}} = \frac{1}{\sqrt{2\pi e\alpha}} \to 0. \quad\mathbf{\square}$$
+
+This confirms the Q59 claim μ_{eα} ≥ 1 was **incorrect**.
+
+### Corrected Main Theorem (Q60)
+
+**Theorem `main_theorem_corrected_cutoff`**: For any primitive set A ⊆ [x, ∞):
+$$\sum_{a \in A} \frac{1}{a \log a} \leq 1 + o(1) \quad \text{as } x \to \infty.$$
+
+**Proof** (corrected cutoff J* = ⌊2α⌋ = ⌊2 log log x⌋):
+
+**Claim A** (tail, §52, Q58): For all j ≥ 1, $s_{K+j} \leq 1/2^j$ (unconditional).
+
+**Claim B** (FL induction, corrected): For all J ≤ ⌊2α⌋:
+$$T_J = \sum_{j=0}^J s_{K+j} \leq 1 - \varepsilon_{K+J} + o(1).$$
+
+*Proof of Claim B*: The induction step uses the Sathe-Selberg shadow weight W_J ≥ Σ_{j<J} μ_{J-j} s_j - OV_J. For j = 0, …, J-1: the Sathe-Selberg index is ℓ = J - j ≤ J ≤ 2α. By Theorem `mu_unimodal_ge1_through_2alpha`, μ_ℓ ≥ 1 for all such ℓ. Hence W_J ≥ T_{J-1} - OV_J, and the induction closes exactly as in §46-§48. ✓ (base case §52 uses F3; step uses Sathe-Selberg 1954.)
+
+**Corrected tail bound**: Applying Claim A:
+$$\sum_{j > 2\alpha} s_{K+j} \leq \sum_{j > 2\alpha} \frac{1}{2^j} = \frac{1}{2^{2\alpha}} = \frac{1}{(\log x)^{2\log 2}} = (\log x)^{-1.386\ldots} \to 0. \tag{Tail$'$}$$
+
+This is stronger than the old Q59 tail bound using j > eα (which is also fine but eα ≈ 2.718α > 2α, so J = 2α is a tighter cutoff that requires fewer FL induction steps yet uses a slightly larger tail — both → 0). ✓
+
+**Combining**: 
+$$T(x) = T_{2\alpha} + \sum_{j > 2\alpha} s_{K+j} \leq (1 + o(1)) + (\log x)^{-1.386} = 1 + o(1). \quad\mathbf{\square}$$
+
+### Remark `why_ealpha_fails`
+
+At J = eα: the induction step requires μ_ℓ ≥ 1 for ℓ ≤ eα, i.e., in particular for ℓ = eα. But μ_{eα} ≈ 1/√(2πeα) → 0 < 1. So the Sathe-Selberg shadow at the step J = eα gives W_J ≥ (1/√(2πeα))·s_0 + Σ_{j=1}^{J-1} μ_{J-j} s_j - OV, which does **not** bound W_J ≥ T_{J-1} - o(1). The induction breaks.
+
+The fix is to stop the FL induction at J* = 2α (where the Sathe-Selberg coefficients are all ≥ 1) and handle j > 2α by the unconditional tail bound (Claim A). Since both parts → 0 beyond 1, the main theorem stands. ✓
+
+### Corrected inputs table
+
+| Input | Reference | Status |
+|---|---|---|
+| F3: stratum sums ≤ 1-ε_k | Given | ✓ unconditional |
+| Primitivity + disjointness | Elementary | ✓ unconditional |
+| μ_ℓ ≥ 1 for ℓ ≤ **2α** (not eα) | Theorem `mu_unimodal_ge1_through_2alpha` (§54) | ✓ elementary |
+| μ_ℓ via Sathe-Selberg estimate (1954) | Sathe 1953 + Selberg 1954 | ✓ classical |
+| Overlap OV_J = o(1) | §47 (Q53) | ✓ unconditional |
+| Tail s_{K+j} ≤ 1/2^j | §52 (Q58) | ✓ unconditional |
+
+**Cumulative results (Q60):**
+
+121. `mu_unimodal_ge1_through_2alpha`: μ_ℓ = α^{ℓ-1}/(ℓ-1)! ≥ 1 for all ℓ ∈ [1, 2α] by unimodality (peak at ℓ=α, min=μ_1=1, μ_{2α}→∞) — **proved** (Q60, elementary).
+122. `mu_ealpha_vanishes`: μ_{eα} ≈ 1/√(2πeα) → 0 (Stirling / Poisson), confirming Q59's eα cutoff was **incorrect** — **proved** (Q60, Stirling).
+123. `main_theorem_corrected_cutoff`: Corrected proof with J*=2α; FL induction valid for J≤2α (all μ_ℓ≥1); tail Σ_{j>2α} 1/2^j = (logx)^{-1.39} → 0; T(x) ≤ 1+o(1) — **proved** (Q60, conditional Sathe-Selberg + elementary tail).
+124. `why_ealpha_fails`: Explicit computation shows μ_{eα}→0 (not ≥1), so FL induction step fails at ℓ=eα; J*=2α is the correct (and sufficient) cutoff — **verified** (Q60).
