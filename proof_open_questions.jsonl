@@ -84,3 +84,6 @@
 {"qid":"Q39","status":"resolved","session_id":"s_0618-174505-0e6d","summary":"proved cascade_divergence_theorem: R_j→1/(2log2), Σ R_j diverges, Mertens barrier identified","ts":"2026-06-18T18:33:06+00:00"}
 {"qid":"Q40","status":"open","session_id":"s_0618-174505-0e6d","summary":"T_function_properties: T(x) monotone nonincreasing, T*=inf T(x) in [1,1.399], conjecture iff T*=1; explicit o(1) gap quantification","ts":"2026-06-18T18:39:35+00:00"}
 {"qid":"Q40","status":"claimed","session_id":"s_0618-174505-0e6d","summary":"claiming Q40: T function monotonicity + limit structure","ts":"2026-06-18T18:39:35+00:00"}
+{"qid":"Q40","status":"resolved","session_id":"s_0618-174505-0e6d","summary":"proved T_monotone, T_limit_exists, conjecture_equivalence T*=1, o1_gap_quantification","ts":"2026-06-18T18:43:26+00:00"}
+{"qid":"Q41","status":"open","session_id":"s_0618-174505-0e6d","summary":"refined_doubling_shadow: for a>=x, 1/(2a log(2a)) >= 1/(2a log a * (1+log2/log x)); new cascade fixed point L=2/3 (better than 1/(2log2)); two-stratum asymptotic bound 3/2","ts":"2026-06-18T18:43:26+00:00"}
+{"qid":"Q41","status":"claimed","session_id":"s_0618-174505-0e6d","summary":"claiming Q41","ts":"2026-06-18T18:43:26+00:00"}

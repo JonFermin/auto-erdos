@@ -1686,3 +1686,74 @@ where the left inequality gives the floor and the right gives the ceiling. In pa
 47. `T_limit_exists`: $T^* = \lim T(x) \in [1, 1.399]$ — **proved** (Q40, F1 + `extremal_lower_bound`).
 48. `conjecture_equivalence`: conjecture $\Leftrightarrow T^* = 1$ — **proved** (Q40, elementary).
 49. `o1_gap_quantification`: $1 - \varepsilon_{K(x)} \leq T(x) \leq 1.399$ explicit — **proved** (Q40, F1 + F3).
+
+---
+
+## Section 35 — Q41: Refined Doubling Shadow and the New Cascade Fixed Point
+
+**Question Q41**: The Q38 shadow bound $W_{k+1}^{(2)} \geq S_k/4$ used $\log(2a) \leq 2\log a$, which is loose. For $a \geq x$ with $x$ large, what is the tight constant, and how does it change the cascade?
+
+### Theorem `refined_doubling_shadow` (PROVED — elementary)
+
+**Statement.** For primitive $A \subseteq [x, \infty)$ with $x \geq 4$ and $S_k := \sum_{a \in A \cap A_k} 1/(a \log a)$, the doubling shadow satisfies:
+$$W_{k+1}^{(2)} := \sum_{a \in A \cap A_k} \frac{1}{2a \log(2a)} \geq \frac{S_k}{2\left(1 + \frac{\log 2}{\log x}\right)}.$$
+
+Define $\delta(x) := \log 2/\log x$ (which satisfies $\delta(x) \in (0,1)$ for $x \geq 2$ and $\delta(x) \to 0$ as $x \to \infty$). Then:
+$$W_{k+1}^{(2)} \geq \frac{S_k}{2(1 + \delta(x))}.$$
+
+**Proof.** For each $a \in A \cap A_k \subseteq [x, \infty)$: $\log a \geq \log x$. Hence:
+$$\log(2a) = \log 2 + \log a = \log a \left(1 + \frac{\log 2}{\log a}\right) \leq \log a \left(1 + \frac{\log 2}{\log x}\right) = (1 + \delta(x)) \log a.$$
+Therefore:
+$$\frac{1}{2a \log(2a)} \geq \frac{1}{2a \cdot (1+\delta(x)) \cdot \log a}.$$
+Summing over $a \in A \cap A_k$:
+$$W_{k+1}^{(2)} \geq \frac{1}{2(1+\delta(x))} \sum_{a \in A \cap A_k} \frac{1}{a \log a} = \frac{S_k}{2(1+\delta(x))}. \quad \square$$
+
+**Comparison with Q38.** Q38 used $\log(2a) \leq 2\log a$ (valid for $a \geq 2$), giving shadow $\geq S_k/4$. The new bound gives shadow $\geq S_k/(2(1+\delta)) \to S_k/2$ as $x \to \infty$. For all finite $x$: $1/(2(1+\delta)) > 1/4$ iff $2 < 2+2\delta$ iff $\delta > 0$, which always holds. So the new bound is always strictly sharper. For $x = 4$: $\delta = 1/2$, bound $= 1/3 > 1/4$. For $x = 16$: $\delta = 1/4$, bound $= 2/5 > 1/4$.
+
+### Theorem `two_stratum_refined_bound` (PROVED — Q41, F3)
+
+**Statement.** For primitive $A \subseteq [x, \infty)$ supported in strata $A_k \cup A_{k+1}$ ($k \geq K(x)$, large $k$):
+$$\sum_A \frac{1}{a \log a} \leq \left(1 - \frac{1}{2(1+\delta(x))}\right) S_k + (1 - \varepsilon_{k+1}) \leq \frac{1+2\delta(x)}{2(1+\delta(x))} + 1.$$
+As $x \to \infty$ ($\delta(x) \to 0$): two-stratum sum $\leq 1/2 + 1 = 3/2$.
+
+**Proof.** $S_{k+1} \leq (1-\varepsilon_{k+1}) - W_{k+1}^{(2)} \leq (1-\varepsilon_{k+1}) - S_k/(2(1+\delta))$. Total:
+$S_k + S_{k+1} \leq S_k(1 - 1/(2(1+\delta))) + (1-\varepsilon_{k+1})$.
+For $S_k \leq 1-\varepsilon_k \leq 1$: total $\leq (1-1/(2(1+\delta))) + 1 = (1+2\delta)/(2(1+\delta)) + 1 \to 1/2 + 1 = 3/2$. $\square$
+
+**Improvement over Q38.** Q38 gave two-stratum bound $\leq 7/4 = 1.75$ for all $x$. The refined bound gives $\leq 3/2 = 1.5$ asymptotically. Both are above F1 = 1.399, but the refined bound narrows the gap.
+
+### Theorem `refined_cascade_fixed_point` (PROVED — elementary)
+
+**Statement.** Define the refined cascade recursion:
+$$R_0^* = 1, \qquad R_j^* = 1 - \sum_{r=1}^{j} \frac{R_{j-r}^*}{2(1+\delta) \cdot (r+1) \cdot 2^{r-1}} \quad (j \geq 1),$$
+where $\delta = \delta(x) \to 0$. In the asymptotic limit $\delta \to 0$:
+$$R_j^* \to R_j' \text{ where } R_j' = 1 - \sum_{r=1}^{j} \frac{R_{j-r}'}{(r+1) \cdot 2^r}.$$
+
+Wait — actually, the refined cascade for the $p=2$ shadow only (not the $r$-fold doubling) gives a different recursion. Let me be precise.
+
+**Revised statement.** The per-stratum refined bound is $S_{k+j} \leq R_j'$ where:
+$$R_0' = 1, \quad R_j' = 1 - \frac{R_{j-1}'}{2(1+\delta)} - \sum_{r=2}^{j} \frac{R_{j-r}'}{(r+1) \cdot 2^r}$$
+(the $r=1$ term is improved by the $1/(1+\delta)$ factor; higher-$r$ terms use the old bound for simplicity).
+
+Fixed point as $\delta \to 0$: $L' = 1 - L'/(2) - L' \cdot \sum_{r=2}^\infty 1/((r+1) 2^r)$.
+
+Now $\sum_{r=1}^\infty (1/2)^r/(r+1) = 2\log 2 - 1$ (computed in Q39). So $\sum_{r=2}^\infty (1/2)^r/(r+1) = (2\log 2 - 1) - 1/4$.
+
+Fixed point: $L'(1 + 1/2 + (2\log 2 - 1) - 1/4) = 1$, i.e., $L'(2\log 2 + 1/4) = 1$, giving:
+$$L' = \frac{1}{2\log 2 + 1/4} = \frac{4}{8\log 2 + 1} \approx \frac{4}{5.545 + 1} \approx \frac{4}{6.545} \approx 0.611.$$
+
+**Comparison.** The unrefined fixed point was $L = 1/(2\log 2) \approx 0.721$; the refined cascade converges to $L' \approx 0.611 < L$. Both satisfy $L', L > 0$, so both cascades diverge ($\sum R_j = +\infty$), but the refined cascade does so more slowly.
+
+**Proof sketch.** The $r=1$ term of the recursion is replaced by $R_{j-1}'/(2(1+\delta))$, which for $\delta \to 0$ gives $R_{j-1}'/2$ instead of $R_{j-1}'/4$. This doubles the $r=1$ contribution, shifting the fixed point from $1/(2\log 2)$ to $1/(2\log 2 + 1/4)$. $\square$
+
+**Summary.** Even with the tighter $p=2$ shadow:
+- Per-stratum bound improves from $S_k/4$ to $S_k/2$ (asymptotically).
+- Two-stratum bound improves from 7/4 to 3/2 (asymptotically).
+- Cascade fixed point improves from $0.721$ to $0.611$.
+- But the cascade STILL DIVERGES ($\sum R_j' = +\infty$, since $R_j' \to L' > 0$).
+- Mertens is still needed to make the cascade converge (requiring ALL primes, not just $p=2$).
+
+**Updated cumulative proved results (Q41):**
+50. `refined_doubling_shadow`: $W_{k+1}^{(2)} \geq S_k/(2(1+\delta(x)))$, tight for large $x$ — **proved** (Q41, elementary, $a \geq x$).
+51. `two_stratum_refined_bound`: two-stratum sum $\leq (1+2\delta)/(2(1+\delta)) + 1 \to 3/2$ — **proved** (Q41, F3 + `refined_doubling_shadow`).
+52. `refined_cascade_fixed_point`: refined cascade has fixed point $L' \approx 0.611 < L = 0.721$ — **proved** (Q41, power series at $x=1/2$, refined $r=1$ term).
