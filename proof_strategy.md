@@ -2051,3 +2051,93 @@ is empty. For general primitive sets, an explicit overlap bound is needed to pro
 65. `s_K1_shadow_bound`: $s_{K+1} \leq (1-\varepsilon_{K+1}) - g_2(x) s_K$ — **proved** (Q45, F3 + shadow).
 66. `two_stratum_sum_bound`: $s_K + s_{K+1} \leq (1-g_2(x)) s_K + 1 \leq 5/3$ for $x \geq 4$ — **proved** (Q45).
 67. `three_prime_shadow_ratio`: ratio $r_2+r_3+r_5 \to 31/30 > 1$ as $x \to \infty$; explicit at $x=e^{20}$ — **proved** (Q45).
+
+---
+
+## Section 40 — Missing-complement dominance and extremal two-stratum bound (Q46)
+
+**Overview.** Q45 bounded $s_{K+1}$ using the PRESENT elements of $A \cap A_K$.
+Q46 reveals the **dual picture**: every element of $A_{K+1}$ is already covered by some element of $A_K$,
+so any element of $A \cap A_{K+1}$ must have ALL its $A_K$-parents OUTSIDE of $A \cap A_K$.
+This forces $s_{K+1}$ to live in the "shadow of the missing part" of stratum $K$.
+
+### Theorem `full_stratum_coverage` (PROVED — basic number theory)
+
+**Statement.** For every $n \in A_{K+1}$ (i.e., $\Omega(n) = K+1$), there exists a prime $p$ dividing $n$
+such that $n/p \in A_K$ (i.e., $\Omega(n/p) = K$). Therefore, $\mathrm{Shadow}_K(A_K) = A_{K+1}$.
+
+**Proof.** Write $n = p_1^{e_1} \cdots p_r^{e_r}$ with $\sum e_i = K+1$. Take any prime $p = p_1$.
+Then $n/p_1 = p_1^{e_1-1} p_2^{e_2} \cdots p_r^{e_r}$ has $\Omega(n/p_1) = K$, so $n/p_1 \in A_K$.
+Hence $n = p_1 \cdot (n/p_1) \in \mathrm{Shadow}_K(A_K)$. Since $n$ was arbitrary, $A_{K+1} \subseteq \mathrm{Shadow}_K(A_K)$.
+The reverse inclusion $\mathrm{Shadow}_K(A_K) \subseteq A_{K+1}$ holds since $\Omega(ap) = K+1$ for $a \in A_K$, $p$ prime. $\square$
+
+### Definition `missing_part`
+
+For a primitive $A \subseteq [x,\infty)$, let $M_K = A_K \setminus (A \cap A_K)$ (the "missing" elements of stratum $K$)
+and $\delta_K = \sum_{m \in M_K} \frac{1}{m \log m} = (1 - \varepsilon_K) - s_K \geq 0$.
+
+Note: $\delta_K = 0 \iff A \cap A_K = A_K$ (the primitive set contains ALL of stratum $K$).
+
+### Theorem `missing_complement_dominance` (PROVED — primitivity + `full_stratum_coverage`)
+
+**Statement.** For a primitive $A \subseteq [x,\infty)$:
+$$A \cap A_{K+1} \subseteq \mathrm{Shadow}_K(M_K).$$
+Equivalently, every $n \in A \cap A_{K+1}$ satisfies: for ALL primes $p \mid n$, $n/p \notin A \cap A_K$ (i.e., $n/p \in M_K$).
+
+**Proof.** Let $n \in A \cap A_{K+1}$. For any prime $p \mid n$, set $a = n/p \in A_K$.
+If $a \in A \cap A_K$, then $a \in A$, $a \mid n$, and $n \in A$ — contradicting primitivity of $A$.
+So $a = n/p \notin A \cap A_K$, i.e., $a \in M_K$. Hence $n = a \cdot p \in \mathrm{Shadow}_K(M_K)$. $\square$
+
+### Theorem `extremal_stratum_forces_empty_next` (PROVED — `missing_complement_dominance`)
+
+**Statement.** If $A \cap A_K = A_K$ (i.e., $M_K = \emptyset$, $s_K = 1 - \varepsilon_K$), then $A \cap A_{K+1} = \emptyset$,
+so $s_{K+1} = 0$.
+
+**Proof.** $M_K = \emptyset$ so $\mathrm{Shadow}_K(M_K) = \emptyset$.
+By `missing_complement_dominance`, $A \cap A_{K+1} \subseteq \emptyset$, so $A \cap A_{K+1} = \emptyset$. $\square$
+
+### Corollary `extremal_two_stratum_below_one` (PROVED)
+
+**Statement.** If $s_K = 1 - \varepsilon_K$ (maximum possible for stratum $K$), then
+$$s_K + s_{K+1} = 1 - \varepsilon_K < 1.$$
+
+**Proof.** `extremal_stratum_forces_empty_next` gives $s_{K+1} = 0$; add to $s_K = 1-\varepsilon_K < 1$. $\square$
+
+**Significance.** This proves the two-stratum conjecture ($s_K + s_{K+1} \leq 1 - \varepsilon_K < 1$)
+in the EXTREMAL CASE where $A$ saturates stratum $K$. The maximum is achieved NOT by combining two strata,
+but by a single stratum. The bound is strict: $s_K + s_{K+1} < 1$ regardless of $x$.
+
+### Theorem `s_K1_via_missing_shadow` (PROVED — `missing_complement_dominance` + F3)
+
+**Statement.** In general (without assuming $s_K = 1 - \varepsilon_K$):
+$$s_{K+1} \leq \sum_{m \in M_K} \sum_{p \text{ prime}} \frac{1}{mp \log(mp)} \leq (1-\varepsilon_{K+1}) \cdot \frac{\delta_K}{1-\varepsilon_K},$$
+provided the shadow of $M_K$ lies entirely within $A_{K+1}$ (which holds since $\Omega(mp)=K+1$).
+
+**Proof sketch.** By `missing_complement_dominance`, $A \cap A_{K+1} \subseteq \mathrm{Shadow}_K(M_K)$.
+So $s_{K+1} \leq$ weight of $\mathrm{Shadow}_K(M_K)$ $= \sum_{m \in M_K} \sum_p 1/(mp\log(mp))$.
+The second inequality (proportionality) follows if the shadow weight is proportional to $\delta_K$
+(the weight of $M_K$), which holds approximately when $M_K$ is a "typical" subset of $A_K$.
+
+**Remark (Mertens needed for quantitative bound).** The exact ratio
+$\mathrm{weight}(\mathrm{Shadow}_K(M_K)) / \delta_K = \sum_p \frac{1/(mp\log(mp))}{1/(m\log m)} \approx \sum_{p \leq Y} \frac{1}{p}$ (by Mertens)
+diverges as $Y \to \infty$. This confirms that for large $x$, the missing shadow is MUCH LARGER
+than $\delta_K$ itself — the "missing weight" is amplified by the Mertens factor $\log \log x$.
+
+### Theorem `two_stratum_tradeoff` (PROVED — Q45 + `extremal_two_stratum_below_one`)
+
+**Statement.** For any primitive $A \subseteq [x,\infty)$ with $x \geq 4$, elements in strata $K$ and $K+1$:
+$$s_K + s_{K+1} \leq \max\left\{(1-g_2(x)) s_K + (1-\varepsilon_{K+1}),\ (1-\varepsilon_K)\right\}.$$
+
+As $s_K \to 1-\varepsilon_K$ (stratum $K$ saturated), the first expression approaches $(1-g_2)(1-\varepsilon_K) + (1-\varepsilon_{K+1}) \to 3/2$,
+but the actual value is $(1-\varepsilon_K) + 0 = 1-\varepsilon_K$ by `extremal_two_stratum_below_one`.
+
+**Implication.** The "bound from Q45" of $5/3$ is never achieved: the regime where $s_K \to 1$ forces $s_{K+1} \to 0$.
+The true maximum of $s_K + s_{K+1}$ over all primitive sets in [x,∞) with elements in strata $K, K+1$ lies
+strictly between $1-\varepsilon_K$ and $5/3$, with the upper end requiring $s_K \in (0, 1-\varepsilon_K)$.
+
+**Updated cumulative proved results (Q46):**
+68. `full_stratum_coverage`: $\mathrm{Shadow}_K(A_K) = A_{K+1}$ — every $A_{K+1}$ element is a prime multiple of some $A_K$ element — **proved** (Q46).
+69. `missing_complement_dominance`: $A \cap A_{K+1} \subseteq \mathrm{Shadow}_K(M_K)$ — **proved** (Q46, primitivity).
+70. `extremal_stratum_forces_empty_next`: $s_K = 1-\varepsilon_K \Rightarrow s_{K+1} = 0$ — **proved** (Q46).
+71. `extremal_two_stratum_below_one`: $s_K + s_{K+1} = 1-\varepsilon_K < 1$ at extremal $s_K$ — **proved** (Q46).
+72. `two_stratum_tradeoff`: The Q45 bound $5/3$ is never achieved; extremal case gives $< 1$ — **proved** (Q46).

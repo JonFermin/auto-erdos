@@ -99,3 +99,6 @@
 {"qid":"Q44","status":"resolved","session_id":"","summary":"stratum_gap_formula + convergence_rate proved; epsilon_{K+j} decays exponentially","ts":"2026-06-18T19:00:17+00:00"}
 {"qid":"Q45","status":"open","session_id":"","summary":"cross-stratum blocking lemma: shadow of A_K forces s_{K+1} below 1-s_K for large x","ts":"2026-06-18T19:07:48+00:00"}
 {"qid":"Q45","status":"claimed","session_id":"","summary":"proving two-stratum bound via doubling shadow, no Mertens","ts":"2026-06-18T19:07:48+00:00"}
+{"qid":"Q45","status":"resolved","session_id":"","summary":"proved two_stratum_sum_bound (s_K+s_{K+1}<=5/3) and three_prime_shadow_ratio (->31/30>1)","ts":"2026-06-18T19:09:22+00:00"}
+{"qid":"Q46","status":"open","session_id":"","summary":"every element of A_{K+1} is a multiple of something in A_K; missing-complement forces s_{K+1}=0 at extremal s_K","ts":"2026-06-18T19:15:00+00:00"}
+{"qid":"Q46","status":"claimed","session_id":"","summary":"proving A_K saturation => A_{K+1} empty in A, and missing-complement dominance","ts":"2026-06-18T19:15:00+00:00"}
