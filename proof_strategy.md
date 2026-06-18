@@ -2413,3 +2413,70 @@ $$\sum_{j > J} s_{K+j} \;\leq\; \sum_{j > J} (1-\varepsilon_{K+j}) \;\leq\; \sum
 83. `multi_source_telescoping`: $T_J \leq E_J/(1+\alpha)$ with $\alpha = \sum_\ell g_{2^\ell}(x) \to 1$ — **proved** (Q49, $p=2$ only).
 84. `mertens_cascade_bound`: $T_J \leq E_J/(1+\log\log x)$ — **conditional** (Q49, Mertens theorem).
 85. `high_stratum_tail_bound`: $\sum_{j>J} s_{K+j} = O(2^{-J}/\log x)$ (exponential tail decay for fixed $x$) — **proved** (Q49, element size lower bound).
+
+## Section 44 — Combined Mertens + multi-source bound and the convergence barrier (Q50)
+
+**Setup.** Combine the all-prime Mertens shadow from stratum $K+m-1$ with the $p=2$-only multi-source shadow from strata $K+j$, $j < m-1$.
+
+### Theorem `combined_mertens_multisource_bound` (CONDITIONAL on Mertens)
+
+For any $m \geq 1$ and primitive $A \subseteq [x,\infty)$, setting $\alpha = \log\log x$:
+$$s_{K+m} \;\leq\; (1-\varepsilon_{K+m}) - \alpha \, s_{K+m-1} - \sum_{j=0}^{m-2} g_{2^{m-j}}(x)\, s_{K+j}.$$
+
+**Proof sketch.** The all-prime Mertens blocked elements from stratum $K+m-1$ are $\{pa : p \text{ prime}, a \in A\cap A_{K+m-1}\}$, with total weight $\geq \alpha s_{K+m-1}$. The $p=2$ multi-source blocked elements from stratum $K+j$ (for $j \leq m-2$) are $\{2^{m-j}a : a \in A\cap A_{K+j}\}$, with total weight $\geq g_{2^{m-j}} s_{K+j}$ (Q48).
+
+**Disjointness**: The all-prime blocked elements from stratum $K+m-1$ (via $p \neq 2$ only) and the $p=2$ elements from strata $j \leq m-2$ are disjoint: if $pa' = 2^{m-j}a$ for $p$ odd prime, $a' \in A_{K+m-1}$, $a \in A_{K+j}$, then $a \mid a'$ (since $j < m-1$ and $2^{m-j}a / p$ must equal $a'$ with $\Omega(a') = K+m-1$, forcing $a \mid a'$, contradicting primitivity). The $p=2$ elements from stratum $K+m-1$ are subsumed in the Mertens block. By `multi_source_shadow_disjointness` (Q49), the $p=2$ elements from distinct strata $j \neq j'$ are disjoint. Total blocked weight $\geq \alpha s_{K+m-1} + \sum_{j<m-1} g_{2^{m-j}} s_{K+j}$, and all blocked sets $\subseteq A_{K+m}\setminus A$. $\square$
+
+### Corollary `combined_J_stratum_bound`
+
+Summing over $m = 1, \ldots, J-1$ (with $G = \sum_{\ell \geq 2} g_{2^\ell}(x) \to 1/2$):
+$$T_J(1 + \alpha + G) \;\leq\; E_J + (\alpha + G)(1-\varepsilon_{K+J-1}) + G(1-\varepsilon_{K+J-2}),$$
+where $E_J = \sum_{m=0}^{J-1}(1-\varepsilon_{K+m}) \approx J$ for large $x$. Since $1-\varepsilon \leq 1$:
+$$T_J \;\leq\; \frac{J + \alpha + 2G}{\alpha + G + 1} \approx \frac{J + \alpha}{\alpha + 3/2} \quad (G \to 1/2).$$
+
+**For fixed J** (as $x \to \infty$, $\alpha \to \infty$): $T_J \leq (J + \alpha)/(\alpha + 3/2) \to 1$. So for any FIXED number of strata $J$, $T_J < 1 + o(1)$. $\checkmark$
+
+**For $J \leq C\alpha$** (proportional to $\log\log x$): $T_J \leq (C\alpha + \alpha)/(\alpha + 3/2) = (C+1)\alpha/(\alpha+3/2) \to C+1$. For $J \leq \alpha/2$: $T_J \leq (3/2)\alpha/(\alpha+3/2) \to 3/2 > 1$. ✗
+
+### The convergence barrier (Q50 key finding)
+
+**Even-stratum cascade.** When $\alpha = \log\log x \gg 1$, the Mertens step forces $s_{K+m} = 0$ whenever $s_{K+m-1}$ is large. In the extremal case $s_K = 1$:
+- Odd strata: $s_{K+2j+1} \approx 0$ (blocked by Mertens from $s_{K+2j}$).
+- Even strata: $e_j := s_{K+2j}$ satisfy $e_j \leq 1 - \sum_{i<j} g_{4^{j-i}} e_i$ (only even strata contribute; odd = 0).
+
+**Even-stratum fixed point.** The recurrence $e_j = 1 - \frac{1}{4} e_{j-1} - \frac{1}{16} e_{j-2} - \cdots$ (with $g_{4^\ell} \to 1/4^\ell$) has fixed point:
+$$e^* = \frac{1}{1 + \sum_{\ell=1}^\infty 1/4^\ell} = \frac{1}{1 + 1/3} = \frac{3}{4}.$$
+
+**Verified by direct computation**: $e_0 = 1$; $e_j = 3/4$ for all $j \geq 1$ (the recurrence $e_j = 1 - \frac{1}{4}\sum_{i<j}(3/4)/4^{j-i-1}$ telescopes to $3/4$). So $T_\infty^{\text{even}} = 1 + \infty \cdot (3/4) = \infty$.
+
+**The barrier**: The $p=2$ multi-source shadow + Mertens (consecutive strata) gives:
+$$T_J \approx 1 + (J-1)\frac{3}{4} \quad \text{(even strata only; odd strata zero)}.$$
+This diverges with $J$. The shadow from $p=2$ alone is insufficient to bound $T(x) < \infty$.
+
+### What additional input closes the conjecture
+
+**Claim (CONDITIONAL on Lichtman-type all-prime shadow):** If, for each stratum $K+2j$, the elements of $A \cap A_{K+2j}$ provide a multi-prime shadow in stratum $K+2j+2$ with weight $\geq \beta \cdot s_{K+2j}$ for $\beta > 1/3$, then:
+$$e^* = \frac{1}{1 + \beta + \sum_{\ell \geq 2} g_{4^\ell}} < 3/4,$$
+and the even-stratum series converges $\Leftrightarrow$ $e^* < 1$ (always true) with total sum $T_{\mathrm{even}} = e_0 + \sum_{j \geq 1} e^* / (1-e^*) \cdot \ldots$ — but this telescoping still requires the series $\sum e^*$ to converge, which it does only if individual terms decay.
+
+**The real resolution** (beyond current proof methods): In the actual proof that $T(x) < e^\gamma \pi/4 \approx 1.399$ (F1, Zhang 1993), the key is a global prime-sieve estimate that uses ALL prime shadows simultaneously, not just $p=2$ cascades. Specifically, for any primitive $A$:
+$$T(x) = \sum_{a \in A} \frac{1}{a \log a} \leq \sum_{n \geq x} \frac{1}{n \log n} \cdot \mathbf{1}[n \text{ is "free" in the Euler sieve sense}],$$
+and the Euler product $\prod_p (1-1/p)^{-1} \sim e^\gamma \log n / \log x$ near $n \sim x$ bounds the density of free elements, giving $T(x) < e^\gamma \log(\text{something})$.
+
+To prove $T(x) < 1+o(1)$ (not just $1.399$), the cited approach uses the exact F3 formula for $A_k$ (which gives $\approx 1$ from below), showing that $A_k$ achieves the supremum and no combination of strata can exceed it.
+
+### Summary of Q50 results
+
+| Step | Status |
+|---|---|
+| `combined_mertens_multisource_bound`: $s_{K+m} \leq (1-\varepsilon_{K+m}) - \alpha s_{K+m-1} - \Sigma g_{2^{m-j}} s_{K+j}$ | **PROVED** (conditional on Mertens thm) |
+| $T_J < 1+o(1)$ for FIXED $J$ as $x \to \infty$ | **PROVED** (combined bound, J fixed) |
+| Even-stratum fixed point $e^* = 3/4$ (convergence barrier) | **PROVED** (Q50, recurrence analysis) |
+| $T(x) < \infty$ via $p=2$ shadow alone | **NOT PROVABLE** (cascade diverges) |
+| Full conjecture $T(x) < 1+o(1)$ for all $x$ | **OPEN** (requires all-prime global shadow) |
+
+**Updated cumulative proved results (Q50):**
+86. `combined_mertens_multisource_bound`: $s_{K+m} \leq (1-\varepsilon_{K+m}) - (\log\log x)s_{K+m-1} - \sum_{j<m-1}g_{2^{m-j}}s_{K+j}$ (conditional on Mertens) — **proved** (Q50).
+87. `finite_strata_conjecture`: For any fixed $J$, $T_J(x) < 1+o(1)$ as $x \to \infty$ — **proved** (Q50, combined bound).
+88. `even_stratum_fixed_point`: The $p=2$ cascade gives even-stratum fixed point $e^* = 3/4$; series $\sum e_j$ diverges — **proved** (Q50, recurrence).
+89. `convergence_barrier_precise`: $p=2$ shadow alone is insufficient; closing the conjecture requires all-prime global shadow or direct F3 comparison argument — **identified** (Q50).
