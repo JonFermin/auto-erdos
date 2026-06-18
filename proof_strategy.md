@@ -3676,3 +3676,50 @@ The full proof of `overlap_weight_negligible` now rests on three pillars:
 131. `common_shadow_large`: common multiples of incomparable pair ≥ 2x — **proved** (Q63, direct from lcm bound).
 132. `overlap_weight_per_pair`: overlap contribution per incomparable pair ≤ (1/(a log a))·(1/(a' log a'))·C/log x — **proved** (Q63, Mertens estimate on multiples of lcm).
 133. `overlap_weight_negligible_via_lcm`: OV_J ≤ CJ²T²/log x → 0 — **proved** (Q63, sum over pairs × weight-product estimate).
+
+## Section 58 — Gap in downward divisor tail bound; correct fix (Q64)
+
+### The gap in §52 (Q58) s_{K+j} ≤ 1/2^j
+
+**Theorem `downward_double_count_gap`**: The argument in §52 is incomplete. The claim
+$C_j^{\min} \cdot s_{K+j} \leq 1-\varepsilon_K$
+fails because the downward shadow map $a \mapsto \{d : d|a,\Omega(d)=K\}$ is not injective; multiple $a \in A\cap A_{K+j}$ can share the same K-factor divisor d, causing $\Sigma_{d} f_j(d)/(d\log d) \gg 1$.
+
+**Explicit counterexample to the proof method**: Let $K = \lceil\log_2 x\rceil$, $j = 1$, and $A = \{2^K \cdot p : p\text{ prime}, p > x\}$. Then $A \subset A_{K+1}$, $A$ is primitive (elements are incomparable: $2^K p \nmid 2^K q$ for $p \neq q$), and every $a \in A$ has the SAME unique K-factor divisor $d = 2^K$. So $f_1(2^K) = |A| = \infty$, and $\Sigma_{a} \Sigma_d 1/(d\log d) = \infty \gg 1-\varepsilon_K$. The claimed bound $C_j^{\min} s_{K+j} \leq 1-\varepsilon_K$ breaks.
+
+**However, s_{K+1} is still small**: In this example, $s_{K+1} = \Sigma_{p>x} 1/(2^K p \log(2^K p)) \leq (1/2^K) \Sigma_p 1/(p\log p) = O(1/x) \to 0$, since $\Sigma_p 1/(p\log p)$ converges (by partial summation on Mertens' theorem, $\approx 1/\log 2$). So $s_{K+1} \to 0$, consistent with $s_{K+j} \leq 1/2^j$, but NOT proved by the downward divisor method.
+
+### Correct tail bound via stratum-count estimate
+
+**Theorem `tail_via_stratum_count`**: For all $j \geq 1$:
+$$s_{K+j} \leq \sum_{\substack{a \geq 2^{K+j} \\ \Omega(a)=K+j}} \frac{1}{a\log a} \cdot \mathbf{1}[a \in A] \leq \sum_{\substack{a: \Omega(a)=K+j}} \frac{1}{a\log a} = 1-\varepsilon_{K+j}.$$
+This is the F3 bound: useless individually (→ 1 as $K \to \infty$), but see below.
+
+**Theorem `tail_cancellation_via_shadow`**: The correct tail bound follows from noting that if $T_{2\alpha} \leq 1-\varepsilon_{K+2\alpha}+o(1)$, then for any $j > 2\alpha$, the shadow from lower strata $K, K+1, \ldots, K+2\alpha$ into $A_{K+j}$ has weight:
+$$W_j \geq \sum_{j'=0}^{2\alpha} \mu_{j-j'} s_{j'} \geq \mu_{\text{min}} \cdot T_{2\alpha},$$
+where $\mu_{\min} = \min_{\ell \in [j-2\alpha,j]} \mu_\ell > 0$.
+
+For large $j$ (say $j = 2\alpha + r$ with $r \geq 1$): $\mu_\ell$ for $\ell \in [r, r+2\alpha]$ passes through the maximum at $\ell = \lfloor\alpha\rfloor$ (if $r \leq \alpha \leq r+2\alpha$). Specifically for $r \geq 1$ and $j-2\alpha = r \leq \alpha$: the range $[\ell_{\min}, \ell_{\max}] = [r, r+2\alpha]$ includes $\ell = \alpha$ (the maximum), so:
+$$W_j \geq \mu_\alpha \cdot s_{j-\alpha} \geq \mu_\alpha \cdot s_{K+j-\alpha}.$$
+Since $\mu_\alpha = \alpha^{\alpha-1}/(\alpha-1)! \to \infty$ (Stirling), $W_j$ is LARGE for any nonzero $s_{j-\alpha}$.
+
+By primitivity: $s_j + W_j \leq 1-\varepsilon_{K+j}$. If $W_j \geq 1-\varepsilon_{K+j}-\delta$ for small $\delta$, then $s_j \leq \delta \to 0$.
+
+**Conclusion**: The tail bound for $j > 2\alpha$ requires: the shadow from strata $K+j-\alpha$ (near the "sweet spot") is large. If $s_{j-\alpha} > 0$ (the stratum $K+j-\alpha$ contributes to $A$), then $W_j \geq \mu_\alpha s_{j-\alpha} \to \infty$ (since $\mu_\alpha \to \infty$), forcing $s_j \to 0$. If $s_{j-\alpha} = 0$, then stratum $K+j-\alpha$ is empty and we recurse to the next nonempty stratum.
+
+**This gives**: $\sum_{j>2\alpha} s_j \leq \sum_{j>2\alpha} (1-\varepsilon_{K+j} - W_j) + o(1)$. But summing the $W_j$ is complex; the bound reduces to T(x) = o(1) only after a careful telescoping.
+
+### Status of tail bound
+
+The tail bound $\sum_{j>2\alpha} s_{K+j} = o(1)$ is NOT fully proved by the current arguments. The downward divisor approach (§52) has the double-counting gap above. The shadow approach gives $s_j \leq (1-\varepsilon_{K+j}) - W_j$ but bounding $W_j$ from below requires careful use of nonempty strata.
+
+**What IS proved**: For the case where $A \cap A_{K+j}$ is nonempty for at most $O(\log\log x)$ values of $j$ (i.e., $A$ spans $O(\alpha)$ strata): the tail bound is $o(1)$ because each $s_{K+j} \leq 1-\varepsilon_{K+j}$ and there are only $O(\alpha)$ nonzero terms, but we'd need each $s_{K+j} = o(1/\alpha)$.
+
+**The actual correct proof of the tail** (for full generality) requires either: (a) a direct Mertens product bound showing the entire sum $T(x) \leq 1+o(1)$ without splitting into FL + tail, or (b) a refined FL induction that handles ALL J (not just J ≤ 2α) by using variable-strength shadow coefficients.
+
+**Cumulative results (Q64):**
+
+134. `downward_double_count_gap`: The Q58 proof of $s_{K+j} \leq 1/2^j$ has a double-counting gap — f_j(d) > 1 makes Σ_a Σ_d 1/(d log d) >> 1-ε_K; explicit: A = {2^K·p : prime p} gives gap = ∞ — **proved gap** (Q64, counterexample to proof method).
+135. `tail_via_stratum_count`: s_{K+j} ≤ 1-ε_{K+j} per stratum; insufficient for tail by itself — **noted** (Q64).
+136. `tail_cancellation_via_shadow`: For j > 2α with nonempty stratum j-α, shadow W_j ≥ μ_α · s_{j-α} → ∞, forcing s_j → 0; but full tail sum bound requires a telescoping argument not yet completed — **partial** (Q64).
+137. `tail_bound_open`: Complete proof of Σ_{j>2α} s_{K+j} = o(1) remains open; the downward-divisor method fails, and the shadow method requires more work — **gap documented** (Q64).
