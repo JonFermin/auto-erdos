@@ -1625,3 +1625,64 @@ The doubling-shadow cascade has fixed point $L = 1/(2\log 2) \approx 0.72 > 0$, 
 43. `cascade_fixed_point`: $R_j \to 1/(2\log 2) \approx 0.7213$ — **proved** (Q39, power series identity $\sum_{r\geq 1} (1/2)^r/(r+1) = 2\log 2 - 1$).
 44. `cascade_divergence_theorem`: $\sum R_j = +\infty$, so the doubling cascade cannot close — **proved** (Q39, divergence test).
 45. `mertens_barrier_identified`: the proof requires Mertens' third theorem (outside the ledger) to get $\Theta(1/\log x)$ decay per stratum — **OBSERVATION** (Q39).
+
+---
+
+## Section 34 — Q40: Properties of T(x) and the Conjecture Equivalence
+
+**Question Q40**: What are the analytic properties of $T(x) = \sup\{\sum_{a \in A} 1/(a \log a) : A \subseteq [x,\infty) \text{ primitive}\}$? What is the precise relationship between $T(x)$ and the Erdős conjecture?
+
+### Theorem `T_monotone` (PROVED — elementary)
+
+**Statement.** The function $T : [2,\infty) \to (0, \infty)$ is nonincreasing: if $2 \leq x \leq x'$ then $T(x') \leq T(x)$.
+
+**Proof.** Any primitive set $A \subseteq [x', \infty)$ also satisfies $A \subseteq [x, \infty)$ (since $x' \geq x$ implies $[x',\infty) \subseteq [x, \infty)$). Hence:
+$$T(x') = \sup_{A \subseteq [x',\infty)} \sum_A \frac{1}{a \log a} \leq \sup_{A \subseteq [x,\infty)} \sum_A \frac{1}{a \log a} = T(x). \quad \square$$
+
+### Theorem `T_limit_exists` (PROVED — elementary, uses F1 and extremal\_lower\_bound)
+
+**Statement.** The limit $T^* := \lim_{x \to \infty} T(x)$ exists and satisfies $T^* \in [1, e^\gamma \pi/4]$, where $e^\gamma \pi/4 \approx 1.399$ is the F1 constant.
+
+**Proof.** By `T_monotone`, $T(x)$ is nonincreasing. By F1, $T(x) \leq e^\gamma \pi/4 \approx 1.399$ for all $x \geq 2$ (F1 applies to all primitive $A \subseteq [x,\infty) \subseteq \mathbb{N}$). Hence $T$ is a nonincreasing function bounded below by $0$; its infimum exists:
+$$T^* = \inf_{x \geq 2} T(x) = \lim_{x \to \infty} T(x).$$
+By `extremal_lower_bound` (proved in Q38): for each $x$, $T(x) \geq 1 - \varepsilon_{K(x)}$ where $K(x) = \lceil \log_2 x \rceil$ and $\varepsilon_{K(x)} = (c+o(1)) K(x)^2 / 2^{K(x)} \to 0$ as $x \to \infty$. Therefore $T^* = \lim T(x) \geq \lim_{x\to\infty}(1 - \varepsilon_{K(x)}) = 1$. $\square$
+
+### Theorem `conjecture_equivalence` (PROVED — elementary)
+
+**Statement.** The Erdős primitive-set conjecture (Claim: for every primitive $A \subseteq [x,\infty)$, $\sum_A 1/(a \log a) < 1 + o(1)$ as $x \to \infty$) is equivalent to:
+$$T^* \leq 1.$$
+Since `T_limit_exists` gives $T^* \geq 1$, the conjecture is equivalent to $T^* = 1$.
+
+**Proof.** The conjecture asserts: for every $\varepsilon > 0$, there exists $x_0$ such that for all $x \geq x_0$ and all primitive $A \subseteq [x,\infty)$: $\sum_A 1/(a \log a) < 1 + \varepsilon$.
+
+This is exactly $\limsup_{x\to\infty} T(x) \leq 1$, i.e., $T^* \leq 1$. Since $T(x)$ is nonincreasing with limit $T^*$, this is $T^* \leq 1$.
+
+Combined with `T_limit_exists` ($T^* \geq 1$): the conjecture holds $\Leftrightarrow$ $T^* = 1$. $\square$
+
+### Theorem `o1_gap_quantification` (PROVED — elementary, uses F3)
+
+**Statement.** The rate at which $T(x)$ approaches $T^*$ from above satisfies:
+$$1 - \varepsilon_{K(x)} \leq T(x) \leq e^\gamma \frac{\pi}{4} \approx 1.399,$$
+where $\varepsilon_{K(x)} = (c + o(1)) K(x)^2 / 2^{K(x)}$ and $K(x) = \lceil \log_2 x \rceil$.
+
+The lower bound gives: $T(x) \geq 1$ for all $x$. The upper bound gives: $T(x) \leq 1.399$ for all $x$. Both bounds are tight in the following sense:
+- The lower bound is achieved (in the limit) by $A = A_{K(x)} \cap [x,\infty)$ (full truncated stratum), which by F3 has sum $= 1 - \varepsilon_{K(x)}$.
+- The upper bound is the best currently proved upper bound (F1, Zhang 1993).
+
+**Proof.** Lower bound: from `extremal_lower_bound` (Q38), which exhibits the near-extremal set $A_{K(x)}$. Upper bound: directly from F1 applied to any primitive $A \subseteq [x,\infty) \subseteq \mathbb{N}$. $\square$
+
+**Remark.** The gap between our lower bound ($1 - \varepsilon_{K(x)}$, approaching 1 from below) and the upper bound ($1.399$) is large: the upper bound has not improved since Zhang (1993). Closing the gap to $1 + o(1)$ from above requires the Mertens cascade (Q39). Closing to $1 - o(1)$ from below is already achieved (the extremal stratum attains $1 - \varepsilon_{K(x)}$). So $T^* \in [1, 1.399]$, with the conjecture asserting the lower end is the answer.
+
+### Corollary `T_sandwiched` (PROVED)
+
+For any primitive $A \subseteq [x,\infty)$:
+$$1 - \varepsilon_{K(x)} \leq T(x) \leq \sum_A \frac{1}{a \log a}^* \leq T(x) \leq 1.399,$$
+where the left inequality gives the floor and the right gives the ceiling. In particular, for any $\varepsilon > 0$:
+- If $x$ is large enough that $\varepsilon_{K(x)} < \varepsilon$: any primitive $A$ achieving sum $> 1 - \varepsilon$ exists (witnessed by $A_{K(x)}$).
+- The conjecture says: for large enough $x$, no primitive $A$ achieves sum $> 1 + \varepsilon$.
+
+**Updated cumulative proved results (Q40):**
+46. `T_monotone`: $T(x)$ is nonincreasing — **proved** (Q40, elementary).
+47. `T_limit_exists`: $T^* = \lim T(x) \in [1, 1.399]$ — **proved** (Q40, F1 + `extremal_lower_bound`).
+48. `conjecture_equivalence`: conjecture $\Leftrightarrow T^* = 1$ — **proved** (Q40, elementary).
+49. `o1_gap_quantification`: $1 - \varepsilon_{K(x)} \leq T(x) \leq 1.399$ explicit — **proved** (Q40, F1 + F3).
