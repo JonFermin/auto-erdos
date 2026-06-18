@@ -1547,3 +1547,81 @@ $$S_{k+1} := \sum_{a \in A \cap A_{k+1}} \frac{1}{a \log a} \leq \sum_{a \in A_{
 39. `elementary_doubling_shadow`: shadow via $p = 2$ blocks weight $\geq S_k/4$ from $A_{k+1}$ — **proved** (Q38, elementary).
 40. `two_stratum_interaction_bound`: two-stratum sum $\leq (3/4)S_k + (1-\varepsilon_{k+1})$ — **proved** (Q38, F3 + doubling shadow).
 41. `counterexample_necessary_structure`: sum $> 1$ requires multi-stratum $A$ with no full stratum — **proved** (Q38, elementary).
+
+---
+
+## Section 33 — Q39: Cascade Divergence Theorem and the Mertens Barrier
+
+**Question Q39**: Does the doubling-shadow cascade (using only $p = 2$) converge? What is its fixed point, and why does the full proof require Mertens rather than elementary doublings?
+
+### Setup: Per-Stratum Bound via Chained Doublings
+
+Let $A \subseteq [x, \infty)$ be primitive, and write $S_j := \sum_{a \in A \cap A_j} 1/(a \log a)$ for $j \geq K(x)$. We track how elements in stratum $j - r$ (for $r \geq 1$) block weight in stratum $j$ via the map $a \mapsto 2^r a$.
+
+For $a \in A \cap A_{j-r}$ with $a \geq 2$: $\Omega(2^r a) = j - r + r = j$, so $2^r a \in A_j$, and by primitivity $2^r a \notin A$ (since $a \mid 2^r a$ and $a \in A$). The blocked contribution from this element in stratum $j$ is:
+$$\frac{1}{2^r a \cdot \log(2^r a)}.$$
+
+Since $\log(2^r a) = r \log 2 + \log a \leq (r + 1) \log a$ for $a \geq 2^r$ (using $\log 2^r \leq r \log a$ when $a \geq 2$):
+$$\frac{1}{2^r a \cdot \log(2^r a)} \geq \frac{1}{(r+1) \cdot 2^r} \cdot \frac{1}{a \log a}.$$
+
+Summing over all elements in $A \cap A_{j-r}$, the blocked weight in $A_j$ from stratum $j - r$ via doubling is $\geq S_{j-r} / ((r+1) \cdot 2^r)$.
+
+### Theorem `doubling_cascade_recursion` (PROVED — elementary)
+
+**Statement.** Define the sequence $(R_j)_{j \geq 0}$ by:
+$$R_0 = 1, \qquad R_j = 1 - \sum_{r=1}^{j} \frac{R_{j-r}}{(r+1) \cdot 2^r} \quad \text{for } j \geq 1.$$
+Then for any primitive $A \subseteq [x, \infty)$ with $S_K = \sum_{a \in A \cap A_K} 1/(a \log a) \leq R_0 = 1$ (where $K = K(x)$), the per-stratum weights satisfy $S_{K+j} \leq R_j$ for all $j \geq 0$.
+
+**Proof.** Induction on $j$. Base case $j = 0$: $S_K \leq \sum_{A_K} 1/(a \log a) \leq 1 = R_0$ (by F3 with $k = K$ large). Inductive step: assume $S_{K+i} \leq R_i$ for all $i < j$. The available weight in $A_{K+j}$ is at most $\sum_{A_{K+j}} 1/(a \log a) \leq 1 - \varepsilon_{K+j}$ (F3). The shadow from stratum $K+j-r$ (via doubling $r$ times) blocks at least $S_{K+j-r}/((r+1) \cdot 2^r)$ from $A_{K+j}$. The blocked sets for distinct $r$ are disjoint (each element of $A_j$ is blocked by at most one ancestor via the map $a \mapsto 2^r a$, since $2^r a = 2^s b$ with $a \neq b$ forces $a \mid b$ or $b \mid a$, contradicting primitivity). Therefore:
+$$S_{K+j} \leq (1 - \varepsilon_{K+j}) - \sum_{r=1}^{j} \frac{S_{K+j-r}}{(r+1) \cdot 2^r} \leq 1 - \sum_{r=1}^{j} \frac{R_{j-r}}{(r+1) \cdot 2^r} = R_j. \quad \square$$
+
+**Remark on disjointness.** More carefully: elements blocked by $r$ doublings are $\{2^r a : a \in A \cap A_{K+j-r}\}$. Two elements $2^r a$ and $2^s b$ (with $r < s$ and $a \in A_{K+j-r}$, $b \in A_{K+j-s}$) are distinct elements of $A_{K+j}$. If they collide, $2^r a = 2^s b$ so $a = 2^{s-r} b$, meaning $b \mid a$ with $b \neq a$, contradicting primitivity of $A$. So the blocked sets are indeed disjoint.
+
+### Theorem `cascade_fixed_point` (PROVED — elementary power series)
+
+**Statement.** The sequence $(R_j)_{j \geq 0}$ defined above satisfies $R_j \to L$ as $j \to \infty$, where:
+$$L = \frac{1}{2 \log 2} \approx 0.7213.$$
+
+**Proof.** Assuming $R_j \to L$, the recursion in the limit gives:
+$$L = 1 - L \cdot \sum_{r=1}^{\infty} \frac{1}{(r+1) \cdot 2^r}.$$
+We evaluate the power series. For $|x| < 1$:
+$$\sum_{r=0}^{\infty} \frac{x^r}{r+1} = \frac{1}{x} \sum_{r=0}^{\infty} \frac{x^{r+1}}{r+1} = -\frac{\log(1-x)}{x}.$$
+So $\sum_{r=1}^{\infty} x^r/(r+1) = -\log(1-x)/x - 1$. At $x = 1/2$:
+$$\sum_{r=1}^{\infty} \frac{(1/2)^r}{r+1} = -\frac{\log(1/2)}{1/2} - 1 = 2\log 2 - 1 \approx 0.3863.$$
+Substituting: $L = 1 - L(2 \log 2 - 1)$, so $L \cdot 2 \log 2 = 1$, giving $L = 1/(2 \log 2)$.
+
+To verify that the recursion indeed converges to this $L$: the linear recursion $R_j = 1 - \sum_{r \geq 1} c_r R_{j-r}$ with $c_r = 1/((r+1) 2^r)$ and $\sum c_r = 2\log 2 - 1 < 1$ has a unique fixed point $L = 1/(2\log 2)$; since $\sum c_r < 1$, the recursion is contractive and $R_j \to L$ geometrically. $\square$
+
+**Numerical check.** $R_0 = 1$, $R_1 = 1 - 1/4 = 0.75$, $R_2 = 1 - 0.75/4 - 1/12 = 0.729$, $R_3 \approx 0.724$, $R_4 \approx 0.722$, converging rapidly to $1/(2\log 2) \approx 0.7213$.
+
+### Theorem `cascade_divergence_theorem` (PROVED — elementary)
+
+**Statement.** The sum $\sum_{j=0}^{\infty} R_j$ diverges. In particular, the doubling-only shadow cascade does NOT prove $\sum_A 1/(a \log a) \leq C$ for any constant $C < \infty$ for general multi-stratum primitive sets.
+
+**Proof.** Since $R_j \to L = 1/(2 \log 2) > 0$, the terms $R_j$ do not tend to zero. By the divergence test, $\sum R_j = +\infty$. $\square$
+
+**Interpretation.** In the cascade, the total upper bound on $\sum_{j \geq K} S_{K+j}$ is $\leq \sum_{j \geq 0} R_j = +\infty$. The doubling-shadow recursion improves the naive bound (from $\sum_{j \geq 0} 1 = +\infty$) to $\sum_{j \geq 0} R_j = +\infty$ — still divergent. The cascade does not converge to a finite bound.
+
+This is the **Mertens barrier**: any elementary proof using only $p = 2$ shadows per stratum cannot close the cascade. To obtain a finite bound, the shadow per element $a$ in stratum $j$ must be $o(1/a \log a)$, i.e., must decay — and only the full Mertens sum over all primes achieves this decay.
+
+### Theorem `mertens_cascade_contrast` (OBSERVATION — requires Mertens, outside ledger)
+
+**Statement (informal).** If one uses the full prime shadow (sum over all primes $p$) instead of only $p = 2$, the blocked weight per element $a \in A \cap A_k$ in stratum $k + 1$ is:
+$$\sum_{p \leq x/a} \frac{1}{pa \log(pa)} \approx \frac{1}{a \log a} \cdot \frac{\log \log x}{\log x},$$
+by Mertens' third theorem: $\sum_{p \leq y} 1/(p \log p) \sim \log \log y / \log y$ as $y \to \infty$.
+
+With this decay rate $\Theta(1/\log x)$ per element, the cascade satisfies the modified recursion:
+$$S_{j+1} \leq (1 - \varepsilon_{j+1}) - \frac{\log \log x}{\log x} \cdot S_j,$$
+which (for fixed $x$) is a contraction with ratio $1 - \Theta(1/\log x)$. Iterating over $O(\log x / \log\log x)$ active strata, the cascade closes to give $\sum_j S_j \leq O(1 + o(1))$ as $x \to \infty$ — the conjecture.
+
+**Status**: This theorem is OUTSIDE the ledger (Mertens is not in given\_facts F1–F3). It is stated here as an OBSERVATION to identify exactly where the full proof requires a fact beyond the elementary.
+
+### Summary of Q39
+
+The doubling-shadow cascade has fixed point $L = 1/(2\log 2) \approx 0.72 > 0$, so the cascade diverges. To prove the conjecture, one must use the full Mertens sum over all primes (which introduces a $\Theta(1/\log x)$ decay per stratum). The ledger does not include Mertens, so the full closure remains outside the current framework. This precisely identifies the missing ingredient: **Mertens' third theorem**, $\sum_{p \leq y} 1/p \sim \log\log y$.
+
+**Updated cumulative proved results (Q39 additions):**
+42. `doubling_cascade_recursion`: per-stratum weights satisfy $S_{K+j} \leq R_j$ where $R_j = 1 - \sum_{r=1}^{j} R_{j-r}/((r+1)2^r)$ — **proved** (Q39, elementary).
+43. `cascade_fixed_point`: $R_j \to 1/(2\log 2) \approx 0.7213$ — **proved** (Q39, power series identity $\sum_{r\geq 1} (1/2)^r/(r+1) = 2\log 2 - 1$).
+44. `cascade_divergence_theorem`: $\sum R_j = +\infty$, so the doubling cascade cannot close — **proved** (Q39, divergence test).
+45. `mertens_barrier_identified`: the proof requires Mertens' third theorem (outside the ledger) to get $\Theta(1/\log x)$ decay per stratum — **OBSERVATION** (Q39).
