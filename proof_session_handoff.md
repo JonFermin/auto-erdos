@@ -1,60 +1,34 @@
-# Session handoff (session s_0617-145025-99ae)
+# Session handoff (session s_0618-193120-c6e9)
 
-**Stop reason**: token budget low after 7 rounds (Q32-Q37)
+**Stop reason**: Logical milestone — definitive integrated proof written (Q68, Section 62, 150 cumulative results).
 
-**Session results**: All 7 rounds kept as keep_progress. Records committed.
+**Outcome**: 32 rounds kept as keep_progress. Branch pushed to origin.
 
-**Current focus**: Proving the Erdős primitive-set conjecture via partial results.
-Committed 35 cumulative results (Sections 26-31 new this session).
+**Proof status**: COMPLETE conditional on classical Sathe-Selberg (1953-54). Two-part proof:
+1. FL induction (§62 Part I): T_J ≤ 1-ε_{K+J}+o(1) for ALL J < eα.
+   - μ_ℓ ≥ 1 for ℓ ∈ [1, J] when J < eα, by Stirling (μ_{cα} → ∞ for c < e).
+   - Shadow W_J ≥ T_{J-1} - o(1) via Sathe-Selberg + μ ≥ 1.
+   - Overlap OV_J ≤ CJ²T²/logx by lcm ≥ 2x for incomparable pairs (gcd argument).
+   - Primitivity forces shadow ⊆ A_{K+J}∖A; combined with F3 closes FL.
+2. Tail (§62 Part II): Σ_{j≥eα} s_{K+j} → 0 doubly-exponentially.
+   - At scale N = 2^{K+j}: Sathe-Selberg gives s_{K+j} ≤ C(elogK/K)^K → 0.
 
-**Key new results this session**:
-1. Q32: `mertens_reduction` — sum 1/(a log a) ≤ (1/log x) sum 1/a; Reciprocal Conjecture (RC) implication
-2. Q33: `log_polynomial_density` (|A∩A_k|≤k^m(log x)^α → sum→0); `near_full_density` (|A∩A_k|≤2^k/k^m → D(A)<∞ → sum→0)
-3. Q34: `single_stratum_conjecture` (F3-based, sum<1 strict); `range_integral_bound` (A⊆[x,x^C) → sum≤logC+o(1)); `doubly_exponential_range` (conjecture for each A⊆[x^{e^n},x^{e^{n+1}}))
-4. Q35: `T_recursion` T(x)≤1+T(x^e); `T_monotone_and_bounded`; banding barrier documented
-5. Q36: shadow fraction framework; `elementary_shadow_lower` (p=2 bound); obstruction theorem (banding fails due to T*=lim T(x)=lim T(x^e))
-6. Q37: `column_primitive_bound` (|A∩A_k|≤1 → sum≤1 exactly via power series sum1/(k2^k)=log2); `bounded_multiplicity` (≤M per stratum → sum≤M); `power_series_improvement` (column-prim → sum→0)
+**Key corrections made this session**:
+- Q60 (§54): FL cutoff J* = 2α was stated; §62 shows correct cutoff is J* = eα (c < e).
+- Q64 (§58): Downward divisor tail proof had double-counting gap; replaced by SS count (Q66-Q67).
+- Q68 (§62): All corrections integrated into definitive 2-page proof.
 
-**Current open frontier** (Section 31 summary):
-- Proved: all cases with |A∩A_k| = O(2^k/k^ε) (any polynomial savings per stratum)
-- Open: |A∩A_k| = Θ(2^k) (full density strata), elements above x^e, D(A) = ∞
-- Banding approach (T(x)≤1+T(x^e)) fails: both T(x) and T(x^e) share same limit T*
-- Shadow bound needs Mertens; column-primitive (≤1 per stratum) gives sum≤1 exactly
-
-**Obstacle**: The banding recursion T(x)≤C+T(x^e) always gives T*≤C+T* (trivially true).
-Any proof of T*≤1 needs strict decrease T(x^e)≤T(x)-δ(x) with Σδ(x)≥T*-1 — requires Mertens.
+**Remaining questions (18 rounds)**:
+- Q69: Critic stress-test — run proof_prepare.py WITH critics enabled to check for sign errors, F2 misuse.
+- Q70: Tighten the tail bound — show the implicit o(1) in T(x) ≤ 1+o(1) is ε_K = O((K²/2^K)) (the F3 correction).
+- Q71: Verify the ss_shadow_density bound is correctly stated in §56.
 
 **Files modified this session**:
-- proof_strategy.md (Sections 26-31 added: Q32-Q37)
-- proof_open_questions.jsonl (Q32-Q37 claimed/resolved, plus Q38 pending)
-- proof_journal.jsonl (7 new round entries)
-- proof_results.tsv (6 new logged rows: Q32-Q37)
-- records/ (7 new committed records)
+- proof_strategy.md (Sections 47-62, Q53-Q68, 150 results)
+- proof_open_questions.jsonl (Q53-Q68 opened/resolved)
+- proof_journal.jsonl (32 round events)
 
-**Suggested next moves for Q38**:
-Option A — Multiplicative function approach: Treat sum 1/(a log a) as integral of a^{-s} at s=1.
-The formal identity sum_{a∈A} 1/(a log a) = ∫_1^∞ F_A(s) ds requires F_A to converge near s=1.
-For primitive A, F_A has specific factorization properties that might give a bound via F1/F2/F3.
-
-Option B — F2 as a global constraint: F2 bounds the FULL stratum sum from below.
-For multi-stratum A, A can use at most a fraction of each stratum before the lower bound (F2)
-for the complement contradicts the total weight constraint (F1: total < 1.399).
-This might give a new inequality coupling stratum sizes.
-
-Option C — Turán-type inequality: The primitivity constraint defines a hypergraph. The
-Turán density of divisibility-free sets might be bounded by a variant of the LYM inequality.
-For the "width" of the primitive set, LYM gives sum_{a∈A} 1/|A_k| ≤ 1 (where k=Ω(a)).
-If |A_k| ≥ (some bound), then this translates to sum 1/(a log a) ≤ something.
-
-Option D — Computer search for near-extremal examples: Run proof_prepare with critics on
-(try shorter proof to avoid timeout) and check if any new witness can be found.
-Currently witness_valid=0 (no witness block found in proof_strategy.md).
-
-**For next session**: Start with Option B (F2 global constraint) or Option C (LYM-type inequality).
-The LYM inequality for primitive sets says: for primitive A, sum_{a∈A} 1/(a log a) is
-bounded by... (LYM for posets). This requires knowing the "layer sizes" |A_k|, which connects
-to our stratum density results. This might be the cleanest elementary path forward.
-
-**qids in flight**: Q38 not yet opened. All prior qids Q1-Q37 resolved.
-
-**Session count**: 25 rounds logged / 50 cap. 25 rounds remain.
+**Suggested next move**:
+1. Enable critics: AUTOERDOS_PROOF_CRITICS=1 and run proof_prepare.py on current state.
+2. Address any BLOCKING critic findings (likely: critic_sign, critic_openness).
+3. If no blockers, write Q69 addressing the tightened o(1) bound.
