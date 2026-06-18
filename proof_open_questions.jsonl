@@ -87,3 +87,6 @@
 {"qid":"Q40","status":"resolved","session_id":"s_0618-174505-0e6d","summary":"proved T_monotone, T_limit_exists, conjecture_equivalence T*=1, o1_gap_quantification","ts":"2026-06-18T18:43:26+00:00"}
 {"qid":"Q41","status":"open","session_id":"s_0618-174505-0e6d","summary":"refined_doubling_shadow: for a>=x, 1/(2a log(2a)) >= 1/(2a log a * (1+log2/log x)); new cascade fixed point L=2/3 (better than 1/(2log2)); two-stratum asymptotic bound 3/2","ts":"2026-06-18T18:43:26+00:00"}
 {"qid":"Q41","status":"claimed","session_id":"s_0618-174505-0e6d","summary":"claiming Q41","ts":"2026-06-18T18:43:26+00:00"}
+{"qid":"Q41","status":"resolved","session_id":"s_0618-174505-0e6d","summary":"proved refined_doubling_shadow S_k/(2(1+delta)), two-stratum bound -> 3/2, cascade L' approx 0.611","ts":"2026-06-18T18:49:27+00:00"}
+{"qid":"Q42","status":"open","session_id":"s_0618-174505-0e6d","summary":"T_geq_one_all_x: T(x)>=1 for ALL x>=2 (not just T*>=1) via F3 for all large k; T(x) in [1,1.399] sharp","ts":"2026-06-18T18:49:27+00:00"}
+{"qid":"Q42","status":"claimed","session_id":"s_0618-174505-0e6d","summary":"claiming Q42","ts":"2026-06-18T18:49:27+00:00"}

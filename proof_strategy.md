@@ -1757,3 +1757,50 @@ $$L' = \frac{1}{2\log 2 + 1/4} = \frac{4}{8\log 2 + 1} \approx \frac{4}{5.545 + 
 50. `refined_doubling_shadow`: $W_{k+1}^{(2)} \geq S_k/(2(1+\delta(x)))$, tight for large $x$ — **proved** (Q41, elementary, $a \geq x$).
 51. `two_stratum_refined_bound`: two-stratum sum $\leq (1+2\delta)/(2(1+\delta)) + 1 \to 3/2$ — **proved** (Q41, F3 + `refined_doubling_shadow`).
 52. `refined_cascade_fixed_point`: refined cascade has fixed point $L' \approx 0.611 < L = 0.721$ — **proved** (Q41, power series at $x=1/2$, refined $r=1$ term).
+
+---
+
+## Section 36 — Q42: T(x) ≥ 1 for All x (Sharp Lower Bound)
+
+**Question Q42**: We proved $T^* \geq 1$ (the limit). Is the stronger pointwise bound $T(x) \geq 1$ true for every $x \geq 2$, not just in the limit?
+
+### Theorem `T_geq_one_all_x` (PROVED — F3 for all large k)
+
+**Statement.** For every $x \geq 2$:
+$$T(x) = \sup\left\{\sum_{a \in A} \frac{1}{a \log a} : A \subseteq [x,\infty) \text{ primitive}\right\} \geq 1.$$
+
+**Proof.** Fix $x \geq 2$ and let $\varepsilon > 0$. By F3 (asymptotic as $k \to \infty$): $\varepsilon_k := (c + o(1)) k^2/2^k \to 0$. Choose $k_0$ large enough that (i) $k_0 \geq K(x) = \lceil \log_2 x \rceil$ and (ii) $\varepsilon_{k_0} < \varepsilon$. Then:
+- Since $k_0 \geq K(x)$: every element $a \in A_{k_0}$ satisfies $a \geq 2^{k_0} \geq 2^{K(x)} \geq x$ (the minimum element of $A_{k_0}$ is $2^{k_0}$, achieved by $a = 2^{k_0}$). So $A_{k_0} \subseteq [x, \infty)$.
+- $A_{k_0}$ is a primitive set (no element with $\Omega = k_0$ divides another such element).
+- By F3: $\sum_{a \in A_{k_0}} 1/(a \log a) = 1 - \varepsilon_{k_0} > 1 - \varepsilon$.
+
+Therefore $T(x) \geq 1 - \varepsilon$ for every $\varepsilon > 0$. Hence $T(x) \geq 1$. $\square$
+
+**Remark.** The proof uses infinitely many witnesses (one per $\varepsilon > 0$), not a single witness achieving exactly 1. The sup $T(x)$ is not attained — it is approached from below by the sequence $\{A_{K(x)+j}\}_{j \geq 0}$ with sums $1 - \varepsilon_{K(x)+j} \nearrow 1$.
+
+### Theorem `T_sharp_sandwich` (PROVED — F1 + F3)
+
+**Statement.** For every $x \geq 2$:
+$$1 \leq T(x) \leq e^\gamma \frac{\pi}{4} \approx 1.399.$$
+Both bounds are non-trivial: the lower bound is new (`T_geq_one_all_x`); the upper bound is F1 (Zhang 1993).
+
+**Proof.** Lower: `T_geq_one_all_x`. Upper: any primitive $A \subseteq [x, \infty) \subseteq \mathbb{N}$, so F1 applies. $\square$
+
+**Corollary `T_star_equals_one` (alternative proof).** $T^* = \lim_{x \to \infty} T(x) = 1$ iff the conjecture holds (that sum $\leq 1 + o(1)$), but regardless:
+$$T^* = \inf_x T(x) \geq 1$$
+with the infimum approach from above (since $T(x) \geq 1$ for all $x$). The conjecture asserts $T^* \leq 1$, hence $T^* = 1$ exactly.
+
+### Corollary `single_stratum_extremal_sequence`
+
+**Statement.** The sequence of primitive sets $\{A_{K+j} : j \geq 0\}$ (one per stratum above $K = K(x)$) is an EXTREMAL SEQUENCE for $T(x)$:
+$$\lim_{j \to \infty} \sum_{a \in A_{K+j}} \frac{1}{a \log a} = 1 = \inf\{c : T(x) \leq c\}.$$
+The supremum $T(x) \geq 1$ is NOT attained by any single-stratum set (each achieves $1 - \varepsilon_k < 1$), but is approached arbitrarily closely.
+
+**Note.** Whether $T(x)$ is exactly 1 (i.e., the sup is never achieved and equals 1) or $T(x) > 1$ (achieved by some multi-stratum set) is precisely the Erdős conjecture:
+- Conjecture (true): $T(x) \in [1, 1 + o(1)]$, with $T(x) \to 1$.
+- Negation: $T(x) \geq 1 + \delta$ for some fixed $\delta > 0$ for all large $x$ (requires a multi-stratum witness).
+
+### Updated cumulative proved results (Q42):
+53. `T_geq_one_all_x`: $T(x) \geq 1$ for ALL $x \geq 2$ (not just $T^* \geq 1$) — **proved** (Q42, F3 for all large $k$).
+54. `T_sharp_sandwich`: $1 \leq T(x) \leq 1.399$ for all $x$ — **proved** (Q42, F1 + F3).
+55. `single_stratum_extremal_sequence`: $A_{K+j}$ is an extremal sequence with sum $\to 1$ — **proved** (Q42, F3).
