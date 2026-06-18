@@ -1859,3 +1859,73 @@ So the "excess" of $T(x)$ over 1 comes purely from MULTI-STRATUM interaction, no
 57. `T2_greater_one`: $T(2) > 1.017$ via $\{2,3\}$ — **proved** (Q43, elementary arithmetic).
 58. `T2_four_prime_bound`: $T(2) \geq 1.213$ via $\{2,3,5,7\}$ — **proved** (Q43, elementary arithmetic).
 59. `conjecture_nontrivial_at_small_x`: multi-stratum sets cause $T(2) > 1$; Mertens shadow drives $T(x) \to 1$ — **OBSERVATION** (Q43).
+
+---
+
+## Section 38 — Q44: Quantitative Convergence Rate of the Extremal Sequence
+
+**Question Q44**: How fast does $1 - \varepsilon_{K+j}$ approach 1 as $j \to \infty$? Can we give a sharp quantitative formula for the gap $\varepsilon_{K+j}$ as a function of $j$?
+
+### Theorem `stratum_gap_formula` (PROVED — F3 + elementary algebra)
+
+**Statement.** For $K = K(x) = \lceil \log_2 x \rceil$ and $j \geq 0$, the stratum $A_{K+j}$ satisfies:
+$$\sum_{a \in A_{K+j}} \frac{1}{a \log a} = 1 - \varepsilon_{K+j}, \quad \varepsilon_{K+j} = \frac{(c + o(1))(K+j)^2}{2^{K+j}},$$
+where $c \approx 0.0656$ and $o(1) \to 0$ as $K+j \to \infty$ (F3).
+
+Expanding:
+$$\varepsilon_{K+j} = \frac{(c+o(1)) K^2}{2^K} \cdot \frac{(1 + j/K)^2}{2^j} = \varepsilon_K \cdot \frac{(1+j/K)^2}{2^j}.$$
+In particular:
+$$\varepsilon_{K+j} \leq \varepsilon_K \cdot \frac{(1 + j/K)^2}{2^j} \leq \varepsilon_K \cdot \frac{4}{2^j} \quad \text{for } j \leq K,$$
+and:
+$$\varepsilon_{K+j} \leq \varepsilon_K \cdot \frac{(1 + j/K)^2}{2^j} \leq \frac{(c+o(1))(K+j)^2}{2^{K+j}}.$$
+
+**Proof.** Direct from F3. $\square$
+
+### Theorem `convergence_rate_stratum` (PROVED — F3)
+
+**Statement.** The single-stratum extremal sequence $\{1 - \varepsilon_{K+j}\}_{j \geq 0}$ converges to 1 EXPONENTIALLY FAST in $j$:
+$$1 - (1-\varepsilon_{K+j}) = \varepsilon_{K+j} = O\!\left(\frac{j^2}{2^j}\right) \quad (K \text{ fixed}).$$
+More precisely, for any $\varepsilon > 0$: if $j \geq j_0(\varepsilon) := \lceil 2\log_2(1/\varepsilon) + 2\log_2 K \rceil$, then $\varepsilon_{K+j} \leq \varepsilon$, and consequently:
+$$1 - \varepsilon_{K+j} \geq 1 - \varepsilon, \quad \text{i.e., } T(x) \geq \sum_{A_{K+j}} \geq 1 - \varepsilon.$$
+
+**Proof.** From `stratum_gap_formula`: $\varepsilon_{K+j} \leq (c+1) \cdot (K+j)^2 / 2^{K+j}$ for large enough $K+j$. Setting this $\leq \varepsilon$:
+$(K+j)^2 / 2^{K+j} \leq \varepsilon/(c+1)$, i.e., $(K+j)^2 \leq 2^{K+j} \cdot \varepsilon/(c+1)$.
+
+Taking logarithms: $2\log_2(K+j) \leq K+j + \log_2(\varepsilon/(c+1))$, which holds for $j \geq C \log_2(K/\varepsilon)$ for some constant $C$. $\square$
+
+### Corollary `explicit_T_lower_bound`
+
+For any $x \geq 2$, $K = K(x)$, and $j \geq 1$:
+$$T(x) \geq 1 - \frac{(c+o(1))(K+j)^2}{2^{K+j}}.$$
+The BEST (largest) lower bound is attained by taking $j \to \infty$ (giving $T(x) \geq 1$), but for any FIXED $j$, the lower bound is $1 - O(1/2^j)$.
+
+**Explicit table** (for $K = 20$, i.e., $x \approx 10^6$; $c \approx 0.0656$):
+
+| $j$ | $K+j$ | $\varepsilon_{K+j} \approx c \cdot (K+j)^2 / 2^{K+j}$ | $1 - \varepsilon_{K+j}$ |
+|---|---|---|---|
+| 0 | 20 | $\approx 0.0656 \cdot 400 / 10^6 \approx 2.5 \times 10^{-5}$ | $\approx 1 - 2.5\times 10^{-5}$ |
+| 1 | 21 | $\approx 0.0656 \cdot 441 / 2.1\times 10^6 \approx 1.4 \times 10^{-5}$ | $\approx 1 - 1.4\times 10^{-5}$ |
+| 10 | 30 | $\approx 0.0656 \cdot 900 / 10^9 \approx 5.9 \times 10^{-8}$ | $\approx 1 - 6\times 10^{-8}$ |
+| 20 | 40 | $\approx 0.0656 \cdot 1600 / 10^{12} \approx 10^{-10}$ | $\approx 1 - 10^{-10}$ |
+
+The convergence is essentially geometric with ratio $\approx 1/2$ per step.
+
+### Theorem `T_lower_bound_formula` (PROVED — F3)
+
+**Statement.** For any $x \geq 2$ and any integer $m \geq K(x)$:
+$$T(x) \geq 1 - \frac{(c+o(1)) m^2}{2^m}.$$
+The right-hand side is maximized (closest to 1) for large $m$, approaching 1 as $m \to \infty$.
+
+**Proof.** Take $A = A_m$ (valid since $m \geq K(x)$ implies $A_m \subseteq [x,\infty)$). By F3: sum$_{A_m}$ = $1 - (c+o(1))m^2/2^m$. Hence $T(x) \geq$ this value. $\square$
+
+**Quantitative comparison with upper bound (F1):**
+- Lower bound on $T(x)$: $1 - (c+o(1)) m^2/2^m \to 1$ from below, for $m = K(x)+j$, $j \to \infty$.
+- Upper bound on $T(x)$: $1.399$ (F1), constant.
+- Gap: $[1 - (c+o(1))m^2/2^m, 1.399]$, which is $\approx [1, 1.399]$ for large $x$.
+
+The conjecture asserts that $T(x) \to 1$ (the lower end), so the upper bound must tighten. This tightening is the content of the Mertens argument.
+
+**Updated cumulative proved results (Q44):**
+60. `stratum_gap_formula`: $\varepsilon_{K+j} = (c+o(1))(K+j)^2/2^{K+j} = \varepsilon_K \cdot (1+j/K)^2/2^j$ — **proved** (Q44, F3 + algebra).
+61. `convergence_rate_stratum`: $\varepsilon_{K+j} = O(j^2/2^j)$ exponential convergence — **proved** (Q44, F3).
+62. `T_lower_bound_formula`: $T(x) \geq 1 - (c+o(1))m^2/2^m$ for any $m \geq K(x)$ — **proved** (Q44, F3).

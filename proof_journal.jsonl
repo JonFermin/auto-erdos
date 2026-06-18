@@ -35,3 +35,4 @@
 {"event":"round","session_id":"s_0618-174505-0e6d","ts":"2026-06-18T18:43:26+00:00","summary":"Q40: T_monotone+T_limit_exists+conjecture_equivalence+o1_gap proved","qid":"Q40","status":"keep_progress","commit":"3287317"}
 {"event":"round","session_id":"s_0618-174505-0e6d","ts":"2026-06-18T18:49:27+00:00","summary":"Q41: refined shadow 1/2 asymptotic, two-stratum 3/2, cascade L'=0.611 proved","qid":"Q41","status":"keep_progress","commit":"fda9d79"}
 {"event":"round","session_id":"s_0618-174505-0e6d","ts":"2026-06-18T18:54:53+00:00","summary":"Q42: T(x)>=1 for all x proved via F3 extremal sequence; T in [1,1.399]","qid":"Q42","status":"keep_progress","commit":"6a01dfe"}
+{"event":"round","session_id":"s_0618-174505-0e6d","ts":"2026-06-18T18:57:05+00:00","summary":"Q43: T(2)>1 elementary proof; T(2)>=1.213 four-prime bound","qid":"Q43","status":"keep_progress","commit":"7afcc09"}
