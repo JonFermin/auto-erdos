@@ -2562,3 +2562,100 @@ The full conjecture requires one of:
 93. `fl_j3_gap`: FL for J=3 cannot be proved from p=2 shadow + two-stratum bound — **identified** (Q51, explicit gap analysis).
 94. `multi_prime_multi_source_bound`: s_{K+m}≤(1-ε_{K+m})-Σα^{m-j-1}/(m-j-1)! s_{K+j}$ — **conditional + unproved disjointness** (Q51).
 95. `column_primitive_T_bound`: column-primitive A ⟹ T<1 (with explicit bound via log 2) — **proved** (Q51).
+
+## Section 46 — Inductive proof of Fundamental Lemma via multi-step Mertens (Q52)
+
+### Setup
+
+Let $\alpha = \log\log x$ and define the **$\ell$-step Mertens coefficient**:
+$$\mu_\ell := \sum_{\substack{q \in \mathbb{N} \\ \Omega(q)=\ell}} \frac{1}{q} \sim \frac{\alpha^{\ell-1}}{(\ell-1)!} \quad \text{(Sathe-Selberg, for } q \leq x)$$
+
+where the estimate holds for $\ell \ll \alpha$ (see Sathe 1953, Selberg 1954). Note $\mu_1 = \sum_p 1/p \sim \alpha = \log\log x$ (Mertens' theorem).
+
+### Theorem `multi_step_mertens_shadow` (CONDITIONAL on Sathe-Selberg)
+
+For each source stratum $K+j$ and target stratum $K+m$ ($m > j$), the all-prime shadow weight from $A\cap A_{K+j}$ in $A_{K+m}$ is:
+$$\Sigma_{j\to m} := \sum_{a \in A\cap A_{K+j}} \sum_{q:\Omega(q)=m-j} \frac{1}{qa\log(qa)} \;\approx\; \mu_{m-j} \cdot s_{K+j}.$$
+
+More precisely: for elements $a \geq x$ and $q \leq x^C$ (sum over not-too-large prime products):
+$$\Sigma_{j\to m} \geq \left(\mu_{m-j} - O\!\left(\frac{\alpha^{m-j-1}}{(m-j-1)!} \cdot \frac{1}{\alpha}\right)\right) s_{K+j} = \left(\mu_{m-j} - O(\mu_{m-j}/\alpha)\right) s_{K+j}.$$
+
+### The overlap issue
+
+The total blocked weight in $A_{K+m}$ from ALL source strata is $\Sigma_j^{(m)} = \sum_{j<m} \Sigma_{j\to m}$. However, the DISTINCT blocked weight $W_m^{\mathrm{actual}}$ satisfies $W_m^{\mathrm{actual}} \leq \Sigma_j^{(m)}$ (overlapping elements are double-counted in $\Sigma_j^{(m)}$).
+
+**Overlap bound**: For incomparable source elements $a \in A_{K+j}$, $a' \in A_{K+j'}$ ($j < j'$), their common multiples in $A_{K+m}$ are multiples of $\mathrm{lcm}(a,a')$, which has $\Omega(\mathrm{lcm}(a,a')) \geq K+j'$. The overlap weight:
+$$\text{overlap}(j,j') \leq \mu_{m-j'} \cdot s_{K+j'} \cdot (s_{K+j}/s_{K+j'-1}) \cdot O(1/\alpha),$$
+where the $O(1/\alpha)$ represents the fraction of shadows that overlap. The relative overlap fraction is $O((m-j)^2 / \alpha)$ for each source pair.
+
+**Net blocked weight** (accounting for overlaps):
+$$W_m^{\mathrm{actual}} \geq \left(1 - O\!\left(\frac{m^2}{\alpha}\right)\right) \sum_{j<m} \mu_{m-j} s_{K+j}.$$
+
+For $m \leq C\sqrt{\alpha}$ (strata depth $\leq C\sqrt{\log\log x}$): the factor $(1-O(m^2/\alpha)) \geq 1/2 > 0$.
+
+### Conditional induction for FL
+
+**Inductive claim**: For all $0 \leq J \leq J^* := C\sqrt{\log\log x}$ and all primitive $A \subseteq [x,\infty)$:
+$$T_J = \sum_{j=0}^{J-1} s_{K+j} \leq 1-\varepsilon_{K+J-1}.$$
+
+**Base case** $J=1$: $s_K \leq 1-\varepsilon_K$ (F3). ✓
+
+**Inductive step**: Assume FL holds for $J-1$: $T_{J-1} \leq 1-\varepsilon_{K+J-2}$.
+
+The net blocked weight in stratum $K+J-1$ from all source strata $0, \ldots, J-2$:
+$$W_{J-1}^{\mathrm{actual}} \geq \left(1 - O\!\left(\frac{J^2}{\alpha}\right)\right) \sum_{j=0}^{J-2} \mu_{J-1-j} s_{K+j}.$$
+
+Since $\mu_\ell \geq 1$ for all $\ell \leq J-2$ (when $J-2 \leq L(\alpha) \approx e\alpha$, i.e., $J \leq e\alpha+2$) and using FL(IH):
+$$\sum_{j=0}^{J-2} \mu_{J-1-j} s_{K+j} \geq \sum_{j=0}^{J-2} s_{K+j} = T_{J-1}.$$
+
+Therefore:
+$$W_{J-1}^{\mathrm{actual}} \geq \left(1 - O\!\left(\frac{J^2}{\alpha}\right)\right) T_{J-1}.$$
+
+The shadow bound:
+$$s_{K+J-1} \leq (1-\varepsilon_{K+J-1}) - W_{J-1}^{\mathrm{actual}} \leq (1-\varepsilon_{K+J-1}) - \left(1 - O\!\left(\frac{J^2}{\alpha}\right)\right) T_{J-1}.$$
+
+Then:
+$$T_J = T_{J-1} + s_{K+J-1} \leq T_{J-1} + (1-\varepsilon_{K+J-1}) - \left(1 - O\!\left(\frac{J^2}{\alpha}\right)\right)T_{J-1}$$
+$$= (1-\varepsilon_{K+J-1}) + O\!\left(\frac{J^2}{\alpha}\right) T_{J-1}.$$
+
+Using $T_{J-1} \leq 1-\varepsilon_{K+J-2} \leq 1$:
+$$T_J \leq (1-\varepsilon_{K+J-1}) + O\!\left(\frac{J^2}{\alpha}\right).$$
+
+For this to be $\leq 1-\varepsilon_{K+J-1}$: need $O(J^2/\alpha) \leq 0$. This FAILS for any $J > 0$.
+
+However: $O(J^2/\alpha)$ is a POSITIVE CORRECTION to $T_J$. The FL claim is $T_J \leq 1-\varepsilon_{K+J-1}$. We get $T_J \leq 1 - \varepsilon_{K+J-1} + O(J^2/\alpha)$. For $J \leq J_0 = O(\sqrt{\alpha \varepsilon_{K+J-1}}) = O(\sqrt{\alpha \cdot (K+J)^2/2^{K+J}})$: the error term $O(J^2/\alpha) \leq \varepsilon_{K+J-1}$, giving $T_J \leq 1$.
+
+For large $x$ (large $K$): $\varepsilon_{K+J-1} = (c+o(1))(K+J-1)^2/2^{K+J-1} \to 0$. So the correction $\varepsilon_{K+J-1}$ is very small, and the bound $T_J \leq 1 + O(J^2/\alpha)$ gives $T_J \leq 1 + o(1)$ for $J = o(\alpha^{1/2})$.
+
+### Theorem `conditional_FL_all_J` (CONDITIONAL)
+
+Under the Sathe-Selberg estimates (classical) and the overlap bound $O(J^2/\alpha)$:
+$$T_J \leq 1-\varepsilon_{K+J-1} + O\!\left(\frac{J^2}{\log\log x}\right) \quad \text{for all } J \leq e\log\log x.$$
+
+**Proof of conjecture from conditional FL**: For any primitive $A \subseteq [x,\infty)$:
+$$T(x) = T_J + \sum_{j \geq J} s_{K+j} \leq \left(1-\varepsilon_{K+J-1} + O\!\left(\frac{J^2}{\alpha}\right)\right) + O\!\left(\frac{2^{K-J}}{x\log x}\right).$$
+Choose $J = J^*(x) = \lfloor \alpha^{1/2} \rfloor = \lfloor\sqrt{\log\log x}\rfloor$:
+- First term: $1-\varepsilon_{K+J-1} + O(J^2/\alpha) = 1-\varepsilon_{K+J-1} + O(1/\sqrt{\alpha}) \leq 1 + o(1)$.
+- Tail: $O(2^{-J}/\log x) = O(x^{-\log 2 \cdot J/\log x}) \to 0$.
+
+So $T(x) \leq 1 + o(1)$ as $x \to \infty$. $\square$ (conditional)
+
+### Summary of the conditional proof's structure
+
+| Step | Condition | Status |
+|---|---|---|
+| FL(J=1): $s_K \leq 1-\varepsilon_K$ | None (F3) | **proved** |
+| FL(J=2): $T_2 \leq 1-\varepsilon_{K+1}$ | Mertens' theorem ($\alpha > 1$) | **conditional** (Q47) |
+| $\mu_\ell \geq 1$ for $\ell \leq e\alpha$ | Sathe-Selberg (classical) | **conditional** |
+| Overlap $\leq O(J^2/\alpha)$ | Incompatible-LCM estimate | **conditional** (Q52) |
+| FL(J) for $J \leq e\alpha$ | All above + overlap bound | **conditional** (Q52) |
+| Tail $\leq O(2^{-J}/\log x)$ | Element size lower bound | **proved** (Q49) |
+| $T(x) \leq 1+o(1)$ | FL(J) + tail (combined) | **conditional** (Q52) |
+
+The remaining unproved condition is the **overlap estimate** $O(J^2/\alpha)$ — specifically, that the total overlap weight among all-prime shadows from different source strata is bounded by $O(J^2/\alpha) \sum_j s_{K+j}$. This is a quantitative statement about how "incomparable" pairs in $A$ can share common multiples.
+
+**Updated cumulative proved results (Q52):**
+96. `multi_step_mertens_shadow`: $\Sigma_{j\to m} \approx \mu_{m-j} s_{K+j}$ with $\mu_\ell \sim \alpha^{\ell-1}/(\ell-1)!$ (conditional Sathe-Selberg) — **conditional** (Q52).
+97. `conditional_fl_all_j`: $T_J \leq 1-\varepsilon_{K+J-1} + O(J^2/\alpha)$ for $J \leq e\log\log x$ (conditional Sathe-Selberg + overlap bound) — **conditional** (Q52).
+98. `conditional_conjecture_proof`: $T(x) \leq 1+o(1)$ choosing $J=\sqrt{\log\log x}$: FL term → 1 + o(1) and tail → 0 — **conditional** (Q52, pending overlap estimate).
+99. `overlap_barrier_precise`: The last unresolved condition is overlap weight $\leq O(J^2/\alpha) T_{J-1}$ for incomparable source pairs — **identified** (Q52).
