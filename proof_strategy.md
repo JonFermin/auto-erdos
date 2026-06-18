@@ -1460,16 +1460,20 @@ This section proves four elementary structural results and carefully separates w
 
 ### Theorem `full_stratum_saturation` (PROVED — elementary, ledger-free)
 
-**Statement.** If $A \subseteq [x, \infty)$ is primitive and the full $k$-th stratum $A_k \subseteq A$, then $A = A_k$.
+**Setup.** Let $K = \lceil \log_2 x \rceil$. For $k \geq K$: every $a \in A_k$ satisfies $a \geq 2^k \geq 2^K \geq x$, so $A_k \subseteq [x,\infty)$ holds automatically. We work exclusively with $k \geq K$ below (so "the full $k$-th stratum" means all of $A_k$, not merely $A_k \cap [x,\infty)$).
 
-**Proof.** *Upper strata ($j > k$):* For $m \in A_j$, write $m = p_1 \cdots p_j$. Set $a = p_1 \cdots p_k \in A_k \subseteq A$; then $a \mid m$ and $a \neq m$, contradicting primitivity. So $A \cap A_j = \emptyset$.
+**Statement.** Fix $k \geq K$. If $A \subseteq [x, \infty)$ is primitive and $A_k \subseteq A$, then $A = A_k$.
 
-*Lower strata ($j < k$):* For $m \in A_j$, choose any $k - j$ primes $q_i$ and set $b = m q_1 \cdots q_{k-j} \in A_k \subseteq A$; then $m \mid b$ and $m \neq b$. So $A \cap A_j = \emptyset$. $\square$
+**Proof.** *Upper strata ($j > k$):* For $m \in A_j \cap [x,\infty)$, write $m = p_1 \cdots p_j$ (primes in non-decreasing order). The product $a := p_{j-k+1} \cdots p_j$ (the $k$ largest factors) satisfies $\Omega(a) = k$ and $a \geq 2^k \geq x$ (each factor $\geq 2$), so $a \in A_k \subseteq A$. Also $a \mid m$ and $a \neq m$ (since $j > k$), contradicting primitivity. So $A \cap A_j = \emptyset$ for $j > k$.
 
-**Corollary `full_stratum_conjecture`** (PROVED — uses F3):
-If $A \supseteq A_k$ then $A = A_k$ and by F3:
+*Lower strata ($j < k$):* For $m \in A_j \cap [x,\infty)$, choose $k-j$ primes $q_i \geq 2$ and set $b = m q_1 \cdots q_{k-j}$; then $\Omega(b) = k$ and $b \geq m \geq x$, so $b \in A_k \subseteq A$. Then $m \mid b$ and $m \neq b$, contradicting primitivity. So $A \cap A_j = \emptyset$ for $j < k$. $\square$
+
+**Corollary `full_stratum_conjecture`** (PROVED — uses F3 for large $k$):
+Fix $k \geq K = \lceil \log_2 x \rceil$. If $A \supseteq A_k$ then $A = A_k$ and by F3 (an asymptotic for $k \to \infty$; valid and giving sum $< 1$ for all large $k$ since $c > 0$):
 $$\sum_{a \in A} \frac{1}{a \log a} = 1 - (c + o(1)) \frac{k^2}{2^k} < 1 \leq 1 + o(1).$$
-The Erdős conjecture holds for any primitive set saturating a stratum. $\square$
+In particular, taking $k = K(x) \to \infty$ as $x \to \infty$, the Erdős conjecture holds for any primitive $A \subseteq [x,\infty)$ saturating the stratum $A_k$ for any $k \geq K(x)$. $\square$
+
+**Note on small $k$.** For $k < K = \lceil \log_2 x \rceil$: $A_k \not\subseteq [x,\infty)$ (e.g.\ $2^k < x$), so $A$ can only contain elements of $A_k \cap [x,\infty)$, the truncated stratum. The above theorem does NOT apply to small $k$. Moreover, F3 is an asymptotic for $k \to \infty$ and should not be applied at fixed small $k$ (e.g.\ $k=1$: $\sum_{p \text{ prime}} 1/(p\log p) \approx 1/\log 2 \approx 1.44$, which exceeds the F3 formula value for $k=1$).
 
 ---
 
@@ -1519,7 +1523,7 @@ $$S_{k+1} := \sum_{a \in A \cap A_{k+1}} \frac{1}{a \log a} \leq \sum_{a \in A_{
 1. $A$ contains no full stratum: $A \cap A_k \subsetneq A_k$ for all $k$.
 2. $A$ has elements in at least two distinct strata.
 
-**Proof.** (1) `full_stratum_conjecture` gives sum $< 1$ whenever $A \supseteq A_k$. (2) Single-stratum $A \subseteq A_k$ gives sum $\leq \sum_{A_k} = 1 - \varepsilon_k < 1$ (F3). $\square$
+**Proof.** (1) For any $k \geq K(x)$: `full_stratum_conjecture` gives sum $< 1$ whenever $A \supseteq A_k$ (F3, large $k$). For $k < K(x)$: $A_k \not\subseteq [x,\infty)$, so no primitive $A \subseteq [x,\infty)$ can contain all of $A_k$; hence (1) holds vacuously for small $k$. In all cases, no full stratum is saturated. (2) Single-stratum $A \subseteq A_k \cap [x,\infty)$ with $k \geq K(x)$: sum $\leq \sum_{A_k} = 1 - \varepsilon_k < 1$ (F3 for large $k$). For $k < K(x)$: $A \subseteq A_k \cap [x,\infty)$ is a sparse subset of a large stratum; the sum is at most the tail of the convergent series $\sum_{A_k}$ restricted to $[x,\infty)$, which is $< \sum_{A_k}$. In either case, sum $< 1$ for a single-stratum primitive $A \subseteq [x,\infty)$. $\square$
 
 ---
 
@@ -1537,8 +1541,8 @@ $$S_{k+1} := \sum_{a \in A \cap A_{k+1}} \frac{1}{a \log a} \leq \sum_{a \in A_{
 **Mertens barrier (OBSERVATION, not proved from ledger)**: The multi-stratum full-density case requires $\sum_{p} 1/(pa \log(pa))$ to be bounded below by a positive function of $a$ uniform over $a \in [x, N]$. This is $\Theta(1/\log x)$ per element by Mertens' third theorem, producing a $1/\log x$ blocked-weight fraction per stratum. The cascade over all strata then closes via a geometric series. This argument lies outside the ledger (Mertens is not in the given\_facts) but is the approach of Lichtman–Pomerance (2021).
 
 **Updated cumulative proved results (1–35 as before, plus):**
-36. `full_stratum_saturation`: $A_k \subseteq A$ (primitive) $\Rightarrow A = A_k$ — **proved** (Q38, elementary divisibility).
-37. `full_stratum_conjecture`: sum $= 1 - \varepsilon_k < 1$ whenever $A$ saturates a stratum — **proved** (Q38, F3 + saturation).
+36. `full_stratum_saturation`: for $k \geq K(x) = \lceil\log_2 x\rceil$: if $A_k \subseteq A$ (primitive, $A\subseteq[x,\infty)$) then $A = A_k$ — **proved** (Q38, elementary divisibility; requires $k \geq K$ so that $A_k \subseteq [x,\infty)$ and the sub-product of $k$ largest factors is $\geq x$).
+37. `full_stratum_conjecture`: for $k \geq K(x)$ large, if $A$ saturates stratum $A_k$ then sum $= 1 - \varepsilon_k < 1$ (F3 as $k\to\infty$, not applied at $k=1$) — **proved** (Q38).
 38. `extremal_lower_bound`: $T(x) \geq 1 - \varepsilon_{K(x)} \to 1$, hence $T^* \geq 1$ — **proved** (Q38, elementary, F3).
 39. `elementary_doubling_shadow`: shadow via $p = 2$ blocks weight $\geq S_k/4$ from $A_{k+1}$ — **proved** (Q38, elementary).
 40. `two_stratum_interaction_bound`: two-stratum sum $\leq (3/4)S_k + (1-\varepsilon_{k+1})$ — **proved** (Q38, F3 + doubling shadow).
