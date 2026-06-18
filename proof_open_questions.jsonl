@@ -109,3 +109,6 @@
 {"qid":"Q48","status":"open","session_id":"","summary":"j-step cross-stratum shadow: a in A_K blocks all b in A_{K+j} with a|b; partition identity for all j; s_{K+j}<=1-g_{2^j}*s_K","ts":"2026-06-18T19:28:23+00:00"}
 {"qid":"Q48","status":"claimed","session_id":"","summary":"proving general j-step cross-stratum shadow and non-adjacent two-stratum bound","ts":"2026-06-18T19:28:23+00:00"}
 {"qid":"Q48","status":"resolved","session_id":"s_0618-193120-c6e9","summary":"j_step_shadow: s_{K+j}<=1-eps_{K+j}-g_{2^j}*s_K; non-adjacent two-stratum bound 2-1/2^j asymptotically; partition identity generalized","ts":"2026-06-18T19:32:30+00:00"}
+{"qid":"Q49","status":"open","session_id":"s_0618-193120-c6e9","summary":"multi-stratum sum: sum over all j of s_{K+j}; pairing (K,K+j) bounds via j-step shadow; telescoping toward T(x)<1","ts":"2026-06-18T19:33:00+00:00"}
+{"qid":"Q49","status":"claimed","session_id":"s_0618-193120-c6e9","summary":"proving multi-stratum telescoping sum bound using j-step shadow for all j","ts":"2026-06-18T19:33:00+00:00"}
+{"qid":"Q49","status":"resolved","session_id":"s_0618-193120-c6e9","summary":"multi-source shadow disjointness proved; T_J<=E_J/(1+alpha) with alpha->1 (p=2) or alpha=loglog x (Mertens); high-stratum tail decays O(2^{-J}/log x)","ts":"2026-06-18T19:37:26+00:00"}

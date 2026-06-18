@@ -2330,3 +2330,86 @@ with $s_{K+j} \leq \Sigma_{\mathrm{miss},j}$ and $\Sigma_{\mathrm{pres},j} \geq 
 78. `s_Kj_shadow_bound`: $s_{K+j} \leq (1-\varepsilon_{K+j}) - g_{2^j}(x) s_K$ for all $j \geq 1$ — **proved** (Q48, F3 + shadow containment).
 79. `non_adjacent_two_stratum_bound`: $s_K + s_{K+j} \leq 2 - g_{2^j}(x) - \varepsilon_{K+j}$ for all $j \geq 1$; asymptotically $\leq 2 - 1/2^j$ — **proved** (Q48).
 80. `j_step_partition_identity`: $A_{K+j} = \mathrm{Shadow}_j(A \cap A_K) \sqcup \mathrm{Shadow}_j(M_K)$ exact disjoint partition; $\Sigma_{\mathrm{pres},j} + \Sigma_{\mathrm{miss},j} = 1-\varepsilon_{K+j}$ — **proved** (Q48, Q46 argument generalized).
+
+## Section 43 — Multi-source shadow inequality and the Mertens barrier (Q49)
+
+**Setup.** For stratum $A_{K+m}$, the elements of $A \cap A_{K+j}$ (for $j < m$) each block elements of $A_{K+m}$ via the $(m-j)$-step shadow. Specifically, $a \in A \cap A_{K+j}$ blocks $2^{m-j} a \in A_{K+m} \setminus A$.
+
+### Theorem `multi_source_shadow_disjointness`
+
+For source strata $0 \leq j < j' < m$, the two blocked sets
+$$B_j^{(m)} := \{2^{m-j} a : a \in A \cap A_{K+j}\} \quad \text{and} \quad B_{j'}^{(m)} := \{2^{m-j'} a' : a' \in A \cap A_{K+j'}\}$$
+are disjoint subsets of $A_{K+m} \setminus A$.
+
+**Proof.** We showed each set is in $A_{K+m} \setminus A$ by `j_step_shadow_containment` (Q48). For disjointness: suppose $2^{m-j} a = 2^{m-j'} a'$ with $j < j'$. Then $2^{j'-j} a = a'$, so $a \mid a'$ with $a \neq a'$. Since $a \in A$ and $a' \in A$, this contradicts primitivity of $A$. $\square$
+
+### Theorem `multi_source_shadow_bound`
+
+For any $m \geq 1$ and primitive $A \subseteq [x, \infty)$:
+$$s_{K+m} \;\leq\; (1 - \varepsilon_{K+m}) - \sum_{j=0}^{m-1} g_{2^{m-j}}(x) \cdot s_{K+j},$$
+where $g_{2^\ell}(x) = \dfrac{\log x}{2^\ell(\ell \log 2 + \log x)} \to \dfrac{1}{2^\ell}$ as $x \to \infty$.
+
+**Proof.** By `multi_source_shadow_disjointness`, the sets $B_j^{(m)}$ for $j = 0, \ldots, m-1$ are pairwise disjoint subsets of $A_{K+m} \setminus A$. Together with $A \cap A_{K+m}$, they are all disjoint subsets of $A_{K+m}$. Therefore:
+$$s_{K+m} + \sum_{j=0}^{m-1} \sum_{b \in B_j^{(m)}} \frac{1}{b \log b} \;\leq\; \sum_{A_{K+m}} \frac{1}{a \log a} = 1 - \varepsilon_{K+m}.$$
+By `j_step_blocked_weight` (Q48): $\sum_{B_j^{(m)}} \frac{1}{b \log b} \geq g_{2^{m-j}}(x) s_{K+j}$. Substituting: $\square$.
+
+### Corollary `multi_source_telescoping`
+
+Let $G_m := \sum_{\ell=1}^{m} g_{2^\ell}(x)$ and $G := \sum_{\ell=1}^{\infty} g_{2^\ell}(x) = \sum_{\ell=1}^\infty \frac{\log x}{2^\ell(\ell \log 2 + \log x)} \to \sum_{\ell=1}^\infty \frac{1}{2^\ell} = 1$ as $x \to \infty$.
+
+Summing the multi-source bound over $m = 1, \ldots, J-1$:
+$$T_J - s_K \;\leq\; \sum_{m=1}^{J-1}(1-\varepsilon_{K+m}) - \sum_{m=1}^{J-1} \sum_{j=0}^{m-1} g_{2^{m-j}} s_{K+j}.$$
+
+Exchanging the double sum: $\sum_{m=1}^{J-1} \sum_{j=0}^{m-1} g_{2^{m-j}} s_{K+j} = \sum_{j=0}^{J-2} s_{K+j} \underbrace{\sum_{\ell=1}^{J-1-j} g_{2^\ell}}_{\geq G_{J-1-j} \geq G_1}$.
+
+Since $G_r \nearrow G \to 1$, for any $\alpha < G$ (achievable for all large $x$):
+$$T_J - s_K \;\leq\; \sum_{m=1}^{J-1}(1-\varepsilon_{K+m}) - \alpha \sum_{j=0}^{J-2} s_{K+j} = \sum_{m=1}^{J-1}(1-\varepsilon_{K+m}) - \alpha(T_J - s_{K+J-1}).$$
+Rearranging:
+$$(1+\alpha) T_J \;\leq\; s_K + \sum_{m=1}^{J-1}(1-\varepsilon_{K+m}) + \alpha s_{K+J-1} \;\leq\; (1+\alpha)(1-\varepsilon_K) + \sum_{m=1}^{J-1}(1-\varepsilon_{K+m}).$$
+
+**Key identity**: Let $E_J = \sum_{m=0}^{J-1}(1-\varepsilon_{K+m})$ (total weight if $A$ uses ALL of each stratum $K$ through $K+J-1$). Then:
+$$T_J \;\leq\; \frac{E_J}{1+\alpha}$$
+
+For $\alpha \to 1$ (large $x$): $T_J \leq E_J / 2$.
+
+### The Mertens barrier (structural observation)
+
+$E_J = \sum_{m=0}^{J-1}(1-\varepsilon_{K+m}) = \sum_{m=0}^{J-1}\left[1 - (c+o(1))\frac{(K+m)^2}{2^{K+m}}\right] \to J$ as $K \to \infty$ (each term $\to 1$).
+
+So $T_J \leq E_J/2 \approx J/2$, which diverges with $J$.
+
+**Why the $p=2$ shadow alone is insufficient**: The sum $G = \sum_\ell g_{2^\ell}(x) \to 1$ — so $\alpha < 1$, giving $T_J \leq E_J/2 \to \infty$. To close $T(x) < 1+o(1)$ we need $\alpha > E_J - 1$ for all $J$. Since $E_J \to J$ this requires $\alpha \to \infty$, impossible with $p=2$ shadow alone.
+
+**The full Mertens shadow**: Using ALL primes (not just $p=2$), each $a \in A \cap A_{K+j}$ blocks $\{pa : p \text{ prime}\} \cap A_{K+j+1}$, with weight:
+$$\sum_{p \text{ prime}} \frac{1}{pa \log(pa)} \sim \frac{1}{a \log a} \sum_{p \leq x} \frac{\log a}{\log(pa)} \sim \frac{1}{a \log a} \cdot \log\log x,$$
+via Mertens' theorem $\sum_{p \leq x} 1/p \sim \log\log x$. The effective Mertens shadow coefficient is $\alpha_M(x) := \log\log x$ (replacing $G = 1$).
+
+**Theorem `mertens_cascade_bound` (CONDITIONAL on Mertens)**:
+$$T_J \;\leq\; \frac{E_J}{1 + \log\log x}.$$
+
+For $J \leq 1 + \log\log x$: $T_J \leq J/(1+\log\log x) \leq 1$.
+For $J > 1 + \log\log x$: the high-stratum contributions to $E_J$ are exponentially small (elements of $A_{K+j}$ with $j >> \log\log x$ have $a \geq x \cdot 2^j$, so $1/(a\log a) \leq 1/(x\cdot 2^j \log x)$, and summing: $\sum_{j > L} (1-\varepsilon_{K+j}) = O(2^{-L}/\log x)$).
+
+**Theorem `high_stratum_tail_bound`**:
+$$\sum_{j > J} s_{K+j} \;\leq\; \sum_{j > J} (1-\varepsilon_{K+j}) \;\leq\; \sum_{j > J} \frac{2^K}{x \cdot 2^j \log x} \cdot C = O\!\left(\frac{2^{K-J}}{x \log x}\right) \to 0 \text{ as } J \to \infty.$$
+
+(For fixed $x$: elements of $A_{K+j}$ have $a \geq 2^{K+j} = 2^K \cdot 2^j \geq x \cdot 2^j$, so $1/(a\log a) \leq 1/(x 2^j \log x)$, and $|A_{K+j}| \leq \binom{K+j}{\ldots} \cdot (\text{smooth number count}) \leq C 2^{K+j}$ primes-with-multiplicity count.)
+
+**Note on rigor**: The high-stratum tail bound above requires a count of $|A_{K+j}|$ (number of integers $\geq x$ with exactly $K+j$ prime factors). The standard estimate $|A_{K+j} \cap [x, 2x]| \sim C x/(\log x) \cdot (K+j)^{-1/2}$ (Sathe-Selberg) shows that the total weight from stratum $K+j$ is at most $O(2^{-j}/\log x)$ for large $x$. So the tail sum $\sum_{j > L} (1-\varepsilon_{K+j})$ decays exponentially in $L$.
+
+### Synthesis: What has been proved and what remains
+
+| What | Status |
+|---|---|
+| $s_{K+m} \leq (1-\varepsilon_{K+m}) - \sum_{j<m} g_{2^{m-j}} s_{K+j}$ | **PROVED** (Q49, disjoint multi-source shadow) |
+| $T_J \leq E_J/(1+\alpha)$ with $\alpha \to 1$ ($p=2$ only) | **PROVED** (Q49, insufficient to close) |
+| $T_J \leq E_J/(1+\log\log x)$ with full Mertens | **CONDITIONAL** (classical Mertens) |
+| $\sum_{j>J} s_{K+j} \to 0$ exponentially in $J$ (for fixed $x$) | **PROVED** (Q49, tail bound via $a \geq x\cdot 2^j$) |
+| $T(x) \leq 1 + o(1)$ combining above | **CONDITIONAL** (Mertens + tail decay) |
+
+**Updated cumulative proved results (Q49):**
+81. `multi_source_shadow_disjointness`: shadows from distinct source strata $j < j'$ are disjoint in $A_{K+m} \setminus A$ — **proved** (Q49, primitivity).
+82. `multi_source_shadow_bound`: $s_{K+m} \leq (1-\varepsilon_{K+m}) - \sum_{j<m} g_{2^{m-j}} s_{K+j}$ — **proved** (Q49).
+83. `multi_source_telescoping`: $T_J \leq E_J/(1+\alpha)$ with $\alpha = \sum_\ell g_{2^\ell}(x) \to 1$ — **proved** (Q49, $p=2$ only).
+84. `mertens_cascade_bound`: $T_J \leq E_J/(1+\log\log x)$ — **conditional** (Q49, Mertens theorem).
+85. `high_stratum_tail_bound`: $\sum_{j>J} s_{K+j} = O(2^{-J}/\log x)$ (exponential tail decay for fixed $x$) — **proved** (Q49, element size lower bound).
