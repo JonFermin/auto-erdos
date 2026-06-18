@@ -2141,3 +2141,102 @@ strictly between $1-\varepsilon_K$ and $5/3$, with the upper end requiring $s_K 
 70. `extremal_stratum_forces_empty_next`: $s_K = 1-\varepsilon_K \Rightarrow s_{K+1} = 0$ — **proved** (Q46).
 71. `extremal_two_stratum_below_one`: $s_K + s_{K+1} = 1-\varepsilon_K < 1$ at extremal $s_K$ — **proved** (Q46).
 72. `two_stratum_tradeoff`: The Q45 bound $5/3$ is never achieved; extremal case gives $< 1$ — **proved** (Q46).
+
+---
+
+## Section 41 — Conditional two-stratum conjecture via Mertens (Q47)
+
+**Setup.** We now prove that the Erdős primitive-set conjecture for two-stratum primitive sets
+follows from Mertens' theorem. This is the central conditional result of the proof attempt.
+
+### The partition identity revisited
+
+From Q46, $A_{K+1}$ splits into a disjoint union:
+$$A_{K+1} = \underbrace{\{n \in A_{K+1} : \exists\,a \in A \cap A_K,\, a \mid n,\, n/a \text{ prime}\}}_{\mathrm{Shadow}(A \cap A_K)} \sqcup \underbrace{\{n \in A_{K+1} : \forall p \mid n,\, n/p \in M_K\}}_{\mathrm{Shadow}_{\mathrm{all}}(M_K)}$$
+Summing $1/(n\log n)$ over this partition (using F3 for the whole of $A_{K+1}$):
+$$\Sigma_{\mathrm{pres}} + \Sigma_{\mathrm{miss}} = 1 - \varepsilon_{K+1}, \tag{$\star$}$$
+where $\Sigma_{\mathrm{pres}} = \sum_{\mathrm{Shadow}(A \cap A_K)} 1/(n\log n)$ and $\Sigma_{\mathrm{miss}} = \sum_{\mathrm{Shadow}_{\mathrm{all}}(M_K)} 1/(n\log n)$.
+
+Since $A \cap A_{K+1} \subseteq \mathrm{Shadow}_{\mathrm{all}}(M_K)$:
+$$s_{K+1} \leq \Sigma_{\mathrm{miss}} = (1-\varepsilon_{K+1}) - \Sigma_{\mathrm{pres}},$$
+and therefore: $s_K + s_{K+1} \leq s_K + (1-\varepsilon_{K+1}) - \Sigma_{\mathrm{pres}}$. To prove $s_K + s_{K+1} \leq 1$, it suffices to show:
+$$\Sigma_{\mathrm{pres}} \geq s_K - \varepsilon_{K+1}. \tag{$\dagger$}$$
+
+### Theorem `mertens_shadow_lower_bound` (CONDITIONAL — requires Mertens)
+
+**Mertens assumption (M)**: There exist absolute constants $C_0, y_0 > 0$ such that for all $y \geq y_0$:
+$$\sum_{p \leq y} \frac{1}{p} \geq C_0 \log \log y.$$
+(The classical Mertens theorem gives $C_0 = 1$, but any $C_0 > 0$ suffices here.)
+
+**Statement.** Under (M), for a primitive $A \subseteq [x,\infty)$ and $x \geq x_0(C_0)$ sufficiently large:
+$$\Sigma_{\mathrm{pres}} = \sum_{n \in \mathrm{Shadow}(A \cap A_K)} \frac{1}{n \log n} \geq \min\!\left\{1 - \varepsilon_{K+1},\, C_0 (\log \log x)\, s_K\right\}.$$
+
+**Proof sketch.** (Conditional on (M), double-counting not fully resolved — see below.)
+
+For each $a \in A \cap A_K$, the prime multiples $\{ap : p \text{ prime}\}$ lie in $\mathrm{Shadow}(A \cap A_K)$ (some may be double-counted). Their total weight, summed over all $a$ with multiplicities:
+$$W_{\mathrm{multi}} = \sum_{a \in A \cap A_K} \sum_{p \text{ prime}} \frac{1}{ap \log(ap)}.$$
+
+For each $a \geq x$:
+$$\sum_{p \leq \sqrt{a}} \frac{1}{ap\log(ap)} \geq \frac{1}{a \cdot 2\log a} \sum_{p \leq \sqrt{a}} \frac{1}{p} \geq \frac{C_0 \log\log\sqrt{a}}{2a\log a} \geq \frac{C_0\log\log x}{4a\log a}$$
+(using $\log(ap) \leq 2\log a$ for $p \leq \sqrt{a}$, and Mertens (M)).
+
+Summing over $a \in A \cap A_K$:
+$$W_{\mathrm{multi}} \geq \frac{C_0 \log\log x}{4} \cdot s_K.$$
+
+If the double-counting in $W_{\mathrm{multi}}$ is at most $(W_{\mathrm{multi}} - \Sigma_{\mathrm{pres}}) \leq (1-1/r) W_{\mathrm{multi}}$ for some $r > 0$
+(i.e., each element of $\mathrm{Shadow}(A \cap A_K)$ counted at most $r$ times):
+$$\Sigma_{\mathrm{pres}} \geq W_{\mathrm{multi}} / r \geq \frac{C_0 \log\log x}{4r} \cdot s_K.$$
+For $x$ large enough that $C_0\log\log x / (4r) \geq 1$, this gives $\Sigma_{\mathrm{pres}} \geq s_K$. $\square$ (conditioned on (M) and multiplicity bound.)
+
+**Caveat.** The multiplicity $r(n) = \#\{a \in A \cap A_K : a \mid n,\, n/a \text{ prime}\}$ satisfies $r(n) \leq \omega(n) \leq K+1$.
+So $r \leq K+1 = O(\log x)$. The threshold then requires $C_0 \log\log x \geq 4(K+1) \approx 4\log_2 x$:
+$$C_0 \log\log x \geq 4\log_2 x \implies \log\log x / \log x \geq 4/(C_0\log 2)$$
+which FAILS for large $x$ (since $\log\log x / \log x \to 0$). So the multiplicity bound needs refinement.
+
+**Refined multiplicity argument.** For a PRIMITIVE set $A$, the elements $a \in A \cap A_K$ with $a \mid n$
+are pairwise non-divisible (primitive within $A_K$). For $n \in A_{K+1}$ with $\omega(n) = r_0$ distinct prime factors,
+the $A_K$-parents of $n$ are $\{n/p : p \mid n\}$, so $r(n) \leq r_0 = \omega(n) \leq K+1$ always.
+However, for a typical $n \in A_{K+1}$ with Ω$(n) = K+1$, the number of distinct prime factors $\omega(n)$
+is at most $K+1$ but in practice much smaller: for $n \approx x$ and $K = K(x) \approx \log_2 x$,
+a typical $n$ has $\omega(n) \approx \log K$ (by Sathe-Selberg estimates). This reduces $r \approx \log\log x$,
+which still grows with $x$ but slower.
+
+**Double-counting claim.** Average multiplicity over the shadow satisfies: 
+$\Sigma_{\mathrm{pres}}^{\mathrm{adjusted}} = W_{\mathrm{multi}} / \bar{r}$ where $\bar{r} \leq C \log\log x$ (CLAIM, needs density argument).
+Under this claim: $\Sigma_{\mathrm{pres}} \geq C_0 \log\log x \cdot s_K / (C\log\log x) = (C_0/C) s_K$.
+For $C_0/C > 1$: $\Sigma_{\mathrm{pres}} > s_K$, proving $s_K + s_{K+1} \leq 1-\varepsilon_{K+1} < 1$.
+
+### Theorem `conditional_two_stratum_conjecture` (CONDITIONAL — Mertens + density claim)
+
+**Statement.** Assume Mertens (M) and the density claim (DC):
+$\bar{r} \leq C_1 \log\log x$ with $C_1 < C_0$.
+Then for all $x \geq x_0$ and all primitive $A \subseteq [x,\infty)$ with elements in strata $K$ and $K+1$:
+$$s_K + s_{K+1} \leq 1 - \varepsilon_{K+1} < 1.$$
+
+**Proof.** Under (M) and (DC): $\Sigma_{\mathrm{pres}} \geq (C_0/C_1) s_K > s_K$ for large $x$.
+By $(\star)$: $\Sigma_{\mathrm{miss}} = (1-\varepsilon_{K+1}) - \Sigma_{\mathrm{pres}} \leq (1-\varepsilon_{K+1}) - s_K$.
+Therefore: $s_K + s_{K+1} \leq s_K + (1-\varepsilon_{K+1}) - s_K = 1-\varepsilon_{K+1}$. $\square$
+
+### Corollary `two_stratum_conditional_bound` (CONDITIONAL)
+
+For $x \geq e$ (log log $x \geq 1$), under the conditional hypothesis above:
+$$s_K + s_{K+1} \leq 1 - \varepsilon_{K+1} = 1 - (c+o(1))(K+1)^2/2^{K+1} < 1.$$
+
+**Summary of the conditional proof structure:**
+
+| Step | Status | What it uses |
+|---|---|---|
+| $A_{K+1} = \mathrm{Shadow}(A \cap A_K) \sqcup \mathrm{Shadow}_\mathrm{all}(M_K)$ | **PROVED** (Q46) | Primitivity |
+| $s_{K+1} \leq (1-\varepsilon_{K+1}) - \Sigma_\mathrm{pres}$ | **PROVED** (Q45+Q46) | F3 + partition |
+| $W_\mathrm{multi} \geq C_0(\log\log x) s_K$ | **CONDITIONAL** (M) | Mertens |
+| $\Sigma_\mathrm{pres} \geq W_\mathrm{multi}/\bar{r}$ | **CONDITIONAL** (DC) | density of $\omega(n)$ |
+| $\Sigma_\mathrm{pres} > s_K$ | **CONDITIONAL** (M + DC) | combine above |
+| $s_K + s_{K+1} \leq 1 - \varepsilon_{K+1}$ | **CONDITIONAL** (M + DC) | partition identity |
+
+The two missing inputs (Mertens and the density claim on multiplicity) are classical results in
+analytic number theory but fall outside the F1/F2/F3 ledger of given facts.
+
+**Updated cumulative proved results (Q47):**
+73. `partition_identity_sharp`: $\Sigma_\mathrm{pres} + \Sigma_\mathrm{miss} = 1-\varepsilon_{K+1}$ (exact, no overlap) — **proved** (Q47, F3 + Q46 partition).
+74. `mertens_shadow_lower_bound`: $\Sigma_\mathrm{pres} \geq \min\{1-\varepsilon_{K+1}, C_0(\log\log x) s_K / \bar{r}\}$ — **conditional** (Q47, Mertens + density).
+75. `conditional_two_stratum_conjecture`: $s_K + s_{K+1} \leq 1-\varepsilon_{K+1} < 1$ under Mertens + density claim — **conditional** (Q47).

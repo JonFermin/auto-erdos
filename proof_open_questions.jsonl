@@ -102,3 +102,6 @@
 {"qid":"Q45","status":"resolved","session_id":"","summary":"proved two_stratum_sum_bound (s_K+s_{K+1}<=5/3) and three_prime_shadow_ratio (->31/30>1)","ts":"2026-06-18T19:09:22+00:00"}
 {"qid":"Q46","status":"open","session_id":"","summary":"every element of A_{K+1} is a multiple of something in A_K; missing-complement forces s_{K+1}=0 at extremal s_K","ts":"2026-06-18T19:15:00+00:00"}
 {"qid":"Q46","status":"claimed","session_id":"","summary":"proving A_K saturation => A_{K+1} empty in A, and missing-complement dominance","ts":"2026-06-18T19:15:00+00:00"}
+{"qid":"Q46","status":"resolved","session_id":"","summary":"proved full_stratum_coverage + missing_complement_dominance; extremal two-stratum bound s_K+s_{K+1}<1","ts":"2026-06-18T19:18:38+00:00"}
+{"qid":"Q47","status":"open","session_id":"","summary":"conditional two-stratum conjecture: under Mertens, shadow covers min{1,loglog*x*s_K} of A_{K+1}, forcing s_K+s_{K+1}<=1","ts":"2026-06-18T19:22:17+00:00"}
+{"qid":"Q47","status":"claimed","session_id":"","summary":"proving two-stratum conjecture conditional on Mertens using Q46 partition identity","ts":"2026-06-18T19:22:17+00:00"}
