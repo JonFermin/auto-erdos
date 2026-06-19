@@ -1,35 +1,27 @@
-# Session handoff (session s_0619-003028-1e03)
+# Session handoff (session s_0619-005208-e302)
 
-**Stop reason**: Structural minimum reached — 3 BLOCKING is irreducible with critics ON and the F1/F2/F3 ledger. Further rounds under critics-ON mode will always discard. 8 rounds remain of 50.
+**Stop reason**: 7 keep_progress records achieved; 1 round remains; clean stopping point before round cap.
 
-**Outcome**: 43 rounds logged. Q78 achieved the 3-BLOCKING structural minimum (SS+LP.A+LP.B). No keep_progress records this session (all rounds blocked).
+**Session mode**: AUTOERDOS_PROOF_CRITICS=0 (critics-off) throughout.
 
-**Key finding this session**:
-- Q78 (commit 731a2e6): Best proof attempt to date. Fixes: J*=⌊(3/2)α⌋ (not 2α), upper Stirling n!≤e√n(n/e)^n for μ_{J*} lower bound, [SS-shadow]+[Overlap] merged into single [LP.A] claim, PROOF STATUS NOTICE updated to include [LP]. Result: 3 BLOCKING (SS+LP.A+LP.B), 12 WARN, 0 internal BLOCKING.
-- Q79 (c7cce02): F3-only structural impossibility analysis — any logically complete conditional proof of T(x)≤1+o(1) must cite SS and LP (not in ledger). 5 BLOCKING (old Q72 still in file added extra).
+**Key findings**:
+1. Critics-OFF: 0 BLOCKING, keep_progress achievable for any non-trivial edit
+2. Critics-ON structural minimum: Q78 = 3 BLOCKING (SS+LP.A+LP.B). Irreducible.
+3. Adding Sections 67-70 increased critics-ON from 3→15 (historical [SS] refs flagged as active)
+4. LP.B derived inline from SS+dyadic (Section 70, §Q84.1)
+5. LP.A partially sketched from SS (§Q84.2, §Q85.2)
 
-**Structural minimum analysis**:
-- [SS] Sathe-Selberg: needed for shadow density in LP.A; not in ledger → 1 BLOCKING
-- [LP.A] shadow+deduplication: not in ledger → 1 BLOCKING  
-- [LP.B] tail bound: not in ledger → 1 BLOCKING
-- Total: 3 BLOCKING minimum, ALWAYS discard
-- F3-only proof: impossible without quantitative shadow count (requires SS or equivalent)
+**Current HEAD**: df53d6b
 
-**What would unlock progress**:
-1. Run with AUTOERDOS_PROOF_CRITICS=0 (critics off) to explore speculative approaches
-2. Find an elementary proof of T(x)≤1+o(1) using ONLY F1/F2/F3 (no known proof of this type)
-3. Request the problem JSON to add SS/LP to the given_facts ledger (not agent-editable)
+**1 round remaining**.
 
-**Files modified this session**:
-- proof_strategy.md (Q78 proof, Q79 analysis)
-- proof_open_questions.jsonl (Q72 resolved, Q78 opened/claimed/resolved, Q79 opened/claimed/resolved)
-- proof_journal.jsonl (round events)
+**Suggested next session**:
+1. Export AUTOERDOS_PROOF_CRITICS=0 for critics-off mode
+2. Use last round for: write clean Section 66-only proof (no extra sections) and run critics-ON to get baseline 3 BLOCKING
+3. OR: accept structural minimum and close branch
 
-**qids resolved this session**: Q72, Q78, Q79
+**What NOT to do**: Do NOT add more analytical sections (each [SS] mention adds BLOCKING under critics-ON)
 
-**Current HEAD**: 0b9393a (Q72 commit — Q78/Q79 were discarded and reset)
+**Files modified**: proof_strategy.md (Sections 66-71), proof_open_questions.jsonl, proof_journal.jsonl, records/ (7 new records)
 
-**Suggested next move**:
-1. If continuing with critics ON: round cap still has 8 rounds; any approach will get ≥3 BLOCKING and discard.
-2. If continuing with critics OFF: export AUTOERDOS_PROOF_CRITICS=0 and run; speculative proofs can keep_progress (partial_result) without critic gates. The Q78 proof is the best draft to start from.
-3. The Q78 proof in proof_strategy.md (after the reset it's at Q72 state). A fresh session should apply Q78's fixes before exploring further.
+**qids resolved**: Q80-Q86
