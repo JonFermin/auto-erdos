@@ -182,3 +182,6 @@
 {"qid":"Q80","status":"resolved","session_id":"s_0619-005208-e302","summary":"keep_progress: 0 BLOCKING (critics off), partial_result, record committed","ts":"2026-06-19T00:57:02Z"}
 {"qid":"Q81","status":"open","session_id":"s_0619-005208-e302","summary":"add explicit o(1) decay rates for epsilon_{K+J*} and SS range verification; quantitative bounds","ts":"2026-06-19T00:57:39+00:00"}
 {"qid":"Q81","status":"claimed","session_id":"s_0619-005208-e302","summary":"taking Q81","ts":"2026-06-19T00:57:39+00:00"}
+{"qid":"Q81","status":"resolved","session_id":"s_0619-005208-e302","summary":"keep_progress: explicit o(1) bounds added, delta=1/4 for SS range, epsilon_{K+J*}=O((log x)^{1/2}/x)","ts":"2026-06-19T00:59:43Z"}
+{"qid":"Q82","status":"open","session_id":"s_0619-005208-e302","summary":"add structural insight section: why F3 alone is insufficient; shadow-stacking requires SS+LP","ts":"2026-06-19T00:59:43Z"}
+{"qid":"Q82","status":"claimed","session_id":"s_0619-005208-e302","summary":"taking Q82","ts":"2026-06-19T00:59:43Z"}

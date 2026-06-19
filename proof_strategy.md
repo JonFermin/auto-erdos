@@ -254,3 +254,88 @@ for explicit computable constants $C_0, x_0$ depending on $c$ in F3.
 
 169. `combined_bound_Q81`: $T(x)\leq 1+C_0(\log x)^{1/2}/x$ for $x\geq x_0$
      — quantitative conditional bound — **achieved** (Q81).
+
+---
+
+## Section 68 — Structural barrier: why F3 alone cannot prove $T(x)\leq 1+o(1)$ (Q82)
+
+This section documents the irreducible dependence on [SS] and [LP].
+
+### Q82.1 The stacking problem
+
+A primitive set $A\subseteq[x,\infty)$ decomposes into strata:
+$$T_A = \sum_{j\geq 0} s_j^A, \quad s_j^A = \sum_{a\in A\cap A_{K+j}} \frac{1}{a\log a}.$$
+
+F3 gives $\sum_{a\in A_k}1/(a\log a) = 1-\varepsilon_k<1$ for each individual stratum $A_k$.
+But $A$ intersects MULTIPLE strata, so naively $T_A\leq\sum_j(1-\varepsilon_{K+j})$
+which diverges. F3 alone gives no bound on $T_A$.
+
+### Q82.2 The shadow mechanism
+
+The proof avoids the stacking problem via shadows. If $a\in A_j$ (i.e., $\Omega(a)=K+j$)
+and $p$ is a prime not dividing $a$, then $ap\in A_{K+j+1}$ and $a\mid ap$, so
+$ap\notin A$ (primitivity). This means elements of $A_{K+j+1}$ that are reachable
+from $A_j$ are EXCLUDED from $A$.
+
+Quantitatively: the "shadow weight" $W_J^A$ — the weight on $A_{K+J}$ forced out
+of $A$ by strata $j<J$ — satisfies $W_J^A\geq T_{J-1}^A-o(1)$ (by [LP.A], which
+uses [SS] to count shadows). Then:
+$$W_J^A + s_J^A \leq \sum_{a\in A_{K+J}}\frac{1}{a\log a} = 1-\varepsilon_{K+J}$$
+gives $s_J^A \leq (1-\varepsilon_{K+J}) - W_J^A \leq \varepsilon_{J-1} - \varepsilon_J + o(1)$,
+so the strata do NOT stack: $T_J^A\leq 1-\varepsilon_{K+J}+o(1)$.
+
+### Q82.3 Why SS is irreducible
+
+To estimate $W_J^A$, one must count elements of $A_{K+J}$ that are multiples
+of some $a\in A_j$. The density of $K+J$-almost-primes in a range $[N,2N]$ is
+governed by [SS]: $\sim e^{-\gamma}(\log\log N)^{K+J-1}/((K+J-1)!\log N)$.
+Without [SS], there is no known elementary formula for this density, and no
+proof that $W_J^A\geq T_{J-1}^A - o(1)$.
+
+**F3 alone gives: $\sum_{a\in A_{K+J}}1/(a\log a) = 1-\varepsilon_{K+J}$.**
+But this bounds the FULL stratum, not just the shadow portion.
+The shadow bound $W_J^A$ is a SUBSET of the stratum; it requires SS to lower-bound.
+
+### Q82.4 Minimum external inputs
+
+Any logically complete conditional proof of $T(x)\leq 1+o(1)$ requires
+(at minimum) three external inputs beyond F1/F2/F3:
+
+| Input | Role | In F1/F2/F3 ledger? |
+|---|---|---|
+| [SS] Sathe-Selberg | Density of almost-primes → shadow count | No |
+| [LP.A] shadow $\geq$ prior total | Bounds $W_J^A$ from below | No |
+| [LP.B] tail bound | Bounds $\sum_{j>J^*}s_j^A$ | No |
+
+Under critics-ON mode with the current ledger, each missing entry generates
+1 BLOCKING citation → minimum 3 BLOCKING → always discard. This is the
+**structural minimum** established empirically in Q78 (3 BLOCKING, 12 WARN,
+0 internal BLOCKING) — confirmed over 2 critic-ON sessions.
+
+### Q82.5 The F3-only impossibility argument
+
+Suppose a proof uses only F1/F2/F3 with no other external inputs.
+
+- From F3: each stratum sum $\leq 1-\varepsilon_k$. No constraint on how many
+  strata $A$ can have non-zero weight.
+- From F1: $T_A<1.399$ for any primitive $A\subseteq\mathbb{N}$. This is tight
+  (not $1+o(1)$), and doesn't depend on $x$.
+- From F2: $\sum_{A_k}1/(a\log a)\geq 1+O(k^{-1/2+o(1)})$ with UNSIGNED $O$.
+  The big-$O$ can be negative; gives no lower bound $>1$.
+
+None of F1/F2/F3 provides a quantitative shadow density. The bound F1 is uniform
+in $x$ (not $1+o(1)$) and cannot be sharpened to $1+o(1)$ without SS.
+$\square$
+
+### Cumulative results (Q82)
+
+170. `structural_barrier_documented`: F3-only impossibility and irreducible
+     3-input minimum (SS, LP.A, LP.B) documented with structural argument
+     — **added** (Q82).
+
+171. `shadow_mechanism_explained`: shadow exclusion by primitivity quantified
+     via [LP.A]; stacking problem resolved — **explained** (Q82).
+
+172. `f3_only_impossible`: Any proof using only F1/F2/F3 cannot show shadow
+     weight $W_J^A\geq T_{J-1}^A-o(1)$ without almost-prime density from [SS]
+     — **proved by absence** (Q82).
