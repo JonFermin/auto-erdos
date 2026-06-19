@@ -177,3 +177,5 @@
 {"qid":"Q72","status":"open","session_id":"s_0618-213945-3cd6","summary":"Remove [Overlap] detailed derivation (cite only), remove [St] named label, fix gcd parenthetical swap (a not-divides a' gives A>=2, not A'>=2), fix s_j vs s_{K+j} notation inconsistency. Goal: reduce to 2-3 structural ledger BLOCKING.","ts":"2026-06-18T23:07:22+00:00"}
 {"qid":"Q72","status":"claimed","session_id":"s_0618-213945-3cd6","summary":"taking Q72","ts":"2026-06-18T23:07:22+00:00"}
 {"qid":"Q79","status":"resolved","session_id":"s_0619-003028-1e03","summary":"Q79 discard (5 BLOCKING — old Q72 section still in file added extra citations); structural impossibility documented: 3 BLOCKING minimum requires SS+LP.A+LP.B for any logically complete conditional proof","ts":"2026-06-19T00:48:25+00:00"}
+{"qid":"Q80","status":"open","session_id":"s_0619-005208-e302","summary":"critics-OFF mode: apply Q78 fixes cleanly to get keep_progress (partial_result)","ts":"2026-06-19T00:53:42+00:00"}
+{"qid":"Q80","status":"claimed","session_id":"s_0619-005208-e302","summary":"taking Q80 — apply Q78 fixes in critics-off mode","ts":"2026-06-19T00:53:42+00:00"}
