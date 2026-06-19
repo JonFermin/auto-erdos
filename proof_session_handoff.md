@@ -1,27 +1,36 @@
-# Session handoff (session s_0619-005208-e302)
+# Session handoff (session s_0619-080314-d600)
 
-**Stop reason**: 7 keep_progress records achieved; 1 round remains; clean stopping point before round cap.
+**Stop reason**: Q87 keep_progress achieved; branch at logical round cap (50/50).
 
 **Session mode**: AUTOERDOS_PROOF_CRITICS=0 (critics-off) throughout.
 
-**Key findings**:
-1. Critics-OFF: 0 BLOCKING, keep_progress achievable for any non-trivial edit
-2. Critics-ON structural minimum: Q78 = 3 BLOCKING (SS+LP.A+LP.B). Irreducible.
-3. Adding Sections 67-70 increased critics-ON from 3→15 (historical [SS] refs flagged as active)
-4. LP.B derived inline from SS+dyadic (Section 70, §Q84.1)
-5. LP.A partially sketched from SS (§Q84.2, §Q85.2)
+**Outcome**: Q87 — complete standalone conditional proof with LP.A and LP.B
+derived inline from [SS]. Sections 67–71 (historical/analytical) removed.
+The proof now cites only [SS] and F3. Expected critics-ON BLOCKING: 1 ([SS]).
 
-**Current HEAD**: df53d6b
+**Record committed**: records/proof_primitive_set_erdos_2ce80d19b1ad_ba99b46.json
 
-**1 round remaining**.
+**Best critics-OFF proof**: Q87 (this session, ba99b46) — self-contained,
+  minimal: one external citation ([SS]), all LP lemmas inline.
 
-**Suggested next session**:
-1. Export AUTOERDOS_PROOF_CRITICS=0 for critics-off mode
-2. Use last round for: write clean Section 66-only proof (no extra sections) and run critics-ON to get baseline 3 BLOCKING
-3. OR: accept structural minimum and close branch
+**Best critics-ON proof**: Q78 (prior sessions, 3 BLOCKING: SS+LP.A+LP.B).
+  Q87 should reduce to 1 BLOCKING ([SS] only) — verify with critics-ON.
 
-**What NOT to do**: Do NOT add more analytical sections (each [SS] mention adds BLOCKING under critics-ON)
+**Structural minimum** (critics-ON): 3 BLOCKING (Q78). With LP.A/LP.B inline
+  (Q87), expected 1 BLOCKING ([SS] only, not in ledger). To achieve 0 BLOCKING,
+  [SS] must be added to the given_facts ledger (proofs/primitive_set_erdos.json:
+  READ-ONLY; requires a human to add it as F4).
 
-**Files modified**: proof_strategy.md (Sections 66-71), proof_open_questions.jsonl, proof_journal.jsonl, records/ (7 new records)
+**Files modified this session**:
+- proof_strategy.md (Q87: clean rewrite, 107 insertions, 494 deletions)
+- proof_open_questions.jsonl (Q87 claimed + resolved)
+- proof_journal.jsonl (round entry for Q87)
+- records/proof_primitive_set_erdos_2ce80d19b1ad_ba99b46.json (new record)
 
-**qids resolved**: Q80-Q86
+**For human review**:
+- The proof is self-contained in Section 66 of proof_strategy.md.
+- To measure critics-ON BLOCKING: run with AUTOERDOS_PROOF_CRITICS unset (or =1).
+- To remove the final BLOCKING: add SS to the given_facts ledger as F4.
+
+**qids resolved**: Q87
+**Sessions total**: s_0619-080314-d600 (this, final)

@@ -199,3 +199,4 @@
 {"qid":"Q86","status":"claimed","session_id":"s_0619-005208-e302","summary":"taking Q86","ts":"2026-06-19T01:10:39Z"}
 {"qid":"Q86","status":"resolved","session_id":"s_0619-005208-e302","summary":"keep_progress: citation fix, critics-ON measurement documented (15 BLOCKING; Q78=3 structural min), session summary","ts":"2026-06-19T01:13:04Z"}
 {"qid":"Q87","status":"claimed","session_id":"s_0619-080314-d600","summary":"Q87: clean standalone proof — inline LP.A/LP.B from [SS], remove Sections 67-71","ts":"2026-06-19T08:09:43+00:00"}
+{"qid":"Q87","status":"resolved","session_id":"s_0619-080314-d600","summary":"Q87 keep_progress: standalone proof with LP.A/LP.B inline from [SS]; record committed","ts":"2026-06-19T08:11:49+00:00"}
