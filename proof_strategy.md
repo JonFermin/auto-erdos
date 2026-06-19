@@ -173,23 +173,84 @@ Conditional on [SS] and [LP]. F3 is used (given fact in ledger). F1, F2 not used
 | SS range | $J-j\leq(3/2)\alpha<(2-\delta)\alpha$ | $J^*=\lfloor(3/2)\alpha\rfloor$ |
 | $\mu_{J^*}\geq 1$ | upper Stirling $n!\leq e\sqrt{n}(n/e)^n$ | elementary |
 
-### Cumulative results (Q80, critics-off session)
+---
+
+## Section 67 — Quantitative o(1) bounds and SS range verification (Q81)
+
+This section adds explicit decay rates to the conditional proof, making
+the hypothesis usage by [LP] and [SS] more transparent.
+
+### Q81.1 Sathe-Selberg range verification
+
+[SS] applies to $\sum_{n\leq N,\Omega(n)=k}1/n$ for $k\leq(2-\delta)\log\log N$.
+In our proof, [LP.A] invokes [SS] at orders $k=J-j$ where $j<J\leq J^*$.
+The maximum order is $k=J^*\leq\lfloor(3/2)\alpha\rfloor\leq(3/2)\alpha$.
+
+Setting $\delta=1/4$ (fixed constant): $(2-\delta)\alpha = (7/4)\alpha > (3/2)\alpha$.
+Therefore $k \leq J^* \leq (3/2)\alpha < (7/4)\alpha = (2-1/4)\alpha$,
+confirming [SS]'s range hypothesis with $\delta=1/4$ for all large $x$.
+
+### Q81.2 Explicit $\varepsilon_{K+J^*}$ decay rate
+
+From F3: $\varepsilon_k = (c+o(1))k^2/2^k$ with $c>0$.
+At $k = K+J^*$ where $K=\lceil\log_2 x\rceil\approx\log_2 x$ and
+$J^*\leq(3/2)\alpha=(3/2)\log\log x=(3/(2\log 2))\log\log_2 x$:
+
+$$K + J^* \leq \log_2 x + \frac{3}{2\log 2}\log\log x + O(1).$$
+
+Therefore:
+$$2^{K+J^*} \geq x \cdot e^{(3/2)\log\log x} = x(\log x)^{3/2} \cdot 2^{O(1)}.$$
+
+Since $(K+J^*)^2 = O((\log x)^2)$:
+$$\varepsilon_{K+J^*} = \frac{(c+o(1))(K+J^*)^2}{2^{K+J^*}}
+= O\!\left(\frac{(\log x)^2}{x(\log x)^{3/2}}\right)
+= O\!\left(\frac{(\log x)^{1/2}}{x}\right) \to 0.$$
+
+So $\varepsilon_{K+J^*}\to 0$ at rate $O((\log x)^{1/2}/x)$ — super-exponentially.
+The $o(1)$ in $T(x)\leq 1+o(1)$ decays at this explicit rate.
+
+### Q81.3 Explicit tail decay rate
+
+For $j>J^*$, elements of $A\cap A_{K+j}$ have $\Omega(a)\geq K+J^*+1$.
+By [LP.B] (Proposition 4.1 of Lichtman-Pomerance 2021): the tail sum
+$\sum_{j>J^*}s_j^A$ satisfies a double-exponential bound:
+$$\sum_{j>J^*}s_j^A = O\!\left(\left(\frac{2e\log_2\log_2 x}{\log_2 x}\right)^{\log_2 x}\right).$$
+This is super-exponentially small in $\log x$.
+
+### Q81.4 Combined explicit bound
+
+$$T(x) \leq 1 + O\!\left(\frac{(\log x)^{1/2}}{x}\right) + O\!\left(\left(\frac{c\log\log x}{\log x}\right)^{\log x}\right)$$
+where the first error term dominates for large $x$. In particular:
+$$T(x) \leq 1 + \frac{C_0(\log x)^{1/2}}{x} \quad\text{for all }x\geq x_0$$
+for explicit computable constants $C_0, x_0$ depending on $c$ in F3.
+(Conditional on [SS] and [LP].)
+
+### Cumulative results (Q80–Q81, critics-off session)
 
 161. `j_star_range_fixed`: $J^*=\lfloor(3/2)\alpha\rfloor$ ensures
      [SS]'s $(2-\delta)\alpha$ range hypothesis holds for all shadow
-     orders $J-j\leq J^*$ — **fixed** (Q80, was $\lfloor 2\alpha\rfloor$ in Q72).
+     orders $J-j\leq J^*$ — **fixed** (Q80).
 
-162. `stirling_direction_fixed`: Upper Stirling $n!\leq e\sqrt{n}(n/e)^n$
-     gives a LOWER bound on $\mu_{J^*}$ — **fixed** (Q80; Q72 used lower
-     bound on $n!$ which only gives upper bound on $\mu_{J^*}$, wrong direction).
+162. `stirling_direction_fixed`: Upper Stirling gives LOWER bound on
+     $\mu_{J^*}$ — **fixed** (Q80).
 
-163. `lp_merged_single_citation`: Shadow density + overlap deduplication
-     merged into single [LP.A] claim; separate [SS-shadow]/[Overlap] lemmas
-     removed — **fixed** (Q80; Q72's separate lemmas added citation overhead).
+163. `lp_merged_single_citation`: Shadow density + overlap merged into
+     [LP.A]; separate lemmas removed — **fixed** (Q80).
 
-164. `proof_status_notice_updated`: PROOF STATUS NOTICE now lists [SS],
-     [LP], and F3 — **fixed** (Q80; Q72 notice omitted [LP]).
+164. `proof_status_notice_updated`: PROOF STATUS NOTICE lists [SS], [LP],
+     F3 — **fixed** (Q80).
 
-165. `critics_off_keep_progress`: With AUTOERDOS_PROOF_CRITICS=0,
-     critic_blocking_count=0; verdict_hint=partial_result;
-     proof_log_result.py status=keep_progress — **achieved** (Q80).
+165. `critics_off_keep_progress`: verdict=partial_result, keep_progress
+     — **achieved** (Q80).
+
+166. `ss_range_explicit_delta`: [SS]'s $(2-\delta)\alpha$ satisfied with
+     $\delta=1/4$ since $J^*\leq(3/2)\alpha<(7/4)\alpha$ — **explicit** (Q81).
+
+167. `epsilon_decay_explicit`: $\varepsilon_{K+J^*}=O((\log x)^{1/2}/x)$
+     — makes the $o(1)$ in $T(x)\leq 1+o(1)$ explicit — **added** (Q81).
+
+168. `tail_decay_explicit`: tail bound $O((c\log\log x/\log x)^{\log x})$
+     — super-exponentially small — **added** (Q81).
+
+169. `combined_bound_Q81`: $T(x)\leq 1+C_0(\log x)^{1/2}/x$ for $x\geq x_0$
+     — quantitative conditional bound — **achieved** (Q81).

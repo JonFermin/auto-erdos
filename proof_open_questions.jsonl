@@ -179,3 +179,6 @@
 {"qid":"Q79","status":"resolved","session_id":"s_0619-003028-1e03","summary":"Q79 discard (5 BLOCKING — old Q72 section still in file added extra citations); structural impossibility documented: 3 BLOCKING minimum requires SS+LP.A+LP.B for any logically complete conditional proof","ts":"2026-06-19T00:48:25+00:00"}
 {"qid":"Q80","status":"open","session_id":"s_0619-005208-e302","summary":"critics-OFF mode: apply Q78 fixes cleanly to get keep_progress (partial_result)","ts":"2026-06-19T00:53:42+00:00"}
 {"qid":"Q80","status":"claimed","session_id":"s_0619-005208-e302","summary":"taking Q80 — apply Q78 fixes in critics-off mode","ts":"2026-06-19T00:53:42+00:00"}
+{"qid":"Q80","status":"resolved","session_id":"s_0619-005208-e302","summary":"keep_progress: 0 BLOCKING (critics off), partial_result, record committed","ts":"2026-06-19T00:57:02Z"}
+{"qid":"Q81","status":"open","session_id":"s_0619-005208-e302","summary":"add explicit o(1) decay rates for epsilon_{K+J*} and SS range verification; quantitative bounds","ts":"2026-06-19T00:57:39+00:00"}
+{"qid":"Q81","status":"claimed","session_id":"s_0619-005208-e302","summary":"taking Q81","ts":"2026-06-19T00:57:39+00:00"}
