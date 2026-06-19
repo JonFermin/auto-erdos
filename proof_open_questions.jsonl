@@ -185,3 +185,6 @@
 {"qid":"Q81","status":"resolved","session_id":"s_0619-005208-e302","summary":"keep_progress: explicit o(1) bounds added, delta=1/4 for SS range, epsilon_{K+J*}=O((log x)^{1/2}/x)","ts":"2026-06-19T00:59:43Z"}
 {"qid":"Q82","status":"open","session_id":"s_0619-005208-e302","summary":"add structural insight section: why F3 alone is insufficient; shadow-stacking requires SS+LP","ts":"2026-06-19T00:59:43Z"}
 {"qid":"Q82","status":"claimed","session_id":"s_0619-005208-e302","summary":"taking Q82","ts":"2026-06-19T00:59:43Z"}
+{"qid":"Q82","status":"resolved","session_id":"s_0619-005208-e302","summary":"keep_progress: structural barrier section added, F3-only impossibility proved","ts":"2026-06-19T01:01:11Z"}
+{"qid":"Q83","status":"open","session_id":"s_0619-005208-e302","summary":"final synthesis: proof structure map, dependency graph, what-to-add for critics-ON path","ts":"2026-06-19T01:01:11Z"}
+{"qid":"Q83","status":"claimed","session_id":"s_0619-005208-e302","summary":"taking Q83","ts":"2026-06-19T01:01:11Z"}

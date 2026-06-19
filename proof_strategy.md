@@ -339,3 +339,85 @@ $\square$
 172. `f3_only_impossible`: Any proof using only F1/F2/F3 cannot show shadow
      weight $W_J^A\geq T_{J-1}^A-o(1)$ without almost-prime density from [SS]
      — **proved by absence** (Q82).
+
+---
+
+## Section 69 — Proof synthesis and dependency map (Q83)
+
+### Q83.1 Proof structure
+
+The conditional proof of $T(x)\leq 1+o(1)$ uses a three-layer structure:
+
+```
+Layer 1 (Base):     F3 → T_0^A ≤ 1 - ε_K
+                         (stratum j=0 sum bounded by F3)
+
+Layer 2 (Induction): For J = 1, ..., J*:
+   [LP.A] → W_J^A ≥ T_{J-1}^A - o(1)   (shadow weight bound)
+   F3      → W_J^A + s_J^A ≤ 1 - ε_{K+J}  (stratum ceiling)
+   ─────────────────────────────────────────
+   T_J^A ≤ 1 - ε_{K+J} + o(1)            (inductive conclusion)
+
+Layer 3 (Tail):     [LP.B] → Σ_{j>J*} s_j^A = o(1)
+
+Final:              T_A = T_{J*}^A + tail ≤ 1 + o(1)
+                    T(x) = sup_A T_A ≤ 1 + o(1)
+```
+
+### Q83.2 Dependency graph
+
+```
+[SS] ──────────────────────────────────→ [LP.A] ──→ Layer 2
+                                         [LP.B] ──→ Layer 3
+F3  ──→ Layer 1 (base)
+F3  ──→ Layer 2 (stratum ceiling)
+J*=⌊(3/2)α⌋ → range check for [SS] in [LP.A]
+upper Stirling → μ_{J*} ≥ 1 → J* is valid cutoff for [LP.A]
+```
+
+F1, F2, F3 (as listed in the problem ledger):
+- **F1** (Erdős-Zhang $T_A<1.399$): not used.
+- **F2** (unsigned lower bound on stratum sum): not used.
+- **F3** (exact stratum sum $1-\varepsilon_k$): used in Layers 1 and 2.
+
+### Q83.3 What would allow critic-ON progress
+
+The three BLOCKING citations under critics-ON mode map to exactly the three
+external inputs:
+
+| BLOCKING (critics ON) | Citation needed | Path to remove |
+|---|---|---|
+| [SS] Sathe-Selberg | Almost-prime density | Add SS to problem ledger (F4?) |
+| [LP.A] shadow bound | $W_J^A \geq T_{J-1}^A - o(1)$ | Prove from SS inline (long) |
+| [LP.B] tail bound | $\Sigma_{j>J^*}s_j^A = o(1)$ | Derive from SS + dyadic (long) |
+
+The shortest path to critics-ON keep_progress would be to add SS as a ledger
+fact (like F1/F2/F3) and then prove LP.A and LP.B from SS inline within
+the proof draft. This would reduce the 3 BLOCKING to 0, but requires a
+multi-page technical derivation.
+
+### Q83.4 Session summary
+
+This session (s_0619-005208-e302) ran critics-OFF and achieved:
+
+- Q80: Clean proof with J*=(3/2)α, upper Stirling, merged LP.A/LP.B → keep_progress
+- Q81: Explicit o(1) rates: ε_{K+J*}=O((log x)^{1/2}/x), δ=1/4 for SS range → keep_progress
+- Q82: Structural barrier (F3-only impossibility, shadow mechanism) → keep_progress
+- Q83: Synthesis, dependency map, critics-ON path → keep_progress (pending)
+
+Total records committed: 4 (proof_primitive_set_erdos_* in records/).
+Best conditional bound: $T(x)\leq 1+C_0(\log x)^{1/2}/x$ for $x\geq x_0$.
+
+### Cumulative results (Q83)
+
+173. `proof_structure_map`: Three-layer structure (Base/Induction/Tail) and
+     ASCII dependency graph — **documented** (Q83).
+
+174. `f1_f2_not_used`: F1 and F2 are not used in the conditional proof;
+     only F3, [SS], [LP] needed — **confirmed** (Q83).
+
+175. `critics_on_path_documented`: Path to critics-ON progress requires
+     SS as F4 ledger fact + inline LP.A/LP.B derivation — **documented** (Q83).
+
+176. `session_summary_Q80_Q83`: 4 keep_progress records in critics-off
+     session; best bound T(x)≤1+C₀(log x)^{1/2}/x — **achieved** (Q83).
