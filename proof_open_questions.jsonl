@@ -188,3 +188,6 @@
 {"qid":"Q82","status":"resolved","session_id":"s_0619-005208-e302","summary":"keep_progress: structural barrier section added, F3-only impossibility proved","ts":"2026-06-19T01:01:11Z"}
 {"qid":"Q83","status":"open","session_id":"s_0619-005208-e302","summary":"final synthesis: proof structure map, dependency graph, what-to-add for critics-ON path","ts":"2026-06-19T01:01:11Z"}
 {"qid":"Q83","status":"claimed","session_id":"s_0619-005208-e302","summary":"taking Q83","ts":"2026-06-19T01:01:11Z"}
+{"qid":"Q83","status":"resolved","session_id":"s_0619-005208-e302","summary":"keep_progress: proof synthesis, dependency map, session summary","ts":"2026-06-19T01:04:05Z"}
+{"qid":"Q84","status":"open","session_id":"s_0619-005208-e302","summary":"derive LP.B tail inline from SS+dyadic, reducing BLOCKING 3→2; also start LP.A shadow density inline","ts":"2026-06-19T01:04:05Z"}
+{"qid":"Q84","status":"claimed","session_id":"s_0619-005208-e302","summary":"taking Q84","ts":"2026-06-19T01:04:05Z"}

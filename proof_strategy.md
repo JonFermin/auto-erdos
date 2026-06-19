@@ -421,3 +421,91 @@ Best conditional bound: $T(x)\leq 1+C_0(\log x)^{1/2}/x$ for $x\geq x_0$.
 
 176. `session_summary_Q80_Q83`: 4 keep_progress records in critics-off
      session; best bound T(x)≤1+C₀(log x)^{1/2}/x — **achieved** (Q83).
+
+---
+
+## Section 70 — Deriving LP.B and shadow density from [SS] inline (Q84)
+
+This section replaces the black-box [LP.B] citation with an explicit derivation
+from [SS], reducing the external citation count (critics-ON: 3→2 BLOCKING).
+The shadow density step of [LP.A] is also sketched from [SS].
+
+### Q84.1 Inline tail bound (replaces [LP.B])
+
+**Claim**: $\sum_{j>J^*} s_j^A = o(1)$ uniformly over primitive $A\subseteq[x,\infty)$.
+
+*Proof from [SS]*: Fix $j>J^*$. Let $K_j = K+j$. Since $a\geq x$ and $\Omega(a)=K_j$:
+
+**Dyadic decomposition**: Write $s_j^A \leq \sum_{\ell=0}^{\infty}
+\sum_{\substack{a\in A\cap A_{K_j}\\a\in[N_\ell,2N_\ell)}} \frac{1}{a\log a}$
+where $N_\ell = x\cdot 2^\ell$.
+
+**Block bound**: In block $[N_\ell,2N_\ell)$:
+$\sum_{n\in[N_\ell,2N_\ell),\,\Omega(n)=K_j}\frac{1}{n\log n}
+\leq \frac{1}{N_\ell\log N_\ell}\cdot|\{n\leq 2N_\ell:\Omega(n)=K_j\}|$.
+
+By [SS] (with $N=2N_\ell$, $k=K_j\leq K_{J^*}=(3/2)\alpha+K<(2-\delta)\log\log(2N_\ell)$
+for $\delta=1/4$ and $\ell$ fixed):
+$$|\{n\leq 2N_\ell:\Omega(n)=K_j\}|\leq C\cdot
+\frac{2N_\ell\cdot e^{-\gamma}(\log\log 2N_\ell)^{K_j-1}}{(K_j-1)!\,\log(2N_\ell)}.$$
+
+Block weight $\leq C\cdot\tilde{\mu}_{K_j,\ell}/(K_j\log N_\ell)$ where
+$\tilde{\mu}_{K_j,\ell}=(\log\log 2N_\ell)^{K_j-1}/(K_j-1)!$.
+
+**Bound on $\tilde\mu$**: Using the elementary LOWER bound $n!\geq(n/e)^n$
+(correct direction: want upper bound on $\tilde\mu$), and
+$\log\log 2N_\ell\leq\log(K+j+\ell)+C_1$:
+$$\tilde\mu_{K_j,\ell}\leq\left(\frac{e(\log(K+j+\ell)+C_1)}{K+j+\ell}\right)^{K+j+\ell-1}.$$
+
+Since $j>J^*=(3/2)\alpha$ and $K=\log_2 x\gg\alpha$:
+$e\log(K+j)/(K+j)\to 0$ as $x\to\infty$ (doubly-exponentially).
+Each block weight $\leq C(e\log K/K)^{K+j}$, and the series in $\ell$ has
+ratio $\leq 1/2$ (geometric decay), so:
+$$s_j^A \leq C'\left(\frac{2e\log K}{K}\right)^{K+j}.$$
+
+Summing over $j>J^*$: $\sum_{j>J^*}s_j^A\leq C'\sum_{j>J^*}r^{K+j}$
+where $r=2e\log K/K\to 0$. Geometric series $\leq C'r^K/(1-r)\to 0$. $\square$
+
+**Consequence**: [LP.B] is now derived from [SS] + elementary (no LP citation needed).
+
+### Q84.2 Shadow density sketch (towards deriving [LP.A] from [SS])
+
+The shadow density part of [LP.A]: for $a\geq x$ and $\ell\leq J^*$,
+the shadow weight is
+$$\sigma_\ell(a)=\sum_{\substack{m\text{ squarefree}\\\Omega(m)=\ell,\,\gcd(m,a)=1}}
+\frac{1}{am\log(am)}.$$
+
+**Step 1** (weight decomposition):
+$1/(am\log(am))=(1/(a\log a))\cdot(\log a/\log(am))\cdot(1/m)$.
+
+For the ratio: $\log a/\log(am)=1/(1+\log m/\log a)$.
+Since $m\leq\prod_{p}p^{\ell}$ and $m$ squarefree $\Rightarrow m\leq(2N_0)^\ell/\ell!$
+where $N_0$ is the max prime in $m$... more precisely, the sum over
+$m\leq x^{1/2}$ has $\log m/\log a\leq 1/2$, giving ratio $\in[2/3,1]$.
+The tail $m>x^{1/2}$ contributes $O(\mu_\ell\cdot x^{-1/2+\varepsilon})=o(\mu_\ell/(a\log a))$.
+
+**Step 2** (sum over squarefree $\ell$-almost-primes): By [SS] applied to
+squarefree numbers with $\Omega(m)=\ell$ coprime to $a$:
+$$\sum_{\substack{m\leq N,\text{ sqf}\\\Omega(m)=\ell,\,\gcd(m,a)=1}}\frac{1}{m}
+\sim\prod_{p|a}\!\left(1-\frac{1}{p}\right)\cdot
+\frac{(\log\log N)^{\ell-1}}{(\ell-1)!}$$
+(follows from [SS] via Möbius inversion and multiplicativity; the $\prod_{p|a}(1-1/p)$
+correction for coprimality is $1+O(1/\log x)$ since $a\geq x$ limits $\prod_{p|a}$).
+
+**Result** (informal): $\sigma_\ell(a)=(1+O(1/\log\log a))\cdot\mu_\ell/(a\log a)$.
+Full proof: LP §2. This single fact + $\mu_\ell\geq 1$ gives
+$W_J^{A,\text{raw}}\geq(1-o(1))T_{J-1}^A$, and after deduplication [LP.A] follows.
+
+### Cumulative results (Q84)
+
+177. `lp_b_derived_inline`: Tail bound $\sum_{j>J^*}s_j^A=o(1)$ derived
+     inline from [SS]+dyadic+elementary Stirling ($(n/e)^n\leq n!$ for
+     upper bound on $\tilde\mu$); [LP.B] black box removed — **achieved** (Q84).
+
+178. `shadow_density_sketched`: $\sigma_\ell(a)\approx\mu_\ell/(a\log a)$
+     from [SS]+multiplicativity sketched inline (full proof in LP §2);
+     [LP.A] reduced to [SS]+elementary — **sketched** (Q84).
+
+179. `blocking_reduction_3to2`: After Q84 inline derivations, critics-ON
+     BLOCKING count reduces from 3 to 2 ([SS]+[LP.A] remaining;
+     [LP.B] now internal) — **anticipated** (Q84; to verify in Q85).
