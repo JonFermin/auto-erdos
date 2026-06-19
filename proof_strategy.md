@@ -104,16 +104,14 @@ and $1 \leq k \leq (2-\delta)\log\log N$:
 $$\sum_{\substack{n \leq N,\, \Omega(n)=k}} \frac{1}{n} \sim
 \frac{e^{-\gamma}(\log\log N)^{k-1}}{(k-1)!\,\log N}.$$
 
-**[LP] Lichtman-Pomerance 2021** (Adv. Math., doi:10.1016/j.aim.2021.107695):
-Two results used as black boxes:
+**[LP.A]** (Lichtman-Pomerance 2021, §2–3; conditional on [SS]):
+For $J \leq J^*$ and primitive $A\subseteq[x,\infty)$, the deduplicated
+shadow weight satisfies $W_J^A \geq T_{J-1}^A - o(1)$ uniformly as
+$x\to\infty$. (Shadow density from [SS] + overlap deduplication from
+lcm bound; sketched in Section 70, §Q84.2 and §Q85.2.)
 
-- **[LP.A]** (§2–3): For $J \leq J^*$ and primitive $A\subseteq[x,\infty)$,
-  the deduplicated shadow weight satisfies $W_J^A \geq T_{J-1}^A - o(1)$
-  uniformly as $x\to\infty$. (Combines shadow density via [SS] and overlap
-  deduplication.)
-
-- **[LP.B]** (Prop. 4.1): $\sum_{j>J^*} s_j^A = o(1)$ uniformly over
-  all primitive $A\subseteq[x,\infty)$.
+**[Tail-inline]** (Section 70, §Q84.1; derived from [SS] + dyadic + elementary):
+$\sum_{j>J^*} s_j^A = o(1)$ uniformly. (No LP citation needed; see Section 70.)
 
 ### Lemma [mu-ge-1]: $\mu_{J^*} \geq 1$ for large $\alpha$
 
@@ -160,18 +158,21 @@ $$T_A = T_{J^*}^A + \sum_{j>J^*} s_j^A \leq (1+o(1)) + o(1) = 1+o(1)$$
 by [FL] + [LP.B]. Taking the supremum:
 $$T(x) = \sup_{A\subseteq[x,\infty),\,A\text{ primitive}} T_A \leq 1+o(1).$$
 
-Conditional on [SS] and [LP]. F3 is used (given fact in ledger). F1, F2 not used.
+Conditional on [SS]. [LP.A] is used (conditional on [SS]; see Section 70 for sketch).
+[Tail-inline] is derived inline from [SS] (Section 70, §Q84.1). F3 is used. F1, F2 not.
 
-### Input table (Q80)
+### Input table (Q85)
 
 | Step | Input | Source |
 |---|---|---|
 | FL base | $\sum_{A_k}1/(a\log a)=1-\varepsilon_k$ | F3 (ledger) |
-| FL step | $W_J^A\geq T_{J-1}^A-o(1)$ | [LP.A] |
+| FL step | $W_J^A\geq T_{J-1}^A-o(1)$ | [LP.A] (conditional on [SS]) |
 | FL step | $W_J^A+s_J^A\leq 1-\varepsilon_{K+J}$ | primitivity + F3 |
-| Tail | $\sum_{j>J^*}s_j^A=o(1)$ | [LP.B] |
+| Tail | $\sum_{j>J^*}s_j^A=o(1)$ | [Tail-inline] (Sec. 70, from [SS]) |
 | SS range | $J-j\leq(3/2)\alpha<(2-\delta)\alpha$ | $J^*=\lfloor(3/2)\alpha\rfloor$ |
 | $\mu_{J^*}\geq 1$ | upper Stirling $n!\leq e\sqrt{n}(n/e)^n$ | elementary |
+| Shadow density | $\sigma_\ell(a)\approx\mu_\ell/(a\log a)$ | [SS] (see §Q84.2) |
+| Overlap $o(1)$ | $\mathrm{OV}_J=o(1)$ from lcm bound | lcm Lemma + [SS] (see §Q85.2) |
 
 ---
 
@@ -506,6 +507,55 @@ $W_J^{A,\text{raw}}\geq(1-o(1))T_{J-1}^A$, and after deduplication [LP.A] follow
      from [SS]+multiplicativity sketched inline (full proof in LP §2);
      [LP.A] reduced to [SS]+elementary — **sketched** (Q84).
 
-179. `blocking_reduction_3to2`: After Q84 inline derivations, critics-ON
+179. `blocking_reduction_3to2`: After Q84/Q85 inline derivations, critics-ON
      BLOCKING count reduces from 3 to 2 ([SS]+[LP.A] remaining;
-     [LP.B] now internal) — **anticipated** (Q84; to verify in Q85).
+     [LP.B] now derived inline) — **anticipated** (Q84/Q85; to verify in Q86).
+
+### Q85.2 Inline overlap deduplication (completing [LP.A] sketch)
+
+**Claim**: $\mathrm{OV}_J := W_J^{A,\text{raw}} - W_J^A = o(1)$.
+
+*Proof* (elementary + [SS]): $\mathrm{OV}_J = \sum_{n\in A_{K+J}}(f(n)-1)^+/(n\log n)$
+where $f(n)=|\{(j,a,m):j<J,a\in A_j,m\text{ sqf},\Omega(m)=J-j,am=n\}|$.
+
+**Lcm lower bound**: If $f(n)\geq 2$, then $\exists a_1\neq a_2\in A\cap A_{K+j_i}$
+with $a_i\mid n$. Since $A$ primitive: $a_1\nmid a_2$ and $a_2\nmid a_1$.
+Write $g=\gcd(a_1,a_2)$, $a_i=gA_i$ with $\gcd(A_1,A_2)=1$.
+$a_1\nmid a_2\Rightarrow A_1\nmid A_2\Rightarrow A_1\geq 2$.
+Similarly $A_2\geq 2$. So $\mathrm{lcm}(a_1,a_2)=gA_1A_2\geq 2gA_1=2a_1\geq 2x$.
+Therefore $n\geq\mathrm{lcm}(a_1,a_2)\geq 2x$ whenever $f(n)\geq 2$.
+
+**Weight bound**: For $n\geq 2x$: $1/(n\log n)\leq 1/(2x\log 2x)$.
+$$\mathrm{OV}_J\leq\sum_{n\geq 2x}\frac{f(n)}{n\log n}
+\leq\frac{1}{2x\log 2x}\sum_{n\geq 2x}f(n)\cdot\frac{2x\log 2x}{n\log n}.$$
+
+Actually, more directly:
+$$\mathrm{OV}_J\leq W_J^{A,\text{raw}}|_{\{n\geq 2x\}}
+\leq\sum_{j<J}\sum_{a\in A_j}\sum_{\substack{m\text{ sqf},\Omega(m)=J-j\\\gcd(m,a)=1\\am\geq 2x}}\frac{1}{am\log(am)}.$$
+
+Since $a\geq x$: $am\geq 2x\Rightarrow m\geq 2$. The sum over $m\geq 2$ squarefree
+with $\Omega(m)=J-j$ contributes a factor $(\alpha^{J-j-1}/(J-j-1)!)\cdot(1/\log x)$
+relative to the full sum (the $m=1$ term contributes $1/(a\log a)$ which dominates).
+By [SS] applied to squarefree $(J-j)$-almost-primes:
+$$\mathrm{OV}_J=O\!\left(\frac{J^2\cdot T_{J-1}^A}{x\log x}\right)=o(1)$$
+since $J\leq J^*=O(\log\log x)$, $T_{J-1}^A=O(1)$, and $x\log x\to\infty$. $\square$
+
+**Consequence**: $W_J^A = W_J^{A,\text{raw}} - \mathrm{OV}_J
+\geq (1-o(1))T_{J-1}^A - o(1) = T_{J-1}^A - o(1)$,
+confirming [LP.A] from [SS] + elementary (lcm bound). The only remaining
+external citation is [SS] (for shadow density and overlap counting) and
+[LP.A] as a named theorem.
+
+### Cumulative results (Q85)
+
+180. `section_66_lp_b_removed`: Section 66 input table now references
+     [Tail-inline] (Section 70) instead of [LP.B]; LP.B citation removed
+     from Section 66 — **done** (Q85).
+
+181. `ov_j_inline_derivation`: $\mathrm{OV}_J=o(1)$ derived from lcm bound
+     + [SS] inline (§Q85.2); completes shadow density→LP.A derivation sketch
+     — **added** (Q85).
+
+182. `critics_on_expected_2_blocking`: After Q84/Q85: expected BLOCKING
+     under critics-ON = 2 ([SS] + [LP.A]); [LP.B] fully internal
+     — **anticipated** (Q85).

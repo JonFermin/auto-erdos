@@ -70,3 +70,4 @@
 {"event":"round","session_id":"s_0619-005208-e302","ts":"2026-06-19T00:59:43Z","summary":"Q81: explicit quantitative bounds — keep_progress","qid":"Q81","status":"keep_progress","commit":"013ad40"}
 {"event":"round","session_id":"s_0619-005208-e302","ts":"2026-06-19T01:01:11Z","summary":"Q82: structural barrier section, F3-only impossibility — keep_progress","qid":"Q82","status":"keep_progress","commit":"f895941"}
 {"event":"round","session_id":"s_0619-005208-e302","ts":"2026-06-19T01:04:05Z","summary":"Q83: proof synthesis and dependency map — keep_progress","qid":"Q83","status":"keep_progress","commit":"2213139"}
+{"event":"round","session_id":"s_0619-005208-e302","ts":"2026-06-19T01:06:04Z","summary":"Q84: LP.B inline from SS, shadow density sketched — keep_progress","qid":"Q84","status":"keep_progress","commit":"e805cdb"}
