@@ -72,3 +72,4 @@
 {"event":"round","session_id":"s_0619-005208-e302","ts":"2026-06-19T01:04:05Z","summary":"Q83: proof synthesis and dependency map — keep_progress","qid":"Q83","status":"keep_progress","commit":"2213139"}
 {"event":"round","session_id":"s_0619-005208-e302","ts":"2026-06-19T01:06:04Z","summary":"Q84: LP.B inline from SS, shadow density sketched — keep_progress","qid":"Q84","status":"keep_progress","commit":"e805cdb"}
 {"event":"measurement","session_id":"s_0619-005208-e302","ts":"2026-06-19T01:10:39Z","summary":"critics-ON on Q85: 15 BLOCKING (expected 2; sections 67-70 add citation overhead; Q78's 3 BLOCKING remains structural minimum)","status":"measurement_only"}
+{"event":"round","session_id":"s_0619-005208-e302","ts":"2026-06-19T01:13:04Z","summary":"Q86: citation fix + critics-ON measurement note (15 BLOCKING from historical sections; Q78 minimum) — keep_progress","qid":"Q86","status":"keep_progress","commit":"a2e451c"}

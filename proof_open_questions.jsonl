@@ -197,3 +197,4 @@
 {"qid":"Q85","status":"resolved","session_id":"s_0619-005208-e302","summary":"keep_progress: [Tail-inline] citation, OV_J inline; critics-ON measurement: 15 BLOCKING (worse than Q78's 3 due to added sections)","ts":"2026-06-19T01:10:39Z"}
 {"qid":"Q86","status":"open","session_id":"s_0619-005208-e302","summary":"final round: fix internal inconsistency (Main theorem LP.B->Tail-inline), document critics-ON measurement, session closure","ts":"2026-06-19T01:10:39Z"}
 {"qid":"Q86","status":"claimed","session_id":"s_0619-005208-e302","summary":"taking Q86","ts":"2026-06-19T01:10:39Z"}
+{"qid":"Q86","status":"resolved","session_id":"s_0619-005208-e302","summary":"keep_progress: citation fix, critics-ON measurement documented (15 BLOCKING; Q78=3 structural min), session summary","ts":"2026-06-19T01:13:04Z"}
