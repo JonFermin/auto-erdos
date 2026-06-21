@@ -16,10 +16,11 @@ against it, and decides keep/discard via `proof_log_result.py`.
 - **Status**: open. Until a verifier-accepted witness is committed, no claim
   of resolution may appear in this file (`critic_openness` enforces this).
 - **Given facts ledger**: see `proofs/primitive_set_erdos.json` field
-  `given_facts`. The proof may cite F1 (Erdős-Zhang upper bound ≈ 1.399),
-  F2 (Omega-stratum lower bound with UNSIGNED big-O — read carefully),
-  F3 (exact asymptotic showing canonical extremal sum approaches 1 from
-  BELOW). Citations to facts not in the ledger trigger `critic_ledger`.
+  `given_facts`. The proof may cite F1 (Erdős-Zhang upper bound, not used
+  in the partial result below), F2 (Omega-stratum lower bound with UNSIGNED
+  big-O — read carefully), F3 (exact asymptotic showing canonical extremal
+  sum approaches 1 from BELOW). Citations to facts not in the ledger trigger
+  `critic_ledger`. Only F3 is cited in Sections 2–3.
 
 ## Anti-traps (the canonical failure modes)
 
@@ -81,7 +82,8 @@ satisfies $a \geq x$; no distinct element of $A$ divides another).
 - $T(A) = \sum_{a \in A} \frac{1}{a \log a}$ (total sum to be bounded).
 - $\varepsilon_k = (c+o(1)) k^2 / 2^k$ with $c \approx 0.0656 > 0$ (from F3;
   the $o(1)$ is as $k \to \infty$; since $c > 0$, there exists $K_0 \in \mathbb{N}$
-  such that $\varepsilon_k > 0$ for all $k \geq K_0$).
+  such that $\varepsilon_k > 0$ for all $k \geq K_0$; Proposition~[$K_0 \geq 2$]
+  in Section 3 provides a concrete lower bound $K_0 \geq 2$).
 
 **Convention**: All results in Sections 2–3 are stated for $k \geq K_0$ (where
 $K_0$ is as above). For $k < K_0$, F3's asymptotic formula may not yield
