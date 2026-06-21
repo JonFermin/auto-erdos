@@ -106,9 +106,9 @@ $$W_k^A := \sum_{n \in \mathrm{Shad}_k^A} \frac{1}{n \log n}$$
 EXACT value $1 - \varepsilon_k$ (an upper bound via equality). Our proof uses F3 for the UPPER
 bound $s_k^A \leq \sum_{A_k} = 1 - \varepsilon_k$. F2's lower bound on $\sum_{A_k}$ does not
 directly constrain $s_k^A$ (it bounds the full stratum sum from below, not from above). The two
-facts are consistent: since $k^2/2^k = o(k^{-1/2})$ as $k \to \infty$ (exponential decay beats
-polynomial), for large $k$ we have $\varepsilon_k = O(k^2/2^k) \ll k^{-1/2}$, so
-$1 - \varepsilon_k > 1 - Ck^{-1/2}$.
+facts are consistent: explicitly, $k^{5/2}/2^k \to 0$ as $k \to \infty$ (exponential beats
+polynomial), so $k^2/2^k = o(k^{-1/2})$. Since $0 < \varepsilon_k = (c+o(1))k^2/2^k$ we get
+$0 < \varepsilon_k \ll k^{-1/2}$, hence $1 - \varepsilon_k > 1 - Ck^{-1/2}$ for large $k$.
 
 ---
 
@@ -189,9 +189,9 @@ $$T(\{2,3\}) = \frac{1}{2\log 2} + \frac{1}{3\log 3}.$$
 Using the standard values $\log 2 = 0.6931\ldots$ and $\log 3 = 1.0986\ldots$:
 $$T(\{2,3\}) = \frac{1}{1.3862\ldots} + \frac{1}{3.2958\ldots}
 = 0.7213\ldots + 0.3035\ldots = 1.0249\ldots > 1.$$
-Since $1 - \varepsilon_1 < 1$ (assuming $\varepsilon_1 > 0$), the claim's conclusion
-$T(A) \leq 1 - \varepsilon_1 < 1$ would be violated. Hence F3's formula cannot give
-$\varepsilon_1 > 0$, confirming $k_0 = 1$ is outside the claim's scope: $K_0 \geq 2$. $\square$
+If F3 held at $k = 1$ with $\varepsilon_1 > 0$, the claim's conclusion would give
+$T(\{2,3\}) \leq 1 - \varepsilon_1 < 1$, contradicting $T(\{2,3\}) = 1.0249\ldots > 1$. By
+contrapositive, $k_0 = 1$ is outside the claim's scope: $K_0 \geq 2$. $\square$
 
 ---
 
