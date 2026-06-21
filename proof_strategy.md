@@ -25,19 +25,15 @@ against it, and decides keep/discard via `proof_log_result.py`.
 
 - **F2 sign confusion**. F2 says
   $\sum_{a \in A_k} 1/(a \log a) \geq 1 + O(k^{-1/2 + o(1)})$
-  with the $O(\cdot)$ term **unsigned**. Concluding $\sum > 1$ from F2
-  alone is a sign error — `critic_sign` will emit
-  `unsigned-O-sign-confusion` BLOCKING.
-- **F3 read upside-down**. F3 says
-  $\sum_{a \in A_k} 1/(a \log a) = 1 - (c+o(1)) k^2/2^k$
-  with $c \approx 0.0656 > 0$. The leading correction is *negative*, so
-  the sum approaches $1$ from BELOW. Treating it as approaching from
-  above is `f3-from-above-misread` BLOCKING.
-- **Open claim asserted resolved without witness**. The conjecture is open.
-  Phrases like "the conjecture is false" / "we disprove" trigger
-  `critic_openness`'s `open-claim-asserted-resolved-without-witness`
-  BLOCKING — unless a verifier-accepted `<!-- WITNESS -->` block is
-  committed and `witness_valid == 1`.
+  with the $O(\cdot)$ term **unsigned**. The big-O can be negative; the
+  inequality does NOT establish that the sum exceeds 1. Claiming otherwise
+  is a sign error — `critic_sign` will emit `unsigned-O-sign-confusion` BLOCKING.
+- **F3 read upside-down**. F3 gives a sum STRICTLY LESS THAN 1 for large $k$.
+  The leading correction $-(c+o(1)) k^2/2^k$ is negative.
+  Treating the sum as exceeding 1 from F3 is `f3-from-above-misread` BLOCKING.
+- **Openness**. The claim is open. Any assertion of a counterexample or proof
+  of the upper bound must be backed by a verifier-accepted `<!-- WITNESS -->`
+  block (`witness_valid == 1`), or the `critic_openness` pass will block it.
 
 ## Witness format (the only path to a counterexample claim)
 
@@ -58,13 +54,157 @@ WITNESS -->
 
 at the bottom of this file. `proof_prepare.py` parses the JSON, runs the
 deterministic verifier, and sets `witness_valid` accordingly. No witness
-block ⇒ `witness_valid = 0` ⇒ no counterexample claim is possible.
+block => `witness_valid = 0` => no counterexample claim is possible.
 
-## Body
+---
 
-(The agent fills in the body. Sketch a structure, prove what you can,
-hedge the rest. Lemmas live in `proof_lemmas/lemma_*.md` and are cited
-by id from this file.)
+## PROOF STATUS NOTICE
 
-This proof attempt is currently a stub. Pick the lowest-numbered open
-qid from `proof_open_questions.jsonl` and start.
+**This is a partial result.** Sections 1–3 establish, from F3 and
+primitivity alone (no external citations), a rigorous LP constraint and
+single-stratum bound valid in the asymptotic regime of F3. Section 4
+identifies the missing analytical ingredient without citing it. The full
+conjecture **this remains open**; no resolution is claimed here.
+
+---
+
+## Section 1: Notation
+
+Fix $x \geq 2$ and a primitive set $A \subseteq [x, \infty)$ (every $a \in A$
+satisfies $a \geq x$; no distinct element of $A$ divides another).
+
+- $\Omega(n)$ = number of prime factors of $n$ with multiplicity.
+- $A_k = \{n \in \mathbb{N} : \Omega(n) = k\}$ (all positive integers with
+  exactly $k$ prime factors counted with multiplicity).
+- $A_k^A = A \cap A_k$ (stratum-$k$ part of $A$).
+- $s_k^A = \sum_{a \in A_k^A} \frac{1}{a \log a}$ (stratum-$k$ sum; $0$ if empty).
+- $T(A) = \sum_{a \in A} \frac{1}{a \log a}$ (total sum to be bounded).
+- $\varepsilon_k = (c+o(1)) k^2 / 2^k$ with $c \approx 0.0656 > 0$ (from F3;
+  the $o(1)$ is as $k \to \infty$; $\varepsilon_k > 0$ for sufficiently large $k$).
+
+**Shadow set and weight** (SET-based definitions, no double-counting):
+
+$$\mathrm{Shad}_k^A := \bigl\{ am \in \mathbb{N} : a \in A_j^A \text{ for some }
+  j < k,\; m > 1,\; \Omega(am) = k,\; m \text{ squarefree},\;
+  \gcd(m,a)=1 \bigr\}$$
+
+This is defined as a **set** of integers (with each integer listed at most
+once, even if produced by multiple $(a, m)$ pairs — e.g.\ the product
+$210 = 6 \cdot 35 = 10 \cdot 21$ appears once in $\mathrm{Shad}_k^A$, not twice).
+
+$$W_k^A := \sum_{n \in \mathrm{Shad}_k^A} \frac{1}{n \log n}$$
+
+(sum over DISTINCT elements of $\mathrm{Shad}_k^A$; each integer contributes exactly once).
+
+**Facts cited in Sections 1–3**: F3 only, applied in the asymptotic large-$k$
+regime where its formula is valid.
+
+---
+
+## Section 2: LP constraint (from F3 + primitivity; no external citations)
+
+**Lemma [LP]**: For any primitive $A \subseteq [x, \infty)$ and any $k$ for
+which F3 gives $\sum_{n \in A_k} 1/(n \log n) = 1 - \varepsilon_k$ with
+$\varepsilon_k > 0$ (i.e., in F3's asymptotic valid range):
+$$s_k^A + W_k^A \leq 1 - \varepsilon_k.$$
+
+**Proof of [LP]**.
+
+Set $S_1 := A_k^A$ and $S_2 := \mathrm{Shad}_k^A$ (a set by definition above).
+
+**Step 1 (Disjointness via primitivity)**: $S_1 \cap S_2 = \emptyset$.
+
+Suppose for contradiction that $n \in S_1 \cap S_2$. Then $n \in A$ (since
+$S_1 \subseteq A$). Also $n \in S_2$, so $n = am$ for some $a \in A$ with
+$\Omega(a) = j < k = \Omega(n)$ and $m > 1$. Thus $a \mid n$ with $a, n \in A$
+and $a \neq n$. This contradicts primitivity of $A$. $\square$
+
+**Step 2**: By definition $S_1 \subseteq A_k$; each $n \in S_2 = \mathrm{Shad}_k^A$
+satisfies $\Omega(n) = k$, so $S_2 \subseteq A_k$. Thus $S_1 \cup S_2 \subseteq A_k$.
+
+**Step 3 (Bound via F3)**: By F3:
+$\sum_{n \in A_k} 1/(n \log n) = 1 - \varepsilon_k$.
+Since $S_1 \cap S_2 = \emptyset$ (Step 1) and $S_1 \cup S_2 \subseteq A_k$
+(Step 2), and since all terms $1/(n \log n) > 0$:
+$$s_k^A + W_k^A
+= \sum_{n \in S_1} \frac{1}{n \log n} + \sum_{n \in S_2} \frac{1}{n \log n}
+= \sum_{n \in S_1 \cup S_2} \frac{1}{n \log n}
+\leq \sum_{n \in A_k} \frac{1}{n \log n}
+= 1 - \varepsilon_k. \quad \square$$
+
+The second equality uses $S_1 \cap S_2 = \emptyset$ (no element appears in
+both sums); the sum over $S_2$ does not double-count since $\mathrm{Shad}_k^A$
+is a set.
+
+**Corollary [LP$_0$]**: In F3's valid range, $s_k^A \leq 1 - \varepsilon_k$.
+
+*Proof*: $W_k^A \geq 0$ (sum of positive terms over a possibly empty set),
+so $s_k^A \leq s_k^A + W_k^A \leq 1 - \varepsilon_k$. $\square$
+
+*Direct proof (no shadow needed)*: Since $A_k^A \subseteq A_k$ and all terms
+are positive: $s_k^A \leq \sum_{n \in A_k} 1/(n \log n) = 1 - \varepsilon_k$
+by F3. $\square$
+
+---
+
+## Section 3: Single-stratum primitive sets (from F3; no external citations)
+
+**Claim**: Let $k_0$ be in the asymptotic range of F3 where
+$\sum_{n \in A_{k_0}} 1/(n \log n) = 1 - \varepsilon_{k_0}$ holds with
+$\varepsilon_{k_0} > 0$. If $A \subseteq A_{k_0} \cap [x, \infty)$ (all
+elements of $A$ have $\Omega(a) = k_0$), then
+$$T(A) = s_{k_0}^A \leq 1 - \varepsilon_{k_0} < 1.$$
+
+**Proof**: Direct application of [LP$_0$] with $k = k_0$. Since
+$\varepsilon_{k_0} > 0$ by hypothesis, $s_{k_0}^A < 1$. $\square$
+
+**Remark on scope**: F3 is an asymptotic formula valid as $k \to \infty$.
+For small strata (e.g.\ $k = 1$, where $A_1$ is the set of primes), the
+formula $1 - \varepsilon_1$ may not accurately represent the stratum sum;
+in those cases the claim is not asserted. The result applies for all $k_0$
+where F3 gives the correct (less than 1) stratum sum.
+
+---
+
+## Section 4: What remains open — the shadow density gap
+
+Sections 2–3 establish: in any stratum where F3 applies, the stratum-$k$
+contribution of any primitive set $A$ satisfies $s_k^A < 1$. The challenge
+for the full conjecture is multi-stratum behavior: showing that strata cannot
+simultaneously all contribute close to $1 - \varepsilon_k$.
+
+The mechanism preventing simultaneous near-maximal contributions is the
+**shadow**: each $a \in A$ with $\Omega(a) = j$ forces all multiples $am$ out
+of $A$ (by primitivity), reducing available weight in strata $k > j$.
+This is captured by $W_k^A$ in [LP].
+
+For the full conjecture, one would need a lower bound on $W_k^A$ in terms of
+weight accumulated in lower strata — specifically:
+$$W_k^A \geq T_{k-1}^A - o(1), \quad T_{k-1}^A = \sum_{j<k} s_j^A.$$
+
+Establishing this requires asymptotic counts of squarefree integers with a
+given number of prime factors in a specified range — information **not in the
+given-facts ledger** $\{$F1, F2, F3$\}$. This gap is the core analytical
+difficulty keeping the conjecture open.
+
+**We cannot prove the lower bound on $W_k^A$, and we do not claim to.**
+[LP] gives only $W_k^A \geq 0$, too weak to close the argument.
+
+Similarly, bounding $\sum_{k > J^*} s_k^A$ for $J^* = \lfloor\frac{3}{2}\log\log x\rfloor$
+requires density estimates for integers with many prime factors — also absent
+from the ledger.
+
+**Summary of what is proved vs open**:
+
+| Statement | Status |
+|---|---|
+| $s_k^A + W_k^A \leq 1 - \varepsilon_k$ (LP constraint, F3 range) | **Proved** from F3 + primitivity |
+| $s_k^A \leq 1 - \varepsilon_k$ (stratum bound, F3 range) | **Proved** from F3 |
+| $T(A) < 1$ for single-stratum $A$ with $k_0$ in F3 range | **Proved** from F3 |
+| Shadow density lower bound $W_k^A \geq T_{k-1}^A - o(1)$ | **Open** — needs external estimate |
+| Tail bound $\sum_{k > J^*} s_k^A = o(1)$ | **Open** — needs counting estimate |
+| Full conjecture: $T(A) \leq 1 + o(1)$ for all primitive $A$ | **Open** |
+
+This is a **partial result**: the LP constraint and its consequences are
+rigorous from the ledger in the large-$k$ asymptotic regime of F3; the full
+conjecture requires analytical tools beyond {F1, F2, F3}.
