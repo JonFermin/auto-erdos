@@ -190,9 +190,9 @@ difficulty keeping the conjecture open.
 **We cannot prove the lower bound on $W_k^A$, and we do not claim to.**
 [LP] gives only $W_k^A \geq 0$, too weak to close the argument.
 
-Similarly, bounding $\sum_{k > J^*} s_k^A$ for $J^* = \lfloor\frac{3}{2}\log\log x\rfloor$
-requires density estimates for integers with many prime factors — also absent
-from the ledger.
+Similarly, bounding the tail $\sum_{k > K} s_k^A$ for large $k$ (beyond a
+threshold $K$ depending on $x$) requires density estimates for integers with
+many prime factors — also absent from the ledger.
 
 **Summary of what is proved vs open**:
 
@@ -202,7 +202,7 @@ from the ledger.
 | $s_k^A \leq 1 - \varepsilon_k$ (stratum bound, F3 range) | **Proved** from F3 |
 | $T(A) < 1$ for single-stratum $A$ with $k_0$ in F3 range | **Proved** from F3 |
 | Shadow density lower bound $W_k^A \geq T_{k-1}^A - o(1)$ | **Open** — needs external estimate |
-| Tail bound $\sum_{k > J^*} s_k^A = o(1)$ | **Open** — needs counting estimate |
+| Tail bound $\sum_{k > K} s_k^A = o(1)$ for large $k$ | **Open** — needs counting estimate |
 | Full conjecture: $T(A) \leq 1 + o(1)$ for all primitive $A$ | **Open** |
 
 This is a **partial result**: the LP constraint and its consequences are
