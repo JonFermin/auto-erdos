@@ -102,7 +102,9 @@ $$W_k^A := \sum_{n \in \mathrm{Shad}_k^A} \frac{1}{n \log n}$$
 **Facts cited in Sections 1–3**: F3 only, applied for $k \geq K_0$.
 
 **Note on F2 vs F3**: F2 gives a LOWER bound $\sum_{n \in A_k} 1/(n \log n) \geq 1 + O(k^{-1/2+o(1)})$
-(with unsigned big-O, so the bound is $\geq 1 - O(k^{-1/2})$ in the worst case). F3 gives the
+with unsigned big-O. Since the $O$-term may be negative (as large as $-Ck^{-1/2}$ in absolute
+value), F2 only guarantees $\text{sum} \geq 1 - Ck^{-1/2}$; it does NOT imply the sum exceeds $1$.
+F3 gives the
 EXACT value $1 - \varepsilon_k$ (an upper bound via equality). Our proof uses F3 for the UPPER
 bound $s_k^A \leq \sum_{A_k} = 1 - \varepsilon_k$. F2's lower bound on $\sum_{A_k}$ does not
 directly constrain $s_k^A$ (it bounds the full stratum sum from below, not from above). The two
