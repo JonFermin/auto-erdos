@@ -102,16 +102,10 @@ $$W_k^A := \sum_{n \in \mathrm{Shad}_k^A} \frac{1}{n \log n}$$
 **Facts cited in Sections 1–3**: F3 only, applied for $k \geq K_0$.
 
 **Note on F2 vs F3**: F2 gives a LOWER bound $\sum_{n \in A_k} 1/(n \log n) \geq 1 + O(k^{-1/2+o(1)})$
-with unsigned big-O. Since the $O$-term may be negative (as large as $-Ck^{-1/2}$ in absolute
-value), F2 only guarantees $\text{sum} \geq 1 - Ck^{-1/2}$; it does NOT imply the sum exceeds $1$.
-F3 gives the
-EXACT value $1 - \varepsilon_k$ (an upper bound via equality). Our proof uses F3 for the UPPER
-bound $s_k^A \leq \sum_{A_k} = 1 - \varepsilon_k$. F2's lower bound on $\sum_{A_k}$ does not
-directly constrain $s_k^A$ (it bounds the full stratum sum from below, not from above). The two
-facts are consistent: explicitly, $k^{5/2}/2^k \to 0$ as $k \to \infty$ (exponential beats
-polynomial), so $k^2/2^k = o(k^{-1/2})$. Since $0 < \varepsilon_k = (c+o(1))k^2/2^k$ we get $0 < \varepsilon_k \ll k^{-1/2}$;
-more precisely, there exist $C > 0$ and $k_1 \in \mathbb{N}$ such that $\varepsilon_k < C k^{-1/2}$
-for all $k \geq k_1$, hence $1 - \varepsilon_k > 1 - Ck^{-1/2}$ for $k \geq k_1$.
+with unsigned big-O (the $O$-term may be negative); F2 does NOT establish sum $> 1$.
+F3 gives the EXACT value $1 - \varepsilon_k$. Our proof uses only F3 (an upper bound on
+$\sum_{A_k}$); F2's lower bound does not constrain $s_k^A$ (it bounds the full stratum from below,
+not from above). The two facts are mutually consistent and are not used together in any step.
 
 ---
 
