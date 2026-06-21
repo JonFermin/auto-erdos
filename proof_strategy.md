@@ -147,6 +147,20 @@ is a set.
 *Proof*: $W_k^A \geq 0$ (non-negative sum over a possibly empty set),
 so $s_k^A \leq s_k^A + W_k^A \leq 1 - \varepsilon_k$ by [LP]. $\square$
 
+**Corollary [LP-comp]** (complementary slackness): For $k \geq K_0$,
+$$W_k^A \leq (1 - \varepsilon_k) - s_k^A.$$
+
+*Proof*: Immediate from [LP]. $\square$
+
+*Interpretation*: The shadow weight and the stratum contribution trade off within the
+budget $1 - \varepsilon_k$. If $s_k^A$ is large (stratum $k$ is heavily occupied by $A$),
+then $W_k^A$ is small (little room for shadow weight). Conversely, if $W_k^A$ is large
+(lower-stratum elements of $A$ cast many multiples into stratum $k$), then $s_k^A$ is small.
+
+If one also had a LOWER BOUND $W_k^A \geq L_k^A$ for some $L_k^A > 0$ (depending on lower strata),
+then [LP] would give $s_k^A \leq (1-\varepsilon_k) - L_k^A$, and summing over $k$ would close
+the argument. This is precisely the shadow density lower bound discussed in Section 4.
+
 ---
 
 ## Section 3: Single-stratum primitive sets (from F3; no external citations)
