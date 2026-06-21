@@ -106,7 +106,9 @@ $$W_k^A := \sum_{n \in \mathrm{Shad}_k^A} \frac{1}{n \log n}$$
 EXACT value $1 - \varepsilon_k$ (an upper bound via equality). Our proof uses F3 for the UPPER
 bound $s_k^A \leq \sum_{A_k} = 1 - \varepsilon_k$. F2's lower bound on $\sum_{A_k}$ does not
 directly constrain $s_k^A$ (it bounds the full stratum sum from below, not from above). The two
-facts are consistent since $1 - \varepsilon_k = 1 - O(k^2/2^k) > 1 - Ck^{-1/2}$ for large $k$.
+facts are consistent: since $k^2/2^k = o(k^{-1/2})$ as $k \to \infty$ (exponential decay beats
+polynomial), for large $k$ we have $\varepsilon_k = O(k^2/2^k) \ll k^{-1/2}$, so
+$1 - \varepsilon_k > 1 - Ck^{-1/2}$.
 
 ---
 
@@ -184,10 +186,9 @@ for all sufficiently large $k$, so $K_0$ is finite and the claim is non-vacuous.
 *Proof*: The set $\{2, 3\} \subseteq A_1 \cap [2, \infty)$ is primitive (2 does not
 divide 3, and 3 does not divide 2). Its sum is:
 $$T(\{2,3\}) = \frac{1}{2\log 2} + \frac{1}{3\log 3}.$$
-Since $\log 2 < 0.694$ (as $e^{0.694} > 2$, which follows from $e > 2.7$ and
-$2.7^{0.694} > 2$) and $\log 3 < 1.100$ (as $e^{1.1} > 3$), we get:
-$$T(\{2,3\}) > \frac{1}{2 \times 0.694} + \frac{1}{3 \times 1.100}
-= \frac{1}{1.388} + \frac{1}{3.300} > 0.720 + 0.303 = 1.023 > 1.$$
+Using the standard values $\log 2 = 0.6931\ldots$ and $\log 3 = 1.0986\ldots$:
+$$T(\{2,3\}) = \frac{1}{1.3862\ldots} + \frac{1}{3.2958\ldots}
+= 0.7213\ldots + 0.3035\ldots = 1.0249\ldots > 1.$$
 Since $1 - \varepsilon_1 < 1$ (assuming $\varepsilon_1 > 0$), the claim's conclusion
 $T(A) \leq 1 - \varepsilon_1 < 1$ would be violated. Hence F3's formula cannot give
 $\varepsilon_1 > 0$, confirming $k_0 = 1$ is outside the claim's scope: $K_0 \geq 2$. $\square$
