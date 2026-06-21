@@ -101,11 +101,12 @@ $$W_k^A := \sum_{n \in \mathrm{Shad}_k^A} \frac{1}{n \log n}$$
 
 **Facts cited in Sections 1–3**: F3 only, applied for $k \geq K_0$.
 
-**Note on F2/F3 consistency**: F2 gives $\sum_{n \in A_k} 1/(n \log n) \geq 1 + O(k^{-1/2+o(1)})$
-with unsigned big-O, while F3 gives the exact value $1 - \varepsilon_k$.
-These are consistent: since $\varepsilon_k = O(k^2/2^k)$ decays exponentially while
-$k^{-1/2}$ decays polynomially, $1 - \varepsilon_k > 1 - Ck^{-1/2}$ for large $k$.
-F3 is strictly sharper than F2 for our purposes.
+**Note on F2 vs F3**: F2 gives a LOWER bound $\sum_{n \in A_k} 1/(n \log n) \geq 1 + O(k^{-1/2+o(1)})$
+(with unsigned big-O, so the bound is $\geq 1 - O(k^{-1/2})$ in the worst case). F3 gives the
+EXACT value $1 - \varepsilon_k$ (an upper bound via equality). Our proof uses F3 for the UPPER
+bound $s_k^A \leq \sum_{A_k} = 1 - \varepsilon_k$. F2's lower bound on $\sum_{A_k}$ does not
+directly constrain $s_k^A$ (it bounds the full stratum sum from below, not from above). The two
+facts are consistent since $1 - \varepsilon_k = 1 - O(k^2/2^k) > 1 - Ck^{-1/2}$ for large $k$.
 
 ---
 
@@ -157,9 +158,10 @@ budget $1 - \varepsilon_k$. If $s_k^A$ is large (stratum $k$ is heavily occupied
 then $W_k^A$ is small (little room for shadow weight). Conversely, if $W_k^A$ is large
 (lower-stratum elements of $A$ cast many multiples into stratum $k$), then $s_k^A$ is small.
 
-If one also had a LOWER BOUND $W_k^A \geq L_k^A$ for some $L_k^A > 0$ (depending on lower strata),
-then [LP] would give $s_k^A \leq (1-\varepsilon_k) - L_k^A$, and summing over $k$ would close
-the argument. This is precisely the shadow density lower bound discussed in Section 4.
+If one also had a LOWER BOUND $W_k^A \geq L_k^A$ for some $L_k^A \geq 0$ depending on lower strata,
+then [LP-comp] would give $s_k^A \leq (1-\varepsilon_k) - L_k^A$, and summing over $k$ and $L_k^A$
+being large enough could close the argument. The shadow density lower bound in Section 4 is one
+candidate for such an $L_k^A$; it is a conjectured, unproved lower bound on $W_k^A$.
 
 ---
 
@@ -195,8 +197,9 @@ of $A$ (by primitivity), reducing available weight in strata $k > j$.
 This is captured by $W_k^A$ in [LP].
 
 For the full conjecture, one would need a lower bound on $W_k^A$ in terms of
-weight accumulated in lower strata — specifically:
-$$W_k^A \geq T_{k-1}^A - o(1), \quad T_{k-1}^A = \sum_{j<k} s_j^A.$$
+weight accumulated in lower strata. Conjecturally:
+$$W_k^A \geq T_{k-1}^A - o(1), \quad T_{k-1}^A = \sum_{j<k} s_j^A,$$
+but this is not derived here — it is the missing ingredient, not a proved fact.
 
 Establishing this requires asymptotic counts of squarefree integers with a
 given number of prime factors in a specified range — information **not in the
