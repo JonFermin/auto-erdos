@@ -178,9 +178,19 @@ we obtain $T(A) < 1$. $\square$
 **Remark on scope**: The threshold $K_0$ is determined by F3: since
 $\varepsilon_k = (c + o(1))k^2/2^k$ with $c > 0$, we have $\varepsilon_k > 0$
 for all sufficiently large $k$, so $K_0$ is finite and the claim is non-vacuous.
-For $k_0 < K_0$ (including $k_0 = 1$, where $A_1$ is the set of all primes),
-F3's asymptotic formula may not give $\varepsilon_{k_0} > 0$, and the claim
-is not asserted for those small strata.
+
+**Proposition [$K_0 \geq 2$]**: The claim does NOT hold for $k_0 = 1$.
+
+*Proof*: The set $\{2, 3\} \subseteq A_1 \cap [2, \infty)$ is primitive (2 does not
+divide 3, and 3 does not divide 2). Its sum is:
+$$T(\{2,3\}) = \frac{1}{2\log 2} + \frac{1}{3\log 3}.$$
+Since $\log 2 < 0.694$ (as $e^{0.694} > 2$, which follows from $e > 2.7$ and
+$2.7^{0.694} > 2$) and $\log 3 < 1.100$ (as $e^{1.1} > 3$), we get:
+$$T(\{2,3\}) > \frac{1}{2 \times 0.694} + \frac{1}{3 \times 1.100}
+= \frac{1}{1.388} + \frac{1}{3.300} > 0.720 + 0.303 = 1.023 > 1.$$
+Since $1 - \varepsilon_1 < 1$ (assuming $\varepsilon_1 > 0$), the claim's conclusion
+$T(A) \leq 1 - \varepsilon_1 < 1$ would be violated. Hence F3's formula cannot give
+$\varepsilon_1 > 0$, confirming $k_0 = 1$ is outside the claim's scope: $K_0 \geq 2$. $\square$
 
 ---
 
