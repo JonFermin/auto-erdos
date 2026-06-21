@@ -107,8 +107,9 @@ EXACT value $1 - \varepsilon_k$ (an upper bound via equality). Our proof uses F3
 bound $s_k^A \leq \sum_{A_k} = 1 - \varepsilon_k$. F2's lower bound on $\sum_{A_k}$ does not
 directly constrain $s_k^A$ (it bounds the full stratum sum from below, not from above). The two
 facts are consistent: explicitly, $k^{5/2}/2^k \to 0$ as $k \to \infty$ (exponential beats
-polynomial), so $k^2/2^k = o(k^{-1/2})$. Since $0 < \varepsilon_k = (c+o(1))k^2/2^k$ we get
-$0 < \varepsilon_k \ll k^{-1/2}$, hence $1 - \varepsilon_k > 1 - Ck^{-1/2}$ for large $k$.
+polynomial), so $k^2/2^k = o(k^{-1/2})$. Since $0 < \varepsilon_k = (c+o(1))k^2/2^k$ we get $0 < \varepsilon_k \ll k^{-1/2}$;
+more precisely, there exist $C > 0$ and $k_1 \in \mathbb{N}$ such that $\varepsilon_k < C k^{-1/2}$
+for all $k \geq k_1$, hence $1 - \varepsilon_k > 1 - Ck^{-1/2}$ for $k \geq k_1$.
 
 ---
 
@@ -128,8 +129,10 @@ $S_1 \subseteq A$). Also $n \in S_2$, so $n = am$ for some $a \in A$ with
 $\Omega(a) = j < k = \Omega(n)$ and $m > 1$. Thus $a \mid n$ with $a, n \in A$
 and $a \neq n$. This contradicts primitivity of $A$. $\square$
 
-**Step 2**: By definition $S_1 \subseteq A_k$; each $n \in S_2 = \mathrm{Shad}_k^A$
-satisfies $\Omega(n) = k$, so $S_2 \subseteq A_k$. Thus $S_1 \cup S_2 \subseteq A_k$.
+**Step 2**: By definition $S_1 \subseteq A_k$. Each $n \in S_2 = \mathrm{Shad}_k^A$
+has the form $n = am$ with $a, m \in \mathbb{N}$ and $m > 1$, so $n \in \mathbb{N}$;
+and $\Omega(n) = k$ by definition of $\mathrm{Shad}_k^A$, so $n \in A_k$.
+Thus $S_2 \subseteq A_k$ and $S_1 \cup S_2 \subseteq A_k$.
 
 **Step 3 (Bound via F3)**: By F3:
 $\sum_{n \in A_k} 1/(n \log n) = 1 - \varepsilon_k$.
@@ -208,9 +211,9 @@ of $A$ (by primitivity), reducing available weight in strata $k > j$.
 This is captured by $W_k^A$ in [LP].
 
 For the full conjecture, one would need a lower bound on $W_k^A$ in terms of
-weight accumulated in lower strata. Conjecturally:
+weight accumulated in lower strata. Conjecturally (as a target, not used in any proved step):
 $$W_k^A \geq T_{k-1}^A - o(1), \quad T_{k-1}^A = \sum_{j<k} s_j^A,$$
-but this is not derived here — it is the missing ingredient, not a proved fact.
+but this inequality is unproved and not derived here — it is the missing ingredient.
 
 Establishing this requires asymptotic counts of squarefree integers with a
 given number of prime factors in a specified range — information **not in the
