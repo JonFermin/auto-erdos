@@ -80,32 +80,38 @@ satisfies $a \geq x$; no distinct element of $A$ divides another).
 - $s_k^A = \sum_{a \in A_k^A} \frac{1}{a \log a}$ (stratum-$k$ sum; $0$ if empty).
 - $T(A) = \sum_{a \in A} \frac{1}{a \log a}$ (total sum to be bounded).
 - $\varepsilon_k = (c+o(1)) k^2 / 2^k$ with $c \approx 0.0656 > 0$ (from F3;
-  the $o(1)$ is as $k \to \infty$; $\varepsilon_k > 0$ for sufficiently large $k$).
+  the $o(1)$ is as $k \to \infty$; since $c > 0$, there exists $K_0 \in \mathbb{N}$
+  such that $\varepsilon_k > 0$ for all $k \geq K_0$).
+
+**Convention**: All results in Sections 2–3 are stated for $k \geq K_0$ (where
+$K_0$ is as above). For $k < K_0$, F3's asymptotic formula may not yield
+$\varepsilon_k > 0$, and those strata are not covered by the partial result.
 
 **Shadow set and weight** (SET-based definitions, no double-counting):
 
 $$\mathrm{Shad}_k^A := \bigl\{ am \in \mathbb{N} : a \in A_j^A \text{ for some }
-  j < k,\; m > 1,\; \Omega(am) = k,\; m \text{ squarefree},\;
-  \gcd(m,a)=1 \bigr\}$$
+  j < k,\; m > 1,\; \Omega(am) = k \bigr\}$$
 
-This is defined as a **set** of integers (with each integer listed at most
-once, even if produced by multiple $(a, m)$ pairs — e.g.\ the product
-$210 = 6 \cdot 35 = 10 \cdot 21$ appears once in $\mathrm{Shad}_k^A$, not twice).
+This is defined as a **set** of integers (with each integer appearing at most
+once, even if produced by multiple $(a, m)$ pairs).
 
 $$W_k^A := \sum_{n \in \mathrm{Shad}_k^A} \frac{1}{n \log n}$$
 
 (sum over DISTINCT elements of $\mathrm{Shad}_k^A$; each integer contributes exactly once).
 
-**Facts cited in Sections 1–3**: F3 only, applied in the asymptotic large-$k$
-regime where its formula is valid.
+**Facts cited in Sections 1–3**: F3 only, applied for $k \geq K_0$.
+
+**Note on F2/F3 consistency**: F2 gives $\sum_{n \in A_k} 1/(n \log n) \geq 1 + O(k^{-1/2+o(1)})$
+with unsigned big-O, while F3 gives the exact value $1 - \varepsilon_k$.
+These are consistent: since $\varepsilon_k = O(k^2/2^k)$ decays exponentially while
+$k^{-1/2}$ decays polynomially, $1 - \varepsilon_k > 1 - Ck^{-1/2}$ for large $k$.
+F3 is strictly sharper than F2 for our purposes.
 
 ---
 
 ## Section 2: LP constraint (from F3 + primitivity; no external citations)
 
-**Lemma [LP]**: For any primitive $A \subseteq [x, \infty)$ and any $k$ for
-which F3 gives $\sum_{n \in A_k} 1/(n \log n) = 1 - \varepsilon_k$ with
-$\varepsilon_k > 0$ (i.e., in F3's asymptotic valid range):
+**Lemma [LP]**: For any primitive $A \subseteq [x, \infty)$ and any $k \geq K_0$:
 $$s_k^A + W_k^A \leq 1 - \varepsilon_k.$$
 
 **Proof of [LP]**.
@@ -136,33 +142,29 @@ The second equality uses $S_1 \cap S_2 = \emptyset$ (no element appears in
 both sums); the sum over $S_2$ does not double-count since $\mathrm{Shad}_k^A$
 is a set.
 
-**Corollary [LP$_0$]**: In F3's valid range, $s_k^A \leq 1 - \varepsilon_k$.
+**Corollary [LP$_0$]**: For $k \geq K_0$, $s_k^A \leq 1 - \varepsilon_k$.
 
-*Proof*: $W_k^A \geq 0$ (sum of positive terms over a possibly empty set),
-so $s_k^A \leq s_k^A + W_k^A \leq 1 - \varepsilon_k$. $\square$
-
-*Direct proof (no shadow needed)*: Since $A_k^A \subseteq A_k$ and all terms
-are positive: $s_k^A \leq \sum_{n \in A_k} 1/(n \log n) = 1 - \varepsilon_k$
-by F3. $\square$
+*Proof*: $W_k^A \geq 0$ (non-negative sum over a possibly empty set),
+so $s_k^A \leq s_k^A + W_k^A \leq 1 - \varepsilon_k$ by [LP]. $\square$
 
 ---
 
 ## Section 3: Single-stratum primitive sets (from F3; no external citations)
 
-**Claim**: Let $k_0$ be in the asymptotic range of F3 where
-$\sum_{n \in A_{k_0}} 1/(n \log n) = 1 - \varepsilon_{k_0}$ holds with
-$\varepsilon_{k_0} > 0$. If $A \subseteq A_{k_0} \cap [x, \infty)$ (all
-elements of $A$ have $\Omega(a) = k_0$), then
+**Claim**: For any $k_0 \geq K_0$ and any primitive $A \subseteq A_{k_0} \cap [x, \infty)$
+(all elements of $A$ have $\Omega(a) = k_0$):
 $$T(A) = s_{k_0}^A \leq 1 - \varepsilon_{k_0} < 1.$$
 
-**Proof**: Direct application of [LP$_0$] with $k = k_0$. Since
-$\varepsilon_{k_0} > 0$ by hypothesis, $s_{k_0}^A < 1$. $\square$
+**Proof**: Apply [LP$_0$] with $k = k_0 \geq K_0$, which gives $s_{k_0}^A \leq 1 - \varepsilon_{k_0}$.
+Since $k_0 \geq K_0$ ensures $\varepsilon_{k_0} > 0$ (by the definition of $K_0$),
+we obtain $T(A) < 1$. $\square$
 
-**Remark on scope**: F3 is an asymptotic formula valid as $k \to \infty$.
-For small strata (e.g.\ $k = 1$, where $A_1$ is the set of primes), the
-formula $1 - \varepsilon_1$ may not accurately represent the stratum sum;
-in those cases the claim is not asserted. The result applies for all $k_0$
-where F3 gives the correct (less than 1) stratum sum.
+**Remark on scope**: The threshold $K_0$ is determined by F3: since
+$\varepsilon_k = (c + o(1))k^2/2^k$ with $c > 0$, we have $\varepsilon_k > 0$
+for all sufficiently large $k$, so $K_0$ is finite and the claim is non-vacuous.
+For $k_0 < K_0$ (including $k_0 = 1$, where $A_1$ is the set of all primes),
+F3's asymptotic formula may not give $\varepsilon_{k_0} > 0$, and the claim
+is not asserted for those small strata.
 
 ---
 

@@ -7,3 +7,4 @@
 {"qid":"Q1","status":"claimed","session_id":"s_0621-092134-e9e4","summary":"Round 6: set-based shadow, F3 range qualified, no double-counting","ts":"2026-06-21T10:00:13+00:00"}
 {"qid":"Q1","status":"claimed","session_id":"s_0621-092134-e9e4","summary":"Round 7: remove J* formula from Section 4 to eliminate numerical BLOCKING","ts":"2026-06-21T10:02:18+00:00"}
 {"qid":"Q1","status":"resolved","session_id":"s_0621-092134-e9e4","summary":"Achieved first keep_progress: 0 BLOCKING with partial_result verdict. LP constraint + single-stratum bound proved from F3+primitivity.","ts":"2026-06-21T10:03:06+00:00"}
+{"qid":"Q1","status":"claimed","session_id":"s_0621-092134-e9e4","summary":"Round 8: explicit K_0, simplified shadow (no squarefree/gcd restriction), removed redundant LP_0 proof, F2/F3 consistency note","ts":"2026-06-21T10:09:59+00:00"}
