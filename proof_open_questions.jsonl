@@ -13,3 +13,5 @@
 {"qid":"Q5","status":"resolved","session_id":"s_0621-092134-e9e4","summary":"Round 10: fix F2/F3 comparison (opposite directions), label shadow density as conjectured not derived","ts":"2026-06-21T10:16:34+00:00"}
 {"qid":"Q2","status":"claimed","session_id":"s_0621-092134-e9e4","summary":"Round 11: prove K_0 >= 2 rigorously using {2,3} with T({2,3}) > 1","ts":"2026-06-21T10:19:30+00:00"}
 {"qid":"Q3","status":"claimed","session_id":"s_0621-092134-e9e4","summary":"Round 11: show sum over primes 2,3 > 1, confirming K_0 >= 2 and F3 fails for k=1","ts":"2026-06-21T10:19:30+00:00"}
+{"qid":"Q2","status":"resolved","session_id":"s_0621-092134-e9e4","summary":"K_0>=2 proved via T({2,3})>1","ts":"2026-06-21T10:20:53+00:00"}
+{"qid":"Q3","status":"resolved","session_id":"s_0621-092134-e9e4","summary":"sum over primes {2,3} exceeds 1, confirming F3 fails for k=1","ts":"2026-06-21T10:20:53+00:00"}

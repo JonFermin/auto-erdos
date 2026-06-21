@@ -1,3 +1,4 @@
 {"event":"round","session_id":"s_0621-092134-e9e4","ts":"2026-06-21T10:03:06+00:00","summary":"Round 7 keep_progress: LP constraint from F3+primitivity, set-based shadow, 0 BLOCKING, partial_result","qid":"Q1","status":"keep_progress","commit":"438c766"}
 {"event":"round","session_id":"s_0621-092134-e9e4","ts":"2026-06-21T10:11:01+00:00","summary":"Round 8 keep_progress: 0B 1W, K_0 explicit, F2/F3 consistency, simplified shadow","qid":"Q1","status":"keep_progress","commit":"5cadb11"}
 {"event":"round","session_id":"s_0621-092134-e9e4","ts":"2026-06-21T10:17:47+00:00","summary":"Round 10 keep_progress: fixed F2/F3 comparison, labeled shadow density as conjectured; 0B 1W","qid":"Q5","status":"keep_progress","commit":"98eab71"}
+{"event":"round","session_id":"s_0621-092134-e9e4","ts":"2026-06-21T10:20:53+00:00","summary":"Round 11 keep_progress: K_0>=2 proved via {2,3}, 0B 6W","qid":"Q2","status":"keep_progress","commit":"3da7fc9"}
