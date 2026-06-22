@@ -6,3 +6,4 @@
 {"event":"session_close","session_id":"s_0621-092134-e9e4","ts":"2026-06-21T10:35:28+00:00","commit":"2406913","reason":"reason: logical milestone \u2014 0 warns 0 blocking achieved on round 17; partial result clean"}
 {"event":"session_open","session_id":"s_0622-080320-1ed5","ts":"2026-06-22T08:03:20+00:00","commit":"b72af85","proof_tag":"primitive_set_erdos","stashed_ref":null,"detected_orphan":null,"released_orphan_qids":[]}
 {"event":"round","session_id":"s_0622-080320-1ed5","ts":"2026-06-22T08:12:15+00:00","summary":"Rounds 18-21 keep_progress: Section 5 two-stratum LP analysis; explicit shadow coupling condition [Shadow-LB] as sufficient hypothesis; 0B 0W at R21","qid":"Q6","status":"keep_progress","commit":"6122b12"}
+{"event":"session_close","session_id":"s_0622-080320-1ed5","ts":"2026-06-22T08:12:35+00:00","commit":"4cefabd","reason":"reason: logical milestone \u2014 0B 0W at rounds 17 and 21; Section 5 complete; converging on partial result"}
