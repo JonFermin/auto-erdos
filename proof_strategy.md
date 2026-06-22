@@ -265,15 +265,18 @@ Applying [LP$_0$] at level $k+1$: $s_{k+1}^A \leq 1 - \varepsilon_{k+1}$.
 Summing: $T(A) = s_k^A + s_{k+1}^A \leq (1-\varepsilon_k) + (1-\varepsilon_{k+1})
 = 2 - \varepsilon_k - \varepsilon_{k+1}$. $\square$
 
-**Why [2S] does not prove the conjecture**. Since $\varepsilon_k = (c+o(1))k^2/2^k \to 0$
-as $k \to \infty$, the bound $2 - \varepsilon_k - \varepsilon_{k+1} \to 2 > 1+o(1)$. So
-[2S] is strictly weaker than the conjecture's target $T(A) \leq 1+o(1)$.
+**Why [2S] does not prove the conjecture**. Since $\varepsilon_k = (c+o(1))k^2/2^k$
+with $c>0$, we have $\varepsilon_k \to 0$ as $k \to \infty$, so the bound
+$2 - \varepsilon_k - \varepsilon_{k+1}$ approaches $2$ from below. Since the conjecture
+targets $T(A) \leq 1+o(1) < 2$, the bound [2S] is too weak by a margin approaching $1$
+as $k \to \infty$. The LP approach applied stratum-by-stratum accumulates a budget of $2$
+for two strata, whereas the conjecture requires a single budget of $1$.
 
 More precisely, LP treats the two strata independently: applying LP$_0$ separately to each
-stratum yields a sum of two per-stratum budgets. For the conjecture's budget of $1+o(1)$
-to hold, these budgets cannot add independently — the shadow must enforce that
-stratum-$(k+1)$ fills only part of its own budget once stratum-$k$ has filled part of its
-budget.
+stratum yields a sum of two per-stratum budgets $(1-\varepsilon_k)+(1-\varepsilon_{k+1})$.
+For the conjecture's budget of $1+o(1)$ to hold, these budgets cannot add independently —
+the shadow must enforce that stratum-$(k+1)$ fills only part of its own budget once
+stratum-$k$ has filled part of its budget.
 
 **The shadow coupling that would close the argument**. From [LP] at level $k+1$,
 
@@ -290,8 +293,9 @@ contributes, minus the F3 correction), then:
 $$T(A) = s_k^A + s_{k+1}^A \leq s_k^A + (1-\varepsilon_{k+1}) - W_{k+1}^A
 \leq s_k^A + (1-\varepsilon_{k+1}) - (s_k^A - \varepsilon_k) + o(1)
 = 1 - \varepsilon_{k+1} + \varepsilon_k + o(1).$$
-For $k$ large, $\varepsilon_k \approx \varepsilon_{k+1}$, so this gives $T(A) \leq 1+o(1)$ —
-exactly the conjecture.
+Since $\varepsilon_k, \varepsilon_{k+1} = o(1)$ as $k \to \infty$, we have
+$\varepsilon_k - \varepsilon_{k+1} = o(1)$, and the expression $1 - \varepsilon_{k+1} + \varepsilon_k + o(1)$
+simplifies to $1 + o(1)$ — exactly the conjecture's target.
 
 **Why this shadow lower bound is beyond the ledger**. The bound $W_{k+1}^A \geq s_k^A - \varepsilon_k + o(1)$
 would follow from an asymptotic for the density of prime multiples of
