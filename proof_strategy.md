@@ -284,8 +284,9 @@ $$s_{k+1}^A \leq (1 - \varepsilon_{k+1}) - W_{k+1}^A.$$
 
 Since $A \subseteq A_k \cup A_{k+1}$ with $A_k^A \neq \emptyset$, the shadow
 $\mathrm{Shad}_{k+1}^A$ contains all prime multiples $ap$ (for primes $p$ with
-$\Omega(ap) = k+1$) of elements $a \in A_k^A$, so $W_{k+1}^A > 0$. Substituting into
-the LP bound: $s_{k+1}^A < 1 - \varepsilon_{k+1}$ (strict when $W_{k+1}^A > 0$).
+$\Omega(ap) = k+1$) of elements $a \in A_k^A$, so $\mathrm{Shad}_{k+1}^A \neq \emptyset$.
+Since each term $1/(n \log n) > 0$ for $n \geq 2$, it follows that $W_{k+1}^A > 0$.
+Substituting into the LP bound: $s_{k+1}^A < 1 - \varepsilon_{k+1}$ (strict, as $W_{k+1}^A > 0$).
 
 Consider the following **conjectured** (not proved here) shadow lower bound:
 
