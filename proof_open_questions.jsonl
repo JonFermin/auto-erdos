@@ -16,3 +16,4 @@
 {"qid":"Q2","status":"resolved","session_id":"s_0621-092134-e9e4","summary":"K_0>=2 proved via T({2,3})>1","ts":"2026-06-21T10:20:53+00:00"}
 {"qid":"Q3","status":"resolved","session_id":"s_0621-092134-e9e4","summary":"sum over primes {2,3} exceeds 1, confirming F3 fails for k=1","ts":"2026-06-21T10:20:53+00:00"}
 {"qid":"Q4","status":"resolved","session_id":"s_0621-092134-e9e4","summary":"Q4 (witness search) low-priority; {2,3} sum > 1 at x=2 but not a genuine asymptotic counterexample; no witness block committed","ts":"2026-06-21T10:34:47+00:00"}
+{"qid":"Q6","status":"claimed","session_id":"s_0622-080320-1ed5","summary":"R18: add Section 5 two-stratum LP analysis; then converge on partial result","ts":"2026-06-22T08:06:24+00:00"}

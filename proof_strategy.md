@@ -239,3 +239,71 @@ many prime factors — also absent from the ledger.
 This is a **partial result**: the LP constraint and its consequences are
 rigorous from the ledger in the large-$k$ asymptotic regime of F3; the full
 conjecture requires analytical tools beyond {F1, F2, F3}.
+
+---
+
+## Section 5: Why LP bounds alone cannot close the conjecture — two-stratum analysis
+
+This section analyzes the simplest non-trivial multi-stratum case (two adjacent strata) to
+show explicitly why the LP bounds of Sections 2–3 are insufficient and why the shadow
+coupling is the essential missing ingredient.
+
+**Setup**: Fix $k \geq K_0$ with $k+1 \geq K_0$, and let $A \subseteq A_k \cup A_{k+1}$
+be a primitive set supported on exactly two adjacent strata.
+
+**Claim [2S]**: $T(A) \leq 2 - \varepsilon_k - \varepsilon_{k+1}$.
+
+**Proof of [2S]**. Since $A \subseteq A_k \cup A_{k+1}$, no element of $A$ has
+$\Omega(\cdot) < k$. Therefore $\mathrm{Shad}_k^A = \emptyset$ (there are no lower-stratum
+elements of $A$ to cast multiples into stratum $k$), so $W_k^A = 0$.
+
+Applying [LP] at level $k$: $s_k^A + W_k^A \leq 1 - \varepsilon_k$, and since $W_k^A = 0$,
+we get $s_k^A \leq 1 - \varepsilon_k$.
+
+Applying [LP$_0$] at level $k+1$: $s_{k+1}^A \leq 1 - \varepsilon_{k+1}$.
+
+Summing: $T(A) = s_k^A + s_{k+1}^A \leq (1-\varepsilon_k) + (1-\varepsilon_{k+1})
+= 2 - \varepsilon_k - \varepsilon_{k+1}$. $\square$
+
+**Why [2S] does not prove the conjecture**. Since $\varepsilon_k = (c+o(1))k^2/2^k \to 0$
+as $k \to \infty$, the bound $2 - \varepsilon_k - \varepsilon_{k+1} \to 2 > 1+o(1)$. So
+[2S] is strictly weaker than the conjecture's target $T(A) \leq 1+o(1)$.
+
+More precisely, LP treats the two strata independently: applying LP$_0$ separately to each
+stratum yields a sum of two per-stratum budgets. For the conjecture's budget of $1+o(1)$
+to hold, these budgets cannot add independently — the shadow must enforce that
+stratum-$(k+1)$ fills only part of its own budget once stratum-$k$ has filled part of its
+budget.
+
+**The shadow coupling that would close the argument**. From [LP] at level $k+1$,
+
+$$s_{k+1}^A \leq (1 - \varepsilon_{k+1}) - W_{k+1}^A.$$
+
+Since each $a \in A_k^A$ has prime multiples $ap \in A_{k+1}$ (for primes $p$ with
+$\Omega(ap) = k+1$) that enter $\mathrm{Shad}_{k+1}^A$, the shadow weight $W_{k+1}^A$
+is non-zero whenever $A_k^A \neq \emptyset$. If one could show
+
+$$W_{k+1}^A \geq s_k^A - \varepsilon_k + o(1)$$
+
+(i.e.\ the shadow weight in stratum $k+1$ is at least as large as what stratum $k$
+contributes, minus the F3 correction), then:
+$$T(A) = s_k^A + s_{k+1}^A \leq s_k^A + (1-\varepsilon_{k+1}) - W_{k+1}^A
+\leq s_k^A + (1-\varepsilon_{k+1}) - (s_k^A - \varepsilon_k) + o(1)
+= 1 - \varepsilon_{k+1} + \varepsilon_k + o(1).$$
+For $k$ large, $\varepsilon_k \approx \varepsilon_{k+1}$, so this gives $T(A) \leq 1+o(1)$ —
+exactly the conjecture.
+
+**Why this shadow lower bound is beyond the ledger**. The bound $W_{k+1}^A \geq s_k^A - \varepsilon_k + o(1)$
+would follow from an asymptotic for the density of prime multiples of
+integers in $A_k$ — essentially a Mertens-type estimate for the sum
+$\sum_{a \in A_k^A, p \text{ prime}, \Omega(ap)=k+1} 1/(ap \log(ap))$
+relative to $s_k^A$. Such estimates require counting integers with a
+specified number of prime factors in a range, which is **not** available
+from $\{$F1, F2, F3$\}$ alone. This is the same analytical gap identified in
+Section 4, now made explicit in the two-stratum case.
+
+**Conclusion of Section 5**: The two-stratum analysis confirms that the LP
+constraint and its per-stratum budgets do not compose to prove the conjecture;
+the shadow coupling inequality $W_{k+1}^A \geq s_k^A - \varepsilon_k + o(1)$ is the
+precise bottleneck (not in the ledger, but explicitly stated here as a sufficient
+condition for the two-stratum conjecture).
