@@ -282,29 +282,34 @@ stratum-$k$ has filled part of its budget.
 
 $$s_{k+1}^A \leq (1 - \varepsilon_{k+1}) - W_{k+1}^A.$$
 
-Since each $a \in A_k^A$ has prime multiples $ap \in A_{k+1}$ (for primes $p$ with
-$\Omega(ap) = k+1$) that enter $\mathrm{Shad}_{k+1}^A$, the shadow weight $W_{k+1}^A$
-is non-zero whenever $A_k^A \neq \emptyset$. If one could show
+Since $A \subseteq A_k \cup A_{k+1}$ with $A_k^A \neq \emptyset$, the shadow
+$\mathrm{Shad}_{k+1}^A$ contains all prime multiples $ap$ (for primes $p$ with
+$\Omega(ap) = k+1$) of elements $a \in A_k^A$, so $W_{k+1}^A > 0$. Substituting into
+the LP bound: $s_{k+1}^A < 1 - \varepsilon_{k+1}$ (strict when $W_{k+1}^A > 0$).
 
-$$W_{k+1}^A \geq s_k^A - \varepsilon_k + o(1)$$
+Consider the following **conjectured** (not proved here) shadow lower bound:
 
-(i.e.\ the shadow weight in stratum $k+1$ is at least as large as what stratum $k$
-contributes, minus the F3 correction), then:
-$$T(A) = s_k^A + s_{k+1}^A \leq s_k^A + (1-\varepsilon_{k+1}) - W_{k+1}^A
-\leq s_k^A + (1-\varepsilon_{k+1}) - (s_k^A - \varepsilon_k) + o(1)
-= 1 - \varepsilon_{k+1} + \varepsilon_k + o(1).$$
-Since $\varepsilon_k, \varepsilon_{k+1} = o(1)$ as $k \to \infty$, we have
-$\varepsilon_k - \varepsilon_{k+1} = o(1)$, and the expression $1 - \varepsilon_{k+1} + \varepsilon_k + o(1)$
-simplifies to $1 + o(1)$ — exactly the conjecture's target.
+$$\text{[Shadow-LB: UNPROVED]} \qquad W_{k+1}^A \geq s_k^A - \varepsilon_k + o(1),$$
 
-**Why this shadow lower bound is beyond the ledger**. The bound $W_{k+1}^A \geq s_k^A - \varepsilon_k + o(1)$
-would follow from an asymptotic for the density of prime multiples of
-integers in $A_k$ — essentially a Mertens-type estimate for the sum
-$\sum_{a \in A_k^A, p \text{ prime}, \Omega(ap)=k+1} 1/(ap \log(ap))$
-relative to $s_k^A$. Such estimates require counting integers with a
-specified number of prime factors in a range, which is **not** available
-from $\{$F1, F2, F3$\}$ alone. This is the same analytical gap identified in
-Section 4, now made explicit in the two-stratum case.
+which says the shadow weight in stratum $k+1$ accounts for at least as much as
+the stratum-$k$ contribution minus the F3 correction. If [Shadow-LB] held, then
+by substituting into the LP bound at level $k+1$:
+$$s_{k+1}^A \leq (1 - \varepsilon_{k+1}) - W_{k+1}^A \leq (1 - \varepsilon_{k+1}) - (s_k^A - \varepsilon_k) + o(1).$$
+Adding $s_k^A$ to both sides:
+$$T(A) = s_k^A + s_{k+1}^A \leq 1 - \varepsilon_{k+1} + \varepsilon_k + o(1).$$
+Since $\varepsilon_k, \varepsilon_{k+1} = o(1)$ as $k \to \infty$, the right-hand side
+is $1 + o(1)$ — exactly the conjecture's target (for this two-stratum case).
+
+**Remark**: [Shadow-LB] is a conditional hypothesis, not a conclusion; the calculation
+above is a sufficiency argument, not a proof. The full proof of [Shadow-LB] would require
+the Mertens-type estimate noted in Section 4.
+
+**Why [Shadow-LB] is beyond the ledger**. The inequality $W_{k+1}^A \geq s_k^A - \varepsilon_k + o(1)$
+requires asymptotics for the sum $\sum_{a \in A_k^A,\, p \text{ prime},\, \Omega(ap)=k+1}
+1/(ap \log(ap))$ relative to $s_k^A = \sum_{a \in A_k^A} 1/(a \log a)$. Such estimates
+require counting integers with a specified number of prime factors in a range, which is
+**not** available from $\{$F1, F2, F3$\}$ alone. This is the same analytical gap
+identified in Section 4, now made explicit in the two-stratum case.
 
 **Conclusion of Section 5**: The two-stratum analysis confirms that the LP
 constraint and its per-stratum budgets do not compose to prove the conjecture;
