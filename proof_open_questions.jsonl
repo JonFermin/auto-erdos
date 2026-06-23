@@ -22,3 +22,5 @@
 {"qid":"Q7","status":"claimed","session_id":"s_0623-080320-d62a","summary":"R22: Section 6 — LP vs F1 comparison; N-stratum shadow coupling target","ts":"2026-06-23T08:11:22+00:00"}
 {"qid":"Q8","status":"open","parent_qid":"Q7","summary":"Fix R22 warns: (1) add conditional for A_k^A non-empty in Section 5 shadow argument; (2) add x-floor check for prime multiples; (3) add explicit substitution algebra in Section 6 sufficiency; (4) rewrite near-tight regime note as clean >= chain.","ts":"2026-06-23T08:19:26+00:00","session_id":"s_0623-080320-d62a"}
 {"qid":"Q8","status":"claimed","session_id":"s_0623-080320-d62a","summary":"R23: fix 5 structural warns from R22","ts":"2026-06-23T08:19:26+00:00"}
+{"qid":"Q7","status":"resolved","session_id":"s_0623-080320-d62a","summary":"R25 kept as keep_progress with 0B 1W; LP-comp sign and two-stratum o(1) clarification remain as Q8 follow-up","ts":"2026-06-23T08:40:04+00:00"}
+{"qid":"Q8","status":"resolved","session_id":"s_0623-080320-d62a","summary":"c-value notation and T({2,3}) precision fixed (R25 keep_progress); 1 remaining critic_sign WARN targeted in R26","ts":"2026-06-23T08:40:04+00:00"}

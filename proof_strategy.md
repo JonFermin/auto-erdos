@@ -153,6 +153,8 @@ so $s_k^A \leq s_k^A + W_k^A \leq 1 - \varepsilon_k$ by [LP]. $\square$
 
 **Corollary [LP-comp]** (complementary slackness): For $k \geq K_0$,
 $$W_k^A \leq (1 - \varepsilon_k) - s_k^A.$$
+The RHS is non-negative: [LP] gives $s_k^A + W_k^A \leq 1-\varepsilon_k$ and $W_k^A \geq 0$,
+so $s_k^A \leq 1-\varepsilon_k$, hence $(1-\varepsilon_k) - s_k^A \geq 0$.
 
 *Proof*: Immediate from [LP]. $\square$
 
@@ -302,8 +304,8 @@ by substituting into the LP bound at level $k+1$:
 $$s_{k+1}^A \leq (1 - \varepsilon_{k+1}) - W_{k+1}^A \leq (1 - \varepsilon_{k+1}) - (s_k^A - \varepsilon_k) + o(1).$$
 Adding $s_k^A$ to both sides:
 $$T(A) = s_k^A + s_{k+1}^A \leq 1 - \varepsilon_{k+1} + \varepsilon_k + o(1).$$
-Since $\varepsilon_k, \varepsilon_{k+1} = o(1)$ as $k \to \infty$, the right-hand side
-is $1 + o(1)$ — exactly the conjecture's target (for this two-stratum case).
+Since $\varepsilon_k = o(1)$ (positive but tending to $0$ as $k \to \infty$), the right-hand side equals
+$1 + o(1)$ — exactly the conjecture's target (for this two-stratum case).
 
 **Remark**: [Shadow-LB] is a conditional hypothesis, not a conclusion; the calculation
 above is a sufficiency argument, not a proof. The full proof of [Shadow-LB] would require
