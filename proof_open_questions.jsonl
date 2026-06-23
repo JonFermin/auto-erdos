@@ -26,3 +26,4 @@
 {"qid":"Q8","status":"resolved","session_id":"s_0623-080320-d62a","summary":"c-value notation and T({2,3}) precision fixed (R25 keep_progress); 1 remaining critic_sign WARN targeted in R26","ts":"2026-06-23T08:40:04+00:00"}
 {"qid":"Q9","status":"resolved","session_id":"s_0623-080320-d62a","summary":"R30 adds Section 7 [Double-LB] exact bound and [Two-stratum-3/2] without limit claims","ts":"2026-06-23T08:52:31+00:00"}
 {"qid":"Q10","status":"claimed","session_id":"s_0623-080320-d62a","summary":"add Section 8 N-stratum iterated bound showing gap between Double-LB and full conjecture","ts":"2026-06-23T08:56:04+00:00"}
+{"qid":"Q10","status":"resolved","session_id":"s_0623-080320-d62a","summary":"Section 8 Chain-LB and gap analysis added in R31 — keep_progress","ts":"2026-06-23T08:59:48+00:00"}
