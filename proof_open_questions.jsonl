@@ -25,3 +25,4 @@
 {"qid":"Q7","status":"resolved","session_id":"s_0623-080320-d62a","summary":"R25 kept as keep_progress with 0B 1W; LP-comp sign and two-stratum o(1) clarification remain as Q8 follow-up","ts":"2026-06-23T08:40:04+00:00"}
 {"qid":"Q8","status":"resolved","session_id":"s_0623-080320-d62a","summary":"c-value notation and T({2,3}) precision fixed (R25 keep_progress); 1 remaining critic_sign WARN targeted in R26","ts":"2026-06-23T08:40:04+00:00"}
 {"qid":"Q9","status":"resolved","session_id":"s_0623-080320-d62a","summary":"R30 adds Section 7 [Double-LB] exact bound and [Two-stratum-3/2] without limit claims","ts":"2026-06-23T08:52:31+00:00"}
+{"qid":"Q10","status":"claimed","session_id":"s_0623-080320-d62a","summary":"add Section 8 N-stratum iterated bound showing gap between Double-LB and full conjecture","ts":"2026-06-23T08:56:04+00:00"}

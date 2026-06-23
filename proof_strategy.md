@@ -453,3 +453,59 @@ the bound toward the conjecture's $T(A) \leq 1 + o(1)$, one would need contribut
 additional primes $p = 3, 5, 7, \ldots$; handling their overlap (e.g.\ $2a = 3a'$
 when $3 \mid a$) requires density estimates beyond \{F1, F2, F3\}.
 
+
+---
+
+## Section 8: N-stratum iterated bound and gap analysis
+
+This section iterates [Double-LB] across $N$ consecutive strata to produce an
+$N$-stratum bound. The result reveals precisely why the LP + prime-multiple approach
+does not suffice for the full conjecture.
+
+**Notation**: Set $\beta := \frac{1}{2(1+\delta(x))}$ as in Section 7 (so $0 < \beta \leq \frac{1}{3}$
+for $x \geq 4$).
+
+**Lemma [Chain-LB]**: For $A \subseteq \bigl(\bigcup_{j=0}^N A_{k+j}\bigr) \cap [x,\infty)$
+with $x \geq 4$, $k \geq K_0$, and $A_{k+j}^A \neq \emptyset$ for all $j = 0,\ldots,N-1$:
+$$s_{k+j}^A \;\leq\; u_j \quad \text{for all } j = 0, \ldots, N,$$
+where $u_0 = 1 - \varepsilon_k$ and $u_{j+1} := 1 - \varepsilon_{k+j+1} - \beta\, u_j$ for $j \geq 0$.
+
+**Proof** (by induction on $j$). Base: $u_0 = 1 - \varepsilon_k \geq s_k^A$ by [LP$_0$].
+Induction: given $s_{k+j}^A \leq u_j$, [LP] at level $k+j+1$ gives
+$s_{k+j+1}^A \leq (1-\varepsilon_{k+j+1}) - W_{k+j+1}^A$.
+Since $A_{k+j}^A \neq \emptyset$, [Double-LB] yields $W_{k+j+1}^A \geq \beta\, s_{k+j}^A$,
+so $s_{k+j+1}^A \leq (1-\varepsilon_{k+j+1}) - \beta\, s_{k+j}^A \leq (1-\varepsilon_{k+j+1}) - \beta\, u_j = u_{j+1}$.
+$\square$
+
+**Corollary [N-stratum iterated bound]**: Under the hypotheses of [Chain-LB],
+$$T(A) \;\leq\; \sum_{j=0}^{N} u_j.$$
+
+For the exact recurrence $u_0 = 1$ (dropping the $\varepsilon$-terms), $u_{j+1} = 1 - \beta u_j$:
+$$u_j = \frac{1 + (-\beta)^j \,(\beta u_0 - 1)}{1+\beta} + \frac{(-\beta)^j}{1+\beta}
+= \frac{1 - (-\beta)^{j+1}}{1+\beta} + \frac{(-\beta)^j((\beta-1))}{1+\beta}.$$
+Simplifying: $u_j = \frac{1}{1+\beta} + \left(u_0 - \frac{1}{1+\beta}\right)(-\beta)^j$.
+With $u_0 = 1$: $u_j = \frac{1}{1+\beta} + \frac{\beta}{1+\beta}(-\beta)^j$.
+
+Summing to $N$:
+$$\sum_{j=0}^{N} u_j = \frac{N+1}{1+\beta} + \frac{\beta}{1+\beta} \sum_{j=0}^{N} (-\beta)^j
+= \frac{N+1}{1+\beta} + \frac{\beta}{1+\beta} \cdot \frac{1-(-\beta)^{N+1}}{1+\beta}.$$
+This grows as $\frac{N+1}{1+\beta}$ for large $N$ (with $\beta \leq 1/2$,
+the leading term is $\geq \frac{2(N+1)}{3}$).
+
+**Key gap**: The $N$-stratum sum $\sum u_j$ grows linearly in $N$ for any fixed $\beta < 1$.
+The conjecture requires $T(A) \leq 1 + o(1)$ regardless of the number of strata,
+so the chain cannot prove it. The fundamental issue is:
+
+- [Double-LB] uses the prime $p=2$ to inject $\beta \approx 1/2$ of one stratum's weight into the next shadow;
+  this cancels half the excess but leaves the other half to accumulate across strata.
+- To cancel the entire excess (getting a global bound of $1$), one would need
+  the shadow at level $k+1$ to carry at least as much weight as the level-$k$ contribution,
+  i.e., $W_{k+j+1}^A \geq s_{k+j}^A$ — a bound approaching **[Shadow-LB]**'s strength.
+
+**Conclusion for this partial result**: The LP framework with [Double-LB] yields:
+- For 1 stratum ($N=0$): $T(A) \leq 1 - \varepsilon_k < 1$ (proved in Sections 2–3).
+- For 2 strata ($N=1$): $T(A) \leq \frac{3}{2} + \frac{\log 2}{2\log x}$ (proved in Section 7).
+- For $N$ strata: $T(A) \leq \frac{N+1}{1+\beta} + O(1)$, which grows with $N$.
+
+The path to the full conjecture requires a different shadow coupling giving $W_{k+j+1}^A \geq s_{k+j}^A - \varepsilon_{k+j}$, whose proof requires analytic number theory (Mertens-type prime density estimates) beyond F1–F3.
+
