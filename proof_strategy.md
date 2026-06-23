@@ -394,3 +394,62 @@ $T(A) < 1.399 + o(1)$. For $N \geq 1$ strata the LP sum gives $\geq 2 > 1.399$,
 so F1 dominates. To close the gap from F1's $1.399$ to the conjecture's $1 + o(1)$,
 the shadow coupling must contribute at least $N$ units (Corollary [shadow-target-N]),
 the same gap [Shadow-LB] targets for $N = 1$.
+
+---
+
+## Section 7: Provable shadow lower bound via prime-2 multiples
+
+This section derives a concrete lower bound on $W_{k+1}^A$ from the definitions alone
+(no external citations beyond F1–F3). All statements are in exact finite-$x$ form.
+
+**Notation**: Set $\delta(x) := \frac{\log 2}{\log x}$ for $x \geq 4$.
+Note: at $x = 4$, $\delta(4) = \frac{\log 2}{\log 4} = \frac{1}{2}$;
+for $x > 4$, $\delta(x) < \frac{1}{2}$; and $\delta$ is a positive decreasing function of $x$.
+
+**Lemma [Double-LB]**: For any primitive $A \subseteq [x, \infty)$ with $x \geq 4$,
+$k \geq K_0$, and $A_k^A \neq \emptyset$:
+$$W_{k+1}^A \;\geq\; \frac{s_k^A}{2\,(1 + \delta(x))}.$$
+
+**Proof**.
+
+For each $a \in A_k^A$, set $n_a := 2a$. Then:
+- $\Omega(n_a) = \Omega(2a) = \Omega(2) + \Omega(a) = 1 + k = k+1$ (by additivity of $\Omega$),
+  so $n_a \in A_{k+1}$.
+- $a \mid n_a$ and $n_a \neq a$, so by primitivity of $A$, $n_a \notin A$,
+  hence $n_a \notin A_{k+1}^A$.
+- Taking $m := 2 > 1$: $a \in A_k^A \subseteq A$, $\Omega(2a) = k+1$, so
+  $n_a = 2a \in \mathrm{Shad}_{k+1}^A$ by definition.
+
+The map $a \mapsto 2a$ is injective on $A_k^A$ (distinct elements give distinct products),
+so the $\{n_a\}$ are pairwise distinct elements of $\mathrm{Shad}_{k+1}^A$. Therefore:
+$$W_{k+1}^A \;\geq\; \sum_{a \in A_k^A} \frac{1}{2a \log(2a)}.$$
+
+For $a \geq x \geq 4$: since $\log a \geq \log x$ and $\delta(x) = \log 2/\log x$,
+we have $\delta(x)\,\log a \geq \log 2$, hence
+$\log(2a) = \log 2 + \log a \leq \delta(x)\,\log a + \log a = (1+\delta(x))\log a.$
+Therefore $\frac{1}{2a\log(2a)} \geq \frac{1}{2a(1+\delta(x))\log a}$.
+
+Summing over $A_k^A$:
+$$W_{k+1}^A \;\geq\; \frac{1}{2(1+\delta(x))}\, s_k^A. \quad \square$$
+
+**Corollary [Two-stratum-3/2]**: For any primitive
+$A \subseteq (A_k \cup A_{k+1}) \cap [x, \infty)$ with $x \geq 4$, $k \geq K_0$,
+and $A_k^A \neq \emptyset$:
+$$T(A) \;\leq\; \frac{3}{2} + \frac{\delta(x)}{2} \;=\; \frac{3}{2} + \frac{\log 2}{2\log x}.$$
+
+**Proof**. Set $\beta := \frac{1}{2(1+\delta(x))} > 0$. By [LP] at $k+1$ and [Double-LB]:
+$$s_{k+1}^A \;\leq\; (1-\varepsilon_{k+1}) - W_{k+1}^A \;\leq\; (1-\varepsilon_{k+1}) - \beta s_k^A.$$
+By [LP$_0$] at $k$: $s_k^A \leq 1 - \varepsilon_k \leq 1$. Summing:
+$$T(A) = s_k^A + s_{k+1}^A \;\leq\; (1-\beta)s_k^A + (1-\varepsilon_{k+1})
+\;\leq\; (1-\beta) + 1 \;=\; 2 - \beta.$$
+Now $2 - \beta = 2 - \frac{1}{2(1+\delta(x))} = \frac{3}{2} + \frac{\delta(x)}{2(1+\delta(x))} \leq \frac{3}{2} + \frac{\delta(x)}{2}$.
+Hence $T(A) \leq \frac{3}{2} + \frac{\log 2}{2\log x}$. $\square$
+
+**Remark (gap to the conjecture and improvement over [2S])**: Since $\delta(x) < 1$ for $x > 2$,
+the bound $\frac{3}{2} + \frac{\log 2}{2\log x} < 2 \leq 2 - \varepsilon_k - \varepsilon_{k+1}$ (for small $\varepsilon$),
+so [Two-stratum-3/2] strictly improves [2S]. The factor $1/(2(1+\delta(x)))$ from the $p=2$
+multiples argument accounts for roughly half of $s_k^A$ in $W_{k+1}^A$. To further reduce
+the bound toward the conjecture's $T(A) \leq 1 + o(1)$, one would need contributions from
+additional primes $p = 3, 5, 7, \ldots$; handling their overlap (e.g.\ $2a = 3a'$
+when $3 \mid a$) requires density estimates beyond \{F1, F2, F3\}.
+
