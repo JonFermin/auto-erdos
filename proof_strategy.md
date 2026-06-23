@@ -317,3 +317,64 @@ constraint and its per-stratum budgets do not compose to prove the conjecture;
 the shadow coupling inequality $W_{k+1}^A \geq s_k^A - \varepsilon_k + o(1)$ is the
 precise bottleneck (not in the ledger, but explicitly stated here as a sufficient
 condition for the two-stratum conjecture).
+
+---
+
+## Section 6: Where LP improves upon F1, and the N-stratum shadow coupling target
+
+The partial result of Sections 2–3 strictly improves upon F1 for single-stratum
+$A$ but yields a weaker bound than F1 for multi-stratum $A$. The conjecture's
+$1 + o(1)$ target sits strictly between the two regimes. This section formalizes
+both observations and derives a quantified shadow-coupling target for general
+$N$-stratum $A$.
+
+**Proposition [LP-beats-F1]**: For any $k_0 \geq K_0$ and any primitive
+$A \subseteq A_{k_0} \cap [x, \infty)$:
+$$T(A) \leq 1 - \varepsilon_{k_0} < 1.$$
+F1 gives $T(A) < e^\gamma\pi/4 + o(1)$; since F1 states $e^\gamma\pi/4 \approx 1.399
+> 1$, the bound $1 - \varepsilon_{k_0} < 1$ strictly improves upon F1.
+
+*Proof*: [LP$_0$] (Corollary, Section 2) gives $s_{k_0}^A \leq 1 - \varepsilon_{k_0} < 1$
+for $k_0 \geq K_0$. Since $A$ is single-stratum, $T(A) = s_{k_0}^A \leq 1 - \varepsilon_{k_0}$. $\square$
+
+**Remark**: Proposition [$K_0 \geq 2$] (Section 3) confirms the condition
+$k_0 \geq K_0$ is necessary: for $k_0 = 1$, $T(\{2,3\}) > 1$, so the partial
+result does not extend to stratum 1.
+
+**Proposition [LP-sum-multi-stratum]**: For any $N \geq 1$, $k \geq K_0$, and
+primitive $A \subseteq \bigcup_{j=k}^{k+N} A_j \cap [x, \infty)$, applying
+[LP$_0$] at each level $k+j$ ($j = 0, \ldots, N$) and summing:
+$$T(A) = \sum_{j=0}^N s_{k+j}^A \leq \sum_{j=0}^N (1 - \varepsilon_{k+j})
+= (N+1) - \sum_{j=0}^N \varepsilon_{k+j}.$$
+Since $\varepsilon_{k+j} = (c+o(1))(k+j)^2/2^{k+j} \to 0$ as $k \to \infty$
+(for each fixed $j \geq 0$), the LP sum bound approaches $N+1 \geq 2$.
+F1 states $e^\gamma\pi/4 \approx 1.399$; since $1.399 < 2$, F1 provides a sharper
+upper bound than the LP sum for multi-stratum $A$ in the large-$k$ asymptotic regime.
+
+*Proof*: The LP sum bound follows from [LP$_0$] at each of the $N+1$ levels.
+The asymptotic $\to N+1$ follows from $\varepsilon_{k+j} \to 0$. The
+comparison uses F1's stated approximation $e^\gamma\pi/4 \approx 1.399 < 2$. $\square$
+
+**Corollary [shadow-target-N]**: From [LP] (Section 2), for
+$A \subseteq \bigcup_{j=k}^{k+N} A_j$ with $k \geq K_0$:
+$$T(A) \leq (N+1) - \sum_{j=0}^N \varepsilon_{k+j} - \sum_{j=0}^N W_{k+j}^A.$$
+Since no element of $A$ lies in a stratum below $k$, $\mathrm{Shad}_k^A = \emptyset$
+and $W_k^A = 0$ (definition: the shadow into stratum $k$ consists of multiples
+of elements of $A$ in strata $j < k$; there are none). Hence:
+$$T(A) \leq (N+1) - \sum_{j=0}^N \varepsilon_{k+j} - \sum_{j=1}^N W_{k+j}^A.$$
+For $T(A) \leq 1 + o(1)$ it is sufficient (given the LP bound) that:
+$$\sum_{j=1}^N W_{k+j}^A \geq N - \sum_{j=0}^N \varepsilon_{k+j} + o(1)
+\approx N \quad (k \to \infty).$$
+This is the **$N$-stratum shadow coupling target**: the cumulative shadow weight
+in strata $k+1$ through $k+N$ must account for $N$ of the $N+1$ LP-budget units.
+For $N = 1$ (two strata), the target is $W_{k+1}^A \geq 1 - \varepsilon_k - \varepsilon_{k+1} + o(1)$;
+since $s_k^A \leq 1 - \varepsilon_k$, this is consistent with [Shadow-LB] from Section 5
+($W_{k+1}^A \geq s_k^A - \varepsilon_k + o(1) \leq 1 - 2\varepsilon_k + o(1) \approx 1$) in
+the near-tight regime $s_k^A \approx 1 - \varepsilon_k$.
+
+**Summary of Section 6**: The LP approach achieves its best improvement over F1
+exactly for single-stratum $A$ ($N = 0$), where it yields $T(A) < 1$ vs F1's
+$T(A) < 1.399 + o(1)$. For $N \geq 1$ strata the LP sum gives $\geq 2 > 1.399$,
+so F1 dominates. To close the gap from F1's $1.399$ to the conjecture's $1 + o(1)$,
+the shadow coupling must contribute at least $N$ units (Corollary [shadow-target-N]),
+the same gap [Shadow-LB] targets for $N = 1$.

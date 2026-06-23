@@ -18,3 +18,5 @@
 {"qid":"Q4","status":"resolved","session_id":"s_0621-092134-e9e4","summary":"Q4 (witness search) low-priority; {2,3} sum > 1 at x=2 but not a genuine asymptotic counterexample; no witness block committed","ts":"2026-06-21T10:34:47+00:00"}
 {"qid":"Q6","status":"claimed","session_id":"s_0622-080320-1ed5","summary":"R18: add Section 5 two-stratum LP analysis; then converge on partial result","ts":"2026-06-22T08:06:24+00:00"}
 {"qid":"Q6","status":"resolved","session_id":"s_0622-080320-1ed5","summary":"Section 5 added (two-stratum LP analysis + explicit shadow coupling condition); partial result converged at 0B 0W, round 21","ts":"2026-06-22T08:12:15+00:00"}
+{"qid":"Q7","status":"open","parent_qid":null,"summary":"Add Section 6: show LP beats F1 for single-stratum A and LP sum >= 2 (worse than F1) for N>=1 strata; derive N-stratum shadow coupling target sum_W >= N.","ts":"2026-06-23T08:11:17+00:00","session_id":"s_0623-080320-d62a"}
+{"qid":"Q7","status":"claimed","session_id":"s_0623-080320-d62a","summary":"R22: Section 6 — LP vs F1 comparison; N-stratum shadow coupling target","ts":"2026-06-23T08:11:22+00:00"}
