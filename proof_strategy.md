@@ -159,9 +159,9 @@ so $s_k^A \leq 1-\varepsilon_k$, hence $(1-\varepsilon_k) - s_k^A \geq 0$.
 *Proof*: Immediate from [LP]. $\square$
 
 *Interpretation*: The shadow weight and the stratum contribution trade off within the
-budget $1 - \varepsilon_k$. If $s_k^A$ is large (stratum $k$ is heavily occupied by $A$),
-then $W_k^A$ is small (little room for shadow weight). Conversely, if $W_k^A$ is large
-(lower-stratum elements of $A$ cast many multiples into stratum $k$), then $s_k^A$ is small.
+budget $1 - \varepsilon_k$: both are non-negative and their sum is at most $1-\varepsilon_k$.
+A larger $s_k^A$ leaves less room for $W_k^A$, and a larger $W_k^A$ leaves less room for $s_k^A$,
+but neither direction implies the other is zero.
 
 If one also had a LOWER BOUND $W_k^A \geq L_k^A$ for some $L_k^A \geq 0$ depending on lower strata,
 then [LP-comp] would give $s_k^A \leq (1-\varepsilon_k) - L_k^A$, and summing over $k$ and $L_k^A$
@@ -288,11 +288,13 @@ Suppose additionally that $A_k^A \neq \emptyset$ (i.e., $A$ has at least one ele
 in stratum $k$; this is an assumption on top of the [2S] setup, used only for the
 non-emptiness claim below). Then each $a \in A_k^A$ satisfies $a \geq x$ (since
 $A \subseteq [x,\infty)$). For any prime $p \geq 2$, the product $ap \geq 2a \geq 2x$,
-so $ap \geq 2$ (ensuring $\log(ap) > 0$ and $1/(ap\log ap) > 0$). Since $\Omega(a) = k$
+so $ap \geq 2$ (ensuring $\log(ap) > 0$ and $1/(ap\log ap) > 0$). Taking $m = p$
+(which satisfies $m > 1$, as required by the shadow set definition), and since $\Omega(a) = k$
 and $\Omega(p) = 1$, we have $\Omega(ap) = k+1$, so every such $ap$ belongs to
 $\mathrm{Shad}_{k+1}^A$ by definition. Hence $\mathrm{Shad}_{k+1}^A \neq \emptyset$
 and $W_{k+1}^A = \sum_{n \in \mathrm{Shad}_{k+1}^A} 1/(n\log n) > 0$.
-Substituting into the LP bound: $s_{k+1}^A < 1 - \varepsilon_{k+1}$ (strict, as $W_{k+1}^A > 0$).
+Substituting into the LP bound: $s_{k+1}^A + W_{k+1}^A \leq 1 - \varepsilon_{k+1}$ ([LP]),
+so $s_{k+1}^A \leq (1-\varepsilon_{k+1}) - W_{k+1}^A < 1 - \varepsilon_{k+1}$ (strict since $W_{k+1}^A > 0$).
 
 Consider the following **conjectured** (not proved here) shadow lower bound:
 
