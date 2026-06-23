@@ -282,10 +282,14 @@ stratum-$k$ has filled part of its budget.
 
 $$s_{k+1}^A \leq (1 - \varepsilon_{k+1}) - W_{k+1}^A.$$
 
-Since $A \subseteq A_k \cup A_{k+1}$ with $A_k^A \neq \emptyset$, the shadow
-$\mathrm{Shad}_{k+1}^A$ contains all prime multiples $ap$ (for primes $p$ with
-$\Omega(ap) = k+1$) of elements $a \in A_k^A$, so $\mathrm{Shad}_{k+1}^A \neq \emptyset$.
-Since each term $1/(n \log n) > 0$ for $n \geq 2$, it follows that $W_{k+1}^A > 0$.
+Suppose additionally that $A_k^A \neq \emptyset$ (i.e., $A$ has at least one element
+in stratum $k$; this is an assumption on top of the [2S] setup, used only for the
+non-emptiness claim below). Then each $a \in A_k^A$ satisfies $a \geq x$ (since
+$A \subseteq [x,\infty)$). For any prime $p \geq 2$, the product $ap \geq 2a \geq 2x$,
+so $ap \geq 2$ (ensuring $\log(ap) > 0$ and $1/(ap\log ap) > 0$). Since $\Omega(a) = k$
+and $\Omega(p) = 1$, we have $\Omega(ap) = k+1$, so every such $ap$ belongs to
+$\mathrm{Shad}_{k+1}^A$ by definition. Hence $\mathrm{Shad}_{k+1}^A \neq \emptyset$
+and $W_{k+1}^A = \sum_{n \in \mathrm{Shad}_{k+1}^A} 1/(n\log n) > 0$.
 Substituting into the LP bound: $s_{k+1}^A < 1 - \varepsilon_{k+1}$ (strict, as $W_{k+1}^A > 0$).
 
 Consider the following **conjectured** (not proved here) shadow lower bound:
@@ -365,12 +369,20 @@ $$T(A) \leq (N+1) - \sum_{j=0}^N \varepsilon_{k+j} - \sum_{j=1}^N W_{k+j}^A.$$
 For $T(A) \leq 1 + o(1)$ it is sufficient (given the LP bound) that:
 $$\sum_{j=1}^N W_{k+j}^A \geq N - \sum_{j=0}^N \varepsilon_{k+j} + o(1)
 \approx N \quad (k \to \infty).$$
+*Sufficiency verified by substitution*: replacing $\sum_{j=1}^N W_{k+j}^A$ in the LP bound
+$T(A) \leq (N+1) - \sum_{j=0}^N \varepsilon_{k+j} - \sum_{j=1}^N W_{k+j}^A$ with its lower bound gives
+$$T(A) \leq (N+1) - \sum_{j=0}^N \varepsilon_{k+j}
+   - \Bigl(N - \sum_{j=0}^N \varepsilon_{k+j} + o(1)\Bigr) = 1 + o(1). \quad \square$$
 This is the **$N$-stratum shadow coupling target**: the cumulative shadow weight
 in strata $k+1$ through $k+N$ must account for $N$ of the $N+1$ LP-budget units.
-For $N = 1$ (two strata), the target is $W_{k+1}^A \geq 1 - \varepsilon_k - \varepsilon_{k+1} + o(1)$;
-since $s_k^A \leq 1 - \varepsilon_k$, this is consistent with [Shadow-LB] from Section 5
-($W_{k+1}^A \geq s_k^A - \varepsilon_k + o(1) \leq 1 - 2\varepsilon_k + o(1) \approx 1$) in
-the near-tight regime $s_k^A \approx 1 - \varepsilon_k$.
+
+For $N = 1$ (two strata), the target is $W_{k+1}^A \geq 1 - \varepsilon_k - \varepsilon_{k+1} + o(1)$.
+[Shadow-LB] (Section 5) asserts $W_{k+1}^A \geq s_k^A - \varepsilon_k + o(1)$.
+In the near-tight regime where $s_k^A = (1 - \varepsilon_k) + o(1)$
+(stratum $k$ is nearly maximally occupied by $A$), substituting into [Shadow-LB] gives
+$W_{k+1}^A \geq (1-\varepsilon_k) - \varepsilon_k + o(1) = 1 - 2\varepsilon_k + o(1)$,
+which approaches $1$ as $k \to \infty$ — the same asymptotic limit as the $N$-stratum
+target $1 - \varepsilon_k - \varepsilon_{k+1} + o(1)$.
 
 **Summary of Section 6**: The LP approach achieves its best improvement over F1
 exactly for single-stratum $A$ ($N = 0$), where it yields $T(A) < 1$ vs F1's
