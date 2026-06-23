@@ -80,8 +80,8 @@ satisfies $a \geq x$; no distinct element of $A$ divides another).
 - $A_k^A = A \cap A_k$ (stratum-$k$ part of $A$).
 - $s_k^A = \sum_{a \in A_k^A} \frac{1}{a \log a}$ (stratum-$k$ sum; $0$ if empty).
 - $T(A) = \sum_{a \in A} \frac{1}{a \log a}$ (total sum to be bounded).
-- $\varepsilon_k = (c+o(1)) k^2 / 2^k$ with $c \approx 0.0656 > 0$ (from F3;
-  the $o(1)$ is as $k \to \infty$; since $c > 0$, there exists $K_0 \in \mathbb{N}$
+- $\varepsilon_k = (c+o(1)) k^2 / 2^k$ with $c > 0$ a constant supplied by F3
+  (the $o(1)$ is as $k \to \infty$; since $c > 0$, there exists $K_0 \in \mathbb{N}$
   such that $\varepsilon_k > 0$ for all $k \geq K_0$; Proposition~[$K_0 \geq 2$]
   in Section 3 provides a concrete lower bound $K_0 \geq 2$).
 
@@ -189,9 +189,9 @@ divide 3, and 3 does not divide 2). Its sum is:
 $$T(\{2,3\}) = \frac{1}{2\log 2} + \frac{1}{3\log 3}.$$
 Using the standard values $\log 2 = 0.6931\ldots$ and $\log 3 = 1.0986\ldots$:
 $$T(\{2,3\}) = \frac{1}{1.3862\ldots} + \frac{1}{3.2958\ldots}
-= 0.7213\ldots + 0.3035\ldots = 1.0249\ldots > 1.$$
+= 0.7213\ldots + 0.3034\ldots = 1.0248\ldots > 1.$$
 If F3 held at $k = 1$ with $\varepsilon_1 > 0$, the claim's conclusion would give
-$T(\{2,3\}) \leq 1 - \varepsilon_1 < 1$, contradicting $T(\{2,3\}) = 1.0249\ldots > 1$. By
+$T(\{2,3\}) \leq 1 - \varepsilon_1 < 1$, contradicting $T(\{2,3\}) = 1.0248\ldots > 1$. By
 contrapositive, $k_0 = 1$ is outside the claim's scope: $K_0 \geq 2$. $\square$
 
 ---
