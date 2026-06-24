@@ -4,3 +4,4 @@
 {"event":"round","session_id":"s_0624-080343-7e10","ts":"2026-06-24T08:58:59+00:00","summary":"Q3: x-floor context, F1/conjecture complementary, F3 k=1 regime note","qid":"Q3","status":"keep_progress","commit":"c320089"}
 {"event":"round","session_id":"s_0624-080343-7e10","ts":"2026-06-24T09:03:29+00:00","summary":"Q4: counterexample search; x_floor=2 trivial witnesses; x>=3 all sums<0.80","qid":"Q4","status":"keep_progress","commit":"281881d"}
 {"event":"round","session_id":"s_0624-080343-7e10","ts":"2026-06-24T09:05:51+00:00","summary":"Q5: proof structure outline; partial_result verdict; cross-stratum gap identified","qid":"Q5","status":"keep_progress","commit":"1cb550a"}
+{"event":"session_close","session_id":"s_0624-080343-7e10","ts":"2026-06-24T09:06:52+00:00","commit":"31f70b7","reason":"reason: session complete; Q1-Q5 done, all keep_progress; next: Q6 (any additional analysis) or wrap-up"}
