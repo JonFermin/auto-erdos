@@ -165,75 +165,53 @@ Q5 explores whether cross-stratum sub-additivity can be made precise.
 
 ---
 
-### Section 2: Numerical Evidence — F3 for Small $k$ (Q2)
+### Section 2: Numerical Evidence — F3 Sign and Large-$k$ Behaviour (Q2)
 
-We computed the partial sum $S_k(N) = \sum_{a \in A_k, a \leq N} \frac{1}{a \log a}$
-for the first 200 elements of each $A_k$ using a prime-factor sieve.
-**All results in this section are partial sums (finite truncations), not claims
-about the full series.** Discussion of full-series limits is deferred to Q3 and Q5.
+This section verifies that F3 has the correct sign (approaches from below) and
+computes the F3 correction term for $k = 1, 2, 3, 4$.
 
-#### 2.1 Truncated Sums (first 200 elements of $A_k$)
+**Scope:** We work with what F3 directly implies from its formula alone. Numerical
+truncated-sum computations and full-convergence estimates are deferred to Q3,
+where the $x$-floor context is set up properly to interpret them.
 
-| $k$ | Partial sum (200 elems) | $200^{\text{th}}$ element | F3 correction $-(c+o(1))k^2/2^k$ | F3 predicted total |
-|---|---|---|---|---|
-| 1 | 1.4965 | 1223 | $\approx -0.0328$ | 0.967 |
-| 2 | 0.6819 | 669 | $\approx -0.0656$ | 0.934 |
-| 3 | 0.3134 | 422 | $\approx -0.0738$ | 0.926 |
-| 4 | 0.1403 | 308 | $\approx -0.0656$ | 0.934 |
+#### 2.1 F3 Correction Term for $k = 1, 2, 3, 4$
 
-Here $c \approx 0.0656$ from F3.
+From F3: $\sum_{a \in A_k} 1/(a \log a) = 1 - (c + o(1)) k^2/2^k$ with $c \approx 0.0656 > 0$.
 
-#### 2.2 Interpretation of the Truncated Sums
+The leading correction is $-(c+o(1)) k^2/2^k$. Since $c > 0$, this correction is
+**negative** for all $k \geq 1$, so the sum is **strictly less than 1** in the
+large-$k$ regime where F3 is accurate (the $o(1)$ remainder is negligible).
 
-**For $k \geq 2$:** The partial sums for $k = 2, 3, 4$ are all below 1 ($0.68$, $0.31$, $0.14$
-respectively). These are truncations at the 200th element; the full series
-continues to grow but is bounded. F3 predicts the full sums converge to
-approximately $0.93$, $0.93$, $0.93$ for $k = 2, 3, 4$.
+| $k$ | $k^2/2^k$ | F3 correction (leading) | F3 predicted sum (leading term) |
+|---|---|---|---|
+| 1 | $1/2 = 0.500$ | $-0.0656 \times 0.500 = -0.0328$ | $1 - 0.0328 = 0.967$ |
+| 2 | $4/4 = 1.000$ | $-0.0656 \times 1.000 = -0.0656$ | $1 - 0.0656 = 0.934$ |
+| 3 | $9/8 = 1.125$ | $-0.0656 \times 1.125 = -0.0738$ | $1 - 0.0738 = 0.926$ |
+| 4 | $16/16 = 1.000$ | $-0.0656 \times 1.000 = -0.0656$ | $1 - 0.0656 = 0.934$ |
 
-**For $k = 1$ (primes):** The partial sum over the first 200 primes ($p_1 = 2, \ldots,
-p_{200} = 1223$) is 1.4965, which exceeds 1. This is consistent with
-the conjecture's $x$-floor structure: the conjecture bounds
-$\sum_{a \in A, a \geq x} 1/(a \log a)$ (the TAIL starting at $x$), not the
-cumulative sum from $a = 2$. The first 200 primes include the small primes
-(whose contributions $1/(p \log p)$ are large), which would not appear in a
-set $A \subset [x, \infty)$ for any moderate $x$.
+#### 2.2 Sign Verification (F3 approaches from below)
 
-**Critical distinction:** Q2 verifies the consistency of F3 as a large-$k$ asymptotic.
-The partial sum for $k=1$ being $> 1$ does not contradict F3, which predicts
-the FULL sum for $A_k$ (for large $k$) approaches 1 from below. For small $k$,
-the $o(1)$ correction is large and the formula is not quantitatively accurate.
+The function $g(k) = k^2/2^k$:
+- $g(k) > 0$ for all $k \geq 1$ (since $k^2 > 0$ and $2^k > 0$)
+- $g(k) \to 0$ exponentially as $k \to \infty$ (since $2^k$ grows faster than $k^2$)
+- Integer maximum at $k = 3$: $g(3) = 9/8 = 1.125 > g(2) = 1 > g(4) = 1$
+  (the continuous max is at $k = 2/\ln 2 \approx 2.885$, confirming integer max at $k=3$)
 
-#### 2.3 F3 as a Large-$k$ Asymptotic
+Since $c \approx 0.0656 > 0$ and $g(k) > 0$, the correction $-(c+o(1))g(k)$ is
+**negative**, so $\sum_{a \in A_k} 1/(a \log a) < 1$ whenever the $o(1)$ remainder
+is small (i.e., for sufficiently large $k$). This is the key sign consistency
+claimed by F3.
 
-F3 gives $\sum_{a \in A_k} 1/(a \log a) = 1 - (c+o(1))k^2/2^k$ with $c > 0$.
-The sign is correct: the correction is negative, so the sum approaches 1 from below.
+**Anti-trap cross-check:** F2 says $\sum_{a \in A_k} 1/(a \log a) \geq 1 + O(k^{-1/2+o(1)})$
+with unsigned $O$. F3 is consistent: F3's sum $= 1 - (c+o(1))k^2/2^k$ satisfies
+$\geq 1 - |O(k^{-1/2+o(1)})|$ since $k^2/2^k = o(k^{-1/2})$ for large $k$.
+There is no contradiction between F2 and F3.
 
-**Maximum of the correction term:** The function $g(k) = k^2/2^k$ attains its
-maximum over positive integers at $k = 3$ (where $g(3) = 9/8 = 1.125$), and
-decreases to 0 exponentially as $k \to \infty$. (Treating $k$ as continuous:
-$g'(k) = k(2 - k\ln 2)/2^k = 0$ at $k = 2/\ln 2 \approx 2.885$, confirming
-the integer max is at $k = 3$.)
+#### 2.3 Regime Note
 
-| $k$ | $k^2/2^k$ | F3 predicted sum |
-|---|---|---|
-| 1 | 0.500 | 0.967 |
-| 2 | 1.000 | 0.934 |
-| 3 | 1.125 | 0.926 (minimum) |
-| 4 | 1.000 | 0.934 |
-| 5 | 0.781 | 0.949 |
-| 10 | 0.098 | 0.994 |
-| 20 | 0.00038 | $\approx 1.000$ |
+F3 is an asymptotic for large $k$. For small $k$ (particularly $k=1$, the
+primes), the $o(1)$ correction may be large and the formula is not quantitatively
+accurate. The case $k=1$ is discussed in Q3, where the prime sum and the
+$x$-floor context are treated carefully.
 
-As $k \to \infty$, $k^2/2^k \to 0$, so the F3 sum approaches 1 from below.
-**Consistency check:** F3's correction $-(c+o(1))k^2/2^k < 0$ keeps the sum
-below 1 for all $k$, consistent with the conjecture's bound of $1 + o(1)$.
-
-#### 2.4 Consistency with F1 and the Conjecture
-
-F1 ($< 1.399 + o(1)$) and the conjecture ($< 1 + o(1)$) apply to sets
-$A \subset [x, \infty)$ as $x \to \infty$. For a fixed large $x$:
-$\sum_{a \in A_k, a \geq x} 1/(a \log a) \to 0$ for any fixed $k$, which is
-trivially $< 1$. The interesting regime is when $k$ grows with $x$, and F3
-shows that even in that regime the sum stays below 1.
-
-**Next:** Q3 (prime sum structure, consistency of the $x$-floor restriction with F1).
+**Next:** Q3 (prime sum from 2; how the $x$-floor makes F1 consistent with finite sums).
