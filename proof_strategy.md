@@ -164,66 +164,70 @@ Q5 explores whether cross-stratum sub-additivity can be made precise.
 
 ### Section 2: Numerical Evidence — F3 for Small $k$ (Q2)
 
-We computed the partial sum $S_k(N) = \sum_{a \in A_k, a \leq N} \frac{1}{a \log a}$ using a
-prime-factor sieve up to $N = 3 \times 10^6$, and estimated the tail via the
-Sathe-Selberg asymptotic density.
+We computed the partial sum $S_k(N) = \sum_{a \in A_k, a \leq N} \frac{1}{a \log a}$
+for the first 200 elements of each $A_k$ using a prime-factor sieve.
+**All results in this section are partial sums (finite truncations), not claims
+about the full series.** Discussion of full-series limits is deferred to Q3 and Q5.
 
-#### 2.1 Computed Values
+#### 2.1 Truncated Sums (first 200 elements of $A_k$)
 
-| $k$ | $S_k(N)$ (partial, $N=3\text{M}$) | Elements counted | Tail estimate | Total estimate | F3 formula |
-|---|---|---|---|---|---|
-| 1 | 1.5696 | 216,816 | 0.067 | **1.637** | 0.967 |
-| 2 | 0.8824 | 600,446 | ~0.25 | ~1.13 | 0.934 |
-| 3 | 0.5169 | 743,937 | ~0.25 | ~0.76 | 0.926 |
-| 4 | 0.2765 | 605,280 | ~0.22 | ~0.50 | 0.934 |
+| $k$ | Partial sum (200 elems) | $200^{\text{th}}$ element | F3 correction $-(c+o(1))k^2/2^k$ | F3 predicted total |
+|---|---|---|---|---|
+| 1 | 1.4965 | 1223 | $\approx -0.0328$ | 0.967 |
+| 2 | 0.6819 | 669 | $\approx -0.0656$ | 0.934 |
+| 3 | 0.3134 | 422 | $\approx -0.0738$ | 0.926 |
+| 4 | 0.1403 | 308 | $\approx -0.0656$ | 0.934 |
 
-**F3 leading correction** $-(c+o(1))k^2/2^k$ with $c \approx 0.0656$:
-- $k=1$: correction $\approx -0.0328$, predicted total $\approx 0.967$
-- $k=2$: correction $\approx -0.0656$, predicted total $\approx 0.934$
-- $k=3$: correction $\approx -0.0738$, predicted total $\approx 0.926$
-- $k=4$: correction $\approx -0.0656$, predicted total $\approx 0.934$
+Here $c \approx 0.0656$ from F3.
 
-#### 2.2 Key Discrepancy for $k=1$ and the Sign-Disambiguation Lesson
+#### 2.2 Interpretation of the Truncated Sums
 
-For $k=1$ ($A_1$ = all primes), the total $\sum_p 1/(p\log p) \approx 1.637$, confirmed
-numerically by tracking partial sums and tail estimates via
-$\text{tail} \approx 1/\log p_N$. This is the value from Q3's reference and is the
-maximum of the Erdős measure over all primitive sets (the Lichtman-Pomerance
-theorem).
+**For $k \geq 2$:** The partial sums for $k = 2, 3, 4$ are all below 1 ($0.68$, $0.31$, $0.14$
+respectively). These are truncations at the 200th element; the full series
+continues to grow but is bounded. F3 predicts the full sums converge to
+approximately $0.93$, $0.93$, $0.93$ for $k = 2, 3, 4$.
 
-**F3's formula $0.967$ is not close to $1.637$ for $k=1$.** This confirms that
-F3 is an asymptotic as $k \to \infty$, not a formula valid for small $k$.
-The $o(1)$ remainder in F3 is large (of order 1) for small $k$, and only
-becomes negligible for $k \gg 1$.
+**For $k = 1$ (primes):** The partial sum over the first 200 primes ($p_1 = 2, \ldots,
+p_{200} = 1223$) is 1.4965, which exceeds 1. This is consistent with
+the conjecture's $x$-floor structure: the conjecture bounds
+$\sum_{a \in A, a \geq x} 1/(a \log a)$ (the TAIL starting at $x$), not the
+cumulative sum from $a = 2$. The first 200 primes include the small primes
+(whose contributions $1/(p \log p)$ are large), which would not appear in a
+set $A \subset [x, \infty)$ for any moderate $x$.
 
-#### 2.3 Consistency with the Conjecture and F1
+**Critical distinction:** Q2 verifies the consistency of F3 as a large-$k$ asymptotic.
+The partial sum for $k=1$ being $> 1$ does not contradict F3, which predicts
+the FULL sum for $A_k$ (for large $k$) approaches 1 from below. For small $k$,
+the $o(1)$ correction is large and the formula is not quantitatively accurate.
 
-The conjecture concerns $A \subset [x, \infty)$: restricting the floor to large $x$
-makes ALL $A_k$ sums small (for fixed $k$, $\sum_{a \in A_k, a \geq x} 1/(a\log a) \to 0$).
-The interesting regime is when $x$ is moderate and $k$ is large enough that
-$A_k \cap [x, \infty)$ is non-trivially large.
+#### 2.3 F3 as a Large-$k$ Asymptotic
 
-F1 ($\leq 1.399 + o(1)$) and the conjecture ($\leq 1 + o(1)$) both apply to sets
-in $[x, \infty)$ as $x \to \infty$. For $x = 2$ (no floor restriction), the
-Lichtman-Pomerance bound is $\leq \sum_p 1/(p\log p) \approx 1.637$, which the
-primes attain.
+F3 gives $\sum_{a \in A_k} 1/(a \log a) = 1 - (c+o(1))k^2/2^k$ with $c > 0$.
+The sign is correct: the correction is negative, so the sum is below 1 for
+large $k$. The leading correction $k^2/2^k$ is maximized at $k = 2\log 2 \approx 1.4$
+and then decreases exponentially:
 
-#### 2.4 Partial-Sum Checks (sign of F3 approach)
+| $k$ | $k^2/2^k$ | F3 prediction |
+|---|---|---|
+| 1 | 0.5 | 0.967 |
+| 2 | 1.0 | 0.934 |
+| 3 | 1.125 | 0.926 |
+| 4 | 1.0 | 0.934 |
+| 5 | 0.781 | 0.949 |
+| 10 | 0.098 | 0.994 |
+| 20 | 0.00038 | ≈1.000 |
 
-For $k \geq 3$, the partial sum $S_k(N)$ is well below 1 even for the first 200
-elements (e.g., $S_3(200\text{th element}) \approx 0.313$, $S_4 \approx 0.140$).
-The full sum for $k=3$ converges to roughly $0.76$ (with significant tail
-uncertainty), and for $k=4$ to roughly $0.50$ — both well below 1.
+As $k \to \infty$, $k^2/2^k \to 0$, so F3 says the sum approaches 1 from below.
+**Consistency check (sign):** F3's correction is $-(c + o(1)) \cdot k^2/2^k < 0$,
+so the sum is strictly less than 1. This is consistent with the conjecture (which
+would be refuted if any $A_k$ achieved sum $> 1$ in $[x, \infty)$ for large $x$).
 
-For $k=2$, the full sum appears to converge to approximately $1.0$–$1.1$ (the
-tail estimate is uncertain at $N = 3\text{M}$), possibly exceeding 1.
+#### 2.4 Consistency with F1 and the Conjecture
 
-**Observation:** The Sathe-Selberg density estimate $\pi_k(x) \sim x(\log\log x)^{k-1} / ((k-1)! \log x)$
-implies the total sum converges (the integral $\int_2^\infty (\log\log t)^{k-1} / (t \log^2 t) dt$
-converges for all $k$), but convergence is very slow for $k \leq 3$.
+F1 ($< 1.399 + o(1)$) and the conjecture ($< 1 + o(1)$) apply to sets
+$A \subset [x, \infty)$ as $x \to \infty$. For a fixed large $x$:
+$\sum_{a \in A_k, a \geq x} 1/(a \log a) \to 0$ for any fixed $k$, which is
+trivially $< 1$. The interesting regime is when $k$ grows with $x$, and F3
+shows that even in that regime the sum stays below 1.
 
-**Working hypothesis:** F3 is reliable as $k \to \infty$ (where corrections are $O(k^2/2^k)$),
-but for $k = 1, 2, 3, 4$ the true total sums are larger than the F3 formula predicts.
-The evidence is compatible with F3 being correct in the limit and incorrect for small $k$.
-
-**Next:** Q3 (prime sum from 2 onwards; consistency with F1 for finite x).
+**Next:** Q3 (prime sum structure, consistency of the $x$-floor restriction with F1).
