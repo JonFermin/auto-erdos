@@ -219,56 +219,57 @@ $x$-floor context are treated carefully.
 
 ---
 
-### Section 3: The $x$-Floor Context and the Prime Sum (Q3)
+### Section 3: The $x$-Floor Context and F1 vs. the Conjecture (Q3)
 
-This section addresses the apparent tension between F3's prediction of $\approx 0.967$ for $k=1$ and
-the known convergence of the full sum $\sum_p 1/(p \log p)$ to a value near $1.637$. The resolution
-lies in the $x$-floor restriction central to the conjecture.
+This section examines how F1 and the conjecture relate under the $x$-floor restriction.
+F3 is a large-$k$ asymptotic; this section also clarifies what F3 says (and does not say)
+for the $k=1$ stratum.
 
-#### 3.1 The Full Prime Sum vs. the $x$-Floor-Restricted Sum
+#### 3.1 F3 for $k=1$: a Regime Clarification
 
-Let $\mathbf{P} = \{2, 3, 5, 7, 11, \ldots\}$ be the set of all primes. The full sum
-$$S_{\text{primes}} = \sum_p \frac{1}{p \log p}$$
-converges (by comparison with $\sum_{n \geq 2} 1/(n \log^2 n)$) to a value near $1.6366$.
+F3 states $\sum_{a \in A_k} 1/(a \log a) = 1 - (c + o(1)) k^2/2^k$ with $c \approx 0.0656 > 0$.
 
-**F3 for $k=1$ is NOT in conflict with this.** F3 says
-$\sum_{a \in A_1} 1/(a \log a) = 1 - (c + o(1)) \cdot 1/2$ where $A_1 = \mathbf{P}$.
-The $o(1)$ correction at $k=1$ is not small: F3 is a large-$k$ asymptotic, and $k=1$ is
-far outside the regime where the remainder $o(1)$ can be neglected. The formula is
-qualitatively predictive (sum $< 1$, approaches from below) but not quantitatively accurate at $k=1$.
+At $k=1$: the leading-order formula predicts $1 - c/2 \approx 0.967$. But $k=1$ is far outside
+the large-$k$ regime where the $o(1)$ remainder is negligible. **F3 says nothing quantitatively
+reliable about the $k=1$ case.** It guarantees the stratum sum approaches $1$ from below as
+$k \to \infty$, and gives accurate asymptotics once $k$ is large enough that $o(1)$ is small;
+$k=1$ does not qualify.
 
-The actual prime sum $\approx 1.637$ exceeds $1$, which seems to contradict the conjecture.
-But the conjecture applies to primitive sets $A \subset [x, \infty)$, not $A \subset \mathbb{N}$.
+The qualitative content (sum $< 1$ for large $k$, approaches from below) is the correct takeaway.
+The specific formula value at $k=1$ is not a claim of F3.
 
-#### 3.2 How the $x$-Floor Restriction Resolves the Tension
+#### 3.2 How the $x$-Floor Restriction Tames the Sum
 
-Fix a large $x$. The primes in $[x, \infty)$ form a primitive set (they are pairwise non-dividing).
-Their sum is
-$$\sum_{p \geq x} \frac{1}{p \log p} = S_{\text{primes}} - \sum_{p < x} \frac{1}{p \log p}.$$
+The conjecture concerns $A \subseteq [x, \infty)$, not $A \subseteq \mathbb{N}$.
 
-As $x \to \infty$, the partial sum $\sum_{p < x} 1/(p \log p) \to S_{\text{primes}} \approx 1.637$,
-so $\sum_{p \geq x} 1/(p \log p) \to 0$. The $x$-floor restriction kills the prime contribution.
+Fix a large $x$. The primes in $[x, \infty)$ form a primitive set (pairwise non-dividing).
+The sum $\sum_{p \geq x} 1/(p \log p)$ is a tail of a convergent series (by comparison with
+$\sum_{n \geq x} 1/(n \log^2 n)$), so it tends to $0$ as $x \to \infty$.
 
-This is the same for any fixed primitive set $A \subset \mathbb{N}$: restricting to elements
-$\geq x$ makes $\sum_{a \in A, a \geq x} 1/(a \log a) \to 0$ as $x \to \infty$ (since $A$ is
-at most countable and $1/(a \log a) \to 0$). The conjecture's claim $\leq 1 + o(1)$ is
-vacuously easy for a fixed $A$ as $x \to \infty$; the challenge is for $A$ that itself
-depends on $x$ (i.e., $A \subseteq [x, \infty)$ is chosen adversarially after $x$ is fixed).
+More generally, for any fixed primitive set $A \subset \mathbb{N}$, restricting to elements
+$\geq x$ gives $\sum_{a \in A, a \geq x} 1/(a \log a) \to 0$ as $x \to \infty$ (since
+$A$ is at most countable and $1/(a \log a) \to 0$). The conjecture's claim $\leq 1 + o(1)$ is
+vacuously easy for a fixed $A$ as $x \to \infty$; the challenge is when $A$ itself depends on
+$x$ (chosen adversarially with $A \subseteq [x, \infty)$ after $x$ is fixed).
 
-#### 3.3 F1 Consistency with the Conjecture
+#### 3.3 F1 and the Conjecture: Complementary Bounds
 
-F1 states: for ANY primitive set $A \subseteq \mathbb{N}$,
-$\sum_{a \in A} 1/(a \log a) < e^\gamma \pi/4 + o(1) \approx 1.399$.
+F1 (Erdős-Zhang): for ANY primitive set $A \subseteq \mathbb{N}$,
+$$\sum_{a \in A} \frac{1}{a \log a} < e^\gamma \frac{\pi}{4} + o(1) \approx 1.399 + o(1),$$
+where the $o(1)$ tends to $0$ as the minimum element of $A$ tends to $\infty$.
 
-Applying F1 to $A = \mathbf{P}$ gives $\sum_p 1/(p \log p) < 1.399$, which would be false if
-the sum is $\approx 1.637$. The resolution: F1's $o(1)$ term tends to $0$ as the minimum element
-of $A$ grows. The full primes have minimum element $2$, and at that scale the $o(1)$ term is
-not negligible; F1's bound for $A = \mathbf{P}$ starting at $2$ would be $1.399 + C$ for some
-constant $C > 0$ making the bound $> 1.637$.
+The conjecture: for any $A \subseteq [x, \infty)$ (primitive), the TIGHTER bound
+$$\sum_{a \in A} \frac{1}{a \log a} \leq 1 + o(1)$$
+holds as $x \to \infty$.
 
-Put differently: F1 as stated is for primitive sets where the $o(1)$ term captures the
-dependence on the minimum element of $A$. The conjecture's bound of $1 + o(1)$ (smaller than
-F1's $1.399 + o(1)$) requires the $x$-floor restriction $A \subseteq [x, \infty)$ with $x$ large.
+These are compatible and the conjecture is a REFINEMENT of F1:
+- F1 holds for all primitive sets in $\mathbb{N}$; its $o(1)$ is large when the minimum
+  element of $A$ is small (e.g., if $A$ contains $2$ or small primes).
+- The conjecture restricts to $A \subseteq [x, \infty)$ with $x$ large, where F1's $o(1)$
+  is already small, and claims the tighter constant $1$ replaces $1.399$.
+- F1 does NOT contradict the conjecture. Rather, it tells us the sum is $< 1.399$ for large
+  $x$; the conjecture claims $< 1$ for the same large $x$. One implies the other in the
+  direction $1 < 1.399$.
 
 #### 3.4 The Extremal Sets: $A_k \cap [x, \infty)$
 
