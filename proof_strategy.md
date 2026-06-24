@@ -333,3 +333,75 @@ which test only the trivial regime where the conjecture does not claim the bound
 No witness block is submitted; the conjecture remains open.
 
 **Next:** Q5 (structural outline for a proof; cross-stratum sub-additivity).
+
+---
+
+### Section 5: Proof Structure Outline — Track B (Q5)
+
+This section outlines the key obstacles and possible strategies for proving the conjecture.
+No proof is claimed; this is a roadmap of the difficulties.
+
+#### 5.1 Stratification by $\Omega(a)$
+
+Let $A \subseteq [x, \infty)$ be a primitive set. Write $A_k = \{a \in A : \Omega(a) = k\}$ for
+the $k$-th omega-stratum of $A$ (elements with exactly $k$ prime factors counting multiplicity).
+Then
+$$\sum_{a \in A} \frac{1}{a \log a} = \sum_{k=1}^{\infty} \sum_{a \in A_k} \frac{1}{a \log a}.$$
+
+From F3, the FULL stratum ($A_k^{\text{full}} = \{n \geq 1 : \Omega(n) = k\}$) satisfies
+$$\sum_{a \in A_k^{\text{full}}} \frac{1}{a \log a} = 1 - (c + o(1)) \frac{k^2}{2^k} < 1.$$
+
+The primitive set $A$ can only use a SUBSET of each stratum (the sub-primitive-set constraint
+from primitivity). So $\sum_{a \in A_k} 1/(a \log a) \leq \sum_{a \in A_k^{\text{full}}} 1/(a \log a) < 1$.
+
+**Naive bound:** $\sum_{k} \sum_{a \in A_k} 1/(a \log a) \leq \sum_{k} 1 = \infty$.
+Summing the per-stratum bounds over all $k$ diverges — this approach fails without
+additional cross-stratum structure.
+
+#### 5.2 The Key Difficulty: Cross-Stratum Interaction
+
+The difficulty is captured precisely:
+- Each stratum $A_k$ satisfies its own bound $< 1$.
+- But SUMMING the bounds gives $\sum_k 1 = \infty$, which is vacuous.
+- The missing ingredient: **at most one stratum can be "close to 1" simultaneously**.
+
+**Why?** If $a \in A_j$ and $b \in A_k$ with $j \neq k$ and $\Omega(a) = j < k = \Omega(b)$,
+then $b$ is divisible by exactly $k - j$ more prime factors than $a$. If $a \mid b$, primitivity
+is violated. So elements in different strata are "nearly" in divisibility relation — they cannot
+simultaneously be large (summing to near 1) without violating primitivity.
+
+This "cross-stratum exclusion" is the core combinatorial structure the proof must formalize.
+
+#### 5.3 A Possible Approach: Interval Decomposition
+
+One strategy (following ideas in sieve theory):
+1. Fix $x$ large. Decompose elements of $A \subseteq [x, \infty)$ by their smallest prime factor.
+2. For elements with smallest prime factor $p$: they lie in "intervals" $[p^k x^{1/k}, \cdots]$.
+   The primitivity constraint means at most one element of $A$ lies in each "interval."
+3. Sum the contributions from each interval.
+
+This approach would use Mertens-type estimates on prime sums, but working over $[x,\infty)$.
+The key estimate needed: for a primitive set $A \subseteq [x, \infty)$, the contribution of
+elements with smallest prime factor $p$ is bounded by $1/(p \log p)$ (up to lower order terms).
+Summing over primes $p \geq x^{1/k}$ would recover the F3-type bound.
+
+**Gap:** Making this precise requires a Brun-Titchmarsh-type estimate for the density of
+elements of $A_k$ in short intervals, and controlling the $o(1)$ remainder uniformly in $k$.
+This gap is not resolved here; it is the central open problem in the literature.
+
+#### 5.4 What F2 and F3 Together Imply
+
+F2 gives $\sum_{a \in A_k^{\text{full}}} 1/(a \log a) \geq 1 - C k^{-1/2+o(1)}$ (since the
+unsigned $O$ means the difference from 1 is at most $C k^{-1/2+o(1)}$ in absolute value).
+F3 pins the sum to $1 - (c+o(1))k^2/2^k$ from above AND below.
+
+Together: for large $k$, the full stratum sum is very close to $1$ from below
+($k^2/2^k \to 0$ exponentially). The "accessible" sum (from a primitive set $A \subseteq [x,\infty)$
+with $x$ large) is an even smaller tail of this.
+
+**Summary of Track B obstacles:**
+1. The per-stratum bound $< 1$ is insufficient alone (the sum over strata diverges).
+2. Cross-stratum exclusion from primitivity must be quantified.
+3. No known technique closes this gap in full generality for the Erdős measure.
+
+**Next:** Q6 (partial result write-up; session close).
