@@ -194,8 +194,9 @@ large-$k$ regime where F3 is accurate (the $o(1)$ remainder is negligible).
 The function $g(k) = k^2/2^k$:
 - $g(k) > 0$ for all $k \geq 1$ (since $k^2 > 0$ and $2^k > 0$)
 - $g(k) \to 0$ exponentially as $k \to \infty$ (since $2^k$ grows faster than $k^2$)
-- Integer maximum at $k = 3$: $g(3) = 9/8 = 1.125 > g(2) = 1 > g(4) = 1$
-  (the continuous max is at $k = 2/\ln 2 \approx 2.885$, confirming integer max at $k=3$)
+- Integer maximum at $k = 3$: $g(3) = 9/8 = 1.125 > g(2) = 1 = g(4) = 1$
+  (note $g(2) = g(4) = 1$; the maximum is unique at $k=3$; the continuous max is at
+   $k = 2/\ln 2 \approx 2.885$, confirming integer max at $k=3$)
 
 Since $c \approx 0.0656 > 0$ and $g(k) > 0$, the correction $-(c+o(1))g(k)$ is
 **negative**, so $\sum_{a \in A_k} 1/(a \log a) < 1$ whenever the $o(1)$ remainder
