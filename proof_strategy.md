@@ -203,24 +203,27 @@ the $o(1)$ correction is large and the formula is not quantitatively accurate.
 #### 2.3 F3 as a Large-$k$ Asymptotic
 
 F3 gives $\sum_{a \in A_k} 1/(a \log a) = 1 - (c+o(1))k^2/2^k$ with $c > 0$.
-The sign is correct: the correction is negative, so the sum is below 1 for
-large $k$. The leading correction $k^2/2^k$ is maximized at $k = 2\log 2 \approx 1.4$
-and then decreases exponentially:
+The sign is correct: the correction is negative, so the sum approaches 1 from below.
 
-| $k$ | $k^2/2^k$ | F3 prediction |
+**Maximum of the correction term:** The function $g(k) = k^2/2^k$ attains its
+maximum over positive integers at $k = 3$ (where $g(3) = 9/8 = 1.125$), and
+decreases to 0 exponentially as $k \to \infty$. (Treating $k$ as continuous:
+$g'(k) = k(2 - k\ln 2)/2^k = 0$ at $k = 2/\ln 2 \approx 2.885$, confirming
+the integer max is at $k = 3$.)
+
+| $k$ | $k^2/2^k$ | F3 predicted sum |
 |---|---|---|
-| 1 | 0.5 | 0.967 |
-| 2 | 1.0 | 0.934 |
-| 3 | 1.125 | 0.926 |
-| 4 | 1.0 | 0.934 |
+| 1 | 0.500 | 0.967 |
+| 2 | 1.000 | 0.934 |
+| 3 | 1.125 | 0.926 (minimum) |
+| 4 | 1.000 | 0.934 |
 | 5 | 0.781 | 0.949 |
 | 10 | 0.098 | 0.994 |
-| 20 | 0.00038 | ≈1.000 |
+| 20 | 0.00038 | $\approx 1.000$ |
 
-As $k \to \infty$, $k^2/2^k \to 0$, so F3 says the sum approaches 1 from below.
-**Consistency check (sign):** F3's correction is $-(c + o(1)) \cdot k^2/2^k < 0$,
-so the sum is strictly less than 1. This is consistent with the conjecture (which
-would be refuted if any $A_k$ achieved sum $> 1$ in $[x, \infty)$ for large $x$).
+As $k \to \infty$, $k^2/2^k \to 0$, so the F3 sum approaches 1 from below.
+**Consistency check:** F3's correction $-(c+o(1))k^2/2^k < 0$ keeps the sum
+below 1 for all $k$, consistent with the conjecture's bound of $1 + o(1)$.
 
 #### 2.4 Consistency with F1 and the Conjecture
 
