@@ -80,10 +80,13 @@ from $[x, \infty)$ cannot exceed $1$ once $x$ is large enough. The conjecture is
 witness.
 
 **Why this measure?** The function $f(a) = 1/(a \log a)$ is the natural one
-for primitive sets because the primes form a primitive set and
-$\sum_p 1/(p \log p)$ diverges (Mertens); restricting to $[x, \infty)$
-tames the sum ($\sum_{p \geq x} 1/(p \log p) \to 0$), and the Omega-stratification
-(see F3) shows the stratum $A_k$ is the "hardest" to control.
+for primitive sets. The weight $1/(a \log a)$ makes the sum convergent
+over infinite primitive sets (unlike $\sum 1/a$ which diverges even for
+the primes by Mertens' second theorem $\sum_{p \leq x} 1/p \sim \log\log x$).
+Restricting to $A \subset [x, \infty)$ tames the sum further:
+$\sum_{a \in A, a \geq x} 1/(a \log a) \to 0$ as $x \to \infty$ for any
+fixed primitive set. F3 shows the stratum $A_k$ is the "hardest" to control:
+for large $k$, the sum over $A_k$ approaches 1 from below.
 
 #### 1.2 The Three Given Facts
 
