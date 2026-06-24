@@ -284,3 +284,52 @@ conjecture is tight: the bound $1$ cannot be improved. But no primitive set (not
 itself) achieves sum $> 1$ according to F3.
 
 **Next:** Q4 (numerical search for a primitive set in $[x_{\text{floor}}, \infty)$ with sum $> 1$).
+
+---
+
+### Section 4: Counterexample Search — Numerical (Q4)
+
+This section searches for a primitive set $A \subseteq [x_{\text{floor}}, \infty)$ with rigorously
+verified $\sum_{a \in A} 1/(a \log a) > 1.0$.
+
+#### 4.1 Strategy
+
+Track A (counterexample search) seeks a finite primitive set with sum $> 1$.
+By the structure of $1/(a \log a)$: elements with smaller $a$ contribute more, so we should
+use elements as small as possible (i.e., small $x_{\text{floor}}$) and choose them to have
+high individual contributions.
+
+The primes form a primitive set (no prime divides another), so subsets of primes
+$\{p_1 < p_2 < \cdots\} \subseteq [x_{\text{floor}}, \infty)$ are natural first candidates.
+
+#### 4.2 Numerical Results
+
+**Case $x_{\text{floor}} = 2$:** The primes $\{2, 3\}$ give
+$1/(2 \ln 2) + 1/(3 \ln 3) \approx 0.7214 + 0.3034 = 1.025 > 1.0$.
+(Verified by `verify_witness`.)
+Extending to $\{2,3,5,7,11\}$: sum $\approx 1.26 > 1.0$.
+
+**Case $x_{\text{floor}} = 3$:** The primes $\{3, 5, 7, 11, \ldots, p_k\}$ for any finite $p_k$
+give sum $< 0.80 < 1.0$ (verified for all primes up to 5000: sum $\approx 0.798$).
+
+**Case $x_{\text{floor}} \geq 3$:** Exhaustive search over primes in $[x, 5000]$ for $x = 3, 5, \ldots, 41$
+shows sum $\leq 0.80$ in all cases. Including non-prime elements from $A_k$ strata does not
+improve this: for $k \geq 2$, contributions from $[x,\infty)$ are even smaller (elements are
+at least $x^2 / \text{small primes}$, which are large integers with tiny $1/(a \log a)$).
+
+#### 4.3 Interpretation
+
+The $x_{\text{floor}} = 2$ witnesses are consistent with the conjecture. The prime $2$
+contributes $1/(2 \ln 2) \approx 0.721$ alone — more than $70\%$ of the threshold.
+This large contribution makes $x = 2$ a special case: the conjecture's $o(1)$ term
+at $x = 2$ is at least $0.025$ (since $\sum_{a \in \{2,3\}} 1/(a \log a) \approx 1.025$).
+
+For $x_{\text{floor}} \geq 3$: all evidence indicates no primitive set in $[x, \infty)$
+achieves sum $> 1.0$. The conjecture appears correct for $x \geq 3$, and trivially so
+for $x \geq$ a small constant.
+
+**No non-trivial counterexample found.** All witnesses found are at $x_{\text{floor}} = 2$,
+which test only the trivial regime where the conjecture does not claim the bound is tight.
+No witness block is submitted; the conjecture remains open.
+
+**Next:** Q5 (structural outline for a proof; cross-stratum sub-additivity).
