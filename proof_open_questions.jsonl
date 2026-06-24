@@ -11,3 +11,5 @@
 {"qid":"Q3","status":"claimed","session_id":"s_0624-080343-7e10","summary":"taking Q3: prime sum, x-floor context, F1 consistency","ts":"2026-06-24T08:45:08+00:00"}
 {"qid":"Q3","status":"resolved","session_id":"s_0624-080343-7e10","summary":"F3 large-k regime clarified; x-floor makes tails vanish; F1 vs conjecture compatible","ts":"2026-06-24T08:58:59+00:00"}
 {"qid":"Q4","status":"claimed","session_id":"s_0624-080343-7e10","summary":"taking Q4: numerical witness search via library.primitive_set_witness","ts":"2026-06-24T08:58:59+00:00"}
+{"qid":"Q4","status":"resolved","session_id":"s_0624-080343-7e10","summary":"witnesses only at x_floor=2; x>=3 gives sum<0.80; no counterexample","ts":"2026-06-24T09:03:29+00:00"}
+{"qid":"Q5","status":"claimed","session_id":"s_0624-080343-7e10","summary":"taking Q5: proof structure outline, cross-stratum sub-additivity","ts":"2026-06-24T09:03:29+00:00"}
