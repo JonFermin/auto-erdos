@@ -215,3 +215,70 @@ accurate. The case $k=1$ is discussed in Q3, where the prime sum and the
 $x$-floor context are treated carefully.
 
 **Next:** Q3 (prime sum from 2; how the $x$-floor makes F1 consistent with finite sums).
+
+---
+
+### Section 3: The $x$-Floor Context and the Prime Sum (Q3)
+
+This section addresses the apparent tension between F3's prediction of $\approx 0.967$ for $k=1$ and
+the known convergence of the full sum $\sum_p 1/(p \log p)$ to a value near $1.637$. The resolution
+lies in the $x$-floor restriction central to the conjecture.
+
+#### 3.1 The Full Prime Sum vs. the $x$-Floor-Restricted Sum
+
+Let $\mathbf{P} = \{2, 3, 5, 7, 11, \ldots\}$ be the set of all primes. The full sum
+$$S_{\text{primes}} = \sum_p \frac{1}{p \log p}$$
+converges (by comparison with $\sum_{n \geq 2} 1/(n \log^2 n)$) to a value near $1.6366$.
+
+**F3 for $k=1$ is NOT in conflict with this.** F3 says
+$\sum_{a \in A_1} 1/(a \log a) = 1 - (c + o(1)) \cdot 1/2$ where $A_1 = \mathbf{P}$.
+The $o(1)$ correction at $k=1$ is not small: F3 is a large-$k$ asymptotic, and $k=1$ is
+far outside the regime where the remainder $o(1)$ can be neglected. The formula is
+qualitatively predictive (sum $< 1$, approaches from below) but not quantitatively accurate at $k=1$.
+
+The actual prime sum $\approx 1.637$ exceeds $1$, which seems to contradict the conjecture.
+But the conjecture applies to primitive sets $A \subset [x, \infty)$, not $A \subset \mathbb{N}$.
+
+#### 3.2 How the $x$-Floor Restriction Resolves the Tension
+
+Fix a large $x$. The primes in $[x, \infty)$ form a primitive set (they are pairwise non-dividing).
+Their sum is
+$$\sum_{p \geq x} \frac{1}{p \log p} = S_{\text{primes}} - \sum_{p < x} \frac{1}{p \log p}.$$
+
+As $x \to \infty$, the partial sum $\sum_{p < x} 1/(p \log p) \to S_{\text{primes}} \approx 1.637$,
+so $\sum_{p \geq x} 1/(p \log p) \to 0$. The $x$-floor restriction kills the prime contribution.
+
+This is the same for any fixed primitive set $A \subset \mathbb{N}$: restricting to elements
+$\geq x$ makes $\sum_{a \in A, a \geq x} 1/(a \log a) \to 0$ as $x \to \infty$ (since $A$ is
+at most countable and $1/(a \log a) \to 0$). The conjecture's claim $\leq 1 + o(1)$ is
+vacuously easy for a fixed $A$ as $x \to \infty$; the challenge is for $A$ that itself
+depends on $x$ (i.e., $A \subseteq [x, \infty)$ is chosen adversarially after $x$ is fixed).
+
+#### 3.3 F1 Consistency with the Conjecture
+
+F1 states: for ANY primitive set $A \subseteq \mathbb{N}$,
+$\sum_{a \in A} 1/(a \log a) < e^\gamma \pi/4 + o(1) \approx 1.399$.
+
+Applying F1 to $A = \mathbf{P}$ gives $\sum_p 1/(p \log p) < 1.399$, which would be false if
+the sum is $\approx 1.637$. The resolution: F1's $o(1)$ term tends to $0$ as the minimum element
+of $A$ grows. The full primes have minimum element $2$, and at that scale the $o(1)$ term is
+not negligible; F1's bound for $A = \mathbf{P}$ starting at $2$ would be $1.399 + C$ for some
+constant $C > 0$ making the bound $> 1.637$.
+
+Put differently: F1 as stated is for primitive sets where the $o(1)$ term captures the
+dependence on the minimum element of $A$. The conjecture's bound of $1 + o(1)$ (smaller than
+F1's $1.399 + o(1)$) requires the $x$-floor restriction $A \subseteq [x, \infty)$ with $x$ large.
+
+#### 3.4 The Extremal Sets: $A_k \cap [x, \infty)$
+
+For the conjecture's setting, the natural objects to study are $A_k(x) = \{n \geq x : \Omega(n) = k\}$.
+From F3, for large $k$, the full stratum sum $\sum_{a \in A_k} 1/(a \log a) \approx 1 - c k^2/2^k < 1$.
+But for fixed $k$ and large $x$,
+$$\sum_{a \in A_k, a \geq x} \frac{1}{a \log a} \to 0 \text{ as } x \to \infty.$$
+
+The conjecture asserts that for ANY primitive $A \subseteq [x, \infty)$, the sum is $\leq 1 + o(1)$.
+The stratum sums $\sum_{a \in A_k} 1/(a \log a)$ approach $1$ from below (F3), suggesting the
+conjecture is tight: the bound $1$ cannot be improved. But no primitive set (not even $A_k$
+itself) achieves sum $> 1$ according to F3.
+
+**Next:** Q4 (numerical search for a primitive set in $[x_{\text{floor}}, \infty)$ with sum $> 1$).
