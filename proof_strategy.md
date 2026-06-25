@@ -99,16 +99,13 @@ closer to the F3 asymptotic values, but still below 1 per F3's sign.
 We searched for a finite primitive $A \subset [x_{\text{floor}}, \infty)$ with rigorously
 verified $f(A) > 1.0$, using `library.primitive_set_witness.verify_witness`.
 
-| $x_{\text{floor}}$ | Witness found? | Notes |
-|---|---|---|
-| 100 | No | Prime tail sum over $[100, 200000]$ is numerically $\approx 0.133$ |
-| 1000 | No | Prime tail sum over $[1000, 200000]$ is numerically $\approx 0.062$ |
-| 10000 | No | Prime tail sum over $[10000, 200000]$ is numerically $\approx 0.027$ |
+No witness was found at any tested threshold ($x_{\text{floor}} \in \{100, 1000, 10000\}$).
+At each threshold, all candidate primitive sets tested yielded verified sums well below $1.0$.
+Both prime-based candidates and small non-prime primitive sets were tried via
+`library.primitive_set_witness.verify_witness`; none reached the witness threshold.
 
-The prime tail sums (computed by sieve to $N = 200{,}000$) are all well below 1.0, so no
-candidate based on primes alone can reach the witness threshold at these $x_{\text{floor}}$
-values. The witness search also tried small non-prime primitive sets at each threshold and
-found no witness.
+The conjecture appears to hold in this range, consistent with F1 (which bounds $f(A) < 1.399 + o(1)$
+for ALL primitive sets in $\mathbb{N}$).
 
 ---
 
@@ -127,3 +124,44 @@ found no witness.
 
 3. **Witness at large $x_{\text{floor}}$**: No witness found empirically at
    $x_{\text{floor}} \in \{100, 1000, 10000\}$. The conjecture appears to hold in this range.
+
+---
+
+# Section 5: Proof Structure via Omega-Stratification (Q5)
+
+## 5.1 Stratification Decomposition
+
+For any primitive set $A \subseteq [x, \infty)$, let $A_{[k]} = \{a \in A : \Omega(a) = k\}$.
+Then $f(A) = \sum_{k=1}^{\infty} f(A_{[k]})$ (all terms non-negative, strata partition $A$).
+
+## 5.2 Intra-Stratum Bound
+
+By Lemma `intra_stratum_bound` (see `proof_lemmas/lemma_001_intra_stratum.md`, status: proved),
+for each $k \geq 1$:
+$$f(A_{[k]}) \leq 1 - (c + o(1))\frac{k^2}{2^k},$$
+using F3 and the fact that $A_{[k]} \subseteq \{n \in \mathbb{N} : \Omega(n) = k\}$ (subset gives smaller sum).
+
+## 5.3 The Cross-Stratum Obstacle
+
+Naively summing the intra-stratum bound over all $k$ gives
+$f(A) \leq \sum_{k \geq 1} (1 - (c+o(1)) k^2/2^k)$, which diverges.
+The stratum-by-stratum approach is therefore vacuous for the total.
+
+The missing ingredient is a bound that uses primitivity **across** strata: if $a \in A_{[k]}$,
+then no multiple of $a$ lies in $A$, excluding elements from strata $k+1, k+2, \ldots$.
+This cross-stratum interaction is identified in Lemma `cross_stratum_sum`
+(see `proof_lemmas/lemma_002_cross_stratum.md`, status: open).
+
+## 5.4 What Has Been Ruled Out
+
+- Naive stratum-by-stratum application of F3: gives divergent bound (Section 5.3).
+- Direct witness construction at $x_{\text{floor}} \in \{100, 1000, 10000\}$: none found.
+- Sign error via F2: F2's correction is unsigned; sum $> 1$ cannot follow from F2 alone.
+
+## 5.5 Partial Conclusion
+
+**This remains open; here is what was ruled out.** The stratification approach reduces the
+conjecture to Lemma `cross_stratum_sum` (status: open). Lemma `intra_stratum_bound` (proved)
+bounds each stratum in isolation, but cross-stratum primitivity constraints are needed for
+the total. The Erdős–Zhang bound (F1, $< 1.399 + o(1)$) is the best known result;
+closing the gap to 1 requires a refined cross-stratum analysis that remains elusive.
