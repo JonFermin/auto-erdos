@@ -7,3 +7,5 @@
 {"qid":"Q4","status":"claimed","session_id":"s_0625-081948-4b1f","summary":"taking Q4 in round 2 (witness search)","ts":"2026-06-25T08:34:30+00:00"}
 {"qid":"Q5","status":"claimed","session_id":"s_0625-081948-4b1f","summary":"retry Q5: stratification outline, lemma files; removed prime tail sums from Section 3","ts":"2026-06-25T08:58:03+00:00"}
 {"qid":"Q6","status":"claimed","session_id":"s_0625-081948-4b1f","summary":"retry Q6: write partial result and call session_end","ts":"2026-06-25T08:58:03+00:00"}
+{"qid":"Q5","status":"resolved","session_id":"s_0625-081948-4b1f","summary":"omega-stratification outline complete; Lemma intra_stratum_bound proved; Lemma cross_stratum_sum identified as open obstacle","ts":"2026-06-25T09:01:55+00:00"}
+{"qid":"Q6","status":"resolved","session_id":"s_0625-081948-4b1f","summary":"partial result documented in proof_strategy.md Section 5.5; keep_progress logged; calling session_end","ts":"2026-06-25T09:01:55+00:00"}

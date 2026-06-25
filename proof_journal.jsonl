@@ -1,0 +1,2 @@
+{"event":"round","session_id":"s_0625-081948-4b1f","ts":"2026-06-25T09:01:55+00:00","summary":"Q5+Q6: stratification outline, intra_stratum_bound proved, cross_stratum_sum open","qid":"Q5","status":"keep_progress","commit":"4bea1ff"}
+{"event":"session_close","session_id":"s_0625-081948-4b1f","ts":"2026-06-25T09:03:01+00:00","commit":"4bea1ff","reason":"reason: converged on partial result \u2014 all Q1-Q6 answered; two kept partial-result records"}
