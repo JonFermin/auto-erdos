@@ -202,5 +202,27 @@ The proof is in progress.  The logical chain is:
 $$\text{L2} \Rightarrow \text{for large } x,\ \sup_{\text{primitive } A \subseteq [x,\infty)}
 \sum_{a \in A} \frac{1}{a \log a} \leq \frac{C}{\log x} \xrightarrow{x \to \infty} 0 < 1.$$
 
-Both L1 and L2 are open; their proofs are deferred to the lemma files.
-Neither lemma's statement cites any fact outside the ledger {F1, F2, F3}.
+### Key obstacle identified (Round 5)
+
+**L1** requires bounding the prime tail $\sum_{p \geq x} 1/(p\log p)$.
+The given facts only yield $\leq 1.399$ (via F1), not $< 1$.
+Closing L1 requires convergence of $\sum_p 1/(p\log p)$ — a Mertens-type
+fact not in $\{F1, F2, F3\}$.
+
+**L2** uses the omega-stratification: $\sum_{a \in A} 1/(a\log a)
+= \sum_{k \geq 1} \sum_{a \in A, \Omega(a)=k} 1/(a\log a)$.
+Per-stratum bounds require Selberg–Sathe-type estimates for tail sums of
+$k$-almost-prime series — again not in the facts ledger.
+
+**Ruling out counterexamples (Q4):**
+Greedy search found no primitive $A \subseteq [x, \infty)$ with sum $> 1$
+for $x \in \{100, 1000, 10000\}$.  The set $\{2,3\}$ at $x=2$ gives
+sum $\approx 1.025$ but $x=2$ is outside the asymptotic scope.
+
+**Conclusion**: The proof reduces to establishing tail bounds for
+$k$-almost-prime series.  The three given facts F1/F2/F3 are not
+sufficient to close this gap; a Mertens-type or Selberg–Sathe-type
+estimate needs to be added to the ledger.
+
+Both L1 and L2 are open; their full proof attempts and specific
+obstacle statements are in `proof_lemmas/`.
