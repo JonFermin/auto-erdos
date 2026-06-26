@@ -91,8 +91,9 @@ alone does not settle the matter.
   big-O is unsigned.
 - **F3 upside-down**: F3's correction is negative; the sum approaches 1 from
   BELOW, not above.
-- **Asserting resolution**: Do not write "the conjecture is false" or "QED"
-  without a verifier-accepted `<!-- WITNESS -->` block.
+- **Asserting resolution**: Do not assert that the conjecture is settled or
+  announce $\square$ / end-of-proof markers without a verifier-accepted
+  `<!-- WITNESS -->` block.
 
 ---
 
