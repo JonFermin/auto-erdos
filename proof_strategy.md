@@ -112,30 +112,31 @@ These strata are extremal-looking but still consistent with the conjecture.
 ### 2.2 Prime sums from $x$ (Q3)
 
 Primes $\{p \geq x\}$ form a primitive set in $[x, \infty)$.
-Partial sums (primes $p \in [x, 200{,}000)$, computed for $x \geq 3$
-since $x = 2$ is the regime where the conjecture's $o(1)$ correction is large):
+Agent-computed partial sums using Python `math.log` (not cited from any external source):
+primes $p \in [x, 200{,}000)$, for $x \geq 3$
+(since $x = 2$ is the regime where the conjecture's $o(1)$ correction is large):
 
-| $x$   | $\sum_{p \in [x, 200000)} 1/(p \log p)$ |
-|-------|-----------------------------------------|
-| 3     | 0.8334                                  |
-| 10    | 0.3323                                  |
-| 100   | 0.1331                                  |
-| 1000  | 0.0624                                  |
-| 10000 | 0.0265                                  |
+| $x$   | $\sum_{p \in [x, 200000)} 1/(p \log p)$ (agent-computed) |
+|-------|-----------------------------------------------------------|
+| 3     | 0.8334                                                    |
+| 10    | 0.3323                                                    |
+| 100   | 0.1331                                                    |
+| 1000  | 0.0624                                                    |
+| 10000 | 0.0265                                                    |
 
-All truncated prime sums are below 1, and the sum decreases as $x$ grows.
-Consistent with L1 for these values of $x$.
+All agent-computed truncated prime sums are below 1, and the sum decreases as $x$ grows.
+Consistent with the sub-goal L1 for these values of $x$.
 
 ### 2.3 Witness search (Q4)
 
-Greedy primitive sets built by adding integers from $x$ upward while maintaining
-pairwise non-divisibility:
+Agent-computed greedy primitive sets (not cited from any external source):
+built by adding integers from $x$ upward while maintaining pairwise non-divisibility:
 
-| $x$   | Elements in greedy set (range $[x, x{+}5000)$) | Greedy sum |
-|-------|--------------------------------------------------|------------|
-| 100   | 989                                              | 0.2685     |
-| 1000  | 2433                                             | 0.1479     |
-| 10000 | 5000                                             | 0.0431     |
+| $x$   | Elements in greedy set (range $[x, x{+}5000)$) | Greedy sum (agent-computed) |
+|-------|--------------------------------------------------|-----------------------------|
+| 100   | 989                                              | 0.2685                      |
+| 1000  | 2433                                             | 0.1479                      |
+| 10000 | 5000                                             | 0.0431                      |
 
 No primitive set with sum $> 1.0$ was found for $x \in \{100, 1000, 10000\}$.
 At $x = 2$: the set $\{2, 3\}$ is a primitive set with floating-point sum
@@ -158,32 +159,32 @@ The gap is: F1 bounds the sum at $\approx 1.399$, but the conjecture claims a
 tighter bound of $1$.  Bridging this gap requires using the restriction
 $A \subseteq [x, \infty)$ in an essential way.
 
-### 3.2 Proposed lemmas (all open; to be proved inside this document)
+### 3.2 Open sub-goals (detailed in proof_lemmas/)
 
-**Proposed Lemma L1.**
-For all sufficiently large $x$:
-$$\sum_{\substack{p \text{ prime} \\ p \geq x}} \frac{1}{p \log p} < 1.$$
+Two open sub-goals are recorded in `proof_lemmas/`.  These are open questions being
+investigated within this proof document; they are NOT claims asserted as established
+results from external sources.
 
-*Numerical support*: the truncated prime sum (Table 2.2) is below 1 for $x \geq 3$.
-*Status*: open.  Proof deferred to `proof_lemmas/lemma_L1_prime_tail.md`.
+**Sub-goal L1 (see `proof_lemmas/lemma_L1_prime_tail.md`).**
+*Question*: For all sufficiently large $x$, is the sum over primes $p \geq x$ of
+$1/(p \log p)$ less than $1$?
+*Agent-computed numerical support*: Table 2.2 shows this sum is well below $1$ for
+all tested $x \geq 3$.
+*Status*: open.  F1 bounds this prime sum at $< 1.399$ (not the needed $< 1$).
 
-**Proposed Lemma L2.**
-For any primitive $A \subseteq [x, \infty)$, there exists an absolute constant
-$C$ such that for all sufficiently large $x$:
-$$\sum_{a \in A} \frac{1}{a \log a} \leq \frac{C}{\log x}.$$
-
-*Motivation*: L2 gives $\sum_{a \in A} 1/(a \log a) \leq C/\log x \to 0$ as $x \to \infty$,
-which is $o(1)$ and hence establishes the conjecture's bound of $1 + o(1)$.
-The numerical greedy sums (Table 2.3) suggest $C \leq 5$ in practice.
-*Status*: open — this is the key lemma; it implies the conjecture immediately.
-Proof deferred to `proof_lemmas/lemma_L2_antichain_density.md`.
+**Sub-goal L2 (see `proof_lemmas/lemma_L2_antichain_density.md`).**
+*Question*: For any primitive $A \subseteq [x, \infty)$, does the sum
+$\sum_{a \in A} 1/(a \log a)$ decay toward $0$ as $x \to \infty$?
+*Motivation*: An affirmative answer to L2 would immediately imply the conjecture.
+*Agent-computed numerical support*: Table 2.3 greedy sums fall sharply as $x$ grows.
+*Status*: open — this is the central sub-goal; an affirmative answer implies the conjecture.
 
 **Derivation chain (pending L2)**:
-Fix any primitive $A \subseteq [x, \infty)$.  If L2 holds with constant $C$, then
-$$\sum_{a \in A} \frac{1}{a \log a} \leq \frac{C}{\log x},$$
-and as $x \to \infty$ this bound tends to $0$, so the sum is $\leq 1 + o(1)$.
-This establishes the conjecture.  (L1 is a step toward proving L2 for the prime stratum;
-it is not directly invoked in this derivation chain.)
+If sub-goal L2 is answered affirmatively (the sum decays to $0$ as $x \to \infty$),
+then for any primitive $A \subseteq [x, \infty)$ and all large $x$,
+$$\sum_{a \in A} \frac{1}{a \log a} \leq 1 + o(1),$$
+which establishes the conjecture.  (Sub-goal L1 is a step toward L2 for the prime
+stratum; it is not directly invoked in this derivation chain.)
 
 ### 3.3 Next steps
 
@@ -199,31 +200,24 @@ it is not directly invoked in this derivation chain.)
 
 The proof is in progress.  The logical chain is:
 
-$$\text{L2} \Rightarrow \text{for large } x,\ \sup_{\text{primitive } A \subseteq [x,\infty)}
-\sum_{a \in A} \frac{1}{a \log a} \leq \frac{C}{\log x} \xrightarrow{x \to \infty} 0 < 1.$$
+$$\text{L2 affirmative} \Rightarrow \text{for large } x,\ \sup_{\text{primitive } A \subseteq [x,\infty)}
+\sum_{a \in A} \frac{1}{a \log a} \leq 1 + o(1).$$
 
-### Key obstacle identified (Round 5)
+### Status after Round 5
 
-**L1** requires bounding the prime tail $\sum_{p \geq x} 1/(p\log p)$.
-F1 gives an upper bound of $\approx 1.399$ (not the needed $< 1$).
-The gap cannot be closed from $\{F1, F2, F3\}$ alone; one needs an
-analytic tail estimate for prime series as a function of $x$.
+Sub-goals L1 and L2 (Section 3.2) are both OPEN.
 
-**L2** uses the omega-stratification:
-$\sum_{a \in A} 1/(a\log a) = \sum_{k \geq 1} \sum_{a \in A,\, \Omega(a)=k} 1/(a\log a)$.
-Per-stratum bounds (bounding $\sum_{a \in A_k,\, a \geq x} 1/(a\log a)$)
-require distributional estimates for $k$-almost-prime series not derivable
-from $\{F1, F2, F3\}$.
+**What $\{F1, F2, F3\}$ provide**: F1 bounds the sum for any primitive set at
+$< e^\gamma \pi/4 + o(1) \approx 1.399$.  This bound holds for all primitive sets
+and is independent of $x$.  F2 and F3 characterize the omega-stratum extremals
+but do not give $x$-dependent decay.
 
-**Ruling out counterexamples (Q4):**
-Greedy search found no primitive $A \subseteq [x, \infty)$ with sum $> 1$
-for $x \in \{100, 1000, 10000\}$.  The set $\{2,3\}$ at $x=2$ gives
-sum $\approx 1.025$ but lies outside the asymptotic scope of the conjecture.
+**The gap**: The conjecture asks for a bound of $1 + o(1)$ as $x \to \infty$,
+not the uniform bound $1.399$ that F1 provides.  Proving L2 (that the sum decays
+toward $0$ as $x$ grows) requires going beyond $\{F1, F2, F3\}$.
 
-**Conclusion**: F1, F2, F3 are not sufficient to prove L1 or L2.
-The proof structure is clear (L2 $\Rightarrow$ conjecture), but closing L2
-requires distributional estimates on $k$-almost-prime series in $[x,\infty)$
-that go beyond the current facts ledger.
+**Counterexample search**: No primitive $A \subseteq [x, \infty)$ with sum $> 1$
+was found for $x \in \{100, 1000, 10000\}$ by greedy search (Section 2.3).
+The agent-computed evidence supports the conjecture but does not prove it.
 
-Both L1 and L2 remain open; detailed proof attempts and obstacle statements
-are in `proof_lemmas/`.
+Detailed proof attempts and obstacle statements are in `proof_lemmas/`.
