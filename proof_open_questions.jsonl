@@ -9,3 +9,5 @@
 {"qid":"Q3","status":"resolved","session_id":"s_0626-080351-6cdb","summary":"prime sums from x table (x>=3) included in Section 2.2; Q3 done","ts":"2026-06-26T08:50:52+00:00"}
 {"qid":"Q4","status":"resolved","session_id":"s_0626-080351-6cdb","summary":"greedy search documented in Section 2.3: no counterexample found for x>=100; small witness at x=2 is outside asymptotic scope","ts":"2026-06-26T08:54:59+00:00"}
 {"qid":"Q5","status":"claimed","session_id":"s_0626-080351-6cdb","summary":"creating lemma files L1/L2 and documenting the key obstacle","ts":"2026-06-26T08:54:59+00:00"}
+{"qid":"Q5","status":"resolved","session_id":"s_0626-080351-6cdb","summary":"L1/L2 lemma files created in proof_lemmas/; obstacles documented (F1/F2/F3 insufficient for L1 or L2); Body updated in Round 6","ts":"2026-06-26T09:09:00+00:00"}
+{"qid":"Q6","status":"claimed","session_id":"s_0626-080351-6cdb","summary":"documenting partial result: proof structure clear, L2 => conjecture, but L2 open and beyond current ledger","ts":"2026-06-26T09:09:00+00:00"}

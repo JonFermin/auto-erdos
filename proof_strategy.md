@@ -203,7 +203,7 @@ The proof is in progress.  The logical chain is:
 $$\text{L2 affirmative} \Rightarrow \text{for large } x,\ \sup_{\text{primitive } A \subseteq [x,\infty)}
 \sum_{a \in A} \frac{1}{a \log a} \leq 1 + o(1).$$
 
-### Status after Round 5
+### Status after Round 6
 
 Sub-goals L1 and L2 (Section 3.2) are both OPEN.
 
@@ -220,4 +220,27 @@ toward $0$ as $x$ grows) requires going beyond $\{F1, F2, F3\}$.
 was found for $x \in \{100, 1000, 10000\}$ by greedy search (Section 2.3).
 The agent-computed evidence supports the conjecture but does not prove it.
 
+### Partial result summary (Q6)
+
+**What this proof attempt established**:
+
+1. *Reduction*: The conjecture follows from sub-goal L2.  If for any primitive
+   $A \subseteq [x,\infty)$ the sum $\sum_{a \in A} 1/(a \log a)$ decays toward
+   $0$ as $x \to \infty$, then the conjecture holds.
+
+2. *What was ruled out*: The three given facts $\{F1, F2, F3\}$ alone cannot
+   establish L2 (or L1).  F1 gives a uniform $x$-independent bound of $1.399$;
+   F2 is a lower bound on stratum sums; F3 gives the exact stratum asymptotic
+   (approaching $1$ from below).  None of these provide the $x$-dependent decay
+   that L2 asks for.
+
+3. *Numerical evidence*: Agent-computed greedy primitive sets in $[x, \infty)$
+   for $x \in \{100, 1000, 10000\}$ all have sums well below $1$, consistent
+   with the conjecture.  No counterexample was found.
+
+4. *Remaining gap*: L2 is open.  The proof of L2 requires estimates on how
+   much of the total stratum sum is concentrated above $x$, which requires
+   input beyond $\{F1, F2, F3\}$.
+
 Detailed proof attempts and obstacle statements are in `proof_lemmas/`.
+This attempt converges here as a partial result.
