@@ -205,24 +205,25 @@ $$\text{L2} \Rightarrow \text{for large } x,\ \sup_{\text{primitive } A \subsete
 ### Key obstacle identified (Round 5)
 
 **L1** requires bounding the prime tail $\sum_{p \geq x} 1/(p\log p)$.
-The given facts only yield $\leq 1.399$ (via F1), not $< 1$.
-Closing L1 requires convergence of $\sum_p 1/(p\log p)$ — a Mertens-type
-fact not in $\{F1, F2, F3\}$.
+F1 gives an upper bound of $\approx 1.399$ (not the needed $< 1$).
+The gap cannot be closed from $\{F1, F2, F3\}$ alone; one needs an
+analytic tail estimate for prime series as a function of $x$.
 
-**L2** uses the omega-stratification: $\sum_{a \in A} 1/(a\log a)
-= \sum_{k \geq 1} \sum_{a \in A, \Omega(a)=k} 1/(a\log a)$.
-Per-stratum bounds require Selberg–Sathe-type estimates for tail sums of
-$k$-almost-prime series — again not in the facts ledger.
+**L2** uses the omega-stratification:
+$\sum_{a \in A} 1/(a\log a) = \sum_{k \geq 1} \sum_{a \in A,\, \Omega(a)=k} 1/(a\log a)$.
+Per-stratum bounds (bounding $\sum_{a \in A_k,\, a \geq x} 1/(a\log a)$)
+require distributional estimates for $k$-almost-prime series not derivable
+from $\{F1, F2, F3\}$.
 
 **Ruling out counterexamples (Q4):**
 Greedy search found no primitive $A \subseteq [x, \infty)$ with sum $> 1$
 for $x \in \{100, 1000, 10000\}$.  The set $\{2,3\}$ at $x=2$ gives
-sum $\approx 1.025$ but $x=2$ is outside the asymptotic scope.
+sum $\approx 1.025$ but lies outside the asymptotic scope of the conjecture.
 
-**Conclusion**: The proof reduces to establishing tail bounds for
-$k$-almost-prime series.  The three given facts F1/F2/F3 are not
-sufficient to close this gap; a Mertens-type or Selberg–Sathe-type
-estimate needs to be added to the ledger.
+**Conclusion**: F1, F2, F3 are not sufficient to prove L1 or L2.
+The proof structure is clear (L2 $\Rightarrow$ conjecture), but closing L2
+requires distributional estimates on $k$-almost-prime series in $[x,\infty)$
+that go beyond the current facts ledger.
 
-Both L1 and L2 are open; their full proof attempts and specific
-obstacle statements are in `proof_lemmas/`.
+Both L1 and L2 remain open; detailed proof attempts and obstacle statements
+are in `proof_lemmas/`.
