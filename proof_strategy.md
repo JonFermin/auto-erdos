@@ -102,20 +102,12 @@ alone does not settle the matter.
 Computed with Python `math.log` (natural logarithm, base $e$).  These are
 floating-point computations; they are informational context, not formal proof steps.
 
-### 2.1 Omega-stratum partial sums (Q2)
+### 2.1 Omega-stratum evidence (Q2)
 
-Partial sum $\sum_{a \in A_k, a \leq N_k} 1/(a \log a)$ over the first
-200 elements of each stratum $A_k = \{n : \Omega(n) = k\}$:
-
-| $k$ | First five elements | Partial sum (200 terms) |
-|-----|---------------------|-------------------------|
-| 1   | 2, 3, 5, 7, 11      | 1.496452                |
-| 2   | 4, 6, 9, 10, 14     | 0.681938                |
-| 3   | 8, 12, 18, 20, 27   | 0.313401                |
-| 4   | 16, 24, 36, 40, 54  | 0.140341                |
-
-The 200-term partial sums for $k = 2, 3, 4$ are all strictly below 1, consistent
-with F3 (sum $< 1$ for each stratum, approaching 1 from below as $k \to \infty$).
+Each stratum $A_k = \{n \in \mathbb{N} : \Omega(n) = k\}$ is a primitive set:
+if $a \mid b$ with $a, b \in A_k$ then $\Omega(b) \geq \Omega(a) + 1 > k$, contradicting $b \in A_k$.
+By F3, $\sum_{a \in A_k} 1/(a \log a)$ approaches $1$ from below as $k \to \infty$.
+These strata are extremal-looking but still consistent with the conjecture.
 
 ### 2.2 Prime sums from $x$ (Q3)
 
