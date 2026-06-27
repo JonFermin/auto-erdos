@@ -62,9 +62,85 @@ block ⇒ `witness_valid = 0` ⇒ no counterexample claim is possible.
 
 ## Body
 
-(The agent fills in the body. Sketch a structure, prove what you can,
-hedge the rest. Lemmas live in `proof_lemmas/lemma_*.md` and are cited
-by id from this file.)
+---
 
-This proof attempt is currently a stub. Pick the lowest-numbered open
-qid from `proof_open_questions.jsonl` and start.
+## Section 1: Setup (Q1)
+
+### The conjecture
+
+For any $x \geq 2$ and any **primitive** set $A \subset [x, \infty)$
+(meaning: no element of $A$ divides another), define
+$$
+S(A) \;=\; \sum_{a \in A} \frac{1}{a \log a}.
+$$
+The **Erdős primitive-set conjecture** states:
+$$
+\sup_{\substack{A \subset [x,\infty) \\ \text{primitive}}} S(A) \;\longrightarrow\; 1
+\quad \text{as } x \to \infty.
+$$
+Equivalently, $S(A) < 1 + o(1)$ uniformly over all primitive $A \subset [x,\infty)$.
+
+The conjecture is **open**. No proof or disproof has been verified by this harness.
+
+---
+
+### Given facts (sign-disambiguated)
+
+**F1 — Erdős–Zhang upper bound (1935 / 1993)**
+$$
+S(A) \;<\; e^\gamma \tfrac{\pi}{4} + o(1) \;\approx\; 1.399 + o(1)
+\quad \text{for any primitive } A \subseteq \mathbb{N}.
+$$
+This is an **upper bound**. It is consistent with the conjecture (which asks for
+the tighter bound of 1). It does NOT say sums can reach 1.399 — only that they
+cannot exceed it. Misreading as a lower bound is a sign error.
+
+**F2 — Omega-stratum lower bound (UNSIGNED big-O)**
+
+Let $A_k = \{n \in \mathbb{N} : \Omega(n) = k\}$ (integers with exactly $k$
+prime factors counted with multiplicity). Then:
+$$
+\sum_{a \in A_k} \frac{1}{a \log a}
+\;\geq\; 1 + O\!\left(k^{-1/2+o(1)}\right).
+$$
+The $O(\cdot)$ term is **unsigned**: it is bounded in absolute value by
+$k^{-1/2+o(1)}$ but could be positive or negative. This does NOT establish
+$S(A_k) > 1$. Concluding the sum exceeds 1 from F2 alone is the sign error
+that blocks the ChatGPT round-0 writeup.
+
+**F3 — Omega-stratum exact asymptotic (approaches 1 from BELOW)**
+$$
+\sum_{a \in A_k} \frac{1}{a \log a}
+\;=\; 1 - \frac{(c + o(1))\, k^2}{2^k}, \quad c \approx 0.0656 > 0.
+$$
+The correction term is $-(c+o(1))k^2/2^k$ with $c > 0$, so the sum is
+**strictly less than 1** for every finite $k$ and approaches 1 **from below**
+as $k \to \infty$. F3 refines F2: F2's unsigned-O is in fact negative (by F3's
+more precise statement). The full stratum $A_k$ — the most extremal-looking
+candidate — still does not violate the conjecture.
+
+---
+
+### Witness contract
+
+To claim a counterexample, embed a `<!-- WITNESS -->` JSON block at the bottom
+of this file with `x_floor`, `elements` (pairwise non-divisible integers $\geq$
+x_floor), and `claimed_sum_lower_bound`. The verifier rigorously checks
+primitivity and computes a rigorous lower bound on $S(A)$ via `decimal`
+arithmetic. `witness_valid = 1` iff the lower bound exceeds 1.0.
+
+No witness block committed yet. `witness_valid = 0`.
+
+---
+
+## Section 2: Numerical Evidence (Q2, Q3)
+
+*(to be filled)*
+
+## Section 3: Witness Search (Q4)
+
+*(to be filled)*
+
+## Section 4: Proof Structure (Q5)
+
+*(to be filled)*
