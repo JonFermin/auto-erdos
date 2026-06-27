@@ -12,3 +12,5 @@
 {"qid":"Q3","status":"resolved","session_id":"s_0627-080403-0d72","summary":"Prime sum to 10^6 = 1.564, full limit ~1.637; consistent with F1 asymptotic","ts":"2026-06-27T08:23:14+00:00"}
 {"qid":"Q4","status":"claimed","session_id":"s_0627-080403-0d72","summary":"taking Q4: witness search for x_floor=100,1000,10000","ts":"2026-06-27T08:23:14+00:00"}
 {"qid":"Q4","status":"resolved","session_id":"s_0627-080403-0d72","summary":"No witness for x_floor>=100. x_floor=2 gives witness_valid=True but is NOT a genuine counterexample.","ts":"2026-06-27T08:23:14+00:00"}
+{"qid":"Q5","status":"claimed","session_id":"s_0627-080403-0d72","summary":"taking Q5: proof structure outline — stratify by Omega, identify hard lemmas","ts":"2026-06-27T08:25:13+00:00"}
+{"qid":"Q5","status":"resolved","session_id":"s_0627-080403-0d72","summary":"Proof structure: Lemma 1 proved (within-stratum primitivity), Lemma 2 cited from F3 (per-stratum bound), Lemma 3 open (cross-stratum crux). Partial result documented.","ts":"2026-06-27T08:26:36+00:00"}

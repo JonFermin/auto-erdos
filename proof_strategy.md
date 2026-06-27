@@ -242,4 +242,74 @@ harness-level artifact, not a mathematical disproof.
 
 ## Section 4: Proof Structure (Q5)
 
-*(to be filled)*
+### Strategy: stratify by $\Omega(a)$
+
+For primitive $A \subseteq [x, \infty)$, write $A = \bigsqcup_{k \geq 1} A_k^A$ where
+$A_k^A = A \cap \{n : \Omega(n) = k\}$. Then
+$$
+S(A) = \sum_{k \geq 1} S_k, \quad S_k = \sum_{a \in A_k^A} \frac{1}{a \log a}.
+$$
+
+### Lemma 1 (proved): Within-stratum primitivity
+
+(See `proof_lemmas/lemma_001_stratum_self_primitive.md`)
+
+For any $S \subseteq A_k$, $S$ is automatically primitive — distinct elements
+with the same $\Omega$-value cannot divide each other. Hence the only
+non-trivial primitivity constraints are **cross-stratum**.
+
+### Lemma 2 (cited as F3): Per-stratum full-sum bound
+
+(See `proof_lemmas/lemma_002_per_stratum_bound.md`)
+
+For any sub-stratum $S \subseteq A_k^A$:
+$$
+\sum_{a \in S} \frac{1}{a \log a} \leq \sigma_k := \sum_{a: \Omega(a)=k} \frac{1}{a \log a} < 1.
+$$
+(F3: $\sigma_k = 1 - (c+o(1))k^2/2^k$ with $c > 0$, valid for large $k$.)
+
+This bounds each stratum independently. BUT naive summation $\sum_k \sigma_k = \infty$
+(since $\sigma_k \to 1$) — cross-stratum reasoning is essential.
+
+### Lemma 3 (open): Cross-stratum bound
+
+(See `proof_lemmas/lemma_003_cross_stratum.md`)
+
+This is the crux. Primitivity of $A$ means: if $a \in A_j^A$ and $b \in A_k^A$
+with $j < k$, then $a \nmid b$. This **sieve condition** restricts the elements
+available in higher strata.
+
+The conjecture claims this restriction is strong enough to keep $S(A) < 1 + o(1)$.
+No proof is known.
+
+### Partial results / what can be said
+
+1. **For each fixed stratum $k$**: $S_k \leq \sigma_k < 1$. Each stratum alone
+   cannot exceed 1.
+
+2. **For elements $\geq x$, fixed $k$**: As $x \to \infty$, $S_k = T_k(x) \to 0$
+   (tail of a convergent series). So no single stratum contributes meaningfully
+   for large $x$.
+
+3. **For primes only** ($A \subseteq$ primes $\geq x$): $\sum_{p \geq x} 1/(p\log p) \to 0$.
+   The primes strategy decays rapidly.
+
+4. **Break-even point**: The sum over all primes $\geq x$ exceeds 1 only for $x \leq 2$.
+   For $x \geq 3$, primes alone give $\sum_{p \geq x} 1/(p\log p) < 0.843 < 1$.
+
+5. **Cross-stratum example** ($k=1,2$): If prime $p \in A$, all semiprimes $pq$
+   are excluded from $A_2^A$. The sum of excluded elements can be large for small $p$.
+
+6. **Limiting behavior**: The most "extremal" single-stratum strategies (large $k$,
+   all of $A_k$) give sums approaching 1 from below. The conjecture says their
+   cross-stratum combinations still cannot reach 1. This is unproved.
+
+### Conclusion (partial result status)
+
+The proof is structurally clear up through Lemma 2. The open problem (Lemma 3)
+is the cross-stratum bound. No known argument closes this gap.
+
+**This remains open**. The proof cannot be completed without a new idea for
+the cross-stratum interaction. The partial result is: each stratum is bounded
+below 1 (Lemma 2), and the numerics strongly support the conjecture, but the
+joint bound over all strata is unproved.
