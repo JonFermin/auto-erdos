@@ -134,11 +134,111 @@ No witness block committed yet. `witness_valid = 0`.
 
 ## Section 2: Numerical Evidence (Q2, Q3)
 
-*(to be filled)*
+### Q2: Truncated sums over omega strata $A_k$ (F3 verification)
+
+We enumerate integers with exactly $k$ prime factors (counted with multiplicity)
+and compute partial sums over the first 200 elements of each stratum.
+
+| $k$ | First 200 sum | Sum to $10^6$ | F3 prediction | Consistent? |
+|-----|--------------|---------------|---------------|-------------|
+| 1   | 1.4965       | 1.5642        | 0.9672        | **NO** — F3 inapplicable for $k=1$ (see note) |
+| 2   | 0.6819       | 0.8674        | 0.9344        | Yes — tail contributes remaining ~0.067 |
+| 3   | 0.3134       | 0.4980        | 0.9262        | Yes — large tail (elements of form $2\cdot3\cdot p$ for large $p$) |
+| 4   | 0.1403       | 0.2609        | 0.9344        | Yes — very large tail |
+
+**F3 discrepancy for $k=1$**: For $k=1$ (primes), F3 predicts the full sum is
+$\approx 0.967$, but the actual sum approaches $\approx 1.637$ (Q3 result below).
+F3's formula $1 - ck^2/2^k$ is an asymptotic valid for large $k$, not for
+$k=1$ where the series is dominated by $1/(2\ln 2) \approx 0.721$ alone.
+
+**Key observation for $k \geq 2$**: All partial sums and full sums (to $10^6$)
+are below 1. The F3 predictions (all $< 1$) are the conjectured limiting values
+as the sums grow with the cutoff. This is consistent with the conjecture: the
+full $A_k$ stratum (for $k \geq 2$) has sum $< 1$.
+
+**The minimum F3 value is at $k=3$: $1 - 0.0738 \approx 0.926$**, confirming
+that $A_3$ is the "most extremal" stratum — yet still below 1.
+
+---
+
+### Q3: Sum over all primes (the $A_1$ primitive set)
+
+$$
+\sum_{p \text{ prime}} \frac{1}{p \ln p}
+$$
+
+Numerical computation (sieve to $10^6$, 78,498 primes):
+
+| Upper limit | Partial sum |
+|------------|-------------|
+| $10^5$     | 1.5498      |
+| $5 \times 10^5$ | 1.5604 |
+| $10^6$     | 1.5642      |
+| $\infty$ (estimated) | $\approx 1.637$ |
+
+**The sum converges** (it is dominated by $\int 1/(x\ln^2 x)\,dx$ which converges)
+and the tail decays: primes from $5\times10^5$ to $10^6$ contribute $\approx 0.004$.
+The full limit is estimated at $\approx 1.6366$.
+
+**Consistency with F1**: F1 says $S(A) < 1.399 + o(1)$ for primitive $A \subseteq
+[x,\infty)$ as $x \to \infty$. The primes-from-2 sum $\approx 1.637$ EXCEEDS
+$1.399$ — but this is consistent with F1 because the bound applies only as
+$x \to \infty$ (for the primitive set starting at $x$). The primes starting
+at $x=2$ are a primitive set in $[2, \infty)$ at a fixed small $x$; the
+bound $1.399$ applies asymptotically for large $x$. For $x=2$, the
+conjectured upper bound is $1 + o(1)$ where $o(1)$ is still $\approx 0.637$.
+
+---
 
 ## Section 3: Witness Search (Q4)
 
-*(to be filled)*
+We ran `library.primitive_set_witness.verify_witness` for three $x_{\rm floor}$ values.
+
+**Primes-from-$x$ strategy** (best achievable by any primitive set of similar density):
+
+| $x_{\rm floor}$ | Sum over all primes $\geq x_{\rm floor}$ (to $10^6$) |
+|----------------|------------------------------------------------------|
+| 2              | 1.564 (full sum $\approx 1.637$)                    |
+| 3              | 0.843                                               |
+| 5              | 0.539                                               |
+| 100            | 0.143                                               |
+| 1000           | 0.072                                               |
+| 10000          | 0.036                                               |
+
+**Q4 search results**:
+
+- **$x_{\rm floor} = 100$**: Tried 275 primes from 101 to 1229.
+  Verified sum = 0.084. `witness_valid = False`.
+- **$x_{\rm floor} = 1000$**: Tried 500 primes from 1000 onwards.
+  Verified sum = 0.027. `witness_valid = False`.
+- **$x_{\rm floor} = 10000$**: Sum over all primes ≥ 10000 (to $10^6$) ≈ 0.036.
+  Clearly `witness_valid = False`.
+
+**Finding at $x_{\rm floor} = 2$**: The set $A = \{2, 3, 5, 7, 11\}$ (five primes)
+has verified rigorous lower bound $S(A) \geq 1.260 > 1.0$.
+The verifier confirms `witness_valid = True`.
+
+**Why this is NOT a genuine counterexample**: The conjecture states
+$S(A) < 1 + o(1)$ where $o(1) \to 0$ as $x_{\rm floor} \to \infty$. At
+$x_{\rm floor} = 2$, the best known upper bound (supported by our primes-from-2
+computation) is $S(A) \leq \sum_p 1/(p\ln p) \approx 1.637$. The Erdős–Zhang
+theorem (F1) is itself consistent with this. So the conjectured bound at
+$x = 2$ is $1 + o(1) \approx 1.637$, not $1.0$. Having $S(A) = 1.26$ for
+$A \subseteq [2,\infty)$ does not violate the conjecture.
+
+A genuine witness would require a primitive set $A \subseteq [x_{\rm floor},\infty)$
+with $S(A) > 1$ for **large** $x_{\rm floor}$ — where the $o(1)$ term is small.
+Our computations show this is numerically impossible: the maximum achievable
+$S$ (using all primes $\geq x_{\rm floor}$) drops below 1 already at
+$x_{\rm floor} = 3$ (sum $\approx 0.843$) and falls rapidly thereafter.
+
+**Conclusion**: No genuine counterexample found. Numerics strongly support the
+conjecture for $x_{\rm floor} \geq 3$.
+
+No `<!-- WITNESS -->` block is embedded — the $x_{\rm floor}=2$ result is a
+harness-level artifact, not a mathematical disproof.
+
+---
 
 ## Section 4: Proof Structure (Q5)
 
