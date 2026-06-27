@@ -33,11 +33,10 @@ against it, and decides keep/discard via `proof_log_result.py`.
   with $c \approx 0.0656 > 0$. The leading correction is *negative*, so
   the sum approaches $1$ from BELOW. Treating it as approaching from
   above is `f3-from-above-misread` BLOCKING.
-- **Open claim asserted resolved without witness**. The conjecture is open.
-  Phrases like "the conjecture is false" / "we disprove" trigger
-  `critic_openness`'s `open-claim-asserted-resolved-without-witness`
-  BLOCKING — unless a verifier-accepted `<!-- WITNESS -->` block is
-  committed and `witness_valid == 1`.
+- **Resolution assertion without witness**. This claim is open; any
+  declaration of resolution triggers `critic_openness` BLOCKING unless a
+  verifier-accepted `<!-- WITNESS -->` block is committed and
+  `witness_valid == 1`.
 
 ## Witness format (the only path to a counterexample claim)
 
