@@ -1,3 +1,4 @@
 {"event":"round","session_id":"s_0629-080430-c049","ts":"2026-06-29T08:15:51+00:00","summary":"Q1 Setup section: claim/F1/F2/F3/witness contract; keep_progress","qid":"Q1","status":"keep_progress","commit":"6dd5dd0"}
 {"event":"round","session_id":"s_0629-080430-c049","ts":"2026-06-29T08:24:01+00:00","summary":"Q2+Q3: numerical evidence — F3 for k≥2, prime sum for k=1; keep_progress","qid":"Q2+Q3","status":"keep_progress","commit":"4f0094e"}
 {"event":"round","session_id":"s_0629-080430-c049","ts":"2026-06-29T08:26:52+00:00","summary":"Q4: witness {2,3} at x_floor=2 gives score=1.0248; exit 7 keep_disproof","qid":"Q4","status":"keep_disproof","commit":"e458942"}
+{"event":"session_close","session_id":"s_0629-080430-c049","ts":"2026-06-29T08:27:15+00:00","commit":"6bd4eb8","reason":"reason: counterexample proven \u2014 exit 7; witness {2,3} at x_floor=2, score=1.0248; loop terminates"}
