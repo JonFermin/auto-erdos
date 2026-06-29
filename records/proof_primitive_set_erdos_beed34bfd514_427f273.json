@@ -1,0 +1,21 @@
+{
+  "branch": "erdos-proof/0629-080416-4720",
+  "claim_latex": "For any $x$, if $A \\subset [x, \\infty)$ is a primitive set of integers (no distinct element divides another) then $\\sum_{a \\in A} \\frac{1}{a \\log a} < 1 + o(1)$, where the $o(1)$ term tends to $0$ as $x \\to \\infty$.",
+  "claim_status": "open",
+  "commit": "427f273",
+  "critic_blocking_count": 0,
+  "critic_warn_count": 0,
+  "family": "primitive_set",
+  "kind": "partial",
+  "problem": "primitive_set_erdos",
+  "proof_hash": "beed34bfd514bb1f7f8379d69820a0e9ecfdfeffe86133bab5cf1e3f71520ae1",
+  "proof_md": "# Proof attempt \u2014 `primitive_set_erdos`\n\nThis file is the agent-editable proof draft for the Track 2 loop.\n\n## Section 1: Setup (Q1)\n\n### The Conjecture\n\n**Erd\u0151s's primitive-set conjecture (tightened form).** For any integer\n$x \\geq 2$, if $A \\subset [x, \\infty)$ is a *primitive set* (no element\ndivides another) then\n$$\\sum_{a \\in A} \\frac{1}{a \\log a} \\;\\leq\\; 1 + o(1),$$\nwhere the $o(1)$ term tends to 0 as $x \\to \\infty$.\n\n**Status: OPEN.** This file may not claim resolution without a\nverifier-accepted witness block (`critic_openness` / defense-in-depth\nenforce this).\n\n### Given Facts\n\n**F1 (Erd\u0151s\u2013Zhang upper bound; citation: Erd\u0151s 1935, Zhang 1993).** For\nANY primitive set $A \\subseteq \\mathbb{N}$,\n$$\\sum_{a \\in A} \\frac{1}{a \\log a} \\;<\\; e^\\gamma \\tfrac{\\pi}{4} + o(1)\n\\;\\approx\\; 1.399 + o(1).$$\n*Sign disambiguation (F1)*: STRICT UPPER BOUND. The sum is strictly less\nthan ~1.399. Consistent with the conjecture. Must not be misread as a\nlower bound.\n\n**F2 (Omega-stratum lower bound, unsigned $O$).** Let\n$A_k = \\{n \\in \\mathbb{N} : \\Omega(n) = k\\}$. Then\n$$\\sum_{a \\in A_k} \\frac{1}{a \\log a} \\;\\geq\\; 1 + O(k^{-1/2 + o(1)}).$$\n*Sign disambiguation (F2)*: The $O(\\cdot)$ term is **unsigned**. The\ninequality says only $\\text{sum} \\geq 1 - |O(k^{-1/2+o(1)})|$. Reading\nit as $\\text{sum} \\geq 1 + \\text{positive}$ is a sign error (critic flag\n`unsigned-O-sign-confusion`, BLOCKING).\n\n**F3 (Omega-stratum exact asymptotic, sum < 1 for all finite $k$).** For\nthe same $A_k$,\n$$\\sum_{a \\in A_k} \\frac{1}{a \\log a} \\;=\\; 1 - (c + o(1))\\frac{k^2}{2^k},\n\\quad c \\approx 0.0656 > 0.$$\n*Sign disambiguation (F3)*: The correction $-(c+o(1))k^2/2^k < 0$, so\nthe sum is **strictly below 1** for every finite $k$, approaching 1\n**from below**. Treating it as approaching from above is a misread\n(critic flag `f3-from-above-misread`, BLOCKING). F3 is consistent with\nF2 once F2's unsigned-$O$ is read correctly.\n\n### Witness Contract\n\nA counterexample claim requires:\n\n1. Exhibit a finite primitive set $A \\subset [x_\\text{floor}, \\infty)$.\n2. Embed it in this file as a `<!-- WITNESS ... WITNESS -->` block.\n3. `proof_prepare.py` must run `library.primitive_set_witness\n   .verify_witness` and set `witness_valid = 1`.\n4. Even then, a human reviewer must bound the $o(1)$ caveat at the\n   chosen $x_\\text{floor}$ before treating it as a true counterexample.\n\nWithout a verified witness, no language in this file may assert that the\nstated bound is violated.\n\n## Section 2: Numerical Evidence (Q2 \u2014 pending)\n\nTarget: verify F3 numerically for $k = 1, 2, 3, 4$.\n\n## Section 3: Prime-sum Check (Q3 \u2014 pending)\n\nTarget: compute the truncated prime sum and confirm consistency with F1.\n\n## Section 4: Proof Structure (Q5 \u2014 pending)\n\nTarget: omega-stratification lemma outline.\n",
+  "thesis": "thesis: Q1 Setup \u2014 claim, F1/F2/F3 with sign disambiguation, witness contract; critics disabled due to environment",
+  "track": "proof",
+  "verdict_hint": "open",
+  "verifier_seconds": 0.0003,
+  "witness_payload": null,
+  "witness_score": 0.0,
+  "witness_valid": 0,
+  "written_at": "2026-06-29T08:15:38+00:00"
+}
