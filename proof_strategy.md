@@ -1,70 +1,71 @@
 # Proof attempt — `primitive_set_erdos`
 
-This file is the agent-editable proof draft for the Track 2 loop. It is the
-ONLY editable proof artifact (alongside lemma files in `proof_lemmas/`). Its
-content is hashed for round-dedup; pure whitespace / comment edits do not
-count as a real round.
+This file is the agent-editable proof draft for the Track 2 loop.
 
-The loop reads this file via `proof_prepare.py`, runs five LLM critics
-against it, and decides keep/discard via `proof_log_result.py`.
+## Section 1: Setup (Q1)
 
-## Setup
+### The Conjecture
 
-- **Claim**: see `proofs/primitive_set_erdos.json` field `claim_latex`. The
-  conjecture is that for any primitive set $A \subset [x, \infty)$ the sum
-  $\sum_{a \in A} 1/(a \log a)$ is bounded above by $1 + o(1)$ as $x \to \infty$.
-- **Status**: open. Until a verifier-accepted witness is committed, no claim
-  of resolution may appear in this file (`critic_openness` enforces this).
-- **Given facts ledger**: see `proofs/primitive_set_erdos.json` field
-  `given_facts`. The proof may cite F1 (Erdős-Zhang upper bound ≈ 1.399),
-  F2 (Omega-stratum lower bound with UNSIGNED big-O — read carefully),
-  F3 (exact asymptotic showing canonical extremal sum approaches 1 from
-  BELOW). Citations to facts not in the ledger trigger `critic_ledger`.
+**Erdős's primitive-set conjecture (tightened form).** For any integer
+$x \geq 2$, if $A \subset [x, \infty)$ is a *primitive set* (no element
+divides another) then
+$$\sum_{a \in A} \frac{1}{a \log a} \;\leq\; 1 + o(1),$$
+where the $o(1)$ term tends to 0 as $x \to \infty$.
 
-## Anti-traps (the canonical failure modes)
+**Status: OPEN.** This file may not claim resolution without a
+verifier-accepted witness block (`critic_openness` / defense-in-depth
+enforce this).
 
-- **F2 sign confusion**. F2 says
-  $\sum_{a \in A_k} 1/(a \log a) \geq 1 + O(k^{-1/2 + o(1)})$
-  with the $O(\cdot)$ term **unsigned**. Concluding $\sum > 1$ from F2
-  alone is a sign error — `critic_sign` will emit
-  `unsigned-O-sign-confusion` BLOCKING.
-- **F3 read upside-down**. F3 says
-  $\sum_{a \in A_k} 1/(a \log a) = 1 - (c+o(1)) k^2/2^k$
-  with $c \approx 0.0656 > 0$. The leading correction is *negative*, so
-  the sum approaches $1$ from BELOW. Treating it as approaching from
-  above is `f3-from-above-misread` BLOCKING.
-- **Open claim asserted resolved without witness**. The conjecture is open.
-  Phrases like "the conjecture is false" / "we disprove" trigger
-  `critic_openness`'s `open-claim-asserted-resolved-without-witness`
-  BLOCKING — unless a verifier-accepted `<!-- WITNESS -->` block is
-  committed and `witness_valid == 1`.
+### Given Facts
 
-## Witness format (the only path to a counterexample claim)
+**F1 (Erdős–Zhang upper bound; citation: Erdős 1935, Zhang 1993).** For
+ANY primitive set $A \subseteq \mathbb{N}$,
+$$\sum_{a \in A} \frac{1}{a \log a} \;<\; e^\gamma \tfrac{\pi}{4} + o(1)
+\;\approx\; 1.399 + o(1).$$
+*Sign disambiguation (F1)*: STRICT UPPER BOUND. The sum is strictly less
+than ~1.399. Consistent with the conjecture. Must not be misread as a
+lower bound.
 
-A claim of disproof MUST be backed by a finite primitive set whose sum is
-rigorously verified to exceed `witness_threshold` by
-`library.primitive_set_witness.verify_witness`. To commit a witness,
-embed exactly one block of the form:
+**F2 (Omega-stratum lower bound, unsigned $O$).** Let
+$A_k = \{n \in \mathbb{N} : \Omega(n) = k\}$. Then
+$$\sum_{a \in A_k} \frac{1}{a \log a} \;\geq\; 1 + O(k^{-1/2 + o(1)}).$$
+*Sign disambiguation (F2)*: The $O(\cdot)$ term is **unsigned**. The
+inequality says only $\text{sum} \geq 1 - |O(k^{-1/2+o(1)})|$. Reading
+it as $\text{sum} \geq 1 + \text{positive}$ is a sign error (critic flag
+`unsigned-O-sign-confusion`, BLOCKING).
 
-```
-<!-- WITNESS
-{
-  "x_floor": 100,
-  "elements": [101, 103, 107, 109, ...],
-  "claimed_sum_lower_bound": 1.005
-}
-WITNESS -->
-```
+**F3 (Omega-stratum exact asymptotic, sum < 1 for all finite $k$).** For
+the same $A_k$,
+$$\sum_{a \in A_k} \frac{1}{a \log a} \;=\; 1 - (c + o(1))\frac{k^2}{2^k},
+\quad c \approx 0.0656 > 0.$$
+*Sign disambiguation (F3)*: The correction $-(c+o(1))k^2/2^k < 0$, so
+the sum is **strictly below 1** for every finite $k$, approaching 1
+**from below**. Treating it as approaching from above is a misread
+(critic flag `f3-from-above-misread`, BLOCKING). F3 is consistent with
+F2 once F2's unsigned-$O$ is read correctly.
 
-at the bottom of this file. `proof_prepare.py` parses the JSON, runs the
-deterministic verifier, and sets `witness_valid` accordingly. No witness
-block ⇒ `witness_valid = 0` ⇒ no counterexample claim is possible.
+### Witness Contract
 
-## Body
+A counterexample claim requires:
 
-(The agent fills in the body. Sketch a structure, prove what you can,
-hedge the rest. Lemmas live in `proof_lemmas/lemma_*.md` and are cited
-by id from this file.)
+1. Exhibit a finite primitive set $A \subset [x_\text{floor}, \infty)$.
+2. Embed it in this file as a `<!-- WITNESS ... WITNESS -->` block.
+3. `proof_prepare.py` must run `library.primitive_set_witness
+   .verify_witness` and set `witness_valid = 1`.
+4. Even then, a human reviewer must bound the $o(1)$ caveat at the
+   chosen $x_\text{floor}$ before treating it as a true counterexample.
 
-This proof attempt is currently a stub. Pick the lowest-numbered open
-qid from `proof_open_questions.jsonl` and start.
+Without a verified witness, no language in this file may assert that the
+stated bound is violated.
+
+## Section 2: Numerical Evidence (Q2 — pending)
+
+Target: verify F3 numerically for $k = 1, 2, 3, 4$.
+
+## Section 3: Prime-sum Check (Q3 — pending)
+
+Target: compute the truncated prime sum and confirm consistency with F1.
+
+## Section 4: Proof Structure (Q5 — pending)
+
+Target: omega-stratification lemma outline.
