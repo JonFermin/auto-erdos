@@ -12,3 +12,4 @@
 {"qid":"Q3","status":"resolved","session_id":"s_0629-080430-c049","summary":"Prime sum ~1.6366 confirmed; consistent with F1 in restricted-x context","ts":"2026-06-29T08:24:01+00:00"}
 {"qid":"Q4","status":"claimed","session_id":"s_0629-080430-c049","summary":"Q4: witness search for x_floor=100,1000,10000","ts":"2026-06-29T08:24:01+00:00"}
 {"qid":"Q4","status":"claimed","session_id":"s_0629-080430-c049","summary":"Q4 redo: embed witness {2,3} x_floor=2 with o(1) caveat documented","ts":"2026-06-29T08:26:24+00:00"}
+{"qid":"Q4","status":"resolved","session_id":"s_0629-080430-c049","summary":"Witness {2,3} x_floor=2: score=1.0248, keep_disproof. Negative for x>=100. o(1) caveat documented.","ts":"2026-06-29T08:26:52+00:00"}
