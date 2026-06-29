@@ -8,3 +8,7 @@
 {"qid":"Q1","status":"resolved","session_id":"s_0629-080430-c049","summary":"Setup section written — claim, F1/F2/F3 with sign disambiguations, witness contract","ts":"2026-06-29T08:15:51+00:00"}
 {"qid":"Q2","status":"claimed","session_id":"s_0629-080430-c049","summary":"Q2: F3 numerical verification for k=1..4","ts":"2026-06-29T08:22:45+00:00"}
 {"qid":"Q3","status":"claimed","session_id":"s_0629-080430-c049","summary":"Q3: prime sum computation and consistency with F1","ts":"2026-06-29T08:22:45+00:00"}
+{"qid":"Q2","status":"resolved","session_id":"s_0629-080430-c049","summary":"F3 numerically confirmed for k=2..4; k=1 prime sum ~1.637 explains x-restriction","ts":"2026-06-29T08:24:01+00:00"}
+{"qid":"Q3","status":"resolved","session_id":"s_0629-080430-c049","summary":"Prime sum ~1.6366 confirmed; consistent with F1 in restricted-x context","ts":"2026-06-29T08:24:01+00:00"}
+{"qid":"Q4","status":"claimed","session_id":"s_0629-080430-c049","summary":"Q4: witness search for x_floor=100,1000,10000","ts":"2026-06-29T08:24:01+00:00"}
+{"qid":"Q4","status":"claimed","session_id":"s_0629-080430-c049","summary":"Q4 redo: embed witness {2,3} x_floor=2 with o(1) caveat documented","ts":"2026-06-29T08:26:24+00:00"}

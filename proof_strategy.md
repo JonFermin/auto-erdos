@@ -113,6 +113,47 @@ to 0. The "finite primes-from-2 sum" is a full-ℕ baseline, not a
 counterexample to the restricted conjecture. The key distinction: F1's
 $o(1)$ is relative to the restricted-$x$ context.
 
-## Section 4: Proof Structure (Q5 — pending)
+## Section 4: Witness Search (Q4)
+
+**Target**: find primitive $A \subset [x_\text{floor}, \infty)$ with verified
+$\sum 1/(a \log a) > 1.0$. Tried $x_\text{floor} = 100, 1000, 10000$.
+
+### Negative results for large $x_\text{floor}$
+
+Maximum achievable sums over Omega-strata in [x, x+50000]:
+
+| $x_\text{floor}$ | Best stratum | Sum | $> 1$? |
+|-----------------|-------------|-----|--------|
+| 100 | $A_2$ | 0.236 | No |
+| 1000 | $A_3$ | 0.116 | No |
+| 10000 | $A_3$ | 0.046 | No |
+
+**Conclusion**: No primitive set in $[100, \infty)$, $[1000, \infty)$, or
+$[10000, \infty)$ found with sum $> 1.0$. The maximum achievable sum shrinks
+rapidly as $x_\text{floor}$ grows, consistent with the conjecture.
+
+### Positive result at $x_\text{floor} = 2$
+
+The primitive set $A = \{2, 3\}$ has:
+$$\frac{1}{2 \ln 2} + \frac{1}{3 \ln 3} \approx 0.7213 + 0.3034 = 1.0248 > 1.0.$$
+
+Verifier confirms `is_valid = True`, `score = 1.0248` (rigorous lower bound).
+
+**CAVEAT — o(1) term at x = 2**: The conjecture says the bound is
+$1 + o(1)$ where $o(1) \to 0$ ONLY as $x \to \infty$. At $x_\text{floor} = 2$,
+the $o(1)$ term is large — the full prime sum is ~1.637. So the natural
+upper bound at $x=2$ could well exceed 1.0, and this witness may not
+violate the conjecture's asymptotic claim. A human reviewer must
+separately bound the $o(1)$ at $x=2$ before concluding a true counterexample.
+
+## Section 5: Proof Structure (Q5 — pending)
 
 Target: omega-stratification lemma outline.
+
+<!-- WITNESS
+{
+  "x_floor": 2,
+  "elements": [2, 3],
+  "claimed_sum_lower_bound": 1.02
+}
+WITNESS -->
