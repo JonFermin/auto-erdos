@@ -2,3 +2,4 @@
 {"event":"round","session_id":"s_0630-080407-46bd","ts":"2026-06-30T08:24:40+00:00","summary":"Q2v1: discard — critics blocked on unlisted PNT tail estimates and Sathe-Selberg; revising","qid":"Q2","status":"discard","commit":"d40bc58"}
 {"event":"round","session_id":"s_0630-080407-46bd","ts":"2026-06-30T08:28:12+00:00","summary":"Q2 keep_progress: revised numerical evidence passes critics; F3 large-k reading","qid":"Q2","status":"keep_progress","commit":"383fb18"}
 {"event":"round","session_id":"s_0630-080407-46bd","ts":"2026-06-30T09:12:09+00:00","summary":"Q4+Q5+Q6 kept: witness search negative, Omega-stratification barrier, partial result closed","qid":"Q4,Q5,Q6","status":"keep_progress","commit":"0d1cfee"}
+{"event":"session_close","session_id":"s_0630-080407-46bd","ts":"2026-06-30T09:12:42+00:00","commit":"be1cf3f","reason":"reason: all 6 questions resolved; partial result documented; this remains open"}
