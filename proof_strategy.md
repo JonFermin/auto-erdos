@@ -97,11 +97,13 @@ the big-O term, is a sign error.
 $A_k$,
 $$\sum_{a \in A_k} \frac{1}{a \log a} = 1 - (c+o(1))\frac{k^2}{2^k},
 \quad c \approx 0.0656 > 0.$$
-Sign note: the leading correction is $-(c+o(1))k^2/2^k$ with $c > 0$, so
-the sum is STRICTLY LESS THAN 1 for every $k \geq 1$, approaching 1 from
-BELOW as $k \to \infty$. The canonical Omega-stratum sets are the
-"extremal-looking" examples, but even they never violate the conjecture. F3 is
-consistent with F2 once F2's unsigned-O is read correctly.
+Sign note: the leading correction is $-(c+o(1))k^2/2^k$ with $c > 0$. As
+$k \to \infty$ the sum approaches 1 from BELOW. F3 is an asymptotic formula in
+$k$: the $o(1)$ term is defined in the limit $k \to \infty$ and need not be
+small for fixed small $k$ (see Section 2 for the $k=1$ numerical data). The
+canonical Omega-stratum sets are the "extremal-looking" examples for large $k$,
+and even they never violate the conjecture asymptotically. F3 is consistent
+with F2 once F2's unsigned-O is read correctly.
 
 **The witness contract (the only path to a disproof).** A counterexample
 requires a finite primitive set $A \subset [x_\text{floor}, \infty)$ with
@@ -135,19 +137,14 @@ Partial sums $S_k(N) = \sum_{n \leq N,\, \Omega(n)=k} 1/(n \ln n)$:
 The first two terms alone give a rigorous lower bound:
 $$\frac{1}{2\ln 2} + \frac{1}{3\ln 3} = 0.7213\ldots + 0.3034\ldots \approx 1.025 > 1.$$
 Since every term $1/(p \ln p)$ is positive, the infinite sum $\sum_p 1/(p \ln p) \geq 1.025 > 1$.
-This is in tension with F3's sign note that says the sum is "STRICTLY LESS THAN 1 for every
-$k \geq 1$."
-
-The most natural resolution is that F3 is an asymptotic formula as $k \to \infty$:
-the notation $1 - (c+o(1))k^2/2^k$ has an $o(1)$ correction that is interpreted in the
-$k \to \infty$ limit. For small $k$ (especially $k=1$), the $o(1)$ correction may be
-a large quantity that the formula does not capture. Equivalently, F3 asserts that
-$\sum_{A_k} 1/(a \ln a) \to 1$ from below as $k \to \infty$; it need not apply uniformly
-for small $k$. Under this reading, the $k=1$ data is consistent with F3 as a large-$k$
-result, and the sign note "for every $k \geq 1$" refers to the large-$k$ regime.
-
-This reading is required for consistency with the $k=1$ computation above
-(which is just direct arithmetic with two primes).
+This shows the $k=1$ stratum sum substantially exceeds the F3 prediction of
+$1 - c \cdot 1^2/2^1 \approx 0.967$. F3's formula $1 - (c + o(1)) k^2/2^k$ is
+asymptotic in $k$: the $o(1)$ error term depends on $k$ and is NOT required to
+be small for $k = 1$. At $k = 1$, the $o(1)$ correction amounts to
+approximately $+0.06$, so the full sum $\approx 1.025 + \varepsilon > 1$. For
+large $k$ the $o(1) \to 0$ and F3 accurately captures the sum (see $k=2,3,4$
+data). The $k=1$ result is therefore an illustration of the magnitude of $o(1)$
+at small $k$, not a contradiction of F3's asymptotic content.
 
 **k=2,3,4 observations.** The partial sums are all below 1 and trending
 toward F3's predictions, consistent with F3 being a good approximation for
