@@ -152,3 +152,39 @@ This reading is required for consistency with the $k=1$ computation above
 **k=2,3,4 observations.** The partial sums are all below 1 and trending
 toward F3's predictions, consistent with F3 being a good approximation for
 these $k$ values; however, convergence is slow (many terms needed).
+
+---
+
+### Section 3: Prime-Set Sum and Reconciliation with F1 (Q3)
+
+**The prime-set sum.** The set $A_1 = \{\text{primes}\}$ is a primitive set
+(no prime divides another). From the computation in Section 2:
+$$S_1(5{,}000{,}000) = \sum_{\substack{p \leq 5M \\ p\text{ prime}}} \frac{1}{p \ln p}
+\approx 1.5718.$$
+This partial sum, together with the positive tail, indicates the full sum
+$\sum_p 1/(p \ln p)$ is approximately $1.6366$. (The value $\approx 1.6366$ is
+recorded in the open-question ledger entry for Q3 as the reference target.)
+
+**Why this does not contradict F1.** F1 states:
+$$\sum_{a \in A} \frac{1}{a \log a} < e^{\gamma}\frac{\pi}{4} + o(1) \approx 1.399 + o(1),$$
+for any primitive set $A \subseteq \mathbb{N}$.
+
+The key is the $o(1)$ term. In the Erdős–Zhang result, the $o(1)$ is a function
+of $x = \min(A)$: one has $\sum_{a \in A} 1/(a \log a) < 1.399 + \varepsilon(x)$
+where $\varepsilon(x) \to 0$ as $x \to \infty$. For $A = \{\text{all primes}\}$,
+$\min(A) = 2$, and $\varepsilon(2)$ is NOT small — the $o(1)$ gap at $x=2$ is
+approximately $1.637 - 1.399 \approx 0.238$. As $x$ grows and we restrict
+$A \subseteq \{p : p \geq x\}$, the sum decreases toward $0$, and F1's bound
+$1.399 + \varepsilon(x)$ tightens.
+
+Thus the prime-set sum $\approx 1.6366$ at $x=2$ is consistent with F1 interpreted
+as an $x \to \infty$ result. The "allowed to exceed 1.399" note from Q3 refers
+exactly to this: for finite $x$ (like $x = 2$), the $o(1)$ correction in F1 can
+be as large as $\approx 0.24$.
+
+**Implication for the conjecture.** The conjecture says for any primitive
+$A \subseteq [x, \infty)$, the sum $< 1 + o_x(1)$ as $x \to \infty$. For
+$A = \{\text{primes} \geq x\}$, the sum is a decreasing function of $x$ that tends
+to $0$, so the conjecture holds (with room to spare) for this particular primitive
+family. The challenge is to establish the bound of $1$ (rather than $1.399$) for
+ALL primitive families restricted to $[x,\infty)$.

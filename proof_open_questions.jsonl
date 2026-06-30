@@ -6,3 +6,5 @@
 {"qid": "Q6", "status": "open", "parent_qid": null, "summary": "If after Q5 the proof structure has gaps that look genuinely hard, write the partial result to proof_strategy.md as 'this remains open; here is what was ruled out'. Then call proof_session_end with reason='converged on partial result' so the loop registers it as a kept partial-result record.", "ts": "2026-04-30T00:00:00+00:00", "session_id": "seed"}
 {"qid":"Q1","status":"claimed","session_id":"s_0630-080407-46bd","summary":"taking Q1: reading proof JSON and writing Section 1 Setup in proof_strategy.md","ts":"2026-06-30T08:11:41+00:00"}
 {"qid":"Q2","status":"claimed","session_id":"s_0630-080407-46bd","summary":"re-taking Q2 with cleaner numerical framing","ts":"2026-06-30T08:24:40+00:00"}
+{"qid":"Q2","status":"resolved","session_id":"s_0630-080407-46bd","summary":"Numerical evidence documented; k=1 sum >1 from two-prime LB; F3 is large-k asymptotic","ts":"2026-06-30T08:28:06+00:00"}
+{"qid":"Q3","status":"claimed","session_id":"s_0630-080407-46bd","summary":"taking Q3: prime set sum vs F1, x→∞ reconciliation","ts":"2026-06-30T08:28:06+00:00"}
