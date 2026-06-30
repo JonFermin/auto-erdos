@@ -8,3 +8,6 @@
 {"qid":"Q2","status":"claimed","session_id":"s_0630-080407-46bd","summary":"re-taking Q2 with cleaner numerical framing","ts":"2026-06-30T08:24:40+00:00"}
 {"qid":"Q2","status":"resolved","session_id":"s_0630-080407-46bd","summary":"Numerical evidence documented; k=1 sum >1 from two-prime LB; F3 is large-k asymptotic","ts":"2026-06-30T08:28:06+00:00"}
 {"qid":"Q3","status":"claimed","session_id":"s_0630-080407-46bd","summary":"taking Q3: prime set sum vs F1, x→∞ reconciliation","ts":"2026-06-30T08:28:06+00:00"}
+{"qid":"Q4","status":"resolved","session_id":"s_0630-080407-46bd","summary":"no genuine counterexample; {2,3} satisfies verifier at x=2 but not a mathematical counterexample; conjecture consistent","ts":"2026-06-30T08:45:21+00:00"}
+{"qid":"Q5","status":"resolved","session_id":"s_0630-080407-46bd","summary":"Omega-stratification outlined: cross-stratum exclusions are the key tool; analytic barrier at F1=1.399 vs conjectured 1","ts":"2026-06-30T08:45:21+00:00"}
+{"qid":"Q6","status":"resolved","session_id":"s_0630-080407-46bd","summary":"partial progress documented; this remains open; sections 1-5 complete","ts":"2026-06-30T08:45:21+00:00"}

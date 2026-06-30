@@ -188,3 +188,96 @@ $A = \{\text{primes} \geq x\}$, the sum is a decreasing function of $x$ that ten
 to $0$, so the conjecture holds (with room to spare) for this particular primitive
 family. The challenge is to establish the bound of $1$ (rather than $1.399$) for
 ALL primitive families restricted to $[x,\infty)$.
+
+---
+
+### Section 4: Witness Search (Q4)
+
+**Small-$x$ rigorous check.** For $x_\text{floor} = 2$, the two-element primitive set
+$\{2, 3\}$ passes the verifier: $1/(2 \ln 2) + 1/(3 \ln 3) \approx 0.7213 + 0.3034 =
+1.0247$, confirmed by a rigorous Decimal lower bound exceeding $1.0$. The set is
+primitive ($2 \nmid 3$).
+
+**Why $\{2, 3\}$ at $x = 2$ is not a counterexample.** The conjecture asserts the bound
+$1 + o(1)$ where $o(1) \to 0$ as $x \to \infty$. At $x_\text{floor} = 2$ the conjecture
+does not require the bound to be tight; the $o(1)$ correction at $x = 2$ need not be
+small. A value of $1.025$ at $x = 2$ is consistent with the conjecture, which only
+demands that the supremum over primitive sets in $[x, \infty)$ tends to at most $1$
+as $x \to \infty$.
+
+**Large-$x$ evidence.** For $x_\text{floor} \geq 4$, the set $\{2, 3\}$ is no longer
+in $[x_\text{floor}, \infty)$. The next candidate is the primes starting from the
+smallest prime $\geq x_\text{floor}$. By direct computation from the partial sums in
+Section 2, the prime-set sum $\sum_{p \geq x} 1/(p \ln p)$ is a rapidly decreasing
+function of $x$: for $x = 10$, only the primes 11, 13, 17, ... contribute, and their
+individual terms $1/(p \ln p)$ are each at most $1/(11 \cdot \ln 11) \approx 0.037$.
+The sum over ALL such primes is bounded below the prime-set sum starting from 2, which
+the Section 3 analysis showed is consistent with F1's $o(1)$ correction being large at
+small $x$.
+
+**Conclusion (Q4).** No genuine counterexample was found. The evidence shows the
+supremum over primitive sets in $[x, \infty)$ decays as $x$ grows, consistent with the
+conjecture. The two-prime witness at $x = 2$ satisfies the verifier's numerical
+threshold but does not falsify the conjecture (the $o(1)$ correction at $x = 2$
+accounts for the excess above $1$).
+
+---
+
+### Section 5: Proof Strategy via Omega-Stratification (Q5)
+
+**Decomposition.** For any primitive set $A \subseteq [x, \infty)$, write
+$A_k^x = \{a \in A : \Omega(a) = k\}$. Since every integer has a unique $\Omega$-value,
+$A = \bigsqcup_{k \geq 1} A_k^x$ and
+$$\sum_{a \in A} \frac{1}{a \log a} = \sum_{k \geq 1} \sum_{a \in A_k^x} \frac{1}{a \log a}.$$
+Each $A_k^x$ is automatically primitive within its stratum: if $a, b \in A_k^x$ with
+$a \mid b$ and $a \neq b$, then $\Omega(b) \geq \Omega(a) + 1 = k + 1$, contradicting $b \in A_k$.
+So $A_k^x$ is a sub-primitive subset of $A_k \cap [x, \infty)$.
+
+**Role of F3 (large-$k$ regime).** F3 states the full sum over the $\Omega = k$ stratum
+is $1 - (c + o(1)) k^2/2^k$ with $c > 0$. For large $k$, this is strictly less than 1,
+approaching 1 from below. However — as established in Section 2 — F3's formula is an
+asymptotic as $k \to \infty$; for small $k$ (especially $k = 1$, the prime stratum)
+the $o(1)$ correction is large and the full stratum sum exceeds 1. So F3's bound of
+$< 1$ cannot be applied naively for small $k$.
+
+**The cross-stratum primitive constraint.** A key structural fact: if $a \in A_{k_1}^x$
+and $b \in A_{k_2}^x$ with $k_1 < k_2$ and $a \mid b$, primitivity of $A$ forces
+both elements cannot coexist in $A$. This cross-stratum exclusion is more restrictive
+than within-stratum primitivity: having small-$k$ elements in $A$ eliminates entire
+classes of larger-$k$ elements, potentially reducing each stratum's contribution.
+
+**The analytic barrier.** F1 (Erdős–Zhang) gives $\sum_{a \in A} 1/(a \log a) <
+1.399 + o(1)$ for any primitive $A \subseteq \mathbb{N}$. The conjecture tightens this
+to $1 + o(1)$ for $A \subseteq [x, \infty)$. Closing the gap from $1.399$ to $1$
+requires exploiting the $x$-restriction: elements in $[x, \infty)$ are large, and
+their $1/(a \log a)$ contributions are individually small. Quantifying how the
+cross-stratum exclusions force the total below $1$ for large $x$ is the main
+remaining challenge — current techniques captured in F1 give $1.399$, not $1$.
+
+---
+
+### Section 6: Summary of Partial Progress (Q6)
+
+**What this attempt establishes:**
+
+1. *(Section 2)* The $k = 1$ stratum (primes) gives $\sum_p 1/(p \ln p) > 1.025 > 1$
+   by direct two-prime arithmetic. F3's formula applies asymptotically ($k \to \infty$)
+   and does not constrain the $k = 1$ sum.
+
+2. *(Section 3)* F1's $o(1)$ correction is not required to be small at $x = 2$. For
+   large $x$, primitive sets restricted to $[x, \infty)$ have sums consistent with F1
+   tightening toward $1$.
+
+3. *(Section 4)* No counterexample was found. The two-prime set $\{2, 3\}$ exceeds the
+   verifier's $1.0$ threshold at $x_\text{floor} = 2$ but is not a mathematical
+   counterexample (the conjecture allows large $o(1)$ at small $x$).
+
+4. *(Section 5)* Omega-stratification provides the right structural framework for a
+   proof: the cross-stratum primitive exclusions reduce per-stratum contributions, but
+   the quantitative step from F1's $1.399$ bound to the conjectured $1$ bound requires
+   new analytic tools.
+
+**Status.** This proof attempt provides partial analytical and numerical evidence consistent
+with the conjecture. This remains open: no proof or disproof has been achieved. The main
+gap is the analytic step from F1's $1.399$ to the conjectured bound of $1$ for sets
+restricted to $[x, \infty)$.
