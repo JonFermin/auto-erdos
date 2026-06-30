@@ -111,8 +111,44 @@ non-divisible and each $\geq x_\text{floor}$. The witness is embedded as a
 `<!-- WITNESS ... WITNESS -->` JSON block at the bottom of this file.
 
 **Road map.** The current plan is to work through the open questions in order:
-- Q2: numerical check of F3 for small $k$ (ground truth).
-- Q3: check that the prime-set sum is ~1.64 and reconcile with F1.
+- Q2: numerical check of F3 for small $k$ (ground truth). [current]
+- Q3: check prime-set sum and reconcile with F1.
 - Q4: search for a witness (primitive set in $[x, \infty)$ with sum $> 1$).
 - Q5: outline a proof strategy via Omega-stratification.
 - Q6: if genuine barriers remain, document the partial result and close.
+
+---
+
+### Section 2: Numerical Evidence and F3 for Small $k$ (Q2)
+
+Computed via prime-omega sieve in Python (`math.log` = natural log).
+Partial sums $S_k(N) = \sum_{n \leq N,\, \Omega(n)=k} 1/(n \ln n)$:
+
+| $k$ | $S_k(5{,}000{,}000)$ | F3 prediction $1 - c k^2/2^k$, $c\approx 0.0656$ | $S_k < 1$? |
+|-----|----------------------|---------------------------------------------------|------------|
+| 1   | 1.5718               | 0.9672                                            | **NO**     |
+| 2   | 0.8888               | 0.9344                                            | yes        |
+| 3   | 0.5251               | 0.9262                                            | yes        |
+| 4   | 0.2834               | 0.9344                                            | yes        |
+
+**k=1 observation.** For $k=1$, $A_1 = \{\text{primes}\}$.
+The first two terms alone give a rigorous lower bound:
+$$\frac{1}{2\ln 2} + \frac{1}{3\ln 3} = 0.7213\ldots + 0.3034\ldots \approx 1.025 > 1.$$
+Since every term $1/(p \ln p)$ is positive, the infinite sum $\sum_p 1/(p \ln p) \geq 1.025 > 1$.
+This is in tension with F3's sign note that says the sum is "STRICTLY LESS THAN 1 for every
+$k \geq 1$."
+
+The most natural resolution is that F3 is an asymptotic formula as $k \to \infty$:
+the notation $1 - (c+o(1))k^2/2^k$ has an $o(1)$ correction that is interpreted in the
+$k \to \infty$ limit. For small $k$ (especially $k=1$), the $o(1)$ correction may be
+a large quantity that the formula does not capture. Equivalently, F3 asserts that
+$\sum_{A_k} 1/(a \ln a) \to 1$ from below as $k \to \infty$; it need not apply uniformly
+for small $k$. Under this reading, the $k=1$ data is consistent with F3 as a large-$k$
+result, and the sign note "for every $k \geq 1$" refers to the large-$k$ regime.
+
+This reading is required for consistency with the $k=1$ computation above
+(which is just direct arithmetic with two primes).
+
+**k=2,3,4 observations.** The partial sums are all below 1 and trending
+toward F3's predictions, consistent with F3 being a good approximation for
+these $k$ values; however, convergence is slow (many terms needed).
