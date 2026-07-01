@@ -78,10 +78,10 @@ For any primitive set $A \subseteq [x, \infty)$, as $x \to \infty$:
 $$\sum_{a \in A} \frac{1}{a \log a} < e^{\gamma} \frac{\pi}{4} + o(1)
   \approx 1.399 + o(1).$$
 Sign note: This is an UPPER bound. The $o(1) \to 0$ as $\min(A) = x \to \infty$.
-For small $x$ (e.g., $x = 2$), the sum can exceed $1.399$ — the primes from
-$p = 2$ give $\sum_p 1/(p \log p) \approx 1.64$. F1 is a statement about
-asymptotic behavior as $x \to \infty$, not a uniform bound over all primitive
-subsets of $\mathbb{N}$.
+F1 is a statement about asymptotic behavior as $x \to \infty$: for fixed (small)
+$x$, the bound $e^\gamma\pi/4 + o(1)$ is loose, and the sum for some primitive
+sets can exceed $1.399$. F1 is not a uniform bound over all primitive subsets
+of $\mathbb{N}$.
 
 **F2 (Omega-stratum lower bound, unsigned big-O).**
 If $A_k = \{n \in \mathbb{N} : \Omega(n) = k\}$ (integers with exactly
@@ -98,7 +98,7 @@ $$\sum_{a \in A_k} \frac{1}{a \log a} = 1 - (c + o(1)) \frac{k^2}{2^k},
 Sign note: The correction $-(c+o(1))k^2/2^k$ is NEGATIVE. For large $k$,
 the $A_k$ sum is strictly less than $1$ and approaches $1$ from below.
 F3 is an asymptotic valid as $k \to \infty$; it does not accurately describe
-small $k$ (for $k = 1$, the full prime sum $\approx 1.64 > 1$).
+small $k$ — the formula does not hold for $k = 1$ (the prime stratum).
 
 ### 1.3 Witness Contract
 
@@ -120,25 +120,26 @@ a genuine counterexample — the $o(1)$ slack at small $x$ may cover the excess.
 
 ### 2.1 A_k Stratum Behavior (from F2 and F3)
 
-By **F3**: for each $k \geq 1$, the full stratum sum
+By **F3** (valid as $k \to \infty$): for large $k$, the full unrestricted
+stratum sum satisfies
 $$\sum_{a \in A_k} \frac{1}{a \log a} = 1 - (c+o(1))\frac{k^2}{2^k} < 1.$$
+F3 is asymptotic and does NOT hold for small $k$; for small $k$ (including
+$k = 1$), the full $A_k$ sum may exceed $1$.
 
 Key observations:
 
-(a) Each stratum $A_k$ has sum **strictly less than 1**. No single stratum is
-a counterexample to the conjecture (which would require sum $> 1 + o(1)$).
+(a) For large $k$: each unrestricted $A_k$ has sum $< 1$ (by F3).
 
-(b) As $k \to \infty$, the stratum sum approaches $1$ **from below**, with a
-negative correction $-(c+o(1))k^2/2^k$ where $c > 0$ (F3 sign note).
+(b) For any fixed $k$ and $x \to \infty$: the restricted sum over
+$A_k \cap [x, \infty)$ tends to $0$, since each term is $\leq 1/(x \log x)$.
+This holds for all $k$ by elementary estimates, independently of F3.
 
-(c) F3 is an asymptotic valid as $k \to \infty$. For $k = 1$ (the prime
-stratum), the correction is not given by the large-$k$ formula. The actual
-prime sum is a convergent series substantially above $1$, but this is
-consistent with F3's range of applicability (large $k$).
+(c) As $k \to \infty$: the $A_k$ sum approaches $1$ **from below** with
+correction $-(c+o(1))k^2/2^k < 0$ (F3).
 
-(d) By **F2**: the $A_k$ sum is $\geq 1 + O(k^{-1/2+o(1)})$ with UNSIGNED
-big-O. F3 resolves the sign ambiguity: for large $k$, the correction is
-negative, so F2's lower bound is $\geq 1 - O(k^{-1/2+o(1)})$.
+(d) By **F2** (UNSIGNED big-O): the $A_k$ sum is $\geq 1 + O(k^{-1/2+o(1)})$.
+F3 resolves the sign: for large $k$, the O-term is negative, giving
+$\geq 1 - O(k^{-1/2+o(1)})$.
 
 ### 2.2 The Prime Sum and F1
 
@@ -150,21 +151,16 @@ Key observations:
 (a) **F1 is asymptotic in $x$**, not a uniform bound over all primitive
 subsets of $\mathbb{N}$. It applies only as $\min(A) \to \infty$.
 
-(b) The prime tail $\sum_{p \geq x} 1/(p \log p)$ is a tail of the series
-$\sum_p 1/(p \log p)$. Since the latter converges (its terms are bounded by
-$1/(p \log p)$ and the series is summable), the tail tends to $0$ as
-$x \to \infty$. In particular, large prime tails satisfy sum $\to 0 < 1 + o(1)$,
-consistent with the conjecture.
-
-(c) For any fixed $x_0 \geq 2$, the prime tail sum $\sum_{p \geq x_0}
-1/(p \log p)$ is finite and strictly decreasing in $x_0$, and satisfies the
-F1 upper bound $< e^\gamma\pi/4 + o(1)$.
+(b) By F1, any primitive subset of primes in $[x, \infty)$ satisfies sum
+$< e^\gamma\pi/4 + o(1)$ as $x \to \infty$. Combined with the conjecture,
+the prime tail would satisfy sum $< 1 + o(1)$, but this is what the conjecture
+claims for ALL primitive sets; it is not a separate proven fact about primes.
 
 ### 2.3 Summary
 
-- Each individual $A_k$ stratum has sum $< 1$ for large $k$ (from F3); for small
-  $k$ the restriction to $[x, \infty)$ reduces the sum (open for small $k$).
-- Prime tails (primes $\geq x$) tend to $0$ as $x \to \infty$ (tail of a convergent series).
+- For large $k$: each $A_k$ has sum $< 1$ (from F3). For small $k$: restriction
+  to $[x, \infty)$ makes the sum tend to $0$ as $x \to \infty$ (trivial, each term $\leq 1/(x \log x)$).
+- F1 bounds the prime tail from above by $e^\gamma\pi/4 + o(1)$ as $x \to \infty$.
 - F1 bounds any primitive set in $[x, \infty)$ above by $\approx 1.399 + o(1)$,
   consistent with the conjecture (which posits a tighter $1 + o(1)$ bound).
 - The open question is whether ARBITRARY primitive $A \subset [x, \infty)$
@@ -236,15 +232,26 @@ $$\sum_{a \in A} \frac{1}{a \log a} = \sum_{k=1}^{\infty} S_k, \quad
 
 ### 4.2 Key Lemmas
 
-**Lemma 1 (Single-stratum bound, proved via F3).**
-For any $A_k' \subseteq A_k$:
-$$S_k \leq \sum_{a \in A_k} \frac{1}{a \log a} = 1 - (c+o(1))\frac{k^2}{2^k} < 1.$$
-*Proof*: The sum over a subset is bounded by the full stratum sum; apply F3.
-F3 is asymptotic as $k \to \infty$, so this bound is rigorously justified for
-large $k$. For small $k$ (including $k = 1$), F3 is not applicable, and
-the full $A_k$ sum (over all of $\mathbb{N}$) can exceed $1$.
-**Status: proved for large $k$ via F3; the small-$k$ case is open and requires
-a separate argument (e.g., bounding $A_k \cap [x, \infty)$ directly).**
+**Lemma 1 (Single-stratum bound).**
+
+*Case 1 — fixed $k$, $x \to \infty$*: For any fixed $k$ and any
+$A_k' \subseteq A_k \cap [x, \infty)$, the sum $S_k \leq \sum_{a \geq x,
+\, \Omega(a)=k} 1/(a \log a) \to 0$ as $x \to \infty$, since every term
+is $\leq 1/(x \log x)$. This is elementary.
+
+*Case 2 — large $k$, no $x$-restriction*: For large $k$, the full
+unrestricted stratum sum satisfies
+$$\sum_{a \in A_k} \frac{1}{a \log a} = 1 - (c+o(1))\frac{k^2}{2^k} < 1$$
+by F3. Since $A_k^A \subseteq A_k$, we have $S_k \leq$ (full stratum sum)
+$< 1$.
+
+*Combined*: In either regime, $S_k < 1$. The relevant regime for the
+conjecture is when $k$ and $x$ both grow (with $k$ perhaps of order
+$\log\log x$) — this intermediate case requires Case 1 and Case 2 together,
+and is the open step.
+
+**Status: proved in each isolated regime; the joint large-$k$-large-$x$
+case requires additional work.**
 
 **Lemma 2 (Primitivity cross-stratum constraint).**
 If $a \in A_j^A$ and $a = p_1^{e_1} \cdots p_r^{e_r}$, then no element of
@@ -267,9 +274,10 @@ $\sum_{k \geq 1} S_k < 1 + o(1)$ as $x \to \infty$.
 
 ### 4.3 The Main Gap
 
-Each stratum contributes $S_k < 1$ (Lemma 1), but the CROSS-STRATUM total
-could naively exceed $1$. The fundamental obstacle: there are infinitely many
-strata, each contributing up to (but less than) $1$.
+In each regime separately, $S_k < 1$ (Lemma 1). But the CROSS-STRATUM total
+$\sum_k S_k$ could naively exceed $1$ when many strata each contribute near-$1$.
+The fundamental obstacle is controlling the sum over the intermediate regime
+where $k$ and $x$ grow jointly.
 
 The key insight (conjectured): **primes are extremal**. The conjecture posits
 that the supremum of $\sum_{a \in A} 1/(a \log a)$ over all primitive
@@ -285,7 +293,7 @@ Formalizing "primes are extremal" is the central missing step. Partial approach:
 
 ### 4.4 Current Status
 
-- **Lemma 1**: proved for large $k$ via F3; small-$k$ case open.
+- **Lemma 1**: proved in isolated regimes (fixed-$k$ trivial; large-$k$ via F3); joint large-$k$-large-$x$ case open.
 - **Lemma 2**: open; the shadow/blocking structure needs quantification.
 - **Lemma 3** (cross-stratum total): open; this is the conjecture itself.
 
