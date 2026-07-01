@@ -81,3 +81,6 @@
 {"qid":"Q28","status":"resolved","session_id":"s_0701-080342-d8e0","summary":"Stratum population lemma; large-k strata contribute o(1); LP alternating bound; uniformity gap to full PEX remains","ts":"2026-07-01T11:24:59+00:00"}
 {"qid":"Q29","status":"open","session_id":"s_0701-080342-d8e0","summary":"Selberg weight dual certificate: explicitly construct w(n)=Lambda(n)/(n(log n)^2); verify sieve condition sum_{d|n,d>=x} w(d) <= 1/(n log n); connect to LP2021 proof of PEX","ts":"2026-07-01T11:24:59+00:00"}
 {"qid":"Q29","status":"claimed","session_id":"s_0701-080342-d8e0","summary":"taking Q29 Selberg weight dual certificate","ts":"2026-07-01T11:24:59+00:00"}
+{"qid":"Q29","status":"resolved","session_id":"s_0701-080342-d8e0","summary":"von Mangoldt weight verified for primes; fails for semiprimes with multiple large factors; LP2021 uses global argument","ts":"2026-07-01T11:26:07+00:00"}
+{"qid":"Q30","status":"open","session_id":"s_0701-080342-d8e0","summary":"Unconditional F(A)<2 bound from F1+stratum decomposition; also: tight convergence sequence showing sup F(A)=1 is not achieved; bounds from below on F for specific families","ts":"2026-07-01T11:26:07+00:00"}
+{"qid":"Q30","status":"claimed","session_id":"s_0701-080342-d8e0","summary":"taking Q30 unconditional bound and tightness","ts":"2026-07-01T11:26:07+00:00"}
