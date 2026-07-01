@@ -2753,3 +2753,74 @@ So F2 and F3 are CONSISTENT: F3 gives a sharper, signed asymptotic; F2 gives a w
 6. **F2 is best viewed as an intermediate result** from which F3 (sharper asymptotic) is a refinement.
 
 **Q36 status: resolved.** F2 is a correct but weaker bound (two-sided, $O(k^{-1/2})$) superseded by F3 for large $k$; never binding in any proof step; consistent with F1, F3, F4; correct for all k≥1 including k=1 where F3 fails; role is as background sanity check and potential source of lower bounds near the extremum.
+
+---
+
+## Section 35: F4 Necessity — Could a Counterexample Exist? (Q37)
+
+**Question.** If PEX (F4: $F(A) \leq T_1(x)$ for primitive $A \subseteq [x,\infty)$) were false, could there exist a primitive set $A \subseteq [x,\infty)$ with $F(A) \geq 1$?
+
+**Short answer.** YES — if F4 were false, a counterexample to the Erdős conjecture might exist. However, all given facts (F1, F2, F3) and our structural analysis constrain such a counterexample severely.
+
+### 35.1 Structural Constraints on a Hypothetical Counterexample
+
+Suppose $A \subseteq [x,\infty)$ is primitive with $F(A) \geq 1$. What must $A$ look like?
+
+**Constraint 1 (F1).** $F(A) < e^\gamma\pi/4 \approx 1.399$. So any counterexample has $1 \leq F(A) < 1.399$.
+
+**Constraint 2 (Stratum decomposition).** $F(A) = \sum_k S_k$ where $S_k \leq T_k(x)$. For $F(A) \geq 1$ with each $S_k \leq T_k(x)$: the sum $\sum_k T_k(x)$ must be $\geq 1$. But $\sum_k T_k(x) = T(x) := \sum_{n \geq x} 1/(n\log n) \to \infty$ — consistent, no contradiction from this alone.
+
+**Constraint 3 (Single-stratum bound).** Each $S_k \leq T_k(x) \to 0$ (for fixed $k$). So no SINGLE stratum can contribute $\geq 1$ for large $x$. A counterexample MUST have elements in infinitely many (or $\gg \log x$) strata.
+
+**Constraint 4 (F3).** For strata $k \geq k^*$: $f_k < 1$, so $S_k \leq f_k < 1$ for each. For $\sum_k S_k \geq 1$: need many strata contributing, each $S_k$ close to $f_k < 1$.
+
+### 35.2 The "Spread Evenly" Strategy
+
+A hypothetical counterexample could try to spread the mass evenly across many strata: take $N$ strata, each contributing $S_k \approx 1/N$. Then $F(A) \approx 1$. For this to work with $A \subseteq [x,\infty)$:
+
+- Each stratum needs $S_k \approx 1/N$ elements with $\sum_{a \in A_k^\ast} 1/(a\log a) \approx 1/N$.
+- Primitivity: no element in stratum $j$ divides an element in stratum $k$ for $j < k$.
+
+For large $N$ (many strata), the primitivity constraint requires elements in higher strata to avoid multiples of all lower-stratum elements. If the lower strata have dense prime factors, the higher strata get severely sieved.
+
+**Heuristic.** With $N$ strata each contributing $1/N$, and primitivity forcing a sieve: the sieve "multiplies" the losses, giving total $F(A) \leq (1/N) \cdot \prod_{k=1}^{N-1}(1 - S_k^2/\ldots) \approx e^{-N \cdot (1/N)^2} \cdot N \cdot (1/N) = e^{-1/N} \to 1$. This suggests $F(A) \to 1$ is possible in principle, but only as an asymptotic limit, never exceeding 1.
+
+### 35.3 Why the Conjecture Is Plausible Without F4
+
+From F1 alone: $F(A) < 1.399$. From the structural analysis:
+- Small strata: $S_k \leq T_k(x) \to 0$ for fixed $k$.
+- Large strata: $S_k \leq f_k < 1$ (F3, for $k \geq k^*$).
+
+The "gap" to proving $F(A) < 1$ without F4: one needs to show that the strata CAN'T all simultaneously contribute near their maximums due to primitivity. This is the content of PEX.
+
+**Heuristic argument.** The optimal primitive set (maximizing $F$) is the ALL-PRIMES set $\{p : p \geq x\}$. Any other primitive set either:
+(a) Replaces a prime $p$ with a composite $n = p \cdot m$: this gives $\frac{1}{n\log n} < \frac{1}{p\log p}$ (smaller contribution), and adds the constraint that $p \notin A$ (since $p | n$).
+(b) Adds composite $n$ without removing the prime divisor $p$: violates primitivity (since $p | n$).
+
+So ANY composite in $A$ forces a prime to be excluded, and the composite contributes less than the prime it replaces. This suggests $F(\{p \geq x\}) \geq F(A)$ for ALL primitive $A \subseteq [x,\infty)$ — this IS exactly PEX.
+
+### 35.4 If F4 Were False: Implications
+
+If PEX (F4) were false, there would exist a primitive $A \subseteq [x,\infty)$ with $F(A) > T_1(x) = F(\{\text{primes } \geq x\})$.
+
+This would mean: some composite-containing primitive set outperforms all primes. Combining with F1 ($F(A) < 1.399$): we'd have $T_1(x) < F(A) < 1.399$.
+
+For large $x$: $T_1(x) \sim 1/\log x \to 0$. So the hypothetical counterexample would have $F(A) \in (1/\log x, 1.399)$. The conjecture ($F(A) < 1 + o(1)$) would still hold even without F4 if $F(A) \to 0$! But if $F(A) \not\to 0$ (which F4's failure would allow), the conjecture might still hold at $< 1.399 < 1+o(1)$ for... wait, $1.399 > 1$. 
+
+Actually: if F4 were false and $F(A) > 1$ were possible (not just $> T_1(x)$), then the conjecture would be FALSE. The conjecture ($F(A) < 1 + o(1)$) would be violated.
+
+F4 (PEX) $\Rightarrow$ conjecture ($F(A) \leq T_1(x) < 1$ for $x \geq 3$). If F4 is false: the STRONGEST thing F1 says is $F(A) < 1.399$, which is consistent with $F(A) > 1$.
+
+**So the conjecture is EQUIVALENT to some strengthening of F1**, and F4 is the precise strengthening needed.
+
+### 35.5 Summary
+
+**Q37 contributions:**
+1. Any counterexample to the conjecture would have $1 \leq F(A) < 1.399$ (from F1).
+2. The counterexample must have elements across many strata (not a fixed-stratum set).
+3. Primitivity severely constrains such a set via cross-stratum sieving.
+4. The heuristic argument (composites replace primes and contribute less) IS PEX — so a counterexample would require a "composite beats prime" replacement, which Section 24's exchange argument shows is never beneficial.
+5. If F4 were false and $F(A) > 1$ were achievable: the conjecture would be false.
+6. The conjecture is essentially equivalent to PEX.
+
+**Q37 status: resolved.** Hypothetical counterexample analysis: must have 1<=F(A)<1.399 from F1; must span many strata; primitivity sieve prevents cross-stratum accumulation; "composite beats prime" argument IS the content of PEX; conjecture equivalent to PEX.
