@@ -941,3 +941,54 @@ The net bound $\sum \beta - \text{overlap} \geq S_k$ holds iff overlap $\leq \su
 This is a non-trivial condition on the overlap structure of $A_k^A$. It relates to the SECOND-ORDER statistics of primitive sets in $A_k$ — a sieve-theory computation that appears to be the core of the Lichtman-Pomerance (2021) proof.
 
 **Status**: The full-shadow approach IS the correct route to TCP. The gap is a quantitative bound on the shadow overlap, which requires sieve estimates beyond F1/F2/F3. This is precisely where the conjecture's resolution leaves the available ledger.
+
+---
+
+## Section 13. Fixed-Stratum TCP and the Remaining Hard Case (Q15)
+
+**Key insight (Q15)**: TCP for FIXED k is TRIVIALLY proved from F3 alone — no shadow analysis needed.
+
+### 13.1 F3-Tail Proof of Fixed-Stratum TCP
+
+**Theorem 13.1 (Fixed-Stratum TCP)**: For any primitive $A \subseteq A_k \cup A_{k+1} \cup [x, \infty)$ with $k \geq 1$ FIXED (independent of $x$):
+$$S_k + S_{k+1} \leq T_k(x) + T_{k+1}(x) \xrightarrow{x \to \infty} 0.$$
+
+**Proof**: Immediate. $S_k \leq T_k(x)$ (subset bound) and $S_{k+1} \leq T_{k+1}(x)$ (subset bound). By F3:
+$$\sum_{n \in A_k} \frac{1}{n \log n} = 1 - \delta_k < \infty.$$
+A convergent series of positive terms has tails $\to 0$: $T_k(x) \to 0$ as $x \to \infty$. Similarly $T_{k+1}(x) \to 0$. Sum of two $o(1)$ terms is $o(1)$. $\square$
+
+**Corollary 13.2**: For any primitive $A \subseteq [x, \infty)$ supported on a FIXED finite set of strata $\{k_1, \ldots, k_r\}$ (fixed as $x \to \infty$):
+$$\sum_{a \in A} \frac{1}{a \log a} \leq \sum_{j=1}^r T_{k_j}(x) \xrightarrow{x \to \infty} 0 < 1 + o(1).$$
+
+**This resolves ALL "finite-depth" primitive sets**: the conjecture holds, with the much stronger bound of $o(1)$, for any A whose stratum support is bounded.
+
+### 13.2 What Shadow Analysis Was Attempting (Retrospective)
+
+Sections 7–12 developed the shadow framework to handle the case where $k$ varies with $x$. For FIXED $k$, the argument is simply: $T_k(x) \to 0$ from F3. Shadow analysis only helps when $T_k(x)$ is not automatically small.
+
+The shadow bound gives: $S_k + S_{k+1} \leq T_{k+1}(x) - \text{(shadow discount)} \leq T_{k+1}(x)$. This is no better than the subset bound $S_k + S_{k+1} \leq T_k(x) + T_{k+1}(x)$ for fixed $k$, since both sides → 0. But for GROWING $k$, the subset bound might not give → 0, and shadow analysis might help.
+
+### 13.3 The Remaining Hard Case: Growing-Stratum Primitive Sets
+
+**Definition**: A primitive A ⊆ [x, ∞) is called **growing-stratum** if its support includes strata $k = k(x) \to \infty$ as $x \to \infty$.
+
+For growing-stratum A: $T_{k(x)}(x)$ may NOT $\to 0$, so the subset bound fails. Specifically, for $k(x) \approx \log\log x$ (the "Erdős-Kac typical" stratum for numbers $\approx x$), by PNT-type estimates:
+$$T_{k(x)}(x) \approx \frac{1}{\sqrt{2\pi \log\log x} \cdot \log x} \to 0$$
+(goes to 0, but slower than for fixed $k$).
+
+So even for the "most dangerous" growing-stratum case, $T_{k(x)}(x) \to 0$, but this requires Erdős-Kac / PNT-level estimates to establish.
+
+### 13.4 Proof of the Conjecture via F3 for ALL Fixed-Stratum A
+
+Combining Theorems 11.1 (prime component) and 13.1 (fixed-stratum TCP):
+
+**Corollary 13.3**: For any primitive $A \subseteq [x, \infty)$ supported on a FIXED finite set of strata:
+$$\sum_{a \in A} \frac{1}{a \log a} = o(1) \quad \text{as } x \to \infty.$$
+
+The conjecture ($\leq 1 + o(1)$) follows immediately — in fact with the stronger $= o(1)$.
+
+**What remains**: The conjecture for growing-stratum A (where strata $k$ grow with $x$) requires:
+- Bounding $\sum_{k: k(x) \to \infty} T_k(x)$ for the relevant strata.
+- Or: using a global bound (like F1) to limit the total sum regardless of stratum structure.
+
+The global bound F1 gives $\leq 1.399$ for all A. The improvement to $1 + o(1)$ for $A \subseteq [x, \infty)$ requires knowing that elements with large Ω(a) (large number of prime factors) are "inefficient" in the sum, which is quantified by PNT/Erdős-Kac estimates.
