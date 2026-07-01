@@ -150,24 +150,21 @@ Key observations:
 (a) **F1 is asymptotic in $x$**, not a uniform bound over all primitive
 subsets of $\mathbb{N}$. It applies only as $\min(A) \to \infty$.
 
-(b) By Mertens' theorem and partial summation, the prime tail
-$\sum_{p \geq x} 1/(p \log p) \to 0$ as $x \to \infty$. In particular, the
-primes in $[x, \infty)$ form a primitive set with sum tending to $0$ —
-well within F1's bound.
+(b) The prime tail $\sum_{p \geq x} 1/(p \log p)$ is a tail of the series
+$\sum_p 1/(p \log p)$. Since the latter converges (its terms are bounded by
+$1/(p \log p)$ and the series is summable), the tail tends to $0$ as
+$x \to \infty$. In particular, large prime tails satisfy sum $\to 0 < 1 + o(1)$,
+consistent with the conjecture.
 
-(c) The full prime sum $\sum_p 1/(p \log p)$ (all primes from $p = 2$) is a
-finite convergent series with value substantially above $1$. This is
-consistent with F1: the set of all primes has $\min = 2$, not $x \to \infty$,
-so F1 does not bound its sum.
-
-(d) For any fixed $x_0 \geq 2$, the prime tail sum $\sum_{p \geq x_0}
-1/(p \log p)$ is finite and strictly decreasing in $x_0$. For
-$x_0$ sufficiently large, this tail is well below $1$.
+(c) For any fixed $x_0 \geq 2$, the prime tail sum $\sum_{p \geq x_0}
+1/(p \log p)$ is finite and strictly decreasing in $x_0$, and satisfies the
+F1 upper bound $< e^\gamma\pi/4 + o(1)$.
 
 ### 2.3 Summary
 
-- Each individual $A_k$ stratum has sum $< 1$ (from F3, valid for all $k$).
-- Prime tails (primes $\geq x$) contribute sums tending to $0$ as $x \to \infty$.
+- Each individual $A_k$ stratum has sum $< 1$ for large $k$ (from F3); for small
+  $k$ the restriction to $[x, \infty)$ reduces the sum (open for small $k$).
+- Prime tails (primes $\geq x$) tend to $0$ as $x \to \infty$ (tail of a convergent series).
 - F1 bounds any primitive set in $[x, \infty)$ above by $\approx 1.399 + o(1)$,
   consistent with the conjecture (which posits a tighter $1 + o(1)$ bound).
 - The open question is whether ARBITRARY primitive $A \subset [x, \infty)$
@@ -229,7 +226,9 @@ conjecture, but this is not a proof.
 
 Let $A \subset [x, \infty)$ be a primitive set. Partition by prime-factor count:
 $A_k^A = A \cap A_k$ where $A_k = \{n : \Omega(n) = k\}$.
-The sum decomposes as
+Since every integer $a \geq 2$ satisfies $1 \leq \Omega(a) < \infty$, the sets
+$A_k^A = A \cap A_k$ partition $A$ disjointly. By non-negativity of terms,
+the sum splits (Tonelli) as
 $$\sum_{a \in A} \frac{1}{a \log a} = \sum_{k=1}^{\infty} S_k, \quad
   S_k = \sum_{a \in A_k^A} \frac{1}{a \log a}.$$
 
@@ -241,10 +240,11 @@ $$\sum_{a \in A} \frac{1}{a \log a} = \sum_{k=1}^{\infty} S_k, \quad
 For any $A_k' \subseteq A_k$:
 $$S_k \leq \sum_{a \in A_k} \frac{1}{a \log a} = 1 - (c+o(1))\frac{k^2}{2^k} < 1.$$
 *Proof*: The sum over a subset is bounded by the full stratum sum; apply F3.
-This bound holds for each fixed $k$ as $k \to \infty$. For small $k$, F3's
-asymptotic may overestimate, but each stratum sum is still $< 1$ by F3's
-exact formula (the correction is strictly negative for all $k \geq 1$).
-**Status: proved** (direct from F3).
+F3 is asymptotic as $k \to \infty$, so this bound is rigorously justified for
+large $k$. For small $k$ (including $k = 1$), F3 is not applicable, and
+the full $A_k$ sum (over all of $\mathbb{N}$) can exceed $1$.
+**Status: proved for large $k$ via F3; the small-$k$ case is open and requires
+a separate argument (e.g., bounding $A_k \cap [x, \infty)$ directly).**
 
 **Lemma 2 (Primitivity cross-stratum constraint).**
 If $a \in A_j^A$ and $a = p_1^{e_1} \cdots p_r^{e_r}$, then no element of
@@ -271,22 +271,21 @@ Each stratum contributes $S_k < 1$ (Lemma 1), but the CROSS-STRATUM total
 could naively exceed $1$. The fundamental obstacle: there are infinitely many
 strata, each contributing up to (but less than) $1$.
 
-The key insight (Zhang-type): **primes are extremal**. Among all primitive
-sets in $[x, \infty)$, the set of primes maximizes the sum (in some
-appropriate sense). Since prime tails $\to 0$ as $x \to \infty$, the supremum
-of the sum over all primitive sets is $\leq 1 + o(1)$.
+The key insight (conjectured): **primes are extremal**. The conjecture posits
+that the supremum of $\sum_{a \in A} 1/(a \log a)$ over all primitive
+$A \subset [x, \infty)$ is $1 + o(1)$ as $x \to \infty$, and the extremal set
+is (conjectured to be) the primes in $[x, \infty)$. F1 (the known bound)
+establishes the supremum is at most $e^\gamma\pi/4 + o(1) \approx 1.399 + o(1)$.
 
-Formalizing "primes are extremal" is the central missing step. Partial approaches:
+Formalizing "primes are extremal" is the central missing step. Partial approach:
 - For each composite element $n = am$ ($m > 1$) in $A$, the prime factors of
-  $a$ are excluded from $A$ (primitivity). Replacing $n$ by its prime factors
-  (if they fit without violating primitivity) would not necessarily reduce the sum.
-- The Zhang (1993) paper that established F1 showed the primes maximize the
-  sum; the conjecture is the tighter version that the supremum is $1 + o(1)$,
-  not $1.399 + o(1)$.
+  $a$ are excluded from $A$ (primitivity). A precise comparison between
+  composites and their prime factors in the sum $\sum 1/(a \log a)$ is needed
+  to formalize why the prime subset achieves the maximum.
 
 ### 4.4 Current Status
 
-- **Lemma 1**: proved via F3.
+- **Lemma 1**: proved for large $k$ via F3; small-$k$ case open.
 - **Lemma 2**: open; the shadow/blocking structure needs quantification.
 - **Lemma 3** (cross-stratum total): open; this is the conjecture itself.
 
