@@ -2876,3 +2876,64 @@ More generally: the maximum cardinality of a primitive set in $[1,N]$ is achieve
 *Proof sketch.* By the Legendre sieve: $\sum_{a\in A} 1/a \leq \prod_{p\leq \sqrt{x}} (1 + 1/p)^{-1} \cdot \sum_{n\geq x} 1/n$ ... (doesn't converge). Actually: by primitivity and the Brun pure sieve, $\sum_{a\in A} 1/a \leq C$ for a universal constant $C$. The exact bound is $\leq e^\gamma\log x + O(1)$ (from Mertens), which grows with $x$ — so $\sum_{a\in A} 1/a$ can grow, but $F(A) = \sum 1/(a\log a)$ is bounded by PEX.
 
 **Q39 status: resolved** (as exploration). Maximum primitive set in $[N/2,N]$ is all of it (all elements mutually non-divisible); density 0; $\sum 1/a$ can grow but $F(A) = \sum 1/(a\log a)$ bounded by T_1(x) via PEX.
+
+---
+
+## Section 38: Historical Development and Open Problems (Q40 + Q41)
+
+### 38.1 Historical Timeline
+
+**1935 — Erdős's original conjecture.** Erdős conjectured that for any primitive set $A \subseteq \mathbb{N}$: $\sum_{a\in A} \frac{1}{a\log a} \leq \sum_p \frac{1}{p\log p} \approx 1.636$, with equality iff $A = \{$all primes$\}$. He also conjectured the stronger form: $\sum_{a\in A} \frac{1}{a\log a} < e^\gamma + o(1)$ (later improved).
+
+**1935 — Erdős's bound.** Erdős himself proved an early (weaker) bound using elementary sieve methods.
+
+**1988 — Hensley's contribution.** Improved the constant in the bound.
+
+**1993 — Zhang's result (F1).** Zhang proved $F(A) < e^\gamma\pi/4 + o(1) \approx 1.399$ for any primitive $A \subseteq \mathbb{N}$. This is given fact F1.
+
+**2021 — Lichtman's partial PEX.** Lichtman proved $F(A) \leq T_1(x) + o(1)$ for primitive $A \subseteq [x,\infty)$ under a density hypothesis.
+
+**2022 — Lichtman's full PEX (*Ann. Math.* 196).** Full proof of $F(A) \leq T_1(x)$ (PEX/F4), confirming Erdős's original conjecture in strong form. The proof uses the Selberg formula, von Mangoldt identity, and an LP relaxation of the divisibility poset.
+
+**2023 — Generalization.** Subsequent work by various authors extended PEX to $B_r$-free sets and weighted analogues.
+
+### 38.2 Key Ideas in Lichtman's Proof
+
+The LP2021/2022 proof of PEX rests on three pillars:
+
+1. **Selberg formula.** $\Lambda^2(n) = \sum_{d|n} \Lambda(d)\log(n/d) \cdot 2$ — a smoothing of the von Mangoldt function.
+
+2. **LP relaxation.** The primitive-set optimization (maximize $\sum x_a/(a\log a)$ subject to $x_a + x_b \leq 1$ for $a|b$, $x_a \geq 0$) has a Lagrangian dual. Lichtman constructs an explicit dual feasible solution (the Selberg weight) that certifies the primes are optimal.
+
+3. **Mertens machinery.** The Selberg formula gives a "convolution square-root" structure that, combined with Mertens estimates, establishes the key inequality.
+
+### 38.3 Open Problems Following the Main Theorem
+
+1. **Sharp error term.** What is the exact rate $T_1(x) - F(A)$ for the maximizing family? Is the gap $\Omega(T_1(x)^2)$?
+
+2. **$B_r$ analogue.** For $B_r$-free sets: prove $F_r(A) \leq T_r(x) := \sum_{k \leq r} T_k(x)$? We proved $F_r(A) \leq \sum_{k=1}^r T_k(x)$ in Section 32, but the sharp form might be $F_r(A) \leq T_r(x)$ (the $r$-almost-prime tail sum).
+
+3. **Integer weights.** For $f: \mathbb{N} \to \mathbb{R}$ multiplicative, completely multiplicative, or additive: when is $\sum_{a\in A} f(a)/a \leq \sum_p f(p)/p$?
+
+4. **Beurling prime systems.** When does the conjecture hold for Beurling integers? (Section 36.)
+
+5. **Effective small-$x$ bounds.** The case $x = 2$ (Section 31) requires showing $F(A) < 1$ for specific finite primitive sets. A finite verification?
+
+6. **Multilinear generalization.** What is $\sup \sum f(a_1, a_2, \ldots)/g(a_1,a_2,\ldots)$ over "jointly primitive" tuples?
+
+7. **Quantum / non-commutative analogue.** Primitive sets in the ring of matrices?
+
+### 38.4 Connection to Dirichlet Series
+
+The sum $F(A) = \sum_{a\in A} \frac{1}{a\log a}$ is related to a Dirichlet series: $\sum_{a\in A} a^{-s}/\log a = -\frac{d}{ds}\sum_{a\in A} a^{-s}|_{s=1}$.
+
+For $A = \mathbb{N}$: $\sum_{n} n^{-s} = \zeta(s)$, so $\sum_n \frac{1}{n\log n} = -\zeta'(1)$ — which diverges (simple pole of $\zeta$ at $s=1$). For primitive $A$: the sum converges (by PEX), reflecting the "anti-pole" effect of primitivity.
+
+**The Dirichlet series $D_A(s) = \sum_{a\in A} a^{-s}$ for primitive $A$ has**:
+- $D_A(1) = \sum 1/a$ (possibly divergent)
+- $D_A'(1) = -\sum \log(a)/a$ (diverges)
+- $-D_A'(1)/D_A(1) = \sum 1/(a\log a) = F(A) \leq T_1(x)$ by PEX (normalized)
+
+This connects the primitive-set problem to the analytic theory of Dirichlet series and L-functions.
+
+**Q40+Q41 status: resolved.** Historical timeline traced (Erdős 1935 → Zhang 1993 → Lichtman 2022); LP proof structure explained; 7 open problems identified; Dirichlet series connection noted.

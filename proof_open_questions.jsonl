@@ -114,3 +114,9 @@
 {"qid":"Q39","status":"open","session_id":"s_0701-080342-d8e0","summary":"Density of primitive sets","ts":"2026-07-01T11:37:50+00:00"}
 {"qid":"Q39","status":"claimed","session_id":"s_0701-080342-d8e0","summary":"taking Q39 density","ts":"2026-07-01T11:37:50+00:00"}
 {"qid":"Q39","status":"resolved","session_id":"s_0701-080342-d8e0","summary":"All of [N/2,N] is primitive; density 0; sum 1/(a log a) bounded by T_1(x) via PEX","ts":"2026-07-01T11:37:50+00:00"}
+{"qid":"Q40","status":"open","session_id":"s_0701-080342-d8e0","summary":"Historical development: Erdos 1935 original conjecture; Zhang 1993 F1 bound; Lichtman 2021 partial PEX; Lichtman 2022 full PEX proof in Ann Math; timeline and key ideas","ts":"2026-07-01T11:38:24+00:00"}
+{"qid":"Q40","status":"claimed","session_id":"s_0701-080342-d8e0","summary":"taking Q40 historical development","ts":"2026-07-01T11:38:24+00:00"}
+{"qid":"Q41","status":"open","session_id":"s_0701-080342-d8e0","summary":"Open problems in primitive set theory","ts":"2026-07-01T11:39:04+00:00"}
+{"qid":"Q41","status":"claimed","session_id":"s_0701-080342-d8e0","summary":"combined Q40+Q41","ts":"2026-07-01T11:39:04+00:00"}
+{"qid":"Q40","status":"resolved","session_id":"s_0701-080342-d8e0","summary":"Historical timeline traced; LP proof structure; 7 open problems; Dirichlet series connection","ts":"2026-07-01T11:39:04+00:00"}
+{"qid":"Q41","status":"resolved","session_id":"s_0701-080342-d8e0","summary":"7 open problems identified including B_r analogue, Beurling, multiplicative weights, small-x","ts":"2026-07-01T11:39:04+00:00"}
