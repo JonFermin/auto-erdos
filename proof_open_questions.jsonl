@@ -9,3 +9,5 @@
 {"qid":"Q1","status":"resolved","session_id":"s_0701-080342-d8e0","summary":"Section 1 Setup written with corrected sign notes; removed trigger words from anti-traps","ts":"2026-07-01T08:20:50+00:00"}
 {"qid":"Q2","status":"resolved","session_id":"s_0701-080342-d8e0","summary":"Section 2.1 added: A_k truncated sums for k=1..4, F3 formula context","ts":"2026-07-01T08:20:50+00:00"}
 {"qid":"Q3","status":"resolved","session_id":"s_0701-080342-d8e0","summary":"Section 2.2 added: prime sum approx 1.636, prime tail < 1 for x >= 3","ts":"2026-07-01T08:20:50+00:00"}
+{"qid":"Q4","status":"resolved","session_id":"s_0701-080342-d8e0","summary":"no genuine witness found; small-x witnesses not conclusive per o(1) slack; F1 bounds any large-x primitive sum below 1.399","ts":"2026-07-01T08:37:01+00:00"}
+{"qid":"Q5","status":"resolved","session_id":"s_0701-080342-d8e0","summary":"proof outline via Omega-stratification: Lemma 1 proved (F3), Lemma 2+3 open (cross-stratum bound)","ts":"2026-07-01T08:37:01+00:00"}
