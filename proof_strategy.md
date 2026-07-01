@@ -652,3 +652,96 @@ $< 1 + o(1)$ but not yet proved from F1/F2/F3.
 $$\sum_{a \in A} \frac{1}{a \log a} < 1 + o(1) \quad \text{IF}$$
 - Either: $A$ has bounded $\Omega$ (Case A, Sec 6.2 — **proved**), or
 - Or: PEX holds for $A$ (Sec 8.1 — **reduces to prime tail, proved via F1**, but PEX itself open).
+
+---
+
+## Section 9 — Two-Stratum Maximum and the Shadow-Sufficiency Condition (Q11)
+
+### 9.1 The Two-Stratum Maximum Theorem
+
+**Theorem 9.1** (Two-Stratum Maximum, conditional): Let $k_1 < k_2$ and assume the
+**Shadow-Sufficiency Condition** (SSC): for all $a \geq x$,
+$$\beta^*(a) := \sum_{p > a, \, p \text{ prime}} \frac{1}{ap \log(ap)} \geq \frac{1}{a \log a}.$$
+Then for any primitive $A \subset [x, \infty)$ with $\Omega(a) \in \{k_1, k_1+1\}$:
+$$S_{k_1} + S_{k_1+1} \leq \max\bigl(T_{k_1}(x),\, T_{k_1+1}(x)\bigr) < 1.$$
+
+*Proof (conditional on SSC)*: From Prop 7.1: $S_{k_1+1} \leq T_{k_1+1}(x) - \sigma_{k_1}$.
+By Claim 7.2 and SSC: $\sigma_{k_1} \geq \sum_{a \in A_{k_1}^A} \beta^*(a) \geq \sum_{a \in A_{k_1}^A} 1/(a \log a) = S_{k_1}$.
+Adding $S_{k_1}$: $S_{k_1} + S_{k_1+1} \leq T_{k_1+1}(x)$.
+Since $S_{k_1} \geq 0$: $S_{k_1+1} \leq T_{k_1+1}(x) - S_{k_1} \leq T_{k_1+1}(x)$.
+Taking the smaller bound: $S_{k_1} + S_{k_1+1} \leq \min(T_{k_1}(x) + T_{k_1+1}(x),\, T_{k_1+1}(x))$...
+more precisely: $S_{k_1} + S_{k_1+1} \leq T_{k_1+1}(x) \leq T_{k_1+1}(x)$,
+and symmetrically (by the same argument with strata reversed or by $S_{k_1} \leq T_{k_1}(x)$):
+$$S_{k_1} + S_{k_1+1} \leq \min(S_{k_1} + T_{k_1+1}(x),\, T_{k_1}(x) + S_{k_1+1})
+  \leq T_{k_1+1}(x). \quad\square$$
+By F3: $T_{k_1+1}(x) \leq$ full $A_{k_1+1}$ sum $= 1 - (c+o(1))(k_1+1)^2/2^{k_1+1} < 1$.
+
+### 9.2 Derivation of SSC from Prime Tail Bounds
+
+The Shadow-Sufficiency Condition $\beta^*(a) \geq 1/(a \log a)$ is equivalent to:
+$$\sum_{p > a} \frac{1}{ap \log(ap)} \geq \frac{1}{a \log a}$$
+$$\Leftrightarrow \quad \sum_{p > a} \frac{\log a}{\log(ap)} \cdot \frac{1}{p} \geq 1.$$
+
+Since $\log(ap) \leq \log a + \log p \leq 2\log p$ for $p > a$:
+$$\sum_{p > a} \frac{\log a}{\log(ap)} \cdot \frac{1}{p} \geq \frac{\log a}{2} \sum_{p > a} \frac{1}{p \log p} = \frac{\log a}{2} \cdot T_1(a).$$
+
+So SSC holds if $(\log a) \cdot T_1(a) / 2 \geq 1$, i.e., if $T_1(a) \geq 2/\log a$.
+
+**The prime-tail lower bound**: SSC is implied by the quantitative lower bound
+$$T_1(a) = \sum_{p \geq a} \frac{1}{p \log p} \geq \frac{2}{\log a} \quad \text{for all } a \geq x.$$
+
+### 9.3 What F1 Gives for the Prime Tail
+
+From Prop 8.2: $T_1(a) \to 0$ as $a \to \infty$ (convergent series, tail vanishes).
+
+This gives an **upper bound** approaching 0: $T_1(a) = o(1)$. We also know $T_1(a) > 0$ for all $a$.
+But F1 gives no **lower bound** on $T_1(a)$.
+
+The condition $T_1(a) \geq 2/\log a$: for large $a$, $2/\log a \to 0$, so this requires
+$T_1(a)$ to decay no faster than $1/\log a$. This is a quantitative prime-distribution
+statement not available from F1, F2, or F3.
+
+**Conclusion**: SSC (and hence Theorem 9.1) is not provable from the given facts alone.
+
+### 9.4 Alternative: Full-Stratum Argument
+
+Instead of SSC, use the following structural observation:
+
+**Observation 9.2**: If $A_{k_1}^A = A_{k_1} \cap [x, \infty)$ (the FULL stratum $k_1$
+is included in $A$), then $A_{k_1+1}^A = \emptyset$.
+
+*Proof*: Every element $b \in A_{k_1+1} \cap [x,\infty)$ has $\Omega(b) = k_1+1$, so
+$b = a \cdot p$ for some $a$ with $\Omega(a) = k_1$ and prime $p$. Since $a \in A_{k_1}$
+and $a \geq b/p \geq x/b$ ... actually $a = b/p \leq b/2 < b$, and $a$ might be $< x$.
+If $a \geq x$: then $a \in A_{k_1} \cap [x,\infty) = A_{k_1}^A \subset A$, and $a | b$
+with $a \neq b$, violating primitivity.
+If $a < x$: then $b = ap$ with $a < x$ and $p > b/a > x/a > 1$. The element $a \notin A$
+(since $A \subset [x,\infty)$ and $a < x$). So $b$ is NOT blocked by $a \in A$.
+
+**Correction**: Elements $b \in A_{k_1+1} \cap [x,\infty)$ with $b = ap$ where $a < x$
+are NOT blocked by $A_{k_1}^A$, since $a \notin A$. So Observation 9.2 is FALSE in general.
+
+Elements of $A_{k_1+1} \cap [x,\infty)$ with $b = ap$, $a \geq x$: these ARE blocked.
+Elements with $b = ap$, $a < x$: these are NOT blocked by stratum $k_1$.
+
+The fraction of $A_{k_1+1} \cap [x,\infty)$ that is blocked depends on the distribution
+of the "small factor" $a < x$ in elements $b = ap \geq x$. This requires estimates on
+the density of $k_1$-almost primes in $[1, x)$, which is a prime-distribution fact beyond F1/F2/F3.
+
+### 9.5 Summary: The Prime Distribution Gap
+
+The analysis identifies a precise gap: SSC requires $T_1(a) \geq 2/\log a$ (a lower bound
+on the prime tail), and Observation 9.2's effective form requires knowing how many elements
+of $A_{k_1+1} \cap [x,\infty)$ have their "parent" $k_1$-almost prime in $[1, x)$.
+
+Both of these gaps reduce to quantitative prime distribution beyond the available ledger.
+
+**What is now rigorously established**:
+- Bounded-$\Omega$ case: sum $= o(1)$ (Section 6, proved).
+- Prime tail vanishes: $T_1(x) \to 0$ (Section 8, proved from F1).
+- Shadow blocking principle: $S_{k+1} \leq T_{k+1}(x) - \sigma_k$ (Section 7, proved).
+- Two-stratum bound: $S_k + S_{k+1} \leq T_{k+1}(x) < 1$ conditional on SSC (Section 9.1).
+
+**What remains open**: SSC itself, which requires a prime-tail lower bound not in the ledger.
+The conjecture is believed true, and the partial structure here shows how close the
+available tools come: the only missing piece is a LOWER bound on $T_1(a)$.
