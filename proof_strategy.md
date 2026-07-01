@@ -298,10 +298,62 @@ Formalizing "primes are extremal" is the central missing step. Partial approach:
 ### 4.4 Current Status
 
 - **Lemma 1**: proved in isolated regimes (fixed-$k$ trivial; large-$k$ via F3); joint large-$k$-large-$x$ case open.
-- **Lemma 2**: open; the shadow/blocking structure needs quantification.
-- **Lemma 3** (cross-stratum total): open; this is the conjecture itself.
+- **Lemma 2** (shadow bound): qualitative form proved; quantitative form open. See `proof_lemmas/lemma_primitivity_shadow.md`.
+- **Lemma 3** (cross-stratum total): open; this is the conjecture itself. See `proof_lemmas/lemma_cross_stratum.md`.
 
-This remains an open problem. The next proof round should focus on Lemma 2:
-formalizing how primitivity limits the cross-stratum sum via the blocking
-structure, ideally deriving a quantitative bound $\sum_k S_k < C$ for some
-constant $C < 1.399$ consistent with F1, then attempting to sharpen to $1 + o(1)$.
+This remains an open problem. The lemma files contain detailed analyses of the
+obstacles and partial results. The next session should focus on the intermediate
+regime ($k \sim \log\log x$) where the most important contributions arise.
+
+---
+
+## Section 5 — Structure of Lemma 3 (Q7)
+
+See `proof_lemmas/lemma_cross_stratum.md` for full analysis.
+
+### 5.1 The Reduction
+
+Proving Lemma 3 is equivalent to proving the conjecture. F1 gives the weaker
+bound $< e^\gamma\pi/4 + o(1)$. The gap from $1.399$ to $1 + o(1)$ requires
+showing that primitivity prevents the cross-stratum total from accumulating
+near $1.399$.
+
+### 5.2 Three-Regime Decomposition
+
+Let $K = K(x) \to \infty$ to be chosen. Split:
+$$\sum_{k \geq 1} S_k = \underbrace{\sum_{k \leq K} S_k}_{I_1} + \underbrace{\sum_{k > K} S_k}_{I_2}.$$
+
+**Regime $I_1$ (fixed strata, $k \leq K$)**: For each fixed $k$,
+$S_k = \sum_{a \in A_k \cap [x,\infty)} 1/(a \log a) \leq \frac{\#(A_k^A)}{x \log x}$.
+As $x \to \infty$, $I_1 \to 0$ regardless of $K$ (as long as $K$ is fixed or
+grows slowly enough that $K/x \to 0$). This bound is elementary.
+
+**Regime $I_2$ (high strata, $k > K$)**: Each $S_k \leq$ (full $A_k$ sum).
+By F3 (for $k > K$ with $K$ large): each full $A_k$ sum is $< 1$.
+But $\sum_{k > K} S_k \leq \sum_{k > K} 1$ diverges — F3 alone doesn't bound $I_2$.
+
+**The Gap**: To bound $I_2 < 1 + o(1)$, we need the primitive structure to
+prevent many high strata from each contributing near their full stratum sum.
+This is exactly what the "primes are extremal" principle would give — but
+formalizing it remains the open step.
+
+### 5.3 Key Obstacle (Formalized)
+
+We cannot bound $I_2$ using only F3 because:
+1. Each stratum $A_k$ (even restricted to $[x, \infty)$) has full sum $< 1$ by F3.
+2. But there are infinitely many strata, so $\sum_{k>K} (\text{something } < 1)$
+   could diverge.
+3. Primitivity must prevent the actual $S_k$'s from being simultaneously large.
+
+This interplay between primitivity and the stratum structure is the core of
+the conjecture, and why existing proofs (F1 giving 1.399) fall short of 1 + o(1).
+
+### 5.4 Outlook
+
+The regime $k \sim \log\log x$ contributes the most: elements with
+$\Omega(a) \sim \log\log x$ are "typical" integers near $x$. F3's asymptotic
+gives stratum sums near 1 (small correction $k^2/2^k \ll 1$ for $k = \log\log x$).
+Bounding the total across these many strata requires either:
+(a) A "primes-are-extremal" inequality comparing each $a \in A$ with prime factors; or
+(b) A direct count: showing that primitivity limits $\#(A_k^A)$ severely enough
+    that $S_k \ll 1/(k^2)$ for each such $k$, making $\sum_k S_k$ converge below 1.
