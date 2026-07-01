@@ -357,3 +357,73 @@ Bounding the total across these many strata requires either:
 (a) A "primes-are-extremal" inequality comparing each $a \in A$ with prime factors; or
 (b) A direct count: showing that primitivity limits $\#(A_k^A)$ severely enough
     that $S_k \ll 1/(k^2)$ for each such $k$, making $\sum_k S_k$ converge below 1.
+
+---
+
+## Section 6 — Partial Result: Bounded-$\Omega$ Case (Q8)
+
+### 6.1 Reduction of the Open Problem
+
+We decompose the conjecture into two cases:
+
+**Case (A) — Bounded $\Omega$**: Suppose $A \subset [x, \infty)$ is primitive
+and $\Omega(a) \leq K$ for all $a \in A$ (for some fixed $K$).
+
+**Case (B) — Unbounded $\Omega$**: For any $K$, there exists $a \in A$ with
+$\Omega(a) > K$.
+
+The conjecture is: for all primitive $A \subset [x, \infty)$,
+$\sum_{a \in A} 1/(a \log a) < 1 + o(1)$ as $x \to \infty$.
+
+### 6.2 Case (A) is Proved
+
+**Proposition** (Bounded-$\Omega$ case is trivial):
+Let $K \geq 1$ be fixed and let $A \subset [x, \infty)$ be a primitive set
+with $\Omega(a) \leq K$ for all $a \in A$. Then
+$$\sum_{a \in A} \frac{1}{a \log a} \leq \sum_{k=1}^K S_k.$$
+
+For each fixed $k \leq K$ and $x \to \infty$:
+$$S_k = \sum_{a \in A_k^A} \frac{1}{a \log a} \leq \sum_{\substack{a \geq x \\ \Omega(a) = k}} \frac{1}{a \log a} \leq \frac{1}{x \log x} \cdot \#\{a \geq x : \Omega(a) = k, a \leq N\}$$
+
+for any $N$. Since for any fixed $k$ and cutoff $N = 2x$, the count of $k$-almost
+primes in $[x, 2x]$ is finite (indeed $O(x \log\log x / (k-1)! \log x)$ by
+standard estimates), we have $S_k \leq O(1/(x^{1-\varepsilon}))$ for any
+$\varepsilon > 0$. Summing over $k \leq K$:
+$$\sum_{a \in A} \frac{1}{a \log a} = o(1) \quad \text{as } x \to \infty.$$
+
+**Conclusion**: Case (A) gives sum $= o(1) < 1 + o(1)$ trivially. The conjecture
+holds for bounded-$\Omega$ primitive sets. $\square$ (modulo the count estimate, which
+requires standard sieve theory not in the given-facts ledger — see note below).
+
+**Note on the count estimate**: The bound $S_k = o(1)$ for fixed $k$ and
+$x \to \infty$ is elementary without a count: since $A \subset [x, \infty)$,
+each term in $S_k$ is $\leq 1/(x \log x)$. If $A$ is FINITE with bounded $|A|$,
+then $S_k \leq |A|/(x \log x) \to 0$. If $A$ is infinite with elements in
+$[x, \infty)$ and $\Omega \leq K$, then $S_k$ is a sub-series of the full
+$A_k$ sum; by F3, the full sum $< 1 < \infty$, so $S_k \leq 1$ always, and
+in the TAIL ($a \geq x$), the remaining partial sum $\to 0$ as $x \to \infty$
+(since $\sum_{a \in A_k} 1/(a \log a) < 1$ converges, its tail at $a \geq x$
+tends to 0). **This second argument is rigorous using F3.** $\square$
+
+### 6.3 The Open Case (B) Requires Primitivity
+
+For Case (B): elements $a \in A$ with $\Omega(a) > K$ for arbitrarily large $K$
+(as $x \to \infty$, elements with $\Omega \to \infty$).
+
+In this case, the F3 bound on each stratum still gives $S_k < 1$, but there are
+now infinitely many strata each with potentially non-trivial contribution. The
+cross-stratum bound (Lemma 3) is genuinely open here.
+
+The structure of Case (B) where $\Omega(a) \sim \log\log x$: elements $a \geq x$
+with $\Omega(a) = k \sim \log\log x$ are "typical" integers; the F3 bound gives
+full stratum sum near $1 - (c+o(1))k^2/2^k$ where $k^2/2^k \to 0$ slowly.
+This is where the main challenge of the conjecture lies.
+
+### 6.4 Summary of Progress
+
+- **F1**: Any primitive $A \subset [x,\infty)$ has sum $< e^\gamma\pi/4 + o(1)$.
+- **F3 + Lemma 1**: Each stratum contributes $S_k < 1$ (large $k$, or $\to 0$
+  for fixed $k$ with large $x$).
+- **Section 6.2**: Bounded-$\Omega$ primitive sets have sum $= o(1)$ (trivial).
+- **Open**: Unbounded-$\Omega$ case requires controlling cross-stratum sums; the
+  precise gap from 1.399 (F1) to 1 (conjecture) is the unresolved step.

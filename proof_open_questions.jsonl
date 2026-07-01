@@ -16,3 +16,6 @@
 {"qid":"Q6","status":"resolved","session_id":"s_0701-080342-d8e0","summary":"Lemma 2 qualitative form proved; quantitative form open; lemma_primitivity_shadow.md created with shadow analysis","ts":"2026-07-01T08:53:01+00:00"}
 {"qid":"Q7","status":"open","session_id":"s_0701-080342-d8e0","summary":"Lemma 3: cross-stratum total < 1+o(1) — the hard gap. Try Zhang largest-prime-factor decomp via F1 only","ts":"2026-07-01T08:53:51+00:00"}
 {"qid":"Q7","status":"claimed","session_id":"s_0701-080342-d8e0","summary":"developing Lemma 3 three-regime decomp I1+I2; bounding intermediate k regime","ts":"2026-07-01T08:55:53+00:00"}
+{"qid":"Q7","status":"resolved","session_id":"s_0701-080342-d8e0","summary":"Lemma 3 three-regime decomp formalized; intermediate regime is core obstacle","ts":"2026-07-01T09:00:23+00:00"}
+{"qid":"Q8","status":"open","session_id":"s_0701-080342-d8e0","summary":"Bound intermediate-k regime: elements with Omega(a)~log log x, a>=x. Can primitivity limit count enough?","ts":"2026-07-01T09:00:23+00:00"}
+{"qid":"Q8","status":"claimed","session_id":"s_0701-080342-d8e0","summary":"proving bounded-Omega case is trivial via F3 tail, reducing open problem to unbounded-Omega regime","ts":"2026-07-01T09:02:23+00:00"}
