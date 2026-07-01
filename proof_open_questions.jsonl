@@ -90,3 +90,6 @@
 {"qid":"Q31","status":"resolved","session_id":"s_0701-080342-d8e0","summary":"Section 28 error corrected; dyadic sum diverges; unconditional status table established; F4 required for general case","ts":"2026-07-01T11:29:30+00:00"}
 {"qid":"Q32","status":"open","session_id":"s_0701-080342-d8e0","summary":"Complete clean proof synthesis: assuming F1,F2,F3,F4 from ledger, write self-contained proof of Erdos conjecture; include all lemmas; explicit constants; proof is conditional on F4 (Lichtman 2022)","ts":"2026-07-01T11:29:30+00:00"}
 {"qid":"Q32","status":"claimed","session_id":"s_0701-080342-d8e0","summary":"taking Q32 complete proof synthesis","ts":"2026-07-01T11:29:30+00:00"}
+{"qid":"Q32","status":"resolved","session_id":"s_0701-080342-d8e0","summary":"Complete proof written; F4=>F(A)<=T_1(x)->0; quantitative F(A)<=2/log x; F(A)<1 for x>=8; proof complete conditional on F4","ts":"2026-07-01T11:30:33+00:00"}
+{"qid":"Q33","status":"open","session_id":"s_0701-080342-d8e0","summary":"Effectivize the o(1): make explicit the constant in T_1(x)<=2/log x; prove F(A)<1 for all x>=2 (or find the exact threshold); connect to Bertrand's postulate for small x","ts":"2026-07-01T11:30:33+00:00"}
+{"qid":"Q33","status":"claimed","session_id":"s_0701-080342-d8e0","summary":"taking Q33 effectivization of the bound","ts":"2026-07-01T11:30:33+00:00"}
