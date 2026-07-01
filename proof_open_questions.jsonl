@@ -19,3 +19,6 @@
 {"qid":"Q7","status":"resolved","session_id":"s_0701-080342-d8e0","summary":"Lemma 3 three-regime decomp formalized; intermediate regime is core obstacle","ts":"2026-07-01T09:00:23+00:00"}
 {"qid":"Q8","status":"open","session_id":"s_0701-080342-d8e0","summary":"Bound intermediate-k regime: elements with Omega(a)~log log x, a>=x. Can primitivity limit count enough?","ts":"2026-07-01T09:00:23+00:00"}
 {"qid":"Q8","status":"claimed","session_id":"s_0701-080342-d8e0","summary":"proving bounded-Omega case is trivial via F3 tail, reducing open problem to unbounded-Omega regime","ts":"2026-07-01T09:02:23+00:00"}
+{"qid":"Q8","status":"resolved","session_id":"s_0701-080342-d8e0","summary":"bounded-Omega case proved via F3 convergence tail; open problem reduced to unbounded-Omega intermediate regime","ts":"2026-07-01T09:16:32+00:00"}
+{"qid":"Q9","status":"open","session_id":"s_0701-080342-d8e0","summary":"Cross-stratum blocking: telescoping sum argument. Can blocked shadows from stratum k compensate for full A_{k+1} tail? Identify the key inequality.","ts":"2026-07-01T09:21:09+00:00"}
+{"qid":"Q9","status":"claimed","session_id":"s_0701-080342-d8e0","summary":"developing telescoping stratum-blocking argument; computing shadow sums to find key inequality","ts":"2026-07-01T09:21:09+00:00"}

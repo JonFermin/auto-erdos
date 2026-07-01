@@ -1,1 +1,5 @@
 {"event":"session_open","session_id":"s_0625-080256-b092","ts":"2026-06-25T08:02:56+00:00","commit":"35394e3","proof_tag":"primitive_set_erdos","stashed_ref":null,"detected_orphan":null,"released_orphan_qids":[]}
+{"event":"round","session_id":"s_0701-080342-d8e0","ts":"2026-07-01T08:47:34+00:00","summary":"Q2-Q5 qualitative outline kept as keep_progress after 4 rounds of critic fixes","qid":"Q5","status":"keep_progress","commit":"f510ce0"}
+{"event":"round","session_id":"s_0701-080342-d8e0","ts":"2026-07-01T08:53:51+00:00","summary":"Q6 kept: Lemma 2 qualitative shadow bound proved, lemma file created","qid":"Q6","status":"keep_progress","commit":"81d25d1"}
+{"event":"round","session_id":"s_0701-080342-d8e0","ts":"2026-07-01T09:00:23+00:00","summary":"Q7 kept: Lemma 3 three-regime decomp, cross-stratum obstacle formalized in lemma_cross_stratum.md","qid":"Q7","status":"keep_progress","commit":"56f6563"}
+{"event":"round","session_id":"s_0701-080342-d8e0","ts":"2026-07-01T09:16:32+00:00","summary":"Q8 kept (critics-off): bounded-Omega case trivial via F3 tail; open case is unbounded-Omega with intermediate k","qid":"Q8","status":"keep_progress","commit":"b2d2524"}
