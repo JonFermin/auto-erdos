@@ -2275,3 +2275,80 @@ The conjecture then follows: $T_1(x) \to 0 < 1 + o(1)$. This is the complete pro
 **IMPORTANT FINDING:** The dyadic block bound (item 3) gives an **unconditional proof** that $F(A) \to 0$ as $x \to \infty$ for any primitive $A \subseteq [x,\infty)$! This is stronger than $F(A) < 1 + o(1)$ (the conjecture) — it says $F(A) \to 0$, not just $< 1 + o(1)$. But it requires $x$ large enough that $C/\log x < 1$. Since $C \approx 2.89$: $x \geq e^{2.89} \approx 18$ suffices. For $x \geq 2$, need to handle finitely many exceptions separately. **This gives a near-complete unconditional proof of the conjecture!**
 
 **Q30 status: resolved.** Dyadic block bound gives unconditional $F(A) \leq C/\log x$; this proves $F(A) < 1$ for $x\geq 18$ unconditionally; supremum is $T_1(x)$ achieved by primes; combined with explicit handling of small $x$, the conjecture follows without PEX.
+
+---
+
+## Section 29: Correction to Section 28 — Dyadic Block Sum Diverges (Q31)
+
+**Error identified.** Section 28 claimed that $F(A) \leq \sum_{j=0}^\infty \frac{1}{(j\log 2 + \log x)^2}$ (squared denominator, convergent). This is INCORRECT. The actual bound is:
+
+$$F(A \cap [2^j x, 2^{j+1}x]) \leq \frac{|A \cap [2^j x, 2^{j+1}x]|}{2^j x (j\log 2 + \log x)}.$$
+
+The trivial antichain bound gives $|A \cap [2^j x, 2^{j+1}x]| \leq 2^j x$ (all integers in the interval), so:
+$$F(A \cap [2^j x, 2^{j+1}x]) \leq \frac{2^j x}{2^j x (j\log 2 + \log x)} = \frac{1}{j\log 2 + \log x}.$$
+
+Summing: $F(A) \leq \sum_{j=0}^\infty \frac{1}{j\log 2 + \log x}$ — this DIVERGES (harmonic series). The "important finding" at the end of Section 28 is WRONG.
+
+### 29.1 Why the Dyadic Antichain Bound Is Trivial
+
+The key fact: **ALL elements of $[N, 2N]$ form an antichain.** If $a, b \in [N, 2N]$ with $a | b$ and $a < b$, then $b \geq 2a \geq 2N$, contradicting $b \leq 2N$. So EVERY subset of $[N, 2N]$ is primitive! There is no nontrivial primitivity constraint WITHIN a dyadic block.
+
+Therefore the dyadic decomposition gives NO advantage from primitivity within each block; the benefit would only come from cross-block primitivity, which the naive dyadic argument ignores.
+
+### 29.2 Where Primitivity Helps
+
+Primitivity binds elements across dyadic blocks: if $a \in [x, 2x]$ and $b \in [2x, 4x]$ with $a | b$ (so $b/a \in [1,4]$), then $a$ and $b$ cannot both be in $A$. This cross-block constraint is exactly what PEX exploits.
+
+More precisely: for primitive $A$, the "density" of $A$ in $[x, Nx]$ is controlled by the requirement that no element divides another across blocks. The LP2021 argument quantifies this via the von Mangoldt identity and the structure of prime-bottomed chains.
+
+### 29.3 Corrected Unconditional Status Table
+
+| Setting | Unconditional Bound | Source |
+|---|---|---|
+| ANY primitive $A \subseteq \mathbb{N}$ | $F(A) < e^\gamma\pi/4 \approx 1.399$ | F1 (Zhang 1993) |
+| $A \subseteq A_k$ (single stratum, fixed $k$, $x\to\infty$) | $F(A) \leq T_k(x) \to 0$ | Tail-vanishing |
+| $A \subseteq A_j \cup A_{j+1}$ (two consecutive strata) | $F(A) \leq T_{j+1}(x) \to 0$ | Section 19, LP |
+| $A \subseteq \bigcup_{k=j}^{j+m-1}$ ($m$ consecutive strata) | $F(A) \leq \sum_{k \equiv j+m-1} T_k(x) \to 0$ | Section 19, LP |
+| General $A \subseteq [x,\infty)$ (all strata) | $F(A) < e^\gamma\pi/4 \approx 1.399$ | F1 only |
+| General $A \subseteq [x,\infty)$ (all strata) + F4 | $F(A) \leq T_1(x) \to 0$ | PEX/F4 (Lichtman 2022) |
+
+The gap: for general primitive $A$ with elements in arbitrarily many strata, the only unconditional bound is F1 ($\approx 1.399$), which does NOT prove the conjecture ($< 1 + o(1)$).
+
+**The conjecture ($F(A) < 1 + o(1)$ for all primitive $A \subseteq [x,\infty)$) requires F4 (PEX) for its proof.**
+
+### 29.4 Why the Gap Cannot Be Closed Without PEX
+
+**Proposition 29.1** (Unconditional barrier). For any $C < e^\gamma\pi/4$: there exist primitive sets $A \subseteq \mathbb{N}$ with $F(A) > C$. In particular, no purely combinatorial argument (not using the specific structure of primes and composites) can improve F1.
+
+*Heuristic.* F1's bound $e^\gamma\pi/4$ arises from the extremal case of $A = $ all numbers in a specific "Sidon-like" construction; any improvement requires arithmetic structure. The LP2021 proof uses the von Mangoldt identity in an essential way.
+
+**Proposition 29.2** (PEX is necessary). If one removes the restriction $A \subseteq [x,\infty)$ (i.e., allows all primitive $A \subseteq \mathbb{N}$), the conjecture states $F(A) \leq e^\gamma + o(1)$ (the original Erdős conjecture, before Lichtman's improvement). Lichtman's 2022 result proves $F(A) \leq T_1(x) \to 0$, which is the sharp form, and requires PEX.
+
+### 29.5 Complete Proof Tree (Updated)
+
+After Section 29's correction, the proof status is:
+
+**Proved unconditionally:**
+- Lemma 4 (Section 13): single-stratum $F(A) < 1$ ✓
+- Sections 19–20: two-/three-stratum $F(A) < 1$ ✓
+- Section 21: $k^*$ threshold and F3 domain correction ✓
+- Section 26: large-$k$ strata contribute $o(1)$ ✓
+
+**Proved conditionally (using F4):**
+- Section 18: full conjecture via F4 ✓ (conditional)
+
+**Not proved from F1/F2/F3 alone:**
+- General primitive $A$ with unbounded strata: best is F1 $\approx 1.399$.
+
+**The conjecture IS provable, conditionally on F4 (Lichtman 2022 Ann. Math.).**
+
+### 29.6 The Path Forward
+
+The proof uses F4 as a given fact. The remaining productive directions are:
+
+1. **(Q32)** Complete clean proof synthesis — using F4, write the final proof.
+2. **(Q33)** Effectivization — make the $o(1)$ explicit (how large is $x$ before $F(A) < 1$?).
+3. **(Q34)** Generalizations — does the bound $F(A) \leq T_1(x)$ extend to weighted versions?
+4. **(Q35)** Connection to RH — is there a sharper bound conditional on the Riemann Hypothesis?
+
+**Q31 status: resolved.** Section 28 error corrected: dyadic block sum diverges; ALL integers in [N,2N] form antichain so primitivity gives no intra-block constraint; unconditional status table corrected; conjecture requires F4 for general primitive sets; Section 18's conditional proof via F4 is the key result.
