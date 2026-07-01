@@ -30,3 +30,6 @@
 {"qid":"Q11","status":"claimed","session_id":"s_0701-080342-d8e0","summary":"developing two-stratum maximum theorem and the shadow-sufficiency condition beta*(a) >= 1/(a log a)","ts":"2026-07-01T09:37:02+00:00"}
 {"qid":"Q12","status":"open","session_id":"s_0701-080342-d8e0","summary":"Single-stratum lemma: prove S_k < 1 for any primitive A ⊆ A_k ∩ [x,∞) using F3 (k≥2) and Prop 8.2 (k=1); formalize as Lemma 4 in proof_lemmas/","ts":"2026-07-01T09:47:25+00:00"}
 {"qid":"Q12","status":"claimed","session_id":"s_0701-080342-d8e0","summary":"taking Q12 single-stratum lemma","ts":"2026-07-01T09:47:30+00:00"}
+{"qid":"Q12","status":"resolved","session_id":"s_0701-080342-d8e0","summary":"Single-stratum lemma proved (Corollary 10.1): S_k < 1 for k=1 (prime-tail convergence) and k>=2 (F3 correction); formalized in Lemma 4","ts":"2026-07-01T09:48:48+00:00"}
+{"qid":"Q13","status":"open","session_id":"s_0701-080342-d8e0","summary":"Finite Support Reduction: prove the maximum of Σ 1/(a log a) over primitive A ⊆ [x,∞) is attained (or approached) in the limit by a single-stratum configuration, reducing the cross-stratum gap to Lemma 4","ts":"2026-07-01T09:49:03+00:00"}
+{"qid":"Q13","status":"claimed","session_id":"s_0701-080342-d8e0","summary":"taking Q13 finite support / optimizer structure","ts":"2026-07-01T09:49:03+00:00"}
