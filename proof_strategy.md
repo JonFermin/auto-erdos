@@ -200,14 +200,17 @@ to the sum via the term $1/(2 \log 2)$). However:
 ### 3.3 Outlook
 
 By **F1**, no primitive set in $[x, \infty)$ can achieve sum
-$> e^\gamma \pi/4 + o(1) \approx 1.399$; the conjecture further conjectures
-the true bound is $1 + o(1)$. The extremal candidate (conjectured to be the
-primes) sees its tail sum $\sum_{p \geq x} 1/(p \log p) \to 0$ as
-$x \to \infty$ — so no prime-only set gives a genuine large-$x$ counterexample.
+$> e^\gamma \pi/4 + o(1) \approx 1.399$; the conjecture further posits
+the tight bound $1 + o(1)$.
+
+For any fixed $x_0$ and the set of primes $\geq x_0$: by F1, the sum is
+$< e^\gamma\pi/4 + o(1)$ as $x_0 \to \infty$. The primes form the
+conjectured extremal case, but the bound $< 1 + o(1)$ (the conjecture) is
+unproven for the prime subset itself.
 
 For composite primitive sets in $[x, \infty)$: each composite $n$ has
-$\Omega(n) \geq 2$, so its contribution $1/(n \log n)$ is bounded by
-$1/(x \log x)$ from below. But primitivity forces these elements to be
+$\Omega(n) \geq 2$, so each term $1/(n \log n) \leq 1/(x \log x)$
+(an UPPER bound on each term). Primitivity forces these elements to be
 pairwise non-divisible, severely limiting how many can be small. A rigorous
 bound on the cross-stratum sum is the main open step (Lemma 3 in Section 4).
 
@@ -262,9 +265,9 @@ multiple $am$ ($m \geq 2$) belongs to $A$. Consequently, $\{ap : p \text{ prime}
 automatically pairwise non-divisible.
 
 *Quantitative form* (open): The cross-stratum interaction limits
-$\sum_k S_k$ to $< 1 + o(1)$. The Zhang (1993) approach for F1 gives the
-weaker bound $< e^\gamma\pi/4 + o(1)$; the conjecture requires a tighter
-argument. The obstacle is formalizing the "primes are extremal" comparison
+$\sum_k S_k$ to $< 1 + o(1)$. F1 (the known upper bound) gives
+$< e^\gamma\pi/4 + o(1)$; the conjecture requires a tighter argument.
+The obstacle is formalizing the "primes are extremal" comparison
 using only F1/F2/F3.
 
 **Status: qualitative form proved (see lemma file); quantitative $\to 1+o(1)$ open.**

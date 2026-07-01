@@ -13,3 +13,4 @@
 {"qid":"Q5","status":"resolved","session_id":"s_0701-080342-d8e0","summary":"proof outline via Omega-stratification: Lemma 1 proved (F3), Lemma 2+3 open (cross-stratum bound)","ts":"2026-07-01T08:37:01+00:00"}
 {"qid":"Q6","status":"open","session_id":"s_0701-080342-d8e0","summary":"Formalize Lemma 2: quantitative shadow bound from primitivity; how each element in stratum j blocks strata j+1,...","ts":"2026-07-01T08:47:39+00:00"}
 {"qid":"Q6","status":"claimed","session_id":"s_0701-080342-d8e0","summary":"formalizing Lemma 2 primitivity shadow bound into dedicated lemma file","ts":"2026-07-01T08:49:04+00:00"}
+{"qid":"Q6","status":"resolved","session_id":"s_0701-080342-d8e0","summary":"Lemma 2 qualitative form proved; quantitative form open; lemma_primitivity_shadow.md created with shadow analysis","ts":"2026-07-01T08:53:01+00:00"}
