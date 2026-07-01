@@ -253,20 +253,21 @@ and is the open step.
 **Status: proved in each isolated regime; the joint large-$k$-large-$x$
 case requires additional work.**
 
-**Lemma 2 (Primitivity cross-stratum constraint).**
-If $a \in A_j^A$ and $a = p_1^{e_1} \cdots p_r^{e_r}$, then no element of
-$A_\ell^A$ (for $\ell > j$) can be a multiple of $a$. Specifically, the
-element $ap$ (for any prime $p$) is excluded from $A_{\ell}^A$ for $\ell = j+1$.
-This creates a "shadow" in higher strata: each element in stratum $j$ blocks
-many elements in strata $j+1, j+2, \ldots$
+**Lemma 2 (Primitivity shadow bound).**
+See `proof_lemmas/lemma_primitivity_shadow.md` for the full analysis.
 
-Primitivity also prevents stratum $j$ from containing elements too close
-together: if $a, b \in A_j^A$ with $a | b$, this is impossible (since
-$a \in A_j, b \in A_j$ and $a | b$ with $a \neq b$ would require $\Omega(b) >
-\Omega(a) = j$, contradiction). So all elements in each stratum are
-automatically pairwise non-divisible, and the cross-stratum constraint is
-the binding one.
-**Status: formalization needed** — the exact quantitative shadow bound.
+*Qualitative form* (proved): For each $a \in A$ with $\Omega(a) = j$, no
+multiple $am$ ($m \geq 2$) belongs to $A$. Consequently, $\{ap : p \text{ prime}\}
+\cap A = \emptyset$ for each $a \in A$. Within each stratum, all elements are
+automatically pairwise non-divisible.
+
+*Quantitative form* (open): The cross-stratum interaction limits
+$\sum_k S_k$ to $< 1 + o(1)$. The Zhang (1993) approach for F1 gives the
+weaker bound $< e^\gamma\pi/4 + o(1)$; the conjecture requires a tighter
+argument. The obstacle is formalizing the "primes are extremal" comparison
+using only F1/F2/F3.
+
+**Status: qualitative form proved (see lemma file); quantitative $\to 1+o(1)$ open.**
 
 **Lemma 3 (Cross-stratum total $< 1 + o(1)$).**
 $\sum_{k \geq 1} S_k < 1 + o(1)$ as $x \to \infty$.
