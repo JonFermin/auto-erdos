@@ -99,3 +99,6 @@
 {"qid":"Q34","status":"resolved","session_id":"s_0701-080342-d8e0","summary":"B_r-free generalization proved; weighted sums and multiplicative functions mapped; F_q[t] analogue suggested","ts":"2026-07-01T11:32:53+00:00"}
 {"qid":"Q35","status":"open","session_id":"s_0701-080342-d8e0","summary":"Riemann Hypothesis connection: sharper T_1(x) bound under RH; explicit error in T_1(x)~1/log x; Li(x) vs pi(x) for T_1 asymptotics; RH gives T_1(x)=1/log x + O(x^{-1/2+eps})","ts":"2026-07-01T11:32:53+00:00"}
 {"qid":"Q35","status":"claimed","session_id":"s_0701-080342-d8e0","summary":"taking Q35 RH connection and sharper T_1 bounds","ts":"2026-07-01T11:32:53+00:00"}
+{"qid":"Q35","status":"resolved","session_id":"s_0701-080342-d8e0","summary":"T_1(x)=1/log x+O(1/log^2 x) unconditional; RH sharpens error; F(A)<1 for x>=3 unconditional; PEX doesn't need RH","ts":"2026-07-01T11:34:18+00:00"}
+{"qid":"Q36","status":"open","session_id":"s_0701-080342-d8e0","summary":"The F2 mystery: F2 (unsigned big-O lower bound on A_k sum) is in the given facts but never used in any proof section. Investigate: (a) what F2 actually says; (b) can F2 give a lower bound to close a gap; (c) is F2 consistent with F3","ts":"2026-07-01T11:34:18+00:00"}
+{"qid":"Q36","status":"claimed","session_id":"s_0701-080342-d8e0","summary":"taking Q36 F2 mystery","ts":"2026-07-01T11:34:18+00:00"}
