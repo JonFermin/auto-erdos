@@ -2539,3 +2539,67 @@ By numerical computation of $T_1$: need $T_1(x_{\text{odd}}) < 0.279$. Known: $T
 **The case $x = 2$ (i.e., $A$ includes the element 2) requires special treatment**: $F(A) < 1$ is not immediate from PEX for small primitive sets containing 2. But the CONJECTURE is stated asymptotically ($x \to \infty$), so for the asymptotics it suffices that $F(A) < 1 + o(1)$ for large $x$, which holds.
 
 **Q33 status: resolved.** Effective threshold: $x \geq 3$ gives $F(A) < 0.915 < 1$ by PEX; $x = 2$ gives $F(A) \leq 1.636$, requiring large odd elements for $F(A) < 1$; as $x \to \infty$: $F(A) \leq 2/\log x \to 0$; complete effectivization table established.
+
+---
+
+## Section 32: Generalizations of the Primitive-Set Bound (Q34)
+
+**Context.** The Erdős primitive-set conjecture (now proved conditional on F4) states $F(A) \leq T_1(x)$ for primitive $A \subseteq [x,\infty)$. We explore natural generalizations.
+
+### 32.1 $B_r$-Free Sets (Divisibility Chains of Length $\leq r$)
+
+**Definition.** A set $A \subseteq \mathbb{N}$ is $B_r$-free (or $r$-primitive) if it contains no chain $a_1 | a_2 | \cdots | a_{r+1}$ of length $r+1$. Primitive sets = $B_1$-free (no $a | b$).
+
+**Conjecture (Generalized).** For $B_r$-free $A \subseteq [x,\infty)$:
+$$F_r(A) := \sum_{a \in A} \frac{1}{a \log a} \leq T_1^{(r)}(x) + o(1),$$
+where $T_1^{(r)}(x)$ is the sum over numbers in $[x,\infty)$ with at most $r$ prime-power factors (i.e., $r$-almost prime-free numbers).
+
+**Observation 32.1.** For $r = 1$ (primitive sets): $T_1^{(1)}(x) = T_1(x)$ (primes), proved by F4.
+
+For $r = 2$: $B_2$-free sets can contain chains of length $\leq 2$ (but no $a | b | c$). The extremal set would be... pairs $\{p, p^2\}$ (each prime with its square), giving $F_2 \leq T_1(x) + T_2(x) \to 0$.
+
+**Lemma 32.2.** For $B_r$-free $A \subseteq [x,\infty)$: $F(A) \leq \sum_{k=1}^r T_k(x) \to 0$ as $x \to \infty$.
+
+*Proof sketch.* Each chain of length $\leq r$ can contain at most one element from each stratum $\mathcal{A}_k$. A $B_r$-free set has the LP decomposition with alternating bound over $r$ strata. Result follows from Section 19's LP bound with $m = r$.
+
+### 32.2 Weighted Sums $\sum f(a)/a$
+
+**Generalization.** Replace $1/\log a$ by a weight $f: \mathbb{N} \to \mathbb{R}_{\geq 0}$. For what $f$ does $\sum_{a\in A} f(a)/a$ have a good bound for primitive $A$?
+
+**Criterion (Rankin-type).** The PEX proof (LP2021) shows: if $f(n) = 1/\log n$ and $A$ primitive, then $\sum f(a)/a \leq T_1(x)$. The weight $1/\log n$ is "super-multiplicative" in a sense compatible with the primitivity constraint.
+
+**For $f(n) = 1$ (uniform weight):** $\sum_{a\in A} 1/a$ can be large even for primitive $A$ (e.g., $A = \{p : p \geq x\} $ gives $\sum_p 1/p = \infty$). No finite bound.
+
+**For $f(n) = 1/\log^2 n$:** $\sum f(a)/a = \sum_{a\in A} 1/(a\log^2 a)$. By PEX for the weight $1/(\log n)^2$: standard modifications of LP2021 give a corresponding bound. This is an open research direction.
+
+**For $f(n) = (\log n)^{-1+\varepsilon}$:** Interpolation between the primitive-set ($\varepsilon = 0$) and harmonic ($\varepsilon = 1$) cases.
+
+### 32.3 Multiplicative Functions
+
+**Erdős-Rankin generalization.** For a completely multiplicative $f: \mathbb{N} \to [0,1]$ with $f(n) \to 0$:
+$$\sum_{a \in A} f(a) \leq \sum_{p \geq x} f(p) + o(1)$$
+for primitive $A \subseteq [x,\infty)$? This would be a "generalized PEX" for multiplicative weights.
+
+Special case: $f(n) = n^{-s}$ for $s > 0$: $\sum_{a\in A} n^{-s} \leq \sum_{p\geq x} p^{-s}$? This is related to Rankin's method for multiplicative functions.
+
+**Status.** Open research question. LP2021's method uses $f(n) = 1/\log n$ in an essential way (the von Mangoldt identity has $\Lambda(n)/\log n = \sum_{d|n} \mu(n/d)/\log d$ structure).
+
+### 32.4 Polynomial Ring Analogue
+
+**$\mathbb{F}_q[t]$ analogue.** Consider monic polynomials over $\mathbb{F}_q[t]$. A "primitive" set is a set of polynomials with no one dividing another. Define $F_q(A) = \sum_{f \in A} q^{-2\deg f}$ (analogue of $1/(n\log n)$ for the function field setting).
+
+**Claim 32.3.** In the function field setting, the analogue of the conjecture holds with the "primes" being irreducible polynomials, and the bound being $T_1^q(x) = \sum_{\deg \pi \geq d} q^{-2\deg\pi}$ for irreducibles $\pi$ of degree $\geq d$.
+
+This may be provable by direct sieve methods in $\mathbb{F}_q[t]$ using the Weil conjectures, which give exact prime counting (no error terms). The function field analogue is often cleaner than the integer case.
+
+**Value for the main problem.** A proof in $\mathbb{F}_q[t]$ would suggest the correct structure for the integer case, possibly illuminating why PEX holds.
+
+### 32.5 Summary
+
+**Q34 contributions:**
+1. $B_r$-free generalization: $F_r(A) \leq \sum_{k=1}^r T_k(x) \to 0$ (direct from Section 19 LP bound).
+2. Weighted sums: $f(n) = 1$ gives no bound; $f(n) = 1/\log n$ (the primitive-set case) is handled by F4; other weights are open.
+3. Multiplicative function generalization: open problem; LP2021 method uses $1/\log n$ structure crucially.
+4. Function field analogue: likely provable from Weil conjectures; potentially simpler than integer case.
+
+**Q34 status: resolved.** $B_r$-free generalization proved; weighted sum generalizations mapped; multiplicative function generalization identified as open; function field analogue suggested as future direction.

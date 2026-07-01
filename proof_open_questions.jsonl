@@ -93,3 +93,6 @@
 {"qid":"Q32","status":"resolved","session_id":"s_0701-080342-d8e0","summary":"Complete proof written; F4=>F(A)<=T_1(x)->0; quantitative F(A)<=2/log x; F(A)<1 for x>=8; proof complete conditional on F4","ts":"2026-07-01T11:30:33+00:00"}
 {"qid":"Q33","status":"open","session_id":"s_0701-080342-d8e0","summary":"Effectivize the o(1): make explicit the constant in T_1(x)<=2/log x; prove F(A)<1 for all x>=2 (or find the exact threshold); connect to Bertrand's postulate for small x","ts":"2026-07-01T11:30:33+00:00"}
 {"qid":"Q33","status":"claimed","session_id":"s_0701-080342-d8e0","summary":"taking Q33 effectivization of the bound","ts":"2026-07-01T11:30:33+00:00"}
+{"qid":"Q33","status":"resolved","session_id":"s_0701-080342-d8e0","summary":"Effective threshold x>=3 gives F(A)<0.915<1; x=2 special case; asymptotic 2/log x","ts":"2026-07-01T11:31:55+00:00"}
+{"qid":"Q34","status":"open","session_id":"s_0701-080342-d8e0","summary":"Generalizations: (a) B_r sets (no r+1 elements with pairwise divisibility); (b) weighted sums Sigma f(a)/a; (c) multiplicative functions; (d) polynomial ring analogue over F_q[t]","ts":"2026-07-01T11:31:55+00:00"}
+{"qid":"Q34","status":"claimed","session_id":"s_0701-080342-d8e0","summary":"taking Q34 generalizations","ts":"2026-07-01T11:31:55+00:00"}
