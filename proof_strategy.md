@@ -860,3 +860,84 @@ TCP reduces to: $S_k \leq \sigma_k + T_{k+1}(x) - S_{k+1}$... [circular]. Direct
 2. $A \subseteq A_1 \cup A_k$ (prime + one stratum): $\sum < 1$ for all large $x$. ✓ (New — Theorem 11.1)
 3. $A \subseteq A_k \cup A_{k+1}$ (two consecutive non-prime strata): $\sum < 1$ conditional on SSC. (Requires prime-tail lower bound.)
 4. General case: open.
+
+---
+
+## Section 12. Full-Shadow Analysis and Correction of SSC (Q14)
+
+**Q14 goal**: Evaluate whether SSC (as stated in Section 9) is achievable, and identify the correct shadow approach for TCP.
+
+### 12.1 SSC Fails for Large-Prime Shadows
+
+**Claim 12.1**: The SSC condition $\beta^*(a) \geq 1/(a \log a)$ is FALSE for large $a$ (by Mertens' theorem).
+
+**Evidence**: By definition:
+$$\beta^*(a) = \sum_{p > a,\, p \text{ prime}} \frac{1}{ap \log(ap)} \leq \frac{1}{a} \sum_{p > a} \frac{1}{p \log p} = \frac{T_1(a)}{a}.$$
+
+And by Mertens' theorem (classical PNT consequence): $T_1(a) = \sum_{p \geq a} 1/(p \log p) \sim 1/\log a$ as $a \to \infty$.
+
+So $\beta^*(a) \sim \frac{1}{a \log a}$... wait, but also:
+$$\beta^*(a) \geq \frac{1}{a} \sum_{p > a} \frac{1}{p \cdot 2\log p} = \frac{T_1(a)}{2a} \sim \frac{1}{2a \log a}.$$
+
+The lower bound via $\log(ap) \leq 2\log p$ gives $\beta^*(a) \geq T_1(a)/(2a)$, and the upper bound via $\log(ap) \geq \log p$ gives $\beta^*(a) \leq T_1(a)/a$.
+
+So: $\frac{1}{2a\log a} \lesssim \beta^*(a) \lesssim \frac{1}{a \log a}$.
+
+**The gap**: SSC requires $\beta^*(a) \geq 1/(a\log a)$, but $\beta^*(a) \leq T_1(a)/a \sim 1/(a \log a)$. Whether SSC holds depends on whether $T_1(a)/a \geq 1/(a\log a)$, i.e., whether $T_1(a) \geq 1/\log a$. By Mertens, $T_1(a) \sim 1/\log a$, so the condition $T_1(a) \geq 1/\log a$ holds with equality in the limit, i.e., SSC holds MARGINALLY (not with a gap).
+
+**Correction to Section 9**: The SSC statement "requires $T_1(a) \geq 2/\log a$" was over-stated. The correct condition for $\beta^*(a) \geq 1/(a\log a)$ is $T_1(a) \geq 1/\log a$ (using the sharper lower bound $\beta^*(a) \geq T_1(a)/a$ from $\log(ap) \leq \log a + \log p \leq 2\log a$ for $p \leq a$... wait, for $p > a$: $\log(ap) = \log a + \log p$, and since $p > a$: $\log(ap) \leq 2\log p$. So:
+
+$$\beta^*(a) = \sum_{p > a} \frac{1}{ap\log(ap)} \geq \sum_{p>a} \frac{1}{ap \cdot 2\log p} = \frac{T_1(a)}{2a}.$$
+
+For $\beta^*(a) \geq 1/(a\log a)$: need $T_1(a)/2 \geq 1/\log a$, i.e., $T_1(a) \geq 2/\log a$. 
+
+By Mertens: $T_1(a) \sim 1/\log a$. So $T_1(a) < 2/\log a$ for all large $a$. **SSC (with large-prime shadow) FAILS for large $a$.**
+
+### 12.2 Full Shadow Restores the Bound
+
+Define the FULL shadow:
+$$\beta_{\mathrm{total}}(a) = \sum_{p \text{ prime}} \frac{1}{ap\log(ap)} \quad \text{(ALL prime multiples, not just } p > a\text{)}.$$
+
+Splitting into small and large primes:
+$$\beta_{\mathrm{total}}(a) = \underbrace{\sum_{p \leq a} \frac{1}{ap\log(ap)}}_{\beta_{\mathrm{small}}(a)} + \beta^*(a).$$
+
+For $p \leq a$: $\log(ap) \leq 2\log a$, so $\beta_{\mathrm{small}}(a) \geq \frac{1}{2a\log a}\sum_{p \leq a}\frac{1}{p}$.
+
+By Mertens: $\sum_{p \leq a} 1/p \sim \log\log a \to \infty$. For large $a$: $\sum_{p \leq a} 1/p \geq 2$, so $\beta_{\mathrm{small}}(a) \geq 1/(a\log a)$.
+
+Therefore: $\beta_{\mathrm{total}}(a) \geq \beta_{\mathrm{small}}(a) \geq 1/(a\log a)$ for all large $a$. ✓
+
+**Claim 12.2**: For $a$ sufficiently large (effectively: $a \geq 14$, where $\sum_{p \leq 14} 1/p = 1/2 + 1/3 + 1/5 + 1/7 + 1/11 + 1/13 \approx 1.18 \geq \ldots$... for threshold $\sum 1/p \geq 2$: need $a \geq 127$ approximately), $\beta_{\mathrm{total}}(a) \geq 1/(a\log a)$.
+
+**Observation**: Primitive $A \subseteq [x, \infty)$ implies ALL shadows {$ap : p$ prime} are excluded from $A_{k+1}^A$ (since $a | ap$). So the FULL shadow is the correctly excluded set, not just the large-prime shadow. The full shadow gives $\beta_{\mathrm{total}}(a) \geq 1/(a\log a)$ for large $a$.
+
+### 12.3 The Overlap Problem
+
+The full shadows are NOT disjoint (unlike large-prime shadows, Claim 7.2):
+
+**Example**: $a = 6 = 2\cdot 3$, $a' = 10 = 2\cdot 5 \in A_2^A$ (distinct semiprimes). Then $6 \cdot 5 = 30 = 10 \cdot 3$. So $30 \in \mathrm{Shadow}_{\mathrm{total}}(6) \cap \mathrm{Shadow}_{\mathrm{total}}(10)$.
+
+So the simple bound $S_{k+1} \leq T_{k+1}(x) - \sum_{a \in A_k^A} \beta_{\mathrm{total}}(a)$ overestimates the excluded set.
+
+By inclusion-exclusion: the NET excluded contribution is:
+$$\text{Excluded} = \sum_{a \in A_k^A} \beta_{\mathrm{total}}(a) - \sum_{\{a,a'\} \subseteq A_k^A} \text{overlap}(a,a') + \ldots$$
+
+For elements $a, a' \geq x$: an overlap element $n \in A_{k+1}$ satisfies $n = ap = a'q$ for primes $p \leq a$ and $q \leq a'$. Then $n \geq a \cdot 2 \geq 2x$. The overlap contribution:
+$$\text{overlap}(a,a') = \sum_{n \in A_{k+1}: a|n, a'|n} \frac{1}{n\log n} \leq \frac{1}{\text{lcm}(a,a') \cdot \log(\text{lcm}(a,a'))}.$$
+
+Summing over all pairs: $\sum_{\{a,a'\} \subseteq A_k^A} \text{overlap} \leq \frac{1}{2}\left(\sum_{a \in A_k^A} \frac{1}{a\log a}\right)^2 \cdot C = \frac{S_k^2}{2} \cdot C$.
+
+For fixed $x$ and $S_k \leq 1 - \delta_k \approx 0.93$: the overlap $\leq C \cdot S_k^2/2 \approx 0.43C$. This is NOT negligible unless $C$ is small.
+
+### 12.4 Summary: The Precise Remaining Gap for TCP
+
+TCP proof via full-shadow would require:
+$$\text{NET excluded} = \sum_{a \in A_k^A} \beta_{\mathrm{total}}(a) - \text{overlap} \geq S_k.$$
+
+Since $\beta_{\mathrm{total}}(a) \geq 1/(a\log a)$: $\sum \beta_{\mathrm{total}} \geq S_k$.
+
+The net bound $\sum \beta - \text{overlap} \geq S_k$ holds iff overlap $\leq \sum \beta - S_k \leq \sum [\beta_{\mathrm{total}}(a) - 1/(a\log a)]$.
+
+This is a non-trivial condition on the overlap structure of $A_k^A$. It relates to the SECOND-ORDER statistics of primitive sets in $A_k$ — a sieve-theory computation that appears to be the core of the Lichtman-Pomerance (2021) proof.
+
+**Status**: The full-shadow approach IS the correct route to TCP. The gap is a quantitative bound on the shadow overlap, which requires sieve estimates beyond F1/F2/F3. This is precisely where the conjecture's resolution leaves the available ledger.
