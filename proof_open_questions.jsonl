@@ -42,3 +42,6 @@
 {"qid":"Q15","status":"resolved","session_id":"s_0701-080342-d8e0","summary":"Theorem 13.1 proved: fixed-stratum TCP from F3 tails alone; Cor 13.2 proves conjecture (with o(1)) for all fixed-depth primitive A; growing-stratum case is the sole remaining gap","ts":"2026-07-01T10:04:28+00:00"}
 {"qid":"Q16","status":"open","session_id":"s_0701-080342-d8e0","summary":"Proof landscape summary: map all proved cases vs remaining gap; formalize minimal missing axiom (Mertens) that closes the proof; Section 14","ts":"2026-07-01T10:07:48+00:00"}
 {"qid":"Q16","status":"claimed","session_id":"s_0701-080342-d8e0","summary":"taking Q16 proof landscape and Mertens axiom","ts":"2026-07-01T10:07:48+00:00"}
+{"qid":"Q16","status":"resolved","session_id":"s_0701-080342-d8e0","summary":"Section 14 complete: proof landscape mapped; MA=(Σ1/p≥2) is minimal missing axiom; conditional proof Theorem 14.1 outlined via shadow iteration; F1+F3+MA=>conjecture","ts":"2026-07-01T10:08:53+00:00"}
+{"qid":"Q17","status":"open","session_id":"s_0701-080342-d8e0","summary":"Derive MA (Σ 1/p = ∞) from F3: if Σ 1/p < ∞ then Σ_{A_k} 1/(n log n) → 0, contradicting F3's → 1; therefore MA is a theorem from F3 alone","ts":"2026-07-01T10:16:00+00:00"}
+{"qid":"Q17","status":"claimed","session_id":"s_0701-080342-d8e0","summary":"taking Q17 MA from F3","ts":"2026-07-01T10:16:00+00:00"}

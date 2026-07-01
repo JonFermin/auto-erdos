@@ -1066,3 +1066,73 @@ The proof via shadow iteration is the content of Lichtman-Pomerance (2021), spec
 **The structure of the proof**: $\text{F1} + \text{F2} + \text{F3} + \text{(MA)} \Rightarrow \text{Conjecture}$. Each of F1, F3, and (MA) is used; F2 plays a minor supporting role.
 
 The conjecture is TRUE (Lichtman-Pomerance 2021), and the argument above provides a near-complete proof path. The missing ingredient (MA) is a classical result with a 150-year history.
+
+---
+
+## Section 15. Mertens Axiom as a Theorem from F3 (Q17)
+
+### 15.1 Main Result
+
+**Theorem 15.1 (MA from F3).**  The following follow from F3 alone:
+
+(a) $\sum_{p\,\mathrm{prime}} 1/p = \infty$.  
+(b) $\sum_{p \le a} 1/p \to \infty$ as $a \to \infty$.  
+(c) **(MA):** $\sum_{p \le a} 1/p \ge 2$ for all $a \ge a_0$ (some effective finite $a_0$).
+
+Consequently **Theorem 14.1 is unconditional**: F1 + F3 $\Rightarrow$ Conjecture, modulo only the shadow-telescoping formalization in step 3 of Section 14.3.
+
+### 15.2 Proof of Theorem 15.1
+
+**Proof.** We prove (a) by contradiction; (b) and (c) are immediate corollaries.
+
+Suppose $\sum_{p} 1/p = S < \infty$.
+
+**Step 1 — The Euler product converges at $z = 1$.**
+
+Define $\Phi(z) = \prod_{p} (1 - z/p)^{-1}$ (formal Euler product). At $z = 1$:
+
+$$\log\Phi(1) = -\sum_p \log\!\left(1 - \tfrac{1}{p}\right) = \sum_p \left(\frac{1}{p} + \frac{1}{2p^2} + \frac{1}{3p^3} + \cdots\right).$$
+
+Split: $\log\Phi(1) = S + \sum_p \sum_{j \ge 2} \frac{1}{j p^j}$. The tail satisfies
+$$\sum_p \sum_{j \ge 2} \frac{1}{j p^j} \le \sum_p \frac{1}{p(p-1)} \le \sum_{n=2}^{\infty} \frac{1}{n(n-1)} = 1 < \infty.$$
+
+Therefore $\log\Phi(1) \le S + 1 < \infty$, so **$\Phi(1) < \infty$**.
+
+**Step 2 — The partial sums $h_k \to 0$.**
+
+Expanding the Euler product term-by-term (every positive integer $n$ factors uniquely into primes):
+
+$$\Phi(z) = \sum_{n \ge 1} \frac{z^{\Omega(n)}}{n} = \sum_{k \ge 0} h_k z^k, \quad h_k := \sum_{\Omega(n)=k} \frac{1}{n}.$$
+
+Setting $z = 1$: $\sum_{k \ge 0} h_k = \Phi(1) < \infty$. A convergent series with non-negative terms satisfies **$h_k \to 0$**.
+
+**Step 3 — F3 gives a contradiction.**
+
+Every $n$ with $\Omega(n) = k$ is a product of exactly $k$ primes (with repetition), each $\ge 2$, so $n \ge 2^k$ and $\log n \ge k\log 2$. Therefore:
+
+$$f_k := \sum_{n \in A_k} \frac{1}{n \log n} \le \frac{1}{k\log 2} \sum_{n \in A_k} \frac{1}{n} = \frac{h_k}{k\log 2} \xrightarrow{k\to\infty} 0.$$
+
+But **F3** states $f_k = 1 - (c+o(1))k^2/2^k \to 1$ as $k \to \infty$. This contradicts $f_k \to 0$. $\Rightarrow\Leftarrow$
+
+Therefore $\sum_p 1/p = \infty$, proving (a). Parts (b) and (c) are immediate since the partial sums $\sum_{p \le a} 1/p$ are increasing and unbounded. $\square$
+
+### 15.3 Unconditional Full-Shadow Bound
+
+**Corollary 15.1 (unconditional $\beta_{\mathrm{total}} \ge 1/(a\log a)$).**  
+For all sufficiently large $a$ (explicitly $a \ge a_0$ from Theorem 15.1(c)):
+
+$$\beta_{\mathrm{total}}(a) := \sum_{p\,\mathrm{prime}} \frac{1}{ap\log(ap)} \ge \frac{1}{a\log a}.$$
+
+**Proof.** Restrict to $p \le a$. Then $ap \le a^2$, so $\log(ap) \le 2\log a$. Thus:
+
+$$\beta_{\mathrm{total}}(a) \ge \sum_{p \le a} \frac{1}{ap \cdot 2\log a} = \frac{1}{2a\log a}\sum_{p \le a}\frac{1}{p} \ge \frac{1}{2a\log a} \cdot 2 = \frac{1}{a\log a}. \quad\square$$
+
+### 15.4 Revised Proof Status
+
+| Item | Before Q17 | After Q17 |
+|------|-----------|-----------|
+| $\sum_p 1/p = \infty$ | External axiom | **Theorem 15.1 (from F3)** |
+| $\beta_{\mathrm{total}}(a) \ge 1/(a\log a)$ | Conditional | **Corollary 15.1 (unconditional)** |
+| Theorem 14.1 | Conditional on MA | **F1+F3 $\Rightarrow$ Conj (mod shadow step 3)** |
+
+**What remains**: The shadow-telescoping step 3 in Section 14.3 — showing that $\sum_k S_k \le (1+o(1)) T_1(x) \to 0$ via iterated shadow blocking — is the sole remaining gap. The budget: we have $\beta_{\mathrm{total}}(a) \ge 1/(a\log a)$ (proved), $T_1(x) \to 0$ (proved from F1 via Prop 8.2), and primitivity (A-elements' prime multiples are disjoint from A). Formalizing the telescoping is the content of Q18.
