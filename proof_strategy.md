@@ -547,3 +547,108 @@ by the tail-vanishing of each $T_k$ for fixed $k$).
 - **Open**: Global bound $\sum_k S_k < 1 + o(1)$ for growing $k \sim \log\log x$.
 - **Identified**: The "Missing Lemma" — whether $\text{TotalShad}(a) \geq C/(a \log a)$ —
   as the precise gap between current tools and the conjecture.
+
+---
+
+## Section 8 — Reduction to the Primes-are-Extremal Comparison (Q10)
+
+### 8.1 The PEX Comparison
+
+**Definition (Primes-are-Extremal Comparison, PEX)**: For any primitive $A \subset [x, \infty)$,
+$$\sum_{a \in A} \frac{1}{a \log a} \leq \sum_{p \geq x, \, p \text{ prime}} \frac{1}{p \log p} + o(1)
+\quad \text{as } x \to \infty.$$
+
+Denote the prime tail $T_1(x) = \sum_{p \geq x} 1/(p \log p)$.
+
+**Proposition 8.1** (PEX $\Rightarrow$ Conjecture): If PEX holds, then the conjecture holds.
+
+*Proof*: By PEX, $\sum_{a \in A} 1/(a \log a) \leq T_1(x) + o(1)$. By Proposition 8.2 below,
+$T_1(x) \to 0$ as $x \to \infty$. So $T_1(x) = o(1)$, giving sum $\leq o(1) < 1 + o(1)$. $\square$
+
+### 8.2 The Prime Tail Decays: T_1(x) → 0
+
+**Proposition 8.2** (Prime tail vanishes): $T_1(x) = \sum_{p \geq x} 1/(p \log p) \to 0$
+as $x \to \infty$.
+
+*Proof*: Apply F1 to the primitive set $P = \{\text{all primes}\} \subset \mathbb{N}$. Since
+$P$ is primitive (no prime divides another distinct prime), F1 gives:
+$$\sum_{p \in P} \frac{1}{p \log p} < e^\gamma \frac{\pi}{4} + o(1) < \infty.$$
+The series $\sum_{p \in P} 1/(p \log p)$ is a series of positive terms bounded above by a finite
+constant. A convergent series of positive terms has tails tending to $0$:
+$$T_1(x) = \sum_{p \geq x} \frac{1}{p \log p} = \sum_{p} \frac{1}{p \log p} - \sum_{p < x} \frac{1}{p \log p} \to 0. \quad \square$$
+
+*Remark*: The o(1) in F1 (as the minimum element grows) contributes only to the speed of
+tail decay, not to the fact of decay. The key step is that F1 gives a FINITE upper bound
+on $\sum_p 1/(p \log p)$, which implies convergence and hence tail decay.
+
+### 8.3 Status of PEX
+
+PEX is a strictly stronger statement than the conjecture (it says primes are the WORST case
+among all primitive A ⊂ [x, ∞), while the conjecture only says sum < 1 + o(1)).
+
+**What F1 gives toward PEX**: F1 gives, for EACH primitive A ⊂ [x, ∞) and for primes $P_x$:
+$$\sum_{a \in A} \frac{1}{a \log a} < e^\gamma\frac{\pi}{4} + o(1) \quad \text{and} \quad T_1(x) = o(1).$$
+These two statements together give that both sides of PEX are $< e^\gamma\pi/4 + o(1)$ but
+do NOT compare them (both sides could independently be anywhere in $(0, 1.399 + o(1))$).
+
+**Example verifying PEX in simple cases**: 
+
+For $A = [x, 2x) \cap \mathbb{Z}$ (all integers in $[x, 2x)$, a primitive set since no two
+elements in $[x, 2x)$ have one dividing the other):
+$$\sum_{a \in A} \frac{1}{a \log a} \approx \int_x^{2x} \frac{dt}{t \log t} = \log\log(2x) - \log\log x = \log\!\left(1 + \frac{\log 2}{\log x}\right) \sim \frac{\log 2}{\log x}.$$
+And $T_1(x) \sim 1/\log x$ (prime tail heuristic). So PEX holds for this case:
+$(\log 2)/\log x \leq 1/\log x + o(1)$ since $\log 2 < 1$. $\checkmark$
+
+For $A = \{x\}$ (single element):
+$1/(x \log x) \leq T_1(x)$. Since $T_1(x)$ includes the prime $p$ that is nearest to $x$,
+this holds iff $1/(x \log x) \leq 1/(p \log p)$ for some prime $p \leq x$, or if there is
+a prime near $x$. For large $x$, primes are dense enough that this holds. $\checkmark$
+
+### 8.4 Difficulty of Proving PEX from F1/F2/F3
+
+PEX cannot be proved from F1 alone because:
+1. F1 is a GLOBAL bound on $\sum 1/(a \log a)$ that applies equally to ALL primitive sets.
+   It gives an UPPER BOUND on both sides of PEX, not a COMPARISON between them.
+2. There exist primitive sets (e.g., $A = [x, 2x)$) where the sum is LESS than $T_1(x)$
+   and others (possibly) where it approaches $T_1(x)$ from below. F1 doesn't resolve which.
+3. PEX would follow from showing that for each $a \in A$, $1/(a \log a)$ can be "replaced"
+   by a fraction of $1/(p \log p)$ for some prime $p \geq x$ assigned to $a$, and these
+   assignments are injective. This is precisely Zhang's method (which gave F1), applied
+   in the other direction.
+
+### 8.5 Partial Bound: PEX with a Constant Factor
+
+A WEAKER version of PEX is:
+$$\sum_{a \in A} \frac{1}{a \log a} \leq C \cdot T_1(x) + o(1)$$
+for some absolute constant $C$. If $C \leq 1$ this gives PEX; even $C < e^\gamma\pi/4 / 1 \approx 1.399$
+would improve over F1.
+
+From the shadow analysis (Section 7): each $a \in A_k^A$ (for any $k$) blocks a shadow in $A_{k+1}$
+with total blocked weight $\sigma_k \geq \sum_{a} \beta^*(a) > 0$. The ratio:
+$$\frac{\beta^*(a)}{1/(a \log a)} = a \log a \cdot \sum_{p > a} \frac{1}{ap \log(ap)} \geq \frac{\log a}{\log a + \log a} \cdot \sum_{p > a} \frac{1}{p} = \frac{1}{2} \sum_{p > a} \frac{1}{p}.$$
+
+For $a \geq x$: $\sum_{p > a} 1/p \geq \sum_{p > x} 1/p$. By F1 applied to primes $> x$
+and partial summation: $\sum_{p > x} 1/(p \log p) = T_1(x) = o(1)$. But the sum
+$\sum_{p > x} 1/p$ is a DIFFERENT (divergent!) series, so this ratio $\to \infty$ — the
+shadow weight grows much faster than the element's own contribution.
+
+This gives: for any primitive $A \subset [x, \infty)$ and any $K$:
+$$\sum_{k=1}^K S_k \leq F1\text{-bound} = e^\gamma\frac{\pi}{4} + o(1).$$
+This is just F1 again and doesn't improve with $K$.
+
+### 8.6 Summary: The Path to the Conjecture
+
+The conjecture $\sum_{a \in A} 1/(a \log a) < 1 + o(1)$ is implied by PEX, which reduces to
+two separate facts:
+1. **Prime tail vanishes**: $T_1(x) \to 0$ — **proved above (Prop 8.2) using F1**.
+2. **Primes are extremal for $[x, \infty)$**: $\sum_{a \in A} 1/(a \log a) \leq T_1(x) + o(1)$
+   for any primitive $A \subset [x, \infty)$ — **open; requires cross-stratum comparison**.
+
+The available tools give part (1) but not part (2). Part (2) is the precise form of the
+"primes are extremal" conjecture, which is known to be strictly stronger than the bound
+$< 1 + o(1)$ but not yet proved from F1/F2/F3.
+
+**Key partial result** (combining Sections 6, 7, 8):
+$$\sum_{a \in A} \frac{1}{a \log a} < 1 + o(1) \quad \text{IF}$$
+- Either: $A$ has bounded $\Omega$ (Case A, Sec 6.2 — **proved**), or
+- Or: PEX holds for $A$ (Sec 8.1 — **reduces to prime tail, proved via F1**, but PEX itself open).
