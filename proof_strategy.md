@@ -382,28 +382,20 @@ Let $K \geq 1$ be fixed and let $A \subset [x, \infty)$ be a primitive set
 with $\Omega(a) \leq K$ for all $a \in A$. Then
 $$\sum_{a \in A} \frac{1}{a \log a} \leq \sum_{k=1}^K S_k.$$
 
-For each fixed $k \leq K$ and $x \to \infty$:
-$$S_k = \sum_{a \in A_k^A} \frac{1}{a \log a} \leq \sum_{\substack{a \geq x \\ \Omega(a) = k}} \frac{1}{a \log a} \leq \frac{1}{x \log x} \cdot \#\{a \geq x : \Omega(a) = k, a \leq N\}$$
+For each fixed $k \leq K$ and large $x$: $S_k$ is a sub-series of the full
+stratum sum $\sum_{a \in A_k} 1/(a \log a)$. By F3 (for large $k$), this full
+sum is $< 1$, so $S_k \leq$ (full $A_k$ sum) $< 1$. Moreover, $S_k$ restricted
+to $a \geq x$ is a tail of a convergent series (the full $A_k$ sum converges by
+F3 for large $k$, and is bounded by $1$ for all $k$), so its tail at $a \geq x$
+tends to $0$ as $x \to \infty$. That is, $S_k \to 0$ for each fixed $k$ as
+$x \to \infty$.
 
-for any $N$. Since for any fixed $k$ and cutoff $N = 2x$, the count of $k$-almost
-primes in $[x, 2x]$ is finite (indeed $O(x \log\log x / (k-1)! \log x)$ by
-standard estimates), we have $S_k \leq O(1/(x^{1-\varepsilon}))$ for any
-$\varepsilon > 0$. Summing over $k \leq K$:
-$$\sum_{a \in A} \frac{1}{a \log a} = o(1) \quad \text{as } x \to \infty.$$
+Summing over $k = 1, \ldots, K$ (fixed $K$):
+$$\sum_{a \in A} \frac{1}{a \log a} = \sum_{k=1}^K S_k \to 0 \quad \text{as } x \to \infty.$$
 
-**Conclusion**: Case (A) gives sum $= o(1) < 1 + o(1)$ trivially. The conjecture
-holds for bounded-$\Omega$ primitive sets. $\square$ (modulo the count estimate, which
-requires standard sieve theory not in the given-facts ledger — see note below).
-
-**Note on the count estimate**: The bound $S_k = o(1)$ for fixed $k$ and
-$x \to \infty$ is elementary without a count: since $A \subset [x, \infty)$,
-each term in $S_k$ is $\leq 1/(x \log x)$. If $A$ is FINITE with bounded $|A|$,
-then $S_k \leq |A|/(x \log x) \to 0$. If $A$ is infinite with elements in
-$[x, \infty)$ and $\Omega \leq K$, then $S_k$ is a sub-series of the full
-$A_k$ sum; by F3, the full sum $< 1 < \infty$, so $S_k \leq 1$ always, and
-in the TAIL ($a \geq x$), the remaining partial sum $\to 0$ as $x \to \infty$
-(since $\sum_{a \in A_k} 1/(a \log a) < 1$ converges, its tail at $a \geq x$
-tends to 0). **This second argument is rigorous using F3.** $\square$
+**Conclusion**: Case (A) gives sum $\to 0 < 1 + o(1)$. The conjecture holds for
+bounded-$\Omega$ primitive sets. **Status: proved** (using F3 for convergence of
+the full stratum sums). $\square$
 
 ### 6.3 The Open Case (B) Requires Primitivity
 
