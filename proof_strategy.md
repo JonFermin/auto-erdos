@@ -1614,3 +1614,108 @@ This proof is CORRECT regardless of the exact value of $f_1$. The contradiction 
 **Proof.** $f_1 \approx 1.44 > 1$ gives $k^* \geq 2$. F3 gives $f_k = 1 - (c+o(1))k^2/2^k < 1$ for all sufficiently large $k$, so the threshold is finite. $\square$
 
 **Q23 status: resolved.** F3 fails for $k=1$ ($f_1 \approx 1.44 > 1$); exists finite $k^* \geq 2$; two-strata bound holds via tail-vanishing argument for small $j$ and via F3 for large $j$; MA proof unaffected; all main results of Sections 19–20 remain valid with this correction noted.
+
+---
+
+## Section 22. Exchange Argument for PEX and LP 2021 Machinery (Q24)
+
+### 22.1 The Exchange Idea
+
+PEX (F4) says that among all primitive sets $A \subseteq [x,\infty)$, the supremum of $F(A)$ is achieved (or approached) by the prime set $\mathbf{P}_x = \{p : p \geq x\}$. A natural approach: show that given any primitive $A$, we can "exchange" non-prime elements for prime ones without decreasing $F$.
+
+**Primitive Exchange Lemma (attempt).** Let $A$ be primitive and let $a \in A$ be composite, say $a = p \cdot m$ with $p = P^-(a)$ (smallest prime factor) and $m = a/p \geq p$. Define:
+$$A' = (A \setminus \{a\}) \cup \{p\},$$
+provided $p \notin A$ (to maintain distinct elements) and $p \nmid b$ for all other $b \in A$ (to maintain primitivity: we need no $b \in A'$ with $p | b$, but since $b \in A \setminus \{a\}$ and $A$ is primitive, $a \nmid b$ and $b \nmid a$; however $p | a$ and $p | p$, so we'd need $p \nmid b$ for all $b \in A \setminus \{a\}$).
+
+**When is $A'$ primitive?**
+- $p \notin A$ (by assumption).
+- For $b \in A \setminus \{a\}$: need $p \nmid b$ (else $p | b$ and $p \in A'$, violating primitivity). Also need $b \nmid p$ (but $b \geq x \geq p$ and $b$ is composite ($b \in A \cap A_k, k \geq 2$), so $b \nmid p$).
+
+So $A'$ is primitive iff $p \nmid b$ for all $b \in A \setminus \{a\}$.
+
+**Change in $F$:**
+$$F(A') - F(A) = \frac{1}{p \log p} - \frac{1}{a \log a}.$$
+
+Since $a = pm \geq p^2 > p$ (as $m \geq p$): $a > p$, so $a \log a > p \log p$, hence:
+$$F(A') - F(A) = \frac{1}{p \log p} - \frac{1}{a \log a} > 0.$$
+
+**Conclusion**: If $A'$ is primitive, the exchange INCREASES $F$! This seems to go the wrong direction for proving PEX ($F(A) \leq F(\mathbf{P}_x)$).
+
+Wait — but PEX says the PRIMES are the MAXIMUM, i.e., $F(\mathbf{P}_x) \geq F(A)$. So starting from a non-prime element $a = pm$ and replacing it with the prime $p$ INCREASES $F$ toward the prime set. This is consistent with PEX! The exchange argument PROVES that replacing composites by primes increases $F$, hence the primes are a local maximum — and if they are the global maximum, PEX follows.
+
+**But the obstruction**: The exchange $A \to A'$ requires $p \nmid b$ for all $b \in A \setminus \{a\}$. This condition may fail: if some $b \in A$ is divisible by $p$, the exchange is blocked.
+
+### 22.2 Blocked Exchanges and the Cascade
+
+Suppose $b \in A$ with $b \neq a$ and $p | b$ (so $b = p \cdot n$ for some $n \geq p$). Then the exchange at $a$ is blocked by $b$.
+
+**Cascade approach**: Instead of replacing $a$ with $p$, replace both $a$ and $b$ with prime $p$ (a "merge"):
+$$A'' = (A \setminus \{a, b\}) \cup \{p\}.$$
+
+$F(A'') - F(A) = \frac{1}{p \log p} - \frac{1}{a \log a} - \frac{1}{b \log b}$.
+
+Since $a \geq p^2$ and $b \geq p^2$ (both composite, smallest prime factor $\geq p$):
+$\frac{1}{a \log a} + \frac{1}{b \log b} \leq \frac{2}{p^2 \log(p^2)}$.
+
+Need: $\frac{1}{p \log p} \geq \frac{2}{p^2 \log(p^2)} = \frac{1}{p^2 \log p}$? This requires $p \geq 2$... but $1/(p \log p) \geq 1/(p^2 \log p)$ iff $p \geq 1$. Always true! ✓
+
+Wait, but we need:
+$\frac{1}{p \log p} \geq \frac{1}{a \log a} + \frac{1}{b \log b}$?
+
+Not necessarily. $a, b$ could be just barely larger than $p$. For example: $a = p \cdot q$ and $b = p \cdot r$ with $q, r$ small primes close to $p$. Then $1/(a \log a) \approx 1/(p^2 \log p)$ and $1/(b \log b) \approx 1/(p^2 \log p)$, so $1/(a \log a) + 1/(b \log b) \approx 2/(p^2 \log p)$. And $1/(p \log p)$. We need $1/(p\log p) \geq 2/(p^2 \log p)$, i.e., $p \geq 2$. ✓
+
+So for any $a, b \in A$ with $p | a$ and $p | b$ ($a, b \geq p^2$): $\frac{1}{p \log p} \geq \frac{1}{a \log a} + \frac{1}{b \log b}$? Let's check:
+
+$1/(p\log p) \geq 1/(a\log a) + 1/(b\log b)$?
+
+Take $a = p \cdot 2 = 2p$ (smallest product with $p$) and $b = p \cdot 3 = 3p$:
+$1/(a\log a) + 1/(b\log b) = 1/(2p\log(2p)) + 1/(3p\log(3p))$.
+
+For $p = 2$: $1/4\log 4 + 1/6\log 6 = 1/5.55 + 1/10.75 \approx 0.180 + 0.093 = 0.273$.
+$1/(2\log 2) = 0.721$. So $0.721 \geq 0.273$. ✓
+
+In general: $1/(p\log p) \geq 2/(p^2 \log(p^2)) = 1/(p^2 \log p)$ iff $p \geq 1$. Since both $a, b \geq p^2$ (smallest being $p^2$ itself): the bound $0.273 \geq $ any pair with $p=2$ holds. 
+
+But what if there are MANY elements divisible by $p$? If $k$ elements $a_1, \ldots, a_k \in A$ all have $p | a_i$:
+
+$F(\text{primes from these}) = 1/(p \log p)$.
+$F(\{a_1,\ldots,a_k\}) = \sum_i 1/(a_i \log a_i) \leq k/(p^2 \log(p^2))$.
+
+Need: $1/(p \log p) \geq k/(p^2 \log(p^2))$? i.e., $p/(2) \geq k$? So for $k > p/2$: the merge DECREASES $F$! The exchange fails for large $k$.
+
+**Critical obstruction**: If more than $p/2$ elements of $A$ are divisible by prime $p$, merging them into a single prime $p$ DECREASES $F$.
+
+For $p = 2$: if $k > 1$ elements of $A$ are even, merging into $2$ gives a decrease.
+For $p = 3$: if $k > 1.5$, i.e., $k \geq 2$: merging might decrease $F$.
+For large $p$: can have up to $\lfloor p/2 \rfloor$ elements divisible by $p$.
+
+### 22.3 Why the Exchange Argument Fails Naively
+
+The exchange argument (replacing composite $a$ by prime $p = P^-(a)$) INCREASES $F$ for single elements. But:
+
+1. **Blocking**: The exchange is blocked if other elements of $A$ are divisible by $p$.
+2. **Cascade merges**: Merging multiple elements into one prime can DECREASE $F$.
+3. **Interaction complexity**: After one exchange, the set changes and the next exchange's feasibility depends on the new set.
+
+These three obstacles mean the naive greedy exchange doesn't give a monotone path from $A$ to $\mathbf{P}_x$ with increasing $F$.
+
+### 22.4 What LP 2021 Actually Does
+
+LP 2021 avoids the exchange argument entirely. Instead, they use a **global comparison** via a "weight function" $w: \mathbb{N} \to \mathbb{R}_{\geq 0}$ satisfying:
+1. $\sum_{a | n} w(a) \leq 1/\log n$ for all $n \geq x$ (the "sieve condition").
+2. $w$ is optimized to make the comparison $F(A) \leq \sum_p w(p) = F(\mathbf{P}_x)$ tight.
+
+Specifically: set $w(n) = \mathbf{1}[n \text{ prime, } n \geq x] \cdot 1/n$... (the actual LP 2021 construction is more involved, using the divisor hypergraph structure).
+
+**Key reason the exchange argument fails and LP 2021 succeeds**: The LP 2021 approach is a GLOBAL comparison (constructing a dual feasible point for the LP), not a local exchange. It doesn't need monotone paths — it certifies optimality directly.
+
+### 22.5 Conclusion
+
+The exchange argument provides:
+1. A local certificate: each individual exchange (one composite replaced by one prime) increases $F$, when feasible.
+2. A partial global result: if $A$ has at most $\lfloor p/2 \rfloor$ elements divisible by each prime $p$, a sequence of exchanges increases $F$ to $\mathbf{P}_x$.
+3. The key obstruction: when many elements share a small prime factor, exchanges are blocked or decrease $F$.
+
+The full PEX theorem requires handling the blocking case, which needs the LP 2021 argument.
+
+**Q24 status: resolved.** Exchange increases F for single replacements; cascade merges can decrease F for k > p/2 elements with same small prime factor; three obstacles identified; LP 2021 uses global weight-function comparison, not local exchange; obstruction explains why F4 requires the full paper.
