@@ -126,3 +126,6 @@
 {"qid":"Q43","status":"claimed","session_id":"s_0701-080342-d8e0","summary":"taking Q42+Q43","ts":"2026-07-01T11:40:18+00:00"}
 {"qid":"Q42","status":"resolved","session_id":"s_0701-080342-d8e0","summary":"Lean4 formalization path; Selberg+LP dual are missing from Mathlib; two-strata accessible; full: 100+ person-months","ts":"2026-07-01T11:40:18+00:00"}
 {"qid":"Q43","status":"resolved","session_id":"s_0701-080342-d8e0","summary":"Complete theorem list compiled; F4 essential; F1/F2 not used; proof graph clear","ts":"2026-07-01T11:40:18+00:00"}
+{"qid":"Q44","status":"open","session_id":"s_0701-080342-d8e0","summary":"Final mathematical synthesis: why is the conjecture hard; what made PEX the right approach; comparison with similar results; lessons for approaching similar problems","ts":"2026-07-01T11:40:45+00:00"}
+{"qid":"Q44","status":"claimed","session_id":"s_0701-080342-d8e0","summary":"taking Q44 final synthesis","ts":"2026-07-01T11:40:45+00:00"}
+{"qid":"Q44","status":"resolved","session_id":"s_0701-080342-d8e0","summary":"Final synthesis: difficulty from global-vs-local tension; PEX is LP dual; primes are multiplicative atoms; proof complete conditional on F4","ts":"2026-07-01T11:41:27+00:00"}
