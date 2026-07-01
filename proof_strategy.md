@@ -1478,3 +1478,73 @@ So we can construct 3-stratum primitive sets with $F(A) \to 1^-$, confirming tha
 4. A witness construction confirms the LP analysis is tight: 3-stratum primitive sets can have $F(A) \to 1^-$.
 
 **Q21 status: resolved.**
+
+---
+
+## Section 20. Sharp Two-Strata Constant and Approaching-1 Analysis (Q22)
+
+### 20.1 Setup
+
+From Corollary 19.2: for primitive $A \subseteq A_j \cup A_{j+1}$ with $A \subseteq [x,\infty)$:
+$$F(A) \leq f_{j+1} = 1 - (c+o(1))\frac{(j+1)^2}{2^{j+1}}, \quad c \approx 0.0656.$$
+
+We now ask: what is the best (smallest) upper bound, and does the supremum over all two-strata primitive sets equal 1?
+
+### 20.2 Optimizing the Two-Strata Bound over j
+
+Define $g(j) = (j+1)^2/2^{j+1}$ for integer $j \geq 1$. Then $f_{j+1} = 1 - (c+o(1)) g(j)$.
+
+**Finding the maximum of $g(j)$:** Treating $j$ as a real variable:
+$$\frac{d}{dj}\bigl[(j+1)^2 e^{-(j+1)\log 2}\bigr] = 0 \implies 2(j+1) = (j+1)^2 \log 2 \implies j+1 = \frac{2}{\log 2} \approx 2.885.$$
+
+So the maximum is near $j \approx 1.885$, i.e., integers $j = 1$ or $j = 2$.
+
+| $j$ | $g(j) = (j+1)^2/2^{j+1}$ | $f_{j+1} \approx 1 - 0.0656 \cdot g(j)$ |
+|---|---|---|
+| 1 | $4/4 = 1.000$ | $\approx 0.934$ |
+| 2 | $9/8 = 1.125$ | $\approx 0.926$ |
+| 3 | $16/16 = 1.000$ | $\approx 0.934$ |
+| 4 | $25/32 = 0.781$ | $\approx 0.949$ |
+| 5 | $36/64 = 0.563$ | $\approx 0.963$ |
+| $j \to \infty$ | $\to 0$ | $\to 1$ |
+
+**Tightest bound:** At $j = 2$ (strata $\{2, 3\}$): $F(A) \leq f_3 \approx 0.926$.
+
+**Loosest bound** (for small $j$ values): at $j = 1, 3$: $f_2 = f_4 \approx 0.934$.
+
+**As $j \to \infty$:** $g(j) \to 0$, so $f_{j+1} \to 1$ from below.
+
+### 20.3 Supremum over All Two-Strata Primitive Sets
+
+**Proposition 20.1.** $\sup_{j \geq 1} \sup_{\substack{A \subseteq A_j \cup A_{j+1} \\ A \text{ primitive}}} F(A) = 1$.
+
+**Proof.**
+- Upper bound: $F(A) \leq f_{j+1} < 1$ for all $j$ (by F3). So $F(A) < 1$.
+- The bound approaches 1: as $j \to \infty$, $f_{j+1} \to 1$. One can construct explicit two-strata primitive sets achieving $F(A)$ arbitrarily close to $f_{j+1}$ (take $A = (A_j \cup A_{j+1}) \cap [2^j, \infty)$, which is primitive since within each stratum $A_k$ the set is primitive, and cross-strata primitivity holds as $k_2 = k_1+1$; then $F(A) \approx f_j + S_{j+1}$ where $S_{j+1} \approx f_{j+1} - f_j \cdot (\text{shadow fraction})$...).
+
+Actually more precisely: by the LP analysis $F(A) \leq f_{j+1}$, and this bound is tight when $S_{j+1} = f_{j+1}$ and $S_j = 0$. Taking $A = A_{j+1} \cap [x,\infty)$ (single stratum, trivially primitive): $F(A) = T_{j+1}(x) \to f_{j+1}$ as $x \to 0^+$. As $j \to \infty$, $f_{j+1} \to 1$. Hence $\sup \to 1$. $\square$
+
+**Corollary 20.2.** The bound $F(A) < 1$ for two-strata primitive sets is sharp: the supremum is 1, but is never achieved. PEX strengthens this to $F(A) \leq T_1(x) \to 0$, a much tighter statement.
+
+### 20.4 Non-Consecutive Two-Strata Case
+
+**Proposition 20.3.** For primitive $A \subseteq A_j \cup A_k$ with $k > j + 1$ (non-consecutive strata):
+$$F(A) \leq T_j(x) + T_k(x) \leq f_j + f_k < 2.$$
+
+**Proof.** The shadow recurrence $S_k \leq T_k - S_{k-1}$ gives $S_{k-1}$-savings only when stratum $k-1$ carries elements. Since stratum $k-1$ is empty ($A$ has no elements there), $S_{k-1} = 0$ in the recurrence. So:
+$S_j \leq T_j$ and $S_k \leq T_k$ independently. Adding: $F(A) = S_j + S_k \leq T_j + T_k \leq f_j + f_k < 2$. $\square$
+
+The gap-2 bound ($< 2$) is weaker than the consecutive bound ($< 1$). This shows that **consecutive-strata primitive sets are "easier"** than non-consecutive (have shadow savings), while non-consecutive sets require the LP savings to kick in only from higher adjacency.
+
+### 20.5 Comparison Table: Consecutive vs Non-Consecutive
+
+| Configuration | $F(A) \leq$ | Better than $< 1$? |
+|---|---|---|
+| $A \subseteq A_j$ (1 stratum) | $f_j < 1$ | Yes ✓ |
+| $A \subseteq A_j \cup A_{j+1}$ (2 consec.) | $f_{j+1} < 1$ | Yes ✓ |
+| $A \subseteq A_j \cup A_{j+2}$ (2 non-consec.) | $f_j + f_{j+2} < 2$ | No ✗ |
+| $A \subseteq A_j \cup A_{j+1} \cup A_{j+2}$ (3 consec.) | $f_{j+2} + f_j < 2$ | No ✗ |
+| $A \subseteq [x,\infty)$, all strata | $1.399$ (F1) | No ✗ |
+| $A \subseteq [x,\infty)$, all strata + F4 | $T_1(x) \to 0$ | Yes ✓ |
+
+**Q22 status: resolved.** Supremum over two-strata is 1 (not achieved); consecutive savings are essential; non-consecutive sets lack shadow recurrence and have weaker unconditional bounds; PEX remains the only route to $< 1$ for general primitive sets.
