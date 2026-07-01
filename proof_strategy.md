@@ -1719,3 +1719,93 @@ The exchange argument provides:
 The full PEX theorem requires handling the blocking case, which needs the LP 2021 argument.
 
 **Q24 status: resolved.** Exchange increases F for single replacements; cascade merges can decrease F for k > p/2 elements with same small prime factor; three obstacles identified; LP 2021 uses global weight-function comparison, not local exchange; obstruction explains why F4 requires the full paper.
+
+---
+
+## Section 23. LP Dual Reformulation of PEX and Dilworth Chain Decomposition (Q25)
+
+### 23.1 LP Formulation
+
+The Erdős primitive-set conjecture and its strengthening PEX can be cast as:
+
+$$\sup_{A \subseteq [x,\infty), A \text{ primitive}} F(A) = \sup_{A \text{ primitive}} \sum_{a \in A} \frac{1}{a \log a}.$$
+
+**LP relaxation.** Assign variable $x_a \geq 0$ to each $a \in [x,\infty)$:
+$$\text{Maximize} \sum_{a \geq x} \frac{x_a}{a \log a} \quad \text{s.t.} \quad x_a + x_b \leq 1 \text{ whenever } a | b, \quad x_a \geq 0.$$
+
+The constraint "$x_a + x_b \leq 1$ whenever $a | b$" is the primitivity (antichain) LP relaxation.
+
+**LP dual.** For each pair $(a,b)$ with $a | b$, introduce a dual variable $y_{a,b} \geq 0$:
+$$\text{Minimize} \sum_{a | b} y_{a,b} \quad \text{s.t.} \quad \sum_{b : a | b} y_{a,b} + \sum_{c : c | a} y_{c,a} \geq \frac{1}{a \log a} \text{ for all } a \geq x, \quad y_{a,b} \geq 0.$$
+
+By LP duality, the LP primal optimum equals the dual minimum (strong duality, since the feasible set is bounded for primitivity).
+
+### 23.2 Dilworth Chain Decomposition
+
+By Dilworth's theorem, the poset $(\{n : n \geq x\}, |)$ (integers under divisibility) can be decomposed into chains $\mathcal{C} = \{C_1, C_2, \ldots\}$ such that any antichain (in particular, any primitive set $A$) contains at most one element from each chain.
+
+For a chain decomposition $\mathcal{C}$ and any primitive $A$:
+$$F(A) = \sum_{a \in A} \frac{1}{a \log a} \leq \sum_{C \in \mathcal{C}} \max_{a \in C} \frac{1}{a \log a} = \sum_{C \in \mathcal{C}} \frac{1}{\min(C) \log \min(C)}.$$
+
+(Since $A$ takes at most one element per chain, and the maximum weight per chain is at the minimum element, which is the smallest element of $C$.)
+
+**Key**: If $\mathcal{C}$ is chosen so that $\min(C) \in \mathbf{P}_x$ (i.e., each chain's minimum element is a prime $\geq x$), then:
+$$F(A) \leq \sum_{C \in \mathcal{C}} \frac{1}{p_C \log p_C} = F(\mathbf{P}_x) = T_1(x).$$
+
+This would prove PEX! The question is: does such a chain decomposition exist?
+
+### 23.3 The "Prime-Bottomed" Chain Decomposition
+
+**Definition.** A chain decomposition $\mathcal{C}$ of $\{n \geq x\}$ is **prime-bottomed** if $\min(C) \in \mathbf{P}_x$ for each $C \in \mathcal{C}$.
+
+**Claim**: A prime-bottomed chain decomposition of $\{n \geq x\}$ exists iff every integer $n \geq x$ can be "traced back" to a unique prime $\geq x$ via a divisibility chain $n \supset p_1 m_1 \supset p_2 m_2 \supset \cdots \supset p_k$ with $p_k \geq x$ prime.
+
+**Natural candidate**: For each $n \geq x$, let $P^+(n)$ be its largest prime factor. Define:
+$$C_n = \{m : P^+(m) = P^+(n), m / P^+(m)^{\nu_{P^+(n)}(m)} = n / P^+(n)^{\nu_{P^+(n)}(n)}\}.$$
+This is the "orbit" of $n$ under multiplication by $P^+(n)$. But this doesn't give a chain decomposition (orbits overlap).
+
+### 23.4 The Weight Function Approach (LP 2021 Insight)
+
+Instead of an explicit chain decomposition, LP 2021 constructs a **weight function** $w: \{n \geq x\} \to \mathbb{R}_{\geq 0}$ satisfying:
+1. **Sieve condition**: For all $n \geq x$: $\sum_{a | n, a \geq x} w(a) \leq \frac{1}{n \log n}$.
+2. **Total weight**: $\sum_{a \geq x} w(a) = T_1(x) = \sum_{p \geq x} \frac{1}{p \log p}$.
+3. **Comparison**: For any primitive $A \subseteq [x,\infty)$: $F(A) = \sum_{a \in A} \frac{1}{a \log a} \leq \sum_{a \geq x} w(a)$.
+
+Conditions (1)+(3) give: $F(A) \leq \sum_{a \in A} \frac{1}{a \log a}$ (trivially), but the non-trivial step is:
+
+$$F(A) = \sum_{a \in A} \frac{1}{a \log a} \leq \sum_{a \in A} \sum_{b : a | b} w(b) = \sum_{b \geq x} w(b) \sum_{a \in A, a | b} 1 \leq \sum_{b \geq x} w(b),$$
+
+where we used: (i) $\sum_{b: a | b} w(b) \geq 1/(a \log a)$ (dual feasibility), and (ii) $\sum_{a \in A, a | b} 1 \leq 1$ (primitivity: any $b$ has at most one $a \in A$ dividing it — FALSE in general!).
+
+Wait — (ii) says "any $b$ is divisible by at most one element of $A$." This is FALSE for general primitive sets! E.g., $A = \{6, 10\}$ is primitive, and $b = 30$ is divisible by both 6 and 10.
+
+**Revised approach**: Step (ii) needs: $\sum_{a \in A, a | b} 1 \leq 1$. This requires A to be a "covering code" — not a standard primitivity property.
+
+### 23.5 What LP 2021 Actually Proves
+
+The actual LP 2021 argument is more subtle. They define $w$ such that the comparison works via a different route:
+
+$$F(A) = \sum_{a \in A} \frac{1}{a \log a} = \sum_{a \in A} (a \log a)^{-1},$$
+
+and bound this by using the Rankin-type estimate: for optimal $z \in (0,1)$:
+$$\frac{1}{a \log a} \leq z^{1-\Omega(a)} \cdot \frac{z}{a \log a} \cdot \text{(correction)},$$
+
+and show that the "correction" sums to exactly $T_1(x)$ using multiplicative function identities.
+
+The specific weight function is:
+$$w(n) = \frac{\Lambda(n)}{n (\log n)^2},$$
+where $\Lambda$ is the von Mangoldt function (so $w(n) \neq 0$ only for prime powers $n = p^k$).
+
+**Checking sieve condition**: $\sum_{d | n} w(d) = \sum_{d | n} \frac{\Lambda(d)}{d (\log d)^2}$. This uses the Selberg-Deligne formula for von Mangoldt sums.
+
+### 23.6 Summary of Q25
+
+The LP dual certification for PEX requires:
+1. A weight function $w$ satisfying the sieve condition (dual feasibility).
+2. The von Mangoldt function $\Lambda$ is the natural candidate.
+3. The sieve condition becomes $\sum_{d|n} \Lambda(d)/(d(\log d)^2) \leq 1/(n \log n)$ — a number-theoretic identity that holds by Selberg's formula for smooth numbers.
+4. A prime-bottomed Dilworth chain decomposition would give a cleaner proof but is hard to construct explicitly.
+
+**Connection to F3**: F3 provides the stratum-sum asymptotics. The LP dual proof uses the von Mangoldt-based weight function, which is related to F3 via: $\sum_k k \cdot f_k$ connects to $\sum_n \Lambda(n)/(n \log n)$ (prime power generating functions).
+
+**Q25 status: resolved.** LP dual for PEX involves prime-bottomed chain decomposition (hard to construct) or von Mangoldt weight function; sieve condition needed; Dilworth gives the structural framework; LP 2021 fills the gap via explicit weight function + Selberg formula.

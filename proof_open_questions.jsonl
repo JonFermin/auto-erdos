@@ -66,3 +66,6 @@
 {"qid":"Q23","status":"resolved","session_id":"s_0701-080342-d8e0","summary":"F3 range correction: f_1≈1.44>1; k* threshold finite; two-strata via tail-vanishing; MA unaffected","ts":"2026-07-01T11:05:54+00:00"}
 {"qid":"Q24","status":"open","session_id":"s_0701-080342-d8e0","summary":"Exchange argument for PEX: replacing composite a=pm in A with primes; when does F(A') ≥ F(A); identify obstruction to composing exchanges for general A; why LP 2021 machinery required","ts":"2026-07-01T11:06:48+00:00"}
 {"qid":"Q24","status":"claimed","session_id":"s_0701-080342-d8e0","summary":"taking Q24 exchange argument for PEX","ts":"2026-07-01T11:06:48+00:00"}
+{"qid":"Q24","status":"resolved","session_id":"s_0701-080342-d8e0","summary":"Exchange argument for PEX: single exchange increases F; cascade merges decrease for k>p/2; three obstacles; LP 2021 uses global comparison","ts":"2026-07-01T11:07:54+00:00"}
+{"qid":"Q25","status":"open","session_id":"s_0701-080342-d8e0","summary":"LP reformulation of PEX: F(A) as constrained optimization over antichains; Dilworth chain decomposition; LP dual certificate structure; what weight function w(n) must satisfy; connection to LP2021 Selberg-sieve dual","ts":"2026-07-01T11:08:38+00:00"}
+{"qid":"Q25","status":"claimed","session_id":"s_0701-080342-d8e0","summary":"taking Q25 LP dual reformulation","ts":"2026-07-01T11:08:38+00:00"}
