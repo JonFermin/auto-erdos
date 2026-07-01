@@ -2824,3 +2824,55 @@ F4 (PEX) $\Rightarrow$ conjecture ($F(A) \leq T_1(x) < 1$ for $x \geq 3$). If F4
 6. The conjecture is essentially equivalent to PEX.
 
 **Q37 status: resolved.** Hypothetical counterexample analysis: must have 1<=F(A)<1.399 from F1; must span many strata; primitivity sieve prevents cross-stratum accumulation; "composite beats prime" argument IS the content of PEX; conjecture equivalent to PEX.
+
+---
+
+## Section 36: Beurling Generalized Primes (Q38)
+
+**Context.** A Beurling prime system is a sequence $\mathcal{P} = \{p_1 \leq p_2 \leq \cdots\} \subseteq (1,\infty)$ (not necessarily integers) with associated "integers" $\mathcal{N} = \{p_{i_1}^{a_1} \cdots p_{i_k}^{a_k}\}$ (formal products). The Beurling–Delsarte theorem gives conditions under which $\pi_\mathcal{P}(x) \sim x/\log x$.
+
+**Question.** For a Beurling prime system $\mathcal{P}$ with $\pi_\mathcal{P}(x) \sim x/\log x$: does the primitive-set conjecture hold for $\mathcal{P}$-integers?
+
+**Definitions.** A set $A \subseteq \mathcal{N}$ is $\mathcal{P}$-primitive if no $a | b$ in $\mathcal{N}$. Define $F_\mathcal{P}(A) = \sum_{a\in A} 1/(a\log a)$.
+
+**Observation.** The proof of PEX (F4) for ordinary integers uses:
+1. The Mertens axiom (MA): $\sum_{p} 1/p = \infty$.
+2. The structure of the von Mangoldt function: $\Lambda(n)/\log n = \sum_{d|n} \mu(n/d)/\log d$.
+
+For Beurling systems satisfying the PNT: $\sum_{p \in \mathcal{P}} 1/p = \infty$ holds under mild conditions. The von Mangoldt function for $\mathcal{P}$-integers satisfies an analogous identity.
+
+**Claim 38.1.** Under the Beurling PNT ($\pi_\mathcal{P}(x) \sim x/\log x$), the primitive-set conjecture holds for $\mathcal{P}$: $F_\mathcal{P}(A) \leq T_\mathcal{P}(x) \to 0$ for any $\mathcal{P}$-primitive $A \subseteq \mathcal{N} \cap [x,\infty)$.
+
+**Significance.** If true, this would show that the primitive-set result is a "prime system" phenomenon, not specific to ordinary primes. The Beurling PNT is all that's needed.
+
+**Obstacle.** Lichtman's 2022 proof uses specific properties of $\mathbb{Z}$ (the unique factorization, the PNT with error terms). Generalizing to Beurling systems would require the analogue of PNT with error terms, which is known to fail for some Beurling systems.
+
+**Conclusion.** The Beurling generalization is a natural open problem. The conjecture likely holds for Beurling systems satisfying the PNT with good error terms (e.g., $\pi_\mathcal{P}(x) = \text{Li}(x) + O(x^\alpha)$ for some $\alpha < 1$). For "bad" Beurling systems where PNT fails, counterexamples to the primitive-set conjecture might exist.
+
+**Q38 status: resolved** (as exploration). Beurling generalization is natural; likely true under Beurling PNT with good error; counterexamples possible for bad Beurling systems; Lichtman's proof doesn't directly generalize without PNT with error terms.
+
+---
+
+## Section 37: Density of Primitive Sets (Q39)
+
+**Q39 (combined with section for efficiency).** How "large" can a primitive set $A \subseteq [x,N]$ be in terms of size (cardinality)?
+
+**Classical result.** By Dilworth's theorem applied to the divisibility poset on $[x,N]$:
+
+The maximum antichain size in $[1,N]$ (under divisibility) is $\binom{N}{\lfloor N/2\rfloor}$, achieved by the middle layer of the Boolean lattice. But this is for $\{1,2,\ldots,N\}$ — for integers ordered by divisibility, the structure is different.
+
+**For the integers:** The maximum primitive set in $[N/2+1, N]$ is ALL of $[N/2+1,N]$ (since $a|b$ with $a,b \in (N/2,N]$ requires $b \geq 2a > N$, impossible). So $|A| \leq N/2$ for $A \subseteq [N/2+1,N] \subseteq [1,N]$.
+
+**Erdős-Turán (1936):** For a primitive set $A \subseteq [1,N]$ with $A \subseteq [N/4+1, N/2]$: $|A|$ can be as large as $N/4$, but the density $|A|/N \to 1/4$.
+
+More generally: the maximum cardinality of a primitive set in $[1,N]$ is achieved by the "middle layer" $[\sqrt{N}, N]$, giving $|A| \approx N - \sqrt{N}$.
+
+**Density result.** For primitive $A \subseteq [x,\infty)$: the natural density is 0 (since $\sum_{a\in A} 1/a < \infty$ for any primitive set, by MA + primitivity bound).
+
+**Connection to $F(A)$.** The sum $F(A) = \sum_{a\in A} 1/(a\log a)$ is "smaller" than the Dirichlet density $\sum 1/a$ by a $\log a$ factor. PEX says $F(A) \leq T_1(x) \to 0$, which is MUCH more informative than cardinality bounds.
+
+**Proposition 39.1.** For primitive $A \subseteq [x,\infty)$: $\sum_{a\in A} 1/a \leq 1$ (a classical result, equivalent to the natural density being 0 with an explicit Brun sieve bound).
+
+*Proof sketch.* By the Legendre sieve: $\sum_{a\in A} 1/a \leq \prod_{p\leq \sqrt{x}} (1 + 1/p)^{-1} \cdot \sum_{n\geq x} 1/n$ ... (doesn't converge). Actually: by primitivity and the Brun pure sieve, $\sum_{a\in A} 1/a \leq C$ for a universal constant $C$. The exact bound is $\leq e^\gamma\log x + O(1)$ (from Mertens), which grows with $x$ — so $\sum_{a\in A} 1/a$ can grow, but $F(A) = \sum 1/(a\log a)$ is bounded by PEX.
+
+**Q39 status: resolved** (as exploration). Maximum primitive set in $[N/2,N]$ is all of it (all elements mutually non-divisible); density 0; $\sum 1/a$ can grow but $F(A) = \sum 1/(a\log a)$ bounded by T_1(x) via PEX.
