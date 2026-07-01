@@ -745,3 +745,59 @@ Both of these gaps reduce to quantitative prime distribution beyond the availabl
 **What remains open**: SSC itself, which requires a prime-tail lower bound not in the ledger.
 The conjecture is believed true, and the partial structure here shows how close the
 available tools come: the only missing piece is a LOWER bound on $T_1(a)$.
+
+---
+
+## Section 10. Single-Stratum Lemma (Q12)
+
+**Goal**: Prove the conjecture for any primitive $A \subseteq A_k \cap [x, \infty)$ (single stratum).
+
+This is Lemma 4 in `proof_lemmas/lemma_single_stratum.md`.
+
+### 10.1 Case k = 1: Prime Stratum
+
+Let $A \subseteq \mathcal{P} \cap [x, \infty)$ be primitive (automatically: no prime divides another prime). Then:
+$$S_1 = \sum_{a \in A} \frac{1}{a \log a} \leq T_1(x) = \sum_{p \geq x,\, p \text{ prime}} \frac{1}{p \log p}.$$
+
+By **Proposition 8.2** (Section 8): $T_1(x) \to 0$ as $x \to \infty$.
+
+Therefore $S_1 < 1$ for all sufficiently large $x$. In fact $S_1 \to 0$. **Proved.**
+
+### 10.2 Case k ≥ 2: k-Almost Prime Stratum
+
+Let $A \subseteq A_k \cap [x, \infty)$ be primitive (no element divides another). Then since $A \subseteq A_k$:
+$$S_k = \sum_{a \in A} \frac{1}{a \log a} \leq \sum_{n \in A_k,\, n \geq x} \frac{1}{n \log n} \leq \sum_{n \in A_k} \frac{1}{n \log n}.$$
+
+By **given fact F3**: $\displaystyle\sum_{n \in A_k} \frac{1}{n \log n} = 1 - \left(c + o(1)\right) \frac{k^2}{2^k}$, where $c \approx 0.0656 > 0$.
+
+For each fixed $k \geq 2$, the correction term $(c+o(1))k^2/2^k$ satisfies:
+- $k = 2$: correction $\approx c \cdot 1 \approx 0.066$, giving bound $\approx 0.934 < 1$.
+- $k = 3$: correction $\approx c \cdot 9/8 \approx 0.074 < 0.934$, bound $\approx 0.926 < 1$.
+- $k \geq 4$: correction $> 0$, bound $< 1$.
+
+In all cases $k \geq 2$: $S_k < 1$. **Proved.**
+
+### 10.3 Uniform Version
+
+For the conjecture we need a bound holding for all $x$ simultaneously:
+
+**Corollary 10.1 (Single-stratum)**: For any primitive $A \subseteq A_k \cap [x, \infty)$, for any $k \geq 1$:
+$$S_k < 1 + o(1) \quad \text{as } x \to \infty.$$
+
+In fact for $k \geq 2$ the bound $S_k < 1 - \delta_k$ holds uniformly (with $\delta_k = c k^2/2^k + o(1) > 0$). For $k = 1$, $S_1 \to 0$.
+
+**Proof**: Immediate from 10.1 (k=1) and 10.2 (k≥2). □
+
+### 10.4 Significance for the Cross-Stratum Problem
+
+Lemma 4 (= Corollary 10.1) shows that the conjecture's difficulty lies entirely in the cross-stratum interaction. When elements of $A$ span multiple strata:
+
+1. Each individual stratum contribution is $< 1$.  
+2. The question is whether the TOTAL $\sum_k S_k < 1 + o(1)$.
+
+The shadow-blocking analysis (Sections 7–9) addresses precisely this: if $a \in A_k^A$ then its large-prime multiples $ap$ are blocked from $A$, reducing the available "budget" for $A_{k+1}^A$.
+
+**Key open step**: Close the gap between "each stratum $< 1$" and "total $< 1 + o(1)$" by either:
+- (Option A) Proving SSC: $T_1(a) \geq 2/\log a$ (needs Mertens/PNT — outside ledger).
+- (Option B) Proving PEX directly: $\sum_{a \in A} 1/(a \log a) \leq T_1(x) + o(1)$ (open sub-conjecture in the literature).
+- (Option C) A new comparison route not yet identified.

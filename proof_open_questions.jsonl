@@ -28,3 +28,5 @@
 {"qid":"Q10","status":"resolved","session_id":"s_0701-080342-d8e0","summary":"Q10 kept: PEX formulated as two-part reduction (prime tail convergence proved from F1; PEX comparison open); prime tail T_1(x)->0 is now a proved partial result","ts":"2026-07-01T09:37:02+00:00"}
 {"qid":"Q11","status":"open","session_id":"s_0701-080342-d8e0","summary":"Two-stratum maximum theorem: show max(S_k1+S_k2) = max(T_k1(x),T_k2(x)) using sigma >= S_k condition. What does beta*(a) >= 1/(a log a) require?","ts":"2026-07-01T09:37:02+00:00"}
 {"qid":"Q11","status":"claimed","session_id":"s_0701-080342-d8e0","summary":"developing two-stratum maximum theorem and the shadow-sufficiency condition beta*(a) >= 1/(a log a)","ts":"2026-07-01T09:37:02+00:00"}
+{"qid":"Q12","status":"open","session_id":"s_0701-080342-d8e0","summary":"Single-stratum lemma: prove S_k < 1 for any primitive A ⊆ A_k ∩ [x,∞) using F3 (k≥2) and Prop 8.2 (k=1); formalize as Lemma 4 in proof_lemmas/","ts":"2026-07-01T09:47:25+00:00"}
+{"qid":"Q12","status":"claimed","session_id":"s_0701-080342-d8e0","summary":"taking Q12 single-stratum lemma","ts":"2026-07-01T09:47:30+00:00"}
