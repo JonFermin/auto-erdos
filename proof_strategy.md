@@ -1232,3 +1232,91 @@ Setting all $u_k = (1-\delta_k)/2$: $\sum u_k = (1/2)\sum(1-\delta_k) = (1/2)(N 
 **Root obstacle**: The constraint $u_j + u_k \le 1 - \delta_k$ (with $\delta_k \to 0$) does NOT algebraically imply $\sum u_k \le 1$ for infinite sequences. Additional INFORMATION about the structure of primitive sets is needed.
 
 **That additional information** is Lichtman-Pomerance's key theorem (2021): for each $n$, the sum $\sum_{a \in A, a \mid n} 1/(a\log a)$ is bounded by the "primitive sieve weight" of $n$, which sums to $\le 1$ by a global counting argument. This requires the full machinery of their paper and does not follow from F1/F2/F3 alone.
+
+---
+
+## Section 17. Synthesis: What F1/F2/F3 Prove and the Minimal Gap (Q19)
+
+### 17.1 Complete Inventory of Proved Results
+
+The following are rigorously established from F1, F2, F3 (with MA now proved from F3):
+
+| # | Statement | Proof | Section |
+|---|-----------|-------|---------|
+| T1 | $\sum_{a\in A} 1/(a\log a) < e^\gamma\pi/4 + o(1)$ (all primitive $A\!\subseteq\![x,\infty)$) | F1 given | — |
+| T2 | $\sum_p 1/p = \infty$ (MA proved from F3) | Euler product + F3 | 15 |
+| T3 | $\beta_{\mathrm{tot}}(a) \ge 1/(a\log a)$ for $a \ge a_0$ | MA + Cor 15.1 | 15 |
+| T4 | $S_k \to 0$ for fixed $k$ (F3 tail), so $S_k < 1 + o(1)$ | F3 finiteness | 6, 10 |
+| T5 | $S_k < 1$ for all $k$ (single-stratum) | F3 exact formula | 10 |
+| T6 | $S_1 + S_k < 1 - \delta_k < 1$ (prime + one stratum) | T4 + F3 | 11 |
+| T7 | $\sum_{k \le K} S_k \to 0$ as $x\to\infty$ (bounded strata) | F3 tails | 13 |
+| T8 | $S_{k-1} + S_k \le T_k(x) + o(1)$ (adjacent pair) | T3 + Thm 16.1 | 16 |
+| T9 | $S_j + S_{j+r} \le T_{j+r}(x) + o(1)$ (any pair) | T3 + $r$-step shadow | 16 |
+
+**What these prove**: The conjecture holds for *all primitive $A\subseteq[x,\infty)$ with strata bounded by any fixed $K$* (T7), for *any single stratum* (T5), and for *any adjacent pair of strata* at the bound $\le T_k(x) < 1$ (T8). Every FIXED-stratum case is settled.
+
+### 17.2 The Remaining Gap
+
+**Open case**: $A$ is primitive, $A\subseteq[x,\infty)$, and elements span strata $k = k(x)\to\infty$. Specifically:
+
+$A$ may have elements in strata $k_1(x) < k_2(x) < \ldots$ with all $k_i(x)\to\infty$. For these:
+
+- $T_{k_i}(x) \to T_{k_i}(\infty) = 1 - \delta_{k_i} \to 1$ (stratum tails approach 1 for large $k$).
+- Pairwise shadow bounds: $S_{k_i} + S_{k_j} \le T_{k_j}(x) + o(1) \le 1 + o(1)$ for each pair.
+- But summing $m$ pairwise bounds over $m$ active strata gives only $\sum S_{k_i} \le m/2$, which diverges.
+
+**Why pairwise constraints fail**: The LP relaxation of "maximize $\sum u_k$ s.t. $u_j + u_k \le 1$" has value $N/2$ for $N$ variables — unbounded as $N\to\infty$.
+
+**The additional structure needed**: The LP bound fails because it ignores the NUMBER-THEORETIC constraint that makes "all strata near 1 simultaneously" impossible for a primitive set. That constraint is:
+
+> **(PEX — Primes-Are-Extremal):** For any primitive $A\subseteq[x,\infty)$:
+> $$\sum_{a\in A}\frac{1}{a\log a} \le \sum_{p\,\mathrm{prime},\, p\ge x}\frac{1}{p\log p} = T_1(x) + o(1) \to 0.$$
+
+PEX was proved by Lichtman–Pomerance (Annals 2021) using a deep "potential function" comparison and the multiplicative structure of primitive sets beyond what F1/F2/F3 encode.
+
+### 17.3 Can PEX Be Derived from F1/F2/F3?
+
+**Attempted derivations in this session**:
+
+1. **Shadow telescoping** (Section 16): gives pairwise $S_j + S_k \le T_k(x)$, but not global $\sum S_k \le T_1(x)$.
+
+2. **MA from F3** (Section 15): proved $\sum_p 1/p = \infty$, enabling $\beta_{\mathrm{tot}}(a) \ge 1/(a\log a)$.
+
+3. **LP bound**: pairwise constraints + LP analysis gives at most $\sup_k T_k(x) < 1 + o(1)$ for finitely many strata, but not bounded uniformly in the number of strata.
+
+**Verdict**: PEX does NOT follow from F1/F2/F3 by elementary means. The given facts provide upper bounds on stratum sums (F3) and on the total (F1), but no comparison to primes.
+
+**Minimal additional fact needed** (call it F4):
+$$\text{(F4):}\quad \forall \text{ primitive } A \subseteq [x,\infty):\quad \sum_{a\in A}\frac{1}{a\log a} \le \sum_{p \ge x, p\,\mathrm{prime}}\frac{1}{p\log p} + o(1).$$
+
+F4 immediately implies the conjecture (since $T_1(x) \to 0 < 1 + o(1)$). F4 IS PEX.
+
+### 17.4 Best Achievable Bound from F1/F2/F3
+
+Without F4, the best provable bound from F1/F2/F3 is:
+
+**Theorem 17.1 (Best F1/F2/F3 bound).** For any primitive $A \subseteq [x,\infty)$:
+$$\sum_{a\in A} \frac{1}{a\log a} < \min\!\left(e^\gamma\pi/4 + o(1),\; \sup_k T_k(x) + o(1)\right).$$
+
+- First term: F1 gives $< 1.399$.
+- Second term: $\sup_k T_k(x) = \sup_k (1 - ck^2/2^k) < 1$ for each **fixed** $k$, but $\sup_k T_k(\infty) = 1$. So $\sup_k T_k(x) \to 1$ as $x\to\infty$.
+
+**Corollary 17.1.** For any FIXED stratum count $K$: $\sum_{k=1}^K S_k < 1 + o(1)$ (from T7).
+For growing $K = K(x) \to \infty$: the best provable bound is $\sum S_k < e^\gamma\pi/4 + o(1) \approx 1.399$.
+
+The gap between 1.399 and the desired 1 requires PEX/F4.
+
+### 17.5 Proof Status Summary
+
+**What is proved (from F1/F2/F3 alone)**:
+- Conjecture for all bounded-stratum A: ✓ (T7)
+- Single-stratum: ✓ (T5)
+- Two-adjacent-stratum: ✓ (T8, bound $< 1$)
+- MA ($\sum 1/p = \infty$): ✓ (T2, proved in this session)
+- Global bound: $< 1.399$ (F1)
+
+**What is not proved from F1/F2/F3**:
+- Conjecture for growing-stratum A: needs PEX/F4.
+- PEX itself.
+
+**For Q20**: Explore whether the proof can bypass PEX via a direct generating-function argument connecting F3's formula to the primitive-set structure. Alternatively: add PEX as given fact F4 and complete the proof in one further section.
