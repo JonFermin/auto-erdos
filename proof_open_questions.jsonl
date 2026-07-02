@@ -6,3 +6,6 @@
 {"qid": "Q6", "status": "open", "parent_qid": null, "summary": "If after Q5 the proof structure has gaps that look genuinely hard, write the partial result to proof_strategy.md as 'this remains open; here is what was ruled out'. Then call proof_session_end with reason='converged on partial result' so the loop registers it as a kept partial-result record.", "ts": "2026-04-30T00:00:00+00:00", "session_id": "seed"}
 {"qid":"Q1","status":"claimed","session_id":"s_0702-080623-69cc","summary":"taking Q1: write Section 1 Setup","ts":"2026-07-02T08:14:22+00:00"}
 {"qid":"Q2","status":"claimed","session_id":"s_0702-080623-69cc","summary":"re-taking Q2 (post-discard): ledger-compliant numerical F3 section","ts":"2026-07-02T08:28:28+00:00"}
+{"qid":"Q2","status":"resolved","session_id":"s_0702-080623-69cc","summary":"Section 2 done: F3 correction term table for k=1..5, all < 1; cross-stratum gap framed","ts":"2026-07-02T08:34:47+00:00"}
+{"qid":"Q3","status":"claimed","session_id":"s_0702-080623-69cc","summary":"taking Q3+Q4: primes section and witness search","ts":"2026-07-02T08:41:55+00:00"}
+{"qid":"Q4","status":"claimed","session_id":"s_0702-080623-69cc","summary":"taking Q4 as part of Section 3","ts":"2026-07-02T08:41:55+00:00"}

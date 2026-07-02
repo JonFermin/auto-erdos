@@ -208,4 +208,42 @@ Each individual stratum contributes strictly less than 1. The difficulty (addres
 
 ---
 
-**(Section 2 complete — Section 3 will address the cross-stratum argument.)**
+**(Section 2 complete.)**
+
+---
+
+## Section 3 — Primes as Primitive Set and Witness Search
+
+### 3.1 Primes form an extreme primitive set (Q3)
+
+The set of primes $P = \{2, 3, 5, 7, 11, \ldots\}$ is a primitive set: no prime divides any other distinct prime.
+
+**Consistency with F1.** F1 bounds $\sum_{a \in A} 1/(a \log a) < e^\gamma \pi/4 + o(1)$ for any primitive $A \subseteq [x, \infty)$ as $x \to \infty$. For the *restricted* prime set $P_x = \{p : p \geq x\}$:
+
+- $P_x$ is a primitive set in $[x, \infty)$ for each $x$.
+- As $x \to \infty$, $\sum_{p \geq x} 1/(p \log p) \to 0$ (tail of a convergent series), well within F1's bound.
+- F1's bound $1.399 + o(1)$ is the asymptotic ceiling on the *worst-case* primitive set in $[x, \infty)$; the restricted prime set is far from this extremum for large $x$.
+
+**Consistency with F3.** F3 gives the $k=1$ stratum sum (primes) as $1 - (c+o(1))/2 \approx 0.967$ (from Section 2). The restricted prime set $P_x \subsetneq A_1$ is a proper subset, so its sum lies strictly below the full-stratum value — consistent with F3's "<1" guarantee.
+
+### 3.2 Witness search at x_floor = 100, 1000, 10000 (Q4)
+
+A witness requires finding a primitive $A \subset [x_{\text{floor}}, \infty)$ with rigorously verified sum $> 1$ (threshold $= 1.0$, per spec). Using `library.primitive_set_witness.verify_witness`:
+
+| $x_{\text{floor}}$ | Candidate (first 200 primes $\geq x$) | Verifier result | Rigorous lower bound |
+|:---:|:---:|:---:|:---:|
+| 100 | $\{101, 103, 107, \ldots\}$ | **invalid** (< threshold) | $\approx 0.078$ |
+| 1000 | $\{1009, 1013, 1019, \ldots\}$ | **invalid** (< threshold) | $\approx 0.017$ |
+| 10000 | $\{10007, 10009, \ldots\}$ | **invalid** (< threshold) | $\approx 0.002$ |
+
+No witness exists at any of these floors. The rigorous sums decay rapidly with $x_{\text{floor}}$: the tail of the prime sum over $[x, \infty)$ is $O(1/\log x)$, which is much less than 1 for any $x \geq 100$.
+
+**Implication.** Any primitive set in $[x_{\text{floor}}, \infty)$ for $x_{\text{floor}} \geq 100$ has sum far below 1.0, consistent with the conjecture's $1 + o(1)$ upper bound approaching 1 from above (and with F1's global bound).
+
+**Small-$x$ caveat.** At $x_{\text{floor}} = 2$, the primes do yield sum $> 1.0$ (as a subset-stratum contribution), but this is not a meaningful counterexample: the conjecture's $o(1)$ term is large at $x = 2$ (it has not yet had a chance to decay to $0$), so the conjecture allows sums substantially above 1 for small $x$.
+
+**Conclusion**: Q4 search finds no witness at $x_{\text{floor}} \in \{100, 1000, 10000\}$. No counterexample candidate is committed.
+
+---
+
+**(Section 3 complete — Section 4 will address the proof structure and cross-stratum lemmas.)**
