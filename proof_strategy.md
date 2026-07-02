@@ -246,4 +246,60 @@ No witness exists at any of these floors. The rigorous sums decay rapidly with $
 
 ---
 
-**(Section 3 complete — Section 4 will address the proof structure and cross-stratum lemmas.)**
+**(Section 3 complete.)**
+
+---
+
+## Section 4 — Proof Structure and Lemma Decomposition (Q5)
+
+### 4.1 Omega-stratification skeleton
+
+Write any primitive $A \subset [x, \infty)$ as $A = \bigsqcup_{k \geq 1} (A \cap A_k)$ where $A_k = \{n : \Omega(n) = k\}$. The target bound $\sum_{a \in A} 1/(a \log a) < 1 + o(1)$ splits as:
+$$\sum_{a \in A} \frac{1}{a \log a} = \underbrace{\sum_{k=1}^{K} \sum_{a \in A \cap A_k} \frac{1}{a \log a}}_{\text{low-}\Omega\text{ part}} + \underbrace{\sum_{k > K} \sum_{a \in A \cap A_k} \frac{1}{a \log a}}_{\text{high-}\Omega\text{ tail}}$$
+for any cut-off $K = K(x)$ to be chosen optimally. The proof requires bounding both parts.
+
+### 4.2 Lemma inventory
+
+Three lemmas have been formalized in `proof_lemmas/`:
+
+| Lemma | Id | Status | Difficulty | What it provides |
+|:---:|:---:|:---:|:---:|:---|
+| 1 | `single_stratum_bound` | **proved** | Easy | Each stratum: $\sum_{a \in A \cap A_k} 1/(a\log a) < 1$ (direct from F3) |
+| 2 | `cross_stratum_bound` | **open** | **Hard** | Primitivity forces cross-stratum trade-off; key open problem |
+| 3 | `tail_bound` | **open** | Medium | High-$\Omega$ tail $\sum_{k>K}$ is bounded; density estimates needed |
+
+### 4.3 What Lemma 1 gives (and does not give)
+
+By Lemma `single_stratum_bound` (proved), $\sum_{a \in A \cap A_k} 1/(a\log a) < 1$ for every $k$. Summing over all $k$ gives $\sum_{a \in A} 1/(a\log a) < \sum_{k \geq 1} 1 = \infty$ — useless. Lemma 1 alone cannot close the conjecture.
+
+The F1 bound (Erdős-Zhang) gives $\sum_{a \in A} 1/(a \log a) < 1.399 + o(1)$ globally — already a cross-stratum bound but not tight enough.
+
+### 4.4 The central gap: cross-stratum interaction (Lemma 2)
+
+The key open problem is making Lemma 2 quantitative. Informally:
+
+- If $p \in A \cap A_1$ (a prime), all multiples of $p$ are excluded from other strata of $A$. This "kills" $\sim 1/p$ of each $A_k$.
+- Conversely, if $A$ has many $k$-fold composites (not divisible by small primes), their small prime factors are excluded from $A \cap A_1$.
+
+Any element contributing $1/(a \log a)$ to the sum thus "blocks" related elements in other strata. The conjecture asserts that these blocks are enough to keep the total below $1 + o(1)$.
+
+**The difficulty**: the blocks from different strata are correlated in complicated ways (via shared prime factors), making a clean induction or product-formula argument elusive.
+
+### 4.5 The tail bound (Lemma 3)
+
+For $k \gg \log x$, elements of $A_k \cap [x, \infty)$ are rare: the Sathe-Selberg formula gives $|\{n \leq N : \Omega(n) = k\}| \approx N(\log\log N)^{k-1}/((k-1)! \log N)$. But for large $k$ (say $k > 2 \log\log x$), the $k$-th stratum sum $1 - ck^2/2^k \approx 1$ — the strata approach 1, not 0. So the tail cannot be bounded by $o(1)$ using only per-stratum estimates.
+
+A different approach is needed: for $k \gg \log x$, elements of $A_k$ in $[x, \infty)$ have ALL $k$ prime factors $\geq 2$, so at least one is large (of order $x^{1/k}$). Sieve methods could control how much such elements contribute.
+
+### 4.6 Current status of the proof attempt
+
+- **Closed** (proved): Lemma 1 (single_stratum_bound)
+- **Open**: Lemma 2 (cross_stratum_bound) — the central hard problem
+- **Open**: Lemma 3 (tail_bound) — medium difficulty, needs density input
+- **Gap**: Even if Lemmas 2 and 3 were proved, connecting them to the final bound $1 + o(1)$ requires a careful choice of cut-off $K$ and an explicit error-term analysis.
+
+The proof attempt has reached the boundary of what can be derived from F1/F2/F3 alone. The residual gap is the cross-stratum interaction (Lemma 2), which is the open heart of the conjecture.
+
+---
+
+**(Section 4 complete — Section 5 will record partial results and next steps.)**
