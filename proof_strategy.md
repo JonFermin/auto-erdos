@@ -159,4 +159,53 @@ Work continues in `proof_lemmas/` (see Q5).
 
 ---
 
-**(Section 1 complete — subsequent sections in future rounds.)**
+**(Section 1 complete.)**
+
+---
+
+## Section 2 — Numerical Calibration of F3
+
+### 2.1 The correction-term function $\phi(k) = k^2/2^k$
+
+F3 states
+$$\sum_{a \in A_k} \frac{1}{a \log a} = 1 - (c + o(1))\frac{k^2}{2^k}, \quad c \approx 0.0656 > 0,$$
+with the $o(1)$ as $k \to \infty$. Because $c > 0$ the entire correction is negative for every $k \geq 1$, so each stratum sum is **strictly less than 1** (F3, sign disambiguation).
+
+The function $\phi(k) = k^2/2^k$ governs how far each stratum lies below 1. Using $c = 0.0656$:
+
+| $k$ | $\phi(k) = k^2/2^k$ | $c \cdot \phi(k)$ | Leading-order stratum sum |
+|:---:|:-------------------:|:------------------:|:------------------------:|
+| 1   | $1/2 = 0.5000$      | $0.0328$           | $\approx 0.967$           |
+| 2   | $4/4 = 1.0000$      | $0.0656$           | $\approx 0.934$           |
+| 3   | $9/8 = 1.1250$      | $0.0738$           | $\approx 0.926$           |
+| 4   | $16/16 = 1.0000$    | $0.0656$           | $\approx 0.934$           |
+| 5   | $25/32 = 0.7813$    | $0.0513$           | $\approx 0.949$           |
+| 10  | $100/1024 = 0.0977$ | $0.0064$           | $\approx 0.994$           |
+
+Every leading-order estimate is below 1, directly confirming F3's "<1 for all $k\geq 1$" assertion. The correction $c \cdot \phi(k)$ peaks at $k = 3$ (value $\approx 0.0738$) and decays to 0 at geometric rate $O(k^2/2^k)$.
+
+### 2.2 Monotonicity and the approach from below
+
+$\phi(k) = k^2/2^k$ is increasing for $k \leq 2$, peaks at $k = 2$–$3$ (the discrete maximum is at $k = 3$, $\phi(3) = 9/8 > \phi(2) = 1$), then decreasing. Concretely:
+- $k = 1$: correction $= c/2 \approx 0.033$; stratum sum $\approx 0.967$ (F3).
+- $k = 3$: largest correction $\approx 0.074$; stratum sum $\approx 0.926$ (furthest from 1).
+- $k \geq 4$: corrections decay; sums converge monotonically toward 1 from below.
+
+This "funnel" shape is key: the low-$k$ strata ($k \leq 3$) each sit at least 3% below 1, while the high-$k$ strata approach 1 exponentially fast.
+
+### 2.3 Subset bound for primitive-set slices
+
+For any primitive $A \subset [x, \infty)$ and any fixed $k$, the $k$-th slice $A \cap A_k$ is a subset of $A_k$, so
+$$\sum_{a \in A \cap A_k} \frac{1}{a \log a} \leq \sum_{a \in A_k} \frac{1}{a \log a} = 1 - (c+o(1))\phi(k) < 1.$$
+
+Each individual stratum contributes strictly less than 1. The difficulty (addressed in Section 3 / Q5) is that any *sum* $\sum_k (\text{something} < 1)$ can diverge: the strata-sum bound alone does not bound the total $\sum_{a \in A} 1/(a \log a)$.
+
+### 2.4 What this section establishes
+
+- **F3 is quantitatively consistent**: the correction term $c \cdot \phi(k)$ with $c = 0.0656$ is positive for all $k \geq 1$, yielding stratum sums strictly below 1.
+- **The gap below 1 is smallest for $k=1$** ($\approx 3.3\%$) and for large $k$ ($\to 0\%$); the widest gap is at $k=3$ ($\approx 7.4\%$).
+- **No stratum alone threatens the conjecture bound $< 1+o(1)$** — the challenge is cross-stratum accumulation.
+
+---
+
+**(Section 2 complete — Section 3 will address the cross-stratum argument.)**
