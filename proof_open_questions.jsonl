@@ -14,3 +14,4 @@
 {"qid":"Q5","status":"claimed","session_id":"s_0702-080623-69cc","summary":"taking Q5: lemma files + Section 4 proof structure","ts":"2026-07-02T08:44:11+00:00"}
 {"qid":"Q5","status":"resolved","session_id":"s_0702-080623-69cc","summary":"3 lemma files created; Section 4 written; Lemma 1 proved, Lemma 2+3 open","ts":"2026-07-02T08:46:30+00:00"}
 {"qid":"Q6","status":"claimed","session_id":"s_0702-080623-69cc","summary":"taking Q6: writing partial result + session_end","ts":"2026-07-02T08:47:04+00:00"}
+{"qid":"Q6","status":"resolved","session_id":"s_0702-080623-69cc","summary":"Section 5 written: partial result, rules out trivial approaches, gap = Lemma 2 cross-stratum","ts":"2026-07-02T08:47:46+00:00"}
