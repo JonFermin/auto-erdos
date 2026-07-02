@@ -12,3 +12,5 @@
 {"qid":"Q3","status":"resolved","session_id":"s_0702-080623-69cc","summary":"Section 3.1 written: primes primitive, consistent with F1 restricted to [x,inf)","ts":"2026-07-02T08:42:19+00:00"}
 {"qid":"Q4","status":"resolved","session_id":"s_0702-080623-69cc","summary":"witness search at x_floor=100,1000,10000: no counterexample (sums 0.078/0.017/0.002 << 1)","ts":"2026-07-02T08:42:19+00:00"}
 {"qid":"Q5","status":"claimed","session_id":"s_0702-080623-69cc","summary":"taking Q5: lemma files + Section 4 proof structure","ts":"2026-07-02T08:44:11+00:00"}
+{"qid":"Q5","status":"resolved","session_id":"s_0702-080623-69cc","summary":"3 lemma files created; Section 4 written; Lemma 1 proved, Lemma 2+3 open","ts":"2026-07-02T08:46:30+00:00"}
+{"qid":"Q6","status":"claimed","session_id":"s_0702-080623-69cc","summary":"taking Q6: writing partial result + session_end","ts":"2026-07-02T08:47:04+00:00"}

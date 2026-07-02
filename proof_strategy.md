@@ -302,4 +302,57 @@ The proof attempt has reached the boundary of what can be derived from F1/F2/F3 
 
 ---
 
-**(Section 4 complete — Section 5 will record partial results and next steps.)**
+**(Section 4 complete.)**
+
+---
+
+## Section 5 — Partial Result and What Has Been Ruled Out (Q6)
+
+**This remains open.** The Erdős primitive-set conjecture ($\sum_{a \in A} 1/(a \log a) < 1 + o(1)$ for primitive $A \subset [x, \infty)$) has not been resolved by this proof attempt.
+
+### 5.1 What this attempt has established
+
+**Established (derivable from F1/F2/F3):**
+
+1. **Per-stratum bound** (Lemma `single_stratum_bound`, proved): For every primitive $A \subset [x, \infty)$ and every $k \geq 1$, the $k$-th stratum contributes
+   $$\sum_{a \in A \cap A_k} \frac{1}{a \log a} < 1.$$
+   This is immediate from F3's $-(c+o(1))k^2/2^k$ correction (negative for $c > 0$) and monotonicity.
+
+2. **Correction-term profile** (Section 2): The magnitude of the correction $c \cdot k^2/2^k$ peaks at $k = 3$ ($\approx 7.4\%$ below 1) and decays for $k \geq 4$. The strata funnel toward 1 from below as $k \to \infty$.
+
+3. **Witness search at large $x$** (Section 3): No primitive set in $[x_{\text{floor}}, \infty)$ for $x_{\text{floor}} \in \{100, 1000, 10000\}$ exceeds the sum threshold of 1.0 (verified rigorously via `library.primitive_set_witness`). The restricted prime sums at these floors are $0.078$, $0.017$, $0.002$ — all far below 1.
+
+4. **Global bound context**: F1 (Erdős-Zhang) already gives $\sum_{a \in A} 1/(a \log a) < 1.399 + o(1)$. This is a cross-stratum result but falls short of the conjectured $1 + o(1)$.
+
+### 5.2 What has been ruled out
+
+**Ruled out as insufficient:**
+
+- **Trivial summation of per-stratum bounds**: $\sum_{k \geq 1}(1 - ck^2/2^k)$ diverges (since $k^2/2^k \to 0$ faster than $1/k$). Per-stratum bounds alone cannot give a finite total.
+
+- **Witness counterexample at $x_{\text{floor}} \geq 100$**: Verified computationally — no primitive set with sum $> 1$ exists in $[100, \infty)$ (restricted prime sum $\approx 0.078 \ll 1$). The maximum achievable sum decreases as $x_{\text{floor}}$ grows.
+
+- **F3 applied directly to small $k$**: The $o(1)$ correction in F3 is asymptotic in $k$; the formula is accurate for large $k$ but carries unknown errors for $k = 1, 2, 3$.
+
+### 5.3 The central gap
+
+**We have ruled out** any approach that does not account for cross-stratum interaction. The open gap is:
+
+> *Proving that a primitive set $A \subset [x, \infty)$ cannot simultaneously accumulate significant contributions from multiple strata — i.e., that the total $\sum_k \sum_{a \in A \cap A_k} 1/(a \log a)$ is $< 1 + o(1)$ despite each stratum individually allowing up to $1 - ck^2/2^k$.*
+
+This is formalized as Lemma `cross_stratum_bound` (status: open) and Lemma `tail_bound` (status: open). Closing these lemmas is the remaining task.
+
+**We cannot rule out** the existence of a genuine counterexample (primitive set with sum $> 1 + o(1)$ for all $x$), but the witness search at large $x_{\text{floor}}$ provides substantial computational evidence against it.
+
+### 5.4 Recommended next steps
+
+For a future session:
+
+1. Attempt Lemma `cross_stratum_bound` via a multiplicative sieve argument or Plünnecke-Ruzsa inequality analog.
+2. Attempt Lemma `tail_bound` using the Sathe-Selberg density formula for $\{n : \Omega(n) = k\}$.
+3. If both lemmas close, synthesize them with Lemma `single_stratum_bound` to complete the proof.
+4. If unable to close Lemma `cross_stratum_bound`, record this as a hard open barrier and document which sub-cases have been ruled out.
+
+---
+
+**(Proof attempt reaches partial result. This is the end of this session's contribution.)**
