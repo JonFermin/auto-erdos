@@ -1435,3 +1435,74 @@ that controls the within-stratum structure of primitive subsets of $A_{k^*(x)}$ 
 The partial result — reducing the conjecture to the single-stratum unbounded-$k$ case — is
 the strongest consequence of the $\{F1, F2, F3\}$ ledger, and constitutes the main
 contribution of this proof attempt.
+
+---
+
+## Section 16: Can F1 + F3 jointly close the conjecture?
+
+### 16.1 The question
+
+F1 gives $S(A) < 1.399 + o(1)$ for any primitive $A \subseteq [x,\infty)$.
+F3 gives $S_k(A_k \cap [x,\infty)) = 1 - (c+o(1))k^2/2^k$ for the entire stratum.
+Can combining them give the sharp $1 + o(1)$ bound?
+
+### 16.2 A direct combination attempt
+
+Fix $K$ (to be optimised). Split:
+$$S(A) = \underbrace{\sum_{k \leq K} S_k(A)}_{T_{\leq K}} + \underbrace{\sum_{k > K} S_k(A)}_{T_{>K}}.$$
+
+**Bound on $T_{\leq K}$**: By Theorem B (Section 14), $T_{\leq K} \leq (1 - c_K) + o(1)$
+where $c_K = c K^2/2^K + o(1)$. For fixed $K$, $c_K \to 0$, so this gives $T_{\leq K} \leq 1 + o(1)$.
+
+**Bound on $T_{>K}$**: We need a separate bound. Observe that
+$$T_{>K} = S(A) - T_{\leq K} \leq S(A) \leq 1.399 + o(1) \quad \text{(from F1)}.$$
+But this trivially bounds $T_{>K}$ by the full F1 bound — no improvement.
+
+Alternatively, try: $T_{>K} \leq \sum_{k > K} S_{A_k}(x)$ (using the full stratum sums).
+By F3: $\sum_{k > K} S_{A_k}(x) \to \sum_{k > K}(1 - ck^2/2^k) - (\text{lower order})$.
+This sum DIVERGES (it's a sum of terms approaching 1). Useless.
+
+**Conclusion**: The direct split by $K$ does NOT combine F1 and F3 to improve the bound.
+The issue is that bounding $T_{>K}$ from above requires controlling ALL of $A$ in high
+strata, which F1 already does globally. There is no amplification.
+
+### 16.3 Why the interplay between F1 and F3 does not sharpen the bound
+
+F1 provides a bound on $S(A)$ for the whole primitive set, not per stratum. If $A$ is
+concentrated in stratum $k^*$, F1 says $S(A) \leq 1.399$, while F3 says the full
+stratum has sum $\leq 1 + o(1)$. Neither says that a primitive SUBSET of $A_{k^*}$
+has smaller sum — and indeed such a subset can saturate the full $1 + o(1)$ bound
+(since $A_{k^*} \cap [x,\infty)$ is itself primitive with sum $\to 1^-$).
+
+So F1 $\cap$ F3 does not improve over F3 for single-stratum primitive sets.
+For multi-stratum sets, the excluded-sum technique (Sections 10-14) already squeezes
+the bound below 1, but relies on inter-stratum divisibility not available within a stratum.
+
+### 16.4 The necessity of F5
+
+The analysis across Sections 9-16 gives a coherent picture:
+
+- **F3 alone**: Handles single stratum (gives sum $\leq 1 + o(1)$, tight).
+- **F3 + inter-stratum excluded-sum**: Handles any fixed-stratum scenario (Theorems A, B).
+- **F1 + F3**: Does not improve single-stratum bound; no synergy for the hard case.
+- **What is needed (F5)**: A bound showing that any primitive $B \subseteq A_{k} \cap [x,\infty)$
+  has $S_k(B) \leq 1 - \epsilon(k,x)$ for some $\epsilon$ that does not vanish faster than
+  the $\to 0$ of the tail contributions from low strata.
+
+Concretely: if one could show that for any primitive $B \subseteq A_k \cap [x,\infty)$,
+$$S_k(B) \leq 1 - \frac{c k^2}{4 \cdot 2^k} + o(1),$$
+(i.e., a quantitative gap, even a fraction of the F3 correction), then the full conjecture
+would follow: for any primitive $A$, decompose by stratum, apply the bounded-Omega result
+up to $K$, apply this F5-type bound for $k > K$, and sum.
+
+This formulation reduces F5 to a clean independent assertion about single-stratum
+primitive subsets — a problem that may be tractable via combinatorial means (considering
+the factorisation structure within $A_k$) or via sieve methods.
+
+### 16.5 Lemma 3 status
+
+Lemma 3 (tail bound: sum over $k > K$ goes to zero as $K \to \infty$) is what would
+follow from F5. Without F5, Lemma 3 remains open. The `lemma_003_tail_bound.md` frontmatter
+should reflect this.
+
+The current proof attempt concludes here at the boundary of what $\{F1, F2, F3\}$ can achieve.
