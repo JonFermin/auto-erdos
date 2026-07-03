@@ -28,3 +28,4 @@
 {"qid":"Q10","status":"resolved","session_id":"s_0703-083113-9dfc","summary":"Section 9 complete: excluded-sum barrier formalized; F4 characterized as exclusion-coefficient lower bound","ts":"2026-07-03T09:17:54+00:00"}
 {"qid":"Q11","status":"open","parent_qid":null,"summary":"Section 10: within-ledger proof of two-stratum conjecture for j=1 k=2 using explicit excluded-sum lower bound E >= (C_Q/2)S_1 with C_Q >= 2 achieved at Q=277.","ts":"2026-07-03T09:17:54+00:00","session_id":"s_0703-083113-9dfc"}
 {"qid":"Q11","status":"claimed","session_id":"s_0703-083113-9dfc","summary":"claiming Q11: Section 10 within-ledger proof of (j=1,k=2) two-stratum case","ts":"2026-07-03T09:17:54+00:00"}
+{"qid":"Q11","status":"resolved","session_id":"s_0703-083113-9dfc","summary":"Section 10 written: within-ledger proof (j=1,k=2) two-stratum conjecture via excluded-sum E>=(C_277/2)S_1; S_1+S_2<=(1-c)+o(1) for x>277","ts":"2026-07-03T09:21:34+00:00"}
