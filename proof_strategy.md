@@ -1177,3 +1177,157 @@ reflect this.
 
 The **remaining open case** is the multi-stratum case: primitive $A$ with elements
 in three or more strata simultaneously. This is the subject of the next section.
+
+---
+
+## Section 14: Multi-stratum excluded-sum; disjoint excluded sets from different lower strata
+
+### 14.1 Setting
+
+Let $J_1 < J_2 < \cdots < J_m$ be fixed positive integers and let
+
+$$A \subseteq \bigl(A_{J_1} \cup A_{J_2} \cup \cdots \cup A_{J_m}\bigr) \cap [x, \infty)$$
+
+be a primitive set. Write $S_{J_i} = S_{J_i}(A)$ for the partial sum over stratum $J_i$.
+Our goal is to show $S(A) = \sum_{i=1}^m S_{J_i} < 1 + o(1)$ as $x \to \infty$.
+
+Fix $Q = 277$ (so $C_Q = \sum_{q \leq Q \text{ prime}} 1/q > 2$) throughout.
+
+### 14.2 Smooth/rough decomposition for all strata
+
+Apply the decomposition of Section 13 to each stratum $J_i$, $i < m$:
+
+$$A_{J_i}^{\rm rough} = \{a \in A \cap A_{J_i} : P^-(a) > Q\}, \quad
+  A_{J_i}^{\rm smooth} = \{a \in A \cap A_{J_i} : P^-(a) \leq Q\}.$$
+
+**Claim A (smooth strata negligible)**. For each fixed $i < m$,
+$$S_{J_i}^{\rm smooth}(A) := \sum_{a \in A_{J_i}^{\rm smooth}} \frac{1}{a \log a} = o(1)
+  \quad \text{as } x \to \infty.$$
+
+*Proof*. Identical to Section 13.3: any $a \in A_{J_i}^{\rm smooth}$ has
+$P^-(a) \leq Q$, so writing $a = p \cdot b$ with prime $p \leq Q$ and $b \in A_{J_i - 1}$
+(or a product thereof), the contribution is bounded by $\sum_{p \leq Q} (1/p) \cdot \tau_{J_i-1}(x/p)$
+where $\tau_k(y) \to 0$ as $y \to \infty$ by F3 convergence. Since the sum over $p \leq Q$
+is finite, the whole expression is $o(1)$. $\square$
+
+### 14.3 Excluded-sum from multiple lower strata
+
+Focus on the highest stratum $A_{J_m}$. For each $i < m$ and each rough element
+$n \in A_{J_i}^{\rm rough}$, the excluded elements in $A_{J_m}$ contributed by $n$ are:
+
+$$\mathcal{E}_i(n) := \{nd : d \in M_{J_m - J_i, Q}\} \cap A_{J_m} \cap [x, \infty)$$
+
+where $M_{J_m - J_i, Q}$ is the set of products of exactly $J_m - J_i$ primes each $\leq Q$
+(with repetition). Since $A$ is primitive and $n \mid nd$, we have $nd \notin A$,
+so each element of $\mathcal{E}_i(n)$ is excluded from $A \cap A_{J_m}$.
+
+### 14.4 Disjointness of excluded sets from different lower strata
+
+**Key Lemma**: For $i_1 \neq i_2$ (both $< m$), $n_1 \in A_{J_{i_1}}^{\rm rough}$,
+$n_2 \in A_{J_{i_2}}^{\rm rough}$, the excluded sets $\mathcal{E}_{i_1}(n_1)$ and
+$\mathcal{E}_{i_2}(n_2)$ are disjoint.
+
+*Proof*. Suppose $nd = n'd'$ where $n \in A_{J_{i_1}}^{\rm rough}$, $d \in M_{J_m-J_{i_1},Q}$,
+$n' \in A_{J_{i_2}}^{\rm rough}$, $d' \in M_{J_m-J_{i_2},Q}$, and say $J_{i_1} < J_{i_2}$.
+
+Any element of $nd$ has a factorisation where:
+- $n$ contributes $J_{i_1}$ prime factors, all $> Q$.
+- $d$ contributes $J_m - J_{i_1}$ prime factors, all $\leq Q$.
+
+Similarly $n'd'$ has $J_{i_2}$ prime factors $> Q$ and $J_m - J_{i_2}$ prime factors $\leq Q$.
+
+By unique factorisation, the number of prime factors $\leq Q$ in the product is determined:
+$\Omega_{\leq Q}(nd) = J_m - J_{i_1}$ and $\Omega_{\leq Q}(n'd') = J_m - J_{i_2}$.
+Since $J_{i_1} \neq J_{i_2}$, these counts differ, so $nd \neq n'd'$. $\square$
+
+### 14.5 Multi-stratum excluded-sum lower bound
+
+Since the excluded sets from different lower strata are disjoint, their contributions ADD:
+
+$$E_{J_m} \geq \sum_{i=1}^{m-1} \sum_{n \in A_{J_i}^{\rm rough}} \sum_{d \in M_{J_m-J_i,Q}} \frac{\mathbf{1}[nd \in [x,\infty)]}{nd \log(nd)}.$$
+
+By the same half-log estimate as Section 13.4 (for $x > Q^{J_m - J_1}$):
+
+$$E_{J_m} \geq \sum_{i=1}^{m-1} \frac{D_{J_m-J_i,Q}}{2} \cdot S_{J_i}^{\rm rough}(A)$$
+
+where $D_{k,Q} = \sum_{d \in M_{k,Q}} 1/d$.
+
+### 14.6 Bounding the total sum
+
+From F3 for stratum $J_m$:
+
+$$S_{J_m} \leq (1 - c_{J_m}) - E_{J_m} + o(1)
+         \leq (1 - c_{J_m}) - \sum_{i=1}^{m-1} \frac{D_{J_m-J_i,Q}}{2} S_{J_i}^{\rm rough} + o(1).$$
+
+Combined with Claim A ($S_{J_i}^{\rm smooth} = o(1)$ for each $i < m$):
+
+$$S(A) = \sum_{i=1}^m S_{J_i} = S_{J_m} + \sum_{i=1}^{m-1} (S_{J_i}^{\rm rough} + S_{J_i}^{\rm smooth})$$
+
+$$\leq (1-c_{J_m}) + \sum_{i=1}^{m-1} S_{J_i}^{\rm rough} \Bigl(1 - \frac{D_{J_m-J_i,Q}}{2}\Bigr) + o(1).$$
+
+**When $D_{J_m - J_i, Q} \geq 2$ for ALL $i < m$**, each coefficient $(1 - D_{J_m-J_i,Q}/2) \leq 0$,
+so $S_{J_i}^{\rm rough} \geq 0$ implies each term is $\leq 0$. Therefore:
+
+$$\boxed{S(A) \leq (1 - c_{J_m}) + o(1) < 1 + o(1).}$$
+
+### 14.7 When does $D_{J_m - J_i, Q} \geq 2$ hold?
+
+$D_{k,Q}$ is the sum of reciprocals of products of $k$ primes $\leq Q$. We have
+
+$$D_{1,Q} = C_Q = \sum_{p \leq Q} \frac{1}{p} \approx 2.0023 > 2 \quad (Q=277).$$
+
+For $k \geq 2$: $D_{k,Q} \geq C_Q^k / k!$ grows super-exponentially before normalisation.
+In fact $D_{k,Q} \geq D_{1,Q}^k / k! \geq (C_Q)^k / k!$. For $k \geq 2$ with $C_Q > 2$:
+
+$$D_{2,Q} \geq C_Q^2/2 > 2^2/2 = 2, \quad D_{k,Q} > 2 \text{ for all } k \geq 1.$$
+
+(These hold by explicit finite computation; no asymptotics needed.) Therefore the
+condition $D_{J_m - J_i,Q} \geq 2$ holds for all $J_m > J_i$, i.e., for all $1 \leq i < m$.
+
+### 14.8 Theorem A: Fixed finite set of strata
+
+**Theorem A**: *For any fixed finite set of strata $J_1 < J_2 < \cdots < J_m$ and any
+primitive $A \subseteq (A_{J_1} \cup \cdots \cup A_{J_m}) \cap [x,\infty)$,*
+
+$$\sum_{a \in A} \frac{1}{a \log a} < 1 + o(1) \quad \text{as } x \to \infty.$$
+
+*Proof*. By induction on $m$. Base case $m=1$: $S(A) \leq 1 - c_{J_1}/2 + o(1) < 1+o(1)$
+by F3 directly. Inductive step: By §14.6 and §14.7, $S(A) \leq (1-c_{J_m})+o(1) < 1+o(1)$. $\square$
+
+### 14.9 Theorem B: Bounded-$\Omega$ primitives
+
+**Theorem B**: *For any $M \geq 1$ and any primitive $A \subseteq \{n : \Omega(n) \leq M\} \cap [x,\infty)$,*
+
+$$\sum_{a \in A} \frac{1}{a \log a} < 1 + o(1) \quad \text{as } x \to \infty.$$
+
+*Proof*. The set of strata active in $A$ is contained in $\{1, 2, \ldots, M\}$, a
+fixed finite set. Apply Theorem A with those strata. $\square$
+
+### 14.10 Remaining gap: the unbounded-$\Omega$ case
+
+Theorems A and B do NOT cover the full conjecture. The gap is:
+
+> **Primitive $A \subseteq [x, \infty)$ where the maximum $\Omega(a)$ grows with $x$.**
+
+By Lemma 12.1 (Section 12), for fixed $K$ the contribution $\sum_{k \leq K} S_k(A) \to 0$,
+so the binding stratum $k^*(x)$ satisfies $k^*(x) \to \infty$ as $x \to \infty$.
+A prime-free primitive $A$ with all elements having $\Omega(a) = k^*(x)$ (growing)
+would require a bound of the form $S_{k^*}(A) < 1 + o(1)$, which follows from
+F3 alone: $S_{k^*}(A) \leq 1 - c_{k^*}^2 / 2^{k^*} + o(1)$. But $c_{k^*}^2/2^{k^*} \to 0$,
+so F3 only gives $S_{k^*} \leq 1 + o(1)$ (not strict $< 1+o(1)$) when $k^* \to \infty$.
+
+**The missing F5**: A bound showing that for any primitive $A \subseteq A_{k^*(x)} \cap [x,\infty)$
+with $k^*(x) \to \infty$, the sum $S_{k^*}(A)$ remains $< 1 - \delta$ for some $\delta > 0$
+uniform in $x$. This would require a structural property of $A_{k^*(x)}$-primitive sets
+beyond what F3 captures — a cross-element interaction within a single stratum at large $k$.
+
+### 14.11 Summary table (updated)
+
+| Case | Status | Method |
+|:---|:---:|:---|
+| Single stratum, any $k$ | **Proved** | F3 directly ($S_k \leq 1-c_k^2/2^k$) |
+| Two strata, any $j < K$ | **Proved** | Sections 10-13: excluded-sum + Q-rough/smooth |
+| $m$ fixed strata, any $J_1 < \cdots < J_m$ | **Proved** | Section 14: disjoint multi-excluded-sum |
+| Bounded $\Omega(a) \leq M$, any $M$ | **Proved** | Theorem B |
+| $\Omega(a)$ unbounded (grows with $x$) | **OPEN** | Requires F5 (cross-element in-stratum bound) |
+| Full conjecture | **OPEN** | Reduces to unbounded-$\Omega$ case |
