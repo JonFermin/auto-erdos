@@ -22,3 +22,4 @@
 {"qid":"Q8","status":"claimed","session_id":"s_0703-083113-9dfc","summary":"claiming Q8: Section 7 synthesis — proof outline and ledger extension roadmap","ts":"2026-07-03T08:39:38+00:00"}
 {"qid":"Q9","status":"open","parent_qid":null,"summary":"Section 8 tightness: show A_{k*} in [x,infty) has sum=1-O((log x)^2/x)->1; prove sup>= 1-o(1) within ledger.","ts":"2026-07-03T08:48:20+00:00","session_id":"s_0703-083113-9dfc"}
 {"qid":"Q9","status":"claimed","session_id":"s_0703-083113-9dfc","summary":"claiming Q9: Section 8 tightness — extremal A_{k*} example within ledger","ts":"2026-07-03T08:48:20+00:00"}
+{"qid":"Q9","status":"resolved","session_id":"s_0703-083113-9dfc","summary":"Section 8 written: A_{k*} primitive in [x,inf), sum=1-O((log x)^2/x) via F3; proves sup>=1-o(1) within ledger","ts":"2026-07-03T08:52:49+00:00"}
