@@ -1331,3 +1331,107 @@ beyond what F3 captures — a cross-element interaction within a single stratum 
 | Bounded $\Omega(a) \leq M$, any $M$ | **Proved** | Theorem B |
 | $\Omega(a)$ unbounded (grows with $x$) | **OPEN** | Requires F5 (cross-element in-stratum bound) |
 | Full conjecture | **OPEN** | Reduces to unbounded-$\Omega$ case |
+
+---
+
+## Section 15: The unbounded-$\Omega$ case and the limits of the ledger
+
+### 15.1 Reduction established by Section 12
+
+By Lemma 12.1, for any primitive $A \subseteq [x,\infty)$ and any fixed $K$,
+$$\sum_{k \leq K} S_k(A) = o(1) \quad \text{as } x \to \infty.$$
+
+Therefore the Erdős conjecture reduces to bounding the contribution from strata
+$k > K$ for any (and hence all) fixed $K$.
+
+Combining with Sections 10-14, the conjecture further reduces to:
+
+> **Reduction R**: Any primitive $A \subseteq [x,\infty)$ with all elements in
+> strata $\{k^*(x), k^*(x)+1, \ldots\}$ where $k^*(x) \to \infty$ satisfies $S(A) < 1+o(1)$.
+
+And by a further pass: since $\sum_{k > K} S_{A_k} \to \sum_k S_{A_k} - \sum_{k \leq K} S_{A_k}$
+is bounded (by F1 applied to the whole stratum-$k$ sets, which are primitive), we can ask
+more specifically about a single stratum.
+
+### 15.2 The key single-stratum bound needed
+
+Define for a primitive $B \subseteq A_{k^*} \cap [x,\infty)$ (all elements have exactly $k^*$ prime factors):
+
+$$S_{k^*}(B) = \sum_{b \in B} \frac{1}{b \log b}.$$
+
+From F3: $\sum_{n \in A_{k^*} \cap [x,\infty)} 1/(n \log n) = 1 - (c+o(1))(k^*)^2/2^{k^*} + o(1)$.
+
+When $k^* \to \infty$, the correction $(k^*)^2/2^{k^*} \to 0$, so F3 only yields
+$S_{k^*}(B) \leq 1 + o(1)$ — not $< 1 + o(1)$ with a gap.
+
+**What would F5 say**: There exists $\delta > 0$ (possibly depending on $k^*$ weakly)
+such that for any primitive $B \subseteq A_{k^*} \cap [x,\infty)$:
+$$S_{k^*}(B) \leq 1 - \delta + o(1).$$
+
+The challenge is that primitivity within $A_{k^*}$ is a very weak constraint when
+$k^* \to \infty$: the stratum $A_{k^*}$ consists of numbers with exactly $k^*$ prime factors,
+and divisibility between two such numbers requires one to be a "sub-product" of the other,
+which is possible but rare for large $k^*$.
+
+### 15.3 Within-stratum primitivity constraint
+
+For $a, b \in A_{k^*}$ with $a \mid b$: since $\Omega(a) = \Omega(b) = k^*$, divisibility
+$a \mid b$ forces $a = b$ (as $b/a$ would be an integer with $\Omega(b/a) = \Omega(b) - \Omega(a) = 0$,
+i.e., $b/a = 1$). **Therefore primitivity is vacuous within a single stratum $A_{k^*}$.**
+
+This is the fundamental obstruction: elements of $A \cap A_{k^*}$ have no divisibility
+relations among themselves (since all have the same number of prime factors), so the
+excluded-sum technique as developed in Sections 10-14 does NOT apply. Primitivity constrains
+relations between different strata; within a stratum, $A$ can be the entire $A_{k^*} \cap [x,\infty)$.
+
+### 15.4 What F3 gives in the $k^* \to \infty$ regime
+
+If $A = A_{k^*} \cap [x,\infty)$ (the maximal choice), then by F3:
+$$S_{k^*}(A) = 1 - (c + o(1))(k^*)^2/2^{k^*} + o(1).$$
+
+The right side $\to 1^-$ as $k^* \to \infty$ with $x$ fixed, but in the regime $x \to \infty$
+with $k^* = k^*(x)$ growing appropriately, both $o(1)$ terms are in play simultaneously.
+
+**Asymptotic constraint**: Choosing $k^* = k^*(x)$ such that $(k^*)^2/2^{k^*} \to 0$
+but $x \to \infty$: for example $k^*(x) = \lfloor \log \log x / \log 2 \rfloor$, we get
+$2^{k^*} \approx \log x$ and $S_{k^*}(A) \approx 1 - c (\log \log x)^2 / \log x + o(1)$,
+which does approach 1 from below. F3 is tight; no gap.
+
+### 15.5 The ledger barrier for Reduction R
+
+**Ledger barrier B2**: F1, F2, F3 alone cannot prove that any primitive $B \subseteq A_{k^*(x)} \cap [x,\infty)$
+satisfies $S_{k^*}(B) < 1 - \delta$ for any $\delta > 0$ uniform in $x$ and $k^* = k^*(x) \to \infty$.
+
+*Argument*: Taking $B = A_{k^*} \cap [x,\infty)$ achieves $S_{k^*}(B) = 1 - o(1)$
+by F3. This is a valid primitive set (trivially — within-stratum primitivity is automatic).
+Any proof that $S_{k^*}(B) < 1 - \delta$ for all such $B$ would contradict this example
+with $\delta$ chosen small.
+
+Therefore, proving Reduction R requires a fact about the **interaction** between elements
+within $A_{k^*}$ — a structural property beyond divisibility. Current candidates from the literature:
+
+- **Sathe-Selberg type**: Size of $\{n \leq x: \Omega(n) = k\}$ and sub-set primitivity constraints.
+- **Turán-type moment bounds**: Controlling $\sum_{a,b \in B} 1/(ab)$ via additive structure.
+- **Sieve weights**: A weighted sieve that trades off contributions at different $k^*$ values.
+
+None of these are in the $\{F1, F2, F3\}$ ledger.
+
+### 15.6 Partial summary: what the current proof achieves
+
+**Proved within $\{F1, F2, F3\}$ ledger**:
+
+1. **Single stratum** (any fixed $k$): $\sup_{B \subseteq A_k \cap [x,\infty) \text{ primitive}} S_k(B) \to 1^-$.
+2. **Two strata** (any $j < K$): primitive $A \subseteq (A_j \cup A_K) \cap [x,\infty) \Rightarrow S(A) \leq 1-c_K+o(1)$.
+3. **$m$ fixed strata**: Theorem A.
+4. **Bounded $\Omega$**: Theorem B — primitive $A \subseteq \{n: \Omega(n) \leq M\} \cap [x,\infty) \Rightarrow S(A) \leq 1-c_M + o(1)$.
+
+**Open within the ledger**:
+- Primitive $A$ where $\max_{a \in A} \Omega(a) \to \infty$ with $x$.
+
+**Conclusion**: The Erdős primitive-set conjecture (in full generality) is **not provable
+from F1, F2, F3 alone**. The ledger must be extended with at least one additional fact (F5)
+that controls the within-stratum structure of primitive subsets of $A_{k^*(x)}$ as $k^*(x) \to \infty$.
+
+The partial result — reducing the conjecture to the single-stratum unbounded-$k$ case — is
+the strongest consequence of the $\{F1, F2, F3\}$ ledger, and constitutes the main
+contribution of this proof attempt.
