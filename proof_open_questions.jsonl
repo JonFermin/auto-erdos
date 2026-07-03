@@ -31,3 +31,4 @@
 {"qid":"Q11","status":"resolved","session_id":"s_0703-083113-9dfc","summary":"Section 10 written: within-ledger proof (j=1,k=2) two-stratum conjecture via excluded-sum E>=(C_277/2)S_1; S_1+S_2<=(1-c)+o(1) for x>277","ts":"2026-07-03T09:21:34+00:00"}
 {"qid":"Q12","status":"open","parent_qid":null,"summary":"Section 12: multi-stratum case — extend excluded-sum argument from two-stratum to A in (A_{j1} U A_{j2} U A_{j3}) for three or more strata; identify whether iterated exclusion closes the full conjecture.","ts":"2026-07-03T09:26:53+00:00","session_id":"s_0703-083113-9dfc"}
 {"qid":"Q12","status":"claimed","session_id":"s_0703-083113-9dfc","summary":"taking Q12 as Section 11: extend j=1 excluded-sum to all K>=2","ts":"2026-07-03T09:26:53+00:00"}
+{"qid":"Q12","status":"resolved","session_id":"s_0703-083113-9dfc","summary":"Section 11 written: j=1 excluded-sum for all K>=2; (j=1,k=K) proved for all K; Q_{2,3}=277; Q_4+ computable","ts":"2026-07-03T09:28:31+00:00"}
