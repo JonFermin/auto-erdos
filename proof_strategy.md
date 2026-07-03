@@ -673,3 +673,103 @@ argument across all pairs of strata.
 ---
 
 **(Section 9 complete. The two-stratum barrier is reduced to a single quantitative fact F4 about excluded sums.)**
+
+---
+
+## Section 10 — Within-Ledger Proof of the $(j=1,k=2)$ Two-Stratum Case (Q11)
+
+### 10.1 Setting and goal
+
+Let $A \subseteq (A_1 \cup A_2) \cap [x, \infty)$ be primitive, where $A_1$ is the set of
+primes and $A_2 = \{n: \Omega(n)=2\}$. Write $S_1 = \sum_{p \in A \cap A_1} 1/(p \log p)$
+and $S_2 = \sum_{n \in A \cap A_2} 1/(n \log n)$.
+
+**Goal**: $S_1 + S_2 < 1 + o(1)$ for $x$ sufficiently large (specifically, $x > 277$).
+
+### 10.2 The explicit excluded-sum lower bound
+
+For any prime $q \leq 277$ and any prime $p \in A \cap A_1$ with $p \geq x > 277$:
+
+(i) $q \neq p$ (since $q \leq 277 < x \leq p$), so $qp$ has exactly 2 prime factors:
+    $\Omega(qp) = 2$, hence $qp \in A_2$. ✓
+
+(ii) $qp \geq qx \geq 2x > x$, so $qp \in A_2 \cap [x, \infty)$. ✓
+
+(iii) $p \mid qp$ and $p \in A$, so by primitivity, $qp \notin A$: the element $qp$ is **excluded** from $A$. ✓
+
+(iv) For distinct pairs $(q, p) \neq (q', p')$ with $q, q' \leq 277 < x \leq p, p'$:
+    if $qp = q'p'$ then $\{q, p\} = \{q', p'\}$ as prime multisets. Since $q \leq 277 < x \leq p'$,
+    we cannot have $q = p'$; similarly $q' \neq p$. Hence $q = q'$ and $p = p'$:
+    **all elements $qp$ for different pairs $(q,p)$ are distinct**. ✓
+
+Define $C_Q := \sum_{q \leq Q,\, q \text{ prime}} \frac{1}{q}$. Since the elements $\{qp\}$ are
+distinct excluded elements of $A_2 \cap [x, \infty)$, and since for $q < p$ (which holds for
+all $q \leq 277 < x \leq p$) we have $\log(qp) = \log q + \log p \leq 2\log p$ (as
+$q \leq p$ implies $\log q \leq \log p$), each contributes:
+$$\frac{1}{qp \log(qp)} \geq \frac{1}{qp \cdot 2\log p} = \frac{1}{2q} \cdot \frac{1}{p \log p}.$$
+
+Summing over all $q \leq 277$ and all $p \in A \cap A_1$:
+$$E \geq \sum_{q \leq 277} \sum_{p \in A \cap A_1} \frac{1}{2q \cdot p \log p}
+= \frac{C_{277}}{2} \cdot S_1. \tag{10.1}$$
+
+**Explicit arithmetic**: $C_{277} = \sum_{q \leq 277,\, q \text{ prime}} 1/q \geq 2.0023$ (verified
+by summing 59 explicit fractions). In particular, $C_{277} > 2$.
+
+### 10.3 Bounding $S_2$
+
+By F3 applied to $k = 2$:
+$$\sum_{n \in A_2} \frac{1}{n \log n} = 1 - (c + o(1)) \cdot \frac{4}{4} = 1 - c + o(1)$$
+where $c \approx 0.0656 > 0$. Since $A \cap A_2 \subseteq A_2 \cap [x,\infty) \setminus (\text{excluded})$:
+$$S_2 \leq \sum_{A_2 \cap [x,\infty)} \frac{1}{n \log n} - E \leq (1 - c + o(1)) - E. \tag{10.2}$$
+
+### 10.4 Combining: the cancellation
+
+From (10.1) and (10.2):
+$$S_1 + S_2 \leq S_1 + (1 - c + o(1)) - E \leq S_1 + (1 - c + o(1)) - \frac{C_{277}}{2} S_1
+= \left(1 - \frac{C_{277}}{2}\right) S_1 + (1 - c) + o(1). \tag{10.3}$$
+
+Since $C_{277} > 2$, the coefficient $1 - C_{277}/2 < 0$. With $S_1 \geq 0$:
+$$\left(1 - \frac{C_{277}}{2}\right) S_1 \leq 0.$$
+
+Substituting into (10.3):
+$$\boxed{S_1 + S_2 \leq (1 - c) + o(1) \approx 0.9344 + o(1) < 1 + o(1).} \tag{10.4}$$
+
+This holds for **all** primitive $A \subseteq (A_1 \cup A_2) \cap [x, \infty)$ with $x > 277$.
+
+### 10.5 What the proof uses
+
+| Ingredient | Source | Role |
+|:---|:---:|:---:|
+| $qp \in A_2$ for distinct primes $q, p$ | Elementary ($\Omega(qp)=2$) | Identifies excluded elements |
+| Primitivity ($p \in A \Rightarrow qp \notin A$) | Definition | Elements are excluded |
+| Distinctness of $\{qp\}$ for $q \leq 277 < x \leq p$ | Unique factorization | No overcounting |
+| $\log(qp) \leq 2\log p$ for $q \leq p$ | Elementary | Lower-bounds contribution |
+| $C_{277} > 2$ | Explicit arithmetic | Coefficient flips sign |
+| $S_2 \leq (1-c+o(1)) - E$ | F3 (for $k=2$) | Bounds second stratum |
+
+No facts outside $\{F3, \text{primitivity}, \text{elementary arithmetic}\}$ are used.
+In particular, no Mertens-type estimates or prime number theorem facts appear.
+
+### 10.6 Significance and limitations
+
+**Significance**: The $(j=1, k=2)$ case of the two-stratum conjecture is settled
+within the {F1, F2, F3} ledger. The bound $(1-c)+o(1) \approx 0.9344$ is even
+slightly below 1, confirming the conjecture holds with some room to spare.
+
+**Limitations**:
+- The proof covers only $A \subseteq A_1 \cup A_2$; higher strata require extension.
+- The argument uses $C_Q > 2$ (achieved at $Q = 277$), giving a threshold $x > 277$.
+  For $x \leq 277$, the bound still follows from F1 ($S < 1.399$) though not from this argument alone.
+- The generalization to arbitrary $(j, k)$ with $j \geq 2$ requires a different argument
+  (the specific "multiply by small prime" construction relies on $j=1$).
+
+### 10.7 Update to Lemma 2
+
+The special case $A \subseteq (A_1 \cup A_2)$ of Lemma 2 is now **proved** within the
+{F1, F2, F3} ledger. The general case (arbitrary $j \leq k$) remains open and reduces to
+establishing $E \geq (1-c\phi(k)) S_j$ (the F4 condition from §9.5). The explicit
+construction in §10.2 shows the first step in building up the exclusion coefficient.
+
+---
+
+**(Section 10 complete: within-ledger proof of the $(j=1, k=2)$ two-stratum conjecture.)**

@@ -1,9 +1,10 @@
 ---
 id: cross_stratum_bound
-status: open
+status: partial
 depends_on: [single_stratum_bound]
 discharged_by_round: null
 introduced_at_round: 4
+special_case_proved: "(j=1, k=2) proved in Section 10 within ledger (x > 277)"
 ---
 
 # Lemma 2 (cross_stratum_bound): Primitivity constrains cross-stratum accumulation

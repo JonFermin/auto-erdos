@@ -25,3 +25,6 @@
 {"qid":"Q9","status":"resolved","session_id":"s_0703-083113-9dfc","summary":"Section 8 written: A_{k*} primitive in [x,inf), sum=1-O((log x)^2/x) via F3; proves sup>=1-o(1) within ledger","ts":"2026-07-03T08:52:49+00:00"}
 {"qid":"Q10","status":"open","parent_qid":null,"summary":"Section 9 excluded-sum barrier: formalize why F1+F2+F3 cannot prove the two-stratum conjecture; characterize F4 precisely as a lower bound on excluded sum E.","ts":"2026-07-03T09:02:06+00:00","session_id":"s_0703-083113-9dfc"}
 {"qid":"Q10","status":"claimed","session_id":"s_0703-083113-9dfc","summary":"claiming Q10: Section 9 excluded-sum barrier analysis","ts":"2026-07-03T09:02:06+00:00"}
+{"qid":"Q10","status":"resolved","session_id":"s_0703-083113-9dfc","summary":"Section 9 complete: excluded-sum barrier formalized; F4 characterized as exclusion-coefficient lower bound","ts":"2026-07-03T09:17:54+00:00"}
+{"qid":"Q11","status":"open","parent_qid":null,"summary":"Section 10: within-ledger proof of two-stratum conjecture for j=1 k=2 using explicit excluded-sum lower bound E >= (C_Q/2)S_1 with C_Q >= 2 achieved at Q=277.","ts":"2026-07-03T09:17:54+00:00","session_id":"s_0703-083113-9dfc"}
+{"qid":"Q11","status":"claimed","session_id":"s_0703-083113-9dfc","summary":"claiming Q11: Section 10 within-ledger proof of (j=1,k=2) two-stratum case","ts":"2026-07-03T09:17:54+00:00"}
