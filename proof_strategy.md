@@ -394,11 +394,9 @@ $$A \cap A_k \subseteq \{n \in A_k \cap [x, \infty) : p_i \nmid n \text{ for all
 
 This is a sieve-like restriction: the set $A \cap A_k$ must avoid all multiples of primes in $A \cap A_1$. Qualitatively, a larger prime slice $A \cap A_1$ (larger $S_j$) leaves fewer elements of $A_k$ available, so $S_k$ is forced downward. This is the trade-off mechanism behind the conjecture.
 
-However, **making this qualitative observation quantitative requires estimating the sum**
+However, **making this qualitative observation quantitative requires estimating**
 $$\sum_{\substack{n \in A_k \cap [x,\infty) \\ p_i \nmid n\, \forall i}} \frac{1}{n \log n},$$
-which involves the density of integers in $A_k$ coprime to $\{p_1, p_2, \ldots\}$. Evaluating this requires a multiplicative density estimate — a product-over-primes formula of the form
-$$\text{density of } \{n \in A_k : p \nmid n\} \approx \text{density of } A_k \cdot \left(1 - \frac{1}{p}\right)$$
-— which is a consequence of Mertens' theorem or the prime number theorem. **Neither is in the F1/F2/F3 ledger.**
+the sum over the unblocked portion of $A_k$. Bounding this in terms of the full $A_k$ stratum sum requires a multiplicative density estimate for the fraction of $A_k$ coprime to $\{p_i\}$. Such an estimate is not a consequence of F1, F2, or F3, so the quantitative bound cannot be established within the current ledger.
 
 ### 6.4 The specific missing ingredient for Lemma 2
 
@@ -409,9 +407,9 @@ To prove Lemma `cross_stratum_bound` for the two-stratum case ($S_j + S_k \leq 1
 
 F4 says that removing multiples of a prime $p$ reduces the $k$-th stratum sum by a factor of $(1 - 1/p)$, matching the multiplicative density of integers coprime to $p$. With F4, primitivity forces:
 $$S_k \leq \sum_{n \in A_k \cap [x,\infty)} \frac{1}{n \log n} \cdot \prod_{a \in A \cap A_j}\!\!\left(1 - \frac{1}{a}\right) + o(1),$$
-and by Mertens' estimate the product $\prod (1 - 1/a)$ decays as $e^{-S_j / c_0}$ for some constant $c_0 > 0$. Combining with the F3 upper bound on the full $A_k$ sum would then give $S_j + S_k < 1 + o(1)$ for the two-stratum case.
+Iterated application of F4 (once per prime $a \in A \cap A_j$) bounds $S_k$ multiplicatively. Combining this with the F3 upper bound on the full $A_k$ sum would give $S_j + S_k < 1 + o(1)$ for the two-stratum case — pending F4.
 
-**F4 is not derivable from F1/F2/F3.** The multiplicative density estimate it encodes is a consequence of Mertens' product theorem (prime number theory), which is outside the present ledger.
+**F4 is not derivable from F1/F2/F3.** The multiplicative density estimate it encodes requires number-theoretic facts beyond the present ledger.
 
 ### 6.5 Summary
 
@@ -421,11 +419,11 @@ and by Mertens' estimate the product $\prod (1 - 1/a)$ decays as $e^{-S_j / c_0}
 | F3 + Lemma 1 (summed) | $S \leq 2 - c(j^2/2^j + k^2/2^k) < 2$ | Yes |
 | F1 (global) | $S < 1.399 + o(1)$ for any primitive $A$ | Yes |
 | F1/F2/F3 + primitivity alone | $S \leq 1 + o(1)$ for two-stratum case | **Open** |
-| F3 + Lemma 1 + F4 (Mertens) | $S \leq 1 + o(1)$ for two-stratum case | Yes, if F4 added |
+| F3 + Lemma 1 + F4 | $S \leq 1 + o(1)$ for two-stratum case | Yes, if F4 added |
 
 **Conclusion for Q7**:
 - Two-stratum bound provable within ledger: $S \lesssim 1.90$ (leading order); does not improve on F1.
-- Improving to $1 + o(1)$ requires F4 (multiplicative density / Mertens-type estimate), not currently in the F1/F2/F3 ledger.
+- Improving to $1 + o(1)$ requires F4 (a multiplicative density estimate for coprimality in $A_k$), not currently in the F1/F2/F3 ledger.
 - Lemma `cross_stratum_bound` (two-stratum case): **open; identified obstacle = F4 missing from ledger**.
 - Lemma `tail_bound`: **open; identified obstacle = density estimate for high-$\Omega$ integers not in ledger**.
 - Neither lemma can be closed from F1/F2/F3 alone.
@@ -466,7 +464,7 @@ using the cross-stratum interaction forced by primitivity. The gap between F1's 
 
 ### 7.3 What new facts would close the proof
 
-**F4 (Mertens-type product bound — candidate, not in ledger)**:
+**F4 (multiplicative density bound — candidate, not in ledger)**:
 For any prime $p$ and any $k$, removing multiples of $p$ from $A_k$ reduces the stratum sum by factor $(1 - 1/p + o(1))$. Formally:
 $$\sum_{\substack{n \in A_k \cap [x,\infty) \\ p \nmid n}} \frac{1}{n \log n} \leq \left(1 - \frac{1}{p}\right) \cdot \sum_{n \in A_k \cap [x,\infty)} \frac{1}{n \log n} + o(1).$$
 With F4 and iterated application (one prime per element of $A \cap A_j$), Lemma 2 would follow for the multi-stratum case via the multiplicative structure of the discount factors.
@@ -507,3 +505,54 @@ The proof is structurally complete conditional on F4 + F5. The remaining task is
 ---
 
 **(Section 7 complete. Proof attempt status: conditional outline with precisely identified gaps.)**
+
+---
+
+## Section 8 — Tightness: The Extremal Primitive Set from F3 (Q9)
+
+### 8.1 A_k is always a primitive set
+
+**Claim**: For any $k \geq 1$, the full stratum $A_k = \{n \in \mathbb{N} : \Omega(n) = k\}$ is a primitive set.
+
+**Proof**: Let $a, b \in A_k$ with $a \neq b$ and suppose $a \mid b$. Then $b = a \cdot m$ for some integer $m \geq 2$, so $\Omega(b) = \Omega(a) + \Omega(m) \geq k + 1$, contradicting $\Omega(b) = k$. So no element of $A_k$ divides any other. $\square$
+
+### 8.2 A_k lies entirely in $[x, \infty)$ when $k \geq \lceil \log_2 x \rceil$
+
+**Claim**: If $k \geq \lceil \log_2 x \rceil$, then $A_k \subseteq [x, \infty)$.
+
+**Proof**: Every $n \in A_k$ is a product of exactly $k$ primes (with multiplicity), each $\geq 2$, so $n \geq 2^k$. For $k \geq \lceil \log_2 x \rceil$, $2^k \geq x$, so $n \geq x$ and $A_k \subseteq [x, \infty)$. $\square$
+
+### 8.3 Sum over the extremal stratum approaches 1 as $x \to \infty$
+
+Let $k^*(x) = \lceil \log_2 x \rceil$. By §8.1–8.2, $A_{k^*}$ is a primitive set in $[x, \infty)$. By F3,
+$$\sum_{a \in A_{k^*}} \frac{1}{a \log a} = 1 - (c + o(1))\frac{(k^*)^2}{2^{k^*}}$$
+where $o(1) \to 0$ as $k^* \to \infty$.
+
+Since $k^* = \lceil \log_2 x \rceil \approx \log_2 x$ and $2^{k^*} \approx x$:
+$$(k^*)^2 / 2^{k^*} \approx (\log_2 x)^2 / x \to 0 \quad \text{as } x \to \infty.$$
+
+Therefore:
+$$\sum_{a \in A_{k^*}} \frac{1}{a \log a} = 1 - O\!\left(\frac{(\log x)^2}{x}\right) \to 1 \quad \text{as } x \to \infty. \tag{8.1}$$
+
+### 8.4 Consequence: the conjectured bound is sharp
+
+The calculation (8.1) shows:
+$$\sup\!\left\{\,\sum_{a \in A} \frac{1}{a \log a} : A \subseteq [x, \infty) \text{ primitive}\right\} \geq 1 - O\!\left(\frac{(\log x)^2}{x}\right) \to 1 \quad \text{as } x \to \infty.$$
+
+This is a within-ledger lower bound on the supremum, proved from F3 + elementary facts (§8.1–8.2). **The conjecture's bound of $1 + o(1)$ cannot be improved to $1 - c_0$ for any fixed $c_0 > 0$** (the bound is genuinely tight at 1).
+
+What the conjecture adds (open): the supremum is also $\leq 1 + o(1)$. Together with the lower bound $\geq 1 - o(1)$, the conjecture implies the supremum $\to 1$ exactly.
+
+### 8.5 Summary
+
+| Result | Facts used | Status |
+|:---|:---:|:---:|
+| $A_k$ is primitive | Elementary | Proved (§8.1) |
+| $A_{k^*} \subseteq [x,\infty)$ for $k^* = \lceil\log_2 x\rceil$ | Elementary | Proved (§8.2) |
+| Sum over $A_{k^*} \to 1$ | F3 | Proved (§8.3) |
+| Supremum $\geq 1 - o(1)$ | F3 + above | Proved (§8.4) |
+| Supremum $\leq 1 + o(1)$ | Open conjecture | **Open** |
+
+---
+
+**(Section 8 complete. The conjecture's bound is tight from below: the supremum approaches 1.)**
