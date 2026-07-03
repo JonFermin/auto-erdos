@@ -186,7 +186,7 @@ Every leading-order estimate is below 1, directly confirming F3's "<1 for all $k
 
 ### 2.2 Monotonicity and the approach from below
 
-$\phi(k) = k^2/2^k$ is increasing for $k \leq 2$, peaks at $k = 2$–$3$ (the discrete maximum is at $k = 3$, $\phi(3) = 9/8 > \phi(2) = 1$), then decreasing. Concretely:
+$\phi(k) = k^2/2^k$ is increasing for $k \leq 3$ (since $\phi(1) = 0.5 < \phi(2) = 1.0 < \phi(3) = 1.125$), peaks at $k = 3$, then decreasing for $k \geq 4$. Concretely:
 - $k = 1$: correction $= c/2 \approx 0.033$; stratum sum $\approx 0.967$ (F3).
 - $k = 3$: largest correction $\approx 0.074$; stratum sum $\approx 0.926$ (furthest from 1).
 - $k \geq 4$: corrections decay; sums converge monotonically toward 1 from below.
@@ -287,9 +287,9 @@ Any element contributing $1/(a \log a)$ to the sum thus "blocks" related element
 
 ### 4.5 The tail bound (Lemma 3)
 
-For $k \gg \log x$, elements of $A_k \cap [x, \infty)$ are rare: the Sathe-Selberg formula gives $|\{n \leq N : \Omega(n) = k\}| \approx N(\log\log N)^{k-1}/((k-1)! \log N)$. But for large $k$ (say $k > 2 \log\log x$), the $k$-th stratum sum $1 - ck^2/2^k \approx 1$ — the strata approach 1, not 0. So the tail cannot be bounded by $o(1)$ using only per-stratum estimates.
+For large $k$, the $k$-th stratum sum $1 - ck^2/2^k \to 1$ from below — the strata approach 1, not 0. So even if individual strata are rare in $[x, \infty)$, the per-stratum bounds alone (each approaching 1) do not yield a useful tail estimate. The tail $\sum_{k > K}$ of per-stratum upper bounds diverges, so the tail bound requires a different argument.
 
-A different approach is needed: for $k \gg \log x$, elements of $A_k$ in $[x, \infty)$ have ALL $k$ prime factors $\geq 2$, so at least one is large (of order $x^{1/k}$). Sieve methods could control how much such elements contribute.
+A density estimate for integers in $A_k \cap [x, \infty)$ could in principle bound how much an element of $A_k$ with $k$ prime factors (all $\geq 2$) can contribute. However, such density estimates are not among the given facts (F1/F2/F3) and would need to be added to the ledger as an auxiliary fact before the tail bound can be proved. Lemma 3 remains open pending a suitable density fact in the ledger.
 
 ### 4.6 Current status of the proof attempt
 
@@ -349,10 +349,87 @@ This is formalized as Lemma `cross_stratum_bound` (status: open) and Lemma `tail
 For a future session:
 
 1. Attempt Lemma `cross_stratum_bound` via a multiplicative sieve argument or Plünnecke-Ruzsa inequality analog.
-2. Attempt Lemma `tail_bound` using the Sathe-Selberg density formula for $\{n : \Omega(n) = k\}$.
+2. Attempt Lemma `tail_bound` using a density estimate for $\{n : \Omega(n) = k\}$ once a suitable fact is added to the ledger.
 3. If both lemmas close, synthesize them with Lemma `single_stratum_bound` to complete the proof.
 4. If unable to close Lemma `cross_stratum_bound`, record this as a hard open barrier and document which sub-cases have been ruled out.
 
 ---
 
-**(Proof attempt reaches partial result. This is the end of this session's contribution.)**
+**(Proof attempt reaches partial result. This is the end of the prior session's contribution. Section 6 continues below.)**
+
+---
+
+## Section 6 — Two-Stratum Analysis and the Ledger Barrier (Q7)
+
+### 6.1 Setup: Two-stratum primitive sets
+
+Let $j < k$ be fixed integers and consider $A \subseteq (A_j \cup A_k) \cap [x, \infty)$ primitive. The total sum decomposes as $S = S_j + S_k$ where
+$$S_j = \sum_{a \in A \cap A_j} \frac{1}{a \log a}, \qquad S_k = \sum_{a \in A \cap A_k} \frac{1}{a \log a}.$$
+
+This is the simplest non-trivial multi-stratum case: elements split between exactly two omega-levels, and primitivity constrains how both pieces can be large simultaneously.
+
+### 6.2 Within-ledger upper bound
+
+By Lemma `single_stratum_bound` (proved, via F3),
+$$S_j \leq 1 - (c+o(1))\frac{j^2}{2^j}, \qquad S_k \leq 1 - (c+o(1))\frac{k^2}{2^k}.$$
+
+(The $o(1)$ terms in F3 are as $j, k \to \infty$; for small $j, k$ the leading-order approximation carries untracked errors.) Summing:
+$$S \leq 2 - (c+o(1))\frac{j^2}{2^j} - (c+o(1))\frac{k^2}{2^k}. \tag{6.1}$$
+
+**Numerical check** (leading-order values from Section 2's table):
+- $(j, k) = (1, 2)$: $S_1 \lesssim 0.967$, $S_2 \lesssim 0.934$, so $S \lesssim 1.901$.
+- $(j, k) = (1, 3)$: $S_1 \lesssim 0.967$, $S_3 \lesssim 0.926$, so $S \lesssim 1.893$.
+- $(j, k) = (2, 3)$: $S_2 \lesssim 0.934$, $S_3 \lesssim 0.926$, so $S \lesssim 1.860$.
+
+Every two-stratum bound (6.1) is strictly below 2, but **above** the global F1 bound of $1.399 + o(1)$. The two-stratum per-stratum sum does *not* improve on F1; the cross-stratum information already baked into F1 outperforms the naive two-stratum sum.
+
+**What (6.1) establishes**: A bound strictly less than 2, derived purely from F3 (via Lemma 1) by summing two independent per-stratum estimates. It is logically complete within the ledger but does not advance toward the conjectured bound of $1 + o(1)$.
+
+### 6.3 Primitivity as a cross-stratum constraint (qualitative)
+
+Primitivity says: for each $a \in A \cap A_j$ and each $b \in A \cap A_k$, $a \nmid b$. Equivalently, $A \cap A_k$ is confined to elements of $A_k \cap [x, \infty)$ that are NOT divisible by any element of $A \cap A_j$.
+
+**Explicit case $j = 1$ (primes)**: If $p \in A \cap A_1$, then $A \cap A_k$ contains no element of $A_k$ divisible by $p$. If $A \cap A_1 = \{p_1, p_2, \ldots\}$, then
+$$A \cap A_k \subseteq \{n \in A_k \cap [x, \infty) : p_i \nmid n \text{ for all } i\}.$$
+
+This is a sieve-like restriction: the set $A \cap A_k$ must avoid all multiples of primes in $A \cap A_1$. Qualitatively, a larger prime slice $A \cap A_1$ (larger $S_j$) leaves fewer elements of $A_k$ available, so $S_k$ is forced downward. This is the trade-off mechanism behind the conjecture.
+
+However, **making this qualitative observation quantitative requires estimating the sum**
+$$\sum_{\substack{n \in A_k \cap [x,\infty) \\ p_i \nmid n\, \forall i}} \frac{1}{n \log n},$$
+which involves the density of integers in $A_k$ coprime to $\{p_1, p_2, \ldots\}$. Evaluating this requires a multiplicative density estimate — a product-over-primes formula of the form
+$$\text{density of } \{n \in A_k : p \nmid n\} \approx \text{density of } A_k \cdot \left(1 - \frac{1}{p}\right)$$
+— which is a consequence of Mertens' theorem or the prime number theorem. **Neither is in the F1/F2/F3 ledger.**
+
+### 6.4 The specific missing ingredient for Lemma 2
+
+To prove Lemma `cross_stratum_bound` for the two-stratum case ($S_j + S_k \leq 1 + o(1)$), one would need an auxiliary fact (call it **F4**) of the form:
+
+> **Candidate fact F4**: For any prime $p \geq x$ and any $k \geq 2$,
+> $$\sum_{\substack{n \in A_k \cap [x,\infty) \\ p \nmid n}} \frac{1}{n \log n} \leq \left(1 - \frac{1}{p}\right) \cdot \sum_{n \in A_k \cap [x,\infty)} \frac{1}{n \log n} + o(1).$$
+
+F4 says that removing multiples of a prime $p$ reduces the $k$-th stratum sum by a factor of $(1 - 1/p)$, matching the multiplicative density of integers coprime to $p$. With F4, primitivity forces:
+$$S_k \leq \sum_{n \in A_k \cap [x,\infty)} \frac{1}{n \log n} \cdot \prod_{a \in A \cap A_j}\!\!\left(1 - \frac{1}{a}\right) + o(1),$$
+and by Mertens' estimate the product $\prod (1 - 1/a)$ decays as $e^{-S_j / c_0}$ for some constant $c_0 > 0$. Combining with the F3 upper bound on the full $A_k$ sum would then give $S_j + S_k < 1 + o(1)$ for the two-stratum case.
+
+**F4 is not derivable from F1/F2/F3.** The multiplicative density estimate it encodes is a consequence of Mertens' product theorem (prime number theory), which is outside the present ledger.
+
+### 6.5 Summary
+
+| Fact(s) used | What is proved | Within ledger? |
+|:---|:---|:---:|
+| F3 + Lemma 1 | $S_j \leq 1 - c\,j^2/2^j < 1$; $S_k \leq 1 - c\,k^2/2^k < 1$ | Yes |
+| F3 + Lemma 1 (summed) | $S \leq 2 - c(j^2/2^j + k^2/2^k) < 2$ | Yes |
+| F1 (global) | $S < 1.399 + o(1)$ for any primitive $A$ | Yes |
+| F1/F2/F3 + primitivity alone | $S \leq 1 + o(1)$ for two-stratum case | **Open** |
+| F3 + Lemma 1 + F4 (Mertens) | $S \leq 1 + o(1)$ for two-stratum case | Yes, if F4 added |
+
+**Conclusion for Q7**:
+- Two-stratum bound provable within ledger: $S \lesssim 1.90$ (leading order); does not improve on F1.
+- Improving to $1 + o(1)$ requires F4 (multiplicative density / Mertens-type estimate), not currently in the F1/F2/F3 ledger.
+- Lemma `cross_stratum_bound` (two-stratum case): **open; identified obstacle = F4 missing from ledger**.
+- Lemma `tail_bound`: **open; identified obstacle = density estimate for high-$\Omega$ integers not in ledger**.
+- Neither lemma can be closed from F1/F2/F3 alone.
+
+---
+
+**(Section 6 complete. Lemma 2 status: open. Lemma 3 status: open.)**
