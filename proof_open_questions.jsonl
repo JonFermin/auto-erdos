@@ -34,3 +34,4 @@
 {"qid":"Q12","status":"resolved","session_id":"s_0703-083113-9dfc","summary":"Section 11 written: j=1 excluded-sum for all K>=2; (j=1,k=K) proved for all K; Q_{2,3}=277; Q_4+ computable","ts":"2026-07-03T09:28:31+00:00"}
 {"qid":"Q13","status":"open","parent_qid":null,"summary":"Section 12: stratum localization — for fixed K, sum over k<=K goes to 0 as x->inf; identify that full conjecture requires bounding contribution from k=k*(x) growing with x; state prime-free reduction.","ts":"2026-07-03T09:35:26+00:00","session_id":"s_0703-083113-9dfc"}
 {"qid":"Q13","status":"claimed","session_id":"s_0703-083113-9dfc","summary":"claiming Q13: Section 12 stratum localization","ts":"2026-07-03T09:35:26+00:00"}
+{"qid":"Q13","status":"resolved","session_id":"s_0703-083113-9dfc","summary":"Section 12 written: stratum localization lemma proved within ledger; full conjecture reduces to prime-free k*(x) case","ts":"2026-07-03T09:36:57+00:00"}
