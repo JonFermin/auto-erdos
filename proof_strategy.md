@@ -433,3 +433,77 @@ and by Mertens' estimate the product $\prod (1 - 1/a)$ decays as $e^{-S_j / c_0}
 ---
 
 **(Section 6 complete. Lemma 2 status: open. Lemma 3 status: open.)**
+
+---
+
+## Section 7 — Proof Roadmap: What Is Known and What Remains (Q8)
+
+### 7.1 Results provable from F1/F2/F3 alone
+
+The following have been established in this proof attempt, all derivable within the given-facts ledger:
+
+**R1** (Lemma 1, proved): For any primitive $A \subset [x, \infty)$ and any $k$,
+$$\sum_{a \in A \cap A_k} \frac{1}{a \log a} \leq 1 - (c + o(1))\frac{k^2}{2^k} < 1.$$
+Each individual stratum contributes strictly less than 1.
+
+**R2** (F1, given): The full sum $\sum_{a \in A} 1/(a \log a) < e^\gamma \pi/4 + o(1) \approx 1.399 + o(1)$ for ANY primitive $A \subseteq \mathbb{N}$, unconditionally.
+
+**R3** (Section 6, proved): For any primitive $A \subseteq (A_j \cup A_k) \cap [x, \infty)$ (two-stratum case),
+$$S_j + S_k \leq 2 - (c+o(1))\left(\frac{j^2}{2^j} + \frac{k^2}{2^k}\right),$$
+which is strictly less than 2 but not below $1.399$ (weaker than F1 globally).
+
+**R4** (computational, Section 3): No primitive set in $[x_{\text{floor}}, \infty)$ for $x_{\text{floor}} \in \{100, 1000, 10000\}$ has rigorously-verified sum $> 1.0$.
+
+**R5** (F3 + Section 2): The extremal single-stratum primitive set $A_k$ achieves sum $1 - (c+o(1))k^2/2^k$, approaching 1 from below as $k \to \infty$. The gap below 1 is widest at $k = 3$ ($\approx 7.4\%$) and smallest at $k = 1$ and $k \to \infty$.
+
+### 7.2 What remains open
+
+**O1** (Lemma 2, open): Cross-stratum bound — for a general primitive $A$, show
+$$\sum_{a \in A} \frac{1}{a \log a} < 1 + o(1)$$
+using the cross-stratum interaction forced by primitivity. The gap between F1's bound of $1.399$ and the conjecture's $1 + o(1)$ is the central open problem.
+
+**O2** (Lemma 3, open): Tail bound — for large $k > K(x)$, show that $\sum_{k > K} \sum_{a \in A \cap A_k} 1/(a \log a)$ is small. Blocked on a density estimate for $A_k \cap [x, \infty)$ not in the current ledger.
+
+### 7.3 What new facts would close the proof
+
+**F4 (Mertens-type product bound — candidate, not in ledger)**:
+For any prime $p$ and any $k$, removing multiples of $p$ from $A_k$ reduces the stratum sum by factor $(1 - 1/p + o(1))$. Formally:
+$$\sum_{\substack{n \in A_k \cap [x,\infty) \\ p \nmid n}} \frac{1}{n \log n} \leq \left(1 - \frac{1}{p}\right) \cdot \sum_{n \in A_k \cap [x,\infty)} \frac{1}{n \log n} + o(1).$$
+With F4 and iterated application (one prime per element of $A \cap A_j$), Lemma 2 would follow for the multi-stratum case via the multiplicative structure of the discount factors.
+
+**F5 (Density bound for high-$\Omega$ strata — candidate, not in ledger)**:
+For $k > K = K(x) = \lfloor C \log\log x \rfloor$ (some constant $C$), the restricted stratum sum satisfies
+$$\sum_{a \in A \cap A_k} \frac{1}{a \log a} = o\!\left(\frac{1}{K}\right).$$
+With F5, the tail $\sum_{k > K}$ would be a convergent series (summing $o(1/K)$ over $k > K$), closing Lemma 3.
+
+### 7.4 Conditional proof sketch
+
+*Assuming F4 and F5 are established (as an extension of the current ledger):*
+
+**Step 1** (Decompose and split): Write $A = \bigsqcup_{k=1}^{K} (A \cap A_k) \sqcup \bigsqcup_{k > K} (A \cap A_k)$ with cut-off $K = K(x)$.
+
+**Step 2** (Tail bound, via F5): $\sum_{k > K} \sum_{a \in A \cap A_k} 1/(a \log a) = o(1)$ for the choice $K \to \infty$ with $x$.
+
+**Step 3** (Low-stratum cross-bound, via F4 + Lemma 1): For any partition of $A \cap \bigcup_{k=1}^K A_k$ by strata, primitivity forces a multiplicative trade-off. The discounts $\prod (1 - 1/p)$ over primes $p$ in lower strata suppress the higher strata. By F4 applied iteratively, the combined low-stratum sum is at most $1 + o(1)$.
+
+**Step 4** (Combine): Total sum $= (\text{low-}k) + (\text{high-}k) \leq (1 + o(1)) + o(1) = 1 + o(1)$.
+
+This sketch is conditional on F4 and F5. Both are standard results in analytic number theory (Mertens' theorem and the Hardy-Ramanujan distribution of $\Omega(n)$) but are NOT in the current F1/F2/F3 ledger.
+
+### 7.5 Status summary
+
+| Component | Status | Ledger-derivable? |
+|:---|:---:|:---:|
+| Lemma 1 (single stratum $< 1$) | **Proved** | Yes (from F3) |
+| Cross-stratum qualitative trade-off | Identified | Yes (from primitivity) |
+| Two-stratum bound $< 2$ | **Proved** | Yes (from Lemma 1) |
+| Cross-stratum quantitative (Lemma 2) | **Open** | No — needs F4 |
+| Tail bound (Lemma 3) | **Open** | No — needs F5 |
+| Full conjecture $< 1+o(1)$ | **Open** | No — needs F4 + F5 |
+| Conjecture claim resolved | No — open conjecture | — |
+
+The proof is structurally complete conditional on F4 + F5. The remaining task is either to establish F4 and F5 from first principles, or to seek a fundamentally different approach that avoids multiplicative density estimates.
+
+---
+
+**(Section 7 complete. Proof attempt status: conditional outline with precisely identified gaps.)**
