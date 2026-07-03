@@ -918,4 +918,130 @@ simultaneously, the current argument handles each pair $(1,j)$ independently but
 automatically combine to bound the total. The multi-stratum case — where $A$ overlaps at
 least three distinct strata — requires an **iterated** or **simultaneous** exclusion argument.
 
-This is the subject of Section 12 (Q12, next round).
+This is the subject of Section 12 (Q13, next round).
+
+---
+
+## Section 12 — Stratum Localization and the Critical-Stratum Reduction (Q13)
+
+### 12.1 The stratum-localization lemma
+
+**Lemma (Stratum Localization)**: *For any fixed $K \geq 1$ and any $\varepsilon > 0$,
+there exists $x_0 = x_0(K, \varepsilon)$ such that for all $x > x_0$ and all
+primitive $A \subseteq [x, \infty)$,*
+$$\sum_{k=1}^{K} S_k(A) < \varepsilon.$$
+
+**Proof**: For each fixed $k \in \{1, \ldots, K\}$:
+
+By F3, $\sum_{n \in A_k} \frac{1}{n \log n} = 1 - (c+o(1))\frac{k^2}{2^k} \leq 1$,
+so the full sum $\sum_{n \in A_k} \frac{1}{n \log n}$ is a *convergent* positive series.
+The tail of a convergent series tends to zero:
+$$\tau_k(x) := \sum_{\substack{n \in A_k \\ n \geq x}} \frac{1}{n \log n} \to 0
+\quad \text{as } x \to \infty. \tag{12.1}$$
+
+Since $A \cap A_k \subseteq A_k \cap [x, \infty)$:
+$$S_k(A) = \sum_{a \in A \cap A_k} \frac{1}{a \log a} \leq \tau_k(x). \tag{12.2}$$
+
+Summing (12.2) over $k = 1, \ldots, K$:
+$$\sum_{k=1}^{K} S_k(A) \leq \sum_{k=1}^{K} \tau_k(x).$$
+For fixed $K$, this is a finite sum of $K$ terms each tending to $0$, so
+it tends to $0$ as $x \to \infty$. Choose $x_0$ so that $\sum_{k=1}^K \tau_k(x_0) < \varepsilon$. $\square$
+
+**What is used**: Only F3 (the full-stratum sum converges, with value $\leq 1$)
+and the elementary fact that the tail of a convergent series tends to zero.
+No Mertens, PNT, or density estimates are needed.
+
+### 12.2 Consequence: high strata dominate
+
+The Stratum Localization Lemma implies that for any $\varepsilon > 0$ and
+any primitive $A \subseteq [x, \infty)$ with $x$ large:
+$$\sum_{a \in A} \frac{1}{a \log a} = \sum_{k=1}^{K} S_k(A) + \sum_{k > K} S_k(A) < \varepsilon + \sum_{k > K} S_k(A).$$
+
+To prove the conjecture $S < 1 + o(1)$, it therefore suffices to show
+$\sum_{k > K} S_k(A) < 1 + o(1)$ for some $K = K(x) \to \infty$.
+
+In other words: **the full conjecture reduces to bounding the contribution from
+high strata $k > K(x)$**, which becomes the entire problem in the limit.
+
+### 12.3 The critical stratum and the extremal example revisited
+
+Section 8 showed that the extremal primitive set is $A = A_{k^*} \cap [x, \infty)$
+for a SINGLE stratum $k^*$. The sum $S_{k^*}(A) = \tau_{k^*}(x) \to 1 - o(1)$ as
+$k^*$ and $x$ co-vary in a coupled fashion.
+
+In particular, $k^* = k^*(x)$ is NOT a fixed integer — it grows with $x$
+(since $\tau_k(x) \to 0$ for any fixed $k$ by Lemma 12.1). The optimal $k^*$
+is determined by the balance between the "large stratum" density correction
+$c_k = c k^2/2^k$ (decreasing in $k$ for large $k$, making $S_k \nearrow 1$)
+and the restriction $n \geq x$ (which cuts off an increasing fraction of $A_k$
+as $k$ grows, since $\tau_k(x) = \Sigma_{A_k, n \geq x}$ shrinks relative to the full
+$A_k$ sum for moderate $k$, then recovers for very large $k$ when $2^k \geq x$).
+
+This means the problem is *genuinely in the regime $k \to \infty$ as $x \to \infty$*,
+and any proof must handle this regime.
+
+### 12.4 The prime-free reduction
+
+**Claim**: The "hard case" for the full conjecture is when $A \cap A_1 = \emptyset$
+(no primes in $A$).
+
+**Why**: If $A \cap A_1 \neq \emptyset$ (primes are present), then $S_1(A) > 0$.
+By Section 12.1, $S_1(A) \leq \tau_1(x) \to 0$ as $x \to \infty$, so any
+primes in $A$ contribute $o(1)$ to the total sum. Moreover, by Section 11,
+each cross-stratum interaction with $k \geq 2$ satisfies:
+$$S_k(A) \leq (1 - c_k) - \frac{D_{k-1,Q}}{2} S_1(A) + o(1) \leq 1 - c_k + o(1),$$
+where the improvement $-(D_{k-1,Q}/2) S_1(A)$ is also small (since $S_1 \to 0$).
+
+The bound from Section 11 dominates when $S_1$ is bounded below by a positive
+constant — but for $A \subseteq [x, \infty)$ with primes, $S_1 \leq \tau_1(x) \to 0$.
+Thus the exclusion improvement from primes also vanishes, and the problem
+reduces to the prime-free case at leading order.
+
+More precisely: fix any $\delta > 0$. Write $A = A' \cup A_{\rm primes}$ where
+$A_{\rm primes} = A \cap A_1$. For large $x$, $S_1(A) \leq \tau_1(x) < \delta$.
+The cross-stratum bound gives $S_k(A) \leq 1 - c_k + o(1)$. The total:
+$$S(A) \leq S_1 + \sum_{k \geq 2} S_k(A) \leq \delta + \sum_{k \geq 2} (1-c_k) + o(K).$$
+This doesn't close the problem (sum over $k$ diverges), but the PRIME-FREE
+remainder $\sum_{k \geq 2} S_k(A)$ is the dominant piece.
+
+The prime-free case asks: for $A \subseteq \bigsqcup_{k \geq 2} A_k \cap [x, \infty)$
+primitive, is $\sum_k S_k(A) < 1 + o(1)$?
+
+### 12.5 What we know about the prime-free case
+
+In the prime-free setting, all elements $a \in A$ satisfy $\Omega(a) \geq 2$.
+The best available bound from the ledger is:
+
+- **Lemma 1 (per-stratum)**: $S_k(A) \leq 1 - c_k + o(1)$ for each $k$. Useless when summed.
+- **F1**: $\sum_k S_k(A) < e^\gamma \pi/4 + o(1) \approx 1.399 + o(1)$. A global bound but not 1+o(1).
+- **F3 tails**: $\sum_{k=1}^K S_k(A) \to 0$ for fixed $K$ (Lemma 12.1). Useful for eliminating small $k$.
+
+The critical gap: bounding $\sum_{k > K(x)} S_k(A)$ from above by $1 + o(1)$
+for prime-free $A$ is precisely the open heart of the conjecture. This requires
+controlling the SUM across many strata simultaneously, not just each stratum
+individually. Primitivity constraints must force the total weight below 1 even
+when elements are concentrated near the critical stratum $k^*(x)$.
+
+### 12.6 Summary of what has been proved and what remains
+
+**Proved within ledger (Sections 1–12)**:
+
+| Statement | Where | Status |
+|:---|:---:|:---:|
+| $S_k(A) \leq 1-c_k+o(1)$ for each $k$ (single stratum) | Lemma 1 / §2 | ✓ |
+| $A = A_{k^*} \cap [x,\infty)$ achieves $\sup \geq 1-o(1)$ | §8 | ✓ |
+| $S_1 + S_K \leq (1-c_K)+o(1)$ for all $K$ (j=1 case) | §10–11 | ✓ |
+| $\sum_{k \leq K} S_k(A) \to 0$ for fixed $K$ | §12.1 | ✓ |
+| F1 gives $S < 1.399$ globally | Given | ✓ |
+
+**Still open (requires extending the ledger)**:
+
+| Statement | Missing fact | Gap reference |
+|:---|:---:|:---:|
+| $S_j + S_k < 1+o(1)$ for $j \geq 2$ | F4 (exclusion coefficient) | §9.5 |
+| $\sum_k S_k(A) < 1+o(1)$ for prime-free $A$ | F4+F5 | §7, §12.5 |
+| $\sum_k S_k(A) < 1+o(1)$ in full generality | F4+F5 | Conjecture |
+
+The full conjecture requires controlling the prime-free multi-stratum case,
+which goes beyond F1/F2/F3 and awaits F4 (cross-stratum density estimate)
+and F5 (high-$\Omega$ tail bound) to be added to the ledger.
