@@ -556,3 +556,120 @@ What the conjecture adds (open): the supremum is also $\leq 1 + o(1)$. Together 
 ---
 
 **(Section 8 complete. The conjecture's bound is tight from below: the supremum approaches 1.)**
+
+---
+
+## Section 9 — Barrier Analysis: The Excluded-Sum Gap (Q10)
+
+### 9.1 Setup and goal
+
+Let $k_1 < k_2$ be fixed. Consider a primitive $A \subseteq (A_{k_1} \cup A_{k_2}) \cap [x, \infty)$
+and write $S = S_{k_1} + S_{k_2}$ where $S_{k_i} = \sum_{a \in A \cap A_{k_i}} 1/(a \log a)$.
+
+From F3 and §2.3, each $S_{k_i} \leq 1 - c\phi(k_i) < 1$.
+From F1, $S < 1.399$.
+The goal is to show $S < 1 + o(1)$.
+
+The gap between $1.399$ and $1 + o(1)$ represents the open problem. This section
+formalizes why neither F1 alone nor F3 alone — nor any combination of them — suffices
+to close this gap, and characterizes precisely what additional fact F4 must say.
+
+### 9.2 The excluded-sum $E$
+
+Since $A$ is primitive, no element of $A \cap A_{k_1}$ divides any element of $A \cap A_{k_2}$.
+Equivalently,
+$$A \cap A_{k_2} \subseteq \{n \in A_{k_2} \cap [x, \infty) : a \nmid n \text{ for all } a \in A \cap A_{k_1}\}.$$
+
+Define the **excluded sum**:
+$$E := \sum_{\substack{n \in A_{k_2} \cap [x,\infty) \\ \exists a \in A \cap A_{k_1}: a \mid n}} \frac{1}{n \log n} \geq 0.$$
+
+This is the sum over elements of $A_{k_2} \cap [x,\infty)$ that *cannot* be in $A$
+by primitivity. Since $A \cap A_{k_2}$ is a subset of the complement, we have
+$$S_{k_2} \leq \sum_{n \in A_{k_2} \cap [x,\infty)} \frac{1}{n \log n} - E \leq (1 - c\phi(k_2) + o(1)) - E,$$
+where the second inequality uses F3 (§2.3).
+
+Therefore,
+$$S = S_{k_1} + S_{k_2} \leq S_{k_1} + (1 - c\phi(k_2)) - E + o(1). \tag{9.1}$$
+
+The target $S < 1 + o(1)$ follows from (9.1) if and only if
+$$E > S_{k_1} - c\phi(k_2) + o(1). \tag{9.2}$$
+
+### 9.3 When does (9.2) bind?
+
+The critical regime is when $S_{k_1}$ is large — close to $1 - c\phi(k_1)$.
+In that case, (9.2) requires $E > 1 - c\phi(k_1) - c\phi(k_2) + o(1)$,
+which is a lower bound on the excluded sum of order $\approx 1$.
+
+When $S_{k_1}$ is small (e.g.\ $S_{k_1} \leq c\phi(k_2)$), condition (9.2) is
+trivially satisfied with $E \geq 0$, and S ≤ 1 + o(1) follows from (9.1).
+
+So the barrier is precisely in the case $S_{k_1} \gg c\phi(k_2)$: a primitive set that
+simultaneously achieves large $S_{k_1}$ forces large $E$, but the ledger cannot prove
+$E$ is large enough.
+
+### 9.4 Why the ledger cannot bound $E$ from below
+
+A lower bound on $E$ in terms of $S_{k_1}$ requires showing that, when many elements
+of $A_{k_1} \cap [x, \infty)$ are in $A$, a correspondingly large portion of
+$A_{k_2} \cap [x,\infty)$ is excluded.
+
+The most natural lower bound on $E$ is inclusion-exclusion:
+$$E \geq \sum_{a \in A \cap A_{k_1}} \underbrace{\sum_{\substack{m \in A_{k_2-k_1} \\ am \geq x}} \frac{1}{am \log(am)}}_{=: T_a}. \tag{9.3}$$
+
+Each inner sum $T_a$ is a tail of the weighted sum over $A_{k_2 - k_1}$ starting
+beyond $x/a$. Computing $T_a$ requires quantitative information about the distribution
+of $\sum_{m \in A_{k_2-k_1}, m \geq y} 1/(m \log m)$ as a function of $y$ — namely, how this
+tail sum behaves as $y$ varies. This distribution is not provided by F1, F2, or F3.
+
+**Claim**: No combination of F1, F2, F3 yields a lower bound on $E$ of the form
+$E \geq c' \cdot S_{k_1}$ for any constant $c' > 0$ (depending only on $k_1, k_2$).
+
+*Sketch*: F1 is a global bound on $S$ that places no constraint on $E$ individually.
+F3 quantifies each $\sum_{A_k} 1/(n \log n)$ but says nothing about the partial sum
+over elements divisible by a fixed $a \in A_{k_1}$. F2 (with unsigned big-O) likewise
+carries no information about divisibility structure. The quantity $E$ intrinsically
+involves multiplicative relationships between $A_{k_1}$ and $A_{k_2}$, which are
+invisible to F1/F2/F3.
+
+### 9.5 Precise statement of F4 needed
+
+Define the **exclusion coefficient** $\kappa(k_1, k_2, x) \geq 0$ by
+$$E \geq \kappa(k_1, k_2, x) \cdot S_{k_1}.$$
+
+**Candidate F4 (refined)**: For any $k_2 > k_1 \geq 1$ and any primitive
+$A \subseteq (A_{k_1} \cup A_{k_2}) \cap [x, \infty)$,
+$$\kappa(k_1, k_2, x) \geq \delta(k_1, k_2) + o(1) \text{ as } x \to \infty,$$
+for some computable $\delta(k_1, k_2) > 0$ satisfying
+$\delta(k_1, k_2) \geq c\phi(k_1)/(1 - c\phi(k_1))$.
+
+If F4 holds in this form, substituting into (9.1):
+$$S \leq S_{k_1} + (1 - c\phi(k_2)) - \delta \cdot S_{k_1} + o(1) = (1 - \delta) S_{k_1} + (1 - c\phi(k_2)) + o(1).$$
+Since $S_{k_1} \leq 1 - c\phi(k_1)$ and $\delta \geq c\phi(k_1)/(1-c\phi(k_1))$:
+$$(1 - \delta) S_{k_1} \leq (1 - \delta)(1 - c\phi(k_1)) \leq (1 - c\phi(k_1)) - c\phi(k_1) = 1 - 2c\phi(k_1).$$
+So $S \leq 1 - 2c\phi(k_1) + (1 - c\phi(k_2)) + o(1) = 2 - 2c\phi(k_1) - c\phi(k_2) + o(1) < 2$.
+
+That bound is still less than $2$ but not less than $1$. A stronger F4 (with
+$\delta \geq 1 - c\phi(k_2)/S_{k_1}$) would give $S < 1 + o(1)$, but this requires
+$\delta$ to be nearly 1, which is a very strong multiplicative density claim.
+
+The gap can be closed with a sufficiently strong form of F4; the exact threshold for
+$\delta$ depends on $k_1$ and $k_2$ and is an open analytic number theory question.
+
+### 9.6 Summary of the two-stratum barrier
+
+| Object | Within-ledger? | Implication |
+|:---|:---:|:---:|
+| $S_{k_i} \leq 1 - c\phi(k_i) < 1$ | Yes (F3) | Each stratum independently bounded |
+| $S \leq 1.399$ | Yes (F1) | Total bounded but too loose |
+| $E \geq 0$ | Yes (primitivity) | Excluded sum non-negative |
+| $E \geq c' \cdot S_{k_1}$ | **No** (needs F4) | Would bound trade-off |
+| $S < 1 + o(1)$ | **No** (open) | Full conjecture |
+
+The excluded-sum gap is the single obstruction: once a lower bound $E \geq \kappa S_{k_1}$
+with $\kappa$ close to 1 is established (as F4), the two-stratum conjecture follows.
+The multi-stratum generalization (Lemma 2, §4) then follows by iterating the same
+argument across all pairs of strata.
+
+---
+
+**(Section 9 complete. The two-stratum barrier is reduced to a single quantitative fact F4 about excluded sums.)**

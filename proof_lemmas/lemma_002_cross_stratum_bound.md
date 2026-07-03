@@ -37,10 +37,17 @@ However, F1 achieves a bound of $\approx 1.399$, not $1 + o(1)$. Improving the c
 
 The primitivity constraint creates a "trade-off" between strata: gaining weight in stratum $k$ costs weight in other strata. Making this trade-off quantitative is the central open problem. Current approaches (Zhang 1993) handle the trade-off multiplicatively (via Euler products) but do not tighten the constant below $e^\gamma \pi/4$.
 
-## Suggested next attack
+## The excluded-sum reformulation (Section 9)
 
-A possible approach: use the structure of $A_k$ as a "multiplicative Sidon set" analog. Elements of $A_k$ are products of $k$ primes; primitivity forbids divisibility. The Bombieri-Halász method or a Plünnecke-Ruzsa inequality analog might give a cross-stratum estimate.
+Define the **excluded sum** for the two-stratum case $A \subseteq (A_j \cup A_k) \cap [x,\infty)$:
+$$E := \sum_{\substack{n \in A_k \cap [x,\infty) \\ \exists a \in A \cap A_j: a \mid n}} \frac{1}{n \log n} \geq 0.$$
 
-Alternatively: for large $x$, all elements of $A \subseteq [x, \infty)$ have at least $\log x / \log\log x$ distinct prime factors (on average), which could force cross-stratum cancellation.
+By F3, $S_k \leq (1 - c\phi(k)) - E + o(1)$, so $S_j + S_k \leq S_j + (1-c\phi(k)) - E + o(1)$.
+The target $S_j + S_k < 1 + o(1)$ requires $E > S_j - c\phi(k) + o(1)$, i.e.,
+the excluded sum must offset the $j$-stratum contribution.
 
-**Status: open. Picked up here for the first time.**
+**The precise missing fact (F4 refined)**: For any such $A$ and $\kappa := E / S_j$,
+we need $\kappa \geq \kappa_0(j,k)$ for some $\kappa_0$ large enough to give $S < 1+o(1)$.
+The value of $\kappa_0$ depends on $j,k$ and is an open analytic number theory problem.
+
+**Status: open. The lemma is equivalent to establishing F4 (the exclusion coefficient lower bound).**
