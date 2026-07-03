@@ -1,10 +1,10 @@
 ---
 id: cross_stratum_bound
-status: partial
+status: proved_two_stratum
 depends_on: [single_stratum_bound]
 discharged_by_round: null
 introduced_at_round: 4
-special_case_proved: "(j=1, k=K) proved for ALL K>=2 in Sections 10-11 within ledger (x > Q_K^{K-1}); Q_2=Q_3=277, Q_4+ computable"
+full_two_stratum_proved: "ALL (j,K) with 1<=j<K settled in Sections 10-13 via Q-rough/smooth split; Q-smooth terms=o(1) from F3 convergence; rough excluded sets distinct"
 ---
 
 # Lemma 2 (cross_stratum_bound): Primitivity constrains cross-stratum accumulation

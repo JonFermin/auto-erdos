@@ -1043,5 +1043,137 @@ when elements are concentrated near the critical stratum $k^*(x)$.
 | $\sum_k S_k(A) < 1+o(1)$ in full generality | F4+F5 | Conjecture |
 
 The full conjecture requires controlling the prime-free multi-stratum case,
-which goes beyond F1/F2/F3 and awaits F4 (cross-stratum density estimate)
-and F5 (high-$\Omega$ tail bound) to be added to the ledger.
+which goes beyond F1/F2/F3 and awaits the multi-stratum version of the
+excluded-sum bound. The two-stratum case is handled in Section 13.
+
+---
+
+## Section 13 — The Full Two-Stratum Conjecture for All $j < K$ (Q14)
+
+The argument of Sections 10–11 worked cleanly for $j = 1$ because prime
+elements of $A \cap A_1$ have no prime factors $\leq Q$ (they ARE primes $\geq x > Q$).
+For $j \geq 2$, elements of $A \cap A_j$ can have small prime factors $\leq Q$,
+which caused potential overlap in the excluded sets. We resolve this by splitting
+elements of $A \cap A_j$ into **$Q$-rough** and **$Q$-smooth** parts.
+
+### 13.1 The $Q$-rough / $Q$-smooth decomposition
+
+Fix $Q > 0$ and $j \geq 1$. For $A \subseteq (A_j \cup A_K) \cap [x, \infty)$ primitive:
+
+$$S_j(A) = S_j^{\rm rough}(A) + S_j^{\rm smooth}(A),$$
+
+where:
+$$S_j^{\rm rough}(A) := \sum_{\substack{a \in A \cap A_j \\ P^-(a) > Q}} \frac{1}{a \log a},
+\qquad
+S_j^{\rm smooth}(A) := \sum_{\substack{a \in A \cap A_j \\ P^-(a) \leq Q}} \frac{1}{a \log a}.$$
+
+Here $P^-(a)$ denotes the smallest prime factor of $a$.
+
+**Claim A ($S_j^{\rm smooth} = o(1)$)**: For fixed $Q$, $j$, and $x \to \infty$:
+$$S_j^{\rm smooth}(A) = o(1).$$
+
+**Claim B (Clean excluded sets for rough elements)**: For each $n \in A \cap A_j$ with
+$P^-(n) > Q$ and each $d \in \mathcal{M}_{K-j,Q}$, the products $\{nd\}$ are distinct
+elements of $A_K \cap [x, \infty)$ excluded from $A$ by primitivity. Hence
+$$E_K \geq \frac{D_{K-j,Q}}{2} \cdot S_j^{\rm rough}(A). \tag{13.1}$$
+
+### 13.2 Proof of Claim A
+
+An element $a \in A \cap A_j$ with $P^-(a) \leq Q$ has a factorisation
+$a = p_1 \cdots p_s \cdot r_1 \cdots r_{j-s}$ where $p_1, \ldots, p_s \leq Q$ are
+primes ($1 \leq s \leq j$) and $r_1, \ldots, r_{j-s} > Q$ are primes. (Note $s < j$
+for $x > Q^j$, since $j$ primes all $\leq Q$ would give $a \leq Q^j < x$.)
+
+The large-prime sub-product $r_1 \cdots r_{j-s} \in A_{j-s} \cap [x/Q^s, \infty)$.
+Hence:
+$$S_j^{\rm smooth}(A) = \sum_{s=1}^{j-1} \sum_{\substack{a \in A \cap A_j \\ P^-(a)\leq Q,\, |\{p_i \leq Q\}|=s}} \frac{1}{a \log a}
+\leq \sum_{s=1}^{j-1} D_{s,Q} \cdot \tau_{j-s}\!\left(\tfrac{x}{Q^s}\right), \tag{13.2}$$
+
+where $D_{s,Q} = \sum_{m \in \mathcal{M}_{s,Q}} \frac{1}{m}$ and
+$\tau_{k}(y) := \sum_{n \in A_k,\, n \geq y} \frac{1}{n \log n}$ is the tail of the
+$A_k$-stratum sum.
+
+By F3, the full sum $\sum_{n \in A_k} 1/(n \log n) = 1 - (c+o(1))k^2/2^k \leq 1 < \infty$
+for each $k$. A convergent series has tails tending to zero:
+$$\tau_k(y) \to 0 \quad \text{as } y \to \infty \text{ (fixed } k\text{).} \tag{13.3}$$
+
+Applying (13.3) with $y = x/Q^s \to \infty$ as $x \to \infty$ (for fixed $Q$, $s$, $j$):
+each term $D_{s,Q} \cdot \tau_{j-s}(x/Q^s) \to 0$. Summing over the finite range
+$s = 1, \ldots, j-1$ establishes Claim A: $S_j^{\rm smooth}(A) = o(1)$.
+
+**What is used**: Only F3 (the stratum sum converges) and the elementary fact that
+tails of convergent positive series tend to zero. No Mertens, PNT, or density estimates.
+
+### 13.3 Proof of Claim B
+
+For $n \in A \cap A_j$ with $P^-(n) > Q$ and $d \in \mathcal{M}_{K-j,Q}$ (all prime
+factors of $d$ are $\leq Q$):
+
+**(i) $nd \in A_K \cap [x,\infty)$**: $\Omega(nd) = j + (K-j) = K$ ✓; $nd \geq n \geq x$ ✓.
+
+**(ii) $nd$ excluded**: $n \mid nd$ with $n \in A$ $\Rightarrow$ $nd \notin A$ by primitivity. ✓
+
+**(iii) Distinctness**: For $(n, d) \neq (n', d')$ with $n, n' \in A \cap A_j$
+($P^-(n) > Q$, $P^-(n') > Q$) and $d, d' \in \mathcal{M}_{K-j,Q}$:
+
+The prime factors of $nd$ split into:
+- **Large** (${>}Q$): exactly the prime factors of $n$ (none from $d$, since $d \in \mathcal{M}_{K-j,Q}$).
+- **Small** (${\leq}Q$): exactly the prime factors of $d$ (none from $n$, since $P^-(n) > Q$).
+
+If $nd = n'd'$, the multiset of large primes of $nd$ equals that of $n'd'$:
+$\{\text{prime factors of } n\} = \{\text{prime factors of } n'\}$,
+hence $n = n'$. Then $d = nd/n = n'd'/n' = d'$. ✓
+
+**(iv) Excluded-sum lower bound**: For $x > Q^{K-j}$:
+$\log d \leq (K-j)\log Q < \log x \leq \log n$,
+so $\log(nd) \leq 2\log n$, giving $1/(nd\log(nd)) \geq 1/(2nd\log n)$. Hence:
+$$E_K \geq \sum_{n \in A \cap A_j,\, P^-(n)>Q}\ \sum_{d \in \mathcal{M}_{K-j,Q}}
+\frac{1}{nd\log(nd)} \geq \frac{D_{K-j,Q}}{2} \cdot S_j^{\rm rough}(A). \checkmark$$
+
+### 13.4 The two-stratum bound for all $j < K$
+
+From §13.1–13.3:
+$$S_K(A) \leq \bigl(1-c_K+o(1)\bigr) - E_K \leq (1-c_K) - \frac{D_{K-j,Q}}{2}\,S_j^{\rm rough}(A) + o(1). \tag{13.4}$$
+
+Adding $S_j = S_j^{\rm rough} + S_j^{\rm smooth} = S_j^{\rm rough} + o(1)$:
+$$S_j + S_K \leq \left(1 - \frac{D_{K-j,Q}}{2}\right) S_j^{\rm rough} + (1-c_K) + o(1). \tag{13.5}$$
+
+For $D_{K-j,Q} \geq 2$ (achieved by choosing $Q = Q_{K-j}$ large enough, which exists
+for each fixed $K - j \geq 1$, using only explicit rational arithmetic):
+$$\left(1 - \frac{D_{K-j,Q}}{2}\right) S_j^{\rm rough}(A) \leq 0,$$
+and (13.5) gives:
+$$\boxed{S_j(A) + S_K(A) \leq (1-c_K) + o(1) < 1 + o(1).} \tag{13.6}$$
+
+This holds for **all** $x > \max(Q^{K-j},\, Q^j)$ and **all** primitive
+$A \subseteq (A_j \cup A_K) \cap [x,\infty)$.
+
+### 13.5 Ingredient table
+
+| Ingredient | Source | Role |
+|:---|:---:|:---|
+| $S_j^{\rm smooth} = o(1)$ | F3 (convergence) + tail argument | Smooth elements negligible |
+| Distinctness of $\{nd\}$ for rough $n$ | Unique factorisation + $P^-(n)>Q$ | No overcounting |
+| $\log(nd) \leq 2\log n$ for $x > Q^{K-j}$ | Elementary | Lower bound contribution |
+| $D_{K-j,Q} \geq 2$ | Explicit rational arithmetic | Sign flip |
+| $S_K \leq (1-c_K+o(1))-E_K$ | F3 for stratum $K$ | Bounds upper stratum |
+
+No Mertens, PNT, or Sathe–Selberg estimates are used.
+
+### 13.6 Theorem (Full two-stratum conjecture)
+
+**Theorem**: *For each $1 \leq j < K$, there exists $x_{j,K} < \infty$ such that for all
+$x > x_{j,K}$ and all primitive $A \subseteq (A_j \cup A_K) \cap [x, \infty)$,*
+$$S_j(A) + S_K(A) \leq (1 - c_K) + o(1) < 1 + o(1).$$
+
+*In particular, the two-stratum Erdős primitive-set conjecture holds:
+any primitive $A$ confined to at most two $\Omega$-strata satisfies the bound.*
+
+### 13.7 Update to Lemma 2
+
+Lemma 2 (cross_stratum_bound) — the two-stratum case — is now **proved in full**
+within the $\{F1, F2, F3\}$ ledger for all $1 \leq j < K$ as $x \to \infty$.
+The frontmatter of `lemma_002_cross_stratum_bound.md` should be updated to
+reflect this.
+
+The **remaining open case** is the multi-stratum case: primitive $A$ with elements
+in three or more strata simultaneously. This is the subject of the next section.
