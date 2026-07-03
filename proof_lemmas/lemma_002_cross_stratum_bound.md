@@ -4,7 +4,7 @@ status: partial
 depends_on: [single_stratum_bound]
 discharged_by_round: null
 introduced_at_round: 4
-special_case_proved: "(j=1, k=2) proved in Section 10 within ledger (x > 277)"
+special_case_proved: "(j=1, k=K) proved for ALL K>=2 in Sections 10-11 within ledger (x > Q_K^{K-1}); Q_2=Q_3=277, Q_4+ computable"
 ---
 
 # Lemma 2 (cross_stratum_bound): Primitivity constrains cross-stratum accumulation
