@@ -486,7 +486,7 @@ With F5, the tail $\sum_{k > K}$ would be a convergent series (summing $o(1/K)$ 
 
 **Step 4** (Combine): Total sum $= (\text{low-}k) + (\text{high-}k) \leq (1 + o(1)) + o(1) = 1 + o(1)$.
 
-This sketch is conditional on F4 and F5. Both are standard results in analytic number theory (Mertens' theorem and the Hardy-Ramanujan distribution of $\Omega(n)$) but are NOT in the current F1/F2/F3 ledger.
+This sketch is conditional on F4 and F5. Both are quantitative results about prime factor structure that are NOT in the current F1/F2/F3 ledger; they require extending the given-facts ledger to include a multiplicative density estimate (F4) and a high-$\Omega$ tail bound (F5).
 
 ### 7.5 Status summary
 
