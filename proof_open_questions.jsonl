@@ -37,3 +37,4 @@
 {"qid":"Q13","status":"resolved","session_id":"s_0703-083113-9dfc","summary":"Section 12 written: stratum localization lemma proved within ledger; full conjecture reduces to prime-free k*(x) case","ts":"2026-07-03T09:36:57+00:00"}
 {"qid":"Q14","status":"open","parent_qid":null,"summary":"Section 13: general two-stratum conjecture for all j<K via Q-rough/Q-smooth decomposition; prove S_j^smooth=o(1) from F3 tails; run excluded-sum on very-rough elements with clean distinctness; close Lemma 2 for all two-stratum cases.","ts":"2026-07-03T09:41:50+00:00","session_id":"s_0703-083113-9dfc"}
 {"qid":"Q14","status":"claimed","session_id":"s_0703-083113-9dfc","summary":"claiming Q14: Section 13 general two-stratum via Q-rough/smooth split","ts":"2026-07-03T09:41:50+00:00"}
+{"qid":"Q14","status":"resolved","session_id":"s_0703-083113-9dfc","summary":"Section 13 written: full two-stratum conjecture proved for all j<K; Lemma 2 closed","ts":"2026-07-03T09:43:35+00:00"}
