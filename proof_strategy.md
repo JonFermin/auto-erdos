@@ -246,3 +246,52 @@ be established, this attempt will document:
 This constitutes a valid `partial_result` in the sense of
 `proof_log_result.py` and is a meaningful contribution even without
 a complete proof.
+
+## Section 5: Partial Result Summary (Q6)
+
+**This proof attempt remains open.** The conjecture is not resolved here.
+The following has been established in this session:
+
+### What was ruled out
+
+1. **A witness counterexample at $x_{\text{floor}} \geq 100$ using
+   primes**: The primes $\geq x$ have rigorous sum $0.12$ (x=100),
+   $0.05$ (x=1000), $0.016$ (x=10000) — far below 1.0. No
+   primitive set based on primes can serve as a witness at these
+   thresholds.
+
+2. **A trivial counterexample from F2 sign confusion**: F2's unsigned
+   $O(k^{-1/2+o(1)})$ cannot be used to conclude sum $> 1$.
+   Explicitly documented in Section 1.
+
+3. **A claim that $A_k$ disproves the conjecture via F3**: F3 shows
+   (for $k \geq 2$) that $A_k$'s sum is well below 1. For $k = 1$
+   (primes), the sum $\approx 1.637$ is large but is the conjectured
+   MAXIMUM over all primitive sets — not a counterexample.
+
+4. **A simple per-stratum sum argument**: The crude bound $f(A) \leq
+   \sum_k f_k$ diverges and is useless without cross-stratum primitivity
+   (Lemma strat_001).
+
+### Main open gap
+
+The cross-stratum primitivity constraint (Lemma strat_003) is the
+crux. Proving that primitivity across strata reduces the total weight
+below 1 requires:
+- A sieve-type bound on the density of a primitive set in each stratum.
+- A way to compose the exclusions from different strata.
+
+This is the heart of the Erdős primitive-set conjecture and remains
+open in this proof attempt.
+
+### Suggested next session
+
+1. Read `proof_lemmas/lemma_strat_003.md` (the cross-stratum lemma).
+2. Attempt to use Mertens' theorem or Brun's sieve to bound the
+   weight of a primitive set restricted to the stratum $A_k \cap [x, \infty)$.
+3. Check whether a formal connection to F1 (Erdős–Zhang bound 1.399)
+   can be made through the given-facts ledger without citing external
+   results.
+4. If the sieve approach is tractable, try to prove Lemma strat_003
+   for the special case $k = 1$ vs $k = 2$ (the prime-vs-semiprime
+   interaction), which would be the first non-trivial case.

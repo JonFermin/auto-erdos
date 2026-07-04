@@ -11,3 +11,7 @@
 {"qid":"Q3","status":"resolved","session_id":"s_0704-080603-a182","summary":"Q3 done: primes sum ~1.6366, tail at x_floor=100/1000/10000 = 0.215/0.144/0.108. Consistent with F1 once o(1) understood asymptotically.","ts":"2026-07-04T08:18:18+00:00"}
 {"qid":"Q4","status":"claimed","session_id":"s_0704-080603-a182","summary":"taking Q4 - run witness verifier at x_floor=100,1000,10000","ts":"2026-07-04T08:18:18+00:00"}
 {"qid":"Q5","status":"claimed","session_id":"s_0704-080603-a182","summary":"taking Q5 - outline proof structure with lemma files","ts":"2026-07-04T08:18:18+00:00"}
+{"qid":"Q4","status":"resolved","session_id":"s_0704-080603-a182","summary":"Q4: no witness at x_floor=100/1000/10000 (primes give 0.12/0.05/0.016). Trivial witness at x=2 exists but is non-genuine (o(1) at x=2 is ~0.637).","ts":"2026-07-04T08:21:47+00:00"}
+{"qid":"Q5","status":"resolved","session_id":"s_0704-080603-a182","summary":"Q5: proof outline written. Three lemma files: strat_001 (per-stratum), strat_002 (F3 anomaly), strat_003 (cross-stratum crux). Main gap: cross-stratum primitivity.","ts":"2026-07-04T08:21:47+00:00"}
+{"qid":"Q6","status":"claimed","session_id":"s_0704-080603-a182","summary":"taking Q6 - write partial result section and prep for session_end","ts":"2026-07-04T08:22:17+00:00"}
+{"qid":"Q6","status":"resolved","session_id":"s_0704-080603-a182","summary":"Q6: partial result section written. 4 things ruled out, main gap is cross-stratum primitivity (Lemma strat_003).","ts":"2026-07-04T08:22:44+00:00"}
