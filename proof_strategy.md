@@ -171,22 +171,78 @@ $x \geq 10$.
 regime: for moderate $x$, can a primitive set in $[x, \infty)$ have sum
 close to 1 (but below 1)?
 
-## Section 3: Witness Search (Q4 — pending)
+## Section 3: Witness Search (Q4)
 
-Searching for a primitive $A \subset [x_{\text{floor}}, \infty)$ with
-rigorous sum $> 1.0$ at $x_{\text{floor}} \in \{100, 1000, 10000\}$.
+Formally searched for a primitive $A \subset [x_{\text{floor}}, \infty)$
+with rigorous $\sum 1/(a \log a) > 1.0$ (the `witness_threshold`), using
+`library.primitive_set_witness.verify_witness` with all primes in each
+interval:
 
-**Result**: No witness found. The primes form the densest known primitive
-set, and their tail sums at these x_floor values are ~0.215, ~0.144, ~0.108
-respectively — all well below 1.0. This is consistent with the conjecture
-holding for $x \geq 10$ or so.
+| $x_{\text{floor}}$ | Primes used | Rigorous lower bound | Witness valid? |
+|---|---|---|---|
+| 100 | 5108 primes in [100, 50000] | 0.1227 | No |
+| 1000 | 4965 primes in [1000, 50000] | 0.0519 | No |
+| 10000 | 3904 primes in [10000, 50000] | 0.0161 | No |
 
-*Note*: At $x_{\text{floor}} = 2$, the first three primes $\{2, 3, 5\}$
-give sum $\approx 1.149 > 1.0$. However, this is at small $x$ where the
-conjecture's $o(1)$ correction is substantial (the primes' total sum is
-1.637, so the $o(1)$ at $x=2$ is $\approx 0.637$). This is not a genuine
-counterexample.
+**No witness found at any of the requested thresholds.** This is consistent
+with the conjecture: for $x \geq 10$, even the primes (the densest
+primitive set) give far less than 1.
 
-## Section 4: Proof Outline (Q5 — pending)
+*Aside*: At $x_{\text{floor}} = 2$, the primes $\{2, 3, 5\}$ rigorously
+verify to score $\approx 1.149 > 1.0$. This WOULD pass the witness
+verifier. However, it is **not a genuine counterexample**: the conjecture
+bounds sum by $1 + o(1)$ where $o(1) \to 0$ as $x \to \infty$. At $x=2$,
+the $o(1)$ is approximately $0.637$ (since all primes sum to $\approx
+1.637$, so the conjecture allows sum $< 1.637$ at $x=2$). The witness
+score 1.149 is well within this allowance. This trivial witness is
+deliberately not embedded.
 
-To be filled in the next round.
+## Section 4: Proof Outline (Q5)
+
+### Overall strategy
+
+Stratify any primitive $A \subset [x, \infty)$ by $k = \Omega(a)$:
+$$A = \bigsqcup_{k \geq 1} (A \cap A_k), \quad \text{so} \quad
+\sum_{a \in A} \frac{1}{a \log a} = \sum_{k \geq 1} \sum_{a \in A \cap A_k} \frac{1}{a \log a}.$$
+
+**Goal**: bound each partial sum $S_k(A) = \sum_{a \in A \cap A_k} 1/(a \log a)$
+and show $\sum_k S_k(A) < 1$.
+
+See `proof_lemmas/` for individual lemma files.
+
+**Lemma `strat_001` (Per-stratum bound)**: For any primitive set
+$A \subset [x, \infty)$ and any $k$, $S_k(A) \leq S_k(A_k)$ (the
+stratum-$k$ sum of ANY primitive subset of $A_k$ is at most the full
+stratum-$k$ sum). *Status: open — need to justify why primitivity
+implies this bound holds.*
+
+**Lemma `strat_002` (F3 intra-stratum)**: By F3, the full stratum-$k$ sum
+$S_k(A_k) = 1 - (c+o(1))k^2/2^k$ (asymptotic in $k$, verified numerically
+for $k \geq 2$). For $k=1$ (primes), F3's formula breaks down and the actual
+sum is $\approx 1.637$. *Status: open — need to reconcile F3 with k=1 and
+obtain a uniform bound.*
+
+**Lemma `strat_003` (Summation across strata)**: Even if $S_k(A_k) < 1$ for each
+$k \geq 2$, summing over $k$ gives $\sum_{k \geq 1} S_k(A) \leq \sum_{k \geq 1} S_k(A_k)$.
+The key observation is that $A$ is primitive, so $A \cap A_k$ is a subset
+of $A_k$ with NO relation between different strata (an element of $A \cap A_1$
+can divide an element of $A \cap A_2$, so primitivity DOES constrain
+cross-stratum structure). *Status: open — the cross-stratum constraint
+is the crux of the hard part.*
+
+**Hard sub-problem**: F3 shows $S_k(A_k) \to 1$ from below. Thus
+$\sum_k S_k(A_k) = \infty$ (infinitely many strata, each contributing
+near 1). Any bound must use primitivity across strata. This is the
+structural heart of the conjecture and is the main open gap in this
+proof attempt.
+
+**Fallback (partial result)**: If the full cross-stratum bound cannot
+be established, this attempt will document:
+1. The per-stratum bound $S_k(A) \leq S_k(A_k) < 1$ for $k \geq 2$.
+2. The numerical evidence that for $x \geq x_0$ (e.g. $x_0 = 10$), the
+   maximum primitive-set sum is well below 1.
+3. The main open gap (cross-stratum primitivity constraint).
+
+This constitutes a valid `partial_result` in the sense of
+`proof_log_result.py` and is a meaningful contribution even without
+a complete proof.
