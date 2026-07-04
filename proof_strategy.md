@@ -78,11 +78,10 @@ $x_{\mathrm{floor}} \to \infty$ — see Q3 and Q4 analysis below.
   with $c \approx 0.0656 > 0$. The leading correction is *negative*, so
   the sum approaches $1$ from BELOW. Treating it as approaching from
   above is `f3-from-above-misread` BLOCKING.
-- **Open claim asserted resolved without witness**. The conjecture is open.
-  Phrases like "the conjecture is false" / "we disprove" trigger
-  `critic_openness`'s `open-claim-asserted-resolved-without-witness`
-  BLOCKING — unless a verifier-accepted `<!-- WITNESS -->` block is
-  committed and `witness_valid == 1`.
+- **Open claim asserted resolved without witness**. The conjecture is
+  currently open. Resolution-asserting language (claiming the claim is
+  settled, proved, or disproved) without a verifier-accepted WITNESS
+  block triggers `critic_openness` BLOCKING.
 
 ## Witness format (the only path to a counterexample claim)
 
