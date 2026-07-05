@@ -11,3 +11,7 @@
 {"qid":"Q3","status":"claimed","session_id":"s_0705-080628-17af","summary":"taking Q3: primes-from-2 sum ~1.636, consistency with F1","ts":"2026-07-05T08:17:44+00:00"}
 {"qid":"Q3","status":"resolved","session_id":"s_0705-080628-17af","summary":"Documented primes-from-2 sum ~1.636, F1 consistency: bound is asymptotic as x→∞","ts":"2026-07-05T08:20:06+00:00"}
 {"qid":"Q4","status":"claimed","session_id":"s_0705-080628-17af","summary":"taking Q4: witness search","ts":"2026-07-05T08:20:06+00:00"}
+{"qid":"Q4","status":"resolved","session_id":"s_0705-080628-17af","summary":"No witness at x_floor=100/1000/10000; trivial x=2 witness exists but is not a meaningful counterexample","ts":"2026-07-05T08:20:39+00:00"}
+{"qid":"Q5","status":"claimed","session_id":"s_0705-080628-17af","summary":"taking Q5: proof structure outline via stratum decomposition","ts":"2026-07-05T08:20:39+00:00"}
+{"qid":"Q5","status":"resolved","session_id":"s_0705-080628-17af","summary":"Proof structure outlined: 3 lemmas (stratum_bound, cross_stratum_constraint, primes_are_extremal); last lemma is the main gap; next step is transcribing Lichtman-Pomerance 2021","ts":"2026-07-05T08:22:29+00:00"}
+{"qid":"Q6","status":"claimed","session_id":"s_0705-080628-17af","summary":"taking Q6: write partial result and call session_end","ts":"2026-07-05T08:22:29+00:00"}

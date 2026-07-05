@@ -263,7 +263,76 @@ open question whether any non-prime primitive set can do better.
 
 ## Section 5: Proof Structure Outline (Q5)
 
-*(Planned — lemma decomposition, stratum argument.)*
+### Goal
+
+Prove: for any primitive $A \subset [x, \infty)$, $\sum_{a \in A} 1/(a \log a)
+< 1 + o(1)$ as $x \to \infty$.
+
+Equivalently (per the numerical evidence in Section 4): show the primes
+$P_x = \{p \text{ prime}: p \geq x\}$ maximize the sum over all primitive
+sets in $[x, \infty)$, i.e., $\sum_{a \in A} 1/(a \log a) \leq \sum_{p \geq x}
+1/(p \log p) \sim 1/\log x \to 0$.
+
+### Lemma decomposition
+
+Three lemmas are formalized in `proof_lemmas/`:
+
+**Lemma `stratum_bound`** (trivial, status: open for the estimate):
+Any sub-antichain $B \subset \{n \geq x : \Omega(n) = k\}$ satisfies
+$\sum_{b \in B} 1/(b \log b) \leq \sigma_k(x)$, where $\sigma_k(x) \sim
+(1 - ck^2/2^k)/\log x$ by F3.
+
+**Lemma `cross_stratum_constraint`** (proved, see lemma file):
+Primitivity forces: if $a \in A_j$, no multiple of $a$ in $[x, \infty)$
+is in $A$. This is the key non-divisibility constraint.
+
+**Lemma `primes_are_extremal`** (OPEN — the main gap):
+$\sum_{a \in A} 1/(a \log a) \leq \sum_{p \geq x} 1/(p \log p)$ for any
+primitive $A \subset [x, \infty)$.
+
+If Lemma `primes_are_extremal` is proved, the conjecture follows immediately
+since $\sum_{p \geq x} 1/(p \log p) \sim 1/\log x \to 0 < 1 + o(1)$.
+
+### What the naive stratum approach shows (and where it fails)
+
+**Attempt.** Partition $A = \bigcup_k A_k$ where $A_k = A \cap \{n : \Omega(n) = k\}$.
+By Lemma `stratum_bound`, $\sum_{a \in A_k} 1/(a \log a) \leq \sigma_k(x)$.
+Summing over $k$:
+
+$$\sum_{a \in A} \frac{1}{a \log a} \leq \sum_{k=1}^{\infty} \sigma_k(x)
+= \sum_{n \geq x} \frac{1}{n \log n} = +\infty.$$
+
+**Failure.** The naive bound is vacuous. The stratum bounds are independent
+— ignoring the cross-stratum constraint — and their sum diverges.
+
+**What is needed.** A way to use the fact that high-mass in stratum $k$
+forces low mass in stratum $k'$ for neighboring $k'$. The
+Lichtman–Pomerance approach likely does this via a multiplicative
+Rankin-type argument.
+
+### Partial result (what CAN be proved from the given facts)
+
+From F1 (Zhang 1993), the sum is bounded by $1.399 + o(1)$. This is a
+proved result, not just a conjecture. The gap between $1.399$ and the
+conjectured bound of $1$ is where the difficulty lies.
+
+From F3, each individual stratum $A_k$ (as a whole) has normalized sum
+$\to 1 - ck^2/2^k < 1$. So the "extremal" $A_k$ sets do not violate
+the conjecture.
+
+What remains open in this attempt: proving that a "mixed" primitive set
+(drawing from multiple strata) cannot beat the primes.
+
+### Suggested next steps (for future sessions)
+
+1. Read the Lichtman–Pomerance 2021 proof and transcribe the Rankin-bound
+   approach into Lemma `primes_are_extremal`.
+2. Alternatively, try an induction on the size of A: if $|A| = 1$,
+   the sum is $1/(a_1 \log a_1) \leq 1/(x \log x) < 1/\log x$.
+   For $|A| = 2$, the sum is $1/(a_1 \log a_1) + 1/(a_2 \log a_2)$
+   where $a_1 \nmid a_2$. Bound this by induction.
+3. Look for a Stieltjes-integral representation of the sum that
+   makes the primes-extremal property transparent.
 
 ---
 
