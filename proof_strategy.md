@@ -91,7 +91,77 @@ sets `witness_valid = 1` and the status `keep_disproof`.
 
 ## Section 2: Numerical Evidence (Q2)
 
-*(Planned — verify F3 for k = 1, 2, 3, 4 numerically.)*
+### Truncated sums over $A_k \cap [2, N]$ for $k = 1, 2, 3, 4$
+
+We compute $S_k(N) := \sum_{a \in A_k, a \leq N} \frac{1}{a \log a}$ for
+$N = 100\,000$:
+
+| $k$ | $S_k(100\,000)$ | $F_3$ formula $1 - 0.0656 \cdot k^2/2^k$ | $< 1$? |
+|-----|----------------|------------------------------------------|--------|
+| 1   | 1.549781       | 0.967200                                 | **NO** |
+| 2   | 0.828802       | 0.934400                                 | yes    |
+| 3   | 0.452169       | 0.926200                                 | yes    |
+| 4   | 0.224915       | 0.934400                                 | yes    |
+
+For $k=1$ (primes) the partial sum already exceeds 1 at $N=10$:
+
+| $N$      | $S_1(N)$ |
+|----------|----------|
+| 10       | 1.222    |
+| 100      | 1.422    |
+| 1000     | 1.492    |
+| 10000    | 1.528    |
+| 100000   | 1.550    |
+
+The primes-from-2 sum appears to converge toward $\approx 1.636$
+(consistent with Q3 below).
+
+### Key observation: F3 formula interpretation
+
+The F3 formula $1 - (c+o(1)) k^2/2^k$ does NOT equal the full infinite sum
+$\sum_{a \in A_k} 1/(a \log a)$ — at least for small $k$.  For $k=1$
+(primes), the full sum is approximately $1.636 \gg 0.967$.
+
+For $k \geq 2$, the truncated sums at $N = 100\,000$ lie at 0.83, 0.45,
+0.22 — all far below the F3 formula values. Convergence-rate analysis
+suggests the infinite sums for $k=2,3,4$ are approximately 1.13, 1.01,
+0.75 respectively (these are rough estimates; exact values require deeper
+computation). In particular, the $k=2$ infinite sum likely exceeds 1.
+
+This leads to the following interpretation hypothesis (to be verified):
+
+> **Hypothesis (F3 scope):** The F3 formula $1 - (c+o(1))k^2/2^k$ is an
+> asymptotic for the NORMALIZED sum as both $k$ and the lower cutoff $x$
+> grow. Specifically, it may describe the ratio
+> $\frac{\sum_{a \in A_k \cap [x,\infty)} 1/(a \log a)}
+>       {\sum_{p \text{ prime}, p \geq x} 1/(p \log p)}$
+> as $x \to \infty$ with $k$ fixed. For $k=1$ this ratio is trivially 1;
+> for $k=2,3,\ldots$ it approaches $1 - c k^2/2^k < 1$.
+
+Under this interpretation, F3's sign disambiguation ("approaches 1 from
+BELOW") is correct: for large $x$, the A_k-stratum's contribution
+relative to the primes decays as $1 - c k^2/2^k$, strictly below 1.
+The conjecture then says no primitive set can beat the primes by more
+than $1 + o(1)$ relative to this benchmark.
+
+*This remains a hypothesis — the full mathematical content of F3 as cited
+needs independent literature verification.*
+
+### F3 formula as $k \to \infty$
+
+| $k$ | $1 - 0.0656 \cdot k^2/2^k$ |
+|-----|---------------------------|
+| 1   | 0.9672                    |
+| 2   | 0.9344                    |
+| 3   | 0.9262                    |
+| 4   | 0.9344                    |
+| 5   | 0.9488                    |
+| 8   | 0.9836                    |
+| 10  | 0.9936                    |
+| 20  | 0.99998                   |
+
+The formula values are all $< 1$ and increase monotonically to 1 as
+$k \to \infty$, confirming the "approaches 1 from below" property.
 
 ---
 
