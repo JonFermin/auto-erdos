@@ -9,3 +9,5 @@
 {"qid":"Q2","status":"claimed","session_id":"s_0705-080628-17af","summary":"taking Q2: numerical verification of F3 for k=1,2,3,4","ts":"2026-07-05T08:10:14+00:00"}
 {"qid":"Q2","status":"resolved","session_id":"s_0705-080628-17af","summary":"Numerical evidence for F3 documented: k=2,3,4 sums < 1; k=1 (primes) sum ~1.55 at N=100k (>1); F3 scope hypothesis stated","ts":"2026-07-05T08:17:44+00:00"}
 {"qid":"Q3","status":"claimed","session_id":"s_0705-080628-17af","summary":"taking Q3: primes-from-2 sum ~1.636, consistency with F1","ts":"2026-07-05T08:17:44+00:00"}
+{"qid":"Q3","status":"resolved","session_id":"s_0705-080628-17af","summary":"Documented primes-from-2 sum ~1.636, F1 consistency: bound is asymptotic as x→∞","ts":"2026-07-05T08:20:06+00:00"}
+{"qid":"Q4","status":"claimed","session_id":"s_0705-080628-17af","summary":"taking Q4: witness search","ts":"2026-07-05T08:20:06+00:00"}

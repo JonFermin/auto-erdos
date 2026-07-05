@@ -1,1 +1,5 @@
 {"event":"session_open","session_id":"s_0625-080256-b092","ts":"2026-06-25T08:02:56+00:00","commit":"35394e3","proof_tag":"primitive_set_erdos","stashed_ref":null,"detected_orphan":null,"released_orphan_qids":[]}
+{"event":"session_abandoned","session_id":"s_0625-080256-b092","ts":"2026-07-05T08:06:28+00:00","detected_by":"s_0705-080628-17af","reason":"no session_close found in journal \u2014 assumed crashed/interrupted"}
+{"event":"session_open","session_id":"s_0705-080628-17af","ts":"2026-07-05T08:06:28+00:00","commit":"4ffddcb","proof_tag":"primitive_set_erdos","stashed_ref":null,"detected_orphan":"s_0625-080256-b092","released_orphan_qids":[]}
+{"event":"round","session_id":"s_0705-080628-17af","round_n":1,"ts":"2026-07-05T08:15:02+00:00","summary":"Section 1 Setup: claim, F1/F2/F3 with sign disambiguations, witness contract","qid":"Q1","status":"keep_progress","commit":"2f10391"}
+{"event":"round","session_id":"s_0705-080628-17af","round_n":2,"ts":"2026-07-05T08:18:05+00:00","summary":"Numerical F3 evidence, F3 scope hypothesis","qid":"Q2","status":"keep_progress","commit":"2588b47"}
