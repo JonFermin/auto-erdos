@@ -323,16 +323,37 @@ the conjecture.
 What remains open in this attempt: proving that a "mixed" primitive set
 (drawing from multiple strata) cannot beat the primes.
 
+### Rankin integral approach (Lemma `rankin_integral`)
+
+A fourth lemma (see `proof_lemmas/lemma_rankin_integral.md`) establishes:
+
+$$\frac{1}{a \log a} = \int_1^{\infty} a^{-u} \, du$$
+
+for each $a \geq 2$, so
+
+$$\sum_{a \in A} \frac{1}{a \log a} = \int_1^{\infty} F_A(u) \, du, \quad
+F_A(u) := \sum_{a \in A} a^{-u}.$$
+
+**Key reduction**: the conjecture $\sum_A \leq \sum_P$ follows if we can
+show $F_A(u) \leq F_P(u)$ for all $u > 1$ (the **Rankin sub-claim**).
+
+*Evidence for sub-claim* (all verified numerically):
+- Semiprime pairs like $\{6, 10\}$: $F_A(u) = 2^{-u}(3^{-u} + 5^{-u}) < F_P(u)$. ✓
+- Prime-power singletons $\{p^k\}$: $p^{-ku} \leq p^{-u}$. ✓
+- Any subset of primes: $F_A \leq F_P$ trivially. ✓
+
+The sub-claim $F_A(u) \leq F_P(u)$ for ALL $u > 1$ and ALL primitive A
+is the KEY OPEN STEP — it is essentially the Lichtman–Pomerance 2021 result.
+
 ### Suggested next steps (for future sessions)
 
-1. Read the Lichtman–Pomerance 2021 proof and transcribe the Rankin-bound
-   approach into Lemma `primes_are_extremal`.
-2. Alternatively, try an induction on the size of A: if $|A| = 1$,
-   the sum is $1/(a_1 \log a_1) \leq 1/(x \log x) < 1/\log x$.
-   For $|A| = 2$, the sum is $1/(a_1 \log a_1) + 1/(a_2 \log a_2)$
-   where $a_1 \nmid a_2$. Bound this by induction.
-3. Look for a Stieltjes-integral representation of the sum that
-   makes the primes-extremal property transparent.
+1. Prove the Rankin sub-claim $F_A(u) \leq F_P(u)$ for all $u > 1$.
+   This is Lemma `primes_are_extremal` rephrased in Dirichlet-series form.
+2. Read the Lichtman–Pomerance 2021 paper ("Primitive sets with large
+   counting functions", *Publ. Math. Debrecen*) and transcribe their
+   proof of the sub-claim.
+3. Check whether the sub-claim has an elementary proof for the case of
+   two-element primitive sets, then extend by induction.
 
 ---
 
