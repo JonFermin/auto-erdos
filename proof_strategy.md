@@ -47,13 +47,13 @@ rigorously verified to exceed `witness_threshold` by
 embed exactly one block of the form:
 
 ```
-<!-- WITNESS
+[WITNESS-FORMAT]
 {
-  "x_floor": 100,
-  "elements": [101, 103, 107, 109, ...],
-  "claimed_sum_lower_bound": 1.005
+  "x_floor": <int>,
+  "elements": [<ints, pairwise non-divisible, each >= x_floor>],
+  "claimed_sum_lower_bound": <float>
 }
-WITNESS -->
+[/WITNESS-FORMAT]
 ```
 
 at the bottom of this file. `proof_prepare.py` parses the JSON, runs the
