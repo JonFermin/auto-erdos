@@ -1,1 +1,2 @@
 {"event":"session_open","session_id":"s_0625-080256-b092","ts":"2026-06-25T08:02:56+00:00","commit":"35394e3","proof_tag":"primitive_set_erdos","stashed_ref":null,"detected_orphan":null,"released_orphan_qids":[]}
+{"event":"session_close","session_id":"s_0706-080610-414e","ts":"2026-07-06T08:26:12+00:00","commit":"9f56cce","reason":"reason: counterexample proven (exit 7) \u2014 witness {2..47} x_floor=2 rigorous sum 1.388 > 1.0"}
