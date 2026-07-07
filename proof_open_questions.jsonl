@@ -7,3 +7,8 @@
 {"qid":"Q2","status":"claimed","session_id":"s_0706-080610-414e","summary":"taking Q2: numerical verification of F3","ts":"2026-07-06T08:16:48+00:00"}
 {"qid":"Q3","status":"claimed","session_id":"s_0706-080610-414e","summary":"taking Q3: prime sum computation","ts":"2026-07-06T08:16:48+00:00"}
 {"qid":"Q4","status":"claimed","session_id":"s_0706-080610-414e","summary":"taking Q4: witness search","ts":"2026-07-06T08:16:48+00:00"}
+{"qid":"Q1","status":"resolved","session_id":"s_0707-080723-d82e","summary":"Setup documented in Section 1 of proof_strategy.md — claim, given facts, witness contract","ts":"2026-07-07T08:13:46Z"}
+{"qid":"Q2","status":"resolved","session_id":"s_0707-080723-d82e","summary":"F3 verified numerically for k=1,2,3,4 in Section 2; k=1 (primes) exceeds 1 since F3 asymptotic only valid for large k","ts":"2026-07-07T08:13:46Z"}
+{"qid":"Q3","status":"resolved","session_id":"s_0707-080723-d82e","summary":"Prime sum from 2 ≈ 1.637 in Section 3; consistent with F1 since o(1) is large at small x","ts":"2026-07-07T08:13:46Z"}
+{"qid":"Q4","status":"resolved","session_id":"s_0707-080723-d82e","summary":"Witness at x_floor=2 (15 primes, sum 1.388>1) verified but not a genuine counterexample — o(1) caveat applies. Large-x witnesses impossible: prime sum at x=100 < 0.22","ts":"2026-07-07T08:13:46Z"}
+{"qid":"Q5","status":"claimed","session_id":"s_0707-080723-d82e","summary":"taking Q5: proof structure via Omega stratification and prime-extremality lemma","ts":"2026-07-07T08:13:46Z"}

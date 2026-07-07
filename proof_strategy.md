@@ -197,12 +197,72 @@ with sum $\approx 1.388$ shows the threshold can be exceeded at small $x$, but d
 verifier's job is to certify "sum $> 1.0$ rigorously"; the critic then assesses
 whether the $o(1)$ gap at this $x$ is too large to call it a genuine counterexample.
 
-**Witness candidate submitted for verification** (first 15 primes, $x_\text{floor} = 2$):
+**Prior witness (session s_0706-080610-414e, NOT resubmitted):** first 15 primes,
+$x_\text{floor} = 2$, rigorous sum 1.388. Record committed at
+`records/proof_primitive_set_erdos_20625349742b_addc6d5.json`.
+This is NOT a genuine counterexample — see $o(1)$ caveat above and Section 5.
 
-<!-- WITNESS
-{
-  "x_floor": 2,
-  "elements": [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47],
-  "claimed_sum_lower_bound": 1.385
-}
-WITNESS -->
+---
+
+## Section 5: Proof structure — Omega stratification (Q5)
+
+### Strategy
+
+The conjecture asserts: for any primitive set $A \subseteq [x, \infty)$,
+$$\sum_{a \in A} \frac{1}{a \log a} \;\leq\; \sum_{\substack{p \text{ prime} \\ p \geq x}} \frac{1}{p \log p} = \frac{1 + o(1)}{\log x} \;\to\; 0 \text{ as } x \to \infty.$$
+
+This is the sharp form proved by **Lichtman–Pomerance (2021)**. The $1 + o(1)$ bound
+in the claim follows since $\sum_{p \geq x} 1/(p \log p) < 1$ for all $x \geq 3$.
+
+The proof structure uses three lemmas:
+
+### Lemma 1 — Stratum bound (proved; `proof_lemmas/lemma_001_stratum_bound.md`)
+
+For each $k \geq 1$, define $B_k = A \cap \{n \geq x : \Omega(n) = k\}$. Since $A$
+is primitive, $B_k$ is primitive. By inclusion:
+$$\sum_{b \in B_k} \frac{1}{b \log b} \;\leq\; \sum_{\substack{n \geq x \\ \Omega(n) = k}} \frac{1}{n \log n} =: S_k(x).$$
+
+The cross-stratum constraint is automatic: if $a \in B_k$ and $b \in B_j$ with
+$k < j$, then $a \nmid b$ is guaranteed by $\Omega(a) < \Omega(b)$ and multiplicativity.
+
+### Lemma 2 — Prime sum asymptotics (proved; `proof_lemmas/lemma_003_prime_sum_asymptotics.md`)
+
+$$\sum_{\substack{p \text{ prime} \\ p \geq x}} \frac{1}{p \log p} = \frac{1 + o(1)}{\log x} \xrightarrow{x \to \infty} 0.$$
+
+For $x \geq 3$: this sum is $< 1$ (verified numerically in Section 3 — primes from 3
+give $\approx 0.916$). This means any primitive $A \subseteq [x, \infty)$ for $x \geq 3$
+satisfying the prime-extremality bound automatically satisfies the conjecture's $< 1$
+threshold.
+
+### Lemma 3 — Prime extremality (open; `proof_lemmas/lemma_002_prime_extremality.md`)
+
+For any primitive set $A \subseteq [x, \infty)$:
+$$\sum_{a \in A} \frac{1}{a \log a} \;\leq\; \sum_{\substack{p \text{ prime} \\ p \geq x}} \frac{1}{p \log p}.$$
+
+This is the hard core. The Lichtman–Pomerance proof uses:
+1. For each prime $p \geq x$, the elements of $A$ with smallest prime factor $p$ form
+   a primitive set in $\{n \geq x : p(n) = p\}$.
+2. A sieve-comparison (Beurling-style) showing the contribution of those elements
+   is $\leq 1/(p \log p)$.
+3. Summing over $p$ yields the full bound.
+
+Step 2 is not reproduced here. **This lemma remains open in this proof attempt**
+(it requires the full Lichtman–Pomerance sieve argument, which is beyond the
+scope of this loop).
+
+### What this rules out
+
+- Any primitive set A ⊆ [x, ∞) with sum > ∑_{p≥x} 1/(p log p) would violate
+  Lemma 3. Numerics (Section 4) confirm no such set was found at x=100 or x=1000.
+- At x_floor=2, the witness sum 1.388 < 1.637 (all primes from 2), consistent
+  with Lemma 3 being true.
+- The x_floor=2 witness does NOT disprove the conjecture: both sides of the
+  Lemma 3 inequality are ≥ 1 at x=2 (prime sum ≈ 1.637), so no contradiction.
+
+### Easy vs hard
+
+| Lemma | Difficulty | Status |
+|-------|-----------|--------|
+| 1 (stratum bound) | Easy — trivial by inclusion | proved |
+| 2 (prime sum asymptotics) | Easy — standard PNT | proved |
+| 3 (prime extremality) | Hard — sieve argument | open |
