@@ -1,2 +1,5 @@
 {"event":"session_open","session_id":"s_0625-080256-b092","ts":"2026-06-25T08:02:56+00:00","commit":"35394e3","proof_tag":"primitive_set_erdos","stashed_ref":null,"detected_orphan":null,"released_orphan_qids":[]}
 {"event":"session_close","session_id":"s_0706-080610-414e","ts":"2026-07-06T08:26:12+00:00","commit":"9f56cce","reason":"reason: counterexample proven (exit 7) \u2014 witness {2..47} x_floor=2 rigorous sum 1.388 > 1.0"}
+{"event":"session_abandoned","session_id":"s_0625-080256-b092","ts":"2026-07-07T08:07:23+00:00","detected_by":"s_0707-080723-d82e","reason":"no session_close found in journal \u2014 assumed crashed/interrupted"}
+{"event":"session_open","session_id":"s_0707-080723-d82e","ts":"2026-07-07T08:07:23+00:00","commit":"c92732b","proof_tag":"primitive_set_erdos","stashed_ref":null,"detected_orphan":"s_0625-080256-b092","released_orphan_qids":[]}
+{"event":"session_close","session_id":"s_0707-080723-d82e","ts":"2026-07-07T08:18:01+00:00","commit":"25b5fac","reason":"reason: converged on partial result \u2014 Lemma 2 (prime extremality) is the one remaining gap; Lichtman-Pomerance 2021 closes it"}

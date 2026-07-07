@@ -1,24 +1,34 @@
-# Session handoff (session s_0706-080610-414e)
+# Session handoff (session s_0707-080723-d82e)
 
-**Stop reason**: exit 7 — counterexample_proven returned by proof_log_result.py
+**Stop reason**: converged on partial result
 
-**Outcome**: keep_disproof. Record filed at records/proof_primitive_set_erdos_20625349742b_addc6d5.json
+**Outcome**: Two keep_progress rounds. Partial-result records committed at:
+- records/proof_primitive_set_erdos_8aeb49b4478d_3bd437a.json (Round 1 — Q5 proof structure)
+- records/proof_primitive_set_erdos_d79729d2574b_03bc16a.json (Round 2 — Q6 partial result)
 
-**Witness**: finite primitive set {2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47} (first 15 primes) with x_floor=2. Rigorous lower bound on Σ 1/(a log a) = 1.388243 > witness_threshold 1.0. Verified via library.primitive_set_witness.verify_witness with Decimal-precision ULP-bumped logs.
+**What was proved**:
+- Lemma 1 (stratum bound): trivial by inclusion — proved
+- Lemma 3 (prime sum asymptotics): PNT-based estimate — proved
+- Q1-Q4 resolved (setup, numerics, prime sum, witness search)
 
-**CRITICAL o(1) caveat**: The conjecture says sum ≤ 1 + o(1) as x → ∞. At x_floor=2, the o(1) term is NOT required to be small. The witness at x_floor=2 shows sum CAN exceed 1.0 for small x, but does not prove the conjecture is false (the conjecture's bound tightens as x grows). A human reviewer MUST assess whether the o(1) at x=2 is small enough to call this a genuine counterexample.
+**What remains open (the hard gap)**:
+- Lemma 2 (prime extremality): for any primitive A ⊆ [x,∞), ∑ 1/(a log a) ≤ ∑_{p≥x} 1/(p log p)
+  This requires the Lichtman-Pomerance (2021) sieve-comparison argument.
+  No simple proof was found in the loop.
 
-**Critics**: 4 blocking critics in this round — but all were LLM API failures ("critic_unavailable: ledger"), not substantive mathematical objections. The witness verification itself is deterministic and was independently confirmed.
+**Key findings**:
+- The x_floor=2 "counterexample" (sum 1.388 > 1.0) is NOT a genuine counterexample.
+  The conjecture's o(1) term at x=2 is large (~0.637), so sum=1.388 < 1+o(1)=1.637.
+- For x_floor ≥ 3: prime sum < 1, so any primitive A from x has sum < 1 < 1+o(1).
+  No witness possible at large x.
+- The conjecture is almost certainly TRUE (proved by Lichtman-Pomerance 2021).
 
 **For human review**:
-1. Re-run library.primitive_set_witness.verify_witness on the record's witness_payload
-2. Check the o(1) gap: at x=2, what is the conjectured bound 1+o(1)? Is 1.388 within the allowed range?
-3. This is NOT a confirmed counterexample — just a certified witness exceeding threshold=1.0
-
-**Files modified this session**:
-- proof_strategy.md (setup, numerical evidence Q2/Q3, witness Q4)
-- proof_open_questions.jsonl (claimed Q1–Q4)
+- The keep_disproof record from 0706 session (x_floor=2, sum=1.388) is a FALSE ALARM.
+  The o(1) at x=2 is ~0.637, not small — not a genuine counterexample.
+- The two partial-result records from this session summarize the proof structure.
 
 **Next session** (if continuing):
-- Q5: proof structure/stratification (may be moot given keep_disproof)
-- Pursue large x_floor witnesses (x_floor=100, 1000) to find a more convincing counterexample
+- The only remaining work is formalizing Lemma 2 (prime extremality).
+- This would require implementing the Lichtman-Pomerance Dirichlet series comparison.
+- Alternatively, declare the proof attempt complete as a partial result.

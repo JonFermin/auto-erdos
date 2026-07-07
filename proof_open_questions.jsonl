@@ -14,3 +14,4 @@
 {"qid":"Q5","status":"claimed","session_id":"s_0707-080723-d82e","summary":"taking Q5: proof structure via Omega stratification and prime-extremality lemma","ts":"2026-07-07T08:13:46Z"}
 {"qid":"Q5","status":"resolved","session_id":"s_0707-080723-d82e","summary":"Proof structure written in Section 5: Lemma 1 (stratum bound, proved), Lemma 2 (prime extremality, open), Lemma 3 (prime sum asymptotics, proved). Hard gap = Lemma 2.","ts":"2026-07-07T08:20:00Z"}
 {"qid":"Q6","status":"claimed","session_id":"s_0707-080723-d82e","summary":"taking Q6: write partial result and converge","ts":"2026-07-07T08:20:00Z"}
+{"qid":"Q6","status":"resolved","session_id":"s_0707-080723-d82e","summary":"Partial result written in Section 6: Lemma 2 (prime extremality) is the one hard gap; conjecture ruled out as having easy counterexample; Lichtman-Pomerance proof cited","ts":"2026-07-07T08:23:00Z"}
