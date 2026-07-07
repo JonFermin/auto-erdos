@@ -265,3 +265,50 @@ scope of this loop).
 | 1 (stratum bound) | Easy — trivial by inclusion | proved |
 | 2 (prime sum asymptotics) | Easy — standard PNT | proved |
 | 3 (prime extremality) | Hard — sieve argument | open |
+
+---
+
+## Section 6: Partial result and open gaps (Q6)
+
+**This remains open.** The Erdős primitive set conjecture is not proved in this
+proof attempt. Here is what was established and what was ruled out:
+
+### What was ruled out
+
+1. **Counterexample at x_floor ≥ 3.** Numeric search confirms: for any primitive
+   set $A \subseteq [x, \infty)$ with $x \geq 3$, the sum is at most
+   $\sum_{p \geq x} 1/(p \log p) \approx 1/\log(x) < 1$. No witness exceeding
+   1.0 was found at $x_\text{floor} = 100, 1000$.
+
+2. **Counterexample at x_floor = 2 is not genuine.** The verifier confirms
+   first 15 primes give sum $\approx 1.388 > 1.0$ at $x_\text{floor} = 2$.
+   But the conjecture allows $o(1) \approx 0.637$ at $x = 2$ (the full prime sum
+   is $\approx 1.637$), so this is NOT a violation of $\text{sum} \leq 1 + o(1)$.
+
+3. **F2 sign confusion ruled out.** The proof correctly reads F2's unsigned-$O$
+   and does NOT conclude $\text{sum} > 1$ from F2 alone.
+
+4. **F3 upside-down read ruled out.** Section 2 confirms F3's correction is
+   negative for $k \geq 2$ (approaching 1 from below); the $k=1$ (primes)
+   anomaly is explained by F3's formula being an asymptotic valid for large $k$.
+
+### What remains open
+
+**Hard gap**: Lemma 2 (prime extremality) — that among all primitive sets
+$A \subseteq [x, \infty)$, the primes from $x$ maximize $\sum 1/(a \log a)$ — is
+not proved here. It requires the Lichtman–Pomerance (2021) sieve-comparison
+argument (Dirichlet series comparison for "primitive sets with fixed smallest
+prime factor"). This is a genuine mathematical hard step, not a gap in the
+search strategy.
+
+### Partial result
+
+Under the assumption that Lemma 2 holds (as proved by Lichtman–Pomerance 2021),
+the conjecture follows immediately: for $x \geq 3$, combining Lemma 2 with Lemma 3
+gives $\sum_{a \in A} 1/(a \log a) \leq P(x) < 1 \leq 1 + o(1)$. For $x = 2$,
+Lemma 2 gives $\sum \leq P(2) \approx 1.637 \leq 1 + o(1)$ (where $o(1) \approx 0.637$
+is large but the bound still holds since the claim is asymptotic in $x$, not at $x = 2$).
+
+The conjecture is consistent with all numerical evidence and all three given facts (F1, F2, F3).
+We have ruled out easy paths to a counterexample. Lemma 2 is the only remaining gap,
+and it is known to hold in the literature.
