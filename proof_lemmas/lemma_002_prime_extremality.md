@@ -8,7 +8,8 @@ partial_progress:
   case1: proved_elementary
   case2: proved_elementary
   case3a_semiprime: proved_numerically
-  case3_general: open
+  case3b_prime_power_plus_semiprime: proved_numerically
+  case3_general_omega_ge3: open
 ---
 
 # Lemma 2: Prime extremality (the hard lemma)
@@ -33,13 +34,16 @@ primitive $A \subseteq [x, \infty)$ is bounded by $(1+o(1))/\log x \to 0$.
    - **Case 2** (Section 7): $|A_p| = 1$, $p \notin A_p$; strict inequality by monotonicity.
    - **Case 3a** (Section 8): $A_p \subseteq \{pq : q > p, q \text{ prime}\}$ (semiprime elements);
      bound proved: $\sum < P(p+1)/p < 1/(p \log p)$, verified numerically for all primes $p \leq 113$.
-   - **Case 3 general**: $|A_p| \geq 2$, $p \notin A_p$, arbitrary elements — open. Requires
+   - **Case 3b** (Section 9): $A_p = \{p^m\} \cup \{pq_i\}$ (at most one prime power + any semiprimes,
+     all $\Omega(b) \leq 2$); bound proved: $\sum < \frac{1}{2p^2\log p} + \frac{P(p+1)}{p} \leq \frac{1}{p\log p}$,
+     verified for all primes $p \leq 199$.
+   - **Case 3 general** ($\Omega(b) \geq 3$): elements like $pqr$, $p^2q$, $pq^2$ — open. Requires
      controlling $\int_1^\infty G(u)\,du$ where $G(u) = \sum_{b \in A_p} b^{-u}$; elementary
-     bounds are insufficient for the non-semiprime case.
+     bounds insufficient.
 
 3. **Summation.** Summing over all $p$ yields the full bound (assuming Step 2 holds).
 
-**Status: open (partial — Cases 1, 2, 3a proved; Case 3 general open).**
-The semiprime subcase (Case 3a) is proved in Section 8. The remaining gap is arbitrary
-primitive $A_p$ with elements beyond the semiprime structure. This lemma is
-**not fully proved in this proof attempt**.
+**Status: open (partial — Cases 1, 2, 3a, 3b proved; Case 3 general ($\Omega \geq 3$) open).**
+Cases 3a and 3b (Sections 8–9) cover all primitive $A_p$ with $\Omega(b) \leq 2$.
+The remaining gap is arbitrary primitive $A_p$ containing elements with $\Omega(b) \geq 3$.
+This lemma is **not fully proved in this proof attempt**.

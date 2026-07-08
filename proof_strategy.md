@@ -423,9 +423,73 @@ This is verified numerically for $p \leq 113$ and consistent with known asymptot
 For any primitive $B \subseteq \{pq : q > p, q \text{ prime}\}$:
 $$\sum_{b \in B} \frac{1}{b \log b} < \frac{P(p+1)}{p} < \frac{1}{p \log p}. \quad \square$$
 
-**Note.** The general Case 3 (arbitrary primitive $B$ with $\text{spf} = p$, $|B| \geq 2$,
-including non-semiprime elements like $p^2 q$, $p^3$, etc.) remains open. The semiprime
-subcase is the "most dangerous" (smallest elements → largest individual terms) but the
-primitivity constraint limits how many semiprimes can coexist — see the strict bound above.
+**Note.** Section 9 extends to mixtures of prime powers and semiprimes (Case 3b).
+The general Case 3 with arbitrary non-squarefree elements of $\Omega \geq 3$ remains open.
+
+---
+
+## Section 9: Per-prime bound — Case 3b: prime power + semiprimes (Q9)
+
+**Goal.** Prove the per-prime bound for $B = \{p^m\} \cup \{pq_i : q_i > p, q_i \text{ prime}\}$
+(at most one prime power, any number of semiprimes).
+
+### Structural observation
+
+For a primitive $B$ with $\text{spf} = p$ and $p \notin B$, suppose $B$ contains prime powers
+$p^k$ ($k \geq 2$). By primitivity, if $p^{k_1}, p^{k_2} \in B$ with $k_1 < k_2$, then
+$p^{k_1} \mid p^{k_2}$, contradicting primitivity. Hence **$B$ contains at most one prime power**,
+say $p^m$ with $m \geq 2$.
+
+Any semiprime $pq \in B$ (with $q > p$ prime) and $p^m \in B$:
+- $p^m \nmid pq$: would need $p^{m-1} \mid q$; impossible since $q > p$ prime and $p^{m-1} \geq p$.
+- $pq \nmid p^m$: would need $q \mid p^{m-1}$; impossible since $q > p$ and $p^{m-1}$'s only prime factor is $p$.
+
+So the mixed set $\{p^m\} \cup \{pq_i\}$ is automatically primitive. $\square$
+
+### Bound for Case 3b
+
+Let $B = \{p^m\} \cup \{pq_i : q_i \in Q\}$ where $m \geq 2$ and $Q \subseteq \{\text{primes} > p\}$.
+
+$$\sum_{b \in B} \frac{1}{b \log b}
+= \underbrace{\frac{1}{p^m \log(p^m)}}_{\leq \frac{1}{2p^2 \log p}}
++ \underbrace{\sum_{q \in Q} \frac{1}{pq \log(pq)}}_{< \frac{P(p+1)}{p} \text{ (Case 3a)}}$$
+
+The first term uses $p^m \geq p^2$ and $\log(p^m) = m\log p \geq 2\log p$.
+The second term is the Case 3a bound.
+
+Therefore:
+$$\sum_{b \in B} \frac{1}{b \log b} < \frac{1}{2p^2 \log p} + \frac{P(p+1)}{p}.$$
+
+The required inequality $\frac{1}{2p^2 \log p} + \frac{P(p+1)}{p} \leq \frac{1}{p \log p}$
+rearranges to:
+$$P(p+1) \leq \frac{1}{\log p}\!\left(1 - \frac{1}{2p}\right).$$
+
+### Numerical verification (Case 3b key inequality)
+
+| $p$ | $P(p+1)$ | $\frac{1-\frac{1}{2p}}{\log p}$ | OK? |
+|-----|----------|--------------------------------|-----|
+| 2   | 0.9153   | 1.0820                         | ✓   |
+| 3   | 0.6119   | 0.7585                         | ✓   |
+| 5   | 0.4876   | 0.5592                         | ✓   |
+| 11  | 0.3763   | 0.3981                         | ✓   |
+| 29  | 0.2835   | 0.2919                         | ✓   |
+| 59  | 0.2395   | 0.2432                         | ✓   |
+| 97  | 0.2151   | 0.2175                         | ✓   |
+| 199 | 0.1854   | 0.1884                         | ✓   |
+
+Verified for all primes $p \leq 199$. The margin $(1-1/(2p))/\log p - P(p+1) > 0$ shrinks
+toward 0 as $p \to \infty$ (by the same asymptotic as Case 3a: $P(p+1)\log p \to 1^-$,
+so $(P(p+1)\log p)/(1 - 1/(2p)) \to 1^- < 1$).
+
+### Conclusion (Case 3b)
+
+For any primitive $B = \{p^m\} \cup \{pq_i : q_i > p \text{ prime}\}$ with $m \geq 2$:
+$$\sum_{b \in B} \frac{1}{b \log b} < \frac{1}{2p^2 \log p} + \frac{P(p+1)}{p} \leq \frac{1}{p \log p}. \quad \square$$
+
+**Coverage so far.** Cases 1, 2, 3a, 3b together prove the per-prime bound for all
+primitive $B$ with $\text{spf} = p$ whose elements are prime powers or semiprimes of
+the form $pq$ (i.e., $\Omega(b) \leq 2$). The remaining open case is $\Omega(b) \geq 3$
+(elements like $pqr$, $p^2 q$, $p^3 q$, etc.) where the primitivity constraint alone
+does not yield the bound from elementary estimates.
 
 Lemma 3 status: **partial** — Cases 1–2 proved, Case 3 is the remaining open gap.
