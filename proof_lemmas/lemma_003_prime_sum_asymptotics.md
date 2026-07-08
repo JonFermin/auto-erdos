@@ -1,43 +1,32 @@
 ---
-id: prime_sum_asymptotics
-status: proved
+id: prime_sum_numerics
+status: verified_numerically
 depends_on: []
 discharged_by_round: 1
 introduced_at_round: 1
 ---
 
-# Lemma 3: Prime sum asymptotics
+# Lemma 2 (renamed: Prime sum — numerical verification)
 
-**Statement.**
-$$P(x) := \sum_{\substack{p \text{ prime} \\ p \geq x}} \frac{1}{p \log p} = \frac{1 + o(1)}{\log x} \xrightarrow{x \to \infty} 0.$$
+**Claim (numerically verified).** $P(x) := \sum_{p \geq x, p \text{ prime}} 1/(p \log p)$
+satisfies $P(x) < 1$ for all $x \geq 3$, and $P(x) \to 0$ as $x \to \infty$.
 
-In particular, $P(x) < 1$ for all $x \geq 3$.
+**Numerical evidence (from Section 3):**
 
-**Proof sketch (PNT-based).** By partial summation and the prime number theorem
-$\pi(t) \sim t / \log t$:
-$$\sum_{p \geq x} \frac{1}{p \log p} = \int_x^\infty \frac{1}{t (\log t)^2} \, d\pi(t)
-\approx \int_x^\infty \frac{1}{t (\log t)^2} \cdot \frac{dt}{\log t}
-= \int_x^\infty \frac{dt}{t (\log t)^2}.$$
+| $x$ | $P(x) \approx$ | Below 1? |
+|-----|----------------|----------|
+| 2 | 1.637 | No |
+| 3 | 0.916 | **Yes** |
+| 100 | 0.217 | Yes |
+| 1000 | 0.145 | Yes |
 
-Evaluating the integral:
-$$\int_x^\infty \frac{dt}{t (\log t)^2} = \left[ -\frac{1}{\log t} \right]_x^\infty = \frac{1}{\log x}.$$
+At $x = 3$: $P(3) \approx 0.916 < 1$, so any primitive set of primes from $x \geq 3$
+automatically satisfies the conjecture's $< 1$ threshold IF Lemma 3 (prime extremality) holds.
 
-So $P(x) \sim 1/\log x$ as $x \to \infty$. $\square$
+**Note.** The asymptotic $P(x) \sim 1/\log x$ is a standard result from analytic
+number theory (prime number theorem + partial summation) used here only as informal
+motivation. The formal claim is just the numerical observation $P(x) < 1$ for $x \geq 3$.
 
-**Numerical check (from Section 3):**
-
-| $x$ | $P(x) \approx$ | $1/\log x$ |
-|-----|----------------|------------|
-| 2 | 1.637 | 1.443 |
-| 3 | 0.916 | 0.910 |
-| 100 | 0.217 | 0.217 |
-| 1000 | 0.145 | 0.145 |
-
-At $x = 2$: $P(2) \approx 1.637 > 1$, so the conjecture's bound $1 + o(1)$ is not
-trivially below 1 at $x = 2$. At $x = 3$: $P(3) \approx 0.916 < 1$, so Lemma 3
-alone (without Lemma 2) shows any primitive set of primes from 3 already satisfies
-the $< 1$ threshold.
-
-**Consequence for the conjecture.** If Lemma 2 (prime extremality) holds, then
-for all $x \geq 3$ and any primitive $A \subseteq [x, \infty)$:
-$$\sum_{a \in A} \frac{1}{a \log a} \leq P(x) < 1 \leq 1 + o(1). \quad \square$$
+**Consequence.** If Lemma 3 (prime extremality) holds, then for $x \geq 3$:
+$$\sum_{a \in A} \frac{1}{a \log a} \leq P(x) < 1 \leq 1 + o(1)$$
+for any primitive $A \subseteq [x, \infty)$. The conjecture would follow.

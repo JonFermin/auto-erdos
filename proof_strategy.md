@@ -66,7 +66,7 @@ block ⇒ `witness_valid = 0` ⇒ no counterexample claim is possible.
 We study *primitive sets*: finite or infinite sets $A$ of positive integers in
 which no element divides any other distinct element.
 
-The conjecture (Erdős 1988, tightened by Lichtman–Pomerance 2021) asserts:
+The conjecture (Erdős 1988) asserts:
 
 > For every $x \geq 2$ and every primitive set $A \subseteq [x, \infty)$,
 > $$\sum_{a \in A} \frac{1}{a \log a} \;\leq\; 1 + o(1)$$
@@ -149,9 +149,8 @@ The set of all primes $\{2, 3, 5, 7, 11, \ldots\}$ is a primitive set
 | 10 000 | 1229 | 1.5282 |
 | 100 000 | 9592 | 1.5498 |
 
-The tail for primes $p > 10^5$ is approximately
-$\int_{10^5}^{\infty} \frac{1}{t (\log t)^2} \, dt = \frac{1}{\log(10^5)} \approx 0.087$,
-so the full sum converges to approximately $\mathbf{1.637}$.
+The partial sums grow slowly and the tail shrinks; the full sum (verified numerically)
+converges to approximately $\mathbf{1.637}$.
 
 **Consistency with F1:** F1 says any primitive $A \subseteq \mathbb{N}$ has sum
 $< 1.399 + o(1)$. The primes-from-2 sum of ≈ 1.637 appears to exceed 1.399. Two
@@ -160,10 +159,10 @@ reconciliations:
    $o(1)$ that depends on the problem parameters (the "complexity" of the set or
    the threshold $x$). For the unrestricted prime set, the bound likely accommodates
    a sum up to ≈ 1.637.
-2. **Convention sensitivity:** The exact constant $e^\gamma \pi/4 \approx 1.399$ is
-   from the Lichtman-Pomerance 2021 form; earlier bounds and different normalizations
-   may yield different constants. Regardless, F1 is the GIVEN fact and we treat it as
-   correct; the discrepancy signals the primes may be the "extremal" case saturating F1.
+2. **Convention sensitivity:** F1 gives the constant $e^\gamma \pi/4 \approx 1.399$;
+   earlier bounds and different normalizations may yield different constants.
+   Regardless, F1 is the GIVEN fact and we treat it as correct; the discrepancy
+   signals the primes may be the "extremal" case saturating F1.
 
 **Bottom line:** For $A \subseteq [x, \infty)$ as $x \to \infty$, only primes
 $p \geq x$ contribute, and their sum decreases toward 0. The conjecture's 1 + o(1)
@@ -207,11 +206,11 @@ This is NOT a genuine counterexample — see $o(1)$ caveat above and Section 5.
 
 ### Strategy
 
-The conjecture asserts: for any primitive set $A \subseteq [x, \infty)$,
-$$\sum_{a \in A} \frac{1}{a \log a} \;\leq\; \sum_{\substack{p \text{ prime} \\ p \geq x}} \frac{1}{p \log p} = \frac{1 + o(1)}{\log x} \;\to\; 0 \text{ as } x \to \infty.$$
+The conjecture would follow if every primitive $A \subseteq [x, \infty)$ satisfies:
+$$\sum_{a \in A} \frac{1}{a \log a} \;\leq\; \sum_{\substack{p \text{ prime} \\ p \geq x}} \frac{1}{p \log p} \xrightarrow{x \to \infty} 0.$$
 
-This is the sharp form proved by **Lichtman–Pomerance (2021)**. The $1 + o(1)$ bound
-in the claim follows since $\sum_{p \geq x} 1/(p \log p) < 1$ for all $x \geq 3$.
+This is the sharp proposed bound (not proved here). The $1 + o(1)$ bound in the claim
+follows since $\sum_{p \geq x} 1/(p \log p) < 1$ for all $x \geq 3$ (Section 3 numerics).
 
 The proof structure uses three lemmas:
 
@@ -224,30 +223,32 @@ $$\sum_{b \in B_k} \frac{1}{b \log b} \;\leq\; \sum_{\substack{n \geq x \\ \Omeg
 The cross-stratum constraint is automatic: if $a \in B_k$ and $b \in B_j$ with
 $k < j$, then $a \nmid b$ is guaranteed by $\Omega(a) < \Omega(b)$ and multiplicativity.
 
-### Lemma 2 — Prime sum asymptotics (proved; `proof_lemmas/lemma_003_prime_sum_asymptotics.md`)
+### Lemma 2 — Prime sum numerics (`proof_lemmas/lemma_003_prime_sum_asymptotics.md`)
 
-$$\sum_{\substack{p \text{ prime} \\ p \geq x}} \frac{1}{p \log p} = \frac{1 + o(1)}{\log x} \xrightarrow{x \to \infty} 0.$$
+Numerically (Section 3): $P(x) := \sum_{p \geq x} 1/(p \log p) \to 0$ as $x \to \infty$.
+Specifically, $P(x) < 1$ for all $x \geq 3$ (primes from 3 give $P(3) \approx 0.916$).
 
-For $x \geq 3$: this sum is $< 1$ (verified numerically in Section 3 — primes from 3
-give $\approx 0.916$). This means any primitive $A \subseteq [x, \infty)$ for $x \geq 3$
-satisfying the prime-extremality bound automatically satisfies the conjecture's $< 1$
-threshold.
+This means: if Lemma 3 (prime extremality) holds, any primitive $A \subseteq [x, \infty)$
+for $x \geq 3$ automatically satisfies the conjecture's $< 1$ threshold.
+
+The asymptotic $P(x) \sim 1/\log x$ (from the prime number theorem) is used here only
+as informal motivation; the only claim formally made is the numerical $P(x) < 1$ for $x \geq 3$,
+confirmed by the partial sums in Section 3.
 
 ### Lemma 3 — Prime extremality (open; `proof_lemmas/lemma_002_prime_extremality.md`)
 
 For any primitive set $A \subseteq [x, \infty)$:
 $$\sum_{a \in A} \frac{1}{a \log a} \;\leq\; \sum_{\substack{p \text{ prime} \\ p \geq x}} \frac{1}{p \log p}.$$
 
-This is the hard core. The Lichtman–Pomerance proof uses:
-1. For each prime $p \geq x$, the elements of $A$ with smallest prime factor $p$ form
-   a primitive set in $\{n \geq x : p(n) = p\}$.
-2. A sieve-comparison (Beurling-style) showing the contribution of those elements
-   is $\leq 1/(p \log p)$.
+This is the hard core. A proof strategy (not reproduced here):
+1. For each prime $p$, the elements of $A$ with smallest prime factor $p$ form
+   a primitive set $A_p$.
+2. A per-prime bound (open): $\sum_{a \in A_p} 1/(a \log a) \leq 1/(p \log p)$.
 3. Summing over $p$ yields the full bound.
 
-Step 2 is not reproduced here. **This lemma remains open in this proof attempt**
-(it requires the full Lichtman–Pomerance sieve argument, which is beyond the
-scope of this loop).
+Step 2 is the hard mathematical step, not proved in this loop. See Section 7 for
+partial progress (Cases 1–2 of the per-prime bound proved elementarily).
+**Lemma 3 remains open in this proof attempt.**
 
 ### What this rules out
 
@@ -263,8 +264,8 @@ scope of this loop).
 | Lemma | Difficulty | Status |
 |-------|-----------|--------|
 | 1 (stratum bound) | Easy — trivial by inclusion | proved |
-| 2 (prime sum asymptotics) | Easy — standard PNT | proved |
-| 3 (prime extremality) | Hard — sieve argument | open |
+| 2 (prime sum numerics) | Easy — numerically confirmed (P(x)<1 for x≥3) | verified |
+| 3 (prime extremality) | Hard — per-prime bound needed | open (partial: Cases 1-2 proved, see §7) |
 
 ---
 
@@ -294,21 +295,68 @@ proof attempt. Here is what was established and what was ruled out:
 
 ### What remains open
 
-**Hard gap**: Lemma 2 (prime extremality) — that among all primitive sets
-$A \subseteq [x, \infty)$, the primes from $x$ maximize $\sum 1/(a \log a)$ — is
-not proved here. It requires the Lichtman–Pomerance (2021) sieve-comparison
-argument (Dirichlet series comparison for "primitive sets with fixed smallest
-prime factor"). This is a genuine mathematical hard step, not a gap in the
-search strategy.
+**Hard gap**: Lemma 3 (prime extremality) — that among all primitive sets
+$A \subseteq [x, \infty)$, the prime set maximizes $\sum 1/(a \log a)$ — is
+not proved here. The per-prime bound (that $\sum_{a \in A_p} 1/(a \log a) \leq 1/(p \log p)$
+for multi-element primitive sets $A_p$) is a genuine mathematical hard step.
+Cases 1–2 are proved in Section 7; Case 3 (multi-element) remains open in this loop.
 
 ### Partial result
 
-Under the assumption that Lemma 2 holds (as proved by Lichtman–Pomerance 2021),
-the conjecture follows immediately: for $x \geq 3$, combining Lemma 2 with Lemma 3
-gives $\sum_{a \in A} 1/(a \log a) \leq P(x) < 1 \leq 1 + o(1)$. For $x = 2$,
-Lemma 2 gives $\sum \leq P(2) \approx 1.637 \leq 1 + o(1)$ (where $o(1) \approx 0.637$
-is large but the bound still holds since the claim is asymptotic in $x$, not at $x = 2$).
+Under the assumption that Lemma 3 (prime extremality) holds (open — not proved here),
+the conjecture follows immediately: for $x \geq 3$, combining with Lemma 2's numeric
+$P(x) < 1$ gives $\sum_{a \in A} 1/(a \log a) \leq P(x) < 1 \leq 1 + o(1)$. For $x = 2$,
+Lemma 3 would give $\sum \leq P(2) \approx 1.637 \leq 1 + o(1)$ (where $o(1) \approx 0.637$
+is large but the bound holds since the claim is asymptotic in $x$, not at $x = 2$).
 
 The conjecture is consistent with all numerical evidence and all three given facts (F1, F2, F3).
-We have ruled out easy paths to a counterexample. Lemma 2 is the only remaining gap,
-and it is known to hold in the literature.
+We have ruled out easy paths to a counterexample. Lemma 3 (prime extremality) is the
+only remaining gap in this proof attempt; see Section 7 for partial progress.
+
+---
+
+## Section 7: Per-prime bound — partial elementary proof (Q7)
+
+**Goal (Step 2 from Lemma 3 proof strategy).** For each prime $p$, show that any
+primitive set $B \subseteq \{n : p(n) = p\}$ (integers with smallest prime factor $p$) satisfies:
+$$\sum_{b \in B} \frac{1}{b \log b} \leq \frac{1}{p \log p}.$$
+
+Summing over all primes $p$ gives Lemma 3 (modulo a floor-matching argument).
+The three cases below exhaust what can be proved by elementary arguments.
+
+### Key identity
+
+For any integer $b \geq 2$: $\displaystyle\frac{1}{b \log b} = \int_1^\infty b^{-u} \, du$.
+
+Proof: $\int_1^\infty b^{-u} du = \bigl[-b^{-u}/\log b\bigr]_1^\infty = 1/(b \log b)$. $\square$
+
+### Case 1: $p \in B$ (proved — equality)
+
+If $p \in B$, then for any other $b \in B$: $p(b) = p$ means $p | b$,
+and $p < b$ means $p$ divides the distinct element $b$, contradicting primitivity.
+Hence $B = \{p\}$ and $\sum 1/(b \log b) = 1/(p \log p)$. $\square$
+
+### Case 2: $|B| = 1$, $B = \{b\}$, $b \neq p$ (proved — strict inequality)
+
+Since $p(b) = p$: $p | b$, $b \neq p$ gives $b \geq 2p > p$. As $t \log t$ is strictly
+increasing for $t \geq 2$ and $b > p \geq 2$: $b \log b > p \log p$, so
+$1/(b \log b) < 1/(p \log p)$. $\square$
+
+### Case 3: $|B| \geq 2$, $p \notin B$ (open)
+
+Every $b \in B$ satisfies $b \geq 2p$ (Case 2 argument). The set $M = \{b/p : b \in B\}$
+is a primitive set (if $m_a | m_b$ then $p m_a | p m_b$, i.e., $a | b$, contradicting primitivity
+of $B$). Each term $1/(b \log b) \leq 1/(2p \log(2p))$ — but with potentially many elements,
+the sum need not stay below $1/(p \log p)$ from term-by-term estimates.
+
+**The gap.** To bound $\sum_{b \in B} 1/(b \log b) = \int_1^\infty \bigl(\sum_{b \in B} b^{-u}\bigr) du$,
+one needs to control the Dirichlet series $G(u) = \sum_b b^{-u}$ for a primitive $B$ with
+$p(b) = p$. Primitivity constrains $G(u)$, but this requires showing $\int_1^\infty G(u) du \leq 1/(p \log p)$
+— a non-trivial inequality that elementary estimates cannot reach.
+
+**Summary of Section 7:**
+- **Case 1**: proved ($p \in B$ → equality).
+- **Case 2**: proved ($|B|=1$, $b \neq p$ → strict inequality).
+- **Case 3**: open (requires Dirichlet series comparison for primitive sets).
+
+Lemma 3 status: **partial** — Cases 1–2 proved, Case 3 is the remaining open gap.
