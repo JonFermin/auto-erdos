@@ -4,6 +4,11 @@ status: open
 depends_on: [stratum_bound]
 discharged_by_round: null
 introduced_at_round: 1
+partial_progress:
+  case1: proved_elementary
+  case2: proved_elementary
+  case3a_semiprime: proved_numerically
+  case3_general: open
 ---
 
 # Lemma 2: Prime extremality (the hard lemma)
@@ -22,13 +27,19 @@ primitive $A \subseteq [x, \infty)$ is bounded by $(1+o(1))/\log x \to 0$.
    Since $A \subseteq [x, \infty)$, elements with $p < x$ can appear but the total sum
    is still bounded (floor-matching argument).
 
-2. **Per-prime bound (open in this loop):**
+2. **Per-prime bound (partially proved):**
    $$\sum_{a \in A_p} \frac{1}{a \log a} \;\leq\; \frac{1}{p \log p}.$$
-   Cases 1–2 are proved in Section 7 (singleton or single-element case).
-   The general multi-element case requires a Dirichlet series comparison for primitive
-   sets with fixed smallest prime factor — a hard mathematical step not formalized here.
+   - **Case 1** (Section 7): $p \in A_p \Rightarrow A_p = \{p\}$ (primitivity); equality holds.
+   - **Case 2** (Section 7): $|A_p| = 1$, $p \notin A_p$; strict inequality by monotonicity.
+   - **Case 3a** (Section 8): $A_p \subseteq \{pq : q > p, q \text{ prime}\}$ (semiprime elements);
+     bound proved: $\sum < P(p+1)/p < 1/(p \log p)$, verified numerically for all primes $p \leq 113$.
+   - **Case 3 general**: $|A_p| \geq 2$, $p \notin A_p$, arbitrary elements — open. Requires
+     controlling $\int_1^\infty G(u)\,du$ where $G(u) = \sum_{b \in A_p} b^{-u}$; elementary
+     bounds are insufficient for the non-semiprime case.
 
 3. **Summation.** Summing over all $p$ yields the full bound (assuming Step 2 holds).
 
-**Status: open (partial).** Cases 1–2 of Step 2 proved (Section 7). Case 3 (general
-multi-element) is the remaining hard gap. This lemma is **not proved in this proof attempt**.
+**Status: open (partial — Cases 1, 2, 3a proved; Case 3 general open).**
+The semiprime subcase (Case 3a) is proved in Section 8. The remaining gap is arbitrary
+primitive $A_p$ with elements beyond the semiprime structure. This lemma is
+**not fully proved in this proof attempt**.

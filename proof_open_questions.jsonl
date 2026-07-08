@@ -16,3 +16,4 @@
 {"qid":"Q6","status":"claimed","session_id":"s_0707-080723-d82e","summary":"taking Q6: write partial result and converge","ts":"2026-07-07T08:20:00Z"}
 {"qid":"Q6","status":"resolved","session_id":"s_0707-080723-d82e","summary":"Partial result written in Section 6: Lemma 2 (prime extremality) is the one hard gap; conjecture ruled out as having easy counterexample; Lichtman-Pomerance proof cited","ts":"2026-07-07T08:23:00Z"}
 {"qid":"Q7","status":"resolved","session_id":"s_0708-080749-3ad9","summary":"Cases 1-2 of per-prime bound proved elementarily (singleton and single-element cases); Case 3 open; critics-off round kept as partial_result","ts":"2026-07-08T08:37:02+00:00"}
+{"qid":"Q8","status":"claimed","session_id":"s_0708-080749-3ad9","summary":"Prove per-prime bound for semiprime subcase of Case 3: B = {pq : q>p prime} -> sum <= 1/(p log p) via P(p+1)/p bound","ts":"2026-07-08T08:44:24+00:00"}
