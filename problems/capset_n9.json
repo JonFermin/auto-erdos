@@ -3,7 +3,9 @@
   "family": "capset",
   "n": 9,
   "baseline": 1082,
+  "upper_bound": 2592,
+  "status": "open",
   "time_budget_s": 3600,
   "trial_cap": 100,
-  "note": "Best known lower bound: a_9(F_3) >= 1082 (Edel). Upper bound open and far. Lots of headroom. time_budget_s bumped 1800->3600 and trial_cap raised to 100 to give SAT/DFS extension routines room to warm up from a literature-LB seed."
+  "note": "Best known lower bound: a_9(F_3) >= 1082 (Edel). upper_bound 2592 is the trivial tripling of the n=8 UB. Lots of headroom. time_budget_s bumped 1800->3600 and trial_cap raised to 100 to give SAT/DFS extension routines room to warm up from a literature-LB seed."
 }

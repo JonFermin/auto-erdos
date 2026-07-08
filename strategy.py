@@ -416,4 +416,4 @@ if __name__ == "__main__":
     with TimeBudget() as tb:
         candidate = generate_candidate(tb)
         result = verify(candidate)
-    print_summary(candidate, result)
+    print_summary(candidate, result, tb=tb)

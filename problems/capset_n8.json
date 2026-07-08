@@ -3,7 +3,9 @@
   "family": "capset",
   "n": 8,
   "baseline": 496,
+  "upper_bound": 864,
+  "status": "open",
   "time_budget_s": 1500,
   "trial_cap": 100,
-  "note": "Best known lower bound: a_8(F_3) >= 496 (Edel, product/cyclic construction). Upper bound open. Default problem — the hello world. trial_cap raised to 100 to support deeper exploration of literature-grade seeds."
+  "note": "Best known lower bound: a_8(F_3) >= 496 (Edel, extended product construction). upper_bound 864 is the trivial tripling of the n=7 UB (a_(n+1) <= 3*a_n) - no better published bound known to this repo. Default problem. trial_cap raised to 100 to support deeper exploration of literature-grade seeds."
 }

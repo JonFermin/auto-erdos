@@ -3,6 +3,8 @@
   "family": "sidon",
   "N": 100,
   "baseline": 11,
+  "upper_bound": 12,
+  "status": "closed",
   "time_budget_s": 60,
-  "note": "Max Sidon size in [1,100]. Almost certainly exact via brute-force enumeration. Sanity-check problem — agent should not produce a kept row."
+  "note": "CLOSED: F_2(100) = 12 exactly, and 12 was reached (records/sidon_100_12_*). Proof of the UB: a 12-mark optimal Golomb ruler has length 85 (fits [1,100]); a 13-element Sidon set in [1,100] would be a 13-mark Golomb ruler of length <= 99 < 106 = verified optimal OGR-13 length - contradiction. Kept as a sanity/regression problem; log_result refuses runs unless AUTOERDOS_ALLOW_CLOSED=1."
 }

@@ -3,6 +3,8 @@
   "family": "sidon",
   "N": 500,
   "baseline": 23,
+  "upper_bound": 26,
+  "status": "closed",
   "time_budget_s": 300,
-  "note": "Singer construction over GF(23) gives a 24-element Sidon set in [0,552]; restricting to [1,500] usually yields 22 or 23. Beating 23 in [1,500] is plausibly open."
+  "note": "CLOSED: F_2(500) = 26 exactly, and 26 was reached (records/sidon_500_26_*, via OGR-26 length 492). Proof of the UB: a 27-element Sidon set in [1,500] would be a 27-mark Golomb ruler of length <= 499 < 553 = verified optimal OGR-27 length (distributed.net 2014) - contradiction. log_result refuses runs unless AUTOERDOS_ALLOW_CLOSED=1."
 }

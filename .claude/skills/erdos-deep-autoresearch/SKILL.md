@@ -23,8 +23,9 @@ If either is ambiguous ("run a bunch of experiments on capset_n9" → N unclear)
 
 Tell the human in one sentence before spawning:
 
-- **Worth it on**: open-LB problems where the search space is huge and the LB is decades old (`capset_n9`, `capset_n10`, `sidon_500`, `sidon_1000`, `sidon_3000`). N parallel agents widen the hypothesis-axis coverage rather than re-trying the same greedy 20×N times.
-- **Not worth it on**: exact-known sanity-check problems (`capset_n4`, `capset_n5`, `capset_n6`, `sidon_100`). The LB is the answer; deep just runs more null controls. If the human really wants this, do it — but say once that 0 keeps is the only correct outcome.
+- **Worth it on**: `status: open` problems where the search space is huge and the record is search-soft (`capset_n9`, `capset_n10`, `sidon_1000`, `sidon_3000`, `sidon_10000`). N parallel agents widen the hypothesis-axis coverage rather than re-trying the same greedy 20×N times. Check `PROBLEM_TAG=<tag> uv run running_best.py --headroom` — the LB↔UB gap is where deep pays.
+- **Refused on**: `status: closed` problems (`sidon_100`, `sidon_500` — optimum known AND reached). `log_result.py` exits 7 on every trial; every agent would stall immediately. Tell the human and stop.
+- **Not worth it on**: `status: sanity` problems (`capset_n4`, `capset_n5`, `capset_n6`). The LB is the answer; deep just runs more null controls. If the human really wants this, do it — but say once that 0 keeps is the only correct outcome.
 - **`capset_n8` is borderline**: it's the default and well-trodden but still has open upper bound. Deep is fine, just temper expectations.
 
 ## Parallelism tradeoffs the invoker should know
@@ -76,11 +77,20 @@ fi
 
 If any collision, bump `BASE_EPOCH=$((BASE_EPOCH + 30))` and regenerate. Do not drop the seconds suffix.
 
-## Step 3 — Spawn parallel subagents
+## Step 3 — Ideation panel + lane assignment (BEFORE spawning)
 
-Spawn N `general-purpose` subagents in a single message (multiple Agent tool calls in one response so they launch concurrently). All agents use the SAME `PROBLEM_TAG`; each gets a distinct pre-assigned timestamp tag.
+Diversity by construction beats diversity by accident. Without lanes, five agents independently converge on the same greedy/SA families and burn their budgets on AST collisions. So the orchestrator — you — runs one shared ideation pass first:
 
-Required prompt content per subagent (identical template for all N — only `TAG` varies):
+1. Read the cross-branch state: `PROBLEM_TAG=<problem> uv run problem_brief.py` (which axes are exhausted, what got kept, what the notes channel says) and `uv run analyze.py` (structure of the current best).
+2. Think hard about the problem itself — best known constructions from the literature, where the LB comes from, which structures could beat it. This is the single highest-leverage step of the whole fan-out: every past record came from knowledge, not search volume.
+3. Write N **disjoint hypothesis lanes**, one per agent, each 2–4 sentences: the axis tag(s) the lane owns (e.g. `[algebraic]`, `[SAT]`, `[recombination]`, `[literature]`), 2–3 concrete starting hypotheses inside it, and which exhausted axes to avoid. Example lane split for a Sidon problem: (1) algebraic — new difference-set families / GF(q³) variants, (2) SAT/exact — CEGAR extend-by-k and swap oracles, (3) recombination — cross elite candidates via `prepare.load_elites()`, (4) windowing — multiplier-orbit + translate sweeps over new moduli, (5) literature — known optimal objects that embed (Golomb rulers, perfect rulers, B₂[g] tables).
+4. If the notes channel was empty, append your literature findings via `prepare.append_problem_notes` so the agents (and future sessions) inherit them.
+
+## Step 4 — Spawn parallel subagents
+
+Spawn N `general-purpose` subagents in a single message (multiple Agent tool calls in one response so they launch concurrently). All agents use the SAME `PROBLEM_TAG`; each gets a distinct pre-assigned timestamp tag AND its lane from Step 3.
+
+Required prompt content per subagent (identical template for all N — only `TAG` and the lane vary):
 
 - Path to the skill: `C:/Users/honsf/DEVELOP/auto-erdos/.claude/skills/erdos-autoresearch/SKILL.md` — read in full before starting.
 - Working directory: `C:\Users\honsf\DEVELOP\auto-erdos`.
@@ -89,7 +99,9 @@ Required prompt content per subagent (identical template for all N — only `TAG
 - Worktree path: `worktrees/<tag>`.
 - Branch: `erdos-research/<tag>`.
 - Reminder: the **seed run is non-committing** — do NOT do a baseline algebraic rewrite (parent quant repo's pattern; doesn't apply here).
-- **Same-problem cohort note (unique to this skill)**: "N−1 sister runs are exploring this same problem concurrently. The shared `trial_cache_<PROBLEM_TAG>.tsv` deduplicates AST across all of them — if `log_result.py` returns exit 3, your hypothesis collided with a sister run, not your own prior trial. `git reset --hard HEAD~1` and pick a genuinely different axis from the hypothesis seeds in the `erdos-autoresearch` skill (greedy / algebraic / local-search / SA / coset / DFS for cap-set; singer / erdos-turan / augmentation / swap / SA / difference-set / concat for Sidon)."
+- **Same-problem cohort note (unique to this skill)**: "N−1 sister runs are exploring this same problem concurrently. The shared `trial_cache_<PROBLEM_TAG>.tsv` deduplicates AST across all of them — if `log_result.py` returns exit 3, your hypothesis collided with a sister run, not your own prior trial. `git reset --hard HEAD~1` and pick a genuinely different hypothesis *within your lane*."
+- **The lane (unique per agent)**: paste the agent's Step 3 lane verbatim. State explicitly: "Stay inside your lane's axes; sister agents own the other axes. If your lane is truly exhausted (grader exit 6 on its axes, or you cannot form a defensible thesis in it), you may borrow an adjacent axis — note the borrow in your end-of-run summary."
+- **Global ratchet note**: "the grader's keep bar is the cross-branch global best, not your branch's — a sister's mid-run improvement raises your bar automatically. A discard at a score a sister already reached is correct behavior, not a bug."
 - Full "Archive + push + cleanup" on graceful stop.
 - Windows cleanup note: the skill's Archive block falls back from `git worktree remove` to unconditional `rm -rf worktrees/$TAG` once `origin/$BRANCH` is confirmed (or no remote exists) — do NOT skip.
 - Explicit isolation rule: do not reach into sibling worktrees.
@@ -97,7 +109,7 @@ Required prompt content per subagent (identical template for all N — only `TAG
 
 Spawn all subagents with `run_in_background: true` so they run concurrently and you're notified as each finishes.
 
-## Step 4 — Aggregate
+## Step 5 — Aggregate
 
 As each subagent reports, record: branch, baseline, running_best, keep/trial counts, exit-3 count, push status. Do NOT Read subagent output JSONL files — they overflow context.
 
@@ -118,7 +130,7 @@ Best score in cohort:      <value> (branch erdos-research/<tag>)
 
 Call out any branch where `running_best > baseline` — that branch beat the literature LB and warrants independent hand re-verification before trusting. The typical cohort outcome on a hard open problem (e.g. `capset_n9`) is 0 keeps across all N branches; even one is noteworthy.
 
-## Step 5 — Worktree cleanup
+## Step 6 — Worktree cleanup
 
 Each subagent runs the `erdos-autoresearch` skill's Archive + push + cleanup block. Expect `worktrees/` to be empty after all subagents succeed.
 

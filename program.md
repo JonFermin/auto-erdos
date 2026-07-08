@@ -43,9 +43,15 @@ to `verify()`, and prints the metric block:
 - Modify `library/*.py`. The constructions are part of the fixed environment.
 - Install new packages. Use only what's in `pyproject.toml`.
 - Read `verifier_results.tsv` or the AST trial cache directly — those are
-  harness-side audit trails. The sanctioned cross-branch reads are
-  `prepare.load_best_so_far()` (warm-start) and `prepare.load_hypothesis_log()`
-  (cross-branch trial log; see "Cross-branch hypothesis memory" below).
+  harness-side audit trails. The sanctioned cross-branch channels are:
+  - `prepare.load_best_so_far()` — best valid candidate (warm-start);
+  - `prepare.load_elites()` — top-8 distinct valid candidates (recombination);
+  - `prepare.load_hypothesis_log()` — cross-branch trial log (see
+    "Cross-branch hypothesis memory" below);
+  - `prepare.load_problem_notes()` / `prepare.append_problem_notes()` — the
+    agent-written knowledge channel (see "Problem notes" below);
+  - `uv run problem_brief.py` and `uv run analyze.py` — free read-only
+    digests of all of the above (no trial cost).
   You may also read `run.log` (your own stdout) and `results.tsv` (your own log).
 
 **The goal**: improve the score above the running best. For Port 1 (cap
@@ -53,9 +59,20 @@ sets), score = |S|, larger is better. The keep rule:
 
     is_valid == 1 AND score > running_best
 
-`running_best` starts at the problem's literature baseline and ratchets
-upward with each kept row. There are no constraint columns to satisfy
-beyond validity itself — the verifier rejects malformed candidates outright.
+`running_best` is the max of (a) the problem's literature baseline,
+(b) kept scores on this branch, and (c) the **cross-branch global best**
+valid score from the hypothesis log. A keep is a genuinely new record for
+the *problem*, not just for your branch — a sister branch's 59 means your
+58 discards. (`AUTOERDOS_GLOBAL_RATCHET=0` restores branch-local ratcheting
+for debugging only.) There are no constraint columns to satisfy beyond
+validity itself — the verifier rejects malformed candidates outright.
+
+**Problem status and headroom.** Every `problems/<tag>.json` carries
+`upper_bound` (best known UB, with its provenance in `note`) and `status`:
+`open` (real headroom), `sanity` (optimum known, trial_cap=1 null-control),
+or `closed` (optimum known AND already reached — `log_result.py` refuses to
+grade, exit 7). Check `uv run running_best.py --headroom` before investing:
+the gap between global best and `upper_bound` is where the research is.
 
 **Overfitting discipline.** The 20-trial cap is here to keep you honest.
 Twenty hypotheses each defended with a one-line thesis is worth more than
@@ -112,10 +129,20 @@ a real hypothesis, not a no-op.
     baseline:          496
     status_hint:       no_improvement
     reason:            valid cap set of size 137 in F_3^8
+    search_seconds:    412.3
+    budget_seconds:    1500
+    budget_used_pct:   27.5
+    frontier:          locally maximal — no single-point extension exists
 
-Extract the headline metrics from the log file:
+The trailing lines are informational: `search_seconds` / `budget_used_pct`
+show how much of the wall-clock search room the strategy actually used
+(single-digit percentages on a search-based thesis mean you left budget on
+the table — anytime loops should check `tb.expired`, not finish instantly),
+and `frontier` reports +1-extendability of a valid candidate (computed by
+the harness at verifier cost; `AUTOERDOS_FRONTIER=0` disables). Extract the
+headline metrics from the log file:
 
-    grep "^score:\|^is_valid:\|^verifier_seconds:\|^status_hint:" run.log
+    grep "^score:\|^is_valid:\|^verifier_seconds:\|^status_hint:\|^frontier:\|^budget_used_pct:" run.log
 
 If grep is empty, the run crashed; `tail -n 50 run.log` to read the trace.
 `status_hint` is informational — `improvement_eligible` / `no_improvement`
@@ -140,18 +167,21 @@ with a code that tells you what to do next.
 | 3 | AST duplicate of a prior trial on this problem (any branch) | `git reset --hard HEAD~1` and pick a genuinely different hypothesis. Nothing was logged. |
 | 4 | trial cap reached (default 20 per branch) | **Stop the loop.** Surface `results.tsv` for review. Do not raise the cap without a good reason. |
 | 5 | crash row logged (no `verifier_results.tsv` row for this commit — `strategy.py` never reached `print_summary`) | `git reset --hard HEAD~1`. Inspect `run.log`. |
+| 6 | hypothesis family exhausted — the thesis `[axis]` tag already has ≥ `AUTOERDOS_FAMILY_CAP` (default 5) failures and zero keeps across all branches of this problem | `git reset --hard HEAD~1`. Move to a **different axis** — another variant of this one is knob-twisting by definition. Nothing was logged. |
+| 7 | problem is closed (`status: "closed"` in the spec — optimum known and reached) | Stop; pick an open problem (`running_best.py --headroom`). Nothing was logged. `AUTOERDOS_ALLOW_CLOSED=1` only for deliberate re-verification. |
 
 **The keep rule (computed by `log_result.py`, not you)** — a run is kept
 only if:
 
 - `is_valid == 1`, AND
 - `score > running_best` (where `running_best` = max(literature baseline,
-  any kept score so far in this branch's `results.tsv`)).
+  any kept score so far in this branch's `results.tsv`, and the best valid
+  score across ALL branches of this problem from the hypothesis log)).
 
 The baseline is the problem's literature lower bound and is fixed for the
-duration of the branch. The bar ratchets upward with each kept row, so
-later trials must keep beating the most recent kept score, not just the
-starting line.
+duration of the branch. The bar ratchets upward with each kept row AND with
+sister branches' results, so a keep is always a new global record for the
+problem — never a duplicate of something another branch already found.
 
 **On every keep**, `log_result.py` writes `records/<tag>_<score>_<commit>.json`
 (candidate, score, baseline, branch, thesis, verifier_seconds) and auto-commits
@@ -183,9 +213,12 @@ Example:
 ## State probes
 
 ```
-uv run running_best.py              # current best kept score (baseline if none kept)
+uv run running_best.py              # the bar a keep must clear (global ratchet)
 uv run running_best.py --baseline   # the problem's literature baseline
 uv run running_best.py --trials     # rows logged / trial cap, e.g. "7/20"
+uv run running_best.py --headroom   # baseline / current best / upper bound / status
+uv run problem_brief.py             # full session-start digest (free)
+uv run analyze.py                   # structural diagnostics of best_so_far (free)
 ```
 
 ## The experiment loop
@@ -210,6 +243,10 @@ LOOP until `log_result.py` exits 4 (trial cap) or the human stops you:
    - **3** — AST-duplicate. `git reset --hard HEAD~1`, pick a different idea.
    - **4** — trial cap. Write `summaries/<branch>.md`, push the branch, stop.
    - **5** — crash row. `git reset --hard HEAD~1`. Read `run.log` before next attempt.
+   - **6** — family exhausted. `git reset --hard HEAD~1`, switch to a
+     different `[axis]` — the gate only fires when the axis has ≥5
+     cross-branch failures and zero keeps.
+   - **7** — problem closed. Stop; pick an open problem.
 
 **Mindset**: "nothing beat baseline" is a perfectly legitimate outcome on
 hard problems with mature literature. The cap-set lower bounds for n>=7
@@ -274,6 +311,43 @@ the function signature: `generate_candidate(tb=None)`. Use `tb.expired`
 to bail gracefully and return whatever valid candidate you have so far;
 hard-killed runs are treated as crashes.
 
+## Session-start brief + literature pass (do this BEFORE trial 1)
+
+Two steps, both free (no trial cost):
+
+1. **Brief**: `uv run problem_brief.py` — headroom (baseline / global best /
+   upper bound), per-axis outcome counts across all prior branches (exhausted
+   families are flagged), every kept thesis, the notes channel, and prior run
+   summaries. A fresh session is a CONTINUATION of a research program; this
+   is how it inherits the program's state.
+2. **Literature pass**: every past record in this repo came from *knowledge*
+   (OGR-26 marks, Singer multiplier orbits, cubic constructions in GF(q³)) —
+   not from generic search. Before the first hypothesis, dump what you know
+   about this problem from the literature: best known constructions, where
+   the known LB comes from, what structures set records at nearby sizes,
+   whether the record is theory-hard or search-soft. Write it to the notes
+   channel (`prepare.append_problem_notes(...)` or via a tiny throwaway
+   script) so every future session inherits it. If the notes already contain
+   a literature section, read it instead of re-deriving.
+
+## Analysis-only moves (free — no trial budget)
+
+Not every step must produce a candidate. `uv run analyze.py` dissects the
+current best_so_far (gap/fiber profiles, sum density, exact +1-extension
+points, near-miss points blocked by a single collision). Use it whenever
+you're stuck: knowing that the best set is locally maximal with zero
+1-collision points *rules out* every remove-1-add-2 hypothesis at zero
+cost. Paste durable findings into the notes channel.
+
+## Problem notes — the knowledge channel
+
+`prepare.load_problem_notes()` / `prepare.append_problem_notes(text)` read
+and append to `~/.cache/auto-erdos/notes_<TAG>.md` — free-form markdown
+shared across all branches and sessions. Use it for literature findings,
+structural analyses, and "what the next session should try". This is the
+only sanctioned agent-*written* cross-branch channel; everything else
+(hypothesis log, best_so_far, elites) is harness-written.
+
 ## Warm-starting from prior trials
 
 `prepare.load_best_so_far()` returns the best valid candidate seen across
@@ -303,6 +377,17 @@ The shipped `strategy.py` already calls `load_best_so_far()` in its seed
 path and returns the largest of (warm-start, library construction,
 randomized greedy). Reading the cache directly is just one of several
 ways to leverage it.
+
+## Elite archive — recombination beats re-mutation
+
+`prepare.load_elites()` returns up to 8 *distinct* valid candidates for the
+problem, best first (`[{score, commit, written_at, candidate, ...}]`).
+best_so_far keeps only the single best; the elites keep structurally
+different near-records. The hypothesis class this unlocks is recombination:
+cross two different Sidon bases (splice prefixes/suffixes, check cross-sums),
+product-lift two different caps, or seed SA from elite #3 instead of
+re-mutating elite #1's basin for the tenth time. The archive is written by
+the verifier path automatically; agents only read it.
 
 ## Cross-branch hypothesis memory
 

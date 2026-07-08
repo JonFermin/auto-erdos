@@ -1,6 +1,6 @@
 ---
 name: erdos-autoresearch-all
-description: Use when the user asks to run autoresearch across ALL problems (capset_n7 through capset_n10 plus sidon_100/500/1000/3000) or any multi-problem subset in parallel. Spawns one general-purpose subagent per problem, each running the `erdos-autoresearch` skill end-to-end in its own git worktree with a pre-assigned unique timestamp tag. Default is the 8 open problems (capset_n4/n5/n6 are proven optimal and excluded — re-include explicitly if running null-control regression checks); pass a comma-separated subset to narrow. Triggers on phrases like "all possible problems", "run autoresearch on all problems", "every capset/sidon in parallel", "fan out across the whole problem set".
+description: Use when the user asks to run autoresearch across ALL problems (capset_n7 through capset_n10 plus sidon_1000/3000/10000) or any multi-problem subset in parallel. Spawns one general-purpose subagent per problem, each running the `erdos-autoresearch` skill end-to-end in its own git worktree with a pre-assigned unique timestamp tag. Default is the 7 open problems (capset_n4/n5/n6 are proven-optimal sanity checks and sidon_100/sidon_500 are closed — solved to their known optimum; re-include sanity checks explicitly only for null-control regression). Pass a comma-separated subset to narrow. Triggers on phrases like "all possible problems", "run autoresearch on all problems", "every capset/sidon in parallel", "fan out across the whole problem set".
 ---
 
 # erdos-autoresearch-all
@@ -9,28 +9,24 @@ Fan out the `erdos-autoresearch` skill across multiple problems in parallel. One
 
 ## Default problem set
 
-Unless the invoker names a subset, run the **8 open problems** (counterexample-eligible):
+The canonical source of truth is the `status` field in each `problems/*.json`: the default fan-out is exactly the problems with `status: "open"`. As of 2026-07 that is:
 
 **capset family** (cap sets in F_3^n: no 3-term AP, score = |S|):
-- `capset_n7` (LB 236 — open at top)
-- `capset_n8` (LB 496 — default, open at top)
-- `capset_n9` (LB 1082 — open, far from upper bound)
-- `capset_n10` (LB 2474 — slowest verifier, open)
+- `capset_n7` (LB 236, UB 288)
+- `capset_n8` (LB 496 — default problem)
+- `capset_n9` (LB 1082 — big LB↔UB gap)
+- `capset_n10` (LB 2474 — slowest verifier)
 
 **sidon family** (B₂ sets in [1, N]: pairwise sums distinct, score = |S|):
-- `sidon_100`  (LB 11 — almost certainly exact, sanity-check; included so seed-run regression is caught)
-- `sidon_500`  (LB 23 — Singer-23, mild headroom)
-- `sidon_1000` (LB 32 — Singer gives 32, real result would be 33)
-- `sidon_3000` (LB 53 — Singer-53, real headroom)
+- `sidon_1000`  (best achieved 35, UB 38)
+- `sidon_3000`  (best achieved 59, UB 63)
+- `sidon_10000` (baseline 102, UB 111 — newest, most headroom)
 
-**Excluded from the default fan-out (proven optimal — counterexample impossible):**
-- `capset_n4` (a_4 = 20, exact)
-- `capset_n5` (a_5 = 45, Pellegrino 1970)
-- `capset_n6` (a_6 = 112, Edel 2004)
+**Excluded — `status: "sanity"`** (proven optimal, trial_cap=1 null-controls; re-include explicitly only for regression checks): `capset_n4`, `capset_n5`, `capset_n6`.
 
-These three retain `trial_cap: 1` in their problem JSONs so an explicit `capset_n4,capset_n5,capset_n6` invocation still serves as a null-control regression check (one seed run per problem, immediate exit). Don't pull them into the default set — every trial there is wasted compute.
+**Excluded — `status: "closed"`** (optimum known AND reached; `log_result.py` refuses trials with exit 7): `sidon_100` (F₂=12, achieved), `sidon_500` (F₂=26, achieved). Do NOT include these even if asked casually for "all" — explain they're solved. Only include on an explicit re-verification request (needs `AUTOERDOS_ALLOW_CLOSED=1`).
 
-The canonical list of **available** problems is whatever `problems/*.json` files are present in the repo root. The default fan-out is the subset above (open problems only). If the human adds a new problem JSON, decide based on whether its baseline is open or proven-optimal.
+Confirm the live status before spawning: `for p in problems/*.json; do python -c "import json,sys; s=json.load(open('$p')); print(s['name'], s.get('status','open'))"; done` (or read the JSONs). If the human added a new problem JSON, its `status` decides.
 
 A subset can be passed as a comma-separated list (e.g. `capset_n8,capset_n9,sidon_3000`, or just `capset_n8,sidon_3000`). To re-include the proven-optimal sanity checks, the invoker must name them explicitly: `capset_n4,capset_n5,capset_n6,...`.
 
