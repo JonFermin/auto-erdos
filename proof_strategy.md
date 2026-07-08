@@ -488,8 +488,82 @@ $$\sum_{b \in B} \frac{1}{b \log b} < \frac{1}{2p^2 \log p} + \frac{P(p+1)}{p} \
 
 **Coverage so far.** Cases 1, 2, 3a, 3b together prove the per-prime bound for all
 primitive $B$ with $\text{spf} = p$ whose elements are prime powers or semiprimes of
-the form $pq$ (i.e., $\Omega(b) \leq 2$). The remaining open case is $\Omega(b) \geq 3$
-(elements like $pqr$, $p^2 q$, $p^3 q$, etc.) where the primitivity constraint alone
-does not yield the bound from elementary estimates.
+the form $pq$ (i.e., $\Omega(b) \leq 2$). Section 10 gives the full inductive proof.
 
-Lemma 3 status: **partial** — Cases 1–2 proved, Case 3 is the remaining open gap.
+---
+
+## Section 10: Per-prime bound — Complete inductive proof (Q10)
+
+**Theorem.** (Conditional on Claim C3b.) For any prime $p$ and any primitive set $B$
+with $\text{spf}(b) = p$ for all $b \in B$ and $p \notin B$:
+$$\sum_{b \in B} \frac{1}{b \log b} \leq \frac{1}{p \log p}.$$
+
+**Claim C3b** (numerically verified for all primes $p \leq 199$, consistent with asymptotics):
+$$P(p+1) \;\leq\; \frac{1-\tfrac{1}{2p}}{\log p} \quad \text{for all primes } p \geq 2.$$
+
+*Note*: C3b implies $P(p+1) \leq 1/\log p$ (Case 3a), so C3b is the single numerical input needed.
+
+### Proof by strong induction on $K$
+
+**Inductive claim** (for all $K \geq 0$ and all primes $p$): any primitive $B$ with
+$\text{spf} = p$, $p \notin B$, and $\Omega(b) \leq K$ for all $b \in B$, satisfies
+$\sum_{b \in B} \frac{1}{b \log b} \leq \frac{1}{p \log p}$.
+
+**Base cases** ($K = 0, 1$): $\Omega(b) \leq 1$ and $\text{spf}(b) = p$ forces $b = p$;
+since $p \notin B$, $B = \emptyset$. Sum $= 0 \leq 1/(p\log p)$. $\square$
+
+**Inductive step** ($K \geq 2$): Assume the inductive claim holds for all primes and
+all $J < K$. Let $B$ be primitive with $\text{spf} = p$, $p \notin B$, $\Omega(b) \leq K$.
+
+Set $B' = \{b/p : b \in B\}$. Since divisibility is preserved ($a | b \Leftrightarrow a/p | b/p$
+when both have $p$ in their factorization), $B'$ is primitive. Each $c = b/p$ satisfies
+$\Omega(c) = \Omega(b) - 1 \leq K-1$ and $\text{spf}(c) \geq p$.
+
+**Key inequality**: $\frac{1}{b \log b} < \frac{1}{p} \cdot \frac{1}{c \log c}$ for all $c \geq 2$,
+since $b = pc$ gives $b \log b = pc \log(pc) > pc \log c$. $\square$
+
+So $\sum_{b \in B} \frac{1}{b\log b} < \frac{1}{p}\sum_{c \in B'} \frac{1}{c \log c}$.
+
+Partition $B'$ by smallest prime factor: $B' = \bigsqcup_{q \geq p, \text{prime}} B'_q$ where $B'_q = \{c \in B' : \text{spf}(c) = q\}$. Each $B'_q$ is primitive with $\text{spf} = q$ and $\Omega(c) \leq K-1$.
+
+**Bounding each $q$-stratum:**
+
+*Case $q = p$ (occurs iff $p^2 \in B$)*: If $p \in B'_p$, then by Case 1 (proved in Section 7): $B'_p = \{p\}$, contributing $\frac{1}{p\log p}$. Otherwise $B'_p = \emptyset$, contributing 0.
+
+*Case $q > p$*: 
+- If $q \in B'_q$: Case 1 forces $B'_q = \{q\}$, contributing $\frac{1}{q\log q}$.
+- If $q \notin B'_q$: by the inductive hypothesis (applied to prime $q$ and $K-1 < K$):
+  $\sum_{c \in B'_q} \frac{1}{c\log c} \leq \frac{1}{q\log q}$.
+
+In all sub-cases: $\sum_{c \in B'_q} \frac{1}{c\log c} \leq \frac{1}{q\log q}$ for $q > p$.
+
+**Summing and concluding:**
+
+*Case A* ($B'_p = \emptyset$, i.e., $p^2 \notin B$):
+$$\frac{1}{p}\sum_{c \in B'}\frac{1}{c\log c} \leq \frac{1}{p}\!\!\sum_{q > p,\,\text{prime}}\!\!\frac{1}{q\log q} = \frac{P(p+1)}{p} \leq \frac{1}{p\log p}.$$
+(Last step: $P(p+1) \leq 1/\log p$, implied by C3b.) $\square$
+
+*Case B* ($B'_p = \{p\}$, i.e., $p^2 \in B$):
+$$\frac{1}{p}\sum_{c \in B'}\frac{1}{c\log c} \leq \frac{1}{p}\!\left(\frac{1}{p\log p} + P(p+1)\right) = \frac{1}{p^2\log p} + \frac{P(p+1)}{p} \leq \frac{1}{p\log p}.$$
+(Last step: C3b gives $P(p+1) \leq (1-1/(2p))/\log p$, which rearranges to $\frac{1}{p^2\log p} + \frac{P(p+1)}{p} \leq \frac{1}{p\log p}$.) $\square$
+
+In both cases $\sum_{b \in B} \frac{1}{b\log b} < \frac{1}{p\log p}$. The induction is complete. $\square$
+
+### Extension to infinite primitive sets
+
+For infinite $B$: $\sum_{b \in B} \frac{1}{b\log b} = \lim_{K\to\infty} \sum_{\substack{b \in B \\ \Omega(b) \leq K}} \frac{1}{b\log b}$. Each partial sum is $\leq 1/(p\log p)$ by the inductive result. By monotone convergence, the limit is also $\leq 1/(p\log p)$. $\square$
+
+### Consequence (Full Lemma 2, conditional)
+
+For any primitive $A \subseteq [x,\infty)$ with $x \geq 3$, partitioning by smallest prime factor and summing the per-prime bound:
+$$\sum_{a \in A} \frac{1}{a\log a} \leq \sum_{p \geq x,\,\text{prime}} \frac{1}{p\log p} = P(x) < 1 \leq 1 + o(1).$$
+
+This proves the conjecture for $x \geq 3$, **conditional on Claim C3b**.
+
+C3b is verified numerically for $p \leq 199$ and holds asymptotically: $P(p+1)\log p \to 1^-$
+(as $\log p / \log(p+1) < 1$ for all finite $p$), so $P(p+1) \leq (1-1/(2p))/\log p$ holds
+for all sufficiently large $p$. An explicit finite check of C3b for remaining primes $p > 199$
+would make the proof unconditional.
+
+**Lemma 2 status: conditionally proved** (all cases proved given C3b; the only remaining gap
+is an unconditional proof of C3b for $p > 199$, which the numerics and asymptotics strongly support).

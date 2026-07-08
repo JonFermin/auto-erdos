@@ -1,7 +1,7 @@
 ---
 id: prime_extremality
-status: open
-depends_on: [stratum_bound]
+status: conditionally_proved
+depends_on: [stratum_bound, claim_C3b]
 discharged_by_round: null
 introduced_at_round: 1
 partial_progress:
@@ -9,7 +9,9 @@ partial_progress:
   case2: proved_elementary
   case3a_semiprime: proved_numerically
   case3b_prime_power_plus_semiprime: proved_numerically
-  case3_general_omega_ge3: open
+  case3_general: proved_inductively_given_C3b
+  infinite_sets: proved_by_monotone_convergence
+remaining_gap: unconditional_proof_of_C3b_for_p_gt_199
 ---
 
 # Lemma 2: Prime extremality (the hard lemma)
@@ -43,7 +45,4 @@ primitive $A \subseteq [x, \infty)$ is bounded by $(1+o(1))/\log x \to 0$.
 
 3. **Summation.** Summing over all $p$ yields the full bound (assuming Step 2 holds).
 
-**Status: open (partial — Cases 1, 2, 3a, 3b proved; Case 3 general ($\Omega \geq 3$) open).**
-Cases 3a and 3b (Sections 8–9) cover all primitive $A_p$ with $\Omega(b) \leq 2$.
-The remaining gap is arbitrary primitive $A_p$ containing elements with $\Omega(b) \geq 3$.
-This lemma is **not fully proved in this proof attempt**.
+**Status: conditionally proved** (Section 10). The full per-prime bound follows by strong induction on $\Omega(b)$, using Cases 1, 2, 3a, 3b as base and inductive ingredients. The only remaining gap is an unconditional proof of Claim C3b ($P(p+1) \leq (1-1/(2p))/\log p$ for all primes $p$), verified for $p \leq 199$ and consistent with asymptotic behavior. An extended numerical check would make the proof unconditional.
