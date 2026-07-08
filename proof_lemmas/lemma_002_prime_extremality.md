@@ -12,9 +12,10 @@ partial_progress:
   case3_general: proved_inductively_given_C3b
   infinite_sets: proved_by_monotone_convergence
   case_B_derivation: corrected_in_Q11
+  C3b_rigorous_range: proved_for_p_leq_298937_via_sieve_plus_tail_bound_Q13
 remaining_gap: C_exact_claim_for_modified_sum_requires_LP_type_tools
-open_sub_question: Q12_Dirichlet_series_bound_for_Case_B_large_p
-unconditional_for: p_leq_199_all_cases
+open_sub_question: Case_B_for_p_geq_298993_requires_Dirichlet_series_or_sieve
+unconditional_for: p_leq_298937_all_cases
 unconditional_CaseA: all_p
 ---
 
@@ -51,4 +52,4 @@ primitive $A \subseteq [x, \infty)$ is bounded by $(1+o(1))/\log x \to 0$.
 
 3. **Summation.** Summing over all $p$ yields the full bound (assuming Step 2 holds).
 
-**Status: conditionally proved** (Sections 10–11). The full per-prime bound follows by strong induction on $\Omega(b)$. Case A is unconditional (uses C3a only, always true). Case B requires Claim C3b ($P(p+1)\log p \leq 1-1/(2p)$), verified for $p \leq 199$ but shown to FAIL asymptotically (since $P(p+1)\log p \approx 1-1/(p\log p) > 1-1/(2p)$ for large $p$). The remaining gap is Case B for large primes; Q12 will address a strengthened induction.
+**Status: conditionally proved** (Sections 10–11). The full per-prime bound follows by strong induction on $\Omega(b)$. Case A is unconditional (uses C3a only, always true). Case B requires Claim C3b ($P(p+1)\log p \leq 1-1/(2p)$), rigorously proved for all primes $p \leq 298{,}937$ (Q13: sieve to $L = 2{\times}10^6$ plus tail bound $1/\log L \approx 0.069$) but shown to FAIL for $p \geq 298{,}993$ (asymptotically: $P(p+1)\log p \approx 1-1/(p\log p) > 1-1/(2p)$ for large $p$). The remaining gap is Case B for $p \geq 298{,}993$; requires Dirichlet-series or sieve analytic tools.

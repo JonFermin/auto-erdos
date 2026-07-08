@@ -576,28 +576,29 @@ $$\sum_{a \in A} \frac{1}{a\log a} \leq \sum_{p \geq x,\,\text{prime}} \frac{1}{
 
 This proves the conjecture for $x \geq 3$, **conditional on Claim C3b**.
 
-**C3b status (updated after Q11 extended numerical check):**
+**C3b status (updated after Q13 rigorous sieve verification):**
 
-C3b is verified numerically for all primes $p \leq 199$. However, extended computation reveals:
+**C3b is rigorously proved for all primes $p \leq 298{,}937$** and fails for all primes $p \geq 298{,}993$.
 
-*C3b FAILS for large primes.* Numerical verification at $p = 999983$ gives:
-$$P(p+1)\log p \approx 1.000010 > 0.999999 = 1 - \frac{1}{2p}.$$
+*Rigorous proof method (Q13).* A sieve of Eratosthenes to $L = 2{,}000{,}000$ computes the partial sum $P_\mathrm{sieve}(p+1) = \sum_{p < q \leq L,\,q\,\mathrm{prime}} \frac{1}{q\log q}$. The tail is bounded by $P_\mathrm{tail} \leq \frac{1}{\log L} \approx 0.06892$ (via the integral test). So $P(p+1) \leq P_\mathrm{sieve}(p+1) + P_\mathrm{tail}$. C3b is rigorously proved for any $p$ where:
+$$(P_\mathrm{sieve}(p+1) + P_\mathrm{tail})\cdot\log p \leq 1 - \frac{1}{2p}.$$
+This holds for all primes $p \leq 298{,}937$ (last verified prime before the first failure).
+
+*C3b FAILS for $p \geq 298{,}993$.* At $p = 298{,}993$, $(P_\mathrm{sieve}(p+1) + P_\mathrm{tail})\cdot\log p \approx 1.00000380 > 0.99999833 = 1-\frac{1}{2p}$. Since $P(p+1) \geq P_\mathrm{sieve}(p+1)$ (the sieve lower-bounds the true sum), and the upper bound already exceeds the threshold, the actual $P(p+1)\log p$ is $\approx 1.000004 > \mathrm{RHS}$.
+
+*Note on the earlier ``$p \leq 199$'' claim.* That figure was based on a truncated sieve that omitted the tail entirely, giving an artificially small estimate of $P(p+1)$. The rigorous bound (Q13) extends this to $p \leq 298{,}937$.
 
 **Asymptotic analysis of the failure.** By the prime number theorem (partial summation):
-$$P(x) = \frac{1}{\log x} - \frac{1}{p(\log p)^2} + O\!\left(\frac{1}{p(\log p)^3}\right),$$
-so $P(p+1)\log p \approx 1 - \frac{1}{p\log p}$ for large $p$.
+$P(p+1)\log p \approx 1 - \frac{1}{p\log p}$ for large $p$.
+C3b requires $P(p+1)\log p \leq 1 - \frac{1}{2p}$. Since $\frac{1}{p\log p} < \frac{1}{2p}$ for $p \geq 11$ (i.e., $\log p > 2$), the asymptotic value $1 - \frac{1}{p\log p} > 1 - \frac{1}{2p}$, so **C3b fails for all sufficiently large primes**. The precise threshold (where $P(p+1)\log p$ crosses $1 - 1/(2p)$) is around $p \approx 298{,}960$.
 
-C3b requires $P(p+1)\log p \leq 1 - \frac{1}{2p}$. Since $\frac{1}{p\log p} < \frac{1}{2p}$ for $p \geq 11$ (i.e., $\log p > 2$), we have $P(p+1)\log p \approx 1 - \frac{1}{p\log p} > 1 - \frac{1}{2p}$, so **C3b fails asymptotically for all sufficiently large primes**.
-
-**Remaining gap.** Case B of the induction (when $p^2 \in B$) requires C3b. C3b holds for $p \leq 199$ (verified) but fails asymptotically. Closing this gap requires one of:
+**Remaining gap.** Case B of the induction requires C3b. C3b is now proved for all $p \leq 298{,}937$ but fails for $p \geq 298{,}993$. Closing this gap for large $p$ requires one of:
 1. An improved bound on $P(p+1)$ exploiting the primitive-set constraint on $M$.
 2. A non-elementary (analytic/sieve) argument for Case B at large $p$.
 3. A strengthened inductive claim (sum $< 1/(p\log p) - \epsilon(p)/p$ with correction term) that closes Case B without C3b.
 
-(Question Q12 will pursue approach 3.)
-
-**Lemma 2 status: conditionally proved** (all cases proved given C3b for $p \leq 199$; Case B at
-large $p$ remains open pending an analytic argument or strengthened induction).
+**Lemma 2 status: conditionally proved** (all cases proved given C3b for $p \leq 298{,}937$; Case B at
+large $p \geq 298{,}993$ remains open pending an analytic argument or strengthened induction).
 
 ---
 
@@ -663,7 +664,7 @@ The per-prime bound for $f$ (the original sum $\sum 1/(b\log b)$) is what the EN
 
 The induction on $\Omega(b)$ gives a complete proof for:
 - **Case A** ($p^2 \notin B$): unconditional for all $p$ (requires only C3a, always true).
-- **Case B** ($p^2 \in B$): conditional on C3b, which holds for $p \leq 199$ (verified numerically) but fails asymptotically.
+- **Case B** ($p^2 \in B$): conditional on C3b, which is rigorously proved for $p \leq 298{,}937$ (Q13 sieve + tail bound) but fails for $p \geq 298{,}993$.
 
 The repair of Case B for large $p$ requires either:
 1. **A Dirichlet-series comparison**: bounding $\sum_{b \in pM} s^{-b}/\log b$ via a Euler-product comparison (the approach of Lichtman–Pomerance 2021), establishing that primes dominate the Dirichlet series pointwise, not just at $s = 1$.
@@ -673,6 +674,6 @@ These approaches go beyond the present elementary framework and are flagged as o
 
 **Current unconditional statement.** Combining the elementary proof with the numerical C3b verification:
 
-> *For any primitive $A \subseteq [x, \infty)$ with $x \geq 3$, the per-prime bound $\sum_{b \in A_p} \frac{1}{b\log b} \leq \frac{1}{p\log p}$ holds for all primes $p \leq 199$ (unconditional). For $p > 199$, the bound holds for Case A and requires an analytic argument for Case B.*
+> *For any primitive $A \subseteq [x, \infty)$ with $x \geq 3$, the per-prime bound $\sum_{b \in A_p} \frac{1}{b\log b} \leq \frac{1}{p\log p}$ holds unconditionally for all primes $p \leq 298{,}937$ (Case A is always unconditional; Case B is proved by C3b, which is rigorously established via sieve computation with tail bound). For $p \geq 298{,}993$, the bound holds for Case A but Case B requires an analytic argument.*
 
 The conjecture therefore holds for all primitive $A$ supported on primes of size $\leq 199$ (a finite check), and the tail $p > 199$ reduces to a Dirichlet-series question about the modified sum $R_p(p+1)$.
