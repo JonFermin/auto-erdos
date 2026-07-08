@@ -118,7 +118,7 @@ def _seed_sidon(spec):
             candidates.append(reflected)
             # On reflected base, scan for any y not in set that doesn't break
             # Sidon; if found, +1 over best_so_far.
-            extended = _augment_one(reflected, N)
+            extended = extend_sidon_by_one(reflected, N)
             if extended is not None:
                 candidates.append(extended)
 
