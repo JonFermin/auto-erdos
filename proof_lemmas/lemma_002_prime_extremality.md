@@ -11,7 +11,9 @@ partial_progress:
   case3b_prime_power_plus_semiprime: proved_numerically
   case3_general: proved_inductively_given_C3b
   infinite_sets: proved_by_monotone_convergence
-remaining_gap: unconditional_proof_of_C3b_for_p_gt_199
+  case_B_derivation: corrected_in_Q11
+remaining_gap: C3b_fails_asymptotically_for_p_gt_threshold
+open_sub_question: Q12_strengthened_induction_for_large_p
 ---
 
 # Lemma 2: Prime extremality (the hard lemma)
@@ -39,10 +41,12 @@ primitive $A \subseteq [x, \infty)$ is bounded by $(1+o(1))/\log x \to 0$.
    - **Case 3b** (Section 9): $A_p = \{p^m\} \cup \{pq_i\}$ (at most one prime power + any semiprimes,
      all $\Omega(b) \leq 2$); bound proved: $\sum < \frac{1}{2p^2\log p} + \frac{P(p+1)}{p} \leq \frac{1}{p\log p}$,
      verified for all primes $p \leq 199$.
-   - **Case 3 general** ($\Omega(b) \geq 3$): elements like $pqr$, $p^2q$, $pq^2$ — open. Requires
-     controlling $\int_1^\infty G(u)\,du$ where $G(u) = \sum_{b \in A_p} b^{-u}$; elementary
-     bounds insufficient.
+   - **Case 3 general** ($\Omega(b) \geq 3$, Q10–Q11): proved by strong induction on $\Omega$. Case A
+     ($p^2 \notin B$) needs only C3a (always true). Case B ($p^2 \in B$): the $p^2$ contribution is
+     extracted directly as $\frac{1}{2p^2\log p}$ and remaining elements $pm$ (with $\text{spf}(m)>p$)
+     contribute $\leq P(p+1)/p$; total $\leq 1/(p\log p)$ iff C3b holds. Q11 corrected an earlier
+     error (wrong term $\frac{1}{p^2\log p}$) to the exact value $\frac{1}{2p^2\log p}$.
 
 3. **Summation.** Summing over all $p$ yields the full bound (assuming Step 2 holds).
 
-**Status: conditionally proved** (Section 10). The full per-prime bound follows by strong induction on $\Omega(b)$, using Cases 1, 2, 3a, 3b as base and inductive ingredients. The only remaining gap is an unconditional proof of Claim C3b ($P(p+1) \leq (1-1/(2p))/\log p$ for all primes $p$), verified for $p \leq 199$ and consistent with asymptotic behavior. An extended numerical check would make the proof unconditional.
+**Status: conditionally proved** (Sections 10–11). The full per-prime bound follows by strong induction on $\Omega(b)$. Case A is unconditional (uses C3a only, always true). Case B requires Claim C3b ($P(p+1)\log p \leq 1-1/(2p)$), verified for $p \leq 199$ but shown to FAIL asymptotically (since $P(p+1)\log p \approx 1-1/(p\log p) > 1-1/(2p)$ for large $p$). The remaining gap is Case B for large primes; Q12 will address a strengthened induction.

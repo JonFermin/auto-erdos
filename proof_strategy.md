@@ -544,8 +544,24 @@ $$\frac{1}{p}\sum_{c \in B'}\frac{1}{c\log c} \leq \frac{1}{p}\!\!\sum_{q > p,\,
 (Last step: $P(p+1) \leq 1/\log p$, implied by C3b.) $\square$
 
 *Case B* ($B'_p = \{p\}$, i.e., $p^2 \in B$):
-$$\frac{1}{p}\sum_{c \in B'}\frac{1}{c\log c} \leq \frac{1}{p}\!\left(\frac{1}{p\log p} + P(p+1)\right) = \frac{1}{p^2\log p} + \frac{P(p+1)}{p} \leq \frac{1}{p\log p}.$$
-(Last step: C3b gives $P(p+1) \leq (1-1/(2p))/\log p$, which rearranges to $\frac{1}{p^2\log p} + \frac{P(p+1)}{p} \leq \frac{1}{p\log p}$.) $\square$
+
+**Direct extraction (corrected derivation).** The crude bound $\frac{1}{b\log b} < \frac{1}{p}\frac{1}{c\log c}$ is only used for $b \neq p^2$. For $b = p^2$ we use the EXACT value:
+$$\frac{1}{p^2\log(p^2)} = \frac{1}{2p^2\log p}.$$
+
+Let $M = \{b/p : b \in B\setminus\{p^2\}\}$. By primitivity of $B$: every $b \in B\setminus\{p^2\}$ satisfies $v_p(b) = 1$ (since $p^2|b$ would force $b = p^2$ by primitivity), so spf$(m) > p$ for all $m \in M$. The set $M$ is primitive (divisibility in $M$ would imply divisibility in $B\setminus\{p^2\}$).
+
+Applying the crude bound only to $b \neq p^2$:
+$$\sum_{b \in B} \frac{1}{b\log b} = \frac{1}{2p^2\log p} + \sum_{m \in M}\frac{1}{pm\log(pm)} < \frac{1}{2p^2\log p} + \frac{1}{p}\sum_{m \in M}\frac{1}{m\log m}.$$
+
+(Used: $\log(pm) > \log m$ so $\frac{1}{pm\log(pm)} < \frac{1}{pm\log m} = \frac{1}{p}\frac{1}{m\log m}$.)
+
+Partitioning $M$ by spf and applying IH at level $K-1$: $\sum_{m \in M}\frac{1}{m\log m} \leq P(p+1)$. Thus:
+$$\sum_{b \in B}\frac{1}{b\log b} < \frac{1}{2p^2\log p} + \frac{P(p+1)}{p} \leq \frac{1}{p\log p}.$$
+
+The last inequality $\frac{1}{2p^2\log p} + \frac{P(p+1)}{p} \leq \frac{1}{p\log p}$ rearranges to
+$$P(p+1)\log p \leq 1 - \frac{1}{2p}, \quad \text{i.e., exactly Claim C3b.} \quad \square$$
+
+*Note on the prior (incorrect) derivation:* The approach via $B' = B/p$ applied the crude bound to ALL elements including $p^2$, giving the $p$-contribution as $\frac{1}{p}\cdot\frac{1}{p\log p} = \frac{1}{p^2\log p}$ instead of the exact $\frac{1}{2p^2\log p}$. This introduced a factor-of-2 error in the $p^2$-term and led to the wrong required condition $(1-1/p)/\log p$ (stronger than C3b). The corrected derivation above uses $\frac{1}{2p^2\log p}$ and requires exactly C3b.
 
 In both cases $\sum_{b \in B} \frac{1}{b\log b} < \frac{1}{p\log p}$. The induction is complete. $\square$
 
@@ -560,10 +576,25 @@ $$\sum_{a \in A} \frac{1}{a\log a} \leq \sum_{p \geq x,\,\text{prime}} \frac{1}{
 
 This proves the conjecture for $x \geq 3$, **conditional on Claim C3b**.
 
-C3b is verified numerically for $p \leq 199$ and holds asymptotically: $P(p+1)\log p \to 1^-$
-(as $\log p / \log(p+1) < 1$ for all finite $p$), so $P(p+1) \leq (1-1/(2p))/\log p$ holds
-for all sufficiently large $p$. An explicit finite check of C3b for remaining primes $p > 199$
-would make the proof unconditional.
+**C3b status (updated after Q11 extended numerical check):**
 
-**Lemma 2 status: conditionally proved** (all cases proved given C3b; the only remaining gap
-is an unconditional proof of C3b for $p > 199$, which the numerics and asymptotics strongly support).
+C3b is verified numerically for all primes $p \leq 199$. However, extended computation reveals:
+
+*C3b FAILS for large primes.* Numerical verification at $p = 999983$ gives:
+$$P(p+1)\log p \approx 1.000010 > 0.999999 = 1 - \frac{1}{2p}.$$
+
+**Asymptotic analysis of the failure.** By the prime number theorem (partial summation):
+$$P(x) = \frac{1}{\log x} - \frac{1}{p(\log p)^2} + O\!\left(\frac{1}{p(\log p)^3}\right),$$
+so $P(p+1)\log p \approx 1 - \frac{1}{p\log p}$ for large $p$.
+
+C3b requires $P(p+1)\log p \leq 1 - \frac{1}{2p}$. Since $\frac{1}{p\log p} < \frac{1}{2p}$ for $p \geq 11$ (i.e., $\log p > 2$), we have $P(p+1)\log p \approx 1 - \frac{1}{p\log p} > 1 - \frac{1}{2p}$, so **C3b fails asymptotically for all sufficiently large primes**.
+
+**Remaining gap.** Case B of the induction (when $p^2 \in B$) requires C3b. C3b holds for $p \leq 199$ (verified) but fails asymptotically. Closing this gap requires one of:
+1. An improved bound on $P(p+1)$ exploiting the primitive-set constraint on $M$.
+2. A non-elementary (analytic/sieve) argument for Case B at large $p$.
+3. A strengthened inductive claim (sum $< 1/(p\log p) - \epsilon(p)/p$ with correction term) that closes Case B without C3b.
+
+(Question Q12 will pursue approach 3.)
+
+**Lemma 2 status: conditionally proved** (all cases proved given C3b for $p \leq 199$; Case B at
+large $p$ remains open pending an analytic argument or strengthened induction).
