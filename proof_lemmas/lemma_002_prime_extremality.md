@@ -12,8 +12,10 @@ partial_progress:
   case3_general: proved_inductively_given_C3b
   infinite_sets: proved_by_monotone_convergence
   case_B_derivation: corrected_in_Q11
-remaining_gap: C3b_fails_asymptotically_for_p_gt_threshold
-open_sub_question: Q12_strengthened_induction_for_large_p
+remaining_gap: C_exact_claim_for_modified_sum_requires_LP_type_tools
+open_sub_question: Q12_Dirichlet_series_bound_for_Case_B_large_p
+unconditional_for: p_leq_199_all_cases
+unconditional_CaseA: all_p
 ---
 
 # Lemma 2: Prime extremality (the hard lemma)
