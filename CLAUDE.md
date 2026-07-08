@@ -126,9 +126,10 @@ that must survive across sessions.
 - Score: |S| (cap set size).
 - Verifier complexity: O(k² · n). Fast for n≤8; noticeable around k=2500 (n=10).
 
-**sidon family** (problems `sidon_100` … `sidon_3000`):
+**sidon family** (problems `sidon_100` … `sidon_10000`; `sidon_100` and
+`sidon_500` are `status: closed` — solved to their proven optimum):
 - Input: iterable of distinct ints in [1, N].
-- Validity: all pairwise sums a+b (a<b) distinct.
+- Validity: all pairwise sums a+b (a≤b, B₂ — includes 2a) distinct.
 - Score: |S| (Sidon / B₂ set size).
 - Verifier complexity: O(k²). Fast for any practical k.
 
