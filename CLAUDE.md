@@ -148,7 +148,7 @@ family:            capset
 score:             137.000000
 is_valid:          1
 verifier_seconds:  0.0234
-baseline:          496
+baseline:          512
 status_hint:       no_improvement | improvement_eligible | invalid
 reason:            <verifier's one-line summary>
 ```

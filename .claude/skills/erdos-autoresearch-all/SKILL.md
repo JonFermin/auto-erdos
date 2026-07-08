@@ -13,9 +13,9 @@ The canonical source of truth is the `status` field in each `problems/*.json`: t
 
 **capset family** (cap sets in F_3^n: no 3-term AP, score = |S|):
 - `capset_n7` (LB 236, UB 288)
-- `capset_n8` (LB 496 — default problem)
+- `capset_n8` (LB 512, FunSearch explicit cap — default problem)
 - `capset_n9` (LB 1082 — big LB↔UB gap)
-- `capset_n10` (LB 2474 — slowest verifier)
+- `capset_n10` (LB 2432, complete cap — slowest verifier)
 
 **sidon family** (B₂ sets in [1, N]: pairwise sums distinct, score = |S|):
 - `sidon_1000`  (best achieved 35, UB 38)
@@ -121,7 +121,7 @@ When all N are done, emit a single cross-problem summary table to the human:
 | Problem      | Baseline (LB) | Running Best | Keeps | Trials | Branch                    |
 |--------------|---------------|--------------|-------|--------|---------------------------|
 | capset_n4    | 20            | 20           | 0     | 20     | erdos-research/<tag>      |
-| capset_n8    | 496           | 503          | 1     | 20     | erdos-research/<tag>  ★   |
+| capset_n8    | 512           | 517          | 1     | 20     | erdos-research/<tag>  ★   |
 | ...          | ...           | ...          | ...   | ...    | ...                       |
 ```
 

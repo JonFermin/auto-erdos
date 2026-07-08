@@ -10,7 +10,7 @@ no Sharpe deflation. The score is the score.
 To set up a new experiment, work with the user to:
 
 1. **Pick a problem**: choose a `PROBLEM_TAG` from `problems/*.json`. Default is
-   `capset_n8` (cap sets in F_3^8, baseline 496).
+   `capset_n8` (cap sets in F_3^8, baseline 512).
 2. **Agree on a run tag**: propose a tag based on today's date (e.g. `apr28`).
    The branch `erdos-research/<tag>` must not already exist — this is a fresh run.
 3. **Create the branch**: `git checkout -b erdos-research/<tag>` from current main.
@@ -92,10 +92,12 @@ combines three layers and returns the largest:
   3. **Randomized greedy** — fallback, deterministic.
 
 So the seed is at-or-above the literature LB on every Sidon problem out of
-the box (e.g. sidon_500: 24 vs LB 23; sidon_1000: 33 vs LB 32) and at LB
-exactly for capset n in {1, 2, 3, 4}. For capset n >= 5 the seed is below
-LB but materially stronger than a plain greedy. Your job is to push above
-the seed — the problem is, at minimum, no harder than that starting point.
+the box (e.g. sidon_1000: 33+ vs LB 32) and AT the literature LB for every
+capset problem: n in {1,2,3,4} exactly, and n in {7,8,9,10} via the shipped
+literature-record caps (`library.capset_records` — Edel's caps plus
+FunSearch's 512-cap at n=8). Only n=5/6 sit below LB without the optional
+cap_n6_size112 disk cache. Your job is to push ABOVE the seed — every trial
+is an attempt at a genuinely new record, not a re-derivation of known ones.
 
 **CRITICAL — the seed run is non-committing.** `strategy.py` already exists
 at HEAD; you do NOT make a git commit before running the seed. After
@@ -126,7 +128,7 @@ a real hypothesis, not a no-op.
     score:             137.000000
     is_valid:          1
     verifier_seconds:  0.0234
-    baseline:          496
+    baseline:          512
     status_hint:       no_improvement
     reason:            valid cap set of size 137 in F_3^8
     search_seconds:    412.3
@@ -207,7 +209,7 @@ Example:
 
     commit	score	is_valid	verifier_seconds	status	description
     a1b2c3d	137.000000	1	0.0234	discard	thesis: randomized greedy seed — well below baseline
-    b2c3d4e	248.000000	1	0.1023	discard	thesis: greedy with restart — still well under 496 baseline
+    b2c3d4e	248.000000	1	0.1023	discard	thesis: greedy with restart — still well under 512 baseline
     c3d4e5f	0.000000	0	0.0019	discard	thesis: tried a Behrend-style construction — verifier flagged AP
 
 ## State probes
@@ -454,6 +456,8 @@ Public API:
 | `library.capset` | `lift_to_dim(cap, src, tgt)` | Zero-pad embedding. |
 | `library.capset` | `recursive_product(n)` | Cap in F_3^n via repeated cap_n1/cap_n2 product-lift. |
 | `library.capset` | `best_seed(n)` | Strongest shipped cap: uses cap_n4_size20 × small-cap by product-lift. |
+| `library.capset_records` | `record_cap(n)` | Shipped literature-record cap in F_3^n (n=7: 236, n=8: 512, n=9: 1082, n=10: 2432), or None. Provenance: `library/data/records/SOURCES.md`. |
+| `library.capset_records` | `record_sizes()` | `{n: size}` of every shipped record. |
 | `library.capset_lifts` | `cap_n6_size112()` | Edel's 112-cap in F_3^6 (literature LB), if disk cache present (else None). |
 | `library.capset_lifts` | `best_seed_v2(n)` | Strongest available product-lift; uses cap_n6_size112 when cached. n=10: 2240 (vs 1600 from `capset.best_seed`). |
 | `library.capset_lifts` | `best_decomposition_size(n)` | Size of the best product-lift the library can build for F_3^n. |
@@ -469,15 +473,16 @@ Public API:
 
 **Note on size**: for sidon_100 / 500 / 1000 / 3000, `singer_for_n` already
 matches or beats the literature baseline (11 / 24 / 33 / 53 vs 10 / 23 / 32 / 53).
-For capset, `capset_lifts.best_seed_v2(n)` is the strongest available
-product-lift. With `cap_n6_size112` cached on disk (built via
-`scripts/find_cap_n6_size112.py`), it reaches: n=6: 112 (LB matched),
-n=8: 448, n=9: 1008, n=10: 2240. Without that cache it falls back to
-existing primitives and produces small wins over `capset.best_seed` —
-n=6: 81 (vs 80), n=10: 1620 (vs 1600). To push capset *above* LB at
-n>=7 you need a real new construction or a smart augmentation of
-`best_seed_v2` (e.g., orbit-sweep + extend_capset_by_one, or
-swap_remove_k_add_kplus1 from `capset_sat`).
+For capset, `capset_lifts.best_seed_v2(n)` now serves the shipped
+literature-record caps directly (`library.capset_records.record_cap(n)`,
+provenance in `library/data/records/SOURCES.md`): n=7: 236, n=8: 512
+(FunSearch), n=9: 1082, n=10: 2432 — the LB exactly at each open n. For
+n>=11 the DP composes them via product-lift (n=11: 4864, n=12: 12544 with
+cap_n6_size112 cached). To push capset *above* LB you need a genuinely new
+construction or a smart augmentation of the record cap (orbit-sweep +
+extend_capset_by_one, swap_remove_k_add_kplus1 from `capset_sat`, or the
+candidate routes in `library/data/records/CONSTRUCTIONS.md`). Note the
+n=10 record cap is COMPLETE — no +1 extension exists, ever.
 
 ## Sidon-specific hypothesis ideas
 

@@ -2,10 +2,10 @@
   "name": "capset_n10",
   "family": "capset",
   "n": 10,
-  "baseline": 2474,
+  "baseline": 2432,
   "upper_bound": 7776,
   "status": "open",
   "time_budget_s": 5400,
   "trial_cap": 100,
-  "note": "Best known lower bound: a_10(F_3) >= 2474 (Edel). upper_bound 7776 is the trivial tripling of the n=9 UB. Verifier is O(k^2 * n) ~= 62M ops at k=2474, n=10 -> ~5s per call. time_budget_s bumped 2400->5400 and trial_cap raised to 100 so SAT-extend-by-1 gets a meaningful budget against a 2474-seed."
+  "note": "Baseline corrected 2474->2432 on 2026-07-07: the 2474 figure entered the original scaffold WITHOUT a citation and no published source could be located (searched Edel's papers, Tyrrell 2022/23, Elsholtz-Lipnik/Pach, FunSearch, AlphaEvolve, OEIS A090245; a 2021 TU Delft survey lists only 2240). Best documented explicit cap: 2432 = doubling of Edel's (1216,9,3) projective cap, shipped verified as library.capset_records.record_cap(10). CAUTION: the 2432-cap is COMPLETE (zero single-point extensions), so beating it needs a structurally different construction - see library/data/records/CONSTRUCTIONS.md for three candidate routes. Verifier ~5s per call at this size."
 }

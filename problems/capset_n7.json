@@ -6,5 +6,5 @@
   "upper_bound": 288,
   "status": "open",
   "time_budget_s": 900,
-  "note": "Best known lower bound: a_7(F_3) >= 236 (Calderbank-Fishburn / Edel construction). Best published upper bound 288. The 236..288 headroom is real but decades-hard."
+  "note": "Best known lower bound: a_7(F_3) >= 236 (Calderbank-Fishburn / Edel). Best published upper bound 288. The shipped library reproduces the 236-cap exactly (library.capset_records.record_cap(7), affine part of Edel's (248,7,3) projective cap) so the seed starts AT the LB - every trial is an attempt at a genuinely new record."
 }

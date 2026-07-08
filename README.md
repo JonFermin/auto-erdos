@@ -63,9 +63,9 @@ of-truth, gatekeeper computes status.
 | `capset_n5` | 5 | 45 | 45 | sanity | Exact value (Pellegrino) |
 | `capset_n6` | 6 | 112 | 112 | sanity | Exact (Hill construction, Potechin optimality) |
 | `capset_n7` | 7 | 236 | 288 | open | Real but decades-hard headroom |
-| `capset_n8` | 8 | 496 | 864* | open | Default. *trivial 3× tripling of n=7 UB |
+| `capset_n8` | 8 | 512 | 864* | open | Default. LB = FunSearch explicit cap (Nature 2024). *trivial 3× tripling of n=7 UB |
 | `capset_n9` | 9 | 1082 | 2592* | open | Big gap |
-| `capset_n10` | 10 | 2474 | 7776* | open | Verifier is slow at this size |
+| `capset_n10` | 10 | 2432 | 7776* | open | LB corrected from unsourced 2474; shipped 2432-cap is complete. Verifier is slow |
 
 ### sidon family (Sidon / B₂ sets in [1, N]: all pairwise sums distinct)
 
