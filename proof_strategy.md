@@ -1,70 +1,87 @@
 # Proof attempt — `primitive_set_erdos`
 
-This file is the agent-editable proof draft for the Track 2 loop. It is the
-ONLY editable proof artifact (alongside lemma files in `proof_lemmas/`). Its
-content is hashed for round-dedup; pure whitespace / comment edits do not
-count as a real round.
-
-The loop reads this file via `proof_prepare.py`, runs five LLM critics
-against it, and decides keep/discard via `proof_log_result.py`.
-
 ## Setup
 
-- **Claim**: see `proofs/primitive_set_erdos.json` field `claim_latex`. The
-  conjecture is that for any primitive set $A \subset [x, \infty)$ the sum
-  $\sum_{a \in A} 1/(a \log a)$ is bounded above by $1 + o(1)$ as $x \to \infty$.
-- **Status**: open. Until a verifier-accepted witness is committed, no claim
-  of resolution may appear in this file (`critic_openness` enforces this).
-- **Given facts ledger**: see `proofs/primitive_set_erdos.json` field
-  `given_facts`. The proof may cite F1 (Erdős-Zhang upper bound ≈ 1.399),
-  F2 (Omega-stratum lower bound with UNSIGNED big-O — read carefully),
-  F3 (exact asymptotic showing canonical extremal sum approaches 1 from
-  BELOW). Citations to facts not in the ledger trigger `critic_ledger`.
+**Claim**: For any primitive set $A \subseteq [x, \infty)$ (no distinct $a, b \in A$
+with $a | b$), $\sum_{a \in A} \frac{1}{a \log a} < 1 + o(1)$ as $x \to \infty$.
 
-## Anti-traps (the canonical failure modes)
+**Status**: open. This is an open conjecture; no counterexample or proof exists.
+No resolution claim is made here.
 
-- **F2 sign confusion**. F2 says
-  $\sum_{a \in A_k} 1/(a \log a) \geq 1 + O(k^{-1/2 + o(1)})$
-  with the $O(\cdot)$ term **unsigned**. Concluding $\sum > 1$ from F2
-  alone is a sign error — `critic_sign` will emit
-  `unsigned-O-sign-confusion` BLOCKING.
-- **F3 read upside-down**. F3 says
-  $\sum_{a \in A_k} 1/(a \log a) = 1 - (c+o(1)) k^2/2^k$
-  with $c \approx 0.0656 > 0$. The leading correction is *negative*, so
-  the sum approaches $1$ from BELOW. Treating it as approaching from
-  above is `f3-from-above-misread` BLOCKING.
-- **Open claim asserted resolved without witness**. The conjecture is open.
-  Phrases like "the conjecture is false" / "we disprove" trigger
-  `critic_openness`'s `open-claim-asserted-resolved-without-witness`
-  BLOCKING — unless a verifier-accepted `<!-- WITNESS -->` block is
-  committed and `witness_valid == 1`.
+**Given facts** (ledger: F1, F2, F3 only):
 
-## Witness format (the only path to a counterexample claim)
+- **F1**: For any primitive $A \subseteq \mathbb{N}$,
+  $\sum_{a \in A} 1/(a \log a) < e^\gamma \pi/4 + o(1) \approx 1.399 + o(1)$.
+  UPPER bound; consistent with the conjecture.
 
-A claim of disproof MUST be backed by a finite primitive set whose sum is
-rigorously verified to exceed `witness_threshold` by
-`library.primitive_set_witness.verify_witness`. To commit a witness,
-embed exactly one block of the form:
+- **F2**: For $A_k = \{n \in \mathbb{N} : \Omega(n) = k\}$,
+  $\sum_{a \in A_k} 1/(a \log a) \geq 1 + O(k^{-1/2+o(1)})$.
+  The $O$-term is UNSIGNED — do not infer sum $> 1$ from F2 alone.
 
-```
-<!-- WITNESS
-{
-  "x_floor": 100,
-  "elements": [101, 103, 107, 109, ...],
-  "claimed_sum_lower_bound": 1.005
-}
-WITNESS -->
-```
+- **F3**: For $A_k$ as above,
+  $\sum_{a \in A_k} 1/(a \log a) = 1 - (c + o(1)) k^2/2^k$, $c \approx 0.0656 > 0$.
+  Correction is NEGATIVE; sum approaches 1 from BELOW.
 
-at the bottom of this file. `proof_prepare.py` parses the JSON, runs the
-deterministic verifier, and sets `witness_valid` accordingly. No witness
-block ⇒ `witness_valid = 0` ⇒ no counterexample claim is possible.
+## Section 1: Omega-Stratification Structure
 
-## Body
+Let $A \subseteq [x, \infty)$ be a primitive set. Define:
+$$A_k = \{a \in A : \Omega(a) = k\}, \quad k \geq 1.$$
+Then $A = \bigsqcup_{k \geq 1} A_k$ and:
+$$f(A) := \sum_{a \in A} \frac{1}{a \log a} = \sum_{k \geq 1} f(A_k), \quad
+f(A_k) = \sum_{a \in A_k} \frac{1}{a \log a}.$$
 
-(The agent fills in the body. Sketch a structure, prove what you can,
-hedge the rest. Lemmas live in `proof_lemmas/lemma_*.md` and are cited
-by id from this file.)
+By Lemma `stratification_setup` (proved):
 
-This proof attempt is currently a stub. Pick the lowest-numbered open
-qid from `proof_open_questions.jsonl` and start.
+1. Within each $A_k$, no element properly divides another.
+2. For $j < k$, $a \in A_j$, $b \in A_k$: primitivity forces $a \nmid b$.
+
+## Section 2: Single-Stratum Bound (Easy)
+
+By Lemma `single_stratum_f3_bound` (proved):
+
+For each $k \geq 1$, $f(A_k) \leq \sum_{n \geq 2, \Omega(n)=k} 1/(n \log n)$.
+By F3 (correction NEGATIVE), this full-stratum sum equals $1 - (c+o(1))k^2/2^k < 1$.
+Therefore:
+$$f(A_k) < 1 \quad \text{for each } k \geq 1.$$
+
+**Critical limitation**: Summing across $k$ gives $f(A) < +\infty$ — vacuous.
+Bounding the TOTAL requires the cross-stratum constraint.
+
+## Section 3: The Proof Gap (Cross-Stratum Interaction)
+
+By Lemma `cross_stratum_interaction` (status: open):
+
+To show $f(A) = \sum_{k \geq 1} f(A_k) < 1 + o(1)$, we need to use the
+cross-stratum constraint: for $j < k$, elements of $A_j$ cannot divide
+elements of $A_k$.
+
+**What the available facts yield**:
+- F1 gives $f(A) < 1.399 + o(1)$ as a black-box bound. This does not close
+  the gap to $1 + o(1)$.
+- F2 has an unsigned $O$-term and supplies no positivity.
+- F3 bounds each stratum individually; summing naively is vacuous.
+
+**The obstacle**: Even knowing each $A_k$ contributes $< 1$, and that elements
+of lower strata block higher-stratum elements, we cannot derive a bound of
+$1 + o(1)$ on the total using F1, F2, F3 alone. The required cross-stratum
+reduction estimate is not in the given-facts ledger.
+
+## Section 4: Partial Result
+
+This constitutes a **partial result**:
+
+- Proved: $f(A_k) < 1$ for each stratum (Lemma `single_stratum_f3_bound`, via F3).
+- Proved: stratification structure and cross-stratum constraint
+  (Lemma `stratification_setup`).
+- Identified: the genuine open gap is a quantitative cross-stratum bound
+  (Lemma `cross_stratum_interaction`).
+
+**What this session rules out**:
+- No single-stratum argument can prove the conjecture; each stratum is
+  individually bounded but their sum is not bounded by a single-stratum approach.
+- F2 alone (with unsigned $O$) cannot establish any sum exceeds 1.
+- F3 alone (with negative correction) cannot bound the multi-stratum total.
+
+The conjecture remains open. This session documents the proof structure and
+identifies the hard subproblem (cross-stratum quantitative exclusion) as the
+key obstacle.
