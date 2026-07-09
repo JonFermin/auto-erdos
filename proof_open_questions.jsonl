@@ -8,3 +8,5 @@
 {"qid":"Q2","status":"resolved","session_id":"s_0706-080610-414e","summary":"addressed in round that produced keep_disproof (exit 7)","ts":"2026-07-06T08:27:09+00:00"}
 {"qid":"Q3","status":"resolved","session_id":"s_0706-080610-414e","summary":"addressed in round that produced keep_disproof (exit 7)","ts":"2026-07-06T08:27:09+00:00"}
 {"qid":"Q4","status":"resolved","session_id":"s_0706-080610-414e","summary":"addressed in round that produced keep_disproof (exit 7)","ts":"2026-07-06T08:27:09+00:00"}
+{"qid":"Q5","status":"resolved","session_id":"s_0709-080642-99b3","summary":"omega-stratification structure written; 2 lemmas proved (stratification_setup, single_stratum_f3_bound); 1 open gap identified (cross_stratum_interaction); partial result kept","ts":"2026-07-09T08:22:40+00:00"}
+{"qid":"Q6","status":"resolved","session_id":"s_0709-080642-99b3","summary":"partial result documented in Section 4 of proof_strategy.md; proof_log_result accepted as keep_progress; proceeding to session_end","ts":"2026-07-09T08:22:40+00:00"}
