@@ -8,3 +8,4 @@
 {"qid":"Q2","status":"resolved","session_id":"s_0706-080610-414e","summary":"addressed in round that produced keep_disproof (exit 7)","ts":"2026-07-06T08:27:09+00:00"}
 {"qid":"Q3","status":"resolved","session_id":"s_0706-080610-414e","summary":"addressed in round that produced keep_disproof (exit 7)","ts":"2026-07-06T08:27:09+00:00"}
 {"qid":"Q4","status":"resolved","session_id":"s_0706-080610-414e","summary":"addressed in round that produced keep_disproof (exit 7)","ts":"2026-07-06T08:27:09+00:00"}
+{"qid":"Q5","status":"claimed","session_id":"s_0710-080650-bb99","summary":"taking Q5 — outline stratification proof structure and create lemma files","ts":"2026-07-10T08:09:50+00:00"}
