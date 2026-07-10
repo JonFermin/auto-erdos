@@ -52,14 +52,25 @@ $k$, but the density of $k$-almost primes is much higher than $j$-almost primes,
 so the ruling-out is local and does not globally bound $S_k(A,x)$ below
 $T_k(2) - \epsilon$.
 
-## Approaches that were investigated
+## Approaches that were investigated and WHY they fail
 
-1. **Dyadic interval counting**: Primitive sets in $[x, 2x]$ have $O(x/\log x)$
-   elements, each contributing $O(1/(x \log x))$, so total from $[x, 2x]$ is
-   $O(1/\log^2 x)$. Summing over $O(\log x)$ dyadic intervals gives
-   $O(1/\log x) = o(1)$, but this only bounds the contribution at the "level
-   of individual dyadic intervals" — it doesn't control the stratum sums
-   across intervals sharing the same $k$.
+1. **Dyadic interval counting (FAILS — gives O(log x), not O(1))**:
+   
+   Partition $[x, \infty)$ into dyadic intervals $I_j = [x2^j, x2^{j+1})$
+   for $j = 0, 1, 2, \ldots$ In each interval, ALL elements form a primitive
+   set (since if $a, b \in [N, 2N)$ with $a < b$ and $a|b$, then $b \geq 2a > 2N$,
+   a contradiction). So the per-interval contribution is bounded by:
+   $$\sum_{a \in A \cap I_j} \frac{1}{a \log a}
+     \leq \sum_{n \in I_j} \frac{1}{n \log n}
+     \approx \ln\!\left(1 + \frac{\log 2}{\log x + j \log 2}\right)
+     \approx \frac{\log 2}{\log x + j \log 2}.$$
+   Summing over all $j$:
+   $$\sum_{a \in A} \frac{1}{a \log a}
+     \leq \sum_{j=0}^\infty \frac{\log 2}{\log x + j \log 2}
+     = \sum_{j=0}^\infty \frac{1}{\log_2 x + j}$$
+   which is a DIVERGENT harmonic tail. The per-interval bound does not give a
+   convergent global sum; the global primitivity constraint (cross-interval
+   divisibility) must be used but the dyadic decomposition does not encode it.
 
 2. **Mertens / Abel summation**: Standard Mertens-type estimates give
    $\sum_{n \leq x, \Omega(n)=k} 1/n \sim (\log\log x)^{k-1}/((k-1)! \log x)$.

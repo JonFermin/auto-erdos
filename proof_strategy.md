@@ -154,6 +154,23 @@ contributing nearly 1.
 - Claiming the conjecture is proved or disproved without a valid witness:
   not supported.
 
+**Lemma `dyadic_interval_bound`** (status: proved): For any primitive set
+$A \subset [x, \infty)$ and any single dyadic interval $I = [N, 2N)$,
+$$\sum_{a \in A \cap I} \frac{1}{a \log a} \leq \frac{\log 2}{\log N} + O\!\left(\frac{1}{\log^2 N}\right).$$
+
+Proof: Every subset of $[N, 2N)$ is automatically primitive (no element divides
+another). So $A \cap [N, 2N)$ can be any subset of $[N, 2N)$. The sum is
+maximized when $A \cap I$ is the FULL set $\{N, N+1, \ldots, 2N-1\}$:
+$$\sum_{a=N}^{2N-1} \frac{1}{a \log a} = \int_N^{2N} \frac{dt}{t \log t} + O\!\left(\frac{1}{N \log N}\right)
+  = \ln\!\left(\frac{\log(2N)}{\log N}\right) + O\!\left(\frac{1}{N \log N}\right)
+  = \ln\!\left(1 + \frac{\log 2}{\log N}\right) + O\!\left(\frac{1}{N \log N}\right)
+  = \frac{\log 2}{\log N} + O\!\left(\frac{1}{\log^2 N}\right). \quad \square$$
+
+Note: This per-interval bound is tight but its sum over dyadic intervals
+$[x, 2x), [2x, 4x), \ldots$ diverges (a harmonic-type series). The
+cross-interval primitivity constraint is essential to obtain a finite global
+bound. See `proof_lemmas/lemma_cross_stratum_control.md` for why this fails.
+
 **Suggested directions for future work**:
 
 1. **Sieve / antichain density**: Any primitive set in $[x, 2x]$ contains
