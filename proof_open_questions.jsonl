@@ -13,3 +13,4 @@
 {"qid":"Q6","status":"resolved","session_id":"s_0710-080650-bb99","summary":"Partial result written in Section 3 of proof_strategy.md; dead ends ruled out; suggested directions noted; session declared open","ts":"2026-07-10T08:15:42+00:00"}
 {"qid":"Q7","status":"open","session_id":"s_0711-080759-fdf5","summary":"Trading decomposition: split A into A1=[x,x^e) and A2=[x^e,inf). S1 <= 1 by integral telescoping; bound S2 via blocking from A1 via primitivity.","ts":"2026-07-11T08:17:36+00:00"}
 {"qid":"Q7","status":"claimed","session_id":"s_0711-080759-fdf5","summary":"Taking Q7 — trading decomposition and blocking estimate for cross_stratum_control.","ts":"2026-07-11T08:17:36+00:00"}
+{"qid":"Q7","status":"resolved","session_id":"s_0711-080759-fdf5","summary":"Q7 trading decomposition complete: S1≤1 exact by integral, S2 open (dead end documented — sieve density, recursion, and induction all fail without cross-structure primitivity)","ts":"2026-07-11T09:27:48+00:00"}
