@@ -22,6 +22,7 @@ Cap-set background (capset family):
 """
 from __future__ import annotations
 
+import hashlib
 import json
 import math
 import os
@@ -238,12 +239,21 @@ def _status_hint(spec: dict, result: VerifyResult) -> str:
     return "no_improvement"
 
 
-def print_summary(candidate, result: VerifyResult) -> None:
+def print_summary(candidate, result: VerifyResult, tb: "TimeBudget | None" = None) -> None:
     """Emit the fixed metric block and append a row to verifier_results.tsv.
 
     Also updates ``best_so_far_<TAG>.json`` in the user cache when the
     candidate is valid AND scores higher than any prior valid candidate
-    seen for this problem (across all branches).
+    seen for this problem (across all branches), and maintains the
+    ``elites_<TAG>.json`` archive of the top distinct valid candidates.
+
+    Pass the run's ``TimeBudget`` as ``tb`` (the shipped strategy.py main
+    block does) to get budget-utilization lines — they surface how much of
+    the wall-clock search room the strategy actually used.
+
+    Extra informational lines (search_seconds / budget_seconds /
+    budget_used_pct / frontier) appear AFTER ``reason:`` — parsers that
+    grep the documented keys are unaffected.
     """
     spec = load_spec()
     hint = _status_hint(spec, result)
@@ -262,9 +272,77 @@ def print_summary(candidate, result: VerifyResult) -> None:
         reason = reason[:197] + "..."
     print(f"reason:            {reason}")
 
+    if tb is not None:
+        try:
+            elapsed = float(tb.elapsed)
+            budget = float(tb.seconds)
+            print(f"search_seconds:    {elapsed:.1f}")
+            print(f"budget_seconds:    {budget:.0f}")
+            if budget > 0:
+                print(f"budget_used_pct:   {100.0 * elapsed / budget:.1f}")
+        except (TypeError, ValueError):
+            pass
+
+    frontier = _frontier_report(candidate, result, spec)
+    if frontier is not None:
+        print(f"frontier:          {frontier}")
+
     _append_audit_row(spec, result, hint)
     _save_best_if_better(candidate, result, spec)
+    _save_elite_if_qualifies(candidate, result, spec)
     _save_last_candidate(candidate, result, spec)
+
+
+def _frontier_report(candidate, result: VerifyResult, spec: dict) -> str | None:
+    """One-line +1-extendability diagnostic for a VALID candidate.
+
+    Tells the agent whether the candidate is locally maximal (no single
+    point extends it) or how many extension points remain — gradient a
+    bare score can't provide. Cost is the same order as the verifier
+    itself: O(k²·n) for capset (blocked-set union), O(N·k) for sidon.
+    Disable with AUTOERDOS_FRONTIER=0. Returns None when skipped.
+    """
+    if not result.is_valid:
+        return None
+    if os.environ.get("AUTOERDOS_FRONTIER", "1").strip().lower() in ("0", "off", "false"):
+        return None
+    family = spec.get("family")
+    try:
+        if family == "sidon":
+            N = int(spec["N"])
+            pts = sorted(int(x) for x in candidate)
+            if not pts:
+                return None
+            s_set = set(pts)
+            sums = {pts[i] + pts[j] for i in range(len(pts)) for j in range(i, len(pts))}
+            addable = 0
+            for x in range(1, N + 1):
+                if x in s_set or (2 * x) in sums:
+                    continue
+                if any((x + a) in sums for a in pts):
+                    continue
+                addable += 1
+        elif family == "capset":
+            n = int(spec["n"])
+            pts = [tuple(int(c) for c in p) for p in candidate]
+            if not pts:
+                return None
+            s_set = set(pts)
+            blocked: set[tuple[int, ...]] = set()
+            k = len(pts)
+            for i in range(k):
+                a = pts[i]
+                for j in range(i + 1, k):
+                    b = pts[j]
+                    blocked.add(tuple((-(a[d] + b[d])) % 3 for d in range(n)))
+            addable = 3 ** n - len(s_set | blocked)
+        else:
+            return None
+    except (TypeError, ValueError, KeyError, MemoryError):
+        return None
+    if addable == 0:
+        return "locally maximal — no single-point extension exists"
+    return f"{addable} single-point extension(s) exist — +1 is reachable from this candidate"
 
 
 def _append_audit_row(spec: dict, result: VerifyResult, hint: str) -> None:
@@ -292,9 +370,17 @@ def _append_audit_row(spec: dict, result: VerifyResult, hint: str) -> None:
 
 # --------------------------------------------------------------------------- #
 # best_so_far cache — cross-branch persistence of the best valid candidate.
+#
+# AUTOERDOS_CACHE_DIR overrides the cache root — a harness/testing knob so
+# dry runs and pytest can use an isolated cache instead of polluting the
+# real per-problem trial history. Agents must not set it mid-loop.
 # --------------------------------------------------------------------------- #
 
-_CACHE_DIR = Path.home() / ".cache" / "auto-erdos"
+_CACHE_DIR = (
+    Path(os.environ["AUTOERDOS_CACHE_DIR"]).expanduser()
+    if os.environ.get("AUTOERDOS_CACHE_DIR")
+    else Path.home() / ".cache" / "auto-erdos"
+)
 
 
 def _best_so_far_path(tag: str | None = None) -> Path:
@@ -602,6 +688,176 @@ def load_best_so_far(tag: str | None = None) -> dict | None:
                 return None
     except OSError:
         return None
+
+
+# --------------------------------------------------------------------------- #
+# Elites archive — top distinct valid candidates, cross-branch.
+#
+# best_so_far keeps ONE candidate; the elites archive keeps the top
+# _ELITES_MAX distinct valid candidates seen for a problem so agents can
+# recombine structurally different near-records (FunSearch-style) instead
+# of always mutating the single best. Written by the verifier path only;
+# agents read via load_elites().
+# --------------------------------------------------------------------------- #
+
+_ELITES_MAX = 8
+
+
+def _elites_path(tag: str | None = None) -> Path:
+    return _CACHE_DIR / f"elites_{tag or PROBLEM_TAG}.json"
+
+
+@contextmanager
+def _generic_lock(path: Path):
+    """Cross-process lock via a sidecar .lock file (same pattern as the
+    best_so_far / hypothesis-log locks)."""
+    path.parent.mkdir(parents=True, exist_ok=True)
+    lock_path = path.with_name(path.name + ".lock")
+    f = open(lock_path, "a+", encoding="utf-8")
+    try:
+        if platform.system() == "Windows":
+            f.seek(0)
+            msvcrt.locking(f.fileno(), msvcrt.LK_LOCK, 1)
+        else:
+            fcntl.flock(f.fileno(), fcntl.LOCK_EX)
+        yield
+    finally:
+        try:
+            if platform.system() == "Windows":
+                try:
+                    f.seek(0)
+                    msvcrt.locking(f.fileno(), msvcrt.LK_UNLCK, 1)
+                except OSError:
+                    pass
+            else:
+                fcntl.flock(f.fileno(), fcntl.LOCK_UN)
+        finally:
+            f.close()
+
+
+def _candidate_key(serialized: list, family: str) -> str:
+    """Order-insensitive identity of a candidate set (for elite dedup)."""
+    if family == "capset":
+        canon: list = sorted(tuple(p) for p in serialized)
+    else:
+        canon = sorted(serialized)
+    payload = json.dumps(canon, separators=(",", ":"))
+    return hashlib.sha256(payload.encode("utf-8")).hexdigest()
+
+
+def _save_elite_if_qualifies(candidate, result: VerifyResult, spec: dict) -> None:
+    """Insert this run's valid candidate into elites_<TAG>.json if it is
+    distinct from every stored elite and scores above the current cutoff
+    (the worst stored elite, once the archive is full). Best-effort."""
+    if not result.is_valid:
+        return
+    score = float(result.score)
+    if not math.isfinite(score) or score <= 0:
+        return
+    family = spec.get("family", "")
+    tag = spec.get("name", PROBLEM_TAG)
+    serialized = _serialize_candidate(candidate, family)
+    if not serialized:
+        return
+    key = _candidate_key(serialized, family)
+    path = _elites_path(tag)
+    try:
+        with _generic_lock(path):
+            elites: list[dict] = []
+            if path.exists() and path.stat().st_size > 0:
+                try:
+                    with open(path, encoding="utf-8") as f:
+                        loaded = json.load(f)
+                    if isinstance(loaded, list):
+                        elites = loaded
+                except (json.JSONDecodeError, OSError):
+                    elites = []
+            if any(e.get("key") == key for e in elites):
+                return
+            if len(elites) >= _ELITES_MAX:
+                cutoff = min(float(e.get("score", 0)) for e in elites)
+                if score <= cutoff:
+                    return
+            elites.append(
+                {
+                    "key": key,
+                    "problem": tag,
+                    "family": family,
+                    "score": score,
+                    "commit": _short_commit(),
+                    "written_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+                    "candidate": serialized,
+                }
+            )
+            elites.sort(key=lambda e: float(e.get("score", 0)), reverse=True)
+            del elites[_ELITES_MAX:]
+            tmp_path = path.with_name(path.name + ".tmp")
+            with open(tmp_path, "w", encoding="utf-8") as f:
+                json.dump(elites, f, separators=(",", ":"))
+            os.replace(tmp_path, path)
+    except OSError:
+        return
+
+
+def load_elites(tag: str | None = None) -> list[dict]:
+    """Public read of the elites archive for a problem (best score first).
+
+    Each entry has: problem, family, score, commit, written_at, candidate.
+    Up to 8 distinct valid candidates are retained. Use for recombination —
+    e.g. cross two structurally different Sidon bases, or product-lift two
+    different caps — rather than always mutating the single best_so_far.
+    Returns [] if nothing valid has been archived yet.
+    """
+    path = _elites_path(tag)
+    if not path.exists() or path.stat().st_size == 0:
+        return []
+    try:
+        with _generic_lock(path):
+            with open(path, encoding="utf-8") as f:
+                loaded = json.load(f)
+    except (json.JSONDecodeError, OSError):
+        return []
+    return loaded if isinstance(loaded, list) else []
+
+
+# --------------------------------------------------------------------------- #
+# Problem notes — cross-branch knowledge channel.
+#
+# Free-form markdown per problem (literature findings, structural analyses,
+# ideas for future branches). Unlike the hypothesis log (one row per trial,
+# harness-written), notes are agent-written prose: the sanctioned place to
+# leave durable knowledge for the NEXT session. Kept in the cache dir so
+# every branch/worktree sees the same file.
+# --------------------------------------------------------------------------- #
+
+def _notes_path(tag: str | None = None) -> Path:
+    return _CACHE_DIR / f"notes_{tag or PROBLEM_TAG}.md"
+
+
+def load_problem_notes(tag: str | None = None) -> str:
+    """Return the accumulated notes for a problem ('' if none yet)."""
+    path = _notes_path(tag)
+    if not path.exists():
+        return ""
+    try:
+        return path.read_text(encoding="utf-8")
+    except OSError:
+        return ""
+
+
+def append_problem_notes(text: str, tag: str | None = None) -> None:
+    """Append a timestamped markdown section to the problem's notes file."""
+    path = _notes_path(tag)
+    stamp = datetime.now(timezone.utc).isoformat(timespec="seconds")
+    block = f"\n## {stamp}\n\n{text.rstrip()}\n"
+    try:
+        with _generic_lock(path):
+            with open(path, "a", encoding="utf-8") as f:
+                if f.tell() == 0:
+                    f.write(f"# notes — {tag or PROBLEM_TAG}\n")
+                f.write(block)
+    except OSError:
+        return
 
 
 # --------------------------------------------------------------------------- #

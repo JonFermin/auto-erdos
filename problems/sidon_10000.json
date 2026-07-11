@@ -1,0 +1,11 @@
+{
+  "name": "sidon_10000",
+  "family": "sidon",
+  "N": 10000,
+  "baseline": 102,
+  "upper_bound": 111,
+  "status": "open",
+  "time_budget_s": 2400,
+  "trial_cap": 25,
+  "note": "Baseline 102 = what library.sidon.singer_for_n(10000) constructs (verified B_2): best window of a Singer perfect difference set over GF(101), M=10303. upper_bound 111 via Lindstrom: sqrt(10000) + 10000^(1/4) + 1 = 111. Verifier O(k^2) trivial at k~110. New zoo problem (2026-07): large-N Sidon where windowed algebraic constructions leave real headroom and the record is search-soft."
+}

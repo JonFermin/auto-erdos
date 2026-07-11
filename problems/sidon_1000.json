@@ -3,7 +3,9 @@
   "family": "sidon",
   "N": 1000,
   "baseline": 32,
+  "upper_bound": 38,
+  "status": "open",
   "time_budget_s": 1200,
   "trial_cap": 25,
-  "note": "Singer over GF(31) gives a 32-element Sidon set in [0,992]. Beating 32 in [1,1000] would be a real result — the next Singer prime power above 31 is 32 (=2^5), giving 33 in [0,1056], so a 33-element set in [1,1000] is the natural target. SAT-extend (library.sat_extensions.extend_sidon_by_one) is the simplest route; prime-power Singer is the algebraic alternative."
+  "note": "Best achieved so far: 35 (records/sidon_1000_35_*, Singer-37 multiplier-orbit window). upper_bound 38 via Lindstrom: F_2(N) < sqrt(N) + N^(1/4) + 1 = 38.2. OGR exactness arguments do not reach here (optimal Golomb rulers verified only to 28 marks). Headroom 35..38 is genuinely open."
 }

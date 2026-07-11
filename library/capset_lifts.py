@@ -12,16 +12,18 @@ the existing cap_n4_size20 / cap_n3_size9 primitives — a slightly stronger
 optimization than library.capset.best_seed (e.g., n=10 picks 4+3+3=1620
 over 4+4+2=1600).
 
-Concrete sizes vs. literature LBs (with cap_n6_size112 cached):
+Concrete sizes vs. literature LBs (with cap_n6_size112 cached AND the
+library/data/records/ literature caps present — see library.capset_records):
 
-  n=5:  40   / 45   (no improvement — same as best_seed)
-  n=6:  112  / 112  (LB MATCHED)
-  n=7:  224  / 236
-  n=8:  448  / 496
-  n=9:  1008 / 1082
-  n=10: 2240 / 2474
-  n=11: 4480 / —
-  n=12: 12544 / —
+  n=5:  40    / 45   (no improvement — same as best_seed)
+  n=6:  112   / 112  (LB MATCHED)
+  n=7:  236   / 236  (LB MATCHED — Edel 248-cap affine part)
+  n=8:  512   / 512  (LB MATCHED — FunSearch explicit cap, Nature 2024)
+  n=9:  1082  / 1082 (LB MATCHED — Edel 541-cap doubled)
+  n=10: 2432  / 2432 (LB MATCHED — Edel 1216-cap doubled; the cap is
+                      COMPLETE: no single-point extension exists)
+  n=11: 4864  / —    (10+1 product)
+  n=12: 12544 / —    (6+6 product)
 
 Without cap_n6_size112 (fallback path):
 
@@ -38,7 +40,7 @@ import json
 from functools import lru_cache
 from pathlib import Path
 
-from library import capset
+from library import capset, capset_records
 
 _DATA_DIR = Path(__file__).resolve().parent / "data"
 
@@ -97,12 +99,17 @@ def cap_n6_size112() -> list[tuple[int, int, int, int, int, int]] | None:
 def _primitive_sizes() -> dict[int, int]:
     """{dim: size} of the best primitive cap available at each small dim.
 
-    Includes cap_n6_size112 ONLY if its cache is present. Callers use this
-    table to pick optimal decompositions of the target n.
+    Includes cap_n6_size112 ONLY if its cache is present, plus every
+    literature-record cap shipped in library/data/records/ (n=7: 236,
+    n=8: 512 FunSearch, n=9: 1082, n=10: 2432 — see capset_records).
+    Callers use this table to pick optimal decompositions of the target n.
     """
     table = {1: 2, 2: 4, 3: 9, 4: 20}
     if cap_n6_size112() is not None:
         table[6] = 112
+    for dim, size in capset_records.record_sizes().items():
+        if size > table.get(dim, 0):
+            table[dim] = size
     return table
 
 
@@ -142,6 +149,11 @@ def best_decomposition_size(n: int) -> int:
 # --------------------------------------------------------------------------- #
 
 def _primitive_cap(dim: int) -> list[tuple[int, ...]]:
+    # Literature-record caps dominate everything else at their dimension
+    # (n=7: 236, n=8: 512, n=9: 1082, n=10: 2432) — check them first.
+    rec = capset_records.record_cap(dim)
+    if rec is not None and len(rec) >= _primitive_sizes().get(dim, 0):
+        return rec
     if dim == 1:
         return capset.cap_n1()
     if dim == 2:

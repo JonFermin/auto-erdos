@@ -3,7 +3,9 @@
   "family": "capset",
   "n": 6,
   "baseline": 112,
+  "upper_bound": 112,
+  "status": "sanity",
   "time_budget_s": 300,
   "trial_cap": 1,
-  "note": "Exact value: a_6(F_3) = 112 (Edel, 2004; proven optimal). Counterexample impossible. trial_cap=1 keeps the seed-run as a null-control regression check and exits immediately."
+  "note": "Exact value: a_6(F_3) = 112 (Hill 1973 construction; Potechin 2008 proved optimality). Counterexample impossible. trial_cap=1 keeps the seed-run as a null-control regression check and exits immediately."
 }

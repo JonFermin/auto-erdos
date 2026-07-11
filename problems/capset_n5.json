@@ -3,6 +3,8 @@
   "family": "capset",
   "n": 5,
   "baseline": 45,
+  "upper_bound": 45,
+  "status": "sanity",
   "time_budget_s": 120,
   "trial_cap": 1,
   "note": "Exact value: a_5(F_3) = 45 (Pellegrino, 1970; proven optimal). Counterexample impossible. trial_cap=1 keeps the seed-run as a null-control regression check and exits immediately."
