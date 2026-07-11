@@ -173,15 +173,17 @@ bound. See `proof_lemmas/lemma_cross_stratum_control.md` for why this fails.
 
 **Suggested directions for future work**:
 
-1. **Sieve / antichain density**: Any primitive set in $[x, 2x]$ contains
-   at most $O(x/\log x)$ elements (by the Erdős–Gallai-type bound for
-   antichains in divisibility). Their contribution to the sum over an
-   interval of length $x$ is $O(x/\log x \cdot 1/(x \log x)) = O(1/\log^2 x)$.
-   Summing over $O(\log x)$ dyadic intervals $[x, 2x], [2x, 4x], \ldots$
-   gives $O(1/\log x) = o(1)$, BUT this only covers the "low weight"
-   regime. The contribution from elements concentrated near a single
-   $k$-stratum (e.g. squarefree numbers, or numbers of the form $p_1 \cdots p_k$)
-   is not directly handled this way.
+1. **Sieve / antichain density (DOES NOT APPLY at dyadic scale)**: By
+   Lemma `dyadic_interval_bound`, every subset of $[N, 2N)$ is automatically
+   primitive (no divisor-multiple pair can exist within a factor-of-2 window).
+   So a primitive set in $[x, 2x]$ can have up to $\approx x$ elements — the
+   full interval is primitive. The density within a single dyadic interval is
+   NOT restricted to $O(x/\log x)$; that bound applies to multi-scale settings
+   (e.g. $|A \cap [x, x^2]|$ with the cross-scale primitivity biting). For a
+   single interval, the per-interval contribution is at most
+   $\log 2/\log x = o(1)$ by Lemma `dyadic_interval_bound`, regardless of
+   density. This direction therefore gives only per-interval $o(1)$, not a
+   global bound.
 
 2. **Mertens-type averaging with primitivity**: The Mertens sum
    $\sum_{n \leq x} 1/n \approx \log x$ and $\sum_{n \leq x, \Omega(n)=k} 1/n
@@ -239,11 +241,11 @@ $$\mathcal{B}(A_1) := \{n \geq x^e : a \mid n \text{ for some } a \in A_1\}.$$
 
 Then $A_2 \subseteq [x^e, \infty) \setminus \mathcal{B}(A_1)$, i.e., every element of
 $A_2$ avoids all divisibility relations with $A_1$. The "unblocked" residual is:
-$$A_2 \subseteq \mathcal{U}(A_1) := \{n \geq x^e : \gcd(n, a) < a \text{ for all } a \in A_1\}.$$
+$$A_2 \subseteq \mathcal{U}(A_1) := \{n \geq x^e : a \nmid n \text{ for all } a \in A_1\}.$$
 
-(Note: $\gcd(n, a) < a$ does NOT mean $a \nmid n$ if $\gcd$ does not equal $a$. The
-correct condition is $a \nmid n$ for all $a \in A_1$. $\mathcal{U}(A_1)$ is the set
-of $n \geq x^e$ not divisible by any $a \in A_1$.)
+Equivalently, $\mathcal{U}(A_1)$ is the set of $n \geq x^e$ not divisible by any
+$a \in A_1$ (i.e. $\gcd(n, a) < a$ for all $a \in A_1$ — these two formulations
+are equivalent since $a \mid n \Leftrightarrow \gcd(n,a) = a$).
 
 **Lemma (`blocking_estimate`, STATUS: OPEN)**: For any finite or locally finite
 set $A_1 \subset [x, x^e)$, the sum
@@ -327,18 +329,14 @@ in $A_1$ is empty (by primitivity). Also, the set of "multiples" of $b$ in
 $A_1$ is empty. And no two elements of $A_2$ divide each other.
 
 The combined constraint: $A_2$ is a primitive set in $[x^e, \infty)$ that also
-avoids all elements divisible by some $a \in A_1$. Applying the conjecture
-recursively to $A_2$ (with parameter $x^e$):
+avoids all elements divisible by some $a \in A_1$.
 
-$$S_2 \leq 1 + o_e(1) \quad \text{(by the conjecture for } x' = x^e \text{)}.$$
-
-This is a recursive application of the same conjecture. To make this
-non-circular, note:
-
-$$S_1 + S_2 \leq 1 + (1 + o(1)) = 2 + o(1)$$
-
-which is WORSE than the 1.399 bound from F1. So the recursive application
-fails to improve on known results.
+**NOTE (circular, not a proof)**: One might attempt to bound $S_2$ by applying
+the same conjecture to $A_2$ with parameter $x^e$. That would give
+$S_2 \leq 1 + o(1)$ and hence $S_1 + S_2 \leq 2 + o(1)$ — which is WORSE
+than F1's bound of 1.399 and does not prove the conjecture. Circular
+application of the conjecture is NOT a valid proof step; it is included here
+only to document that the recursive route fails.
 
 **Dead end confirmed**: The trading decomposition at $x^e$ does NOT give
 $S_1 + S_2 \leq 1 + o(1)$ without additional input. The approach correctly
