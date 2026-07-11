@@ -95,22 +95,27 @@ Proof: The full series $\sum_{n \geq 2, \Omega(n)=k} 1/(n \log n) = 1 - (c+o(1))
 converges by F3. The tail from $x$ is the tail of a convergent series,
 hence $\to 0$ as $x \to \infty$. See `proof_lemmas/lemma_large_floor_vanish.md`. $\square$
 
-**Corollary (Low-stratum control)**: For any fixed $K \geq 1$,
+**Corollary (Low-stratum control, FIXED $K$ only)**: For each fixed constant $K \geq 1$
+(not depending on $x$),
 $$\sum_{k=1}^{K} S_k(A, x) \leq \sum_{k=1}^{K} T_k(x) \to 0 \quad (x \to \infty).$$
 
-The "low-stratum" contribution (strata $k \leq K$ for any fixed $K$) is $o(1)$.
+Proof: Each $T_k(x) \to 0$ as $x \to \infty$ by Lemma `large_floor_vanish`; a
+FIXED finite sum of $o(1)$ terms is $o(1)$. This argument is VALID ONLY for fixed $K$:
+if $K = K(x) \to \infty$ with $x$, the sum of $K(x)$ terms, each individually $o(1)$,
+need not tend to 0. The Corollary is not applicable to a growing $K(x)$.
 
-**Decomposition**: Fix $K = K(x)$ (to be chosen). Split:
+**Decomposition**: For a FIXED constant $K \geq 1$ (not varying with $x$), split:
 $$\sum_{a \in A} \frac{1}{a \log a}
-  = \underbrace{\sum_{k=1}^{K} S_k(A,x)}_{\text{(I) low strata}}
+  = \underbrace{\sum_{k=1}^{K} S_k(A,x)}_{\text{(I) low strata, fixed }K}
   + \underbrace{\sum_{k > K} S_k(A,x)}_{\text{(II) high strata}}.$$
 
-- **(I) Low strata**: $\leq \sum_{k=1}^K T_k(x)$. By the Corollary, this is
-  $o(1)$ as $x \to \infty$ for any fixed $K$.
+- **(I) Low strata** ($K$ fixed): $\leq \sum_{k=1}^K T_k(x) \to 0$ as $x \to \infty$
+  by the Corollary above (valid since $K$ is a fixed constant).
 
-- **(II) High strata**: $\leq \sum_{k > K} T_k(x) \leq \sum_{k > K} (1 - ck^2/2^k)$.
-  The naive bound $\sum_{k>K}(1-ck^2/2^k)$ diverges since each term $\to 1$.
-  The stratification bound is VACUOUS for the high-stratum sum.
+- **(II) High strata**: $\leq \sum_{k > K} T_k(x)$. For fixed $K$, the bound
+  $\sum_{k > K} T_k(x) \leq \sum_{k > K} (1 - ck^2/2^k)$ diverges since each term
+  $\to 1$ as $k \to \infty$.
+  The stratification bound is VACUOUS for the high-stratum sum, for any fixed $K$.
 
 **Key difficulty** (the open core, Lemma `cross_stratum_control`): The per-stratum
 argument fails globally. To bound the high-stratum contribution, one must use
