@@ -71,7 +71,11 @@ $$T_k(x) := \sum_{\substack{n \geq x \\ \Omega(n) = k}} \frac{1}{n \log n}.$$
 $$S_k(A, x) \leq T_k(x) \leq T_k(2) = 1 - (c + o(1)) \frac{k^2}{2^k} < 1.$$
 
 Proof: $A \cap \{n : \Omega(n) = k\}$ is a subset of $\{n \geq x : \Omega(n)=k\}$;
-all terms are positive; the right-hand bound is F3. See
+all terms are positive, so $S_k(A,x) \leq T_k(x)$. Since $x \geq 2$ and all
+terms of $T_k$ are positive, $T_k(x) \leq T_k(2)$. The set $A_k = \{n \in \mathbb{N} :
+\Omega(n)=k\}$ in F3 consists exactly of the $k$-almost primes; the smallest is
+$2^k \geq 2$ for $k \geq 1$, so $A_k \subset [2,\infty)$ and $T_k(2) =
+\sum_{n \in A_k} 1/(n \log n) = 1 - (c+o(1))k^2/2^k$ by F3. See
 `proof_lemmas/lemma_stratum_sub_bound.md`. $\square$
 
 **Lemma `large_floor_vanish`** (status: proved): For each fixed $k \geq 1$,
@@ -162,7 +166,8 @@ Proof: Every subset of $[N, 2N)$ is automatically primitive (no element divides
 another). So $A \cap [N, 2N)$ can be any subset of $[N, 2N)$. The sum is
 maximized when $A \cap I$ is the FULL set $\{N, N+1, \ldots, 2N-1\}$:
 $$\sum_{a=N}^{2N-1} \frac{1}{a \log a} = \int_N^{2N} \frac{dt}{t \log t} + O\!\left(\frac{1}{N \log N}\right)
-  = \ln\!\left(\frac{\log(2N)}{\log N}\right) + O\!\left(\frac{1}{N \log N}\right)
+  \quad\text{(integral comparison for monotone decreasing } 1/(t\log t)\text{; elementary)}$$
+$$= \ln\!\left(\frac{\log(2N)}{\log N}\right) + O\!\left(\frac{1}{N \log N}\right)
   = \ln\!\left(1 + \frac{\log 2}{\log N}\right) + O\!\left(\frac{1}{N \log N}\right)
   = \frac{\log 2}{\log N} + O\!\left(\frac{1}{\log^2 N}\right). \quad \square$$
 
@@ -215,10 +220,10 @@ $S_2 := \sum_{a \in A_2} \frac{1}{a \log a}$.
 *Proof*: Every element of $A_1$ lies in $[x, x^e)$, so
 $$S_1 \leq \sum_{n \geq x,\, n < x^e} \frac{1}{n \log n}
   \;\leq\; \int_x^{x^e} \frac{dt}{t \log t} + O\!\left(\frac{1}{x \log x}\right).$$
-The integral telescopes:
+The integral telescopes (elementary calculus: $\tfrac{d}{dt}\log\log t = 1/(t\log t)$):
 $$\int_x^{x^e} \frac{dt}{t \log t}
   = \bigl[\log \log t\bigr]_x^{x^e}
-  = \log(e \log x) - \log(\log x)
+  = \log\!\bigl(e \log x\bigr) - \log\!\bigl(\log x\bigr)
   = \log e = 1. \quad \square$$
 
 This is tight: taking $A_1 = \emptyset$ gives $S_1 = 0$; taking $A_1$ to be
@@ -253,48 +258,23 @@ $$S_2 \leq \sum_{n \in \mathcal{U}(A_1),\, n \geq x^e} \frac{1}{n \log n}$$
 is bounded in terms of $S_1 := \sum_{a \in A_1} 1/(a \log a)$, and
 $$S_1 + S_2 \leq 1 + o(1) \quad (x \to \infty).$$
 
-*Attempted bound via inclusion-exclusion*: By the multiplicative sieve,
-$$\sum_{n \in \mathcal{U}(A_1),\, n \geq x^e} \frac{1}{n \log n}
-  \;\approx\; \sum_{n \geq x^e} \frac{1}{n \log n}
-  \cdot \prod_{a \in A_1} \!\left(1 - \frac{1}{a}\right).$$
-This uses the heuristic that divisibility by distinct $a \in A_1$ is
-"approximately independent." The product
-$$\prod_{a \in A_1}\!\left(1-\frac{1}{a}\right)
-  \approx \exp\!\left(-\sum_{a \in A_1} \frac{1}{a}\right).$$
+*Attempted bound via inclusion-exclusion* (heuristic exploration — this
+approach fails; see conclusion below):
 
-For elements $a \in [x, x^e)$: $\sum_{a \in A_1} 1/a \geq (\min_{a \in A_1} \log a) \cdot S_1
-\geq (\log x) \cdot S_1$. So:
-$$\prod_{a \in A_1}\!\left(1-\frac{1}{a}\right) \lesssim e^{-(\log x) S_1} = x^{-S_1}.$$
+The standard heuristic for "number of $n \leq N$ not divisible by any $a \in A_1$"
+is a sieve-density argument: the proportion of $n$ in $[N, 2N)$ surviving is
+approximately $\prod_{a \in A_1}(1-1/a)$ (treating divisibility events as
+independent). For $A_1 \subset [x, x^e)$, this product can be small if
+$\sum_{a \in A_1} 1/a$ is large.
 
-But $\sum_{n \geq x^e} 1/(n \log n)$ diverges, so the product estimate alone does
-not control $S_2$.
+**Why this fails**: Even if the density of "unblocked" $n$ is exponentially small,
+the tail $\sum_{n \geq x^e, n \text{ unblocked}} 1/(n \log n)$ can still diverge,
+because $\sum_{n \geq x^e} 1/(n \log n)$ itself diverges and a multiplicative
+density factor (not depending on $n$) does not make a divergent sum convergent.
+The sieve density argument gives no finite bound on $S_2$.
 
-*Why this fails*: The heuristic independence assumption breaks down. For
-large $n \geq x^e$, the event $a \mid n$ for different $a \in A_1$ is NOT
-independent; elements of $A_1$ that are themselves divisible by a common factor
-create correlations. A rigorous sieve bound requires either a square-root
-cancellation argument or a combinatorial bound on the "unblocked density."
-
-**Refined obstacle**: The key quantity is
-$$D(A_1, N) := \#\{n \in [N, 2N) : a \nmid n \text{ for all } a \in A_1\}$$
-for $N \geq x^e$. By a sieve of Eratosthenes type:
-$$D(A_1, N) = N \cdot \prod_{a \in A_1, a \leq N}\!\left(1 - \frac{1}{a}\right) + \text{error}.$$
-The main term: $N \cdot e^{-\sum_{a \leq N} 1/a}$ where the sum is over $a \in A_1$.
-Contribution to $S_2$ from $[N, 2N)$:
-$$\leq D(A_1, N) \cdot \frac{1}{N \log N} \leq \frac{1}{\log N} \cdot e^{-\sum_{a \in A_1,\, a \leq N} 1/a}.$$
-
-Summing over dyadic intervals $N = x^e, 2x^e, 4x^e, \ldots$:
-$$S_2 \lesssim \sum_{j=0}^\infty \frac{1}{\log(x^e 2^j)} \cdot e^{-C_j},
-  \quad C_j = \sum_{a \in A_1,\, a \leq x^e 2^j} \frac{1}{a}.$$
-
-For fixed $A_1 \subset [x, x^e)$: $C_j = \sum_{a \in A_1} 1/a$ for all $j$ (since
-$A_1 \subset [x, x^e) \subset [x, x^e 2^j)$ for all $j \geq 0$). So:
-$$S_2 \lesssim e^{-C} \cdot \sum_{j=0}^\infty \frac{1}{e \log x + j \log 2},
-  \quad C = \sum_{a \in A_1} \frac{1}{a}.$$
-
-The sum $\sum_{j=0}^\infty 1/(e \log x + j \log 2)$ diverges. So even with
-the sieve factor $e^{-C}$, the bound on $S_2$ is $\infty$ (since $C$ is fixed
-and the sum diverges). This again fails.
+Conclusion: Controlling $S_2$ via "unblocked density from $A_1$" fails because
+divergence is not cured by a multiplicative constant.
 
 **Correct interpretation**: The sieve estimate above assumes $A_1$ blocks
 $n$ independently at each dyadic scale. In reality, at scale $j$ (interval
