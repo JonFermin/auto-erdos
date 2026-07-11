@@ -1,6 +1,6 @@
 {
   "baseline": 102.0,
-  "branch": "erdos-research/0708-085952",
+  "branch": "erdos-research/0708-085950",
   "candidate": [
     1,
     152,
@@ -117,5 +117,5 @@
   "score": 105.0,
   "thesis": "thesis: seed run \u2014 randomized greedy from scaffold strategy.py",
   "verifier_seconds": 0.001,
-  "written_at": "2026-07-08T15:06:24+00:00"
+  "written_at": "2026-07-08T15:05:37+00:00"
 }
