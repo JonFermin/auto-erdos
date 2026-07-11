@@ -49,15 +49,15 @@ of resolution may appear in this file.
    (correction is negative). Do NOT conclude sum $> 1$ from F3.
 3. Open-claim-asserted-resolved-without-witness: the conjecture is open.
 
-**Numerical calibration** (not a proof): The partial prime sum
-$\sum_{p \leq 113} 1/(p \log p) \approx 1.43 > 1$ (first 30 primes). This is
-consistent with the conjecture because the conjecture concerns $A \subset [x, \infty)$
-for LARGE $x$: for primes $p \geq x$ only the TAIL contributes, and
-$\sum_{p \geq x} 1/(p \log p) \to 0$ as $x \to \infty$ (tail of a convergent
-series). For example at $x = 3$: $\sum_{p \geq 3} 1/(p \log p) \approx 0.916 < 1$
-(full prime sum minus the $p=2$ term $1/(2\log 2) \approx 0.721$). The partial
-prime sum from $p=2$ can exceed 1, but this does not violate the conjecture since
-the threshold $x$ removes low-prime contributions.
+**Numerical calibration** (not a proof): The conjecture concerns
+$A \subset [x, \infty)$ for LARGE $x$; only primes $p \geq x$ contribute.
+The TAIL sum $\sum_{p \geq x} 1/(p \log p) \to 0$ as $x \to \infty$
+(tail of a convergent series). At $x = 3$: $\sum_{p \geq 3} 1/(p \log p)
+\approx 0.916 < 1$ (the convergent prime series minus the $p=2$ term
+$1/(2 \log 2) \approx 0.721$). For small $k$ (e.g.\ $k=1$, primes
+starting from 2), the full-stratum sum exceeds 1 as noted in F3's scope
+comment; however, the TAIL $T_1(x) = \sum_{p \geq x} 1/(p \log p)$
+still vanishes as $x \to \infty$ (see Lemma `large_floor_vanish`).
 
 ---
 
