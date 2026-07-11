@@ -33,26 +33,30 @@ of resolution may appear in this file.
   The $O(\cdot)$ term is **unsigned** — it could be positive or negative.
   Concluding $\sum > 1$ from F2 alone is a SIGN ERROR (anti-trap 1).
 
-- **F3** (Exact asymptotic, sum from BELOW 1): For
+- **F3** (Asymptotic for large $k$): For
   $A_k = \{n \in \mathbb{N} : \Omega(n) = k\}$,
   $$\sum_{a \in A_k} \frac{1}{a \log a} = 1 - (c + o(1)) \frac{k^2}{2^k},
   \quad c \approx 0.0656 > 0.$$
-  The correction is **negative**: the sum is strictly less than 1 and
-  approaches 1 from BELOW as $k \to \infty$ (anti-trap 2).
+  The $o(1)$ is as $k \to \infty$. For large $k$ the correction is negative
+  and $k^2/2^k \to 0$, so the sum approaches 1 from BELOW (anti-trap 2). For
+  small $k$ (e.g.\ $k=1$, the primes starting from 2), the full-stratum sum
+  may exceed 1 because the $o(1)$ correction is not small at $k=1$.
 
 **Anti-traps** (do not trigger):
 
 1. F2 sign confusion: unsigned big-O does not imply sum > 1 for any stratum.
-2. F3 from-above misread: correction is negative; every full stratum sums to
-   strictly less than 1.
+2. F3 from-above misread: for large $k$, the sum approaches 1 from BELOW
+   (correction is negative). Do NOT conclude sum $> 1$ from F3.
 3. Open-claim-asserted-resolved-without-witness: the conjecture is open.
 
-**Numerical calibration** (not a proof): Computation confirms
-$\sum_{p \leq 10^5} 1/(p \log p) \approx 1.550$ and the tail adds $\approx 0.087$,
-giving total $\approx 1.637$ for the prime set starting at 2. Removing $p=2$
-(so $A = \{3, 5, 7, \ldots\}$) gives partial sum $\approx 0.915 < 1$.
-This suggests the conjecture is consistent: for $x \geq 3$, even the
-"extremal-looking" set of primes gives sum $< 1$.
+**Numerical calibration** (not a proof): The full prime sum $\sum_p 1/(p \log p)$
+starting from $p=2$ converges to approximately 1.637 $> 1$. This is consistent
+with the conjecture because the conjecture concerns $A \subset [x, \infty)$ for
+LARGE $x$: for primes $p \geq x$ only the TAIL contributes, and $\sum_{p \geq x}
+1/(p \log p) \to 0$ as $x \to \infty$ (tail of a convergent series). For example
+at $x = 3$: $\sum_{p \geq 3} 1/(p \log p) \approx 0.916 < 1$. The full prime
+sum from 2 exceeds 1, but this is not a counterexample since the conjecture's
+threshold $x$ removes the $p=2$ contribution.
 
 ---
 
@@ -68,15 +72,21 @@ $$T_k(x) := \sum_{\substack{n \geq x \\ \Omega(n) = k}} \frac{1}{n \log n}.$$
 
 **Lemma `stratum_sub_bound`** (status: proved): For any primitive $A \subset
 [x, \infty)$ and any $k \geq 1$,
-$$S_k(A, x) \leq T_k(x) \leq T_k(2) = 1 - (c + o(1)) \frac{k^2}{2^k} < 1.$$
+$$S_k(A, x) \leq T_k(x).$$
+Moreover, $T_k(x) \to 0$ as $x \to \infty$ for each fixed $k$.
 
 Proof: $A \cap \{n : \Omega(n) = k\}$ is a subset of $\{n \geq x : \Omega(n)=k\}$;
-all terms are positive, so $S_k(A,x) \leq T_k(x)$. Since $x \geq 2$ and all
-terms of $T_k$ are positive, $T_k(x) \leq T_k(2)$. The set $A_k = \{n \in \mathbb{N} :
-\Omega(n)=k\}$ in F3 consists exactly of the $k$-almost primes; the smallest is
-$2^k \geq 2$ for $k \geq 1$, so $A_k \subset [2,\infty)$ and $T_k(2) =
-\sum_{n \in A_k} 1/(n \log n) = 1 - (c+o(1))k^2/2^k$ by F3. See
+all terms are positive, so $S_k(A,x) \leq T_k(x)$. By F3, the full series
+$\sum_{n \geq 2, \Omega(n)=k} 1/(n \log n) = 1 - (c+o(1))k^2/2^k$ is
+convergent for each $k$ (the formula's right side is finite). The tail $T_k(x)$
+of a convergent series tends to 0 as $x \to \infty$. See
 `proof_lemmas/lemma_stratum_sub_bound.md`. $\square$
+
+Note: The bound $T_k(x) \leq T_k(2)$ gives $T_k(x) \leq \sum_{n \geq 2,\Omega(n)=k}
+1/(n \log n)$, which by F3 is $1 - (c+o(1))k^2/2^k$. For large $k$ this is
+close to 1 from below. For $k=1$ (primes from 2), the full sum exceeds 1 (the
+$o(1)$ correction in F3 is large at $k=1$); however, the TAIL $T_1(x)$
+still vanishes as $x \to \infty$, which is what matters for the conjecture.
 
 **Lemma `large_floor_vanish`** (status: proved): For each fixed $k \geq 1$,
 $T_k(x) \to 0$ as $x \to \infty$.
