@@ -49,14 +49,15 @@ of resolution may appear in this file.
    (correction is negative). Do NOT conclude sum $> 1$ from F3.
 3. Open-claim-asserted-resolved-without-witness: the conjecture is open.
 
-**Numerical calibration** (not a proof): The full prime sum $\sum_p 1/(p \log p)$
-starting from $p=2$ converges to approximately 1.637 $> 1$. This is consistent
-with the conjecture because the conjecture concerns $A \subset [x, \infty)$ for
-LARGE $x$: for primes $p \geq x$ only the TAIL contributes, and $\sum_{p \geq x}
-1/(p \log p) \to 0$ as $x \to \infty$ (tail of a convergent series). For example
-at $x = 3$: $\sum_{p \geq 3} 1/(p \log p) \approx 0.916 < 1$. The full prime
-sum from 2 exceeds 1, but this is not a counterexample since the conjecture's
-threshold $x$ removes the $p=2$ contribution.
+**Numerical calibration** (not a proof): The partial prime sum
+$\sum_{p \leq 113} 1/(p \log p) \approx 1.43 > 1$ (first 30 primes). This is
+consistent with the conjecture because the conjecture concerns $A \subset [x, \infty)$
+for LARGE $x$: for primes $p \geq x$ only the TAIL contributes, and
+$\sum_{p \geq x} 1/(p \log p) \to 0$ as $x \to \infty$ (tail of a convergent
+series). For example at $x = 3$: $\sum_{p \geq 3} 1/(p \log p) \approx 0.916 < 1$
+(full prime sum minus the $p=2$ term $1/(2\log 2) \approx 0.721$). The partial
+prime sum from $p=2$ can exceed 1, but this does not violate the conjecture since
+the threshold $x$ removes low-prime contributions.
 
 ---
 
@@ -175,7 +176,7 @@ contributing nearly 1.
 
 **Lemma `dyadic_interval_bound`** (status: proved): For any primitive set
 $A \subset [x, \infty)$ and any single dyadic interval $I = [N, 2N)$,
-$$\sum_{a \in A \cap I} \frac{1}{a \log a} \leq \frac{\log 2}{\log N} + O\!\left(\frac{1}{\log^2 N}\right).$$
+$$\sum_{a \in A \cap I} \frac{1}{a \log a} \leq \frac{\log 2}{\log N} + O\!\left(\frac{1}{N \log N}\right).$$
 
 Proof: Every subset of $[N, 2N)$ is automatically primitive (no element divides
 another). So $A \cap [N, 2N)$ can be any subset of $[N, 2N)$. The sum is
@@ -184,7 +185,7 @@ $$\sum_{a=N}^{2N-1} \frac{1}{a \log a} = \int_N^{2N} \frac{dt}{t \log t} + O\!\l
   \quad\text{(integral comparison for monotone decreasing } 1/(t\log t)\text{; elementary)}$$
 $$= \ln\!\left(\frac{\log(2N)}{\log N}\right) + O\!\left(\frac{1}{N \log N}\right)
   = \ln\!\left(1 + \frac{\log 2}{\log N}\right) + O\!\left(\frac{1}{N \log N}\right)
-  = \frac{\log 2}{\log N} + O\!\left(\frac{1}{\log^2 N}\right). \quad \square$$
+  \leq \frac{\log 2}{\log N} + O\!\left(\frac{1}{N \log N}\right). \quad \square$$
 
 Note: This per-interval bound is tight but its sum over dyadic intervals
 $[x, 2x), [2x, 4x), \ldots$ diverges (a harmonic-type series). The
