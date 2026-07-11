@@ -252,42 +252,40 @@ Equivalently, $\mathcal{U}(A_1)$ is the set of $n \geq x^e$ not divisible by any
 $a \in A_1$ (i.e. $\gcd(n, a) < a$ for all $a \in A_1$ — these two formulations
 are equivalent since $a \mid n \Leftrightarrow \gcd(n,a) = a$).
 
-**Lemma (`blocking_estimate`, STATUS: OPEN)**: For any finite or locally finite
-set $A_1 \subset [x, x^e)$, the sum
-$$S_2 \leq \sum_{n \in \mathcal{U}(A_1),\, n \geq x^e} \frac{1}{n \log n}$$
-is bounded in terms of $S_1 := \sum_{a \in A_1} 1/(a \log a)$, and
-$$S_1 + S_2 \leq 1 + o(1) \quad (x \to \infty).$$
+**Lemma (`blocking_estimate`, STATUS: OPEN — the open core)**: For any
+primitive set $A \subset [x, \infty)$ with the decomposition above, find a
+quantitative upper bound on $S_2$ in terms of the primitivity constraint
+between $A_1$ and $A_2$. Specifically, what is needed is some function $f$
+with $f(t) = o(1)$ as $t \to 1^-$ such that $S_2 \leq f(S_1)$ for all
+primitive $A$ and all $x$ large; this would give $S_1 + S_2 \leq S_1 + f(S_1)
+\leq 1 + o(1)$. No such $f$ is currently known.
 
-*Attempted bound via inclusion-exclusion* (heuristic exploration — this
-approach fails; see conclusion below):
+*Why sieve-density arguments fail* (heuristic exploration):
 
-The standard heuristic for "number of $n \leq N$ not divisible by any $a \in A_1$"
-is a sieve-density argument: the proportion of $n$ in $[N, 2N)$ surviving is
-approximately $\prod_{a \in A_1}(1-1/a)$ (treating divisibility events as
-independent). For $A_1 \subset [x, x^e)$, this product can be small if
-$\sum_{a \in A_1} 1/a$ is large.
+A natural approach is to estimate how many integers in $[x^e, \infty)$ avoid
+divisibility by $A_1$. Even if only a small fraction $\rho \ll 1$ of integers in
+each interval $[N, 2N)$ escape blocking by $A_1$, the sum
+$\rho \cdot \sum_{n=N}^{2N} 1/(n \log n) \approx \rho \cdot \log 2/\log N$
+over infinitely many dyadic intervals $N = x^e, 2x^e, 4x^e, \ldots$ gives
+$\rho \cdot \sum_{j \geq 0} \log 2/(e \log x + j \log 2)$, which diverges for
+any fixed $\rho > 0$. Multiplying a divergent sum by any positive constant does
+not make it converge.
 
-**Why this fails**: Even if the density of "unblocked" $n$ is exponentially small,
-the tail $\sum_{n \geq x^e, n \text{ unblocked}} 1/(n \log n)$ can still diverge,
-because $\sum_{n \geq x^e} 1/(n \log n)$ itself diverges and a multiplicative
-density factor (not depending on $n$) does not make a divergent sum convergent.
-The sieve density argument gives no finite bound on $S_2$.
+**Why this fails**: The tail $\sum_{n \geq x^e, n \in \mathcal{U}(A_1)} 1/(n \log n)$
+cannot be bounded by a sieve-density argument alone, because the base series
+$\sum_{n \geq x^e} 1/(n \log n)$ diverges and a multiplicative density factor
+(not depending on $n$) cannot convert a divergent series to a convergent one.
 
 Conclusion: Controlling $S_2$ via "unblocked density from $A_1$" fails because
-divergence is not cured by a multiplicative constant.
+the density factor does not cure divergence.
 
-**Correct interpretation**: The sieve estimate above assumes $A_1$ blocks
-$n$ independently at each dyadic scale. In reality, at scale $j$ (interval
-$[x^e 2^j, x^e 2^{j+1})$), the blocking by $A_1$ applies to ALL elements of that
-interval. The "blocking density" is:
-$$\frac{D(A_1, N)}{N} \approx \prod_{a \in A_1}\!\left(1-\frac{1}{a}\right) \sim e^{-C},
-\quad N \text{ large}.$$
-So the contribution per dyadic interval is:
-$$\frac{\log 2}{\log N} \cdot e^{-C}.$$
-
-Summing over all $j \geq 0$: this gives $e^{-C} \cdot \sum_{j=0}^\infty \log 2/(e \log x + j \log 2)$
-which STILL diverges. The sieve density factor $e^{-C}$ does not make the
-sum converge.
+**Correct interpretation**: Even if one accounts for the blocking by $A_1$
+at every dyadic scale $[x^e 2^j, x^e 2^{j+1})$ via a multiplicative density
+factor $\rho < 1$ (the proportion of integers surviving the sieve by $A_1$),
+the sum $\rho \cdot \sum_{j \geq 0} \log 2/(e \log x + j \log 2)$ is still $\rho$
+times a divergent series. Multiplying a divergent sum by any positive constant
+does not make it converge, so this "blocking density" heuristic cannot bound
+$S_2$.
 
 **Key insight from this failure**: Controlling $S_2$ via the "blocking density"
 of $A_1$ does not close the problem, because even after blocking by $A_1$, the
@@ -311,12 +309,14 @@ $A_1$ is empty. And no two elements of $A_2$ divide each other.
 The combined constraint: $A_2$ is a primitive set in $[x^e, \infty)$ that also
 avoids all elements divisible by some $a \in A_1$.
 
-**NOTE (circular, not a proof)**: One might attempt to bound $S_2$ by applying
-the same conjecture to $A_2$ with parameter $x^e$. That would give
-$S_2 \leq 1 + o(1)$ and hence $S_1 + S_2 \leq 2 + o(1)$ — which is WORSE
-than F1's bound of 1.399 and does not prove the conjecture. Circular
-application of the conjecture is NOT a valid proof step; it is included here
-only to document that the recursive route fails.
+**Why recursion fails**: Any attempt to bound $S_2$ by applying a recursive
+argument to $A_2 \subset [x^e, \infty)$ reduces to the same unsolved problem:
+$A_2$ is itself a primitive set, and controlling $\sum_{b \in A_2} 1/(b \log b)$
+requires precisely the structural insight we need for $A$. The only available
+non-trivial global upper bound for any primitive set is F1 (Erdős–Zhang),
+which gives $S_2 < 1.399 + o(1)$. Combined with $S_1 \leq 1$, this gives
+$S_1 + S_2 < 2.399 + o(1)$ — weaker than F1 applied directly to $A$, and not
+a proof of the conjecture. No recursive application closes the gap.
 
 **Dead end confirmed**: The trading decomposition at $x^e$ does NOT give
 $S_1 + S_2 \leq 1 + o(1)$ without additional input. The approach correctly
