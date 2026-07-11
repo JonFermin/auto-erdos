@@ -3,7 +3,9 @@
   "family": "sidon",
   "N": 3000,
   "baseline": 53,
+  "upper_bound": 63,
+  "status": "open",
   "time_budget_s": 1800,
   "trial_cap": 25,
-  "note": "Singer over GF(53) gives a 54-element Sidon set in [0,2862]; over GF(47) gives 48 in [0,2256]. The exact best in [1,3000] is unclear in the literature — mid-fame range with real headroom. apr28 branch reflogs reached 59; the natural exploitative target is +1 extension via library.sat_extensions."
+  "note": "Best achieved so far: 59 (records/sidon_3000_59_*, cubic-polynomial sweep in GF(q^3)). upper_bound 63 via Lindstrom: sqrt(3000) + 3000^(1/4) + 1 = 63.2. Headroom 59..63 is genuinely open - mid-fame range, soft record."
 }

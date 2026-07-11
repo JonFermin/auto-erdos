@@ -3,6 +3,8 @@
   "family": "capset",
   "n": 4,
   "baseline": 20,
+  "upper_bound": 20,
+  "status": "sanity",
   "time_budget_s": 60,
   "trial_cap": 1,
   "note": "Exact value: a_4(F_3) = 20 (proven optimal). Counterexample impossible. trial_cap=1 keeps the seed-run as a null-control regression check (verifier returns is_valid=1, score=20) and exits immediately."

@@ -33,6 +33,12 @@ Exit codes:
   3 — AST duplicate of a prior trial on this problem (any branch)
   4 — trial cap reached — stop the loop and review
   5 — crash row logged (the run never reached print_summary)
+  6 — hypothesis family exhausted: the thesis axis tag (e.g. `[SA]`) already
+      has >= AUTOERDOS_FAMILY_CAP failures and zero keeps across all branches
+      of this problem. Nothing was logged — reset and move to a different axis.
+  7 — problem is closed (problems/<tag>.json status="closed": the optimum is
+      known and already reached). Nothing was logged. Pick an open problem,
+      or set AUTOERDOS_ALLOW_CLOSED=1 for a deliberate re-verification run.
 """
 from __future__ import annotations
 
@@ -43,6 +49,7 @@ import json
 import math
 import os
 import platform
+import re
 import subprocess
 import sys
 from contextlib import contextmanager
@@ -56,6 +63,7 @@ from prepare import (
     REPO_ROOT,
     VERIFIER_RESULTS_TSV,
     append_hypothesis_log,
+    load_hypothesis_log,
     load_spec,
 )
 
@@ -67,7 +75,11 @@ else:
 RESULTS_TSV = REPO_ROOT / "results.tsv"
 HEADER = ["commit", "score", "is_valid", "verifier_seconds", "status", "description"]
 
-_CACHE_DIR = Path.home() / ".cache" / "auto-erdos"
+_CACHE_DIR = (
+    Path(os.environ["AUTOERDOS_CACHE_DIR"]).expanduser()
+    if os.environ.get("AUTOERDOS_CACHE_DIR")
+    else Path.home() / ".cache" / "auto-erdos"
+)
 CACHE_HEADER = [
     "ast_sha256",
     "branch_tag",
@@ -382,6 +394,84 @@ def _running_best(results: pd.DataFrame, baseline: float) -> float:
     return max(float(baseline), float(scores.max()))
 
 
+def _global_best_valid(current_commit: str, floor: float) -> float:
+    """Highest VALID score across all prior trials of this problem (any
+    branch), from the public hypothesis log. Rows for the current commit are
+    excluded (defensive: nothing should be logged for it yet).
+
+    This is the global-ratchet half of the keep rule: without it, a fresh
+    branch could 'keep' a score that a sister branch already exceeded,
+    writing a junk record for a non-record. Disable (branch-local ratchet
+    only, the pre-2026-07 behavior) with AUTOERDOS_GLOBAL_RATCHET=0.
+    """
+    if os.environ.get("AUTOERDOS_GLOBAL_RATCHET", "1").strip().lower() in ("0", "off", "false"):
+        return float(floor)
+    best = float(floor)
+    for row in load_hypothesis_log():
+        if str(row.get("commit", "")).strip() == current_commit:
+            continue
+        try:
+            is_valid = float(row.get("is_valid", "nan"))
+            score = float(row.get("score", "nan"))
+        except (TypeError, ValueError):
+            continue
+        if is_valid == 1 and math.isfinite(score):
+            best = max(best, score)
+    return best
+
+
+# --------------------------------------------------------------------------- #
+# Hypothesis-family gate
+#
+# Theses carry an axis tag (`thesis: [SA] ...` — see program.md "Name the
+# axis"). If an axis has accumulated >= AUTOERDOS_FAMILY_CAP failures
+# (discard or crash) and ZERO keeps across all branches of this problem,
+# another trial on that axis is a knob-twist by definition — reject it
+# before it burns trial budget. Untagged theses are not gated (but the
+# skills require tags, so in practice everything is).
+# --------------------------------------------------------------------------- #
+
+DEFAULT_FAMILY_CAP = 5
+
+_AXIS_RE = re.compile(r"^thesis:\s*\[([A-Za-z0-9_\-]+)\]", re.IGNORECASE)
+
+
+def _thesis_axis(desc: str) -> str | None:
+    m = _AXIS_RE.match(desc.strip())
+    return m.group(1).lower() if m else None
+
+
+def _family_gate(desc: str) -> tuple[bool, str]:
+    """Returns (blocked, message). Blocked when the thesis axis is exhausted."""
+    try:
+        cap = int(os.environ.get("AUTOERDOS_FAMILY_CAP", str(DEFAULT_FAMILY_CAP)))
+    except ValueError:
+        cap = DEFAULT_FAMILY_CAP
+    if cap <= 0:
+        return False, ""
+    axis = _thesis_axis(desc)
+    if axis is None:
+        return False, ""
+    fails = 0
+    keeps = 0
+    for row in load_hypothesis_log():
+        row_axis = _thesis_axis(str(row.get("thesis", "")))
+        if row_axis != axis:
+            continue
+        status = str(row.get("status", "")).strip().lower()
+        if status == "keep":
+            keeps += 1
+        elif status in ("discard", "crash"):
+            fails += 1
+    if keeps == 0 and fails >= cap:
+        return True, (
+            f"hypothesis family [{axis}] has {fails} failures and 0 keeps across all "
+            f"branches of {PROBLEM_TAG} (cap {cap}). Another [{axis}] variant is "
+            f"knob-twisting — move to a different axis. Override: AUTOERDOS_FAMILY_CAP=0."
+        )
+    return False, ""
+
+
 # --------------------------------------------------------------------------- #
 # Records — committed snapshot of every keep that beats the literature LB.
 # --------------------------------------------------------------------------- #
@@ -581,6 +671,19 @@ def main() -> int:
     baseline = float(spec.get("baseline", 0))
     trial_cap = _resolve_trial_cap(spec)
 
+    # Closed-problem guard: status="closed" means the optimum is known AND
+    # already achieved — further trials cannot produce a real result.
+    status_field = str(spec.get("status", "open")).strip().lower()
+    allow_closed = os.environ.get("AUTOERDOS_ALLOW_CLOSED", "").strip().lower() in ("1", "on", "true", "yes")
+    if status_field == "closed" and not allow_closed:
+        print(
+            f"ERROR: problem {PROBLEM_TAG} is CLOSED ({spec.get('note', 'optimum known and reached')}). "
+            f"Nothing was logged. Pick an open problem, or set AUTOERDOS_ALLOW_CLOSED=1 "
+            f"for a deliberate re-verification run.",
+            file=sys.stderr,
+        )
+        return 7
+
     # Trial cap (crashes count: cognitive budget).
     results = _read_results_tsv()
     if len(results) >= trial_cap:
@@ -605,6 +708,13 @@ def main() -> int:
                 file=sys.stderr,
             )
             return 3
+
+    # Hypothesis-family gate: reject another variant of an axis that has
+    # already failed >= cap times with zero keeps (cross-branch).
+    blocked, gate_msg = _family_gate(desc)
+    if blocked:
+        print(f"ERROR: {gate_msg}", file=sys.stderr)
+        return 6
 
     # Verifier audit lookup.
     verifier_log = _read_verifier_log()
@@ -631,7 +741,10 @@ def main() -> int:
     hint = str(v_row.get("status_hint", "")).strip().lower()
     reason_tail = str(v_row.get("reason", ""))
 
-    running_best = _running_best(results, baseline)
+    # Keep bar: branch-local kept scores AND the cross-branch global best
+    # (hypothesis log). A keep must be a genuinely new record for the
+    # problem, not just for this branch.
+    running_best = _global_best_valid(commit, _running_best(results, baseline))
 
     checks = {
         f"is_valid {is_valid} == 1": is_valid == 1,

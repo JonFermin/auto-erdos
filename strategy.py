@@ -38,9 +38,15 @@ Affordances available to your edits (all importable):
   - ``library.capset.best_seed`` / ``cap_n4_size20`` / ``cap_n3_size9``
     / ``product_lift`` / ``lift_to_dim`` — build stronger capset seeds
     from exact small-n caps.
-  - ``library.capset_lifts.best_seed_v2`` — strongest available product-
-    lift, including ``cap_n6_size112`` (Edel) when its disk cache
-    is present. Already used in this seed.
+  - ``library.capset_lifts.best_seed_v2`` — strongest available seed.
+    Serves the shipped literature-record caps directly (n=7: 236,
+    n=8: 512 FunSearch, n=9: 1082, n=10: 2432) and product-lifts them
+    for n>=11. Already used in this seed — capset seeds START at the
+    literature LB; your job is strictly above it.
+  - ``library.capset_records.record_cap(n)`` — the raw record caps with
+    provenance (library/data/records/SOURCES.md). NOTE: the n=10 cap is
+    COMPLETE (no +1 extension exists); CONSTRUCTIONS.md sketches routes
+    beyond it.
   - ``library.capset_lifts.cap_n6_size112`` — 112-cap in F_3^6 (literature
     LB), or None if not cached. Build via
     ``scripts/find_cap_n6_size112.py``.
@@ -467,4 +473,4 @@ if __name__ == "__main__":
     with TimeBudget() as tb:
         candidate = generate_candidate(tb)
         result = verify(candidate)
-    print_summary(candidate, result)
+    print_summary(candidate, result, tb=tb)
