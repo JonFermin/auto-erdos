@@ -196,3 +196,169 @@ bound. See `proof_lemmas/lemma_cross_stratum_control.md` for why this fails.
 
 This session closes with the above partial result as the committed artifact.
 The conjecture remains open.
+
+---
+
+## Section 4 — Trading decomposition (Q7)
+
+**Setup**: Fix $e = 2.718\ldots$ (Euler's number). For any primitive set
+$A \subset [x, \infty)$, split at the "pivot" $x^e$:
+$$A_1 := A \cap [x,\, x^e), \qquad A_2 := A \cap [x^e, \infty).$$
+
+Let $S_1 := \sum_{a \in A_1} \frac{1}{a \log a}$ and
+$S_2 := \sum_{a \in A_2} \frac{1}{a \log a}$.
+
+**Lemma (`S1_bound`)**: $S_1 \leq 1 + O(1/\log x)$.
+
+*Proof*: Every element of $A_1$ lies in $[x, x^e)$, so
+$$S_1 \leq \sum_{n \geq x,\, n < x^e} \frac{1}{n \log n}
+  \;\leq\; \int_x^{x^e} \frac{dt}{t \log t} + O\!\left(\frac{1}{x \log x}\right).$$
+The integral telescopes:
+$$\int_x^{x^e} \frac{dt}{t \log t}
+  = \bigl[\log \log t\bigr]_x^{x^e}
+  = \log(e \log x) - \log(\log x)
+  = \log e = 1. \quad \square$$
+
+This is tight: taking $A_1 = \emptyset$ gives $S_1 = 0$; taking $A_1$ to be
+the full set $\{n \in \mathbb{Z} : x \leq n < x^e\}$ (not primitive, but
+an upper bound) gives $S_1 \to 1$ as $x \to \infty$.
+
+**Why $S_2$ is hard without primitivity**:
+
+Without any constraint, $\sum_{n \geq x^e} 1/(n \log n)$ diverges
+(since $\int_{x^e}^\infty dt/(t \log t) = \infty$). So the contribution from
+$A_2$ is not bounded by the naive tail of the harmonic series. Primitivity
+is essential to control $S_2$.
+
+**The blocking principle (the open part)**:
+
+For each $a \in A_1$, primitivity forbids all proper multiples $am$ ($m \geq 2$) from
+belonging to $A$. In particular, elements of $A_2$ that are multiples of some
+$a \in A_1$ are excluded. Define the "blocked set":
+$$\mathcal{B}(A_1) := \{n \geq x^e : a \mid n \text{ for some } a \in A_1\}.$$
+
+Then $A_2 \subseteq [x^e, \infty) \setminus \mathcal{B}(A_1)$, i.e., every element of
+$A_2$ avoids all divisibility relations with $A_1$. The "unblocked" residual is:
+$$A_2 \subseteq \mathcal{U}(A_1) := \{n \geq x^e : \gcd(n, a) < a \text{ for all } a \in A_1\}.$$
+
+(Note: $\gcd(n, a) < a$ does NOT mean $a \nmid n$ if $\gcd$ does not equal $a$. The
+correct condition is $a \nmid n$ for all $a \in A_1$. $\mathcal{U}(A_1)$ is the set
+of $n \geq x^e$ not divisible by any $a \in A_1$.)
+
+**Lemma (`blocking_estimate`, STATUS: OPEN)**: For any finite or locally finite
+set $A_1 \subset [x, x^e)$, the sum
+$$S_2 \leq \sum_{n \in \mathcal{U}(A_1),\, n \geq x^e} \frac{1}{n \log n}$$
+is bounded in terms of $S_1 := \sum_{a \in A_1} 1/(a \log a)$, and
+$$S_1 + S_2 \leq 1 + o(1) \quad (x \to \infty).$$
+
+*Attempted bound via inclusion-exclusion*: By the multiplicative sieve,
+$$\sum_{n \in \mathcal{U}(A_1),\, n \geq x^e} \frac{1}{n \log n}
+  \;\approx\; \sum_{n \geq x^e} \frac{1}{n \log n}
+  \cdot \prod_{a \in A_1} \!\left(1 - \frac{1}{a}\right).$$
+This uses the heuristic that divisibility by distinct $a \in A_1$ is
+"approximately independent." The product
+$$\prod_{a \in A_1}\!\left(1-\frac{1}{a}\right)
+  \approx \exp\!\left(-\sum_{a \in A_1} \frac{1}{a}\right).$$
+
+For elements $a \in [x, x^e)$: $\sum_{a \in A_1} 1/a \geq (\min_{a \in A_1} \log a) \cdot S_1
+\geq (\log x) \cdot S_1$. So:
+$$\prod_{a \in A_1}\!\left(1-\frac{1}{a}\right) \lesssim e^{-(\log x) S_1} = x^{-S_1}.$$
+
+But $\sum_{n \geq x^e} 1/(n \log n)$ diverges, so the product estimate alone does
+not control $S_2$.
+
+*Why this fails*: The heuristic independence assumption breaks down. For
+large $n \geq x^e$, the event $a \mid n$ for different $a \in A_1$ is NOT
+independent; elements of $A_1$ that are themselves divisible by a common factor
+create correlations. A rigorous sieve bound requires either a square-root
+cancellation argument or a combinatorial bound on the "unblocked density."
+
+**Refined obstacle**: The key quantity is
+$$D(A_1, N) := \#\{n \in [N, 2N) : a \nmid n \text{ for all } a \in A_1\}$$
+for $N \geq x^e$. By a sieve of Eratosthenes type:
+$$D(A_1, N) = N \cdot \prod_{a \in A_1, a \leq N}\!\left(1 - \frac{1}{a}\right) + \text{error}.$$
+The main term: $N \cdot e^{-\sum_{a \leq N} 1/a}$ where the sum is over $a \in A_1$.
+Contribution to $S_2$ from $[N, 2N)$:
+$$\leq D(A_1, N) \cdot \frac{1}{N \log N} \leq \frac{1}{\log N} \cdot e^{-\sum_{a \in A_1,\, a \leq N} 1/a}.$$
+
+Summing over dyadic intervals $N = x^e, 2x^e, 4x^e, \ldots$:
+$$S_2 \lesssim \sum_{j=0}^\infty \frac{1}{\log(x^e 2^j)} \cdot e^{-C_j},
+  \quad C_j = \sum_{a \in A_1,\, a \leq x^e 2^j} \frac{1}{a}.$$
+
+For fixed $A_1 \subset [x, x^e)$: $C_j = \sum_{a \in A_1} 1/a$ for all $j$ (since
+$A_1 \subset [x, x^e) \subset [x, x^e 2^j)$ for all $j \geq 0$). So:
+$$S_2 \lesssim e^{-C} \cdot \sum_{j=0}^\infty \frac{1}{e \log x + j \log 2},
+  \quad C = \sum_{a \in A_1} \frac{1}{a}.$$
+
+The sum $\sum_{j=0}^\infty 1/(e \log x + j \log 2)$ diverges. So even with
+the sieve factor $e^{-C}$, the bound on $S_2$ is $\infty$ (since $C$ is fixed
+and the sum diverges). This again fails.
+
+**Correct interpretation**: The sieve estimate above assumes $A_1$ blocks
+$n$ independently at each dyadic scale. In reality, at scale $j$ (interval
+$[x^e 2^j, x^e 2^{j+1})$), the blocking by $A_1$ applies to ALL elements of that
+interval. The "blocking density" is:
+$$\frac{D(A_1, N)}{N} \approx \prod_{a \in A_1}\!\left(1-\frac{1}{a}\right) \sim e^{-C},
+\quad N \text{ large}.$$
+So the contribution per dyadic interval is:
+$$\frac{\log 2}{\log N} \cdot e^{-C}.$$
+
+Summing over all $j \geq 0$: this gives $e^{-C} \cdot \sum_{j=0}^\infty \log 2/(e \log x + j \log 2)$
+which STILL diverges. The sieve density factor $e^{-C}$ does not make the
+sum converge.
+
+**Key insight from this failure**: Controlling $S_2$ via the "blocking density"
+of $A_1$ does not close the problem, because even after blocking by $A_1$, the
+remaining integers in $[x^e, \infty)$ form a set whose sum $\sum 1/(n \log n)$
+diverges. What IS needed: the elements of $A_2$ themselves must be a PRIMITIVE
+SET (no two divide each other), which is a further constraint on $A_2$ beyond
+just "not divisible by $A_1$."
+
+**New reformulation (open)**:
+
+Split the problem differently: instead of bounding $S_2$ in terms of $A_1$,
+bound the combined sum $S_1 + S_2 \leq 1 + o(1)$ by using the fact that
+$A = A_1 \cup A_2$ is primitive as a WHOLE. The primitivity of $A$ constrains
+not only the cross-divisibility between $A_1$ and $A_2$, but also the internal
+structure of $A_2$.
+
+Define the "reflected" set: for each $b \in A_2$, the set of "divisors" of $b$
+in $A_1$ is empty (by primitivity). Also, the set of "multiples" of $b$ in
+$A_1$ is empty. And no two elements of $A_2$ divide each other.
+
+The combined constraint: $A_2$ is a primitive set in $[x^e, \infty)$ that also
+avoids all elements divisible by some $a \in A_1$. Applying the conjecture
+recursively to $A_2$ (with parameter $x^e$):
+
+$$S_2 \leq 1 + o_e(1) \quad \text{(by the conjecture for } x' = x^e \text{)}.$$
+
+This is a recursive application of the same conjecture. To make this
+non-circular, note:
+
+$$S_1 + S_2 \leq 1 + (1 + o(1)) = 2 + o(1)$$
+
+which is WORSE than the 1.399 bound from F1. So the recursive application
+fails to improve on known results.
+
+**Dead end confirmed**: The trading decomposition at $x^e$ does NOT give
+$S_1 + S_2 \leq 1 + o(1)$ without additional input. The approach correctly
+bounds $S_1 \leq 1$ (tight) but cannot control $S_2 \leq o(1)$ without
+genuinely using the cross-structure of primitivity between $A_1$ and $A_2$.
+
+See `proof_lemmas/lemma_trading_decomposition.md` for the precise gap statement.
+
+**What IS needed (updated obstacle)**:
+
+To prove the conjecture, one needs to show that for a primitive set
+$A \subset [x, \infty)$:
+
+$$S_2 \leq o(1) \quad \text{whenever } S_1 \approx 1.$$
+
+Equivalently: if $A_1$ "nearly saturates" the integral $\int_x^{x^e} dt/(t \log t) = 1$,
+then $A_2$ must contribute $o(1)$. This requires showing that "near-saturation"
+of $S_1$ forces $A_1$ to be very "dense" in $[x, x^e)$, and that density in
+$[x, x^e)$ forces near-emptiness (in the $\sum 1/(a \log a)$ sense) of $A_2$.
+
+The "density" of $A_1$ in [x, x^e) needs to be measured in a way compatible
+with both the $1/(a \log a)$ metric AND the divisibility blocking structure.
+This is the essential unresolved point.

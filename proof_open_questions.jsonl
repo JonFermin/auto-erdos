@@ -11,3 +11,5 @@
 {"qid":"Q5","status":"claimed","session_id":"s_0710-080650-bb99","summary":"taking Q5 — outline stratification proof structure and create lemma files","ts":"2026-07-10T08:09:50+00:00"}
 {"qid":"Q5","status":"resolved","session_id":"s_0710-080650-bb99","summary":"Omega stratification proof structure written; 2 proved lemmas (stratum_sub_bound, large_floor_vanish) + 1 open lemma (cross_stratum_control); partial result committed","ts":"2026-07-10T08:15:42+00:00"}
 {"qid":"Q6","status":"resolved","session_id":"s_0710-080650-bb99","summary":"Partial result written in Section 3 of proof_strategy.md; dead ends ruled out; suggested directions noted; session declared open","ts":"2026-07-10T08:15:42+00:00"}
+{"qid":"Q7","status":"open","session_id":"s_0711-080759-fdf5","summary":"Trading decomposition: split A into A1=[x,x^e) and A2=[x^e,inf). S1 <= 1 by integral telescoping; bound S2 via blocking from A1 via primitivity.","ts":"2026-07-11T08:17:36+00:00"}
+{"qid":"Q7","status":"claimed","session_id":"s_0711-080759-fdf5","summary":"Taking Q7 — trading decomposition and blocking estimate for cross_stratum_control.","ts":"2026-07-11T08:17:36+00:00"}
