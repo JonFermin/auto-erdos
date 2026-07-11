@@ -1,6 +1,6 @@
 {
   "baseline": 102.0,
-  "branch": "erdos-research/0708-085951",
+  "branch": "erdos-research/0708-085950",
   "candidate": [
     1,
     152,
@@ -115,7 +115,7 @@
   "is_valid": 1,
   "problem": "sidon_10000",
   "score": 105.0,
-  "thesis": "thesis: seed run \u2014 scaffold multiplier sweep (q~sqrt(N)) + greedy +1 augmentation chain from strategy.py",
-  "verifier_seconds": 0.0009,
-  "written_at": "2026-07-08T15:05:58+00:00"
+  "thesis": "thesis: seed run \u2014 randomized greedy from scaffold strategy.py",
+  "verifier_seconds": 0.001,
+  "written_at": "2026-07-08T15:05:37+00:00"
 }
