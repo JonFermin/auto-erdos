@@ -14,8 +14,8 @@ Kicks off an autonomous Erdős-style combinatorial experiment loop in this repo 
 - `problems/*.json` are READ-ONLY — the literature baseline is fixed for the duration of the branch.
 - Never stop to ask "should I keep going?". The human may be asleep. Only three exits: grader returns 4, human interrupts, or you genuinely run out of defensible hypotheses (documented in a one-paragraph chat summary — not a 19th micro-variant).
 - Never `git add results.tsv`, `run.log`, or `verifier_results.tsv` — all gitignored by design.
-- No new dependencies. No modifications to `prepare.py`, `log_result.py`, or `running_best.py`.
-- Do not read `verifier_results.tsv` or the harness trial cache directly — those are harness-side audit trails. Read your own `run.log` and `results.tsv` only.
+- No new dependencies. No modifications to `prepare.py`, `log_result.py`, `running_best.py`, `analyze.py`, or `problem_brief.py`.
+- Do not read `verifier_results.tsv` or the harness trial cache directly — those are harness-side audit trails. Sanctioned state: your own `run.log` / `results.tsv`, plus the public cross-branch channels — `uv run problem_brief.py`, `uv run analyze.py`, `running_best.py --headroom`, `prepare.load_best_so_far()`, `prepare.load_elites()`, `prepare.load_hypothesis_log()`, `prepare.load_problem_notes()` / `append_problem_notes()`.
 
 ## Step 1 — Setup
 
@@ -54,7 +54,14 @@ Then:
 
 4. **Read context** (narrow — don't flood your window): `strategy.py` is small, read it in full. `prepare.py` is sizeable; do NOT read it whole — `grep` for the specific constant or helper you need (e.g. `grep -n 'TIME_BUDGET\|verify\|print_summary' prepare.py`). `program.md` you've already read. `README.md`, `log_result.py`, and `running_best.py` only if a specific question arises; don't re-derive their rules from scratch.
 
-5. **Seed run is NON-COMMITTING** (per program.md). Do NOT make a baseline commit. Just run `strategy.py` as it sits at HEAD:
+5. **Headroom + closed check.** `PROBLEM_TAG=$PROBLEM_TAG uv run running_best.py --headroom`. If `status: closed`, STOP — the optimum is known and already reached; `log_result.py` will refuse every trial (exit 7). Tell the human and suggest an open problem instead. `status: sanity` problems run their single null-control trial as usual.
+
+6. **Session-start brief + literature pass** (both free — no trial cost, do BEFORE the seed run):
+   - `PROBLEM_TAG=$PROBLEM_TAG uv run problem_brief.py` — inherit the cross-branch state: which axes are exhausted (the grader hard-rejects those, exit 6), what actually got kept, what prior sessions left in the notes channel.
+   - **Literature pass**: every record this loop has ever produced came from knowledge (hardcoded OGR-26 marks, Singer multiplier orbits, cubic constructions in GF(q³)), not from generic local search. Spend real thought here: what are the best known constructions for THIS problem, where does the literature LB come from, is the record theory-hard or search-soft, which specific structures (difference sets, product lifts, known optimal objects that embed) could beat it. If the brief's notes section is empty, write your findings to the notes channel now (one-off `uv run python -c "import prepare; prepare.append_problem_notes('''...''')"`), so every future session inherits them. If notes exist, read them instead of re-deriving.
+   - `PROBLEM_TAG=$PROBLEM_TAG uv run analyze.py` — if a best_so_far exists, learn its structure before deciding how to attack it (locally maximal? which points are near-misses?).
+
+7. **Seed run is NON-COMMITTING** (per program.md). Do NOT make a baseline commit. Just run `strategy.py` as it sits at HEAD:
    ```bash
    PROBLEM_TAG=$PROBLEM_TAG uv run strategy.py > run.log 2>&1
    grep "^score:\|^is_valid:\|^verifier_seconds:\|^status_hint:" run.log
@@ -114,14 +121,22 @@ echo "exit=$rc"
 #    4 → TRIAL CAP. Stop. Run the Archive + push + cleanup block.
 #    5 → crash row written. git reset --hard HEAD~1. tail -n 50 run.log,
 #        learn, then try a different idea (or fix the bug if obvious).
+#    6 → FAMILY EXHAUSTED: your thesis [axis] tag already has ≥5 failures
+#        and zero keeps across all branches. git reset --hard HEAD~1 and
+#        switch axes — do NOT rephrase the thesis to dodge the gate.
+#    7 → PROBLEM CLOSED (spec status="closed"). Stop the loop, tell the
+#        human, suggest an open problem. Nothing was logged.
 ```
 
 ### Probing state between iterations (all safe — deterministic verifier, nothing to mask)
 
 ```bash
-PROBLEM_TAG=$PROBLEM_TAG uv run running_best.py              # current best kept score (baseline if none)
+PROBLEM_TAG=$PROBLEM_TAG uv run running_best.py              # the bar a keep must clear (global ratchet)
 PROBLEM_TAG=$PROBLEM_TAG uv run running_best.py --baseline   # the problem's literature baseline
 PROBLEM_TAG=$PROBLEM_TAG uv run running_best.py --trials     # rows on this branch / cap, e.g. "7/20"
+PROBLEM_TAG=$PROBLEM_TAG uv run running_best.py --headroom   # baseline / best / upper bound / status
+PROBLEM_TAG=$PROBLEM_TAG uv run analyze.py                   # FREE structural diagnostics of best_so_far
+PROBLEM_TAG=$PROBLEM_TAG uv run problem_brief.py             # FREE cross-branch state digest
 git log --oneline -10                                        # recent experiment commits
 
 # results.tsv has 6 cols: commit score is_valid verifier_seconds status description.
@@ -139,6 +154,10 @@ There is no `oos_results.tsv`, no IS/OOS split, and nothing to mask — `score` 
 - **Name the axis in the thesis line.** Every `thesis:` must declare which dimension it moves along — for cap-set: `[greedy]` / `[algebraic]` / `[local-search]` / `[SA]` / `[coset]` / `[DFS]`; for Sidon: `[singer]` / `[erdos-turan]` / `[augmentation]` / `[swap]` / `[SA]` / `[difference-set]` / `[concat]`. Format: `thesis: [axis] <rationale>`, e.g. `thesis: [algebraic] lift cap-free F_3^4 set via product to F_3^8`. Near-duplicates become visible at a glance; every new thesis should move on an axis that prior trials haven't saturated.
 - Frame the thesis **before** editing. Write it as the `thesis:` line first; if you can't, skip the idea.
 - Prefer constructions with mathematical intuition (why this would yield a larger valid set) over parameter sweeps.
+- **Use the budget.** `run.log` now reports `budget_used_pct`. A search-based thesis (SA / DFS / SAT) that used 2% of its wall-clock budget wasn't really tried — structure anytime loops around `tb.expired`. A construction-based thesis finishing instantly is fine.
+- **Analyze before you swap.** When a trial discards, `uv run analyze.py` is free: the `frontier:` line and near-miss counts tell you whether +1 extensions exist at all, which kills or motivates whole hypothesis families at zero trial cost.
+- **Recombine, don't just re-mutate.** `prepare.load_elites()` gives up to 8 distinct valid candidates. Crossing two structurally different bases is an axis generic local search never reaches.
+- **Leave knowledge behind.** When you learn something durable (a structural ceiling, an exhausted approach, a promising untried construction), append it to the notes channel — the next session starts from `problem_brief.py`, and your note is the only way it inherits your insight.
 - A 5-line change with a thesis beats a 10-hyperparam grid search. Simpler is better. Deleting code that works equally well is a win.
 - "Nothing beat baseline" is the most likely correct outcome on cap-set n≥7 and Sidon mid/large N — these LBs are decades of mathematician work. Do not pad the count to reach 20 — fewer honest hypotheses beats knob-twist churn.
 
@@ -290,6 +309,10 @@ A keep means the construction beat the literature lower bound stored in \`proble
       echo "gh CLI not installed — $BRANCH is pushed; open PR manually at origin"
     fi
     echo "archived with PR: $BRANCH (real improvement, local branch kept for review)"
+    # Optional, AFTER the loop (never inside it): make the record durable as a
+    # lean proof while the context is fresh. Wall-clock-expensive and paid —
+    # skip silently if the CLI is unavailable or the human said not to.
+    # uv run write_paper.py records/<new-record>.json --mode proof --models opus
   else
     git branch -D "$BRANCH" 2>/dev/null \
       || echo "local branch $BRANCH not found (already cleaned or never checked out here)"

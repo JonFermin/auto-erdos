@@ -16,11 +16,10 @@ or env `AUTOERDOS_TRIAL_CAP`), gatekeeper script computes status — but
 the statistics layer is removed (the verifier is deterministic; there's
 no sample noise to deflate against).
 
-`CLAUDE.md`, `results.tsv`, `run.log`, `verifier_results.tsv`, and
-`worktrees/` are all gitignored — `CLAUDE.md` is per-session scratch,
-`results.tsv` is the agent's experiment log (kept out of git by design),
-`run.log` is transient stdout, `verifier_results.tsv` is the harness audit
-trail.
+`results.tsv`, `run.log`, `verifier_results.tsv`, and `worktrees/` are all
+gitignored — `results.tsv` is the agent's experiment log (kept out of git
+by design), `run.log` is transient stdout, `verifier_results.tsv` is the
+harness audit trail. (`CLAUDE.md` itself IS tracked.)
 
 `records/` is the **primary** committed artifact of a successful trial.
 `log_result.py` writes `records/<tag>_<score>_<commit>.json` (and auto-commits
@@ -65,16 +64,26 @@ loop (it's wall-clock-expensive and paid); see "Paper writeups" below.
 ```bash
 uv sync                                # install deps
 PROBLEM_TAG=capset_n8 uv run strategy.py > run.log 2>&1   # one trial
-grep "^score:\|^is_valid:\|^status_hint:" run.log
+grep "^score:\|^is_valid:\|^status_hint:\|^frontier:\|^budget_used_pct:" run.log
 tail -n 50 run.log                     # crash trace if grep is empty
-uv run log_result.py "thesis: ..."     # grade and append to results.tsv
-uv run running_best.py                 # current best kept score
+uv run log_result.py "thesis: [axis] ..."   # grade and append to results.tsv
+uv run running_best.py                 # the bar a keep must clear (global ratchet)
 uv run running_best.py --baseline      # problem's literature LB
 uv run running_best.py --trials        # rows / trial cap
+uv run running_best.py --headroom      # baseline / best / upper bound / status
+uv run problem_brief.py                # FREE session-start cross-branch digest
+uv run analyze.py                      # FREE structural diagnostics of best_so_far
 ```
 
 `PROBLEM_TAG` defaults to `capset_n8`. Available problems are the
-`problems/*.json` files (currently capset_n4 through capset_n10).
+`problems/*.json` files (capset_n4–n10, sidon_100–sidon_10000). Each spec
+carries `baseline`, `upper_bound`, and `status` (`open` / `sanity` /
+`closed`); `log_result.py` refuses `closed` problems (exit 7) and hard-
+rejects a thesis `[axis]` with ≥5 cross-branch failures and 0 keeps
+(exit 6, `AUTOERDOS_FAMILY_CAP` overrides). The keep bar is globally
+ratcheted across branches (`AUTOERDOS_GLOBAL_RATCHET=0` disables — debug
+only). `AUTOERDOS_CACHE_DIR` points the whole cache layer elsewhere
+(tests / dry runs).
 
 A per-problem **trial cache** lives at
 `~/.cache/auto-erdos/trial_cache_<PROBLEM_TAG>.tsv`. `log_result.py` writes
@@ -87,6 +96,14 @@ A per-problem **best_so_far cache** lives at
 the highest-scoring valid candidate seen across all branches; agents may
 read it via `prepare.load_best_so_far()` to warm-start swap-moves / SA from
 the prior best. The agent does NOT write it — only the verifier path does.
+
+Sibling caches (same directory, same read-only-for-agents rule unless noted):
+`elites_<TAG>.json` — top-8 distinct valid candidates (`prepare.load_elites()`,
+for recombination); `hypothesis_log_<TAG>.tsv` — every trial's status+thesis
+across branches (`prepare.load_hypothesis_log()`); `notes_<TAG>.md` — the ONE
+agent-written channel (`prepare.load_problem_notes()` /
+`append_problem_notes()`) for literature findings and structural insights
+that must survive across sessions.
 
 ## Experiment loop (from program.md)
 
@@ -109,9 +126,10 @@ the prior best. The agent does NOT write it — only the verifier path does.
 - Score: |S| (cap set size).
 - Verifier complexity: O(k² · n). Fast for n≤8; noticeable around k=2500 (n=10).
 
-**sidon family** (problems `sidon_100` … `sidon_3000`):
+**sidon family** (problems `sidon_100` … `sidon_10000`; `sidon_100` and
+`sidon_500` are `status: closed` — solved to their proven optimum):
 - Input: iterable of distinct ints in [1, N].
-- Validity: all pairwise sums a+b (a<b) distinct.
+- Validity: all pairwise sums a+b (a≤b, B₂ — includes 2a) distinct.
 - Score: |S| (Sidon / B₂ set size).
 - Verifier complexity: O(k²). Fast for any practical k.
 
@@ -131,7 +149,7 @@ family:            capset
 score:             137.000000
 is_valid:          1
 verifier_seconds:  0.0234
-baseline:          496
+baseline:          512
 status_hint:       no_improvement | improvement_eligible | invalid
 reason:            <verifier's one-line summary>
 ```

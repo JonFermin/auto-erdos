@@ -8,7 +8,10 @@ and is the score better than the running best."
 
 ## Status
 
-Pre-research. The harness is up; no experimental branches have run yet.
+Active. The loop has produced real records (see `records/`): sidon_100 → 12
+(now proven exact and closed), sidon_500 → 26 (proven exact via OGR-27,
+closed), sidon_1000 → 35, sidon_3000 → 59. Cap-set problems remain open
+above their literature LBs.
 
 ## Design
 
@@ -20,10 +23,21 @@ and the question is just whether it scores higher.
 - The agent edits **one file** (`strategy.py`). Everything else is read-only.
 - The verifier (`prepare.verify`) is deterministic and fast.
 - The grader (`log_result.py`) is the sole gatekeeper — the agent never
-  chooses keep/discard.
+  chooses keep/discard. The keep bar is **globally ratcheted**: a keep must
+  beat the best valid score across ALL branches of the problem, not just
+  this branch's.
 - Trials are AST-deduplicated across all branches of a given problem via a
-  per-problem cache at `~/.cache/auto-erdos/trial_cache_<PROBLEM_TAG>.tsv`.
-- 20-trial cap per branch.
+  per-problem cache at `~/.cache/auto-erdos/trial_cache_<PROBLEM_TAG>.tsv`,
+  and hypothesis *families* are gated: an `[axis]` with ≥5 cross-branch
+  failures and zero keeps is rejected (exit 6) until a new axis is tried.
+- 20-trial cap per branch (per-problem overrides in the spec JSONs).
+- Problems carry `upper_bound` and `status` (`open` / `sanity` / `closed`);
+  the grader refuses closed problems (exit 7).
+- Cross-branch memory beyond the single best: an 8-slot **elite archive**
+  (`prepare.load_elites()`) for recombination, a public hypothesis log,
+  an agent-written **notes channel** (literature findings persist across
+  sessions), plus free read-only tools `problem_brief.py` (session-start
+  digest) and `analyze.py` (structural diagnostics — no trial cost).
 
 ## What dropped from the quant harness
 
@@ -43,28 +57,41 @@ of-truth, gatekeeper computes status.
 
 ### capset family (cap sets in F_3^n: no 3-term AP, scored by |S|)
 
-| Tag | n | Baseline | Notes |
-|---|---|---|---|
-| `capset_n4` | 4 | 20 | Exact value — sanity check |
-| `capset_n5` | 5 | 45 | Exact value (Pellegrino) — sanity check |
-| `capset_n6` | 6 | 112 | Exact value (Edel) — sanity check |
-| `capset_n7` | 7 | 236 | Lower bound, upper bound open |
-| `capset_n8` | 8 | 496 | Default. Lower bound, upper bound open |
-| `capset_n9` | 9 | 1082 | Lower bound, far from upper bound |
-| `capset_n10` | 10 | 2474 | Lower bound. Verifier is slow at this size |
+| Tag | n | Baseline | UB | Status | Notes |
+|---|---|---|---|---|---|
+| `capset_n4` | 4 | 20 | 20 | sanity | Exact value |
+| `capset_n5` | 5 | 45 | 45 | sanity | Exact value (Pellegrino) |
+| `capset_n6` | 6 | 112 | 112 | sanity | Exact (Hill construction, Potechin optimality) |
+| `capset_n7` | 7 | 236 | 288 | open | Real but decades-hard headroom |
+| `capset_n8` | 8 | 512 | 864* | open | Default. LB = FunSearch explicit cap (Nature 2024). *trivial 3× tripling of n=7 UB |
+| `capset_n9` | 9 | 1082 | 2592* | open | Big gap |
+| `capset_n10` | 10 | 2432 | 7776* | open | LB corrected from unsourced 2474; shipped 2432-cap is complete. Verifier is slow |
 
 ### sidon family (Sidon / B₂ sets in [1, N]: all pairwise sums distinct)
 
-| Tag | N | Baseline | Notes |
-|---|---|---|---|
-| `sidon_100`  |   100 |  11 | Almost certainly exact — sanity check |
-| `sidon_500`  |   500 |  23 | Singer-23 baseline; mild headroom |
-| `sidon_1000` |  1000 |  32 | Singer-31 gives 32; 33 in [1,1000] would be a real result |
-| `sidon_3000` |  3000 |  53 | Singer-53 baseline; real headroom |
+| Tag | N | Baseline | UB | Status | Notes |
+|---|---|---|---|---|---|
+| `sidon_100`   |   100 |  11 |  12 | **closed** | F₂(100)=12 exactly (OGR-13 length 106 > 99); 12 achieved |
+| `sidon_500`   |   500 |  23 |  26 | **closed** | F₂(500)=26 exactly (OGR-27 length 553 > 499); 26 achieved |
+| `sidon_1000`  |  1000 |  32 |  38 | open | Best achieved 35; UB via Lindström |
+| `sidon_3000`  |  3000 |  53 |  63 | open | Best achieved 59; UB via Lindström |
+| `sidon_10000` | 10000 | 102 | 111 | open | Baseline = library Singer window; most headroom |
 
-The "sanity check" problems exist so you can confirm the loop terminates
-without false positives — the agent should never produce a `keep` row on
-small / exact-known sizes.
+`status: sanity` problems confirm the loop terminates without false
+positives (one null-control trial). `status: closed` problems are solved —
+`log_result.py` refuses to grade them (exit 7).
+
+### Adding zoo problems — what makes a target winnable
+
+New problems earn their slot by three criteria: (1) the **verifier** is
+cheap and deterministic (O(k²)-ish membership checking); (2) the **library
+reproduces the literature LB** as a seed — a problem is not "open for the
+loop" until the seed starts at the LB, otherwise every trial is spent
+re-deriving known results; (3) the record is **search-soft** — set by
+computation (rulers, windowed algebraic constructions, SAT-able sizes)
+rather than by deep theory, so an LLM+search loop has a real shot. Every
+record this loop has produced came from knowledge (OGR marks, Singer
+multiplier orbits, GF(q³) constructions) composed with local search.
 
 ## Commands
 
@@ -84,8 +111,13 @@ auto-erdos/
 ├── prepare.py            # READ-ONLY verifier + driver helpers
 ├── strategy.py           # AGENT EDITS — generate_candidate()
 ├── log_result.py         # gatekeeper (status computed here, not by agent)
-├── running_best.py       # state probe (current best, baseline, trials)
-├── problems/             # frozen problem specs, one JSON per (family, n)
+├── running_best.py       # state probe (keep bar, baseline, trials, --headroom)
+├── analyze.py            # FREE structural diagnostics of best_so_far
+├── problem_brief.py      # FREE session-start cross-branch digest
+├── library/              # READ-ONLY literature-grade constructions
+├── problems/             # frozen problem specs (baseline, upper_bound, status)
+├── records/              # committed proof-of-keep snapshots
+├── papers/               # optional post-loop writeups (write_paper.py)
 ├── summaries/            # graceful-exit branch summaries (committed)
 ├── worktrees/            # per-branch worktrees (gitignored)
 ├── program.md            # agent loop spec
