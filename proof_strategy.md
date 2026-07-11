@@ -217,8 +217,8 @@ bound. See `proof_lemmas/lemma_cross_stratum_control.md` for why this fails.
    \zeta(s)^{-1}$ constraints from primitivity. Analyzing the residue at
    $s=1$ might give an improved bound.
 
-This session closes with the above partial result as the committed artifact.
-The conjecture remains open.
+The results above constitute the partial progress committed in this document.
+The conjecture remains open; Section 4 continues the exploration.
 
 ---
 
@@ -238,9 +238,10 @@ $$S_1 \leq \sum_{n \geq x,\, n < x^e} \frac{1}{n \log n}
   \;\leq\; \int_x^{x^e} \frac{dt}{t \log t} + O\!\left(\frac{1}{x \log x}\right).$$
 The integral telescopes (elementary calculus: $\tfrac{d}{dt}\log\log t = 1/(t\log t)$):
 $$\int_x^{x^e} \frac{dt}{t \log t}
-  = \bigl[\log \log t\bigr]_x^{x^e}
-  = \log\!\bigl(e \log x\bigr) - \log\!\bigl(\log x\bigr)
-  = \log e = 1. \quad \square$$
+  = \bigl[\ln \ln t\bigr]_x^{x^e}
+  = \ln\!\bigl(e \ln x\bigr) - \ln\!\bigl(\ln x\bigr)
+  = \ln e = 1. \quad \square$$
+(Here and throughout Section 4, $\log = \ln$ denotes the natural logarithm.)
 
 This is tight: taking $A_1 = \emptyset$ gives $S_1 = 0$; taking $A_1$ to be
 the full set $\{n \in \mathbb{Z} : x \leq n < x^e\}$ (not primitive, but
