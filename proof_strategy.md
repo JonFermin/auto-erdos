@@ -49,15 +49,15 @@ of resolution may appear in this file.
    (correction is negative). Do NOT conclude sum $> 1$ from F3.
 3. Open-claim-asserted-resolved-without-witness: the conjecture is open.
 
-**Numerical calibration** (not a proof): The conjecture concerns
-$A \subset [x, \infty)$ for LARGE $x$; only primes $p \geq x$ contribute.
-The TAIL sum $\sum_{p \geq x} 1/(p \log p) \to 0$ as $x \to \infty$
-(tail of a convergent series). At $x = 3$: $\sum_{p \geq 3} 1/(p \log p)
-\approx 0.916 < 1$ (the convergent prime series minus the $p=2$ term
-$1/(2 \log 2) \approx 0.721$). For small $k$ (e.g.\ $k=1$, primes
-starting from 2), the full-stratum sum exceeds 1 as noted in F3's scope
-comment; however, the TAIL $T_1(x) = \sum_{p \geq x} 1/(p \log p)$
-still vanishes as $x \to \infty$ (see Lemma `large_floor_vanish`).
+**Conceptual calibration** (not a proof): The conjecture concerns
+$A \subset [x, \infty)$ for LARGE $x$; only elements $a \geq x$ contribute.
+By Lemma `large_floor_vanish`, for each fixed $k$ the stratum tail
+$T_k(x) \to 0$ as $x \to \infty$. This applies in particular to $k=1$
+(the prime stratum): $T_1(x) = \sum_{p \geq x} 1/(p \log p) \to 0$.
+For small $k$ (e.g.\ $k=1$), the full-stratum sum $\sum_{n:\Omega(n)=k} 1/(n\log n)$
+is finite (by F3, which proves convergence) but may exceed 1 due to F3's
+asymptotic scope (the formula is for large $k$). The TAIL vanishing is all
+that is needed for the conjecture's $o(1)$ bound.
 
 ---
 
