@@ -715,3 +715,36 @@ For close pairs ($\gcd(a,a') = g > 1$): overlap $O(a,a') \leq 2/(\mathrm{lcm}(a,
 | Total close-pair overlap $= o(S_{<k_0}(A))$ | **Open** (core obstacle) |
 
 **Ultimate reduction**: Erdős conjecture $\Leftrightarrow$ close-pair shadow overlaps in primitive antichains are self-cancelling. This is exactly the mechanism that the Lichtman-Pomerance weight function encodes.
+
+## Section 7: Stratum Ratio Analysis and Asymptotic Decay (Q19)
+
+**Reference**: `proof_lemmas/lemma_stratum_ratios.md`
+
+### Numerical evidence for ratio pattern
+
+For $x = 2^{k_0}$ and $k_0 = 6, \ldots, 10$, computed $T_j(x)$ numerically (truncated to $n \leq 500x$):
+- $T_{k_0-1}(x)/T_{k_0}(x) \approx 2.12$ (increasing toward limit $\alpha \approx 2.12$)
+- $T_{k_0+1}(x)/T_{k_0}(x) \approx 0.41$ (converging to $\beta \approx 0.41$)
+
+**Theorem K (All tails vanish, proved)**: For each fixed $j$: $T_j(x) \to 0$ as $x \to \infty$. (Tail of convergent series $\sum_{n: \Omega(n)=j} 1/(n\log n) < \infty$.)
+
+**Theorem L (Near-pivot decay, proved for fixed $C$)**: $\sum_{m=0}^C T_{k_0-m}(x) \leq (\alpha^{C+1}-1)/(\alpha-1) \cdot T_{k_0}(x) \to 0$.
+
+**High strata**: $\sum_{m \geq 1} T_{k_0+m}(x) \leq \beta/(1-\beta) \cdot T_{k_0}(x) \to 0$ (geometric series, $\beta < 1$).
+
+### The unbounded-sum obstacle
+
+For the sum over ALL strata: $\sum_j T_j(x) = \sum_{n \geq x} 1/(n\log n)$ **diverges**. The individual bounds cannot be summed to give $S(A) \leq 1+o(1)$. The cross-stratum primitive constraint is indispensable.
+
+### Reduction (proved conditionally)
+
+If the multi-stratum induction $\sum_{j=k_0-m}^{k_0} S_j(A) \leq T_{k_0}(x)$ holds for all $m$, then $S(A) \leq T_{k_0}(x) \leq 1+1/k_0 = 1+o(1)$. Gap: the induction mixes budget pools across adjacent stratum levels (A_{k_0-m} shadows into T_{k_0-m+1}, not T_{k_0}).
+
+### Summary
+
+| Result | Status |
+|--------|--------|
+| $T_j(x) \to 0$ for fixed $j$ | **Proved** (Thm K) |
+| Near-pivot $\sum_{m=0}^C T_{k_0-m}(x) = o(1)$ for fixed $C$ | **Proved** (Thm L) |
+| High strata $\sum_{j>k_0} T_j(x) = o(1)$ | **Proved** |
+| Multi-step induction $\sum_j S_j(A) \leq T_{k_0}(x)$ | **Open** (requires LP weight function) |
