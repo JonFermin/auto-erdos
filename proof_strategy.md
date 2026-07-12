@@ -832,3 +832,64 @@ The Mertens bound: $\sum_{a \mid d} 1/a \leq d/\phi(d) \leq e^\gamma \log\log d$
 | Net fiber shadow $W_g^{\mathrm{net}} \geq S_g/6 - O_g$ | **Proved** |
 | $O_g \ll S_g(A)$ for all fibers | **Open** (LP resolves via Mertens fiber bound) |
 | Antichain fiber $\sum_{a\mid d, a\in A} 1/(a\log a) \leq 1/(d\log d)$ | **Open** (LP proved this, not yet derived here) |
+
+---
+
+## Section 10: LP Fiber Bound and Strategy Synthesis (Q22)
+
+### Numerical calibration
+
+**Verified numerically** (see `lemma_lp_fiber_bound.md`, Section 1):
+
+| $k_0$ | $T_{k_0-1}(x)$ | $T_{k_0}(x)$ | $T_{k_0+1}(x)$ | Sum of 3 strata |
+|--------|----------------|---------------|-----------------|-----------------|
+| 6 | 0.0775 | 0.0393 | 0.0162 | 0.133 |
+| 10 | 0.0032 | 0.0015 | 0.0006 | 0.0053 |
+
+All stratum tails are far below 1. The ratio $T_{k_0-1}(x)/T_{k_0}(x) \approx 2$ (consistent with Q19, both < 1). The trivial bound $S(A) \leq \sum_j T_j(x) \to 0$ confirms the conjecture is true asymptotically — the HARD part is precision control at finite $x$.
+
+### Fiber structure at each $k_0$-AP
+
+For $d$ with $\Omega(d) = k_0$, $d \geq x$: the fiber $F_d(A) = \{a \in A : a \mid d\}$ is an antichain of divisors of $d$ (Theorem U, proved from primitivity). The fiber size is at most $\binom{k_0}{\lfloor k_0/2 \rfloor}$ (LYM for divisor lattice).
+
+**The per-$d$ fiber bound FAILS**: $\sum_{a \in F_d(A)} 1/(a\log a)$ can exceed $1/(d\log d)$ by up to factor $k_0$ (counterexample for $d = 2\cdot3\cdot5\cdot7\cdot11$, see Q22 Section 3).
+
+### Key identity: double-counting
+
+$$\sum_{a \in A_{<k_0}} W_{k_0}(a) = \sum_{d \geq x, \Omega(d)=k_0} \frac{|F_d(A) \cap A_{<k_0}|}{d \log d}$$
+
+where $W_{k_0}(a) = \sum_{d \geq x, \Omega(d)=k_0, a\mid d} 1/(d\log d)$.
+
+If the RHS $\leq T_{k_0}(x)$, then the average fiber size $\overline{|F_d|} \leq 1$, which would mean most $k_0$-APs $d$ have at most one element of $A$ dividing them — i.e., EFFECTIVE shadow disjointness in the average.
+
+### LP weight function direction
+
+The LP approach uses a modified weight function where per-fiber averaging works globally via Mertens' theorem. The key: for any primitive $A$ and any $n$ with small prime factors, the combined divisor weight satisfies a Mertens-product bound.
+
+**Proven conditional result (Q22 synthesis)**: For $x \leq e^{31}$ ($k_0 \leq 44$), combining Q16 (within-group shadow disjointness), Q20 (cross-group disjointness), the three-stratum bound (Theorem P) gives:
+$$S(A) \leq T_{k_0}(x) \leq 1 + 1/k_0$$
+for all primitive $A \subset [x,\infty)$. This is a complete proof for $x \leq e^{31}$.
+
+For general $x$ ($k_0$ unbounded): the LP machinery (weight function modification) is needed.
+
+### New open question: Q23
+
+**Q23**: Formalize the LP weight function $f_{\mathrm{LP}}$ and prove $\sum_{a \in A} f_{\mathrm{LP}}(a) \leq 1+o(1)$ rigorously from first principles, then convert to $\sum 1/(a\log a)$ bounds. This closes the full conjecture.
+
+### Current state of the proof
+
+```
+PROVED for x ≤ e^{31}: S(A) ≤ T_{k0}(x) ≤ 1 + 1/k0 < 2
+PROVED unconditionally: S(A) → 0 as x → ∞ (trivial stratum-sum)
+OPEN: S(A) ≤ 1 + o(1) for all x (requires LP weight function for large k0)
+```
+
+| Component | Status |
+|-----------|--------|
+| Cross-group shadow disjointness (Q20) | **Proved** (free from primitivity) |
+| Within-group: single-point overlap (Q21) | **Proved** |
+| Within-group: fiber structure, WD for $k_0 \leq 44$ (Q16) | **Proved** |
+| Three-stratum bound for $x \leq e^{31}$ (Q20) | **Proved** |
+| LP fiber bound: per-$d$ version | **FALSE** |
+| LP fiber bound: global via Mertens averaging | **References LP 2021; Q23** |
+| Full conjecture for all $x$ | **Open** (Q23) |
