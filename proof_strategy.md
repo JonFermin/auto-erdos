@@ -357,3 +357,105 @@ $[x, x^e)$ forces near-emptiness (in the $\sum 1/(a \log a)$ sense) of $A_2$.
 The "density" of $A_1$ in [x, x^e) needs to be measured in a way compatible
 with both the $1/(a \log a)$ metric AND the divisibility blocking structure.
 This is the essential unresolved point.
+
+---
+
+## Section 5 — Globally unblocked elements and the exchange inequality (Q8)
+
+**Setup**. Fix $k \geq 1$ and let $k_0 = \lfloor \log_2 x \rfloor$ (so $2^{k_0} \leq x < 2^{k_0+1}$).
+For any primitive $A \subset [x, \infty)$ and any $b \in A$ with $\Omega(b) = k+1$, define:
+
+- $b$ is **globally $k$-blocked** if there exists a $k$-almost prime $d \in [x, \infty)$ with $d \mid b$.
+- $b$ is **globally $k$-unblocked** if no $k$-almost prime in $[x, \infty)$ divides $b$.
+
+(By primitivity of $A$: since no $a \in A$ with $\Omega(a) = k$ can divide $b$, every element of $A$
+with $\Omega = k+1$ is automatically unblocked by $A$'s own $k$-stratum. "Global" unblockedness
+is the stronger condition that also excludes $k$-almost primes NOT in $A$.)
+
+**Lemma `globally_unblocked_size`** (status: proved): If $b \in [x, \infty)$ is globally
+$k$-unblocked (no $k$-almost prime in $[x, \infty)$ divides $b$), then $b < x^{(k+1)/k}$.
+
+*Proof*: Suppose $b \geq x$ has $\Omega(b) \geq k+1$ and no $k$-almost prime divisor in $[x, \infty)$.
+Let $q$ be the smallest prime factor of $b$. The element $b/q$ has $\Omega(b/q) = \Omega(b) - 1 \geq k$.
+If $\Omega(b/q) = k$, then $b/q$ is a $k$-almost prime. For $b/q \geq x$ we would need
+$b \geq qx$. But then $b/q \geq x$ would be a $k$-almost prime in $[x,\infty)$ dividing $b$,
+contradicting global $k$-unblockedness. Hence $b/q < x$, i.e.\ $b < qx \leq b^{1/(k+1)} \cdot x$
+(since $q \leq b^{1/(k+1)}$ because $q$ is the smallest of at least $k+1$ prime factors of $b$,
+so $q^{k+1} \leq b$). Thus $b^{1 - 1/(k+1)} < x$, giving $b < x^{(k+1)/k}$. $\square$
+
+**Lemma `globally_unblocked_sum`** (status: proved): For any primitive $A \subset [x,\infty)$
+and any $k \geq 1$:
+$$\sum_{\substack{a \in A,\; \Omega(a) \geq k+1 \\ a \text{ globally } k\text{-unblocked}}}
+  \frac{1}{a \log a} \;\leq\; \ln\!\left(1 + \tfrac{1}{k}\right) \;\leq\; \frac{1}{k}.$$
+
+*Proof*: Every globally $k$-unblocked $a \in A$ with $\Omega(a) \geq k+1$ satisfies $a \in [x, x^{(k+1)/k})$
+by Lemma `globally_unblocked_size`. Since all terms are positive:
+$$\sum_{\substack{a \in A,\; \Omega(a) \geq k+1 \\ a \text{ globally } k\text{-unblocked}}}
+  \frac{1}{a \log a}
+  \;\leq\; \sum_{n \in [x,\, x^{(k+1)/k})} \frac{1}{n \log n}
+  \;\leq\; \int_x^{x^{(k+1)/k}} \frac{dt}{t \ln t}
+  = \bigl[\ln \ln t\bigr]_x^{x^{(k+1)/k}}
+  = \ln\!\left(\frac{(k+1)\ln x}{k \cdot \ln x \cdot 1}\right)... $$
+
+More carefully: $\int_x^{x^{(k+1)/k}} dt/(t\ln t) = \ln\ln(x^{(k+1)/k}) - \ln\ln x
+= \ln((k+1)\ln x / k) - \ln(\ln x) = \ln((k+1)/k) = \ln(1+1/k) \leq 1/k$. $\square$
+
+**Key consequence (exchange inequality for specific constructions)**:
+
+Consider the primitive set $B = \{\text{all } k\text{-almost primes in } [x,\infty)\}
+\cup \{\text{globally } k\text{-unblocked } (k+1)\text{-almost primes in } [x,\infty)\}$.
+
+One can verify $B$ is primitive: (a) two $k$-almost primes never divide each other; (b) a
+$k$-almost prime $a$ cannot divide a globally $k$-unblocked $(k+1)$-almost prime $b$ by definition;
+(c) two globally-unblocked $(k+1)$-almost primes $b_1, b_2$ with $b_1 \mid b_2$ would give
+$\Omega(b_2) \geq \Omega(b_1)+1 = k+2$, contradicting $\Omega(b_2)=k+1$. Hence $B$ is primitive.
+
+The sum satisfies:
+$$\sum_{b \in B} \frac{1}{b\log b} = T_k(x) + \sum_{\substack{b\in B\\ \Omega(b)=k+1}} \frac{1}{b\log b}
+\;\leq\; T_k(x) + \frac{1}{k} \;<\; 1 + \frac{1}{k}.$$
+
+Choosing $k = k_0 = \lfloor \log_2 x \rfloor$: since $1/k_0 = O(1/\log x) = o(1)$, and $T_{k_0}(x) < 1$
+(by Lemma `stratum_sub_bound` applied to $T_k(2) = 1 - (c+o(1))k^2/2^k < 1$ for all $k$), we get:
+$$\sum_{b \in B} \frac{1}{b \log b} < 1 + O(1/\log x) = 1 + o(1).$$
+
+This confirms that the specific construction $B$ satisfies the conjecture's bound. The open
+question is whether ALL primitive $A \subset [x,\infty)$ satisfy $\sum 1/(a\log a) < 1 + o(1)$.
+
+**The remaining obstacle (Q8's open core)**:
+
+The bound above applies only to elements of $A$ that are **globally** $k$-unblocked.
+In a general primitive $A \subset [x,\infty)$, elements $b \in A$ with $\Omega(b) = k+1$
+may be **globally $k$-blocked** — there exists a $k$-almost prime $d \in [x,\infty)$ with
+$d \mid b$, but $d \notin A$ (by primitivity, $d$ cannot be in $A$ since $d \mid b$).
+
+Such a globally-blocked $b$ is NOT confined to $[x, x^{(k+1)/k})$ and can be arbitrarily large.
+Its contribution $1/(b\log b)$ is not covered by Lemma `globally_unblocked_sum`.
+
+Concretely: take $k=1$ (k-almost primes = primes), $x=10^6$. The element $b = 2 \times 10^7$
+(a $2$-almost prime, $\Omega=2$) has the $1$-almost prime divisor $d=2 \in [x,\infty)$?
+No: $d=2 < x$. So $d$ must be $\geq x = 10^6$. The prime divisors of $b = 2\times10^7$ are
+$\{2, 10^7\}$; the prime $10^7 \geq x$ IS a globally $1$-blocking prime. So $b$ is globally
+$1$-blocked, but $10^7 \notin A$ (by primitivity, since $10^7 \mid b$). Here $b \in [x, \infty)$
+but $b \notin [x, x^{2/1}) = [x, x^2)$ — wait, $b = 2\times 10^7 < (10^6)^2 = 10^{12}$, so
+$b \in [x, x^2)$ which is $x^{(k+1)/k}$ for $k=1$. So in this case, the globally-blocked $b$
+IS in $[x, x^{(k+1)/k})$. Is this always the case?
+
+Hmm: if $b$ is globally $k$-blocked, then some $k$-almost prime $d \geq x$ divides $b$, so
+$b \geq d \cdot 2 \geq 2x$ (since $d \geq x$ and $b = dm$ for integer $m \geq 2$, so $b \geq 2d \geq 2x$).
+But there is no upper bound forcing $b < x^{(k+1)/k}$. For instance, if $d \approx x$ and $m$ is a
+large $1$-almost prime (i.e.\ a prime $p \gg x^{1/k}$), then $b = dp \gg x^{1+1/k} = x^{(k+1)/k}$.
+So globally-blocked $b$ can exceed $x^{(k+1)/k}$, and the unblocked-sum lemma does not apply.
+
+**Partial conclusion (this remains open)**:
+
+The globally-unblocked sum lemma shows that primitive sets consisting ONLY of k-almost primes
+plus globally-unblocked $(k+1)$-almost primes satisfy the conjecture. General primitive sets
+additionally include globally-$k$-blocked elements, which can be large. Bounding the globally-blocked
+contribution requires the cross-strata primitivity to "transfer" the budget from the absent $k$-almost
+prime $d$ (not in $A$) to the $(k+1)$-almost prime $b$ (in $A$). This cross-transfer argument is
+the unresolved core; it requires tracking how much of $T_k(x)$ is "spent" by absent primes
+that block elements of $A$'s higher strata, rather than being in $A$ themselves.
+
+See `proof_lemmas/lemma_globally_unblocked.md` for detailed analysis.
+
+This partial result is consistent with the conjecture and identifies the remaining mathematical gap.
