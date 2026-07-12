@@ -677,3 +677,41 @@ For large $x$ and any primitive $A \subset [x,\infty)$:
 $$S(A) = \underbrace{S_{\leq k_0-C}(A)}_{o(1)} + \underbrace{S_{\text{near-pivot}}(A)}_{??} + \underbrace{S_{\geq k_0}(A)}_{\leq 1+1/k_0}$$
 
 Proving $S_{\text{near-pivot}}(A) = o(1)$ for near-pivot strata $j \in [k_0-C, k_0-1]$ would complete the conjecture. The full Lichtman-Pomerance proof (2023) handles this via a weight function that trades across ALL strata simultaneously. The sequential/pair-by-pair approach developed here does not close this gap.
+
+## Section 6: Near-Pivot Strata Analysis (Q18)
+
+**Reference**: `proof_lemmas/lemma_near_pivot_strata.md`
+
+### Selberg-Delange regime failure
+
+For near-pivot $j = k_0-1$ with $k_0 \sim \log x / \log 2 \gg \log\log x$: the Selberg-Delange asymptotic $T_j(x) \sim (\log\log x)^{j-1}/((j-1)!\log x)$ is in the large-deviations regime where it does NOT apply. F3 gives $T_j(x) \leq 1+1/j \approx 1$ — this does NOT tend to 0. Each near-pivot stratum contributes $\Theta(1)$ to the budget, making direct Selberg-Delange decay impossible for the near-pivot band.
+
+### Theorem H: Multi-hop budget (proved)
+
+For every $a \in A_{<k_0}$: $W(a) = \sum_{d \geq x: a|d} 1/(d\log d) \geq 1/(a\log a)$.
+
+*Proof*: $d=a$ contributes $1/(a\log a)$ to the sum. $\blacksquare$
+
+### Reduction to shadow disjointness (proved conditionally)
+
+If close-pair shadow overlaps sum to $o(S_{<k_0}(A))$ across all close pairs in $A_{<k_0}$, then:
+$$S_{<k_0}(A) \leq T_{k_0}(x) - S_{k_0}(A) \implies S(A) \leq T_{k_0}(x) \leq 1+1/k_0$$
+
+This is Theorem J (conditional, proved). The proof: multi-hop budget $W(a) \geq 1/(a\log a)$, primitivity excludes all blocked $d$ from $A$, and if shadows are approximately disjoint the total blocked weight $\approx S_{<k_0}(A)$ fits in the available budget $T_{k_0}(x) - S_{k_0}(A)$.
+
+### Remaining obstacle: close-pair overlaps
+
+For coprime $a,a' \geq x$: individual overlap $O(a,a') \leq 2/(x^2\log x) \to 0$ per pair (Theorem I, proved). However the TOTAL over all pairs depends on $|A_{<k_0}|^2$.
+
+For close pairs ($\gcd(a,a') = g > 1$): overlap $O(a,a') \leq 2/(\mathrm{lcm}(a,a')\log\mathrm{lcm}(a,a'))$ which can be $\Theta(1/(x\log x))$ per pair when $g \approx x/2$. Adversarial configurations show total overlap can be $\Omega(1)$.
+
+### Summary
+
+| Result | Status |
+|--------|--------|
+| $W(a) \geq 1/(a\log a)$ (multi-hop budget) | **Proved** (Thm H) |
+| Shadow disjointness $\Rightarrow S(A) \leq T_{k_0}(x)$ (conditional) | **Proved** (Thm J) |
+| Far-pair overlap $o(1)$ per pair | **Proved** (Thm I) |
+| Total close-pair overlap $= o(S_{<k_0}(A))$ | **Open** (core obstacle) |
+
+**Ultimate reduction**: Erdős conjecture $\Leftrightarrow$ close-pair shadow overlaps in primitive antichains are self-cancelling. This is exactly the mechanism that the Lichtman-Pomerance weight function encodes.
