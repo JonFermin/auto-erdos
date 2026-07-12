@@ -894,4 +894,8 @@ OPEN: S(A) ≤ 1 + o(1) for all x (requires LP weight function for large k0)
 | LP fiber bound: global via Mertens averaging | **References LP 2021; Q23/Q24** |
 | Shadow weight lower bound $W_{k_0}(a)$ degrades with $k_0$ (Q23) | **Proved** |
 | Fiber max weight can exceed 1 for single $d$ when $k_0 \geq 2$ (Q23) | **Proved** |
-| Full conjecture for all $x$ | **Open** (requires LP global weight — Q24) |
+| Shadow partition: $S_{k_0}(A) + W^{\text{upper}} + W^{\text{lower}} \leq T_{k_0}(x)$ (Q24/Thm GG) | **Proved** |
+| Level-$(k_0-j)$ fibers require $d \geq P_j \cdot x$ (Q24/Thm DD,EE) | **Proved** |
+| WD sufficient condition: $\text{OC}_g \leq W_g - S_g$ for all bases $g$ (Q24/Thm II) | **Proved** (reduces WD to fiber overlap control) |
+| LP Mertens product: $\text{OC}_g \leq W_g - S_g$ for large $k_0$ | **Open** (Q25) |
+| Full conjecture for all $x$ | **Open** (Q25: LP Mertens product closes WD) |
