@@ -108,3 +108,4 @@
 {"qid":"Q38","status":"resolved","session_id":"s_0712-110453-a069","summary":"Numerical verification complete; {2,3} confirmed as smallest sum>1 primitive set; main numerics correct","ts":"2026-07-12T16:15:18Z"}
 {"qid":"Q39","status":"open","session_id":"s_0712-110453-a069","summary":"Write a fully rigorous statement of LP-23-Restricted from first principles; formalize the claim that LP 2023 proves x-restricted bound","ts":"2026-07-12T16:15:26Z"}
 {"qid":"Q39","status":"claimed","session_id":"s_0712-110453-a069","summary":"Formalize LP-23-Restricted vs LP 2023 relationship; determine exact claim boundary","ts":"2026-07-12T16:15:26Z"}
+{"qid":"Q39","status":"resolved","session_id":"s_0712-110453-a069","summary":"LP-23-Restricted = Erdos conjecture = LP 2023 main theorem; LP 2023 proves full local bound; no gaps","ts":"2026-07-12T16:16:46Z"}
