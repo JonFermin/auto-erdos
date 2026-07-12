@@ -532,3 +532,18 @@ $S_j(A) \leq C(j+1)/(\log\log x) \cdot T_{j+1}(x)$ does not sum to $o(1)$ unifor
 The remaining gap is Q14: a direct analytic proof (Sathe-Selberg + cross-stratum sieve) that
 $\sum_{j \neq k_0} S_j(A) = o(1)$ for any primitive $A \subset [x,\infty)$. See
 `proof_lemmas/lemma_multistratum_bound.md`.
+
+**Trading decomposition cases** (Q14, partial): Let $e = (k_0+1)/k_0$ and split
+$A = A_{\text{low}} \cup A_{\text{high}}$ at threshold $x^e$. Three cases are fully proved:
+(1) $A \subset [x, x^e)$: $S(A) \leq \int_x^{x^e} dt/(t \log t) = 1$ by the integral bound
+(no primitivity needed; the sum of $1/(n\log n)$ over any subset of integers in $[x,x^e)$ is
+$\leq \int_x^{x^e} dt/(t\log t) = \log\log(x^e) - \log\log x = \log e = 1$).
+(2) $A \subset [x^e, \infty)$: $S(A) < T_{k_0+1}(x^e) < 1$ by F3 applied to threshold $x^e$.
+(3) $A \subset \{k_0\text{-APs} \geq x\}$: $S(A) \leq T_{k_0}(x) < 1$ (pure-stratum case).
+The GENERAL case (both ranges nonempty with mixed strata) remains open: the cross-stratum
+constraint prevents $A_{\text{low}}$ and $A_{\text{high}}$ from being jointly large, but a joint
+bound requires $S_{\text{low}} + S_{\text{high}} \leq 1+o(1)$, which depends on the amount of
+$(k_0+1)$-AP budget blocked by $A_{\text{low}}$. Since $T_{k_0}([x,x^e))$ and $T_{k_0+1}([x^e,\infty))$
+are each close to 1, the sum is close to 2, and the cross-blocking reduction is only $O(S_{\text{low}}/\log x)$
+— insufficient. Q15 will pursue the joint bound via a weight function argument. See
+`proof_lemmas/lemma_trading_bound.md`.
