@@ -1054,3 +1054,35 @@ Conjecture E proved ✓ (conditional on LP 2023 + LP-23-Restricted)
 | Numerics: C0, δ_LP, witness sum | **All correct** |
 | Theorem SS proved conditional LP 2023 | **YES** |
 | Q33: Verify LP-23-Restricted from Lichtman 2023 paper | **Open** |
+
+## Section 15: Q33 — LP-23-Restricted Localization Deep Dive
+
+**Core issue (Q33)**: LP 2023 proves $\sum \leq C_0 \approx 1.63$ for ALL primitive sets. For $A \subset [x,\infty)$, we need $\sum \leq \delta_{\mathrm{LP}}(x) \to 0$. This is LP-23-Restricted and is NOT a direct corollary of LP 2023's stated theorem.
+
+**The problem**: Composite $a \geq x$ can have prime factors $p < x$. LP 2023's certificate for $a$ uses these small primes, contributing $1/(p\log p)$ to the global bound. This prevents direct restriction to $\delta_{\mathrm{LP}}(x)$.
+
+**Conclusion**: LP-23-Restricted requires either:
+1. A localization of LP 2023's proof to the restricted divisibility poset $[x,\infty)$, OR
+2. A monotone comparison argument not directly available from LP 2023's theorem.
+
+**Impact on the proof**:
+- LP 2023 alone → $\sum \leq C_0 \approx 1.63$ (insufficient for the asymptotic conjecture)
+- LP-23-Restricted → $\sum \leq \delta_{\mathrm{LP}}(x) \to 0$ (exactly what the conjecture needs)
+- The conjecture requires LP-23-Restricted, not just LP 2023.
+
+**Revised dependency**:
+```
+LP 2023 (Lichtman 2023) [external]
+    + LP-23-Restricted (corollary requiring separate proof) [status: plausible, unproved]
+    + Theorem RR: δ_LP(x) ~ 1/log x → 0 [proved]
+    → Theorem SS: sum = o(1) ← CONDITIONAL on LP-23-Restricted
+```
+
+**Proof attempt failure**: Direct partition into prime/composite components fails because composite elements $a \geq x$ may have small prime factors $< x$ whose LP certificate contribution exceeds $\delta_{\mathrm{LP}}(x)$.
+
+| Claim | Status |
+|-------|--------|
+| LP 2023 (global bound C0) | **External** |
+| LP-23-Restricted derivation | **OPEN GAP** |
+| Direct proof of LP-23-Restricted | **FAILED** (small prime issue) |
+| Q34: Deeper approach — restricted divisor poset | **Open** |
