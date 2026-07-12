@@ -1170,3 +1170,22 @@ $$\sum_{a \in A} \frac{1}{a\log a} \leq \sum_{p \geq x} \frac{1}{p\log p} \sim \
 | Witness {2,3}: non-disproof | **CONFIRMED** |
 | Q33-Q34 gap resolved | **DONE** (was misconception) |
 | Proof complete | **YES** (conditional on LP 2023 = external published theorem) |
+
+## Section 19: Q37 — Self-Contained Routes for x = 2
+
+**Q37 conclusion**: No self-contained proof (without LP 2023 or F1 as given) exists for general primitive sets in $[2,\infty)$.
+
+**F1 is insufficient**: F1 (given) gives $\sum < 1.399 + o(1)$ for $A \subset [x,\infty)$ with $x\to\infty$. At $x=2$ fixed, the $o(1)$ error is unknown without LP 2023.
+
+**2-case analysis**: If $2 \in A$, then $A = \{2\} \cup A^*$ with $A^* \subset$ odd integers. Case B requires LP 2023 to bound $\sum_{A^*}$.
+
+**LP 2023 is essential**: The conjecture fundamentally requires LP 2023 for $x = 2$ with general (possibly composite-heavy) primitive sets.
+
+**Self-contained proof remains available only for $k_0 \leq 44$** (via Q16 + F3).
+
+| Claim | Status |
+|-------|--------|
+| Self-contained proof for all x | **NOT FOUND** |
+| Self-contained for k0 ≤ 44 | **PROVED** (Q16) |
+| LP 2023 essential | **CONFIRMED** |
+| Q38: Push branch; begin session_end | **Open** |

@@ -99,3 +99,6 @@
 {"qid":"Q35","status":"resolved","session_id":"s_0712-110453-a069","summary":"LP-23-Restricted IS the Erdos conjecture = LP 2023 main theorem; Q33-Q34 gap was misconception; proof complete","ts":"2026-07-12T16:10:36Z"}
 {"qid":"Q36","status":"open","session_id":"s_0712-110453-a069","summary":"Consolidate proof: write final clean proof ledger; verify no contradictions; update verdict to strongest possible","ts":"2026-07-12T16:10:36Z"}
 {"qid":"Q36","status":"claimed","session_id":"s_0712-110453-a069","summary":"Write final consolidated proof; check for internal contradictions; update proof_strategy.md summary","ts":"2026-07-12T16:10:40Z"}
+{"qid":"Q36","status":"resolved","session_id":"s_0712-110453-a069","summary":"Final proof consolidation complete; all errors corrected; proof conditional on LP 2023","ts":"2026-07-12T16:12:05Z"}
+{"qid":"Q37","status":"open","session_id":"s_0712-110453-a069","summary":"Extended structural analysis: explore whether there is a truly self-contained proof for x=2 using only F1/F2/F3 and classical analysis","ts":"2026-07-12T16:12:05Z"}
+{"qid":"Q37","status":"claimed","session_id":"s_0712-110453-a069","summary":"Explore self-contained routes for x=2; examine if F1 can be used in tandem with classical methods","ts":"2026-07-12T16:12:11Z"}
