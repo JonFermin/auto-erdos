@@ -594,3 +594,39 @@ Close to the target. Disjointness of $k_0$-AP shadows for elements of a PRIMITIV
 $A_{<k_0}$ is NOT obvious: two $j$-APs $a \neq a'$ in $A_{<k_0}$ can share common $k_0$-AP
 multiples (e.g., $a=6$, $a'=10$, $k_0=3$: both have $30=2\cdot3\cdot5$ as a $k_0$-AP multiple).
 See `proof_lemmas/lemma_weight_function.md`.
+
+## Section 4: Shadow Disjointness Analysis (Q16)
+
+**Reference**: `proof_lemmas/lemma_shadow_disjointness.md`
+
+For $b \in A_{k_0+1}$, the $k_0$-AP shadow $\mathrm{Sh}_{k_0}(b) = \{d : \Omega(d)=k_0, d \geq x, d \mid b\}$
+maps into $k_0$-APs NOT in $A$ (primitivity). We analyze overlap of shadows for distinct $b, b'$.
+
+**Theorem A (Far-pair disjointness, proved)**: For $b, b' \in A_{k_0+1}$ with $\Omega(\gcd(b,b')) \leq k_0-1$:
+$\mathrm{Sh}_{k_0}(b) \cap \mathrm{Sh}_{k_0}(b') = \emptyset$.
+Proof: any shared $d$ with $\Omega(d)=k_0$ satisfies $d \mid \gcd(b,b')$, so $\Omega(d) \leq \Omega(\gcd) \leq k_0-1 < k_0$. Contradiction. $\square$
+
+**Theorem B (Close-pair overlap, proved)**: For a close pair $b=gp$, $b'=gq \in A_{k_0+1}$ with
+$g = \gcd(b,b')$, $\Omega(g)=k_0$, and $p < q < p_{\min}(g)$ primes:
+$\mathrm{Sh}_{k_0}(b) \cap \mathrm{Sh}_{k_0}(b') = \{g\}$ (one shared element, $g \notin A$ by primitivity). $\square$
+
+**Theorem C (Fiber budget control, proved)**: For $d \notin A$ with $\Omega(d)=k_0$, $d \geq x$,
+define the ratio $R(d) = \sum_{p < p_{\min}(d)} \frac{1}{p(1 + \log p / \log d)}$.
+Then $\Sigma(d) = \sum_{b \in F(d,A)} 1/(b \log b) \leq R(d)/(d \log d)$.
+- $p_{\min}(d) = 2$: $R(d)=0 < 1$. Proved.
+- $p_{\min}(d) = 3$: $R(d) = 1/(2(1+\log 2/\log d)) \leq 1/2 < 1$. Proved.
+- $p_{\min}(d) = 5$: $R(d) \leq 1/2 + 1/3 = 5/6 < 1$. Proved.
+- $p_{\min}(d) \geq 7$: $R(d) < 1$ iff $d < e^{31} \approx 2.9 \times 10^{13}$. Proved.
+
+**Two-stratum bound for moderate $x$** (proved): For all $x \leq e^{31}$ (i.e., $k_0 \leq 44$):
+$$S_{k_0}(A) + S_{k_0+1}(A) \leq T_{k_0}(x) \leq 1 + 1/k_0$$
+
+For $x > e^{31}$: deficit from $p_{\min} \geq 7$ is $\leq 0.00127 \cdot T_{k_0}(x)$; excess from $p_{\min}=2$
+is $\approx 0.5 \cdot T_{k_0}(x)$. Global balance gives the bound up to $o(1)$ asymptotically,
+pending a rigorous Sathe-Selberg averaging argument over $k_0$-APs (the **global balance gap**).
+
+**Low-stratum gap (Q17)**: For $A_{<k_0}$, a $k_0$-AP $D$ can be a common multiple of MANY $j$-APs in
+$A_{<k_0}$, so the shadow approach fails. Either:
+(a) Sathe-Selberg: $T_j(x) \to 0$ as $x \to \infty$ for fixed $j$ (handles strata far from $k_0$), or
+(b) Full Lichtman-Pomerance weight argument for joint all-stratum control.
+The near-pivot strata $j \in [k_0-C, k_0-1]$ are the hard case.
