@@ -1086,3 +1086,24 @@ LP 2023 (Lichtman 2023) [external]
 | LP-23-Restricted derivation | **OPEN GAP** |
 | Direct proof of LP-23-Restricted | **FAILED** (small prime issue) |
 | Q34: Deeper approach — restricted divisor poset | **Open** |
+
+## Section 16: Q34 — Proving LP-23-Restricted
+
+**Q34 attempts**: (1) monotone supremum argument; (2) fiber inequality on restricted poset; (3) relative LP weight approach.
+
+**Monotone result (proved)**: $\delta(x) = \sup\{\sum 1/(a\log a) : A \subset [x,\infty), A \text{ prim}\}$ is non-increasing; $\delta(x) \geq \delta_{\mathrm{LP}}(x)$ (primes $\geq x$ achieve this). ✓
+
+**Upper bound issue**: LP 2023 gives $\delta(x) \leq C_0$ (global). For LP-23-Restricted ($\delta(x) \leq \delta_{\mathrm{LP}}(x)$), we need the LP proof localized to $[x,\infty)$.
+
+**Concrete obstruction**: Composites $a \geq x$ can have small prime factors $p < x$. LP 2023's certificate for $a$ uses these primes, contributing $1/(p\log p)$ to the global bound. Example: $A = \{202, 321\} \subset [100,\infty)$ has actual sum $\approx 0.003 \ll \delta_{\mathrm{LP}}(100) \approx 0.20$, but LP's certificate uses primes 2, 3 < 100.
+
+**Status**: LP-23-Restricted is OPEN (within this proof attempt). It is almost certainly true (primes $\geq x$ are extremal) and follows from LP 2023's proof technique applied locally, but the formal derivation is not completed here.
+
+**Consequence**: The conjecture is proved CONDITIONAL ON LP 2023 AND LP-23-Restricted. LP 2023 alone gives only $\sum \leq C_0 \approx 1.63$ (no asymptotic improvement).
+
+| Claim | Status |
+|-------|--------|
+| δ(x) decreasing and ≥ δ_LP(x) | **Proved** |
+| δ(x) ≤ δ_LP(x) (LP-23-Restricted) | **OPEN** |
+| Conjecture conditional on LP-23-Restricted | **YES** |
+| Q35: Accept LP-23-Restricted or find alternative route | **Open** |

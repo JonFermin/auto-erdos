@@ -90,3 +90,6 @@
 {"qid":"Q32","status":"resolved","session_id":"s_0712-110453-a069","summary":"4/5 critics pass; LP-23-Restricted localization gap identified (medium severity); overall proof sound conditional on LP 2023","ts":"2026-07-12T16:05:05Z"}
 {"qid":"Q33","status":"open","session_id":"s_0712-110453-a069","summary":"Verify LP-23-Restricted localization: does LP 2023 directly imply the tighter bound for A in [x,inf)? Examine the LP weight function argument.","ts":"2026-07-12T16:05:05Z"}
 {"qid":"Q33","status":"claimed","session_id":"s_0712-110453-a069","summary":"Examine LP 2023 proof technique to verify LP-23-Restricted localization is a standard corollary","ts":"2026-07-12T16:05:10Z"}
+{"qid":"Q33","status":"resolved","session_id":"s_0712-110453-a069","summary":"LP-23-Restricted gap confirmed real; direct proof fails; needs restricted-poset LP argument or explicit reference in Lichtman 2023","ts":"2026-07-12T16:07:21Z"}
+{"qid":"Q34","status":"open","session_id":"s_0712-110453-a069","summary":"Attempt LP-23-Restricted via restricted divisor poset: apply LP 2023 proof technique to [x,inf) sub-poset; or find a monotone-submodularity argument","ts":"2026-07-12T16:07:21Z"}
+{"qid":"Q34","status":"claimed","session_id":"s_0712-110453-a069","summary":"Attempt LP-23-Restricted via monotone-weight argument or restricted-poset LP technique","ts":"2026-07-12T16:07:25Z"}
