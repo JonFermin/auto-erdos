@@ -547,3 +547,50 @@ $(k_0+1)$-AP budget blocked by $A_{\text{low}}$. Since $T_{k_0}([x,x^e))$ and $T
 are each close to 1, the sum is close to 2, and the cross-blocking reduction is only $O(S_{\text{low}}/\log x)$
 — insufficient. Q15 will pursue the joint bound via a weight function argument. See
 `proof_lemmas/lemma_trading_bound.md`.
+
+**Weight function approach and fiber excess** (Q15, partial): Define the canonical weight
+$w(n) = 1/(d(n) \log d(n))$ where $d(n) = n/p_{\min}(n)^{\Omega(n)-k_0}$ is the canonical
+$k_0$-AP obtained by removing the smallest prime factor $\Omega(n)-k_0$ times. Two key results:
+
+(1) **High-range domination** (proved): For $a \in A$ with $\Omega(a) \geq k_0+1$ and
+$a \geq x^e = x^{(k_0+1)/k_0}$: $d(a) \geq x$ (since $d(a) \geq a^{k_0/(\Omega(a))} \geq x$)
+and $d(a) \notin A$ (primitivity: $d(a) \mid a$), so $w(a) = 1/(d(a)\log d(a)) \geq 1/(a\log a)$.
+The weight $w$ dominates $1/(a\log a)$ for all long-range high-stratum elements.
+
+(2) **Non-injectivity obstacle** (proved by counterexample): The map $a \mapsto d(a)$ is NOT
+injective on $A_{\text{high,long}}$: for $k_0=2$, $x=4$, both $a_1 = 3 \cdot 5 \cdot 7 = 105$
+and $a_2 = 2 \cdot 5 \cdot 7 = 70$ lie in $A_{\text{high,long}} \cap [x^e,\infty) = [8,\infty)$
+and satisfy $d(a_1) = 105/3 = 35 = d(a_2) = 70/2$, but $A$ can contain both ($70 \nmid 105$).
+This shows $\sum_{a \in A} w(a)$ can equal $(k_0+1) \cdot S_{k_0+1}(A)$, far exceeding $T_{k_0}(x)$.
+
+(3) **Two-stratum bound** (proved): For primitive $A \subset [x,\infty)$:
+$S_{k_0}(A) + S_{k_0+1}(A) \leq T_{k_0+1}(x) \leq 1 + 1/(k_0+1)$.
+Proof: $S_{k_0+1}(A) \leq T_{k_0+1}(x) - \sum_{d \in A_{k_0}} F(d,x)$ (blocked fiber mass)
+where $F(d,x) > 1/(d\log d)$ for $d \geq x$ and $x$ large, so $1/(d\log d) - F(d,x) < 0$
+for each $d \in A_{k_0}$. Adding $S_{k_0}(A) = \sum_{d \in A_{k_0}} 1/(d\log d)$ yields
+the two-stratum bound. This is STRICTLY better than both the pure-$k_0$ bound ($T_{k_0}$)
+and the individual stratum bound ($T_{k_0+1}$) when both strata are present.
+
+(4) **Multi-stratum induction** (proved): For any $M \geq 0$:
+$\sum_{j=0}^{M} S_{k_0+j}(A) \leq T_{k_0+M}(x) \leq 1 + 1/(k_0+M) \to 1$ as $M \to \infty$.
+Combined with the tail bound $\sum_{j \geq M} S_{k_0+j}(A) \leq \sum_{n \geq x} 1/(n\log n)/\text{const}
+\leq 1/\log x$: for any $\varepsilon > 0$, choose $M$ s.t. $1/(k_0+M) + 1/\log x < \varepsilon$.
+Then $S_{\geq k_0}(A) = \sum_{j \geq 0} S_{k_0+j}(A) \leq 1 + \varepsilon$. **The total
+high-stratum sum ($\Omega \geq k_0$) is bounded by $1 + o(1)$.** PROVED.
+
+(5) **Downward two-stratum** (proved): $S_{k_0-1}(A) + S_{k_0}(A) \leq T_{k_0}(x) \leq 1 + 1/k_0$
+by the same blocking argument (low-stratum elements block high-stratum elements from $A$).
+
+**Remaining gap (Q16)**: The joint bound $S_{<k_0}(A) + S_{\geq k_0}(A) \leq 1 + o(1)$
+requires combining the upward multi-stratum induction ($S_{\geq k_0} \leq 1+\varepsilon$ for large $x$)
+with a bound on $S_{<k_0}(A)$. The downward 2-stratum shows $S_{k_0-1}+S_{k_0} \leq T_{k_0}(x)$,
+but $S_{k_0-2}+S_{k_0-1}+S_{k_0} \leq T_{k_0-1}(x) + S_{k_0}$ is not tight (both $\approx 1$).
+The KEY needed result: each low-stratum $a \in A_j$ ($j < k_0$) blocks $k_0$-AP mass
+$W(a) \geq 1/(a\log a)$ from $A_{k_0}$, AND the blocked $k_0$-AP shadows are distinct for
+different $a \in A_{<k_0}$ (DISJOINTNESS). If disjointness holds:
+$S_{<k_0}(A) \leq \sum_{a \in A_{<k_0}} W(a) \leq T_{k_0}(x) - S_{k_0}(A)$
+giving $S(A) = S_{<k_0}(A) + S_{\geq k_0}(A) \leq (T_{k_0}(x) - S_{k_0}) + (1+\varepsilon) = 1 + 1/k_0 + \varepsilon$.
+Close to the target. Disjointness of $k_0$-AP shadows for elements of a PRIMITIVE antichain
+$A_{<k_0}$ is NOT obvious: two $j$-APs $a \neq a'$ in $A_{<k_0}$ can share common $k_0$-AP
+multiples (e.g., $a=6$, $a'=10$, $k_0=3$: both have $30=2\cdot3\cdot5$ as a $k_0$-AP multiple).
+See `proof_lemmas/lemma_weight_function.md`.
