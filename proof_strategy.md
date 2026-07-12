@@ -497,3 +497,23 @@ $\phi(b) = \phi(b')$, so a single absent $d$ cannot compensate two extras. Claim
 is FALSE in general (fiber sharing). A modified approach — handling the multi-fiber case
 separately or using a direct analytic bound on the integral — is needed (Q12).
 See `proof_lemmas/lemma_primitive_exchange.md`.
+
+**Cascading removal and sum maximality** (Q12): Adding a fiber element $b = dp$ (with
+$d \notin A$, $p$ prime) to a primitive set requires removing all $d_q = (d/q)p$ for primes
+$q \mid d$ with $d_q \in A$. Since $d_q = (d/q)p \geq x$ for all prime $q \mid d$ (proved:
+$(d/q)p \geq (x/q)\cdot q = x$) and $d_q < d\cdot p$ (since $d_q = (d/q)p < dp = b$):
+the net sum change from the reverse exchange is
+$$\Delta_b = \frac{1}{dp\log(dp)} - \sum_{q \mid d,\, d_q \in A} \frac{1}{(d/q)p\log((d/q)p)} < 0$$
+whenever ANY $d_q \in A$ (since $(d/q)p \geq 2 \cdot \frac{d}{q} \cdot \frac{p}{p} \geq \frac{dp}{q}$
+so each removed term exceeds $q$ times the gain). This proves the FORWARD EXCHANGE (remove
+fiber of $d$, add $d$) INCREASES the sum. Consequently: any primitive $A$ can be transformed
+toward $B_{k_0}(x)$ by forward exchanges, with each exchange increasing the sum. A sum maximizer
+must therefore have NO globally $k_0$-blocked elements — i.e., must be a subset of $B_{k_0}(x)$.
+Thus $\sup \{\text{sum}(A) : A \text{ primitive}, A \subset [x,\infty)\} \leq \text{sum}(B_{k_0}(x)) \leq 1 + 1/k_0 = 1 + o(1)$.
+
+**Gap in Q12 proof**: The above exchange argument assumes the sum maximizer $A^*$ exists and
+that the exchange can always be applied. If $d$ has DIVISORS (not just multiples) in $A$, removing
+them is also required and the sum change may go the other direction. A rigorous completion
+requires either: (a) showing that divisors-in-$A$ case cannot arise for the maximizer, or
+(b) a direct (non-exchange) proof of the bound. See `proof_lemmas/lemma_cascading_removal.md`
+and Q13.
