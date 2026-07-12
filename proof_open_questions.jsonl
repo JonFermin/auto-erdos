@@ -59,3 +59,6 @@
 {"qid":"Q22","status":"claimed","session_id":"s_0712-110453-a069","summary":"taking Q22: LP fiber bound via Mertens","ts":"2026-07-12T14:48:12+00:00"}
 {"qid":"Q22","status":"resolved","session_id":"s_0712-110453-a069","summary":"Per-d fiber bound FALSE (counterexample shown); global LP averaging needed; proved for x<=e^31; WD hypothesis sufficient for full conjecture","ts":"2026-07-12T15:21:37+00:00"}
 {"qid":"Q23","status":"open","session_id":"s_0712-110453-a069","summary":"Formalize LP weight function f_LP and prove sum f_LP(a) <= 1+o(1) for all primitive A; convert to 1/(a log a) bounds; close full conjecture","ts":"2026-07-12T15:21:37+00:00"}
+{"qid":"Q23","status":"claimed","session_id":"s_0712-110453-a069","summary":"LP weight function formalization for full conjecture","ts":"2026-07-12T15:22:05+00:00"}
+{"qid":"Q23","status":"resolved","session_id":"s_0712-110453-a069","summary":"LP weight function structure established: per-element shadow weight degrades with k0; need global Mertens averaging; max fiber weight >1 for k0>=2; open Q24","ts":"2026-07-12T15:28:08+00:00"}
+{"qid":"Q24","status":"open","session_id":"s_0712-110453-a069","summary":"Explore LP 2021 specific weight function: verify fiber bound for LP weight from first principles; prove sum_{a in A} w_LP(a) <= 1+o(1)","ts":"2026-07-12T15:28:08+00:00"}

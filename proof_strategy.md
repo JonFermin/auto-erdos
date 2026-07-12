@@ -891,5 +891,7 @@ OPEN: S(A) ≤ 1 + o(1) for all x (requires LP weight function for large k0)
 | Within-group: fiber structure, WD for $k_0 \leq 44$ (Q16) | **Proved** |
 | Three-stratum bound for $x \leq e^{31}$ (Q20) | **Proved** |
 | LP fiber bound: per-$d$ version | **FALSE** |
-| LP fiber bound: global via Mertens averaging | **References LP 2021; Q23** |
-| Full conjecture for all $x$ | **Open** (Q23) |
+| LP fiber bound: global via Mertens averaging | **References LP 2021; Q23/Q24** |
+| Shadow weight lower bound $W_{k_0}(a)$ degrades with $k_0$ (Q23) | **Proved** |
+| Fiber max weight can exceed 1 for single $d$ when $k_0 \geq 2$ (Q23) | **Proved** |
+| Full conjecture for all $x$ | **Open** (requires LP global weight — Q24) |
