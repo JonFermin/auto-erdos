@@ -35,3 +35,5 @@
 {"event":"round","session_id":"s_0712-110453-a069","ts":"2026-07-12T16:09:07Z","summary":"Q34: LP-23-Restricted upper bound open; composite obstruction identified; keep_progress","qid":"Q34","status":"keep_progress","commit":"f12930b"}
 {"event":"round","session_id":"s_0712-110453-a069","ts":"2026-07-12T16:10:36Z","summary":"Q35: LP-23-Restricted gap resolved as misconception; proof complete conditional on LP 2023; keep_progress","qid":"Q35","status":"keep_progress","commit":"8229872"}
 {"event":"round","session_id":"s_0712-110453-a069","ts":"2026-07-12T16:12:05Z","summary":"Q36: final consolidation; proof complete conditional LP 2023; keep_progress","qid":"Q36","status":"keep_progress","commit":"f5336db"}
+{"event":"round","session_id":"s_0712-110453-a069","ts":"2026-07-12T16:13:50Z","summary":"Q37: LP 2023 essential for x=2; self-contained for k0<=44 only; keep_progress","qid":"Q37","status":"keep_progress","commit":"960ff64"}
+{"event":"round","session_id":"s_0712-110453-a069","ts":"2026-07-12T16:15:18Z","summary":"Q38: numerical verification; all main claims confirmed; keep_progress","qid":"Q38","status":"keep_progress","commit":"fd2715c"}
