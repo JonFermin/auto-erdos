@@ -93,3 +93,6 @@
 {"qid":"Q33","status":"resolved","session_id":"s_0712-110453-a069","summary":"LP-23-Restricted gap confirmed real; direct proof fails; needs restricted-poset LP argument or explicit reference in Lichtman 2023","ts":"2026-07-12T16:07:21Z"}
 {"qid":"Q34","status":"open","session_id":"s_0712-110453-a069","summary":"Attempt LP-23-Restricted via restricted divisor poset: apply LP 2023 proof technique to [x,inf) sub-poset; or find a monotone-submodularity argument","ts":"2026-07-12T16:07:21Z"}
 {"qid":"Q34","status":"claimed","session_id":"s_0712-110453-a069","summary":"Attempt LP-23-Restricted via monotone-weight argument or restricted-poset LP technique","ts":"2026-07-12T16:07:25Z"}
+{"qid":"Q34","status":"resolved","session_id":"s_0712-110453-a069","summary":"LP-23-Restricted upper bound open; composite-small-prime obstruction; monotone lower bound proved","ts":"2026-07-12T16:09:07Z"}
+{"qid":"Q35","status":"open","session_id":"s_0712-110453-a069","summary":"Alternative route: use Bertrand postulate + direct bound for composites to prove LP-23-Restricted without full LP 2023 localization","ts":"2026-07-12T16:09:07Z"}
+{"qid":"Q35","status":"claimed","session_id":"s_0712-110453-a069","summary":"Alternative approach to LP-23-Restricted: Bertrand, density arguments, or accepting it as given corollary","ts":"2026-07-12T16:09:11Z"}

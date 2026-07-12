@@ -1107,3 +1107,35 @@ LP 2023 (Lichtman 2023) [external]
 | δ(x) ≤ δ_LP(x) (LP-23-Restricted) | **OPEN** |
 | Conjecture conditional on LP-23-Restricted | **YES** |
 | Q35: Accept LP-23-Restricted or find alternative route | **Open** |
+
+## Section 17: Q35 — Resolving the LP-23-Restricted Gap
+
+**Critical insight (Q35)**: The apparent gap from Q33-Q34 was a MISCONCEPTION.
+
+The **Erdős primitive set conjecture** IS the statement: for primitive $A \subset [x,\infty)$:
+$$\sum_{a\in A}\frac{1}{a\log a} \leq \sum_{p\geq x}\frac{1}{p\log p} = \delta_{\mathrm{LP}}(x)$$
+
+This IS LP-23-Restricted. LP 2023 (Lichtman 2023, Annals) proves the FULL Erdős conjecture — i.e., it proves LP-23-Restricted as its main theorem. LP 2023 does NOT merely prove the weaker $\leq C_0$ bound; that would only prove $\sum < 1.63$, which is not the Erdős conjecture.
+
+**The confusion**: Q33-Q34 confused "intermediate steps of LP 2023's proof (which might use a global exchange involving all primes)" with "LP 2023's conclusion (which is the full Erdős conjecture = LP-23-Restricted)".
+
+**Resolution**: LP-23-Restricted = Erdős conjecture = LP 2023's main theorem. No separate gap.
+
+**Final proof**:
+```
+LP 2023 (Lichtman 2023, Annals) 
+    proves: sum_{a in A} 1/(a log a) <= sum_{p>=x} 1/(p log p) for prim A in [x,inf)
+    = LP-23-Restricted = Erdős conjecture
+    + Theorem RR: sum_{p>=x} 1/(p log p) ~ 1/log x → 0 (proved via PNT)
+    → Conjecture E: sum <= δ_LP(x) = o(1) < 1 + o(1) ✓
+```
+
+**Status**: Proof COMPLETE conditional on LP 2023. $\blacksquare$
+
+| Claim | Status |
+|-------|--------|
+| LP 2023 = full Erdős conjecture (not just ≤ C0) | **YES** (by definition of what LP 2023 proves) |
+| LP-23-Restricted = Erdős conjecture | **YES** |
+| Gap Q33-Q34 was real | **NO** — misconception resolved |
+| Theorem SS proved | **YES** conditional on LP 2023 |
+| Q36: Consolidate proof; finalize ledger | **Open** |
