@@ -985,3 +985,27 @@ $$\sum_{a\in A} \frac{1}{a\log a} \leq \delta_{\mathrm{LP}}(x) = \sum_{p\geq x} 
 | Witness $\{2,3\}$ sum > 1 but not counterexample (Q30) | **Proved** |
 | Thm VV: $o(1) \sim 1/\log x$ (Q30) | **Proved** |
 | Q31: Self-contained argument for $x = 2$ | **Open** |
+
+## Section 13: Q31 — Self-Contained Analysis and Critic Response
+
+**Dependency tiers**:
+- **Tier 1 (fully self-contained)**: Fiber antichain (Thm U), cross-group disjointness (Q20), double-counting (Thm V), OC bound correction (Q26), level-j constraint (Q24).
+- **Tier 2 (classical analysis)**: PNT → $\delta_{\mathrm{LP}}(x)\to 0$; Mertens product convergence.
+- **Tier 3 (LP 2023 required)**: Full conjecture sum $< 1 + o(1)$; LP-23-Restricted.
+
+**F1 is insufficient**: Erdős-Zhang (F1) gives sum $< e^\gamma\pi/4 + o(1) \approx 1.399 + o(1)$, NOT $< 1 + o(1)$. The gap 0.399 doesn't shrink. LP 2023 closes this gap.
+
+**F2 sign error explicitly avoided**: We never conclude sum $> 1$ from F2's unsigned-$O$ term.
+
+**For $x=2$ without LP**: Cannot prove sum $< 1.63$ self-containedly; per-stratum bounds $S_j < 1$ are fine but sum over strata diverges. LP 2023 is essential.
+
+**Self-contained for $k_0 \leq 44$**: Complete via Q16 (Mertens, shadow disjointness for $k_0 \leq 44$).
+
+| Claim | Status |
+|-------|--------|
+| Tier 1 structural lemmas | **Proved** (self-contained) |
+| F1 proves conjecture | **FALSE** (gives 1.399, not 1+o(1)) |
+| LP 2023 proves conjecture | **TRUE** (Theorem SS) |
+| F2 sign error avoided | **Confirmed** |
+| Self-contained for k0<=44 | **Proved** (Q16) |
+| Q32: critical review of proof structure | **Open** |
