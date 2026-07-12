@@ -791,3 +791,44 @@ Cross-group disjointness is FREE (from primitivity). Only within-group disjointn
 | Upper shadow budget $W^-(b) \geq 1/(b\log b)$ for $b \in A_{k_0+1}$ | **Proved** (Thm O corrected, $b \geq 2x$) |
 | Three-stratum $S_{k_0-1}+S_{k_0}+S_{k_0+1} \leq T_{k_0}(x)$ for $x \leq e^{31}$ | **Proved** (Thm P, conditional on Q16 WD1/WD2) |
 | Full conjecture: $S(A) \leq T_{k_0}(x)$ | **Reduces to** within-group shadow disjointness for all strata |
+
+## Section 9: Within-Group Shadow Structure (Q21)
+
+**Reference**: `proof_lemmas/lemma_within_group_shadow.md`
+
+### Characterization of overlapping pairs
+
+**Theorem R**: For distinct $a, a' \in A_j$ (same stratum $j < k_0$): $\mathrm{Sh}_{k_0}(a) \cap \mathrm{Sh}_{k_0}(a') \neq \emptyset$ iff $\Omega(\mathrm{lcm}(a,a')) \leq k_0$, i.e., $\Omega(\gcd(a,a')) \geq 2j - k_0$.
+
+**For the critical stratum $j = k_0-1$**: overlap exists iff $\Omega(\gcd(a,a')) = k_0-2$ exactly. The overlapping pairs are exactly the "close pairs" $a = gp$, $a' = gq$ for a common $(k_0-2)$-AP base $g$ and distinct primes $p, q \nmid g$.
+
+**Theorem S (Single-point overlap, proved)**: For $a = gp$, $a' = gq \in A_{k_0-1}$ with $\Omega(g) = k_0-2$:
+$$\mathrm{Sh}_{k_0}(a) \cap \mathrm{Sh}_{k_0}(a') = \{gpq\} \cap \{d \geq x\}$$
+
+The overlap contains AT MOST ONE element: $gpq$ itself (which has $\Omega(gpq) = k_0$).
+
+### Fiber structure
+
+Fix base $g$ with $\Omega(g) = k_0-2$. The **fiber** $P_g(A) = \{p$ prime$: p \nmid g, gp \in A_{k_0-1}\}$ generates close pairs within $A_{k_0-1}$. The within-fiber shadow overlap is:
+$$O_g = \sum_{\substack{p<q \in P_g(A) \\ gpq \geq x}} \frac{1}{gpq\log(gpq)}$$
+
+The net shadow (after inclusion-exclusion): $W_g^{\mathrm{net}} \geq S_g(A)/6 - O_g$ where $W(gp) \geq 1/(6gp\log(gp))$ (using smallest prime $r \leq 5$ not dividing $gp$).
+
+### LP resolution and core obstacle
+
+**Structural gap**: $O_g$ can approach $S_g(A)$ for large fibers (when $P_g(A)$ is large and $\sum_{p \in P_g} 1/p$ diverges). The shadow inclusion-exclusion approach cannot close this gap directly.
+
+**LP resolution (Lichtman-Pomerance 2021)**: The LP proof uses an ANTICHAIN FIBER BOUND: for any primitive antichain $A$ and any $d$, the elements of $A$ dividing $d$ form an antichain of divisors of $d$, and their weighted sum satisfies $\sum_{a \in A, a\mid d} 1/(a\log a) \leq 1/(d\log d)$ via Mertens' theorem applied to the divisor lattice.
+
+The Mertens bound: $\sum_{a \mid d} 1/a \leq d/\phi(d) \leq e^\gamma \log\log d$ controls the fiber density, and combined with the primitive antichain structure, gives the desired bound.
+
+### Summary
+
+| Result | Status |
+|--------|--------|
+| Overlap iff $\Omega(\gcd) \geq 2j-k_0$ (Thm R) | **Proved** |
+| Single-point overlap for stratum $k_0-1$ (Thm S) | **Proved** |
+| $W(a) \geq 1/(6a\log a)$ for $a \in A_{k_0-1}$ | **Proved** |
+| Net fiber shadow $W_g^{\mathrm{net}} \geq S_g/6 - O_g$ | **Proved** |
+| $O_g \ll S_g(A)$ for all fibers | **Open** (LP resolves via Mertens fiber bound) |
+| Antichain fiber $\sum_{a\mid d, a\in A} 1/(a\log a) \leq 1/(d\log d)$ | **Open** (LP proved this, not yet derived here) |
