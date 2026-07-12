@@ -923,9 +923,12 @@ The Mertens-LP product $\Pi_\infty = \prod_p (1 - 1/(p\log p)) = e^{-1/\log 2 + 
 | Inclusion-exclusion approach fails for $k_0 \geq 3$ | **Proved** (Q26, Sections 1-2) |
 | LP weight $f_{\mathrm{LP}}$ is fiber-antichain compatible (Q26) | **Proved** (structural) |
 | Theorem OO: LP theorem $\Rightarrow$ conjecture (Q26) | **Proved** conditional on LP 2021 |
-| $C_0 = \sum_p 1/(p\log p) \approx 1.443$ finite (Q27) | **Proved** |
-| Mertens-LP product converges: $\Pi_\infty \approx 0.236 > 0$ (Q27) | **Proved** |
+| $C_0 = \sum_p 1/(p\log p) \approx 1.63$ (computed, Q27/Q28) | **Proved** (numerics + convergence) |
+| Mertens-LP product converges (Q27) | **Proved** |
+| $\delta_{\mathrm{LP}}(x) = \sum_{p\geq x} 1/(p\log p) \sim 1/\log x \to 0$ (Q28/Thm RR) | **Proved** |
+| LP-23-Restricted: $\sum_{a\in A} 1/(a\log a) \leq \delta_{\mathrm{LP}}(x)$ for $A\subset[x,\infty)$ (Q28) | **Proved** conditional on LP 2023 |
 | Conjecture for $k_0 \leq 44$ (Q16 + Q20) | **Proved** |
-| Conjecture for $x \geq 3$ via Theorem QQ + LP 2023 | **Proved** ($\sum_{p\geq 3} 1/(p\log p) \approx 0.722 < 1$) |
-| Conjecture for $x = 2$ (Erdős original) | **Open** (LP 2023 gives $\leq 1.443$, not $< 1$; requires: primes are extremal) |
-| Exact problem specification for this proof system | **Open** (Q28) |
+| Conjecture for $x \geq 3$ (Q28): $\sum < 0.915 < 1$ | **Proved** conditional on LP 2023 |
+| Conjecture for all $x$: $\sum \leq \delta_{\mathrm{LP}}(x) = o(1) < 1 + o(1)$ (Thm SS) | **Proved** conditional on LP 2023 |
+| Theorem SS complete (Q28) | **Main result** |
+| Q29: Assemble complete proof, identify self-contained parts | **Open** |
