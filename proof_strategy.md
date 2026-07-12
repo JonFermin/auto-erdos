@@ -897,5 +897,8 @@ OPEN: S(A) ≤ 1 + o(1) for all x (requires LP weight function for large k0)
 | Shadow partition: $S_{k_0}(A) + W^{\text{upper}} + W^{\text{lower}} \leq T_{k_0}(x)$ (Q24/Thm GG) | **Proved** |
 | Level-$(k_0-j)$ fibers require $d \geq P_j \cdot x$ (Q24/Thm DD,EE) | **Proved** |
 | WD sufficient condition: $\text{OC}_g \leq W_g - S_g$ for all bases $g$ (Q24/Thm II) | **Proved** (reduces WD to fiber overlap control) |
-| LP Mertens product: $\text{OC}_g \leq W_g - S_g$ for large $k_0$ | **Open** (Q25) |
-| Full conjecture for all $x$ | **Open** (Q25: LP Mertens product closes WD) |
+| $\mathrm{OC}_{\mathrm{total}} \leq \frac{1}{2}\sum_a W_{k_0}(a)$ (Q25/Thm KK) | **Proved** |
+| Shadow ratio $\sum W \geq 2S_{k_0-1}$ for $k_0 \geq 601$ (Q25/Thm MM) | **Proved** (Mertens estimate) |
+| Conjecture for $k_0 \leq 44$ (Q16 + Q20) | **Proved** |
+| Conjecture for $k_0 \geq 601$ (Q25/Thm MM + NN) | **Proved** |
+| Conjecture for $45 \leq k_0 \leq 600$ | **Open** (gap — Q26) |
