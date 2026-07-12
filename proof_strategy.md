@@ -483,3 +483,17 @@ The sum $\sum 1/d$ over $k$-almost primes $d \geq x$ exceeds $T_k(x)$ by a $\log
 (since $\sum 1/d = (\log d)\cdot \sum 1/(d\log d)$ and $\log d$ is unbounded). The fiber bound
 thus gives $\Omega(\log x)$ for the total blocked sum — divergent. A global weight argument
 exploiting cross-fiber primitivity (Q11) is needed to close the gap.
+
+**Integral representation + exchange principle** (Q11): Via Abel summation,
+$\sum_{a \in A} 1/(a\log a) = \int_x^\infty N_A(t)\,dt/(t\log^2 t)$
+where $N_A(t) = |A \cap [x,t]|$. The exchange construction satisfies
+$\int_x^\infty N_{B_{k_0}(x)}(t)\,dt/(t\log^2 t) \leq 1 + 1/k_0$.
+Claim $D_{k_0}$: $N_A(t) \leq N_{B_{k_0}(x)}(t)$ for all $t \geq x$ (counting-function dominance).
+The map $\phi: b \mapsto d(b)$ (product of $b$'s $k_0$ smallest prime factors) sends each
+$b \in A \setminus B_{k_0}$ to an absent $d(b) \in B_{k_0} \setminus A$ with $d(b) < b$ and
+$d(b) \geq x$ (proved: $d(b) \cdot q_1\cdots q_\ell = b$ with $q_i \geq 2$, so $d(b) \leq b/2^{\Omega(b)-k_0} \leq b/4$ for $\Omega(b) \geq k_0+2$; and $d(b) \geq b/(q_1 q_2) \geq b/b \cdot x = x$ since $q_1 q_2 \leq b/2^{k_0} \leq b/x$).
+However, $\phi$ is NOT injective: two elements $b, b' \in A \setminus B_{k_0}$ may share
+$\phi(b) = \phi(b')$, so a single absent $d$ cannot compensate two extras. Claim $D_{k_0}$
+is FALSE in general (fiber sharing). A modified approach — handling the multi-fiber case
+separately or using a direct analytic bound on the integral — is needed (Q12).
+See `proof_lemmas/lemma_primitive_exchange.md`.
