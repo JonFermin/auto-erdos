@@ -467,3 +467,19 @@ is globally $k$-blocked (has a $k$-almost prime divisor $\geq x$). Combined with
 element of $A$ is either in $[x, x^{(k+1)/k})$ (globally $k$-unblocked, bounded sum $\leq 1/k$)
 or is globally $k$-blocked by some absent $k$-almost prime $d \geq x$. The blocked case remains
 open; see `proof_lemmas/lemma_large_elements_blocked.md`.
+
+**Lemma `fiber_sum_bound`** (status: proved per-fiber; total blocked sum open, Q10): For any
+$k$-almost prime $d \geq x$ with $d \notin A$, define the fiber
+$F_k(d,A) = \{b \in A : d \mid b,\; \Omega(b) = k+1\}$.
+Every $b \in F_k(d,A)$ has the form $b = dp$ for a prime $p$, and
+$$\sum_{b \in F_k(d,A)} \frac{1}{b \log b} \leq \frac{T_1(2)}{d},$$
+where $T_1(2) = \sum_p 1/(p\log p)$ is a finite constant. Proof: $\log(dp) \geq \log p$
+gives $1/(dp\log(dp)) \leq 1/(dp\log p)$; summing over primes $p$ with $dp \in A$ and using
+$\sum_p 1/(p\log p) = T_1(2)$ yields the bound. See `proof_lemmas/lemma_fiber_sum_bound.md`.
+
+**Fiber obstacle** (Q10 obstacle, open): Summing over all blocking $d$'s gives
+$\sum_{d \geq x,\,\Omega(d)=k,\,d \notin A} T_1(2)/d \leq T_1(2)\cdot\sum_{d \geq x,\,\Omega(d)=k} 1/d$.
+The sum $\sum 1/d$ over $k$-almost primes $d \geq x$ exceeds $T_k(x)$ by a $\log x$ factor
+(since $\sum 1/d = (\log d)\cdot \sum 1/(d\log d)$ and $\log d$ is unbounded). The fiber bound
+thus gives $\Omega(\log x)$ for the total blocked sum — divergent. A global weight argument
+exploiting cross-fiber primitivity (Q11) is needed to close the gap.

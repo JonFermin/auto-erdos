@@ -18,3 +18,8 @@
 {"qid":"Q8","status":"claimed","session_id":"s_0712-110453-a069","summary":"taking Q8 — proving globally-unblocked elements bound and exploring whether it extends to all primitive sets","ts":"2026-07-12T11:20:55+00:00"}
 {"qid":"Q9","status":"open","session_id":"s_0712-110453-a069","summary":"Prove large_elements_blocked (converse of globally_unblocked_size)","ts":"2026-07-12T12:16:38+00:00"}
 {"qid":"Q9","status":"claimed","session_id":"s_0712-110453-a069","summary":"proving converse lemma","ts":"2026-07-12T12:16:38+00:00"}
+{"qid":"Q9","status":"resolved","session_id":"s_0712-110453-a069","summary":"proved large_elements_blocked; complete dichotomy; fiber obstacle identified","ts":"2026-07-12T12:17:46+00:00"}
+{"qid":"Q10","status":"open","session_id":"s_0712-110453-a069","summary":"Prove the fiber-sum bound: for each k-almost prime d>=x with d not in A, sum_{b in A: d|b} 1/(b log b) <= 1/(d log d). Or find an alternative route to bound globally-blocked elements.","ts":"2026-07-12T12:17:46+00:00"}
+{"qid":"Q10","status":"claimed","session_id":"s_0712-110453-a069","summary":"attacking fiber obstacle","ts":"2026-07-12T12:17:46+00:00"}
+{"qid":"Q10","status":"resolved","session_id":"s_0712-110453-a069","summary":"fiber_sum_bound proved per fiber (<=T_1(2)/d); total blocked sum approach fails (Omega(log x)); global weight argument needed for Q11","ts":"2026-07-12T12:25:39+00:00"}
+{"qid":"Q11","status":"open","session_id":"s_0712-110453-a069","summary":"Global weight argument: use cross-fiber primitivity to close the blocked-sum gap. Fiber approach gives Omega(log x) bound which diverges. Need O(1) bound on total globally-blocked contribution.","ts":"2026-07-12T12:25:39+00:00"}
