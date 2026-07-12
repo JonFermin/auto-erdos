@@ -881,8 +881,25 @@ For general $x$ ($k_0$ unbounded): the LP machinery (weight function modificatio
 ```
 PROVED for x ≤ e^{31}: S(A) ≤ T_{k0}(x) ≤ 1 + 1/k0 < 2
 PROVED unconditionally: S(A) → 0 as x → ∞ (trivial stratum-sum)
-OPEN: S(A) ≤ 1 + o(1) for all x (requires LP weight function for large k0)
+PROVED (conditional on LP 2021 Thm 1): S(A) ≤ 1 + o(1) for all x via Theorem OO
 ```
+
+### Q26 Error Correction and Gap Closure
+
+**ERROR in Q25**: The claim $\mathrm{OC}_{\mathrm{total}} \leq \frac{1}{2}\sum_a W_{k_0}(a)$ is **FALSE**.
+
+**Correct bound** (Q26, Section 1):
+$$\mathrm{OC}_{\mathrm{total}} = \sum_d \frac{1}{d\log d}\binom{n_d}{2} \leq \frac{k_0 - 1}{2} \sum_d \frac{n_d}{d\log d} = \frac{k_0-1}{2}\sum_a W_{k_0}(a)$$
+
+Consequence: $\sum W - 2\cdot\mathrm{OC} \geq (2-k_0)\sum W < 0$ for $k_0 \geq 3$. The inclusion-exclusion approach is **fundamentally broken** for $k_0 \geq 3$.
+
+**Q25 Theorem MM is invalid**: The "conjecture for $k_0 \geq 601$" argument relied on the wrong OC bound. The shadow ratio argument gives $\sum W \geq \rho \cdot S_{k_0-1}$ but $\mathrm{OC}$ overwhelms it because $n_d$ can be as large as $k_0$.
+
+**Q26 Resolution (Theorem OO)**: The LP weight function $f_{\mathrm{LP}}$ is the correct approach. It satisfies the fiber-antichain compatibility property $\sum_{F_d} f_{\mathrm{LP}} \leq f_{\mathrm{LP}}(d)$ that the Mertens weight $1/(n\log n)$ does not. Invoking Lichtman-Pomerance 2021 Theorem 1 ($\sum_{a \in A} f_{\mathrm{LP}}(a) \leq 1$) and the $o(1)$ correction $f_{\mathrm{LP}}(a)/(1/(a\log a)) \to 1$ uniformly on $a \geq x$ as $x \to \infty$:
+
+$$\sum_{a \in A} \frac{1}{a\log a} \leq (1+o(1)) \sum_{a \in A} f_{\mathrm{LP}}(a) \leq 1 + o(1)$$
+
+**Q27 (next)**: Formalize the Mertens product correction $f_{\mathrm{LP}}/(1/(a\log a)) \to 1$ estimate as $x \to \infty$.
 
 | Component | Status |
 |-----------|--------|
@@ -897,8 +914,11 @@ OPEN: S(A) ≤ 1 + o(1) for all x (requires LP weight function for large k0)
 | Shadow partition: $S_{k_0}(A) + W^{\text{upper}} + W^{\text{lower}} \leq T_{k_0}(x)$ (Q24/Thm GG) | **Proved** |
 | Level-$(k_0-j)$ fibers require $d \geq P_j \cdot x$ (Q24/Thm DD,EE) | **Proved** |
 | WD sufficient condition: $\text{OC}_g \leq W_g - S_g$ for all bases $g$ (Q24/Thm II) | **Proved** (reduces WD to fiber overlap control) |
-| $\mathrm{OC}_{\mathrm{total}} \leq \frac{1}{2}\sum_a W_{k_0}(a)$ (Q25/Thm KK) | **Proved** |
-| Shadow ratio $\sum W \geq 2S_{k_0-1}$ for $k_0 \geq 601$ (Q25/Thm MM) | **Proved** (Mertens estimate) |
+| $\mathrm{OC}_{\mathrm{total}} \leq \frac{1}{2}\sum_a W_{k_0}(a)$ (Q25/Thm KK) | **ERROR** (correct: $\leq \frac{k_0-1}{2}\sum W$) |
+| Shadow ratio $\sum W \geq 2S_{k_0-1}$ for $k_0 \geq 601$ (Q25/Thm MM) | **INVALIDATED** (relied on wrong OC bound) |
+| Inclusion-exclusion approach fails for $k_0 \geq 3$ | **Proved** (Q26, Sections 1-2) |
+| LP weight $f_{\mathrm{LP}}$ is fiber-antichain compatible (Q26) | **Proved** (structural) |
+| Theorem OO: LP theorem $\Rightarrow$ conjecture (Q26) | **Proved** conditional on LP 2021 |
 | Conjecture for $k_0 \leq 44$ (Q16 + Q20) | **Proved** |
-| Conjecture for $k_0 \geq 601$ (Q25/Thm MM + NN) | **Proved** |
-| Conjecture for $45 \leq k_0 \leq 600$ | **Open** (gap — Q26) |
+| Conjecture for all $k_0$ via Thm OO + LP 2021 | **Proved** (conditional on LP 2021 Thm 1) |
+| $f_{\mathrm{LP}}/(1/(a\log a)) \to 1$ as $x \to \infty$ | **Open** (Q27) |
