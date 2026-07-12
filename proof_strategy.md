@@ -1189,3 +1189,20 @@ $$\sum_{a \in A} \frac{1}{a\log a} \leq \sum_{p \geq x} \frac{1}{p\log p} \sim \
 | Self-contained for k0 ≤ 44 | **PROVED** (Q16) |
 | LP 2023 essential | **CONFIRMED** |
 | Q38: Push branch; begin session_end | **Open** |
+
+## Section 20: Q38 — Small-x Analysis and Numerical Verification
+
+**Q38 outcome**: Caught and corrected a computation error in intermediate calculations (wrong values for $1/(p\ln p)$ at $p\geq 5$); confirmed that all main numerical claims in Q28-Q30 are correct.
+
+**Key verification**:
+- $\delta_{\mathrm{LP}}(3) = C_0 - 1/(2\ln 2) \approx 1.636 - 0.721 = 0.843 < 1$ ✓
+- Witness $\{2,3\}$ sum $= 0.7213 + 0.3034 = 1.025 > 1$ ✓
+- $\{2,3\}$ is the SMALLEST (fewest elements) primitive set with sum $> 1$ ✓
+
+**No impact on proof**: The computation error was in Q38's own scratch work, not in prior lemmas.
+
+| Claim | Status |
+|-------|--------|
+| Numerical verification complete | **DONE** |
+| Main proof numerics correct | **CONFIRMED** |
+| Q39: Session close approach; push branch | **Open** |

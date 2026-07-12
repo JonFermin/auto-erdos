@@ -102,3 +102,6 @@
 {"qid":"Q36","status":"resolved","session_id":"s_0712-110453-a069","summary":"Final proof consolidation complete; all errors corrected; proof conditional on LP 2023","ts":"2026-07-12T16:12:05Z"}
 {"qid":"Q37","status":"open","session_id":"s_0712-110453-a069","summary":"Extended structural analysis: explore whether there is a truly self-contained proof for x=2 using only F1/F2/F3 and classical analysis","ts":"2026-07-12T16:12:05Z"}
 {"qid":"Q37","status":"claimed","session_id":"s_0712-110453-a069","summary":"Explore self-contained routes for x=2; examine if F1 can be used in tandem with classical methods","ts":"2026-07-12T16:12:11Z"}
+{"qid":"Q37","status":"resolved","session_id":"s_0712-110453-a069","summary":"No self-contained route for x=2; LP 2023 essential; k0<=44 remains the only self-contained result","ts":"2026-07-12T16:13:50Z"}
+{"qid":"Q38","status":"open","session_id":"s_0712-110453-a069","summary":"Prove that the witness {2,3} is non-trivially distinguished: analyze maximum primitive set sum for small x without LP 2023","ts":"2026-07-12T16:13:50Z"}
+{"qid":"Q38","status":"claimed","session_id":"s_0712-110453-a069","summary":"Analyze max-sum primitive sets for small x; explore whether any finite set exceeds δ_LP(2); verify numerical claims","ts":"2026-07-12T16:13:57Z"}
