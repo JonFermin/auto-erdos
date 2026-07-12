@@ -517,3 +517,18 @@ them is also required and the sum change may go the other direction. A rigorous 
 requires either: (a) showing that divisors-in-$A$ case cannot arise for the maximizer, or
 (b) a direct (non-exchange) proof of the bound. See `proof_lemmas/lemma_cascading_removal.md`
 and Q13.
+
+**Multi-stratum bound and divisors-in-A gap** (Q13, partial): The exchange approach fundamentally
+fails when $a \in A$, $\Omega(a) = j < k_0$, $a \mid d$, $d \notin A$: removing $a$ costs
+$1/(a \log a) > 1/(d \log d)$ (the gain from adding $d$), so the exchange decreases the sum.
+Two partial results are proved: (1) **Pure-$k_0$ case** (proved): if $A \subseteq \{k_0$-almost
+primes $\geq x\}$, then $S(A) \leq T_{k_0}(x) \leq 1 + 1/k_0$. (2) **Asymptotic per-element
+budget** (proved): for $a \in A$ with $\Omega(a) = j < k_0$, the excluded budget of
+$k_0$-almost prime multiples satisfies $W(a) \geq c \log\log x / (a \log a) \gg 1/(a \log a)$
+as $x \to \infty$ (using $\sum_{p \leq a} 1/p \sim \log\log a$). However, the GLOBAL budget
+accounting fails: multiple elements of $A$ at stratum $j$ can share the same $(j+1)$-almost prime
+multiples as their excluded budget (the $j \mid$ check fails to be injective), so the chain
+$S_j(A) \leq C(j+1)/(\log\log x) \cdot T_{j+1}(x)$ does not sum to $o(1)$ uniformly.
+The remaining gap is Q14: a direct analytic proof (Sathe-Selberg + cross-stratum sieve) that
+$\sum_{j \neq k_0} S_j(A) = o(1)$ for any primitive $A \subset [x,\infty)$. See
+`proof_lemmas/lemma_multistratum_bound.md`.
