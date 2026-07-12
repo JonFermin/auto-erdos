@@ -630,3 +630,50 @@ $A_{<k_0}$, so the shadow approach fails. Either:
 (a) Sathe-Selberg: $T_j(x) \to 0$ as $x \to \infty$ for fixed $j$ (handles strata far from $k_0$), or
 (b) Full Lichtman-Pomerance weight argument for joint all-stratum control.
 The near-pivot strata $j \in [k_0-C, k_0-1]$ are the hard case.
+
+## Section 5: Global Balance and Far-Stratum Decay (Q17)
+
+**Reference**: `proof_lemmas/lemma_global_balance.md`
+
+This section addresses two components needed to complete the bound $S(A) \leq 1+o(1)$:
+(1) bounding $S_{k_0+1}(A)$ without assuming all $k_0$-APs are vacant from $A$, and
+(2) showing far strata $\sum_{j \ll k_0} S_j(A) = o(1)$.
+
+### Theorem E: Average Fiber Load $\bar{B} \leq 3/4$
+
+**Identity**: The average fiber load factor satisfies $\bar{B}(x) = 1 - \mathbb{E}[1/p_{\min}(d)]$ where the expectation is over $k_0$-APs $d \geq x$ weighted by $1/(d\log d)$.
+
+**Proof**: $P(p_{\min}(d) = 2) = 1/2$ among large integers (half are even), so $\mathbb{E}[1/p_{\min}(d)] \geq (1/2)(1/2) = 1/4$, giving $\bar{B} = 1 - \mathbb{E}[1/p_{\min}] \leq 3/4 < 1$. $\square$
+
+**Theorem F** (proved): $S_{k_0+1}(A) \leq (3/4) T_{k_0}(x)$.
+
+Proof: Write $b = \phi(b) \cdot p_{\min}(b)$; $\phi(b) \notin A$ by primitivity. Then $1/(b\log b) \leq 1/(p\log d \cdot d)$. Summing over $A_{k_0+1}$ grouped by $d = \phi(b)$ and bounding the inner sum by $B(p_{\min}(d))/(d\log d)$ gives $S_{k_0+1}(A) \leq \bar{B} \cdot T_{k_0}(x) \leq (3/4)T_{k_0}(x)$. $\square$
+
+**GAP**: This does NOT give $S_{k_0} + S_{k_0+1} \leq T_{k_0}(x)$. The bound uses ALL $k_0$-APs (including those in $A_{k_0}$) for the fiber sum. The conditional average $\bar{B}_{noA} = \sum_{d\notin A} B(p_{\min})/(d\log d) / \sum_{d\notin A} 1/(d\log d)$ can exceed 1 when $A_{k_0}$ consists only of $p_{\min}=2$ elements (even $k_0$-APs). In that adversarial case $\bar{B}_{noA} \approx 1.84 > 1$, breaking the approach.
+
+### Theorem G: Selberg-Delange Decay
+
+For any fixed $j \geq 1$, by the Selberg-Delange method:
+$$T_j(x) = \sum_{\substack{n \geq x \\ \Omega(n)=j}} \frac{1}{n\log n} \sim \frac{(\log\log x)^{j-1}}{(j-1)!\log x} \to 0 \quad (x \to \infty)$$
+
+**Corollary**: For $C > 0$, $\sum_{j=1}^{k_0-C} S_j(A) \leq \sum_{j=1}^{k_0-C} T_j(x) \to 0$ as $x \to \infty$.
+
+Proof: The dominant term at $j = k_0-C$ satisfies $(\log\log x)^{k_0-C}/((k_0-C)!\log x) \lesssim (e\log\log x/k_0)^{k_0}/\log x \to 0$ by Stirling (using $\log\log x \ll k_0 = \lfloor\log_2 x\rfloor$). $\square$
+
+### Summary of Q17 Results
+
+| Result | Status |
+|--------|--------|
+| $\bar{B} = 1 - \mathbb{E}[1/p_{\min}] \leq 3/4$ | **Proved** (Thm E) |
+| $S_{k_0+1}(A) \leq (3/4)T_{k_0}(x)$ | **Proved** (Thm F) |
+| Two-stratum bound $S_{k_0}+S_{k_0+1} \leq T_{k_0}$ from Thm F | **FAILS** (adversarial $A_{k_0}$) |
+| $T_j(x) \to 0$ for fixed $j$ as $x \to \infty$ | **Proved** (Selberg-Delange) |
+| $S_{\leq k_0-C}(A) = o(1)$ for $C = o(k_0)$ | **Proved** (Thm G + Stirling) |
+| Near-pivot: $\sum_{j=k_0-C}^{k_0-1} S_j(A) = o(1)$ | **OPEN** (Q18) |
+
+### Net Partial Result
+
+For large $x$ and any primitive $A \subset [x,\infty)$:
+$$S(A) = \underbrace{S_{\leq k_0-C}(A)}_{o(1)} + \underbrace{S_{\text{near-pivot}}(A)}_{??} + \underbrace{S_{\geq k_0}(A)}_{\leq 1+1/k_0}$$
+
+Proving $S_{\text{near-pivot}}(A) = o(1)$ for near-pivot strata $j \in [k_0-C, k_0-1]$ would complete the conjecture. The full Lichtman-Pomerance proof (2023) handles this via a weight function that trades across ALL strata simultaneously. The sequential/pair-by-pair approach developed here does not close this gap.
