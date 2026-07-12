@@ -459,3 +459,11 @@ that block elements of $A$'s higher strata, rather than being in $A$ themselves.
 See `proof_lemmas/lemma_globally_unblocked.md` for detailed analysis.
 
 This partial result is consistent with the conjecture and identifies the remaining mathematical gap.
+
+**Lemma `large_elements_blocked`** (status: proved, Q9): The converse of Lemma
+`globally_unblocked_size` holds. If $b \geq x^{(k+1)/k}$ and $\Omega(b) \geq k+1$, then $b$
+is globally $k$-blocked (has a $k$-almost prime divisor $\geq x$). Combined with
+`globally_unblocked_size`, this gives the complete dichotomy: every $(k+1)$-almost prime
+element of $A$ is either in $[x, x^{(k+1)/k})$ (globally $k$-unblocked, bounded sum $\leq 1/k$)
+or is globally $k$-blocked by some absent $k$-almost prime $d \geq x$. The blocked case remains
+open; see `proof_lemmas/lemma_large_elements_blocked.md`.

@@ -16,3 +16,5 @@
 {"qid":"Q7","status":"resolved","session_id":"s_0711-080759-fdf5","summary":"Q7 trading decomposition complete: S1≤1 exact by integral, S2 open (dead end documented — sieve density, recursion, and induction all fail without cross-structure primitivity)","ts":"2026-07-11T09:27:48+00:00"}
 {"qid":"Q8","status":"open","session_id":"s_0712-110453-a069","summary":"Exchange inequality: elements in A with Omega >= k+1 and no k-almost prime >=x divisor must lie in [x, x^{(k+1)/k}); sum contribution <= 1/k. Can this extend to ALL primitive sets?","ts":"2026-07-12T11:20:55+00:00"}
 {"qid":"Q8","status":"claimed","session_id":"s_0712-110453-a069","summary":"taking Q8 — proving globally-unblocked elements bound and exploring whether it extends to all primitive sets","ts":"2026-07-12T11:20:55+00:00"}
+{"qid":"Q9","status":"open","session_id":"s_0712-110453-a069","summary":"Prove large_elements_blocked (converse of globally_unblocked_size)","ts":"2026-07-12T12:16:38+00:00"}
+{"qid":"Q9","status":"claimed","session_id":"s_0712-110453-a069","summary":"proving converse lemma","ts":"2026-07-12T12:16:38+00:00"}
