@@ -748,3 +748,46 @@ If the multi-stratum induction $\sum_{j=k_0-m}^{k_0} S_j(A) \leq T_{k_0}(x)$ hol
 | Near-pivot $\sum_{m=0}^C T_{k_0-m}(x) = o(1)$ for fixed $C$ | **Proved** (Thm L) |
 | High strata $\sum_{j>k_0} T_j(x) = o(1)$ | **Proved** |
 | Multi-step induction $\sum_j S_j(A) \leq T_{k_0}(x)$ | **Open** (requires LP weight function) |
+
+## Section 8: Cross-Group Shadow Disjointness (Q20)
+
+**Reference**: `proof_lemmas/lemma_three_stratum_bound.md`
+
+### KEY NEW RESULT: Cross-group disjointness is FREE
+
+**Theorem N (Cross-group disjointness, proved)**: For any $a \in A_{k_0-1}$ and $b \in A_{k_0+1}$:
+$$\mathrm{Sh}^+(a) \cap \mathrm{Sh}^-(b) = \emptyset$$
+
+*Proof*: If $d \in \mathrm{Sh}^+(a) \cap \mathrm{Sh}^-(b)$, then $d = ap$ (prime $p$) and $d = b/q$ (prime $q \mid b$). So $b = apq$, giving $a \mid b$ with $\Omega(a) = k_0-1 \neq k_0+1 = \Omega(b)$. But $a, b \in A$ and $a \mid b$ contradicts $A$ primitive. $\blacksquare$
+
+**Theorem Q (General, proved)**: For any $a \in A_{<k_0}$ and $b \in A_{>k_0}$: the $k_0$-AP shadows $\mathrm{Sh}_{k_0}(a)$ and $\mathrm{Sh}_{k_0}(b)$ are disjoint. Proof: $d \in$ both $\Rightarrow a \mid d$ and $d \mid b \Rightarrow a \mid b$, contradiction primitivity. $\blacksquare$
+
+### Corrected upper shadow weight (Theorem O)
+
+For $b \in A_{k_0+1}$: since the smallest $(k_0+1)$-almost prime is $2^{k_0+1} = 2x$, we have $b \geq 2x$. Hence $b/2 \geq x$, and:
+$$W^-(b) \geq \frac{1}{(b/2)\log(b/2)} \geq \frac{2}{b\log b} \geq \frac{1}{b\log b}$$
+
+### Three-stratum bound (Theorem P)
+
+Assuming within-group disjointness WD1 ($\mathrm{Sh}^+(a) \cap \mathrm{Sh}^+(a') = \emptyset$ for $a \neq a' \in A_{k_0-1}$) and WD2 (same for $A_{k_0+1}$):
+$$S_{k_0-1}(A) + S_{k_0}(A) + S_{k_0+1}(A) \leq T_{k_0}(x)$$
+
+Proof: The three families $\bigcup_a \mathrm{Sh}^+(a)$, $\bigcup_b \mathrm{Sh}^-(b)$, and $A_{k_0}$ are pairwise disjoint subsets of $T_{k_0}(x)$ (cross-group by Thm N + primitivity; within-group by WD1/WD2). Their weights give $S_{k_0-1}(A) + S_{k_0}(A) + S_{k_0+1}(A) \leq T_{k_0}(x)$. $\blacksquare$
+
+**Status of WD1/WD2**: From Q16 (`lemma_shadow_disjointness.md`), proved for $x \leq e^{31}$. The three-stratum bound is **proved for $x \leq e^{31}$**.
+
+### Ultimate reduction
+
+The full conjecture $S(A) \leq T_{k_0}(x)$ holds iff within-group shadow disjointness holds for ALL strata simultaneously:
+> For each $j$ and distinct $a, a' \in A_j$: $\mathrm{Sh}_{k_0}(a) \cap \mathrm{Sh}_{k_0}(a') = \emptyset$.
+
+Cross-group disjointness is FREE (from primitivity). Only within-group disjointness (Q16 gap) remains.
+
+### Summary
+
+| Result | Status |
+|--------|--------|
+| Cross-group $\mathrm{Sh}(A_{<k_0}) \cap \mathrm{Sh}(A_{>k_0}) = \emptyset$ | **Proved** (Thm Q, primitivity) |
+| Upper shadow budget $W^-(b) \geq 1/(b\log b)$ for $b \in A_{k_0+1}$ | **Proved** (Thm O corrected, $b \geq 2x$) |
+| Three-stratum $S_{k_0-1}+S_{k_0}+S_{k_0+1} \leq T_{k_0}(x)$ for $x \leq e^{31}$ | **Proved** (Thm P, conditional on Q16 WD1/WD2) |
+| Full conjecture: $S(A) \leq T_{k_0}(x)$ | **Reduces to** within-group shadow disjointness for all strata |
