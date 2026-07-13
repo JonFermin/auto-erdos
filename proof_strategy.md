@@ -879,7 +879,7 @@ The Mertens bound: $\sum_{a \mid d} 1/a \leq d/\phi(d) \leq e^\gamma \log\log d$
 | 6 | 0.0775 | 0.0393 | 0.0162 | 0.133 |
 | 10 | 0.0032 | 0.0015 | 0.0006 | 0.0053 |
 
-All stratum tails are far below 1. The ratio $T_{k_0-1}(x)/T_{k_0}(x) \approx 2$ (consistent with Q19, both < 1). The trivial bound $S(A) \leq \sum_j T_j(x) \to 0$ confirms the conjecture is true asymptotically — the HARD part is precision control at finite $x$.
+All stratum tails are far below 1. The ratio $T_{k_0-1}(x)/T_{k_0}(x) \approx 2$ (consistent with Q19, both < 1). (*Q43 note*: The claim "$S(A) \leq \sum_j T_j(x) \to 0$" is FALSE because $\sum_j T_j(x) = \sum_{n\geq x} 1/(n\log n)$ diverges — retracted in Q29. Individual stratum tails $T_j(x) \to 0$ for each fixed $j$; it is the SUM over growing many $j$ that diverges.)
 
 ### Fiber structure at each $k_0$-AP
 
