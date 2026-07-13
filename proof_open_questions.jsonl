@@ -109,3 +109,7 @@
 {"qid":"Q39","status":"open","session_id":"s_0712-110453-a069","summary":"Write a fully rigorous statement of LP-23-Restricted from first principles; formalize the claim that LP 2023 proves x-restricted bound","ts":"2026-07-12T16:15:26Z"}
 {"qid":"Q39","status":"claimed","session_id":"s_0712-110453-a069","summary":"Formalize LP-23-Restricted vs LP 2023 relationship; determine exact claim boundary","ts":"2026-07-12T16:15:26Z"}
 {"qid":"Q39","status":"resolved","session_id":"s_0712-110453-a069","summary":"LP-23-Restricted = Erdos conjecture = LP 2023 main theorem; LP 2023 proves full local bound; no gaps","ts":"2026-07-12T16:16:46Z"}
+{"qid":"Q40","status":"open","session_id":"s_0713-080554-7c45","summary":"Numerical verification of Theorem RR (delta_LP(x)~1/log x) and fix arithmetic error in Section 20 (1.636-0.721=0.843 should be 0.915)","ts":"2026-07-13T08:11:16+00:00"}
+{"qid":"Q40","status":"claimed","session_id":"s_0713-080554-7c45","summary":"taking Q40: fix arithmetic error, add numerical verification of delta_LP(x) and Theorem RR","ts":"2026-07-13T08:11:16+00:00"}
+{"qid":"Q41","status":"open","session_id":"s_0713-080554-7c45","summary":"Explicit proof of Theorem RR from Mertens/PNT; verify LP 2023 local-form scope claim","ts":"2026-07-13T08:11:16+00:00"}
+{"qid":"Q40","status":"resolved","session_id":"s_0713-080554-7c45","summary":"arithmetic error corrected (0.843→0.915); numerical table for delta_LP(x); Theorem RR numerically confirmed","ts":"2026-07-13T08:12:18+00:00"}

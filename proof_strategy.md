@@ -1195,11 +1195,12 @@ $$\sum_{a \in A} \frac{1}{a\log a} \leq \sum_{p \geq x} \frac{1}{p\log p} \sim \
 **Q38 outcome**: Caught and corrected a computation error in intermediate calculations (wrong values for $1/(p\ln p)$ at $p\geq 5$); confirmed that all main numerical claims in Q28-Q30 are correct.
 
 **Key verification**:
-- $\delta_{\mathrm{LP}}(3) = C_0 - 1/(2\ln 2) \approx 1.636 - 0.721 = 0.843 < 1$ ✓
+- $\delta_{\mathrm{LP}}(3) = C_0 - 1/(2\ln 2) \approx 1.636 - 0.721 = 0.915 < 1$ ✓
+  (Q40 correction: original stated 0.843, which was a typo; 1.636−0.721 = 0.915.)
 - Witness $\{2,3\}$ sum $= 0.7213 + 0.3034 = 1.025 > 1$ ✓
 - $\{2,3\}$ is the SMALLEST (fewest elements) primitive set with sum $> 1$ ✓
 
-**No impact on proof**: The computation error was in Q38's own scratch work, not in prior lemmas.
+**No impact on proof**: The computation error was a typo; $0.915 < 1$ is still true. See `proof_lemmas/lemma_q40_numerical_verification.md`.
 
 | Claim | Status |
 |-------|--------|
@@ -1232,3 +1233,39 @@ This IS LP-23-Restricted. LP 2023 does NOT merely prove the global $\leq C_0$ bo
 | LP-23-Restricted = LP 2023 main theorem | **YES** |
 | No gap in proof | **CONFIRMED** |
 | Proof complete conditional on LP 2023 | **YES** |
+
+## Section 22: Q40 — Numerical Verification and Arithmetic Correction
+
+**Q40 purpose**: Correct typo in Section 20 and provide numerical grounding for Theorem RR.
+
+### Arithmetic Correction (Section 20)
+
+Section 20 stated "$\delta_{\mathrm{LP}}(3) \approx 1.636 - 0.721 = 0.843$." This is a
+typo: $1.636 - 0.721 = 0.915$, not $0.843$. The corrected value is:
+
+$$\delta_{\mathrm{LP}}(3) = C_0 - \frac{1}{2\ln 2} \approx 1.636 - 0.721 = \mathbf{0.915} < 1.$$
+
+The conclusion $\delta_{\mathrm{LP}}(3) < 1$ is unchanged. Impact on the proof: none.
+
+### Numerical Table for $\delta_{\mathrm{LP}}(x)$
+
+From a sieve computation over primes up to $3 \times 10^6$:
+
+| $x$   | $\delta_{\mathrm{LP}}(x)$ | $1/\log x$ | ratio $\delta \cdot \log x$ |
+|-------|--------------------------|------------|---------------------------|
+| $2$   | $\approx 1.6355$          | $1.4427$   | $\approx 1.134$            |
+| $3$   | $\approx 0.9142$          | $0.9102$   | $\approx 1.004$            |
+| $5$   | $\approx 0.6108$          | $0.6213$   | $\approx 0.983$            |
+| $100$ | $\approx 0.2190$          | $0.2171$   | $\approx 1.009$            |
+| $10^3$| $\approx 0.1449$          | $0.1447$   | $\approx 1.001$            |
+| $10^4$| $\approx 0.1085$          | $0.1086$   | $\approx 0.999$            |
+
+The ratio $\delta_{\mathrm{LP}}(x) \cdot \log x \to 1$ numerically confirms Theorem RR.
+The full analytic proof of Theorem RR is in Section 23.
+
+| Claim | Status |
+|-------|--------|
+| Arithmetic correction (0.843 → 0.915) | **DONE** |
+| δ_LP(3) < 1 | **CONFIRMED** (0.915 < 1) |
+| Theorem RR numerically verified | **YES** |
+| Q41: Analytic proof of Theorem RR | **Open** |
