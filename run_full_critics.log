@@ -1,0 +1,11 @@
+---
+problem:           primitive_set_erdos
+family:            primitive_set
+claim_status:      open
+witness_valid:     0
+witness_score:     nan
+critic_blocking_count: 5
+critic_warn_count: 9
+verdict_hint:      blocked
+verifier_seconds:  105.7964
+reason:            BLOCKING(ledger): critic_unavailable: ledger
