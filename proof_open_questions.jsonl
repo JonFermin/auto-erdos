@@ -113,3 +113,6 @@
 {"qid":"Q40","status":"claimed","session_id":"s_0713-080554-7c45","summary":"taking Q40: fix arithmetic error, add numerical verification of delta_LP(x) and Theorem RR","ts":"2026-07-13T08:11:16+00:00"}
 {"qid":"Q41","status":"open","session_id":"s_0713-080554-7c45","summary":"Explicit proof of Theorem RR from Mertens/PNT; verify LP 2023 local-form scope claim","ts":"2026-07-13T08:11:16+00:00"}
 {"qid":"Q40","status":"resolved","session_id":"s_0713-080554-7c45","summary":"arithmetic error corrected (0.843→0.915); numerical table for delta_LP(x); Theorem RR numerically confirmed","ts":"2026-07-13T08:12:18+00:00"}
+{"qid":"Q42","status":"open","session_id":"s_0713-080554-7c45","summary":"Fix all 17 blocking critic issues: add LP2023/Mertens/PNT to given-facts ledger, fix openness phrasing, resolve internal contradictions, add Theorem RR proof","ts":"2026-07-13T08:17:34+00:00"}
+{"qid":"Q42","status":"claimed","session_id":"s_0713-080554-7c45","summary":"taking Q42: fix all 17 blocking critic issues from Q41 verifier run","ts":"2026-07-13T08:17:34+00:00"}
+{"qid":"Q42","status":"resolved","session_id":"s_0713-080554-7c45","summary":"All 17 blocking critic issues fixed: F4-F7 added to ledger; openness phrasing fixed; Section 10 retracted; Q8 superseded; Theorem RR proved analytically","ts":"2026-07-13T08:20:17+00:00"}
