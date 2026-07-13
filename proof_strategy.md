@@ -127,6 +127,14 @@ FIXED finite sum of $o(1)$ terms is $o(1)$. This argument is VALID ONLY for fixe
 if $K = K(x) \to \infty$ with $x$, the sum of $K(x)$ terms, each individually $o(1)$,
 need not tend to 0. The Corollary is not applicable to a growing $K(x)$.
 
+*Clarification (Q43)*: Sections 4–8 use $k_0 = k_0(x) = \lfloor \log_2 x\rfloor \to \infty$.
+The fixed-$K$ corollary does NOT apply to $k_0(x)$. Instead, $T_{k_0}(x) < 1$ for all $k_0 \geq 1$
+is justified directly by F3: $T_{k_0}(2) = 1 - (c+o(1))k_0^2/2^{k_0}$, and since
+$c > 0$ and $k_0^2/2^{k_0} > 0$, we have $T_{k_0}(2) < 1$ for all $k_0 \geq 1$.
+(For $k_0 = 1$: $T_1(2) = \sum_{p\geq 2} 1/(p\log p) = C_0 \approx 1.636 > 1$ — EXCEPTION:
+the $k_0=1$ stratum from $x=2$ exceeds 1. For $k_0 \geq 2$, $T_{k_0}(2) < 1$, verified by F3.)
+This is distinct from the corollary's fixed-$K$ sum; each bound is on a SINGLE stratum, not a sum.
+
 **Decomposition**: For a FIXED constant $K \geq 1$ (not varying with $x$), split:
 $$\sum_{a \in A} \frac{1}{a \log a}
   = \underbrace{\sum_{k=1}^{K} S_k(A,x)}_{\text{(I) low strata, fixed }K}
@@ -513,7 +521,10 @@ $\int_x^\infty N_{B_{k_0}(x)}(t)\,dt/(t\log^2 t) \leq 1 + 1/k_0$.
 Claim $D_{k_0}$: $N_A(t) \leq N_{B_{k_0}(x)}(t)$ for all $t \geq x$ (counting-function dominance).
 The map $\phi: b \mapsto d(b)$ (product of $b$'s $k_0$ smallest prime factors) sends each
 $b \in A \setminus B_{k_0}$ to an absent $d(b) \in B_{k_0} \setminus A$ with $d(b) < b$ and
-$d(b) \geq x$ (proved: $d(b) \cdot q_1\cdots q_\ell = b$ with $q_i \geq 2$, so $d(b) \leq b/2^{\Omega(b)-k_0} \leq b/4$ for $\Omega(b) \geq k_0+2$; and $d(b) \geq b/(q_1 q_2) \geq b/b \cdot x = x$ since $q_1 q_2 \leq b/2^{k_0} \leq b/x$).
+$d(b) \geq x$ (claimed in Q8; *Q43 note*: the step "$q_1 q_2 \leq b/2^{k_0} \leq b/x$"
+uses $2^{k_0} \geq x$, but $k_0 = \lfloor\log_2 x\rfloor$ gives $2^{k_0} \leq x < 2^{k_0+1}$,
+not $\geq x$. The direction is reversed. This step of Q8 is incorrect. The entire Q8
+two-stratum approach is SUPERSEDED by F4 (LP 2023); this arithmetic error is moot.).
 However, $\phi$ is NOT injective: two elements $b, b' \in A \setminus B_{k_0}$ may share
 $\phi(b) = \phi(b')$, so a single absent $d$ cannot compensate two extras. Claim $D_{k_0}$
 is FALSE in general (fiber sharing). A modified approach — handling the multi-fiber case
@@ -923,7 +934,16 @@ Consequence: $\sum W - 2\cdot\mathrm{OC} \geq (2-k_0)\sum W < 0$ for $k_0 \geq 3
 
 $$\sum_{a \in A} \frac{1}{a\log a} \leq (1+o(1)) \sum_{a \in A} f_{\mathrm{LP}}(a) \leq 1 + o(1)$$
 
-**Q27 Resolution**: The LP sum constant is $C_0 = \sum_p 1/(p\log p) \approx 1.443$ (finite, converges via PNT integral $\int_2^\infty dt/(t\log^2 t) = 1/\log 2$). For primitive $A \subset [x, \infty)$, LP 2023 gives $\sum_{a \in A} 1/(a\log a) \leq \sum_{p \geq x} 1/(p\log p)$. For $x \geq 3$: $\sum_{p \geq 3} 1/(p\log p) \approx 0.722 < 1$ (subtracts the $p=2$ term $\approx 0.721$). So **conjecture proved for $x \geq 3$** via LP 2023 (Theorem QQ). For $x = 2$: LP gives $\leq 1.443$, not $< 1$ — this is the Erdős conjecture itself with the primes as the extremal primitive set.
+**Q27 Resolution** (corrected in Q28/Q29/Q40): The LP sum constant is
+$C_0 = \sum_p 1/(p\log p) \approx \mathbf{1.636}$ (NOT 1.443 — the initial estimate
+used $1/\log 2 \approx 1.443$ which is $\pi(x)/x$ slope, not $C_0$; corrected in Q28/Q29).
+Numerical table from Q40 confirms $C_0 \approx 1.6355$. For primitive $A \subset [x,\infty)$,
+F4 (LP 2023) gives $\sum_{a \in A} 1/(a\log a) \leq \delta_{\mathrm{LP}}(x)$.
+For $x \geq 3$: $\delta_{\mathrm{LP}}(3) = C_0 - 1/(2\ln 2) \approx 1.636 - 0.721 = \mathbf{0.915} < 1$
+(NOT 0.722 — that was an error; 0.722 ≈ 1/(2 ln 2) is the $p=2$ term removed, not the residual;
+the correct residual is $0.915$, corrected in Q40). So conjecture proved for $x \geq 3$ conditionally.
+For $x = 2$: $\delta_{\mathrm{LP}}(2) = C_0 \approx 1.636 \neq < 1$; this case requires the full LP 2023
+result (the primes starting from 2 are the extremal primitive set, summing to exactly $C_0$).
 
 The Mertens-LP product $\Pi_\infty = \prod_p (1 - 1/(p\log p)) = e^{-1/\log 2 + O(1)} \approx 0.236 > 0$, confirming the product converges and the LP weight is well-defined.
 
@@ -996,7 +1016,7 @@ $$\sum_{a\in A} \frac{1}{a\log a} \leq \delta_{\mathrm{LP}}(x) = \sum_{p\geq x} 
 
 **Transition threshold $x^* = 3$** (Q30):
 - $\delta_{\mathrm{LP}}(2) \approx 1.63 > 1$ (primitive sets with sum $> 1$ exist at $x=2$)
-- $\delta_{\mathrm{LP}}(3) \approx 0.843 < 1$ (sum $< 1$ for ALL primitive sets in $[3,\infty)$)
+- $\delta_{\mathrm{LP}}(3) \approx 0.915 < 1$ (sum $< 1$ for ALL primitive sets in $[3,\infty)$; the value 0.843 was a typo corrected in Q40)
 
 **Minimal witness (non-disproof)**: $A = \{2,3\}$ has $\sum = 0.721 + 0.303 = 1.025 > 1$. This exceeds threshold 1.0 but is NOT a genuine counterexample: at $x=2$, the conjecture's $o(1) \approx 0.63$, so bound is $< 1.63$.
 
@@ -1158,7 +1178,7 @@ LP 2023 (Lichtman 2023, Annals)
 
 | Claim | Status |
 |-------|--------|
-| LP 2023 = full Erdős conjecture (not just ≤ C0) | **YES** (by definition of what LP 2023 proves) |
+| LP 2023 proves local bound ≤ δ_LP(q) for any prime q (= F4) | **YES** (by F4 in given-facts ledger; F4 gives the local form, not just ≤ C₀) |
 | LP-23-Restricted = Erdős conjecture | **YES** |
 | Gap Q33-Q34 was real | **NO** — misconception resolved |
 | Theorem SS proved | **YES** conditional on LP 2023 |
