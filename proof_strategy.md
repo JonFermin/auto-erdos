@@ -209,8 +209,8 @@ $f(n) \leq \int_{n-1}^n f(t)\,dt$ (since $f$ decreases on $[n-1,n]$). Summing fr
 $\sum_{n=N+1}^{2N-1} f(n) \leq \int_N^{2N-1} f(t)\,dt \leq \int_N^{2N} f(t)\,dt$.
 Adding $f(N) = 1/(N\log N)$:
 $$\sum_{a=N}^{2N-1} \frac{1}{a \log a} \leq \frac{1}{N\log N} + \int_N^{2N} \frac{dt}{t \log t},$$
-so $\sum_{a=N}^{2N-1} 1/(a\log a) = \int_N^{2N} dt/(t\log t) + O(1/(N\log N))$, giving:
-$$\sum_{a=N}^{2N-1} \frac{1}{a \log a} \leq \int_N^{2N} \frac{dt}{t \log t} + O\!\left(\frac{1}{N \log N}\right)$$
+so:
+$$\sum_{a=N}^{2N-1} \frac{1}{a \log a} \leq \int_N^{2N} \frac{dt}{t \log t} + \frac{1}{N \log N}$$
 The integral evaluates using the antiderivative: by the chain rule, $\frac{d}{dt}(\ln\ln t) = \frac{1}{\ln t}\cdot\frac{1}{t} = \frac{1}{t\ln t}$ (for $t > 1$), so
 $\int_N^{2N} \frac{dt}{t\ln t} = \bigl[\ln\ln t\bigr]_N^{2N} = \ln\ln(2N) - \ln\ln N = \ln\!\bigl(\frac{\ln(2N)}{\ln N}\bigr) = \ln\!\bigl(\frac{\log(2N)}{\log N}\bigr)$, giving:
 $$= \ln\!\left(\frac{\log(2N)}{\log N}\right) + O\!\left(\frac{1}{N \log N}\right)
@@ -317,7 +317,7 @@ are equivalent since $a \mid n \Leftrightarrow \gcd(n,a) = a$).
 primitive set $A \subset [x, \infty)$ with the decomposition above, find a
 quantitative upper bound on $S_2$ in terms of the primitivity constraint
 between $A_1$ and $A_2$. Specifically, what is needed is some function $f$
-with $f(t) = o(1)$ as $t \to 1^-$ such that $S_2 \leq f(S_1)$ for all
+with $f(t) \to 0$ as $t \to 1^-$ (i.e., $f$ is a function vanishing as its argument approaches 1 from below) such that $S_2 \leq f(S_1)$ for all
 primitive $A$ and all $x$ large; this would give $S_1 + S_2 \leq S_1 + f(S_1)
 \leq 1 + o(1)$. No such $f$ is currently known.
 
@@ -466,7 +466,7 @@ $$\sum_{a \in A_{\mathrm{lg}}} \frac{1}{a \ln a} < e^{\gamma}\frac{\pi}{4},$$
 which gives a finite upper bound but not better than $1$. The full stratum sum $T_k(2) = \sum_{n \geq 2,\, \Omega(n)=k} 1/(n \ln n)$ (note:
 the smallest $n$ with $\Omega(n) = k$ is $2^k \geq 2$, so the sum from $2$ equals the
 full stratum sum) tends to 1 as $k \to \infty$ (since $k^2/2^k \to 0$ elementarily,
-so F3's correction vanishes from below). Hence $\sum_k T_k(2)$ diverges by
+so F3's correction term $-ck^2/2^k \to 0^-$ as $k \to \infty$, meaning the sum approaches 1 from below). Hence $\sum_k T_k(2)$ diverges by
 the divergence test (terms $\to 1 \neq 0$); but this does not bound $\sum_{a \in A_\mathrm{lg}} 1/(a\ln a)$
 since $A_\mathrm{lg}$ intersects each stratum sparsely.
 
