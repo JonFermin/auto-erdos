@@ -21,3 +21,4 @@
 {"qid":"Q12","status":"open","parent_qid":null,"summary":"[primitive_set_erdos] Prime-factor split: decompose A=A_sm∪A_lg by smallest prime factor. Structural non-divisibility A_sm∤A_lg holds without primitivity. Goal: show each part contributes o(1) or together ≤1+o(1).","ts":"2026-07-15T08:41:26+00:00","session_id":"s_0715-083916-e364"}
 {"qid":"Q12","status":"claimed","session_id":"s_0715-083916-e364","summary":"working on prime-factor split approach","ts":"2026-07-15T08:41:26+00:00"}
 {"qid":"Q12","status":"partial","session_id":"s_0715-083916-e364","summary":"prime-factor split defined; prime_tail_vanish proved; each fixed Omega-k stratum of A_lg = o(1); obstacle: summing over all k without global primitivity argument","ts":"2026-07-15T08:49:29+00:00"}
+{"qid":"Q12","status":"claimed","session_id":"s_0715-090653-4b95","summary":"continuing prime-factor split; Round 4: fix 2 WARNs + add Section 6 A_sm decomposition","ts":"2026-07-15T09:07:32+00:00"}

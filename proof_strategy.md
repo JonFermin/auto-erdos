@@ -39,8 +39,10 @@ of resolution may appear in this file.
   \quad c \approx 0.0656 > 0.$$
   The $o(1)$ is as $k \to \infty$. For large $k$ the correction is negative
   and $k^2/2^k \to 0$, so the sum approaches 1 from BELOW (anti-trap 2). For
-  small $k$ (e.g.\ $k=1$, the primes starting from 2), the full-stratum sum
-  may exceed 1 because the $o(1)$ correction is not small at $k=1$.
+  small $k$ (e.g.\ $k=1$, the primes), F3's asymptotic is stated for $k \to \infty$
+  and makes no claim about the value at $k=1$; the total is bounded above by
+  F1 (less than $e^\gamma\pi/4$) and F2's $O(\cdot)$ is UNSIGNED so the
+  direction relative to 1 at $k=1$ is not determined by the ledger.
 
 **Anti-traps** (do not trigger):
 
@@ -55,8 +57,9 @@ By Lemma `large_floor_vanish`, for each fixed $k$ the stratum tail
 $T_k(x) \to 0$ as $x \to \infty$. This applies in particular to $k=1$
 (the prime stratum): $T_1(x) = \sum_{p \geq x} 1/(p \log p) \to 0$.
 For small $k$ (e.g.\ $k=1$), the full-stratum sum $\sum_{n:\Omega(n)=k} 1/(n\log n)$
-is finite (by F3, which proves convergence) but may exceed 1 due to F3's
-asymptotic scope (the formula is for large $k$). The TAIL vanishing is all
+is finite (by F1: since $A_k$ is a primitive set, $\sum_{a\in A_k} 1/(a\ln a) < e^\gamma\pi/4$);
+F3's asymptotic formula holds for $k\to\infty$ and its accuracy at small $k$
+is not established by the ledger. The TAIL vanishing is all
 that is needed for the conjecture's $o(1)$ bound.
 
 ---
@@ -156,14 +159,20 @@ See `proof_lemmas/lemma_cross_stratum_control.md` for the precise gap statement.
 
 **What remains open** (the proof gap):
 
-The critical regime is strata $k \sim \lfloor \log_2 x \rfloor$. For such $k$,
-the smallest $k$-almost prime is $2^k \approx x$, so the restriction $a \geq x$
-imposes almost no constraint. The per-stratum bound gives $S_k(A,x) \leq
-T_k(x) \approx T_k(2) = 1 - ck^2/2^k$. For $k = \log_2 x$, this is
-$1 - c(\log_2 x)^2/x$, which is close to 1. The sum over strata
-$k \in [\log_2 x - C, \log_2 x + C]$ of these per-stratum bounds is
-approximately $2C \cdot (1 - c(\log_2 x)^2/x)$, which diverges as $C \to \infty$
-regardless of $x$. Controlling this requires a global argument that uses
+The critical regime is strata near $k = \lfloor \log_2 x \rfloor$. For such $k$,
+the smallest $k$-almost prime is $2^k$ and we have $2^k \leq x < 2^{k+1}$,
+so the restriction $a \geq x$ is nearly vacuous. The per-stratum bound gives
+$S_k(A,x) \leq T_k(x) \leq T_k(2)$ (since $T_k$ is non-increasing in $x$
+and $x \geq 2$). By F3, $T_k(2) = 1 - (c+o(1))k^2/2^k$. Since
+$k = \lfloor\log_2 x\rfloor$ satisfies $2^k \leq x$, we have
+$k^2/2^k \geq k^2/x \geq (\lfloor\log_2 x\rfloor)^2/x$, so
+$T_k(2) \leq 1 - (c+o(1))(\lfloor\log_2 x\rfloor)^2/x$, which tends to 1
+from below as $x \to \infty$ (correction of order $(\log x)^2/x \to 0$).
+For any fixed $C$, the sum over strata $k \in [\lfloor\log_2 x\rfloor - C,
+\lfloor\log_2 x\rfloor + C]$ of these per-stratum bounds is at most
+$2C \cdot (1 - (c+o(1))(\lfloor\log_2 x\rfloor)^2/x)$, which for fixed $C$
+tends to $2C$ as $x \to \infty$ — diverging as $C$ grows.
+Controlling this requires a global argument that uses
 primitivity to prevent multiple "critical strata" from simultaneously
 contributing nearly 1.
 
@@ -426,3 +435,67 @@ for any primitive $A_{\mathrm{sm}} \subset [x,\infty)$ with $p_{\min}(a) < x$ fo
 That sub-problem is also open.
 
 See `proof_lemmas/lemma_prime_factor_split.md` for the precise gap statement.
+
+---
+
+## Section 6 — A_sm decomposition by smallest prime factor (Q12, continued)
+
+**Setup**: Recall $A_{\mathrm{sm}} = \{a \in A : p_{\min}(a) < x\}$. For each prime
+$p < x$, define the $p$-class:
+$$A(p) := \{a \in A : p_{\min}(a) = p\}.$$
+
+Then $A_{\mathrm{sm}} = \bigsqcup_{p < x,\, p \text{ prime}} A(p)$ (disjoint union).
+
+**Lemma (`sm_quotient_primitive`, status: proved)**: For each prime $p < x$,
+the quotient set $B(p) := \{a/p : a \in A(p)\}$ is a primitive set.
+
+*Proof*: Suppose $b, b' \in B(p)$ are distinct with $b \mid b'$. Set
+$a = pb$, $a' = pb' \in A(p) \subseteq A$. Then $a \mid a'$ (since $b \mid b'$
+and $p \mid p$). But $A$ is primitive, so no distinct $a, a' \in A$ satisfies
+$a \mid a'$. Contradiction. Similarly $b' \nmid b$. $\square$
+
+**Properties of $B(p)$**: Each $b \in B(p)$ satisfies:
+1. $b = a/p \geq x/p > 1$ (since $a \geq x$ and $p < x$, so $b \geq 2$ for $p \leq x/2$).
+2. $p_{\min}(b) \geq p$: if some prime $q < p$ divides $b$, then $q \mid pb = a$,
+   giving $p_{\min}(a) \leq q < p$, contradicting $p_{\min}(a) = p$.
+
+So $B(p)$ is a primitive set contained in $\{n \geq \lceil x/p \rceil : p_{\min}(n) \geq p\}$.
+
+**Per-$p$ contribution bound**: The contribution of $A(p)$ satisfies:
+$$\sum_{a \in A(p)} \frac{1}{a \ln a}
+  = \sum_{b \in B(p)} \frac{1}{pb \cdot \ln(pb)}.$$
+Since $p \geq 2$ implies $\ln(pb) \geq \ln b$:
+$$\sum_{a \in A(p)} \frac{1}{a \ln a}
+  \leq \frac{1}{p} \sum_{b \in B(p)} \frac{1}{b \ln b}.$$
+Applying **F1** to the primitive set $B(p)$:
+$$\frac{1}{p} \sum_{b \in B(p)} \frac{1}{b \ln b} < \frac{e^{\gamma}\pi/4}{p}.$$
+
+**Why summing over $p$ fails**: Summing over all primes $p < x$:
+$$\sum_{a \in A_{\mathrm{sm}}} \frac{1}{a \ln a}
+  < e^{\gamma}\frac{\pi}{4} \cdot \sum_{\substack{p < x \\ p \text{ prime}}} \frac{1}{p}.$$
+The series $\sum_p 1/p$ diverges (the prime reciprocal series diverges, unlike
+$\sum_p 1/(p\ln p)$ which converges by F1 applied to the primes). Hence
+$\sum_{p < x} 1/p \to \infty$ as $x \to \infty$, and this upper bound for
+$\sum_{a \in A_{\mathrm{sm}}} 1/(a\ln a)$ is vacuous (it diverges with $x$).
+
+**Why per-$p$ bounds fail globally**: Each $B(p)$ is controlled by F1
+independently, but the $B(p)$ are NOT independent — they derive from a single
+primitive set $A$, and cross-$p$ constraints prevent the $A(p)$ from being
+simultaneously large across many primes $p < x$.
+
+Specifically: for $a \in A(p)$ and $a' \in A(q)$ with primes $p \neq q < x$,
+primitivity forces $a \nmid a'$ and $a' \nmid a$. These cross-$p$ constraints
+are not used by the per-$p$ F1 bound.
+
+**Reformulation of the A_sm obstacle**: To bound $\sum_{a \in A_{\mathrm{sm}}} 1/(a\ln a)$,
+one needs an argument that uses the full primitivity of $A_{\mathrm{sm}}$ as a whole
+(across all $p$-classes simultaneously), not just the internal primitivity of
+each $A(p)$.
+
+**Structural observation**: The map $a \mapsto (p_{\min}(a), a/p_{\min}(a))$
+sends $A_{\mathrm{sm}}$ injectively into $\bigcup_{p<x} \{p\} \times B(p)$. The
+cross-$p$ primitivity of $A_{\mathrm{sm}}$ translates to: for $p \neq q$ and
+$b \in B(p)$, $b' \in B(q)$, neither $pb \mid qb'$ nor $qb' \mid pb$. These
+constraints link the quotient sets $B(p)$ across different primes.
+
+See `proof_lemmas/lemma_sm_prime_grouping.md` for the precise formulation.
