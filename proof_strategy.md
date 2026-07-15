@@ -185,7 +185,7 @@ For any fixed $C$, the sum over strata $k \in [\lfloor\log_2 x\rfloor - C,
 \lfloor\log_2 x\rfloor + C]$ of these per-stratum bounds is at most
 $(2C+1) \cdot (1 - (c+o(1))(\lfloor\log_2 x\rfloor)^2/x)$ (since the range $[\lfloor\log_2 x\rfloor - C, \lfloor\log_2 x\rfloor + C]$ contains exactly $2C+1$ integer values of $k$). As $x \to \infty$, the correction
 $(c+o(1))(\lfloor\log_2 x\rfloor)^2/x \to 0$ (since $(\log_2 x)^2/x \to 0$), so
-each factor $\to 1$ and the product $\to (2C+1) \cdot 1 = 2C+1$; for fixed $C$
+each of the $(2C+1)$ terms tends to $1$, so their sum tends to $(2C+1) \cdot 1 = 2C+1$; for fixed $C$
 this tends to $2C+1$ as $x \to \infty$ — diverging as $C$ grows.
 Controlling this requires a global argument that uses
 primitivity to prevent multiple "critical strata" from simultaneously
