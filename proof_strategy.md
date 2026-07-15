@@ -89,8 +89,8 @@ $\sum_{n \geq 2, \Omega(n)=k} 1/(n \log n)$ converges for each $k$: the set
 $A_k := \{n \geq 2 : \Omega(n) = k\}$ is itself a primitive set, because if
 $a \mid b$ with $a \neq b$ and $\Omega(a) = \Omega(b) = k$ then $b/a \geq 2$
 gives $\Omega(b) \geq \Omega(a) + \Omega(2) = k+1 > k$, contradiction. Moreover $A_k \subset [2^k, \infty)$: each $n \in A_k$ has $\Omega(n) = k$, meaning $n$ is a product of exactly $k$ prime factors (with multiplicity) each $\geq 2$, so $n \geq 2 \cdot 2 \cdots 2 = 2^k$.
-Convergence of the series: any finite subset $S \subseteq A_k$ is a finite primitive set,
-so F1 gives $\sum_{a \in S} 1/(a \ln a) < e^\gamma\pi/4 + o(1)$, which is a finite bound.
+Convergence of the series: any finite subset $S \subseteq A_k$ is a primitive set;
+by F1, $\sum_{a \in S} 1/(a \ln a)$ is bounded above (by F1's upper bound, which is finite).
 Since all terms $1/(n\ln n) > 0$, the partial sums form a bounded increasing sequence;
 hence the series $\sum_{n:\Omega(n)=k} 1/(n\ln n)$ converges.
 The tail $T_k(x)$ of a convergent series tends to 0 as $x \to \infty$. See
@@ -288,9 +288,10 @@ so $\ln \ln t$ is an antiderivative of $\frac{1}{t \ln t}$. Therefore:
 $$\int_x^{x^e} \frac{dt}{t \ln t}
   = \bigl[\ln \ln t\bigr]_x^{x^e}
   = \ln\!\bigl(\ln(x^e)\bigr) - \ln\!\bigl(\ln x\bigr)
-  = \ln\!\bigl(e \ln x\bigr) - \ln\!\bigl(\ln x\bigr)
-  = \ln\!\Bigl(\frac{e \ln x}{\ln x}\Bigr) = \ln e = 1,$$
-using $\ln(x^e) = e \ln x$ and $\ln(e\ln x) - \ln(\ln x) = \ln e = 1$.
+  = \ln(e\ln x) - \ln(\ln x)
+  = \ln e + \ln(\ln x) - \ln(\ln x) = \ln e,$$
+using $\ln(x^e) = e\ln x$ and $\ln(e\ln x) = \ln e + \ln(\ln x)$ (product rule $\ln(ab) = \ln a + \ln b$).
+By the identity $\ln(e^t) = t$ applied at $t = 1$: $\ln e = \ln(e^1) = 1$.
 So $S_1 \leq 1 + \frac{1}{x \ln x} \to 1$ as $x \to \infty$. $\square$
 
 (Here and throughout Section 4, $\log = \ln$ denotes the natural logarithm.)
