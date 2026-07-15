@@ -231,16 +231,23 @@ $$A_1 := A \cap [x,\, x^e), \qquad A_2 := A \cap [x^e, \infty).$$
 Let $S_1 := \sum_{a \in A_1} \frac{1}{a \log a}$ and
 $S_2 := \sum_{a \in A_2} \frac{1}{a \log a}$.
 
-**Lemma (`S1_bound`)**: $S_1 \leq 1 + O(1/\log x)$.
+**Lemma (`S1_bound`)**: $S_1 \leq 1 + o(1)$ as $x \to \infty$.
 
 *Proof*: Every element of $A_1$ lies in $[x, x^e)$, so
-$$S_1 \leq \sum_{n \geq x,\, n < x^e} \frac{1}{n \log n}
-  \;\leq\; \int_x^{x^e} \frac{dt}{t \log t} + O\!\left(\frac{1}{x \log x}\right).$$
-The integral telescopes (elementary calculus: $\tfrac{d}{dt}\log\log t = 1/(t\log t)$):
-$$\int_x^{x^e} \frac{dt}{t \log t}
+$$S_1 \leq \sum_{n=x}^{\lfloor x^e \rfloor} \frac{1}{n \ln n}.$$
+Since $f(t) = 1/(t \ln t)$ is strictly decreasing for $t \geq 2$, each integer $n \geq x + 1$ satisfies $f(n) \leq \int_{n-1}^n f(t)\,dt$ (since $f$ is decreasing on $[n-1,n]$). Therefore:
+$$\sum_{n=x}^{\lfloor x^e \rfloor} f(n)
+  = f(x) + \sum_{n=x+1}^{\lfloor x^e \rfloor} f(n)
+  \leq f(x) + \sum_{n=x+1}^{\lfloor x^e \rfloor} \int_{n-1}^n f(t)\,dt
+  = f(x) + \int_x^{\lfloor x^e \rfloor} f(t)\,dt
+  \leq \frac{1}{x \ln x} + \int_x^{x^e} f(t)\,dt.$$
+The integral evaluates by the antiderivative $\frac{d}{dt} \ln \ln t = \frac{1}{t \ln t}$:
+$$\int_x^{x^e} \frac{dt}{t \ln t}
   = \bigl[\ln \ln t\bigr]_x^{x^e}
   = \ln\!\bigl(e \ln x\bigr) - \ln\!\bigl(\ln x\bigr)
-  = \ln e = 1. \quad \square$$
+  = \ln e = 1.$$
+So $S_1 \leq 1 + \frac{1}{x \ln x} \to 1$ as $x \to \infty$. $\square$
+
 (Here and throughout Section 4, $\log = \ln$ denotes the natural logarithm.)
 
 This is tight: taking $A_1 = \emptyset$ gives $S_1 = 0$; taking $A_1$ to be
@@ -357,3 +364,65 @@ $[x, x^e)$ forces near-emptiness (in the $\sum 1/(a \log a)$ sense) of $A_2$.
 The "density" of $A_1$ in [x, x^e) needs to be measured in a way compatible
 with both the $1/(a \log a)$ metric AND the divisibility blocking structure.
 This is the essential unresolved point.
+
+---
+
+## Section 5 — Prime-factor split (Q12)
+
+**Definition**: For any primitive set $A \subset [x, \infty)$, define:
+$$A_{\mathrm{sm}} := \{a \in A : p_{\min}(a) < x\},
+\qquad
+A_{\mathrm{lg}} := \{a \in A : p_{\min}(a) \geq x\},$$
+where $p_{\min}(a)$ denotes the smallest prime factor of $a$. Every element of
+$A_{\mathrm{lg}}$ has ALL prime factors $\geq x$.
+
+**Structural non-divisibility** (no external citation): For any $a \in A_{\mathrm{sm}}$
+and $b \in A_{\mathrm{lg}}$, we have $a \nmid b$.
+
+*Proof*: Let $p = p_{\min}(a) < x$. Since $p \mid a$, if $a \mid b$ then $p \mid b$.
+But every prime factor of $b \in A_{\mathrm{lg}}$ is $\geq x > p$. Contradiction. $\square$
+
+**Consequence**: The only cross-divisibility excluded by primitivity of $A$ is
+$b \nmid a$ for $b \in A_{\mathrm{lg}}$, $a \in A_{\mathrm{sm}}$. The reverse direction
+($a \nmid b$ for $a \in A_{\mathrm{sm}}$, $b \in A_{\mathrm{lg}}$) holds structurally, regardless
+of primitivity.
+
+**Lemma `prime_tail_vanish`** (status: proved; see `proof_lemmas/lemma_prime_tail_vanish.md`):
+$$\sum_{\substack{p \geq x \\ p \text{ prime}}} \frac{1}{p \ln p} \;\to\; 0
+  \quad \text{as } x \to \infty.$$
+*Proof sketch*: The primes form a primitive set; by **F1**, the series
+$\sum_{p \text{ prime}} 1/(p \ln p)$ converges. The tail from $x$ tends to $0$. $\square$
+
+**Contribution of $A_{\mathrm{lg}}$ by stratum**:
+
+Every $a \in A_{\mathrm{lg}}$ with $\Omega(a) = k$ has all $k$ prime factors $\geq x$,
+so $a \geq x^k$.
+
+- **$\Omega(a) = 1$ (primes $\geq x$)**:
+  $$\sum_{\substack{a \in A_{\mathrm{lg}} \\ \Omega(a)=1}} \frac{1}{a \ln a}
+    \;\leq\; T_1(x) \;\to\; 0,$$
+  by Lemma `prime_tail_vanish`.
+
+- **$\Omega(a) = k \geq 2$ (each fixed $k$)**: The $\Omega = k$ stratum of $A_{\mathrm{lg}}$
+  lies inside $\{n \geq x^k : \Omega(n) = k\}$:
+  $$\sum_{\substack{a \in A_{\mathrm{lg}} \\ \Omega(a)=k}} \frac{1}{a \ln a}
+    \;\leq\; T_k(x^k) \;\to\; 0 \quad (x \to \infty),$$
+  by Lemma `large_floor_vanish` at threshold $x^k$ (valid since $x^k \to \infty$).
+
+**Obstacle (summing over all $k$)**: The per-stratum bounds $T_k(x^k) \to 0$ hold
+for each FIXED $k$ as $x \to \infty$. However, the number of non-negligible strata
+grows with $x$ (roughly $k \sim \log_2 x$ strata are "active"). By **F3**,
+$T_k(2) = 1 - (c+o(1))k^2/2^k$, so $\sum_{k \geq 1} T_k(2)$ diverges. A naive
+sum of the per-stratum bounds over all $k$ is therefore not finite. A global argument
+exploiting the primitivity of $A_{\mathrm{lg}}$ as a whole is required.
+
+By **F1** applied to the primitive set $A_{\mathrm{lg}} \subseteq [x,\infty)$:
+$$\sum_{a \in A_{\mathrm{lg}}} \frac{1}{a \ln a} < e^{\gamma}\frac{\pi}{4} + o(1),$$
+which gives a finite upper bound but not better than $1$.
+
+**Reduction remark**: If one could prove $\sum_{a \in A_{\mathrm{lg}}} 1/(a \ln a) = o(1)$,
+the conjecture would reduce to showing $\sum_{a \in A_{\mathrm{sm}}} 1/(a \ln a) \leq 1 + o(1)$
+for any primitive $A_{\mathrm{sm}} \subset [x,\infty)$ with $p_{\min}(a) < x$ for all $a$.
+That sub-problem is also open.
+
+See `proof_lemmas/lemma_prime_factor_split.md` for the precise gap statement.
