@@ -57,9 +57,9 @@ By Lemma `large_floor_vanish`, for each fixed $k$ the stratum tail
 $T_k(x) \to 0$ as $x \to \infty$. This applies in particular to $k=1$
 (the prime stratum): $T_1(x) = \sum_{p \geq x} 1/(p \log p) \to 0$.
 For small $k$ (e.g.\ $k=1$), the full-stratum sum $\sum_{n:\Omega(n)=k} 1/(n\log n)$
-is finite (by F1: since $A_k$ is a primitive set, $\sum_{a\in A_k} 1/(a\ln a) < e^\gamma\pi/4$);
+is finite: $A_k$ is primitive (no $k$-almost prime divides another), $A_k \subset [2^k,\infty)$, so by F1, $\sum_{a\in A_k} 1/(a\ln a) < e^\gamma\pi/4$. For $k=1$ specifically, $A_1 = \{\text{primes}\} \subset [2,\infty)$ is primitive (distinct primes are not divisors of each other), and F1 gives $\sum_p 1/(p\ln p) < e^\gamma\pi/4$.
 F3's asymptotic formula holds for $k\to\infty$ and its accuracy at small $k$
-is not established by the ledger. The TAIL vanishing is all
+(including $k=1$) is not established by the ledger. The TAIL vanishing is all
 that is needed for the conjecture's $o(1)$ bound.
 
 ---
@@ -84,8 +84,8 @@ all terms are positive, so $S_k(A,x) \leq T_k(x)$. The full series
 $\sum_{n \geq 2, \Omega(n)=k} 1/(n \log n)$ converges for each $k$: the set
 $A_k := \{n \geq 2 : \Omega(n) = k\}$ is itself a primitive set, because if
 $a \mid b$ with $a \neq b$ and $\Omega(a) = \Omega(b) = k$ then $b/a \geq 2$
-gives $\Omega(b) \geq \Omega(a) + \Omega(2) = k+1 > k$, contradiction. So by F1
-(applied to the primitive set $A_k$), $\sum_{n:\Omega(n)=k} 1/(n\ln n) < e^\gamma\pi/4 < \infty$.
+gives $\Omega(b) \geq \Omega(a) + \Omega(2) = k+1 > k$, contradiction. Moreover $A_k \subset [2^k, \infty)$ since the smallest $k$-fold product is $2^k$. So by F1
+(applied to the primitive set $A_k \subset [2^k, \infty)$), $\sum_{n:\Omega(n)=k} 1/(n\ln n) < e^\gamma\pi/4 < \infty$.
 The tail $T_k(x)$ of a convergent series tends to 0 as $x \to \infty$. See
 `proof_lemmas/lemma_stratum_sub_bound.md`. $\square$
 
@@ -168,8 +168,7 @@ See `proof_lemmas/lemma_cross_stratum_control.md` for the precise gap statement.
 The critical regime is strata near $k = \lfloor \log_2 x \rfloor$. For such $k$,
 the smallest $k$-almost prime is $2^k$ and we have $2^k \leq x < 2^{k+1}$,
 so the restriction $a \geq x$ is nearly vacuous. The per-stratum bound gives
-$S_k(A,x) \leq T_k(x) \leq T_k(2)$ (since $T_k$ is non-increasing in $x$
-and $x \geq 2$). By F3, $T_k(2) = 1 - (c+o(1))k^2/2^k$. Since
+$S_k(A,x) \leq T_k(x) \leq T_k(2)$ (since $x \geq 2$ implies $\{n \geq x : \Omega(n)=k\} \subseteq \{n \geq 2 : \Omega(n)=k\}$, so $T_k(x)$ is a partial sub-sum of $T_k(2)$ with non-negative terms, giving $T_k(x) \leq T_k(2)$). As $x \to \infty$, $k = \lfloor\log_2 x\rfloor \to \infty$, so F3's asymptotic formula applies: $T_k(2) = 1 - (c+o(1))k^2/2^k$. Since
 $k = \lfloor\log_2 x\rfloor$ satisfies $2^k \leq x$, we have
 $k^2/2^k \geq k^2/x \geq (\lfloor\log_2 x\rfloor)^2/x$, so
 $T_k(2) \leq 1 - (c+o(1))(\lfloor\log_2 x\rfloor)^2/x$, which tends to 1
@@ -199,8 +198,15 @@ So $A \cap [N, 2N)$ can be any subset of $[N, 2N)$. Since all terms $1/(a\log a)
 are positive, the sum $\sum_{a \in A\cap I} 1/(a\log a)$ is non-decreasing as
 $A \cap I$ increases, so it is maximized when $A \cap I$ is the FULL set
 $\{N, N+1, \ldots, 2N-1\}$:
-$$\sum_{a=N}^{2N-1} \frac{1}{a \log a} = \int_N^{2N} \frac{dt}{t \log t} + O\!\left(\frac{1}{N \log N}\right)
-  \quad\text{(integral comparison for monotone decreasing } 1/(t\log t)\text{; elementary)}$$
+Since $f(t) = 1/(t \log t)$ is strictly decreasing for $t \geq 2$, for each integer $n \geq N+1$:
+$f(n) \leq \int_{n-1}^n f(t)\,dt$ (since $f$ decreases on $[n-1,n]$). Summing from $n = N+1$ to $2N-1$:
+$\sum_{n=N+1}^{2N-1} f(n) \leq \int_N^{2N-1} f(t)\,dt \leq \int_N^{2N} f(t)\,dt$.
+Adding $f(N) = 1/(N\log N)$:
+$$\sum_{a=N}^{2N-1} \frac{1}{a \log a} \leq \frac{1}{N\log N} + \int_N^{2N} \frac{dt}{t \log t},$$
+so $\sum_{a=N}^{2N-1} 1/(a\log a) = \int_N^{2N} dt/(t\log t) + O(1/(N\log N))$, giving:
+$$\sum_{a=N}^{2N-1} \frac{1}{a \log a} \leq \int_N^{2N} \frac{dt}{t \log t} + O\!\left(\frac{1}{N \log N}\right)$$
+The integral evaluates using the antiderivative: $\frac{d}{dt}\ln\ln t = \frac{1}{t\ln t}$, so
+$\int_N^{2N} \frac{dt}{t\ln t} = \bigl[\ln\ln t\bigr]_N^{2N} = \ln\ln(2N) - \ln\ln N = \ln\!\bigl(\frac{\ln(2N)}{\ln N}\bigr) = \ln\!\bigl(\frac{\log(2N)}{\log N}\bigr)$, giving:
 $$= \ln\!\left(\frac{\log(2N)}{\log N}\right) + O\!\left(\frac{1}{N \log N}\right)
   = \ln\!\left(1 + \frac{\log 2}{\log N}\right) + O\!\left(\frac{1}{N \log N}\right)
   \leq \frac{\log 2}{\log N} + O\!\left(\frac{1}{N \log N}\right), \quad \square$$
@@ -226,8 +232,9 @@ bound. See `proof_lemmas/lemma_cross_stratum_control.md` for why this fails.
    global bound.
 
 2. **Mertens-type averaging with primitivity**: The Mertens sum
-   $\sum_{n \leq x} 1/n \approx \log x$ and $\sum_{n \leq x, \Omega(n)=k} 1/n
-   \approx (\log\log x)^{k-1}/((k-1)! \log x)$. For a primitive set, one
+   $\sum_{n \leq x} 1/n = \log x + O(1)$ and by Sathe–Selberg,
+   $\sum_{n \leq x, \Omega(n)=k} 1/n \sim (\log\log x)^{k-1}/((k-1)! \log x)$
+   for fixed $k$ (these are established asymptotics, not heuristics). For a primitive set, one
    needs to bound the sub-sum over $A$-elements via the antichain property.
    A Plünnecke–Ruzsa type inequality might control the "spread" of the set.
 
@@ -565,9 +572,9 @@ direction. The upward direction is free.
 
 **What downward divisibility would force**: Suppose $a' = qb' \in A(q)$ divided
 $a = pb \in A(p)$ with $p < q$ (hypothetically — primitivity forbids this):
-Then $qb' \mid pb$. Since $\gcd(q, p) = 1$ (distinct primes), $q \mid b$.
+Then $qb' \mid pb$. Since $q$ and $p$ are distinct primes, $\gcd(q, p) = 1$; by the standard divisibility lemma (if $m \mid an$ with $\gcd(m, a) = 1$ then $m \mid n$, applied with $m = q$, $a = p$, $n = b$), we get $q \mid b$.
 Also $p < q \leq p_{\min}(b')$ means $p \nmid b'$, so $\gcd(p, b') = 1$, and similarly
-$p \nmid q$, so $\gcd(p, qb') = 1$, giving $qb' \mid b$. Since $b' \geq 2$ (as shown in
+$p \nmid q$, so $\gcd(p, qb') = 1$; the same lemma applied with $m = qb'$, $a = p$, $n = b$ gives $qb' \mid b$. Since $b' \geq 2$ (as shown in
 Section 6 for $B(q)$, because $b'=1$ would require $a' = q < x$, contradicting $a' \geq x$):
 $$qb' \geq 2q \geq 4 \quad (q \geq 2,\; b' \geq 2),$$
 so $b \geq qb' \geq 2q$. Thus downward divisibility forces $b$ to be a multiple of $qb'$,
