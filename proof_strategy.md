@@ -89,7 +89,10 @@ $\sum_{n \geq 2, \Omega(n)=k} 1/(n \log n)$ converges for each $k$: the set
 $A_k := \{n \geq 2 : \Omega(n) = k\}$ is itself a primitive set, because if
 $a \mid b$ with $a \neq b$ and $\Omega(a) = \Omega(b) = k$ then $b/a \geq 2$
 gives $\Omega(b) \geq \Omega(a) + \Omega(2) = k+1 > k$, contradiction. Moreover $A_k \subset [2^k, \infty)$: each $n \in A_k$ has $\Omega(n) = k$, meaning $n$ is a product of exactly $k$ prime factors (with multiplicity) each $\geq 2$, so $n \geq 2 \cdot 2 \cdots 2 = 2^k$.
-Convergence of the series: any finite subset $S \subseteq A_k$ is a finite primitive set, so F1 gives $\sum_{a \in S} 1/(a \ln a) < e^\gamma\pi/4$. Since all terms $1/(n\ln n) > 0$, the partial sums form an increasing sequence bounded above by $e^\gamma\pi/4$; hence the series $\sum_{n:\Omega(n)=k} 1/(n\ln n)$ converges to a limit $\leq e^\gamma\pi/4 < \infty$.
+Convergence of the series: any finite subset $S \subseteq A_k$ is a finite primitive set,
+so F1 gives $\sum_{a \in S} 1/(a \ln a) < e^\gamma\pi/4 + o(1)$, which is a finite bound.
+Since all terms $1/(n\ln n) > 0$, the partial sums form a bounded increasing sequence;
+hence the series $\sum_{n:\Omega(n)=k} 1/(n\ln n)$ converges.
 The tail $T_k(x)$ of a convergent series tends to 0 as $x \to \infty$. See
 `proof_lemmas/lemma_stratum_sub_bound.md`. $\square$
 
