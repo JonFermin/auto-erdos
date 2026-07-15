@@ -419,10 +419,10 @@ of primitivity.
 $$\sum_{\substack{p \geq x \\ p \text{ prime}}} \frac{1}{p \ln p} \;\to\; 0
   \quad \text{as } x \to \infty.$$
 *Proof sketch*: The primes form a primitive set (if $p \mid q$ with $p, q$ prime then $p = q$,
-so no distinct prime divides another). For any finite $X$, the set $\{p : p \leq X, p \text{ prime}\}
-\subseteq \mathbb{N}$ is a finite primitive set, so **F1** gives $\sum_{p \leq X} 1/(p \ln p)
-< e^\gamma\pi/4$ (the F1 bound with $x = 2$ and no $o(1)$ correction, since all elements are $\geq 2$).
-Since partial sums are bounded above uniformly in $X$, the series $\sum_{p} 1/(p \ln p)$ converges.
+so no distinct prime divides another). For any finite $X$, the finite set $\{p \leq X : p \text{ prime}\}
+\subseteq \mathbb{N}$ is primitive, so **F1** gives $\sum_{p \leq X} 1/(p \ln p) < e^\gamma\pi/4 + o(1)$.
+Since this bound holds for all $X$ and the partial sums $\sum_{p \leq X} 1/(p \ln p)$ are monotone
+non-decreasing in $X$ and bounded above, the series $\sum_{p} 1/(p \ln p)$ converges to a finite limit.
 Its tail from $x$ then tends to $0$ as $x \to \infty$. $\square$
 
 **Contribution of $A_{\mathrm{lg}}$ by stratum**:
