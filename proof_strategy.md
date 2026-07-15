@@ -431,7 +431,7 @@ $$\sum_{\substack{p \geq x \\ p \text{ prime}}} \frac{1}{p \ln p} \;\to\; 0
   \quad \text{as } x \to \infty.$$
 *Proof sketch*: The primes form a primitive set (if $p \mid q$ with $p, q$ prime then $p = q$,
 so no distinct prime divides another). For any finite $X$, the finite set $\{p \leq X : p \text{ prime}\}
-\subseteq \mathbb{N}$ is primitive, so **F1** gives $\sum_{p \leq X} 1/(p \ln p) < e^\gamma\pi/4 + o(1)$.
+\subseteq \mathbb{N}$ is primitive, so **F1** gives $\sum_{p \leq X} 1/(p \ln p) < e^\gamma\pi/4$.
 Since this bound holds for all $X$ and the partial sums $\sum_{p \leq X} 1/(p \ln p)$ are monotone
 non-decreasing in $X$ and bounded above, the series $\sum_{p} 1/(p \ln p)$ converges to a finite limit.
 Its tail from $x$ then tends to $0$ as $x \to \infty$. $\square$
@@ -460,7 +460,7 @@ sum of the per-stratum bounds over all $k$ is therefore not finite. A global arg
 exploiting the primitivity of $A_{\mathrm{lg}}$ as a whole is required.
 
 By **F1** applied to the primitive set $A_{\mathrm{lg}} \subseteq [x,\infty)$:
-$$\sum_{a \in A_{\mathrm{lg}}} \frac{1}{a \ln a} < e^{\gamma}\frac{\pi}{4} + o(1),$$
+$$\sum_{a \in A_{\mathrm{lg}}} \frac{1}{a \ln a} < e^{\gamma}\frac{\pi}{4},$$
 which gives a finite upper bound but not better than $1$. The full stratum sum $T_k(2) = \sum_{n \geq 2,\, \Omega(n)=k} 1/(n \ln n)$ (note:
 the smallest $n$ with $\Omega(n) = k$ is $2^k \geq 2$, so the sum from $2$ equals the
 full stratum sum) tends to 1 as $k \to \infty$ (since $k^2/2^k \to 0$ elementarily,
