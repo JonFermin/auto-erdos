@@ -80,16 +80,21 @@ $$S_k(A, x) \leq T_k(x).$$
 Moreover, $T_k(x) \to 0$ as $x \to \infty$ for each fixed $k$.
 
 Proof: $A \cap \{n : \Omega(n) = k\}$ is a subset of $\{n \geq x : \Omega(n)=k\}$;
-all terms are positive, so $S_k(A,x) \leq T_k(x)$. By F3, the full series
-$\sum_{n \geq 2, \Omega(n)=k} 1/(n \log n) = 1 - (c+o(1))k^2/2^k$ is
-convergent for each $k$ (the formula's right side is finite). The tail $T_k(x)$
-of a convergent series tends to 0 as $x \to \infty$. See
+all terms are positive, so $S_k(A,x) \leq T_k(x)$. The full series
+$\sum_{n \geq 2, \Omega(n)=k} 1/(n \log n)$ converges for each $k$: the set
+$A_k := \{n \geq 2 : \Omega(n) = k\}$ is itself a primitive set, because if
+$a \mid b$ with $a \neq b$ and $\Omega(a) = \Omega(b) = k$ then $b/a \geq 2$
+gives $\Omega(b) \geq \Omega(a) + \Omega(2) = k+1 > k$, contradiction. So by F1
+(applied to the primitive set $A_k$), $\sum_{n:\Omega(n)=k} 1/(n\ln n) < e^\gamma\pi/4 < \infty$.
+The tail $T_k(x)$ of a convergent series tends to 0 as $x \to \infty$. See
 `proof_lemmas/lemma_stratum_sub_bound.md`. $\square$
 
 Note: The bound $T_k(x) \leq T_k(2)$ gives $T_k(x) \leq \sum_{n \geq 2,\Omega(n)=k}
-1/(n \log n)$, which by F3 is $1 - (c+o(1))k^2/2^k$. For large $k$ this is
-close to 1 from below. For $k=1$ (primes from 2), the full sum exceeds 1 (the
-$o(1)$ correction in F3 is large at $k=1$); however, the TAIL $T_1(x)$
+1/(n \log n) < e^\gamma\pi/4$ by F1. For large $k$, F3 shows this full-stratum sum
+approaches 1 from below (the correction $ck^2/2^k \to 0^+$). For $k=1$ (primes),
+F3's formula is stated for $k \to \infty$ and does not determine the value at $k=1$;
+from F1, the full prime sum is bounded above by $e^\gamma\pi/4$, but whether it
+exceeds or falls below 1 is not established by the ledger. The TAIL $T_1(x)$
 still vanishes as $x \to \infty$, which is what matters for the conjecture.
 
 **Lemma `large_floor_vanish`** (status: proved): For each fixed $k \geq 1$,
@@ -116,9 +121,10 @@ $$\sum_{a \in A} \frac{1}{a \log a}
 - **(I) Low strata** ($K$ fixed): $\leq \sum_{k=1}^K T_k(x) \to 0$ as $x \to \infty$
   by the Corollary above (valid since $K$ is a fixed constant).
 
-- **(II) High strata**: $\leq \sum_{k > K} T_k(x)$. For fixed $K$, the bound
-  $\sum_{k > K} T_k(x) \leq \sum_{k > K} (1 - ck^2/2^k)$ diverges since each term
-  $\to 1$ as $k \to \infty$.
+- **(II) High strata**: $\leq \sum_{k > K} T_k(x) \leq \sum_{k > K} T_k(2) < \infty$?
+  No: $T_k(2) \to 1$ as $k \to \infty$ (since $k^2/2^k \to 0$ elementarily for $k \to \infty$,
+  so F3 gives the full stratum sum approaches 1 from below). The terms $T_k(2)$ do not
+  tend to 0, so $\sum_{k > K} T_k(2)$ diverges by the divergence test.
   The stratification bound is VACUOUS for the high-stratum sum, for any fixed $K$.
 
 **Key difficulty** (the open core, Lemma `cross_stratum_control`): The per-stratum
@@ -435,7 +441,11 @@ exploiting the primitivity of $A_{\mathrm{lg}}$ as a whole is required.
 
 By **F1** applied to the primitive set $A_{\mathrm{lg}} \subseteq [x,\infty)$:
 $$\sum_{a \in A_{\mathrm{lg}}} \frac{1}{a \ln a} < e^{\gamma}\frac{\pi}{4} + o(1),$$
-which gives a finite upper bound but not better than $1$.
+which gives a finite upper bound but not better than $1$. The high-stratum terms
+$T_k(2)$ (the full stratum sum for each $k$) tend to 1 as $k \to \infty$ (since
+$k^2/2^k \to 0$, so F3's correction vanishes), hence $\sum_k T_k(2)$ diverges by
+the divergence test; but this does not bound $\sum_{a \in A_\mathrm{lg}} 1/(a\ln a)$
+since $A_\mathrm{lg}$ intersects each stratum sparsely.
 
 **Reduction remark**: If one could prove $\sum_{a \in A_{\mathrm{lg}}} 1/(a \ln a) = o(1)$,
 the conjecture would reduce to showing $\sum_{a \in A_{\mathrm{sm}}} 1/(a \ln a) \leq 1 + o(1)$
@@ -515,3 +525,59 @@ $b \in B(p)$, $b' \in B(q)$, neither $pb \mid qb'$ nor $qb' \mid pb$. These
 constraints link the quotient sets $B(p)$ across different primes.
 
 See `proof_lemmas/lemma_sm_prime_grouping.md` for the precise formulation.
+
+---
+
+## Section 7 — Directional cross-$p$ structural constraint (Q12, continued)
+
+**Setup**: For distinct primes $p < q$, both $< x$, any $a \in A(p)$ writes as
+$a = pb$ with $p_{\min}(b) \geq p$, and any $a' \in A(q)$ writes as $a' = qb'$
+with $p_{\min}(b') \geq q$.
+
+**Lemma (`sm_directional_no_div`, status: proved; see `proof_lemmas/lemma_sm_directional_constraint.md`)**:
+For any $a \in A(p)$ and $a' \in A(q)$ with distinct primes $p < q < x$,
+$a \nmid a'$ — automatically, without using primitivity of $A$.
+
+*Proof*: Suppose $pb \mid qb'$. Then $p \mid qb'$. Since $p$ is prime:
+either $p \mid q$ or $p \mid b'$.
+But $p < q$ with $q$ prime implies $p \nmid q$ (distinct primes).
+And $p < q \leq p_{\min}(b')$ implies $p$ is not a prime factor of $b'$, so $p \nmid b'$.
+Both cases fail: contradiction. $\square$
+
+**Directional asymmetry**: The cross-$p$ non-divisibility is directional:
+- **Upward** ($a \in A(p)$ vs.\ $a' \in A(q)$, $p < q$): $a \nmid a'$ holds
+  **structurally** (Lemma above, no primitivity needed).
+- **Downward** ($a' \in A(q)$ vs.\ $a \in A(p)$, $p < q$): $a' \nmid a$ is excluded
+  by **primitivity** of $A$ (not structural — the lemma does NOT apply in this direction).
+
+**Consequence**: Primitivity of $A$ is needed to rule out only the downward cross-$p$
+direction. The upward direction is free.
+
+**What downward divisibility would force**: Suppose $a' = qb' \in A(q)$ divided
+$a = pb \in A(p)$ with $p < q$ (hypothetically — primitivity forbids this):
+Then $qb' \mid pb$. Since $\gcd(q, p) = 1$ (distinct primes), $q \mid b$.
+Also $p < q \leq p_{\min}(b')$ means $p \nmid b'$, so $\gcd(p, b') = 1$, and similarly
+$p \nmid q$, so $\gcd(p, qb') = 1$, giving $qb' \mid b$. Since $b' \geq 2$ (as shown in
+Section 6 for $B(q)$, because $b'=1$ would require $a' = q < x$, contradicting $a' \geq x$),
+we get $qb' \geq 2q \geq 2q$, so $b \geq qb' \geq 2q$. In particular, any such downward
+divisibility forces $b$ to be divisible by $q \cdot b'$, a quantity $\geq 4$; this places
+strong lower bounds on the elements of $B(p)$ that could participate.
+
+**Cross-set constraint reformulated**: Primitivity of $A$ is equivalent (in the $A_{\mathrm{sm}}$
+component) to: for all primes $p < q < x$, no $b' \in B(q)$ satisfies $qb' \mid b$
+for some $b \in B(p)$. Equivalently, $B(p) \cap qb' \mathbb{Z} \neq \emptyset$ is forbidden
+for each $b' \in B(q)$.
+
+**Why this helps**: The upward structural constraint (Lemma `sm_directional_no_div`)
+removes half of the cross-$p$ primitivity conditions automatically. What remains is
+a one-directional constraint: for $p < q$, no multiple of $qb'$ (with $b' \in B(q)$)
+can appear in $B(p)$. This is a genuine sieve-type condition on $B(p)$ imposed by
+$B(q)$, for every $q > p$.
+
+**Open direction**: If the sets $\{qb' : b' \in B(q), q > p\}$ are "dense" enough in
+the integers, they sieve out most of $B(p)$, forcing $\sum_{b \in B(p)} 1/(pb \ln(pb))$
+to be small. Whether this sieve density is controllable — and whether summing over
+all $p$ then gives $\sum_{a \in A_{\mathrm{sm}}} 1/(a \ln a) = o(1)$ or $\leq 1 + o(1)$ —
+remains the central open problem for the $A_{\mathrm{sm}}$ component.
+
+See `proof_lemmas/lemma_sm_directional_constraint.md` for the precise statement.
