@@ -185,8 +185,8 @@ For any fixed $C$, the sum over strata $k \in [\lfloor\log_2 x\rfloor - C,
 \lfloor\log_2 x\rfloor + C]$ of these per-stratum bounds is at most
 $(2C+1) \cdot (1 - (c+o(1))(\lfloor\log_2 x\rfloor)^2/x)$ (since the range $[\lfloor\log_2 x\rfloor - C, \lfloor\log_2 x\rfloor + C]$ contains exactly $2C+1$ integer values of $k$). As $x \to \infty$, the correction
 $(c+o(1))(\lfloor\log_2 x\rfloor)^2/x \to 0$ (since $(\log_2 x)^2/x \to 0$), so
-each of the $(2C+1)$ terms tends to $1$, so their sum tends to $(2C+1) \cdot 1 = 2C+1$; for fixed $C$
-this tends to $2C+1$ as $x \to \infty$ — diverging as $C$ grows.
+each of the $(2C+1)$ terms tends to $1$; since $C$ is a fixed constant the number of terms is finite,
+so their sum tends to $2C+1$ as $x \to \infty$ — diverging as $C$ grows.
 Controlling this requires a global argument that uses
 primitivity to prevent multiple "critical strata" from simultaneously
 contributing nearly 1.
@@ -260,8 +260,8 @@ The conjecture remains open; Section 4 continues the exploration.
 
 ## Section 4 — Trading decomposition (Q7)
 
-**Setup**: Fix $e = 2.718\ldots$ (Euler's number). For any primitive set
-$A \subset [x, \infty)$, split at the "pivot" $x^e$:
+**Setup**: For any primitive set $A \subset [x, \infty)$, split at the
+pivot $x^e$ (where $e \approx 2.718$ denotes Euler's number, the base of the natural logarithm):
 $$A_1 := A \cap [x,\, x^e), \qquad A_2 := A \cap [x^e, \infty).$$
 
 Let $S_1 := \sum_{a \in A_1} \frac{1}{a \log a}$ and
