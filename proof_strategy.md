@@ -252,7 +252,9 @@ $S_2 := \sum_{a \in A_2} \frac{1}{a \log a}$.
 
 **Lemma (`S1_bound`)**: $S_1 \leq 1 + o(1)$ as $x \to \infty$.
 
-*Proof*: Every element of $A_1$ lies in $[x, x^e)$, so
+*Proof*: Every element of $A_1$ lies in $[x, x^e) \cap \mathbb{Z}$, so
+$A_1 \subseteq \{x, x+1, \ldots, \lfloor x^e \rfloor\}$; since all terms $1/(n \ln n)$
+are positive, summing over a subset is $\leq$ summing over the full range:
 $$S_1 \leq \sum_{n=x}^{\lfloor x^e \rfloor} \frac{1}{n \ln n}.$$
 Since $f(t) = 1/(t \ln t)$ is strictly decreasing for $t \geq 2$, each integer $n \geq x + 1$ satisfies $f(n) \leq \int_{n-1}^n f(t)\,dt$ (since $f$ is decreasing on $[n-1,n]$). Therefore:
 $$\sum_{n=x}^{\lfloor x^e \rfloor} f(n)
@@ -263,8 +265,10 @@ $$\sum_{n=x}^{\lfloor x^e \rfloor} f(n)
 The integral evaluates by the antiderivative $\frac{d}{dt} \ln \ln t = \frac{1}{t \ln t}$:
 $$\int_x^{x^e} \frac{dt}{t \ln t}
   = \bigl[\ln \ln t\bigr]_x^{x^e}
+  = \ln\!\bigl(\ln(x^e)\bigr) - \ln\!\bigl(\ln x\bigr)
   = \ln\!\bigl(e \ln x\bigr) - \ln\!\bigl(\ln x\bigr)
-  = \ln e = 1.$$
+  = \ln\!\Bigl(\frac{e \ln x}{\ln x}\Bigr) = \ln e = 1,$$
+using $\ln(x^e) = e \ln x$ and then $\ln(e \ln x) - \ln(\ln x) = \ln(e \ln x / \ln x) = \ln e$.
 So $S_1 \leq 1 + \frac{1}{x \ln x} \to 1$ as $x \to \infty$. $\square$
 
 (Here and throughout Section 4, $\log = \ln$ denotes the natural logarithm.)
@@ -311,8 +315,9 @@ divisibility by $A_1$. Suppose a fraction $\rho > 0$ (bounded below, uniformly
 in $j$) of integers in each interval $[N, 2N)$ escape blocking by $A_1$; the sum
 $\rho \cdot \sum_{n=N}^{2N} 1/(n \log n) \leq \rho \cdot (\log 2/\log N + O(1/(N\log N)))$
 over infinitely many dyadic intervals $N = x^e 2^j$ gives
-$\rho \cdot \sum_{j \geq 0} \log 2/(e \log x + j \log 2)$, which diverges for
-any fixed $\rho > 0$. (Note: if $\rho_j \to 0$ fast enough as $j \to \infty$,
+$\rho \cdot \sum_{j \geq 0} \frac{\log 2}{e \log x + j \log 2}$, which diverges for
+any fixed $\rho > 0$ (compare with $\sum_{j \geq 1} 1/j = \infty$, the harmonic series,
+since $\log 2 / (e\log x + j \log 2) \geq c/j$ for $j$ large). (Note: if $\rho_j \to 0$ fast enough as $j \to \infty$,
 the series could converge — but no such decay of $\rho_j$ is available from
 the blocking structure alone without additional primitivity input.)
 Multiplying a divergent series by a uniformly positive constant does not make
@@ -413,8 +418,12 @@ of primitivity.
 **Lemma `prime_tail_vanish`** (status: proved; see `proof_lemmas/lemma_prime_tail_vanish.md`):
 $$\sum_{\substack{p \geq x \\ p \text{ prime}}} \frac{1}{p \ln p} \;\to\; 0
   \quad \text{as } x \to \infty.$$
-*Proof sketch*: The primes form a primitive set; by **F1**, the series
-$\sum_{p \text{ prime}} 1/(p \ln p)$ converges. The tail from $x$ tends to $0$. $\square$
+*Proof sketch*: The primes form a primitive set (if $p \mid q$ with $p, q$ prime then $p = q$,
+so no distinct prime divides another). For any finite $X$, the set $\{p : p \leq X, p \text{ prime}\}
+\subseteq \mathbb{N}$ is a finite primitive set, so **F1** gives $\sum_{p \leq X} 1/(p \ln p)
+< e^\gamma\pi/4$ (the F1 bound with $x = 2$ and no $o(1)$ correction, since all elements are $\geq 2$).
+Since partial sums are bounded above uniformly in $X$, the series $\sum_{p} 1/(p \ln p)$ converges.
+Its tail from $x$ then tends to $0$ as $x \to \infty$. $\square$
 
 **Contribution of $A_{\mathrm{lg}}$ by stratum**:
 
@@ -441,10 +450,11 @@ exploiting the primitivity of $A_{\mathrm{lg}}$ as a whole is required.
 
 By **F1** applied to the primitive set $A_{\mathrm{lg}} \subseteq [x,\infty)$:
 $$\sum_{a \in A_{\mathrm{lg}}} \frac{1}{a \ln a} < e^{\gamma}\frac{\pi}{4} + o(1),$$
-which gives a finite upper bound but not better than $1$. The high-stratum terms
-$T_k(2)$ (the full stratum sum for each $k$) tend to 1 as $k \to \infty$ (since
-$k^2/2^k \to 0$, so F3's correction vanishes), hence $\sum_k T_k(2)$ diverges by
-the divergence test; but this does not bound $\sum_{a \in A_\mathrm{lg}} 1/(a\ln a)$
+which gives a finite upper bound but not better than $1$. The full stratum sum $T_k(2) = \sum_{n \geq 2,\, \Omega(n)=k} 1/(n \ln n)$ (note:
+the smallest $n$ with $\Omega(n) = k$ is $2^k \geq 2$, so the sum from $2$ equals the
+full stratum sum) tends to 1 as $k \to \infty$ (since $k^2/2^k \to 0$ elementarily,
+so F3's correction vanishes from below). Hence $\sum_k T_k(2)$ diverges by
+the divergence test (terms $\to 1 \neq 0$); but this does not bound $\sum_{a \in A_\mathrm{lg}} 1/(a\ln a)$
 since $A_\mathrm{lg}$ intersects each stratum sparsely.
 
 **Reduction remark**: If one could prove $\sum_{a \in A_{\mathrm{lg}}} 1/(a \ln a) = o(1)$,
@@ -558,15 +568,17 @@ $a = pb \in A(p)$ with $p < q$ (hypothetically — primitivity forbids this):
 Then $qb' \mid pb$. Since $\gcd(q, p) = 1$ (distinct primes), $q \mid b$.
 Also $p < q \leq p_{\min}(b')$ means $p \nmid b'$, so $\gcd(p, b') = 1$, and similarly
 $p \nmid q$, so $\gcd(p, qb') = 1$, giving $qb' \mid b$. Since $b' \geq 2$ (as shown in
-Section 6 for $B(q)$, because $b'=1$ would require $a' = q < x$, contradicting $a' \geq x$),
-we get $qb' \geq 2q \geq 2q$, so $b \geq qb' \geq 2q$. In particular, any such downward
-divisibility forces $b$ to be divisible by $q \cdot b'$, a quantity $\geq 4$; this places
-strong lower bounds on the elements of $B(p)$ that could participate.
+Section 6 for $B(q)$, because $b'=1$ would require $a' = q < x$, contradicting $a' \geq x$):
+$$qb' \geq 2q \geq 4 \quad (q \geq 2,\; b' \geq 2),$$
+so $b \geq qb' \geq 2q$. Thus downward divisibility forces $b$ to be a multiple of $qb'$,
+a quantity $\geq 2q \geq 4$; this places strong lower bounds on elements of $B(p)$ that could
+participate in such a divisibility relation.
 
-**Cross-set constraint reformulated**: Primitivity of $A$ is equivalent (in the $A_{\mathrm{sm}}$
-component) to: for all primes $p < q < x$, no $b' \in B(q)$ satisfies $qb' \mid b$
-for some $b \in B(p)$. Equivalently, $B(p) \cap qb' \mathbb{Z} \neq \emptyset$ is forbidden
-for each $b' \in B(q)$.
+**Cross-set constraint reformulated**: Primitivity of $A$ (in the downward cross-$p$ direction)
+requires: for all primes $p < q < x$ and all $b' \in B(q)$, no element of $B(p)$ is divisible
+by $qb'$. That is, $B(p) \cap qb' \mathbb{Z} = \emptyset$ is required for each $b' \in B(q)$.
+(Note: the constraint is $qb' \nmid b$ for all $b \in B(p)$, which is equivalent, given $\gcd(p, qb') = 1$,
+to $qb' \nmid b$, i.e.\ no $b \in B(p)$ is a multiple of $qb'$.)
 
 **Why this helps**: The upward structural constraint (Lemma `sm_directional_no_div`)
 removes half of the cross-$p$ primitivity conditions automatically. What remains is
