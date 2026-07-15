@@ -11,3 +11,4 @@
 {"event":"session_open","session_id":"s_0715-083913-f85d","ts":"2026-07-15T08:39:13+00:00","commit":"41a8e7d","proof_tag":"primitive_set_erdos","stashed_ref":null,"detected_orphan":null,"released_orphan_qids":[]}
 {"event":"session_abandoned","session_id":"s_0715-083913-f85d","ts":"2026-07-15T08:39:16+00:00","detected_by":"s_0715-083916-e364","reason":"no session_close found in journal \u2014 assumed crashed/interrupted"}
 {"event":"session_open","session_id":"s_0715-083916-e364","ts":"2026-07-15T08:39:16+00:00","commit":"41a8e7d","proof_tag":"primitive_set_erdos","stashed_ref":null,"detected_orphan":"s_0715-083913-f85d","released_orphan_qids":[]}
+{"event":"round","session_id":"s_0715-083916-e364","ts":"2026-07-15T08:49:29+00:00","summary":"Round 3: prime-factor split Section 5; prime_tail_vanish lemma proved from F1; S1_bound integral made self-contained; 0 BLOCKING, 2 WARN, keep_progress","qid":"Q12","status":"keep_progress","commit":"7d16d7a"}
