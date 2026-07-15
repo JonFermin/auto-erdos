@@ -19,6 +19,10 @@ where the $o(1)$ term tends to $0$ as $x \to \infty$.
 **Status**: open. Until a verifier-accepted witness is committed, no claim
 of resolution may appear in this file.
 
+**Standing assumption**: Throughout this document, $x \geq 2$. All assertions
+involving $T_k(x)$, inclusions $\{n \geq x\} \subseteq \{n \geq 2\}$, and
+similar rely only on $x \geq 2$.
+
 **Given facts ledger** (from `proofs/primitive_set_erdos.json`):
 
 - **F1** (Erdős–Zhang upper bound, citation: Erdős 1935; Zhang 1993): For any
@@ -179,10 +183,10 @@ $T_k(2) \leq 1 - (c+o(1))(\lfloor\log_2 x\rfloor)^2/x$, which tends to 1
 from below as $x \to \infty$ (correction of order $(\log x)^2/x \to 0$).
 For any fixed $C$, the sum over strata $k \in [\lfloor\log_2 x\rfloor - C,
 \lfloor\log_2 x\rfloor + C]$ of these per-stratum bounds is at most
-$2C \cdot (1 - (c+o(1))(\lfloor\log_2 x\rfloor)^2/x)$. As $x \to \infty$, the correction
+$(2C+1) \cdot (1 - (c+o(1))(\lfloor\log_2 x\rfloor)^2/x)$ (since the range $[\lfloor\log_2 x\rfloor - C, \lfloor\log_2 x\rfloor + C]$ contains exactly $2C+1$ integer values of $k$). As $x \to \infty$, the correction
 $(c+o(1))(\lfloor\log_2 x\rfloor)^2/x \to 0$ (since $(\log_2 x)^2/x \to 0$), so
-each factor $\to 1$ and the product $\to 2C \cdot 1 = 2C$; for fixed $C$
-this tends to $2C$ as $x \to \infty$ — diverging as $C$ grows.
+each factor $\to 1$ and the product $\to (2C+1) \cdot 1 = 2C+1$; for fixed $C$
+this tends to $2C+1$ as $x \to \infty$ — diverging as $C$ grows.
 Controlling this requires a global argument that uses
 primitivity to prevent multiple "critical strata" from simultaneously
 contributing nearly 1.
@@ -520,13 +524,10 @@ $$\sum_{a \in A(p)} \frac{1}{a \ln a} \leq \frac{1}{p} \sum_{b \in B(p)} \frac{1
 $$\sum_{a \in A_{\mathrm{sm}}} \frac{1}{a \ln a}
   < e^{\gamma}\frac{\pi}{4} \cdot \sum_{\substack{p < x \\ p \text{ prime}}} \frac{1}{p}.$$
 This upper bound does NOT tend to $0$ as $x \to \infty$: for all $x > 2$,
-the prime $p = 2 < x$ contributes $1/p = 1/2$ to the sum, so
+the prime $p = 2 < x$ contributes $1/p = 1/2$ to the sum (since $2 < x$ whenever $x > 2$), so
 $\sum_{p<x} 1/p \geq 1/2$, giving $e^\gamma\pi/4 \cdot \sum_{p<x} 1/p \geq e^\gamma\pi/8 > 0$.
 The bound is bounded below by a positive constant for all $x > 2$, so it
 cannot show $\sum_{a \in A_{\mathrm{sm}}} 1/(a\ln a) = o(1)$.
-(In fact $\sum_{p<x} 1/p$ grows with $x$, adding $1/p_0 > 0$ for each new prime
-$p_0$ below $x$; but even the lower bound $\geq 1/2$ is enough to see the
-estimate is not useful.)
 
 **Why per-$p$ bounds fail globally**: Each $B(p)$ is controlled by F1
 independently, but the $B(p)$ are NOT independent — they derive from a single
@@ -580,13 +581,9 @@ direction. The upward direction is free.
 **What downward divisibility would force**: Suppose $a' = qb' \in A(q)$ divided
 $a = pb \in A(p)$ with $p < q$ (hypothetically — primitivity forbids this):
 Then $qb' \mid pb$. Since $q \mid qb'$ and $qb' \mid pb$, we have $q \mid pb$.
-Since $\gcd(q,p) = 1$ (distinct primes), by Bézout's identity there exist $s, t \in \mathbb{Z}$ with $qs + pt = 1$.
-Multiplying by $b$: $qsb + ptb = b$. Now $q \mid qsb$ and $q \mid pb$ implies $q \mid t \cdot pb = ptb$,
-so $q \mid qsb + ptb = b$, i.e.\ $q \mid b$.
+Since $q$ is prime and $\gcd(q, p) = 1$ (distinct primes), from $q \mid pb$ we get $q \mid b$ by Euclid's lemma. (Derivation: Bézout gives $qs + pt = 1$ for some integers $s, t$; multiply by $b$: $qsb + ptb = b$; then $q \mid qsb$ and $q \mid pb$ so $q \mid t(pb) = ptb$; hence $q \mid b$.)
 Also $p < q \leq p_{\min}(b')$ means $p$ is strictly less than every prime factor of $b'$, so $p \nmid b'$, giving $\gcd(p, b') = 1$; and $p \nmid q$ (distinct primes), so $\gcd(p, q) = 1$. Since $p$ is prime and $\gcd(p, q) = \gcd(p, b') = 1$, we have $\gcd(p, qb') = 1$ (as $p$ divides neither $q$ nor $b'$, hence not their product).
-Now $qb' \mid pb$ and $\gcd(qb', p) = 1$: by Bézout $\exists s', t'$ with $qb' \cdot s' + p \cdot t' = 1$.
-Multiplying by $b$: $qb' s' b + p t' b = b$. Since $qb' \mid qb's'b$ and $qb' \mid pb$ gives $qb' \mid t' \cdot pb = pt'b$,
-we get $qb' \mid b$. Since $b' \geq 2$ (as shown in
+Now $qb' \mid pb$ and $\gcd(qb', p) = 1$: by the coprime-divisibility lemma (if $\gcd(m,n)=1$ and $m \mid nk$ then $m \mid k$, proved via Bézout: $ms + nt = 1 \Rightarrow msk + ntk = k$, so $m \mid k$), with $m = qb'$, $n = p$, $k = b$: since $\gcd(qb', p) = 1$ and $qb' \mid pb$, we get $qb' \mid b$. Since $b' \geq 2$ (as shown in
 Section 6 for $B(q)$, because $b'=1$ would require $a' = q < x$, contradicting $a' \geq x$):
 $$qb' \geq 2q \geq 4 \quad (q \geq 2,\; b' \geq 2),$$
 so $b \geq qb' \geq 2q$. Thus downward divisibility forces $b$ to be a multiple of $qb'$,
