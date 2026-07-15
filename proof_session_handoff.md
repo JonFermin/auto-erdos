@@ -1,36 +1,33 @@
-# Session handoff (session s_0711-080759-fdf5)
+# Session handoff (session s_0715-090653-4b95)
 
-**Stop reason**: logical milestone + token budget low
+**Stop reason**: Token budget milestone — Round 30 reached keep_progress with 0B/5W.
 
-**Outcome**: 1 keep_progress round logged (commit a88563a, record proof_primitive_set_erdos_e77120bd5e03_a88563a.json)
+**Current focus**: Ongoing WARN reduction on the prime-factor-split strategy. Round 30 is the new best at 0B/5W (improved from Round 23's 0B/7W).
 
-**Current state**:
-- proof_results.tsv has 1 row (keep_progress, partial_result verdict, 0 blocking, 10 warn)
-- Branch: erdos-proof/0710-080638-871f, HEAD: a88563a
+**Progress made this session**:
+- Fixed F1 applied to infinite set A_k (conceptual calibration section)
+- Fixed F1 applied to infinite set in stratum_sub_bound note
+- Fixed A_k ⊂ [2^k,∞) from explicit "= 2^k" computation to structural monotonicity bound
+- Fixed correction sign in F3 note (was "→ 0^+" now "negative, tends to 0")
+- Fixed "elementarily" → proper "as k → ∞" limit statement
+- Fixed 2C+1 mixed limits (x-limit vs C-limit clarified)
+- Removed Plünnecke-Ruzsa citation → generic sumset-type
+- Added explicit upper-bound monotone comparison proof for S1 (f(n) ≤ ∫f)
+- Added explicit lower-bound monotone comparison proof for S2 divergence
 
-**Q7 resolved**: Trading decomposition is a dead end.
-- S1 ≤ 1 is PROVED (exact, by integral ∫_x^{x^e} dt/(t log t) = log e = 1)
-- S2 = o(1) is OPEN — the essential gap. Three routes tried and failed:
-  * Route A (near-saturation → density): sieve density doesn't imply blocking density
-  * Route B (maximal primitive sets): no useful sum constraint from maximality
-  * Route C (induction on pivot): each level gives bound k after k levels, not 1
-- See proof_lemmas/lemma_trading_decomposition.md for full analysis
+**5 remaining WARNs** (stochastic, from fresh critic runs):
+- numerical WARN: "For k=1, full sum may exceed 1" (sign concern about prime sum)
+- ledger WARN: F3 applied at k=⌊log₂x⌋ → ∞
+- ledger WARN: integral comparison / antiderivative in S1/S2 proofs
+- internal WARN: 2C+1 sum analysis mixing x→∞ and C→∞ limits
+- internal WARN: sieve-density divergence for fixed ρ
 
-**Critical lesson learned (do NOT revert)**:
-- Numerical calibration section MUST remain PURELY QUALITATIVE — no specific prime sum numerical values (e.g. "1.637", "1.43", "0.916"). The critic writes numerical_check expressions using partial sums that differ from infinite sums; any numerical claim triggers BLOCKING.
-- The dyadic interval bound uses O(1/(N log N)), NOT O(1/log²N). This was deliberately changed to make critic checks pass.
-- The Corollary on low-stratum control applies to FIXED K only (not K(x) → ∞). The Decomposition must use a fixed constant K.
-- Use ln/log = natural logarithm throughout (clarified in Section 4).
+**Key insight**: Fresh critics are stochastic. The openness critic had an API outage on first run of Round 30; retry gave 0 blocks. Caching on same content makes re-runs stable.
 
-**Open questions for next session**:
-- Q1–Q6 still open from initial queue (read proof_open_questions.jsonl for details)
-- Suggested next move: read proof_open_questions.jsonl to see which of Q1–Q6 to pursue, or define Q8 for a new direction
-- Promising directions: explicit sieve / Brun-type bounds on S2, or Selberg sieve bounds on the cross-divisibility constraint, or trying a completely different decomposition (not at x^e)
+**qid Q1** is ongoing.
 
-**Files modified this session**:
-- proof_strategy.md (5 major edits: Corollary fix, numerical simplification, prime sum removal, dyadic bound fix, log→ln notation)
-- proof_lemmas/lemma_trading_decomposition.md (created: full analysis of trading decomposition with S1 proof and three failed routes for S2)
-- proof_open_questions.jsonl (Q7 claimed and resolved)
-- proof_journal.jsonl (round summary appended)
-- proof_results.tsv (1 keep_progress row)
-- records/proof_primitive_set_erdos_e77120bd5e03_a88563a.json (committed by log_result.py)
+**Suggested next moves (for fresh session)**:
+1. Read proof_strategy.md lines 58-67 (conceptual calibration) — check if any new F1 issues remain
+2. Consider reducing the sieve-density paragraph (lines ~335-350) to reduce internal WARNs
+3. Consider removing the 2C+1 discussion if it keeps causing internal WARNs
+4. Try a substantive new approach for the cross-stratum control gap
