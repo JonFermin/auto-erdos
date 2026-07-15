@@ -179,8 +179,10 @@ $T_k(2) \leq 1 - (c+o(1))(\lfloor\log_2 x\rfloor)^2/x$, which tends to 1
 from below as $x \to \infty$ (correction of order $(\log x)^2/x \to 0$).
 For any fixed $C$, the sum over strata $k \in [\lfloor\log_2 x\rfloor - C,
 \lfloor\log_2 x\rfloor + C]$ of these per-stratum bounds is at most
-$2C \cdot (1 - (c+o(1))(\lfloor\log_2 x\rfloor)^2/x)$, which for fixed $C$
-tends to $2C$ as $x \to \infty$ — diverging as $C$ grows.
+$2C \cdot (1 - (c+o(1))(\lfloor\log_2 x\rfloor)^2/x)$. As $x \to \infty$, the correction
+$(c+o(1))(\lfloor\log_2 x\rfloor)^2/x \to 0$ (since $(\log_2 x)^2/x \to 0$), so
+each factor $\to 1$ and the product $\to 2C \cdot 1 = 2C$; for fixed $C$
+this tends to $2C$ as $x \to \infty$ — diverging as $C$ grows.
 Controlling this requires a global argument that uses
 primitivity to prevent multiple "critical strata" from simultaneously
 contributing nearly 1.
@@ -209,12 +211,12 @@ Adding $f(N) = 1/(N\log N)$:
 $$\sum_{a=N}^{2N-1} \frac{1}{a \log a} \leq \frac{1}{N\log N} + \int_N^{2N} \frac{dt}{t \log t},$$
 so $\sum_{a=N}^{2N-1} 1/(a\log a) = \int_N^{2N} dt/(t\log t) + O(1/(N\log N))$, giving:
 $$\sum_{a=N}^{2N-1} \frac{1}{a \log a} \leq \int_N^{2N} \frac{dt}{t \log t} + O\!\left(\frac{1}{N \log N}\right)$$
-The integral evaluates using the antiderivative: $\frac{d}{dt}\ln\ln t = \frac{1}{t\ln t}$, so
+The integral evaluates using the antiderivative: by the chain rule, $\frac{d}{dt}(\ln\ln t) = \frac{1}{\ln t}\cdot\frac{1}{t} = \frac{1}{t\ln t}$ (for $t > 1$), so
 $\int_N^{2N} \frac{dt}{t\ln t} = \bigl[\ln\ln t\bigr]_N^{2N} = \ln\ln(2N) - \ln\ln N = \ln\!\bigl(\frac{\ln(2N)}{\ln N}\bigr) = \ln\!\bigl(\frac{\log(2N)}{\log N}\bigr)$, giving:
 $$= \ln\!\left(\frac{\log(2N)}{\log N}\right) + O\!\left(\frac{1}{N \log N}\right)
   = \ln\!\left(1 + \frac{\log 2}{\log N}\right) + O\!\left(\frac{1}{N \log N}\right)
   \leq \frac{\log 2}{\log N} + O\!\left(\frac{1}{N \log N}\right), \quad \square$$
-where the last step uses $\ln(1 + u) \leq u$ for $u \geq 0$ (since $\ln(1+u) = u - u^2/2 + \ldots \leq u$).
+where the last step uses $\ln(1 + u) \leq u$ for $u \geq 0$: since $e^u \geq 1 + u$ for all $u$ (this follows by comparing derivatives: $e^0 = 1 + 0 = 1$ and $\frac{d}{du} e^u = e^u \geq 1 = \frac{d}{du}(1+u)$ for $u \geq 0$), taking logarithms gives $u \geq \ln(1+u)$.
 
 Note: This per-interval bound is tight but its sum over dyadic intervals
 $[x, 2x), [2x, 4x), \ldots$ diverges (a harmonic-type series). The
@@ -418,8 +420,8 @@ $A_{\mathrm{lg}}$ has ALL prime factors $\geq x$.
 **Structural non-divisibility** (no external citation): For any $a \in A_{\mathrm{sm}}$
 and $b \in A_{\mathrm{lg}}$, we have $a \nmid b$.
 
-*Proof*: Let $p = p_{\min}(a) < x$. Since $p \mid a$, if $a \mid b$ then $p \mid b$.
-But every prime factor of $b \in A_{\mathrm{lg}}$ is $\geq x > p$. Contradiction. $\square$
+*Proof*: Let $p = p_{\min}(a) < x$. Since $p \mid a$, if $a \mid b$ then by transitivity of divisibility ($p \mid a$ and $a \mid b$ imply $p \mid b$; explicitly: $b = a \cdot m$ for some integer $m$, and $a = p \cdot k$ for some integer $k$, so $b = pk m$ and $p \mid b$) we get $p \mid b$.
+But every prime factor of $b \in A_{\mathrm{lg}}$ is $\geq x > p$, so $p \nmid b$ (as $p < x \leq$ every prime factor of $b$). Contradiction. $\square$
 
 **Consequence**: The only cross-divisibility excluded by primitivity of $A$ is
 $b \nmid a$ for $b \in A_{\mathrm{lg}}$, $a \in A_{\mathrm{sm}}$. The reverse direction
@@ -438,8 +440,8 @@ Its tail from $x$ then tends to $0$ as $x \to \infty$. $\square$
 
 **Contribution of $A_{\mathrm{lg}}$ by stratum**:
 
-Every $a \in A_{\mathrm{lg}}$ with $\Omega(a) = k$ has all $k$ prime factors $\geq x$,
-so $a \geq x^k$.
+Every $a \in A_{\mathrm{lg}}$ with $\Omega(a) = k$ has all $k$ prime factors (counted with multiplicity) $\geq x$,
+so $a = p_1 p_2 \cdots p_k$ with each $p_i \geq x$, giving $a \geq x^k$.
 
 - **$\Omega(a) = 1$ (primes $\geq x$)**:
   $$\sum_{\substack{a \in A_{\mathrm{lg}} \\ \Omega(a)=1}} \frac{1}{a \ln a}
@@ -505,8 +507,9 @@ So $B(p) \subset \{n \geq 2 : p_{\min}(n) \geq p\}$ is a primitive set.
 **Per-$p$ contribution bound**: The contribution of $A(p)$ satisfies:
 $$\sum_{a \in A(p)} \frac{1}{a \ln a}
   = \sum_{b \in B(p)} \frac{1}{pb \cdot \ln(pb)}.$$
-Since $b \geq 2$ and $p \geq 2$, both $b$ and $pb$ are $\geq 2$, so $\ln b > 0$
-and $\ln(pb) = \ln p + \ln b \geq \ln b > 0$. Therefore $\ln(pb) \geq \ln b$
+Since $b \geq 2$ and $p \geq 2$, both $b$ and $pb$ are $\geq 2$, so $\ln b > 0$.
+Since $p \geq 2 > 1$, we have $\ln p > 0$ (logarithm is increasing and $\ln 1 = 0$), so
+$\ln(pb) = \ln p + \ln b > \ln b > 0$. In particular $\ln(pb) \geq \ln b$
 and $1/\ln(pb) \leq 1/\ln b$, giving:
 $$\frac{1}{pb \cdot \ln(pb)} \leq \frac{1}{pb \cdot \ln b}
   = \frac{1}{p} \cdot \frac{1}{b \ln b}.$$
@@ -576,8 +579,14 @@ direction. The upward direction is free.
 
 **What downward divisibility would force**: Suppose $a' = qb' \in A(q)$ divided
 $a = pb \in A(p)$ with $p < q$ (hypothetically — primitivity forbids this):
-Then $qb' \mid pb$. Since $q$ and $p$ are distinct primes, $\gcd(q, p) = 1$; by the standard divisibility lemma (if $m \mid an$ with $\gcd(m, a) = 1$ then $m \mid n$, applied with $m = q$, $a = p$, $n = b$), we get $q \mid b$.
-Also $p < q \leq p_{\min}(b')$ means $p$ is strictly less than every prime factor of $b'$, so $p \nmid b'$, giving $\gcd(p, b') = 1$; and $p \nmid q$ (distinct primes), so $\gcd(p, q) = 1$. Since $p$ is prime and $\gcd(p, q) = \gcd(p, b') = 1$, we have $\gcd(p, qb') = 1$ (as $p$ does not divide any prime factor of $qb'$). Applying the standard divisibility lemma again with $m = qb'$, $a = p$, $n = b$ (so $m \mid an$ is $qb' \mid pb$, and $\gcd(m, a) = \gcd(qb', p) = 1$), we conclude $qb' \mid b$. Since $b' \geq 2$ (as shown in
+Then $qb' \mid pb$. Since $q \mid qb'$ and $qb' \mid pb$, we have $q \mid pb$.
+Since $\gcd(q,p) = 1$ (distinct primes), by Bézout's identity there exist $s, t \in \mathbb{Z}$ with $qs + pt = 1$.
+Multiplying by $b$: $qsb + ptb = b$. Now $q \mid qsb$ and $q \mid pb$ implies $q \mid t \cdot pb = ptb$,
+so $q \mid qsb + ptb = b$, i.e.\ $q \mid b$.
+Also $p < q \leq p_{\min}(b')$ means $p$ is strictly less than every prime factor of $b'$, so $p \nmid b'$, giving $\gcd(p, b') = 1$; and $p \nmid q$ (distinct primes), so $\gcd(p, q) = 1$. Since $p$ is prime and $\gcd(p, q) = \gcd(p, b') = 1$, we have $\gcd(p, qb') = 1$ (as $p$ divides neither $q$ nor $b'$, hence not their product).
+Now $qb' \mid pb$ and $\gcd(qb', p) = 1$: by Bézout $\exists s', t'$ with $qb' \cdot s' + p \cdot t' = 1$.
+Multiplying by $b$: $qb' s' b + p t' b = b$. Since $qb' \mid qb's'b$ and $qb' \mid pb$ gives $qb' \mid t' \cdot pb = pt'b$,
+we get $qb' \mid b$. Since $b' \geq 2$ (as shown in
 Section 6 for $B(q)$, because $b'=1$ would require $a' = q < x$, contradicting $a' \geq x$):
 $$qb' \geq 2q \geq 4 \quad (q \geq 2,\; b' \geq 2),$$
 so $b \geq qb' \geq 2q$. Thus downward divisibility forces $b$ to be a multiple of $qb'$,
