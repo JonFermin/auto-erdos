@@ -57,7 +57,7 @@ By Lemma `large_floor_vanish`, for each fixed $k$ the stratum tail
 $T_k(x) \to 0$ as $x \to \infty$. This applies in particular to $k=1$
 (the prime stratum): $T_1(x) = \sum_{p \geq x} 1/(p \log p) \to 0$.
 For small $k$ (e.g.\ $k=1$), the full-stratum sum $\sum_{n:\Omega(n)=k} 1/(n\log n)$
-is finite: $A_k$ is primitive (no $k$-almost prime divides another), $A_k \subset [2^k,\infty)$, so by F1, $\sum_{a\in A_k} 1/(a\ln a) < e^\gamma\pi/4$. For $k=1$ specifically, $A_1 = \{\text{primes}\} \subset [2,\infty)$ is primitive (distinct primes are not divisors of each other), and F1 gives $\sum_p 1/(p\ln p) < e^\gamma\pi/4$.
+is finite: $A_k$ is primitive (no $k$-almost prime divides another), $A_k \subset [2^k,\infty)$ (each $n \in A_k$ has $\Omega(n)=k$ prime factors each $\geq 2$, so $n \geq 2^k$), so by F1, $\sum_{a\in A_k} 1/(a\ln a) < e^\gamma\pi/4$. For $k=1$ specifically, $A_1 = \{\text{primes}\} \subset [2,\infty)$ is primitive (distinct primes are not divisors of each other), and F1 gives $\sum_p 1/(p\ln p) < e^\gamma\pi/4$.
 F3's asymptotic formula holds for $k\to\infty$ and its accuracy at small $k$
 (including $k=1$) is not established by the ledger. The TAIL vanishing is all
 that is needed for the conjecture's $o(1)$ bound.
@@ -84,7 +84,7 @@ all terms are positive, so $S_k(A,x) \leq T_k(x)$. The full series
 $\sum_{n \geq 2, \Omega(n)=k} 1/(n \log n)$ converges for each $k$: the set
 $A_k := \{n \geq 2 : \Omega(n) = k\}$ is itself a primitive set, because if
 $a \mid b$ with $a \neq b$ and $\Omega(a) = \Omega(b) = k$ then $b/a \geq 2$
-gives $\Omega(b) \geq \Omega(a) + \Omega(2) = k+1 > k$, contradiction. Moreover $A_k \subset [2^k, \infty)$ since the smallest $k$-fold product is $2^k$. So by F1
+gives $\Omega(b) \geq \Omega(a) + \Omega(2) = k+1 > k$, contradiction. Moreover $A_k \subset [2^k, \infty)$: each $n \in A_k$ has $\Omega(n) = k$, meaning $n$ is a product of exactly $k$ prime factors (with multiplicity) each $\geq 2$, so $n \geq 2 \cdot 2 \cdots 2 = 2^k$. So by F1
 (applied to the primitive set $A_k \subset [2^k, \infty)$), $\sum_{n:\Omega(n)=k} 1/(n\ln n) < e^\gamma\pi/4 < \infty$.
 The tail $T_k(x)$ of a convergent series tends to 0 as $x \to \infty$. See
 `proof_lemmas/lemma_stratum_sub_bound.md`. $\square$
