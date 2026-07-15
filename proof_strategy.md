@@ -104,9 +104,10 @@ still vanishes as $x \to \infty$, which is what matters for the conjecture.
 **Lemma `large_floor_vanish`** (status: proved): For each fixed $k \geq 1$,
 $T_k(x) \to 0$ as $x \to \infty$.
 
-Proof: The full series $\sum_{n \geq 2, \Omega(n)=k} 1/(n \log n) = 1 - (c+o(1))k^2/2^k$
-converges by F3. The tail from $x$ is the tail of a convergent series,
-hence $\to 0$ as $x \to \infty$. See `proof_lemmas/lemma_large_floor_vanish.md`. $\square$
+Proof: Lemma `stratum_sub_bound` shows the full series $\sum_{n \geq 2, \Omega(n)=k} 1/(n \log n)$
+converges (using F1 applied to finite subsets). Since all terms are positive, the partial
+sums form a bounded increasing sequence, so $T_k(x) \to 0$ as $x \to \infty$ (tail of a
+convergent positive series). See `proof_lemmas/lemma_large_floor_vanish.md`. $\square$
 
 **Corollary (Low-stratum control, FIXED $K$ only)**: For each fixed constant $K \geq 1$
 (not depending on $x$),
