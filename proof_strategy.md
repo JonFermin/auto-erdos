@@ -187,14 +187,18 @@ contributing nearly 1.
 $A \subset [x, \infty)$ and any single dyadic interval $I = [N, 2N)$,
 $$\sum_{a \in A \cap I} \frac{1}{a \log a} \leq \frac{\log 2}{\log N} + O\!\left(\frac{1}{N \log N}\right).$$
 
-Proof: Every subset of $[N, 2N)$ is automatically primitive (no element divides
-another). So $A \cap [N, 2N)$ can be any subset of $[N, 2N)$. The sum is
-maximized when $A \cap I$ is the FULL set $\{N, N+1, \ldots, 2N-1\}$:
+Proof: Every subset of $[N, 2N)$ is automatically primitive: if $a, b \in [N, 2N)$
+and $a \mid b$ with $a \neq b$, then $b \geq 2a \geq 2N$, contradicting $b < 2N$.
+So $A \cap [N, 2N)$ can be any subset of $[N, 2N)$. Since all terms $1/(a\log a)$
+are positive, the sum $\sum_{a \in A\cap I} 1/(a\log a)$ is non-decreasing as
+$A \cap I$ increases, so it is maximized when $A \cap I$ is the FULL set
+$\{N, N+1, \ldots, 2N-1\}$:
 $$\sum_{a=N}^{2N-1} \frac{1}{a \log a} = \int_N^{2N} \frac{dt}{t \log t} + O\!\left(\frac{1}{N \log N}\right)
   \quad\text{(integral comparison for monotone decreasing } 1/(t\log t)\text{; elementary)}$$
 $$= \ln\!\left(\frac{\log(2N)}{\log N}\right) + O\!\left(\frac{1}{N \log N}\right)
   = \ln\!\left(1 + \frac{\log 2}{\log N}\right) + O\!\left(\frac{1}{N \log N}\right)
-  \leq \frac{\log 2}{\log N} + O\!\left(\frac{1}{N \log N}\right). \quad \square$$
+  \leq \frac{\log 2}{\log N} + O\!\left(\frac{1}{N \log N}\right), \quad \square$$
+where the last step uses $\ln(1 + u) \leq u$ for $u \geq 0$ (since $\ln(1+u) = u - u^2/2 + \ldots \leq u$).
 
 Note: This per-interval bound is tight but its sum over dyadic intervals
 $[x, 2x), [2x, 4x), \ldots$ diverges (a harmonic-type series). The
@@ -259,9 +263,10 @@ So $S_1 \leq 1 + \frac{1}{x \ln x} \to 1$ as $x \to \infty$. $\square$
 
 (Here and throughout Section 4, $\log = \ln$ denotes the natural logarithm.)
 
-This is tight: taking $A_1 = \emptyset$ gives $S_1 = 0$; taking $A_1$ to be
-the full set $\{n \in \mathbb{Z} : x \leq n < x^e\}$ (not primitive, but
-an upper bound) gives $S_1 \to 1$ as $x \to \infty$.
+The upper bound $S_1 \leq 1 + 1/(x\ln x)$ is meaningful (its right side is $1 + o(1)$),
+and the bound $\sum_{n=x}^{\lfloor x^e\rfloor} 1/(n\ln n) \to 1$ shows the sum over
+ALL integers in $[x, x^e)$ (not necessarily forming a primitive set) approaches 1.
+This sum serves as an upper bound on $S_1$ regardless of the primitivity structure of $A_1$.
 
 **Why $S_2$ is hard without primitivity**:
 
@@ -296,13 +301,16 @@ primitive $A$ and all $x$ large; this would give $S_1 + S_2 \leq S_1 + f(S_1)
 *Why sieve-density arguments fail* (heuristic exploration):
 
 A natural approach is to estimate how many integers in $[x^e, \infty)$ avoid
-divisibility by $A_1$. Even if only a small fraction $\rho \ll 1$ of integers in
-each interval $[N, 2N)$ escape blocking by $A_1$, the sum
-$\rho \cdot \sum_{n=N}^{2N} 1/(n \log n) \approx \rho \cdot \log 2/\log N$
-over infinitely many dyadic intervals $N = x^e, 2x^e, 4x^e, \ldots$ gives
+divisibility by $A_1$. Suppose a fraction $\rho > 0$ (bounded below, uniformly
+in $j$) of integers in each interval $[N, 2N)$ escape blocking by $A_1$; the sum
+$\rho \cdot \sum_{n=N}^{2N} 1/(n \log n) \leq \rho \cdot (\log 2/\log N + O(1/(N\log N)))$
+over infinitely many dyadic intervals $N = x^e 2^j$ gives
 $\rho \cdot \sum_{j \geq 0} \log 2/(e \log x + j \log 2)$, which diverges for
-any fixed $\rho > 0$. Multiplying a divergent sum by any positive constant does
-not make it converge.
+any fixed $\rho > 0$. (Note: if $\rho_j \to 0$ fast enough as $j \to \infty$,
+the series could converge — but no such decay of $\rho_j$ is available from
+the blocking structure alone without additional primitivity input.)
+Multiplying a divergent series by a uniformly positive constant does not make
+it converge.
 
 **Why this fails**: The tail $\sum_{n \geq x^e, n \in \mathcal{U}(A_1)} 1/(n \log n)$
 cannot be bounded by a sieve-density argument alone, because the base series
@@ -455,28 +463,35 @@ and $p \mid p$). But $A$ is primitive, so no distinct $a, a' \in A$ satisfies
 $a \mid a'$. Contradiction. Similarly $b' \nmid b$. $\square$
 
 **Properties of $B(p)$**: Each $b \in B(p)$ satisfies:
-1. $b = a/p \geq x/p > 1$ (since $a \geq x$ and $p < x$, so $b \geq 2$ for $p \leq x/2$).
+1. $b = a/p \geq x/p$ and $b$ is a positive integer. We claim $b \geq 2$:
+   if $b = 1$ then $a = p < x$ (since $p < x$), contradicting $a \in A \subset [x,\infty)$.
+   So $b \geq 2$ for ALL primes $p < x$, regardless of whether $p \leq x/2$ or not.
 2. $p_{\min}(b) \geq p$: if some prime $q < p$ divides $b$, then $q \mid pb = a$,
    giving $p_{\min}(a) \leq q < p$, contradicting $p_{\min}(a) = p$.
 
-So $B(p)$ is a primitive set contained in $\{n \geq \lceil x/p \rceil : p_{\min}(n) \geq p\}$.
+So $B(p) \subset \{n \geq 2 : p_{\min}(n) \geq p\}$ is a primitive set.
 
 **Per-$p$ contribution bound**: The contribution of $A(p)$ satisfies:
 $$\sum_{a \in A(p)} \frac{1}{a \ln a}
   = \sum_{b \in B(p)} \frac{1}{pb \cdot \ln(pb)}.$$
-Since $p \geq 2$ implies $\ln(pb) \geq \ln b$:
-$$\sum_{a \in A(p)} \frac{1}{a \ln a}
-  \leq \frac{1}{p} \sum_{b \in B(p)} \frac{1}{b \ln b}.$$
-Applying **F1** to the primitive set $B(p)$:
-$$\frac{1}{p} \sum_{b \in B(p)} \frac{1}{b \ln b} < \frac{e^{\gamma}\pi/4}{p}.$$
+Since $b \geq 2$ and $p \geq 2$, both $b$ and $pb$ are $\geq 2$, so $\ln b > 0$
+and $\ln(pb) = \ln p + \ln b \geq \ln b > 0$. Therefore $\ln(pb) \geq \ln b$
+and $1/\ln(pb) \leq 1/\ln b$, giving:
+$$\frac{1}{pb \cdot \ln(pb)} \leq \frac{1}{pb \cdot \ln b}
+  = \frac{1}{p} \cdot \frac{1}{b \ln b}.$$
+Summing over $B(p)$ and applying **F1** to the primitive set $B(p) \subseteq \{n \geq 2\}$:
+$$\sum_{a \in A(p)} \frac{1}{a \ln a} \leq \frac{1}{p} \sum_{b \in B(p)} \frac{1}{b \ln b} < \frac{e^{\gamma}\pi/4}{p}.$$
 
 **Why summing over $p$ fails**: Summing over all primes $p < x$:
 $$\sum_{a \in A_{\mathrm{sm}}} \frac{1}{a \ln a}
   < e^{\gamma}\frac{\pi}{4} \cdot \sum_{\substack{p < x \\ p \text{ prime}}} \frac{1}{p}.$$
-The series $\sum_p 1/p$ diverges (the prime reciprocal series diverges, unlike
-$\sum_p 1/(p\ln p)$ which converges by F1 applied to the primes). Hence
-$\sum_{p < x} 1/p \to \infty$ as $x \to \infty$, and this upper bound for
-$\sum_{a \in A_{\mathrm{sm}}} 1/(a\ln a)$ is vacuous (it diverges with $x$).
+The partial sums $\sum_{p < x} 1/p$ grow without bound: for each new prime $p_0$
+added as $x$ increases past $p_0$, the sum increases by $1/p_0 > 0$, and since
+there are infinitely many primes (a classical elementary fact), the partial sums
+are unbounded. (This is elementary and requires no external citation beyond the
+infinitude of primes, which is itself elementary.) Hence the upper bound
+$e^\gamma\pi/4 \cdot \sum_{p<x} 1/p$ grows without bound as $x\to\infty$,
+making this estimate vacuous for showing $\sum_{a \in A_{\mathrm{sm}}} 1/(a\ln a) = o(1)$.
 
 **Why per-$p$ bounds fail globally**: Each $B(p)$ is controlled by F1
 independently, but the $B(p)$ are NOT independent — they derive from a single

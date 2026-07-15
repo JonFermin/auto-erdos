@@ -21,7 +21,8 @@ with $pb \mid pb'$, i.e., $a \mid a'$. This contradicts primitivity of $A$.
 Symmetrically $b' \nmid b$. So $B(p)$ is primitive. $\square$
 
 *Lower bound*: Each $a \in A(p)$ satisfies $a \geq x$ (since $A \subset
-[x,\infty)$), so $b = a/p \geq x/p$.
+[x,\infty)$), so $b = a/p \geq x/p \geq 1$. Moreover $b \geq 2$: if $b = 1$
+then $a = p < x$ (since $p < x$), contradicting $a \geq x$. So $b \geq 2$.
 
 *Small-prime-free*: Suppose $q \mid b$ for a prime $q < p$. Then $q \mid pb = a$,
 so $p_{\min}(a) \leq q < p$, contradicting $p_{\min}(a) = p$.
