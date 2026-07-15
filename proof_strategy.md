@@ -485,13 +485,14 @@ $$\sum_{a \in A(p)} \frac{1}{a \ln a} \leq \frac{1}{p} \sum_{b \in B(p)} \frac{1
 **Why summing over $p$ fails**: Summing over all primes $p < x$:
 $$\sum_{a \in A_{\mathrm{sm}}} \frac{1}{a \ln a}
   < e^{\gamma}\frac{\pi}{4} \cdot \sum_{\substack{p < x \\ p \text{ prime}}} \frac{1}{p}.$$
-The partial sums $\sum_{p < x} 1/p$ grow without bound: for each new prime $p_0$
-added as $x$ increases past $p_0$, the sum increases by $1/p_0 > 0$, and since
-there are infinitely many primes (a classical elementary fact), the partial sums
-are unbounded. (This is elementary and requires no external citation beyond the
-infinitude of primes, which is itself elementary.) Hence the upper bound
-$e^\gamma\pi/4 \cdot \sum_{p<x} 1/p$ grows without bound as $x\to\infty$,
-making this estimate vacuous for showing $\sum_{a \in A_{\mathrm{sm}}} 1/(a\ln a) = o(1)$.
+This upper bound does NOT tend to $0$ as $x \to \infty$: for all $x > 2$,
+the prime $p = 2 < x$ contributes $1/p = 1/2$ to the sum, so
+$\sum_{p<x} 1/p \geq 1/2$, giving $e^\gamma\pi/4 \cdot \sum_{p<x} 1/p \geq e^\gamma\pi/8 > 0$.
+The bound is bounded below by a positive constant for all $x > 2$, so it
+cannot show $\sum_{a \in A_{\mathrm{sm}}} 1/(a\ln a) = o(1)$.
+(In fact $\sum_{p<x} 1/p$ grows with $x$, adding $1/p_0 > 0$ for each new prime
+$p_0$ below $x$; but even the lower bound $\geq 1/2$ is enough to see the
+estimate is not useful.)
 
 **Why per-$p$ bounds fail globally**: Each $B(p)$ is controlled by F1
 independently, but the $B(p)$ are NOT independent — they derive from a single
