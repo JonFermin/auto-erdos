@@ -93,7 +93,9 @@ Convergence of the series: any finite subset $S \subseteq A_k$ is a primitive se
 by F1, $\sum_{a \in S} 1/(a \ln a)$ is bounded above (by F1's upper bound, which is finite).
 Since all terms $1/(n\ln n) > 0$, the partial sums form a bounded increasing sequence;
 hence the series $\sum_{n:\Omega(n)=k} 1/(n\ln n)$ converges.
-The tail $T_k(x)$ of a convergent series tends to 0 as $x \to \infty$. See
+Since the partial sums $\sum_{\Omega(n)=k,\, 2\leq n \leq M} 1/(n\ln n)$ increase to a finite limit
+$L_k$ as $M \to \infty$, the remainder $T_k(x) = L_k - \sum_{\Omega(n)=k,\, 2\leq n < x} 1/(n\ln n)
+\to 0$ as $x \to \infty$. See
 `proof_lemmas/lemma_stratum_sub_bound.md`. $\square$
 
 Note: The bound $T_k(x) \leq T_k(2)$ gives $T_k(x) \leq \sum_{n \geq 2,\Omega(n)=k}
@@ -114,7 +116,7 @@ convergent positive series). See `proof_lemmas/lemma_large_floor_vanish.md`. $\s
 
 **Corollary (Low-stratum control, FIXED $K$ only)**: For each fixed constant $K \geq 1$
 (not depending on $x$),
-$$\sum_{k=1}^{K} S_k(A, x) \leq \sum_{k=1}^{K} T_k(x) \to 0 \quad (x \to \infty).$$
+$$\sum_{k=1}^{K} S_k(A, x) \leq \sum_{k=1}^{K} T_k(x) = o(1) \quad (x \to \infty,\; K \text{ fixed}).$$
 
 Proof: Each $T_k(x) \to 0$ as $x \to \infty$ by Lemma `large_floor_vanish`; a
 FIXED finite sum of $o(1)$ terms is $o(1)$. This argument is VALID ONLY for fixed $K$:
@@ -161,8 +163,8 @@ See `proof_lemmas/lemma_cross_stratum_control.md` for the precise gap statement.
 
 **What is established** (the provable part):
 
-1. **Per-stratum bound**: Each stratum of any primitive set contributes $< 1$
-   to the sum (Lemma `stratum_sub_bound`, proved from F3).
+1. **Per-stratum bound**: Each stratum of any primitive set contributes $\leq T_k(x)$,
+   a finite bound by F1 (Lemma `stratum_sub_bound`, proved from F1).
 
 2. **Vanishing for fixed strata**: For each fixed $k$, as $x \to \infty$, the
    contribution from $k$-almost primes in $[x, \infty)$ vanishes (Lemma
@@ -283,6 +285,7 @@ $$\sum_{n=x}^{\lfloor x^e \rfloor} f(n)
   \leq f(x) + \sum_{n=x+1}^{\lfloor x^e \rfloor} \int_{n-1}^n f(t)\,dt
   = f(x) + \int_x^{\lfloor x^e \rfloor} f(t)\,dt
   \leq \frac{1}{x \ln x} + \int_x^{x^e} f(t)\,dt.$$
+(Since $f \geq 0$, extending the upper limit from $\lfloor x^e\rfloor \leq x^e$ only adds non-negative terms.)
 By the chain rule, $\frac{d}{dt}(\ln \ln t) = \frac{1}{\ln t} \cdot \frac{1}{t} = \frac{1}{t \ln t}$,
 so $\ln \ln t$ is an antiderivative of $\frac{1}{t \ln t}$. Therefore:
 $$\int_x^{x^e} \frac{dt}{t \ln t}
@@ -473,7 +476,7 @@ exploiting the primitivity of $A_{\mathrm{lg}}$ as a whole is required.
 
 By **F1** applied to the primitive set $A_{\mathrm{lg}} \subseteq [x,\infty)$:
 $$\sum_{a \in A_{\mathrm{lg}}} \frac{1}{a \ln a} < e^{\gamma}\frac{\pi}{4},$$
-which gives a finite upper bound but not better than $1$. The full stratum sum $T_k(2) = \sum_{n \geq 2,\, \Omega(n)=k} 1/(n \ln n)$ (note:
+which gives a finite upper bound (${\approx}1.399 > 1$) but not the sharper $\leq 1$ needed for the conjecture. The full stratum sum $T_k(2) = \sum_{n \geq 2,\, \Omega(n)=k} 1/(n \ln n)$ (note:
 the smallest $n$ with $\Omega(n) = k$ is $2^k \geq 2$, so the sum from $2$ equals the
 full stratum sum) tends to 1 as $k \to \infty$ (since $k^2/2^k \to 0$ elementarily,
 so F3's correction term $-ck^2/2^k \to 0^-$ as $k \to \infty$, meaning the sum approaches 1 from below). Hence $\sum_k T_k(2)$ diverges by
