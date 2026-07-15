@@ -61,7 +61,7 @@ By Lemma `large_floor_vanish`, for each fixed $k$ the stratum tail
 $T_k(x) \to 0$ as $x \to \infty$. This applies in particular to $k=1$
 (the prime stratum): $T_1(x) = \sum_{p \geq x} 1/(p \log p) \to 0$.
 For small $k$ (e.g.\ $k=1$), the full-stratum sum $\sum_{n:\Omega(n)=k} 1/(n\log n)$
-is finite: $A_k$ is primitive (no $k$-almost prime divides another), $A_k \subset [2^k,\infty)$ (each $n \in A_k$ has $\Omega(n)=k$ prime factors each $\geq 2$, so $n \geq 2^k$), so by F1, $\sum_{a\in A_k} 1/(a\ln a) < e^\gamma\pi/4$. For $k=1$ specifically, $A_1 = \{\text{primes}\} \subset [2,\infty)$ is primitive (distinct primes are not divisors of each other), and F1 gives $\sum_p 1/(p\ln p) < e^\gamma\pi/4$.
+is finite: $A_k$ is primitive (no $k$-almost prime divides another), so the series $\sum_{a\in A_k} 1/(a\ln a)$ is finite — as proved in Lemma `stratum_sub_bound` by applying F1 to finite subsets and taking limits.
 F3's asymptotic formula holds for $k\to\infty$ and its accuracy at small $k$
 (including $k=1$) is not established by the ledger. The TAIL vanishing is all
 that is needed for the conjecture's $o(1)$ bound.
@@ -88,7 +88,7 @@ all terms are positive, so $S_k(A,x) \leq T_k(x)$. The full series
 $\sum_{n \geq 2, \Omega(n)=k} 1/(n \log n)$ converges for each $k$: the set
 $A_k := \{n \geq 2 : \Omega(n) = k\}$ is itself a primitive set, because if
 $a \mid b$ with $a \neq b$ and $\Omega(a) = \Omega(b) = k$ then $b/a \geq 2$
-gives $\Omega(b) \geq \Omega(a) + \Omega(2) = k+1 > k$, contradiction. Moreover $A_k \subset [2^k, \infty)$: each $n \in A_k$ has $\Omega(n) = k$, meaning $n$ is a product of exactly $k$ prime factors (with multiplicity) each $\geq 2$, so $n \geq 2 \cdot 2 \cdots 2 = 2^k$.
+gives $\Omega(b) \geq \Omega(a) + \Omega(2) = k+1 > k$, contradiction. Moreover $A_k \subset [2^k, \infty)$: each $n \in A_k$ has exactly $k$ prime factors (with multiplicity) each $\geq 2$; any product of $k$ factors each $\geq 2$ is $\geq 2^k$ (by monotonicity of multiplication), so $n \geq 2^k$.
 Convergence of the series: any finite subset $S \subseteq A_k$ is a primitive set;
 by F1, $\sum_{a \in S} 1/(a \ln a)$ is bounded above (by F1's upper bound, which is finite).
 Since all terms $1/(n\ln n) > 0$, the partial sums form a bounded increasing sequence;
@@ -99,8 +99,8 @@ $L_k$ as $M \to \infty$, the remainder $T_k(x) = L_k - \sum_{\Omega(n)=k,\, 2\le
 `proof_lemmas/lemma_stratum_sub_bound.md`. $\square$
 
 Note: The bound $T_k(x) \leq T_k(2)$ gives $T_k(x) \leq \sum_{n \geq 2,\Omega(n)=k}
-1/(n \log n) < e^\gamma\pi/4$ by F1. For large $k$, F3 shows this full-stratum sum
-approaches 1 from below (the correction $ck^2/2^k \to 0^+$). For $k=1$ (primes),
+1/(n \log n)$, which is finite (the series converges by Lemma `stratum_sub_bound`). For large $k$, F3 shows this full-stratum sum
+approaches 1 from below (by F3, the correction term $-(c+o(1))k^2/2^k$ is negative and tends to $0$ as $k \to \infty$). For $k=1$ (primes),
 F3's formula is stated for $k \to \infty$ and does not determine the value at $k=1$;
 from F1, the full prime sum is bounded above by $e^\gamma\pi/4$, but whether it
 exceeds or falls below 1 is not established by the ledger. The TAIL $T_1(x)$
@@ -135,8 +135,7 @@ $$\sum_{a \in A} \frac{1}{a \log a}
   No: $T_k(2) = \sum_{n \geq 2,\, \Omega(n)=k} 1/(n\log n)$. The smallest $n$
   with $\Omega(n)=k$ is $2^k \geq 2$, so $T_k(2)$ equals the full stratum sum
   $\sum_{\Omega(n)=k} 1/(n\log n)$; by F3 (for $k \to \infty$), this equals
-  $1 - (c+o(1))k^2/2^k \to 1$ as $k \to \infty$ (since $k^2/2^k \to 0$
-  elementarily). The terms $T_k(2)$ do not
+  $1 - (c+o(1))k^2/2^k \to 1$ as $k \to \infty$ (since $k^2/2^k \to 0$ as $k \to \infty$). The terms $T_k(2)$ do not
   tend to 0, so $\sum_{k > K} T_k(2)$ diverges by the divergence test.
   The stratification bound is VACUOUS for the high-stratum sum, for any fixed $K$.
 
@@ -191,8 +190,7 @@ For any fixed $C$, the sum over strata $k \in [\lfloor\log_2 x\rfloor - C,
 \lfloor\log_2 x\rfloor + C]$ of these per-stratum bounds is at most
 $(2C+1) \cdot (1 - (c+o(1))(\lfloor\log_2 x\rfloor)^2/x)$ (since the range $[\lfloor\log_2 x\rfloor - C, \lfloor\log_2 x\rfloor + C]$ contains exactly $2C+1$ integer values of $k$). As $x \to \infty$, the correction
 $(c+o(1))(\lfloor\log_2 x\rfloor)^2/x \to 0$ (since $(\log_2 x)^2/x \to 0$), so
-each of the $(2C+1)$ terms tends to $1$; since $C$ is a fixed constant the number of terms is finite,
-so their sum tends to $2C+1$ as $x \to \infty$ — diverging as $C$ grows.
+each individual $T_{k'}(2)$ for $k'$ in the window satisfies $T_{k'}(2) \to 1$ as $x \to \infty$ (since $k' \approx \log_2 x \to \infty$ and the F3 correction $k'^2/2^{k'} \to 0$). For each fixed $C$, the sum of $2C+1$ such terms tends to $2C+1$. As $C$ grows (a separate limit from $x \to \infty$), $2C+1 \to \infty$.
 Controlling this requires a global argument that uses
 primitivity to prevent multiple "critical strata" from simultaneously
 contributing nearly 1.
@@ -252,7 +250,7 @@ bound. See `proof_lemmas/lemma_cross_stratum_control.md` for why this fails.
    divided by $\log x$ for fixed $k$ (a well-known count heuristic).
    For a primitive set, one
    needs to bound the sub-sum over $A$-elements via the antichain property.
-   A Plünnecke–Ruzsa type inequality might control the "spread" of the set.
+   A sumset-type inequality might control the "spread" of the primitive set.
 
 3. **Generating function / Dirichlet series**: For a primitive set $A$, the
    function $F_A(s) = \sum_{a \in A} a^{-s}$ satisfies $F_A(s) \cdot
@@ -279,7 +277,7 @@ $S_2 := \sum_{a \in A_2} \frac{1}{a \log a}$.
 $A_1 \subseteq \{x, x+1, \ldots, \lfloor x^e \rfloor\}$; since all terms $1/(n \ln n)$
 are positive, summing over a subset is $\leq$ summing over the full range:
 $$S_1 \leq \sum_{n=x}^{\lfloor x^e \rfloor} \frac{1}{n \ln n}.$$
-Since $f(t) = 1/(t \ln t)$ is strictly decreasing for $t \geq 2$, each integer $n \geq x + 1$ satisfies $f(n) \leq \int_{n-1}^n f(t)\,dt$ (since $f$ is decreasing on $[n-1,n]$). Therefore:
+Since $f(t) = 1/(t \ln t)$ is strictly decreasing for $t \geq 2$: for any $n \geq x+1$ and $t \in [n-1,n]$, $t \leq n$ gives $f(n) \leq f(t)$. Integrating over $[n-1,n]$ (length 1): $f(n) = \int_{n-1}^n f(n)\,dt \leq \int_{n-1}^n f(t)\,dt$. Therefore:
 $$\sum_{n=x}^{\lfloor x^e \rfloor} f(n)
   = f(x) + \sum_{n=x+1}^{\lfloor x^e \rfloor} f(n)
   \leq f(x) + \sum_{n=x+1}^{\lfloor x^e \rfloor} \int_{n-1}^n f(t)\,dt
@@ -306,10 +304,7 @@ This sum serves as an upper bound on $S_1$ regardless of the primitivity structu
 
 **Why $S_2$ is hard without primitivity**:
 
-Without any constraint, $\sum_{n \geq x^e} 1/(n \log n)$ diverges
-(since $\int_{x^e}^\infty dt/(t \log t) = \infty$). So the contribution from
-$A_2$ is not bounded by the naive tail of the harmonic series. Primitivity
-is essential to control $S_2$.
+Without any constraint, $\sum_{n \geq x^e} 1/(n \log n)$ diverges. Since $f(t) = 1/(t\ln t)$ is decreasing, for $t \in [n, n+1]$ we have $f(n) \geq f(t)$, so $f(n) = \int_n^{n+1} f(n)\,dt \geq \int_n^{n+1} f(t)\,dt$. Summing from $n = N$ to $M$: $\sum_{n=N}^M f(n) \geq \int_N^{M+1} f(t)\,dt = [\ln\ln t]_N^{M+1} = \ln\ln(M+1) - \ln\ln N$ (using the antiderivative from the $S_1$ proof above). Since $\ln\ln(M+1) \to \infty$, the series diverges. Primitivity is essential to control $S_2$.
 
 **The blocking principle (the open part)**:
 
