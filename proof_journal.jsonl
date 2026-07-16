@@ -22,3 +22,4 @@
 {"event":"round","session_id":"s_0715-090653-4b95","ts":"2026-07-15T11:34:53+00:00","summary":"Round 30 keep_progress 0B/5W: F1 infinite-set fix, structural 2^k, explicit S1/S2 comparison, sign/citation fixes","qid":"Q1","status":"keep_progress","commit":"cf642ce"}
 {"event":"session_close","session_id":"s_0715-090653-4b95","ts":"2026-07-15T11:35:42+00:00","commit":"cf642ce","reason":"reason: token budget milestone; Round 30 keep_progress 0B/5W"}
 {"event":"round","session_id":"s_0716-080629-8e9c","ts":"2026-07-16T08:40:11+00:00","summary":"Round 34 keep_progress: 0B/6W — reduced from Round 32 0B/8W; removed heuristic, clarified conjecture vs formula","qid":"Q12","status":"keep_progress","commit":"f6d4dc0"}
+{"event":"round","session_id":"s_0716-080629-8e9c","ts":"2026-07-16T09:02:48+00:00","summary":"Round 36 keep_progress: 0B/11W — fixed F1 scope for A2 and B(p), F3 calibration","qid":"Q12","status":"keep_progress","commit":"4432812"}
