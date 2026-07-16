@@ -91,10 +91,10 @@ Moreover, $T_k(x) \to 0$ as $x \to \infty$ for each fixed $k$.
 Proof: $A \cap \{n : \Omega(n) = k\}$ is a subset of $\{n \geq x : \Omega(n)=k\}$;
 all terms are positive, so $S_k(A,x) \leq T_k(x)$. The full series
 $\sum_{n \geq 2, \Omega(n)=k} 1/(n \log n)$ converges for each $k$: the set
-$A_k := \{n \geq 2 : \Omega(n) = k\}$ is itself a primitive subset of $\mathbb{N}$ (in the sense of F1: no distinct $a, b \in A_k$ satisfy $a \mid b$), because if
+$A_k := \{n \geq 2 : \Omega(n) = k\}$ is itself a primitive subset of $\mathbb{N}$ (no distinct $a, b \in A_k$ satisfy $a \mid b$), because if
 $a \mid b$ with $a \neq b$ and $\Omega(a) = \Omega(b) = k$ then $b/a \geq 2$
 (a positive integer since $a \mid b$ and $a \neq b$); by complete additivity of $\Omega$ ($\Omega(mn) = \Omega(m) + \Omega(n)$ for all $m,n \geq 1$, as both sides count prime factors of $mn$ with multiplicity): $\Omega(b) = \Omega(a \cdot (b/a)) = \Omega(a) + \Omega(b/a) \geq k + \Omega(2) = k+1 > k$, contradiction. Moreover $A_k \subset [2^k, \infty)$: each $n \in A_k$ has exactly $k$ prime factors (with multiplicity) each $\geq 2$, so $n = p_1 \cdots p_k \geq 2 \cdot 2 \cdots 2 = 2^k$ (replacing each $p_i \geq 2$ by $2$ only decreases the product; e.g., $k=1$: $n \geq 2^1 = 2$; $k=2$: $n \geq 2^2 = 4$; $k=3$: $n \geq 2^3 = 8$).
-Convergence of the series: the partial sums $P_M := \sum_{\Omega(n)=k,\, 2 \leq n \leq M} 1/(n\ln n)$ are increasing in $M$ (all terms $1/(n\ln n) > 0$). They are bounded above uniformly in $M$: since all terms are positive, $P_M \leq L_k := \sum_{n \geq 2,\,\Omega(n)=k} 1/(n\ln n)$. The full-stratum sum $L_k$ is finite: $A_k = \{n \geq 2 : \Omega(n)=k\}$ is a primitive subset of $[2^k, \infty) \subseteq \mathbb{N}$, so F1 (applied to the primitive set $A_k \subseteq \mathbb{N}$) gives $\sum_{a \in A_k} 1/(a\ln a) < e^\gamma\pi/4 + o(1)$; in particular $L_k < e^\gamma\pi/4 + o(1) < \infty$ for each fixed $k$ (since $e^\gamma\pi/4 + o(1)$ is a finite constant for any given $k$, so finiteness follows regardless of the $o(1)$ value). Hence the increasing sequence $(P_M)$ is bounded above; a bounded increasing sequence of reals converges.
+Convergence of the series: the partial sums $P_M := \sum_{\Omega(n)=k,\, 2 \leq n \leq M} 1/(n\ln n)$ are increasing in $M$ (all terms $1/(n\ln n) > 0$). They are bounded above uniformly in $M$: since all terms are positive, $P_M \leq L_k := \sum_{n \geq 2,\,\Omega(n)=k} 1/(n\ln n)$. The full-stratum sum $L_k$ is finite: $A_k = \{n \geq 2 : \Omega(n)=k\}$ is a primitive subset of $[2^k, \infty) \subseteq \mathbb{N}$, so F1 (applied to the primitive set $A_k \subseteq \mathbb{N}$) gives $\sum_{a \in A_k} 1/(a\ln a) < e^\gamma\pi/4 + o(1)$; in particular $L_k$ is finite for each fixed $k$: the bound $e^\gamma\pi/4 + o(1)$ given by F1 is a specific finite real number (the $o(1)$ in F1 is the gap between $L_k$ and $e^\gamma\pi/4$, a finite quantity for any fixed primitive set $A_k$ regardless of whether it is small; it need not tend to $0$ when $k$ is fixed and the floor $2^k$ does not grow). Hence the increasing sequence $(P_M)$ is bounded above; a bounded increasing sequence of reals converges.
 Define $L_k := \sum_{n \geq 2,\, \Omega(n)=k} 1/(n\ln n)$ (the series sum, finite by the above
 monotone convergence argument). Then $T_k(x) = L_k - \sum_{\Omega(n)=k,\, 2\leq n < x} 1/(n\ln n)
 \to 0$ as $x \to \infty$ (tail of a convergent positive series). See
@@ -112,7 +112,7 @@ still vanishes as $x \to \infty$, which is what matters for the conjecture.
 $T_k(x) \to 0$ as $x \to \infty$.
 
 Proof: By Lemma `stratum_sub_bound`, the full series $\sum_{n \geq 2, \Omega(n)=k} 1/(n \log n)$
-converges (positive partial sums bounded above by $e^\gamma\pi/4$ via F1). Since all terms $1/(n\ln n) > 0$, the tail
+converges (positive partial sums bounded above by a finite constant — specifically $e^\gamma\pi/4 + \delta_k$ for the finite $\delta_k$ from F1's bound on $A_k$ — via Lemma `stratum_sub_bound`). Since all terms $1/(n\ln n) > 0$, the tail
 $T_k(x) \to 0$ as $x \to \infty$ (by the definition of series convergence: a series $\sum_{n} c_n$ converges if and only if its tails $\sum_{n \geq M} c_n \to 0$ as $M \to \infty$; here $T_k(x) = \sum_{\Omega(n)=k, n \geq x} 1/(n\ln n)$ is exactly the tail of the convergent series $\sum_{n \geq 2, \Omega(n)=k} 1/(n\ln n)$). See `proof_lemmas/lemma_large_floor_vanish.md`. $\square$
 
 **Corollary (Low-stratum control, FIXED $K$ only)**: For each fixed constant $K \geq 1$
@@ -512,7 +512,7 @@ and $1/\ln(pb) \leq 1/\ln b$, giving:
 $$\frac{1}{pb \cdot \ln(pb)} \leq \frac{1}{pb \cdot \ln b}
   = \frac{1}{p} \cdot \frac{1}{b \ln b}.$$
 Summing over $B(p)$: since $B(p) \subseteq \mathbb{N}$ is a primitive set (by Lemma `sm_quotient_primitive`),
-F1 (applied to the primitive set $B(p) \subseteq \mathbb{N}$) gives $\sum_{b \in B(p)} 1/(b\ln b) < e^{\gamma}\pi/4 + o(1)$. Therefore:
+F1 (applied to the primitive set $B(p) \subseteq \mathbb{N}$) gives $\sum_{b \in B(p)} 1/(b\ln b) < e^{\gamma}\pi/4 + o(1)$ (the $o(1)$ here is as the minimum element of $B(p)$ grows, i.e., as $p \to \infty$ through primes; for each fixed $p$ it is a finite quantity). Therefore:
 $$\sum_{a \in A(p)} \frac{1}{a \ln a} \leq \frac{1}{p} \sum_{b \in B(p)} \frac{1}{b \ln b} < \frac{e^{\gamma}\pi/4 + o(1)}{p}.$$
 
 **Why summing over $p$ fails**: Summing over all primes $p < x$:
