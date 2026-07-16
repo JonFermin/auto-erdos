@@ -135,8 +135,9 @@ $$\sum_{a \in A} \frac{1}{a \log a}
   No: $T_k(2) = \sum_{n \geq 2,\, \Omega(n)=k} 1/(n\log n)$. The smallest $n$
   with $\Omega(n)=k$ is $2^k \geq 2$, so $T_k(2)$ equals the full stratum sum
   $\sum_{\Omega(n)=k} 1/(n\log n)$; by F3 (for $k \to \infty$), this equals
-  $1 - (c+o(1))k^2/2^k \to 1$ as $k \to \infty$ (since $k^2/2^k \to 0$ as $k \to \infty$). The terms $T_k(2)$ do not
-  tend to 0, so $\sum_{k > K} T_k(2)$ diverges by the divergence test.
+  $1 - (c+o(1))k^2/2^k \to 1$ as $k \to \infty$ (since $k^2/2^k \to 0$ as $k \to \infty$). Hence
+  $T_k(2) \to 1 \neq 0$; by the divergence test (a series whose terms do not tend to $0$ diverges),
+  $\sum_{k > K} T_k(2)$ diverges for any fixed $K$.
   The stratification bound is VACUOUS for the high-stratum sum, for any fixed $K$.
 
 **Key difficulty** (the open core, Lemma `cross_stratum_control`): The per-stratum
@@ -146,13 +147,13 @@ $a, b \in A$ with $\Omega(a) \neq \Omega(b)$, still $a \nmid b$. The
 antichain structure imposes a global constraint that prevents many strata from
 each contributing weight close to 1 simultaneously.
 
-Formally, what is needed (and not proved here) is:
+What is needed (and not proved here) is precisely the conjecture:
 
-$$\text{Lemma (cross\_stratum\_control):} \quad
-\sum_{k > K} S_k(A, x) \leq 1 + o(1) - \sum_{k=1}^K S_k(A, x) - o(1)$$
+$$\text{(cross\_stratum\_control, OPEN):} \quad \sum_{a \in A} \frac{1}{a \log a} \leq 1 + o(1).$$
 
-for appropriate $K = K(x) \to \infty$. Equivalently, the full sum
-$\sum_{a \in A} 1/(a \log a) \leq 1 + o(1)$ is precisely the conjecture.
+This is equivalent to requiring $\sum_{k > K} S_k(A,x) \leq 1 + o(1) - \sum_{k=1}^{K} S_k(A,x)$
+for some $K = K(x) \to \infty$. Since the low-stratum sum $\sum_{k=1}^K S_k = o(1)$ (proved), the
+right side equals $1 + o(1)$; but this reformulation IS the conjecture, not a proof of it.
 
 See `proof_lemmas/lemma_cross_stratum_control.md` for the precise gap statement.
 
@@ -240,10 +241,7 @@ bound. See `proof_lemmas/lemma_cross_stratum_control.md` for why this fails.
    density. This direction therefore gives only per-interval $o(1)$, not a
    global bound.
 
-2. **Mertens-type averaging with primitivity**: Heuristically,
-   $\sum_{n \leq x, \Omega(n)=k} 1/n$ grows like a power of $\log\log x$
-   divided by $\log x$ for fixed $k$ (a well-known count heuristic).
-   For a primitive set, one
+2. **Mertens-type averaging with primitivity**: For a primitive set, one
    needs to bound the sub-sum over $A$-elements via the antichain property.
    A sumset-type inequality might control the "spread" of the primitive set.
 
@@ -369,8 +367,9 @@ $A_2$ is itself a primitive set, and controlling $\sum_{b \in A_2} 1/(b \log b)$
 requires precisely the structural insight we need for $A$. The only available
 non-trivial global upper bound for any primitive set is F1 (Erdős–Zhang),
 which gives $S_2 < 1.399 + o(1)$. Combined with $S_1 \leq 1 + o(1)$ (Lemma `S1_bound`),
-this gives $S_1 + S_2 < (1 + o(1)) + (1.399 + o(1)) = 2.399 + o(1)$ — weaker than F1 applied directly to $A$, and not
-a proof of the conjecture. No recursive application closes the gap.
+this gives $S_1 + S_2 < (1 + o(1)) + (1.399 + o(1)) = 2.399 + o(1)$. Note $2.399 > 1.399$,
+so this combined bound is weaker than F1 applied directly to $A$ (which gives $< 1.399 + o(1)$),
+and not a proof of the conjecture. No recursive application closes the gap.
 
 **Dead end confirmed**: The trading decomposition at $x^e$ does NOT give
 $S_1 + S_2 \leq 1 + o(1)$ without additional input. The approach correctly
