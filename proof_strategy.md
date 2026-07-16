@@ -89,7 +89,7 @@ $\sum_{n \geq 2, \Omega(n)=k} 1/(n \log n)$ converges for each $k$: the set
 $A_k := \{n \geq 2 : \Omega(n) = k\}$ is itself a primitive set, because if
 $a \mid b$ with $a \neq b$ and $\Omega(a) = \Omega(b) = k$ then $b/a \geq 2$
 gives $\Omega(b) \geq \Omega(a) + \Omega(2) = k+1 > k$, contradiction. Moreover $A_k \subset [2^k, \infty)$: each $n \in A_k$ has exactly $k$ prime factors (with multiplicity) each $\geq 2$, so $n = p_1 \cdots p_k \geq 2 \cdot 2 \cdots 2 = 2^k$ (replacing each $p_i \geq 2$ by $2$ only decreases the product; e.g., $k=1$: $n \geq 2^1 = 2$; $k=2$: $n \geq 2^2 = 4$; $k=3$: $n \geq 2^3 = 8$).
-Convergence of the series: the partial sums $P_M := \sum_{\Omega(n)=k,\, 2 \leq n \leq M} 1/(n\ln n)$ are increasing in $M$ (all terms $1/(n\ln n) > 0$). They are bounded above uniformly in $M$: the index set $\{n \geq 2 : \Omega(n)=k, n \leq M\}$ is a primitive subset of $[2^k, \infty)$; by F1, any such primitive subset has $\sum_{a} 1/(a\ln a)$ bounded above by a finite constant depending only on the floor $2^k$ (not on $M$). Hence all $P_M$ lie below this same finite constant, so the increasing sequence $(P_M)$ is bounded above; a bounded increasing sequence of reals converges.
+Convergence of the series: the partial sums $P_M := \sum_{\Omega(n)=k,\, 2 \leq n \leq M} 1/(n\ln n)$ are increasing in $M$ (all terms $1/(n\ln n) > 0$). They are bounded above uniformly in $M$: the index set $\{n \geq 2 : \Omega(n)=k, n \leq M\}$ is a primitive subset of $[2^k, \infty)$; by F1 (which bounds $\sum 1/(a\ln a)$ above by a finite number for ANY primitive subset of $[x,\infty)$ for any $x \geq 2$), each $P_M$ is bounded above by the same finite constant (independent of $M$, since the floor $2^k$ is fixed for fixed $k$). Hence the increasing sequence $(P_M)$ is bounded above; a bounded increasing sequence of reals converges.
 Define $L_k := \sum_{n \geq 2,\, \Omega(n)=k} 1/(n\ln n)$ (the series sum, finite by the above
 monotone convergence argument). Then $T_k(x) = L_k - \sum_{\Omega(n)=k,\, 2\leq n < x} 1/(n\ln n)
 \to 0$ as $x \to \infty$ (tail of a convergent positive series). See
@@ -97,7 +97,7 @@ monotone convergence argument). Then $T_k(x) = L_k - \sum_{\Omega(n)=k,\, 2\leq 
 
 Note: The bound $T_k(x) \leq T_k(2)$ gives $T_k(x) \leq \sum_{n \geq 2,\Omega(n)=k}
 1/(n \log n)$, which is finite (the series converges by Lemma `stratum_sub_bound`). For large $k$, F3 shows this full-stratum sum
-approaches 1 from below (by F3, the correction term $-(c+o(1))k^2/2^k$ is negative and tends to $0$ as $k \to \infty$). For $k=1$ (primes),
+approaches 1 from below. Specifically: F3 gives $L_k = 1 - (c+o(1))k^2/2^k$ as $k \to \infty$ with $c > 0$ (given in F3; the sign of $c$ is part of F3's content). Since $c > 0$ and $k^2/2^k > 0$, the correction term $-(c+o(1))k^2/2^k$ is NEGATIVE for all large $k$, giving $L_k < 1$. As $k \to \infty$, $k^2/2^k \to 0$ elementarily (exponential beats polynomial), so $L_k \to 1^-$. For $k=1$ (primes),
 F3's formula is stated for $k \to \infty$ and does not determine the value at $k=1$;
 from F1, the full prime sum is bounded above by $e^\gamma\pi/4$, but whether it
 exceeds or falls below 1 is not established by the ledger. The TAIL $T_1(x)$
@@ -324,9 +324,8 @@ so $\gcd(n,a) < a$ iff $a \nmid n$).
 primitive set $A \subset [x, \infty)$ with the decomposition above, find a
 quantitative upper bound on $S_2$ in terms of the primitivity constraint
 between $A_1$ and $A_2$. Specifically, what is needed is some function $f$
-with $f(t) \to 0$ as $t \to 1^-$ (i.e., $f$ is a function vanishing as its argument approaches 1 from below) such that $S_2 \leq f(S_1)$ for all
-primitive $A$ and all $x$ large; this would give $S_1 + S_2 \leq S_1 + f(S_1)
-\leq 1 + o(1)$. No such $f$ is currently known.
+with $f(t) \to 0$ as $t \to 1^-$ (i.e., $f$ vanishes as its argument approaches 1; the motivation: Lemma `S1_bound` shows $S_1 \leq 1 + o(1)$, so if $S_2 \leq f(S_1)$ with $f(1) = 0$, then $S_1 + S_2 \leq S_1 + f(S_1) \leq 1 + o(1) + f(1+o(1)) = 1 + o(1)$) such that $S_2 \leq f(S_1)$ for all
+primitive $A$ and all $x$ large. The existence of such $f$ is OPEN — no such $f$ is currently known.
 
 *Why sieve-density arguments fail*:
 
