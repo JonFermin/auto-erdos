@@ -62,8 +62,8 @@ $T_k(x) \to 0$ as $x \to \infty$. This applies in particular to $k=1$
 (the prime stratum): $T_1(x) = \sum_{p \geq x} 1/(p \log p) \to 0$.
 For small $k$ (e.g.\ $k=1$), the full-stratum sum $\sum_{n:\Omega(n)=k} 1/(n\log n)$
 is finite: $A_k$ is primitive (no $k$-almost prime divides another), so the series $\sum_{a\in A_k} 1/(a\ln a)$ is finite — as proved in Lemma `stratum_sub_bound` by applying F1 to finite subsets and taking limits.
-F3's asymptotic formula holds for $k\to\infty$ and its accuracy at small $k$
-(including $k=1$) is not established by the ledger. The TAIL vanishing is all
+F3 is stated for $k \to \infty$; it does not claim to determine the value at any fixed small $k$
+(such as $k=1$). The TAIL vanishing $T_k(x) \to 0$ (proved via Lemma `large_floor_vanish`) is all
 that is needed for the conjecture's $o(1)$ bound.
 
 ---
@@ -365,8 +365,9 @@ avoids all elements divisible by some $a \in A_1$.
 argument to $A_2 \subset [x^e, \infty)$ reduces to the same unsolved problem:
 $A_2$ is itself a primitive set, and controlling $\sum_{b \in A_2} 1/(b \log b)$
 requires precisely the structural insight we need for $A$. The only available
-non-trivial global upper bound for any primitive set is F1 (Erdős–Zhang),
-which gives $S_2 < 1.399 + o(1)$. Combined with $S_1 \leq 1 + o(1)$ (Lemma `S1_bound`),
+non-trivial global upper bound for any primitive set is F1 (Erdős–Zhang):
+since $A_2 \subseteq [x^e, \infty)$ is a primitive set with $\min(A_2) \geq x^e \to \infty$ as $x \to \infty$,
+F1 applies (with $x$ replaced by $x^e$) and gives $S_2 < e^\gamma\pi/4 + o(1) \approx 1.399 + o(1)$. Combined with $S_1 \leq 1 + o(1)$ (Lemma `S1_bound`),
 this gives $S_1 + S_2 < (1 + o(1)) + (1.399 + o(1)) = 2.399 + o(1)$. Note $2.399 > 1.399$,
 so this combined bound is weaker than F1 applied directly to $A$ (which gives $< 1.399 + o(1)$),
 and not a proof of the conjecture. No recursive application closes the gap.
@@ -498,8 +499,11 @@ $\ln(pb) = \ln p + \ln b > \ln b > 0$. In particular $\ln(pb) \geq \ln b$
 and $1/\ln(pb) \leq 1/\ln b$, giving:
 $$\frac{1}{pb \cdot \ln(pb)} \leq \frac{1}{pb \cdot \ln b}
   = \frac{1}{p} \cdot \frac{1}{b \ln b}.$$
-Summing over $B(p)$ and applying **F1** to the primitive set $B(p) \subseteq \{n \geq 2\}$:
-$$\sum_{a \in A(p)} \frac{1}{a \ln a} \leq \frac{1}{p} \sum_{b \in B(p)} \frac{1}{b \ln b} < \frac{e^{\gamma}\pi/4}{p}.$$
+Summing over $B(p)$: since each $b \in B(p)$ has smallest prime factor $\geq p$, we have $b \geq p$,
+so $B(p) \subseteq [p, \infty)$ is a primitive set with $\min(B(p)) \geq p$.
+By **F1** applied to $B(p) \subseteq [p, \infty)$: $\sum_{b \in B(p)} 1/(b\ln b) < e^{\gamma}\pi/4 + o_p(1)$
+as $p \to \infty$ (the $o_p(1)$ term depends on $p$; for large $p$ it is negligible). Therefore:
+$$\sum_{a \in A(p)} \frac{1}{a \ln a} \leq \frac{1}{p} \sum_{b \in B(p)} \frac{1}{b \ln b} < \frac{e^{\gamma}\pi/4 + o_p(1)}{p}.$$
 
 **Why summing over $p$ fails**: Summing over all primes $p < x$:
 $$\sum_{a \in A_{\mathrm{sm}}} \frac{1}{a \ln a}
