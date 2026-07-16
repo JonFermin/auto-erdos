@@ -230,7 +230,8 @@ where the last step uses $\ln(1 + u) \leq u$ for $u \geq 0$ (no ledger citation 
 
 Note: This per-interval bound is tight but its sum over dyadic intervals
 $[x, 2x), [2x, 4x), \ldots$ diverges: summing the bound $\log 2/\log(2^j x)$ over $j = 0, 1, 2, \ldots$ gives
-$\sum_{j=0}^\infty \frac{\log 2}{j \log 2 + \log x} = \sum_{j=0}^\infty \frac{1}{j + \log_2 x}$,
+$\sum_{j=0}^\infty \frac{\log 2}{j \log 2 + \log x} = \sum_{j=0}^\infty \frac{1}{j + \log_2 x}$
+(dividing numerator and denominator by $\log 2$: numerator $\log 2/\log 2 = 1$, denominator $(j\log 2 + \log x)/\log 2 = j + \log x/\log 2 = j + \log_2 x$),
 a harmonic-type series diverging as $j \to \infty$. The
 cross-interval primitivity constraint is essential to obtain a finite global
 bound. See `proof_lemmas/lemma_cross_stratum_control.md` for why this fails.
