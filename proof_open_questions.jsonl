@@ -25,3 +25,4 @@
 {"qid":"Q12","status":"claimed","session_id":"s_0715-090653-4b95","summary":"Round 6: directional cross-p structural constraint — a∤a' for p<q is automatic; downward a'∤a requires primitivity","ts":"2026-07-15T09:27:09+00:00"}
 {"qid":"Q12","status":"claimed","session_id":"s_0716-080629-8e9c","summary":"continuing prime-factor split; Round 31: remove 2C+1 warn, simplify sieve-density, add new cross-stratum direction","ts":"2026-07-16T08:09:25+00:00"}
 {"qid":"Q12","status":"claimed","session_id":"s_0716-080629-8e9c","summary":"Round 34: min edits for 4 specific WARNs","ts":"2026-07-16T08:36:05+00:00"}
+{"qid":"Q12","status":"claimed","session_id":"s_0716-080629-8e9c","summary":"Round 41: F1 parametric language removed; continuing with warn reduction","ts":"2026-07-16T09:40:08+00:00"}
