@@ -61,7 +61,7 @@ By Lemma `large_floor_vanish`, for each fixed $k$ the stratum tail
 $T_k(x) \to 0$ as $x \to \infty$. This applies in particular to $k=1$
 (the prime stratum): $T_1(x) = \sum_{p \geq x} 1/(p \log p) \to 0$.
 For small $k$ (e.g.\ $k=1$), the full-stratum sum $\sum_{n:\Omega(n)=k} 1/(n\log n)$
-is finite: $A_k$ is primitive (no $k$-almost prime divides another), so the series $\sum_{a\in A_k} 1/(a\ln a)$ is finite — as proved in Lemma `stratum_sub_bound` by applying F1 to finite subsets and taking limits.
+is finite — as proved in Lemma `stratum_sub_bound` using F1 applied to finite subsets and monotone convergence. (Primitivity of $A_k$ alone does not imply finiteness; F1's uniform bound is essential.)
 F3 is stated for $k \to \infty$; it does not claim to determine the value at any fixed small $k$
 (such as $k=1$). The TAIL vanishing $T_k(x) \to 0$ (proved via Lemma `large_floor_vanish`) is all
 that is needed for the conjecture's $o(1)$ bound.
@@ -90,11 +90,11 @@ $A_k := \{n \geq 2 : \Omega(n) = k\}$ is itself a primitive set, because if
 $a \mid b$ with $a \neq b$ and $\Omega(a) = \Omega(b) = k$ then $b/a \geq 2$
 gives $\Omega(b) \geq \Omega(a) + \Omega(2) = k+1 > k$, contradiction. Moreover $A_k \subset [2^k, \infty)$: each $n \in A_k$ has exactly $k$ prime factors (with multiplicity) each $\geq 2$, so $n = p_1 \cdots p_k \geq 2 \cdot 2 \cdots 2 = 2^k$ (replacing each $p_i \geq 2$ by $2$ only decreases the product; e.g., $k=1$: $n \geq 2^1 = 2$; $k=2$: $n \geq 2^2 = 4$; $k=3$: $n \geq 2^3 = 8$).
 Convergence of the series: any finite subset $S \subseteq A_k$ is a primitive set,
-so by F1 (a uniform upper bound for all primitive $A \subseteq \mathbb{N}$),
-$\sum_{a \in S} 1/(a \ln a) < e^\gamma\pi/4$, a finite bound independent of $|S|$.
+so by F1 (which gives a uniform upper bound for all primitive $A \subseteq \mathbb{N}$),
+$\sum_{a \in S} 1/(a \ln a) < e^\gamma\pi/4 + o(1)$, a finite bound independent of $|S|$.
 The partial sums $\sum_{\Omega(n)=k,\, 2 \leq n \leq M} 1/(n\ln n)$ are increasing in $M$
 (all terms $1/(n\ln n) > 0$) and bounded above (each initial segment is a finite subset of $A_k$,
-hence a primitive set, hence $< e^\gamma\pi/4$ by F1). A bounded increasing sequence converges in $\mathbb{R}$;
+hence a primitive set, hence $< e^\gamma\pi/4 + o(1)$ by F1, a finite constant). A bounded increasing sequence converges in $\mathbb{R}$;
 hence the series $\sum_{n:\Omega(n)=k} 1/(n\ln n)$ converges.
 Define $L_k := \sum_{n \geq 2,\, \Omega(n)=k} 1/(n\ln n)$ (the series sum, finite by the above
 monotone convergence argument). Then $T_k(x) = L_k - \sum_{\Omega(n)=k,\, 2\leq n < x} 1/(n\ln n)
@@ -227,7 +227,9 @@ $$\sum_{a=N}^{2N-1}\frac{1}{a\log a} \leq \frac{1}{N\log N} + \frac{\log 2}{\log
 where the last step uses $\ln(1 + u) \leq u$ for $u \geq 0$: since $e^u \geq 1 + u$ for all $u$ (this follows by comparing derivatives: $e^0 = 1 + 0 = 1$ and $\frac{d}{du} e^u = e^u \geq 1 = \frac{d}{du}(1+u)$ for $u \geq 0$), taking logarithms gives $u \geq \ln(1+u)$.
 
 Note: This per-interval bound is tight but its sum over dyadic intervals
-$[x, 2x), [2x, 4x), \ldots$ diverges (a harmonic-type series). The
+$[x, 2x), [2x, 4x), \ldots$ diverges: summing the bound $\log 2/\log(2^j x)$ over $j = 0, 1, 2, \ldots$ gives
+$\sum_{j=0}^\infty \frac{\log 2}{j \log 2 + \log x} = \sum_{j=0}^\infty \frac{1}{j + \log_2 x}$,
+a harmonic-type series diverging as $j \to \infty$. The
 cross-interval primitivity constraint is essential to obtain a finite global
 bound. See `proof_lemmas/lemma_cross_stratum_control.md` for why this fails.
 
