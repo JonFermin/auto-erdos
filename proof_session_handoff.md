@@ -1,33 +1,34 @@
-# Session handoff (session s_0715-090653-4b95)
+# Session handoff (session s_0716-080629-8e9c)
 
-**Stop reason**: Token budget milestone — Round 30 reached keep_progress with 0B/5W.
+**Stop reason**: round cap (50 rounds logged, exit=4)
 
-**Current focus**: Ongoing WARN reduction on the prime-factor-split strategy. Round 30 is the new best at 0B/5W (improved from Round 23's 0B/7W).
+**Outcome**: 43 keep_progress rounds (partial_result); 7 discards.
 
-**Progress made this session**:
-- Fixed F1 applied to infinite set A_k (conceptual calibration section)
-- Fixed F1 applied to infinite set in stratum_sub_bound note
-- Fixed A_k ⊂ [2^k,∞) from explicit "= 2^k" computation to structural monotonicity bound
-- Fixed correction sign in F3 note (was "→ 0^+" now "negative, tends to 0")
-- Fixed "elementarily" → proper "as k → ∞" limit statement
-- Fixed 2C+1 mixed limits (x-limit vs C-limit clarified)
-- Removed Plünnecke-Ruzsa citation → generic sumset-type
-- Added explicit upper-bound monotone comparison proof for S1 (f(n) ≤ ∫f)
-- Added explicit lower-bound monotone comparison proof for S2 divergence
+**Current state**: proof_strategy.md at commit 5d7986d. Key structural
+improvements this session:
+- Added synthesis paragraph explicitly naming stratification failure
+- Removed all 'no ledger citation needed' meta-comments (5 sites)
+- Clarified A_lg prime-factor bound via p_min definition
+- Removed F1 o(1) interpretation from L_k finiteness (line 97)
+- Simplified large_floor_vanish proof (removed circular-definition wording)
+- Fixed 'F1 applied to finite subsets' phrasing in calibration section
 
-**5 remaining WARNs** (stochastic, from fresh critic runs):
-- numerical WARN: "For k=1, full sum may exceed 1" (sign concern about prime sum)
-- ledger WARN: F3 applied at k=⌊log₂x⌋ → ∞
-- ledger WARN: integral comparison / antiderivative in S1/S2 proofs
-- internal WARN: 2C+1 sum analysis mixing x→∞ and C→∞ limits
-- internal WARN: sieve-density divergence for fixed ρ
+**Persistent issues** (internal WARNs, no blocking):
+- F1 o(1) for B(p): internal critics still flag 'finite quantity' language
+- S1 bound: lceil x rceil vs x transition flagged as informal
+- Ledger stochastically flags inline proofs (ln(1+u)<=u, Bezout, divergence test)
 
-**Key insight**: Fresh critics are stochastic. The openness critic had an API outage on first run of Round 30; retry gave 0 blocks. Caching on same content makes re-runs stable.
+**Open questions**: Q13 remains claimed (in flight from this session).
+cross_stratum_control (Lemma) is OPEN — the conjecture's core gap is unchanged.
 
-**qid Q1** is ongoing.
+**Suggested next move**:
+1. Review proof_strategy.md Section 6 B(p) o(1) text (currently clean: just
+   cites F1 as 'finite upper bound for any primitive subset').
+2. Focus on addressing S1 sum lceil x rceil transition more formally.
+3. Consider whether the persistent internal WARNs are worth addressing vs
+   making progress on the open Lemma cross_stratum_control.
 
-**Suggested next moves (for fresh session)**:
-1. Read proof_strategy.md lines 58-67 (conceptual calibration) — check if any new F1 issues remain
-2. Consider reducing the sieve-density paragraph (lines ~335-350) to reduce internal WARNs
-3. Consider removing the 2C+1 discussion if it keeps causing internal WARNs
-4. Try a substantive new approach for the cross-stratum control gap
+**Files modified this session**:
+- proof_strategy.md (multiple rounds of edits)
+
+**Records committed**: records/proof_primitive_set_erdos_*.json (multiple)
