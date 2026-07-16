@@ -419,12 +419,14 @@ of primitivity.
 **Lemma `prime_tail_vanish`** (status: proved; see `proof_lemmas/lemma_prime_tail_vanish.md`):
 $$\sum_{\substack{p \geq x \\ p \text{ prime}}} \frac{1}{p \ln p} \;\to\; 0
   \quad \text{as } x \to \infty.$$
-*Proof sketch*: The primes form a primitive set (if $p \mid q$ with $p, q$ prime then $p = q$,
-so no distinct prime divides another). For any finite $X$, the finite set $\{p \leq X : p \text{ prime}\}
-\subseteq \mathbb{N}$ is primitive, so **F1** gives $\sum_{p \leq X} 1/(p \ln p) < e^\gamma\pi/4$.
-Since this bound holds for all $X$ and the partial sums $\sum_{p \leq X} 1/(p \ln p)$ are monotone
-non-decreasing in $X$ and bounded above, the series $\sum_{p} 1/(p \ln p)$ converges to a finite limit.
-Its tail from $x$ then tends to $0$ as $x \to \infty$. $\square$
+*Proof sketch*: The primes form a primitive set (no distinct prime divides another).
+The series $\sum_{p} 1/(p \ln p)$ converges by a standard partial-summation estimate using the
+prime number theorem: the partial sums satisfy $\sum_{p \leq X} 1/(p \ln p) \sim \int_2^X dt/(t(\ln t)^2)
+= 1/\ln 2 - 1/\ln X \to 1/\ln 2 \approx 1.44$ as $X \to \infty$. (Note: F1 is NOT used here — F1
+gives $e^\gamma\pi/4 + o(1)$ only for primitive sets $A \subseteq [x,\infty)$ as $x \to \infty$,
+not for the set of all primes starting from $2$, whose sum $\approx 1.44 > e^\gamma\pi/4 \approx 1.399$.)
+Since the partial sums are monotone non-decreasing and bounded above (by $1/\ln 2$), the full series
+converges to a finite limit $L \leq 1/\ln 2$. Its tail $\sum_{p \geq x} 1/(p \ln p) = L - \sum_{p < x} 1/(p\ln p) \to 0$ as $x \to \infty$. $\square$
 
 **Contribution of $A_{\mathrm{lg}}$ by stratum**:
 
