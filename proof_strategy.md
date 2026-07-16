@@ -94,7 +94,7 @@ $\sum_{n \geq 2, \Omega(n)=k} 1/(n \log n)$ converges for each $k$: the set
 $A_k := \{n \geq 2 : \Omega(n) = k\}$ is itself a primitive set, because if
 $a \mid b$ with $a \neq b$ and $\Omega(a) = \Omega(b) = k$ then $b/a \geq 2$
 (a positive integer since $a \mid b$ and $a \neq b$); by complete additivity of $\Omega$ ($\Omega(mn) = \Omega(m) + \Omega(n)$ for all $m,n \geq 1$, as both sides count prime factors of $mn$ with multiplicity): $\Omega(b) = \Omega(a \cdot (b/a)) = \Omega(a) + \Omega(b/a) \geq k + \Omega(2) = k+1 > k$, contradiction. Moreover $A_k \subset [2^k, \infty)$: each $n \in A_k$ has exactly $k$ prime factors (with multiplicity) each $\geq 2$, so $n = p_1 \cdots p_k \geq 2 \cdot 2 \cdots 2 = 2^k$ (replacing each $p_i \geq 2$ by $2$ only decreases the product; e.g., $k=1$: $n \geq 2^1 = 2$; $k=2$: $n \geq 2^2 = 4$; $k=3$: $n \geq 2^3 = 8$).
-Convergence of the series: the partial sums $P_M := \sum_{\Omega(n)=k,\, 2 \leq n \leq M} 1/(n\ln n)$ are increasing in $M$ (all terms $1/(n\ln n) > 0$). They are bounded above uniformly in $M$: since all terms are positive, $P_M \leq L_k := \sum_{n \geq 2,\,\Omega(n)=k} 1/(n\ln n)$. The full-stratum sum $L_k$ is finite: $A_k = \{n \geq 2 : \Omega(n)=k\}$ is a primitive subset of $[2^k, \infty) \subseteq \mathbb{N}$, so F1 (applied to $A_k$ as a primitive set with floor $2^k$) gives $L_k < e^\gamma\pi/4 + \varepsilon_k$ for some $\varepsilon_k > 0$ that depends on $k$ (not a limit — for each FIXED $k$, this is a concrete finite bound); in particular $L_k < \infty$ for each fixed $k$. Hence the increasing sequence $(P_M)$ is bounded above; a bounded increasing sequence of reals converges.
+Convergence of the series: the partial sums $P_M := \sum_{\Omega(n)=k,\, 2 \leq n \leq M} 1/(n\ln n)$ are increasing in $M$ (all terms $1/(n\ln n) > 0$). They are bounded above uniformly in $M$: since all terms are positive, $P_M \leq L_k := \sum_{n \geq 2,\,\Omega(n)=k} 1/(n\ln n)$. The full-stratum sum $L_k$ is finite: $A_k = \{n \geq 2 : \Omega(n)=k\}$ is a primitive subset of $[2^k, \infty) \subseteq \mathbb{N}$, so F1 (applied to $A_k$ as a primitive set with floor $2^k$; the bound holds for each FIXED $k$ independently, giving a concrete finite upper bound on the sum over $A_k$) gives $L_k < \infty$ for each fixed $k$. Hence the increasing sequence $(P_M)$ is bounded above; a bounded increasing sequence of reals converges.
 Define $L_k := \sum_{n \geq 2,\, \Omega(n)=k} 1/(n\ln n)$ (the series sum, finite by the above
 monotone convergence argument). Then $T_k(x) = L_k - \sum_{\Omega(n)=k,\, 2\leq n < x} 1/(n\ln n)
 \to 0$ as $x \to \infty$ (tail of a convergent positive series). See
@@ -607,6 +607,8 @@ See `proof_lemmas/lemma_sm_directional_constraint.md` for the precise statement.
 
 ## Section 8 — A_lg component: prime-stratum bound and k≥2 obstacle (Q12)
 
+Throughout Sections 8–9, write $p(a) := p_{\min}(a)$ for the smallest prime factor of $a$ (same as $p_{\min}(a)$ used in Section 5 and Section 9).
+
 Let $A_{\mathrm{lg}} = \{a \in A : p(a) \geq x\}$ (elements whose smallest prime factor $p(a) \geq x$).
 Decompose by $\Omega$:
 
@@ -684,10 +686,10 @@ $\Omega(q) = 2$ for $q \in Q$.
 semiprime in $Q$.
 
 *Proof*: Suppose $p \in P$ is prime and $q \in Q$ is a semiprime with $p \mid q$.
-Write $q = p \cdot m$ for some integer $m \geq 2$ (since $q$ is semiprime and
-$q > p$ because $q \geq x \geq p$ and $q \neq p$ as $\Omega(q)=2 \neq 1=\Omega(p)$;
-moreover $m \geq 2$ since $q/p$ is an integer $\geq 2$ — if $m=1$ then $q=p$ contradicting
-$\Omega(q)=2$). Then $p \mid q$ with $p \neq q$, violating the primitivity of $A$.
+Since $p$ is prime and $p \mid q$, write $q = p \cdot m$ for some positive integer $m$.
+We claim $m \geq 2$: if $m = 1$ then $q = p$, but $\Omega(p) = 1 \neq 2 = \Omega(q)$,
+a contradiction. So $m \geq 2$, giving $q = pm \neq p$.
+Then $p \mid q$ with $p \neq q$, violating the primitivity of $A$.
 $\square$
 
 **Consequence for $Q$**: Every semiprime in $Q$ must avoid all primes in $P$ as
