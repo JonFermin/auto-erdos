@@ -182,10 +182,11 @@ the smallest $k$-almost prime is $2^k$ and we have $2^k \leq x < 2^{k+1}$,
 so the restriction $a \geq x$ is nearly vacuous. The per-stratum bound gives
 $S_k(A,x) \leq T_k(x) \leq T_k(2)$ (since $T_k(x)$ is a sub-sum of $T_k(2)$ with
 non-negative terms). As $x \to \infty$, $k = \lfloor\log_2 x\rfloor \to \infty$, so by
-F3 (whose asymptotic is stated for $k \to \infty$): $T_k(2) = 1 - (c+o(1))k^2/2^k \to 1$
-from below (the correction $k^2/2^k$ is positive and tends to $0$ as $k \to \infty$, so the
-sum approaches $1$ from below). Since $T_k(2) \to 1 \neq 0$, the series $\sum_k T_k(2)$
-diverges by the divergence test, so summing per-stratum bounds over all $k$ is not useful.
+F3 (whose asymptotic is stated for $k \to \infty$): $T_k(2) = 1 - (c+o(1))k^2/2^k$.
+Since the correction term $k^2/2^k \to 0$ as $k \to \infty$ (for any fixed $c > 0$,
+$k^2/2^k \to 0$ elementarily), we have $T_k(2) \to 1$ as $k \to \infty$, from below.
+The divergence test then gives: since $T_k(2) \to 1 \neq 0$, the series $\sum_k T_k(2)$
+diverges. So summing per-stratum bounds over all $k$ is not useful.
 A global argument using primitivity to prevent multiple strata from simultaneously
 contributing weight close to $1$ is required.
 
@@ -277,7 +278,7 @@ $$\sum_{n=x}^{\lfloor x^e \rfloor} f(n)
   \leq f(x) + \sum_{n=x+1}^{\lfloor x^e \rfloor} \int_{n-1}^n f(t)\,dt
   = f(x) + \int_x^{\lfloor x^e \rfloor} f(t)\,dt
   \leq \frac{1}{x \ln x} + \int_x^{x^e} f(t)\,dt.$$
-(Since $f \geq 0$, extending the upper limit from $\lfloor x^e\rfloor \leq x^e$ only adds non-negative terms.)
+(Since $f = 1/(t\ln t) \geq 0$ for $t > 1$, extending the upper limit of integration from $\lfloor x^e\rfloor$ to $x^e$ only increases the integral — a non-negative integrand on a larger interval gives a larger or equal integral.)
 By the chain rule, $\frac{d}{dt}(\ln \ln t) = \frac{1}{\ln t} \cdot \frac{1}{t} = \frac{1}{t \ln t}$,
 so $\ln \ln t$ is an antiderivative of $\frac{1}{t \ln t}$. Therefore:
 $$\int_x^{x^e} \frac{dt}{t \ln t}
@@ -367,8 +368,8 @@ argument to $A_2 \subset [x^e, \infty)$ reduces to the same unsolved problem:
 $A_2$ is itself a primitive set, and controlling $\sum_{b \in A_2} 1/(b \log b)$
 requires precisely the structural insight we need for $A$. The only available
 non-trivial global upper bound for any primitive set is F1 (Erdős–Zhang),
-which gives $S_2 < 1.399 + o(1)$. Combined with $S_1 \leq 1$, this gives
-$S_1 + S_2 < 2.399 + o(1)$ — weaker than F1 applied directly to $A$, and not
+which gives $S_2 < 1.399 + o(1)$. Combined with $S_1 \leq 1 + o(1)$ (Lemma `S1_bound`),
+this gives $S_1 + S_2 < (1 + o(1)) + (1.399 + o(1)) = 2.399 + o(1)$ — weaker than F1 applied directly to $A$, and not
 a proof of the conjecture. No recursive application closes the gap.
 
 **Dead end confirmed**: The trading decomposition at $x^e$ does NOT give
@@ -577,8 +578,8 @@ participate in such a divisibility relation.
 **Cross-set constraint reformulated**: Primitivity of $A$ (in the downward cross-$p$ direction)
 requires: for all primes $p < q < x$ and all $b' \in B(q)$, no element of $B(p)$ is divisible
 by $qb'$. That is, $B(p) \cap qb' \mathbb{Z} = \emptyset$ is required for each $b' \in B(q)$.
-(Note: the constraint is $qb' \nmid b$ for all $b \in B(p)$, which is equivalent, given $\gcd(p, qb') = 1$,
-to $qb' \nmid b$, i.e.\ no $b \in B(p)$ is a multiple of $qb'$.)
+(This uses: $qb' \mid pb$ with $\gcd(qb', p) = 1$ implies $qb' \mid b$ by the coprime-divisibility lemma
+applied with $m = qb'$, $n = p$, $k = b$. So the constraint reduces to $qb' \nmid b$.)
 
 **Why this helps**: The upward structural constraint (Lemma `sm_directional_no_div`)
 removes half of the cross-$p$ primitivity conditions automatically. What remains is
