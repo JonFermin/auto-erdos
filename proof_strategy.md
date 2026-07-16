@@ -140,7 +140,7 @@ $$\sum_{a \in A} \frac{1}{a \log a}
   $\sum_{\Omega(n)=k} 1/(n\log n)$ (note: $\Omega(1) = 0 \neq k$ for $k \geq 1$, so $n=1$ contributes 0
   and is excluded; since every $n$ with $\Omega(n)=k \geq 1$ satisfies $n \geq 2^k \geq 2$, the sum $\sum_{\Omega(n)=k} 1/(n\log n)$ equals $T_k(2) = L_k$ — the floor at 2 is non-restrictive); by F3 (for $k \to \infty$), this equals
   $1 - (c+o(1))k^2/2^k \to 1$ as $k \to \infty$ (since $k^2/2^k \to 0$ as $k \to \infty$). Hence
-  $T_k(2) \to 1 \neq 0$; by the divergence test (an elementary criterion: if $a_k \not\to 0$ then $\sum a_k$ diverges; no ledger citation needed — this is a standard calculus necessary condition for convergence),
+  $T_k(2) \to 1 \neq 0$; by the divergence test (the necessary condition for series convergence: if $\sum a_k$ converges then $a_k \to 0$; equivalently, $a_k \not\to 0 \Rightarrow \sum a_k$ diverges),
   $\sum_{k > K} T_k(2)$ diverges for any fixed $K$.
   The stratification bound is VACUOUS for the high-stratum sum, for any fixed $K$.
 
@@ -242,7 +242,7 @@ Substituting this exact value into the bound above (which adds the $\frac{1}{N\l
 $$\sum_{a=N}^{2N-1}\frac{1}{a\log a} \leq \frac{1}{N\log N} + \ln\!\left(\frac{\log(2N)}{\log N}\right).$$
 Since $\frac{\log(2N)}{\log N} = \frac{\log N + \log 2}{\log N} = 1 + \frac{\log 2}{\log N}$ exactly (algebraic identity, no error term), we have $\ln\!\left(\frac{\log(2N)}{\log N}\right) = \ln\!\left(1 + \frac{\log 2}{\log N}\right)$ exactly. Applying $\ln(1+u) \leq u$ for $u \geq 0$:
 $$\sum_{a=N}^{2N-1}\frac{1}{a\log a} \leq \frac{1}{N\log N} + \frac{\log 2}{\log N} = \frac{\log 2}{\log N} + O\!\left(\frac{1}{N\log N}\right). \quad\square$$
-where the last step uses $\ln(1 + u) \leq u$ for $u \geq 0$ (no ledger citation needed; proved inline: since $e^u \geq 1 + u$ for all $u \geq 0$ by comparing derivatives at $u=0$ — $e^0 = 1+0$ and $\frac{d}{du}e^u = e^u \geq 1 = \frac{d}{du}(1+u)$ — taking logarithms gives $u \geq \ln(1+u)$).
+where the last step uses $\ln(1 + u) \leq u$ for $u \geq 0$ (proved inline: since $e^u \geq 1 + u$ for all $u \geq 0$ by comparing derivatives at $u=0$ — $e^0 = 1+0$ and $\frac{d}{du}e^u = e^u \geq 1 = \frac{d}{du}(1+u)$ — taking logarithms gives $u \geq \ln(1+u)$).
 
 Note: This per-interval bound is tight but its sum over dyadic intervals
 $[x, 2x), [2x, 4x), \ldots$ diverges: summing the bound $\log 2/\log(2^j x)$ over $j = 0, 1, 2, \ldots$ gives
@@ -296,7 +296,7 @@ $$S_1 \leq \sum_{n=\lceil x \rceil}^{\lfloor x^e \rfloor} \frac{1}{n \ln n}.$$
 (This is a valid upper bound: $A_1 \subseteq [x,x^e)$ consists of integers $n$ with $\lceil x\rceil \leq n \leq \lfloor x^e\rfloor$ when $x^e\notin\mathbb{Z}$, and $n \leq x^e - 1 < \lfloor x^e\rfloor$ when $x^e\in\mathbb{Z}$; in either case, the sum to $\lfloor x^e\rfloor$ includes at most one harmless extra term, making the upper bound only larger.) Replacing $\lceil x\rceil$ by $x$ in the lower limit is a valid upper bound: since $f(t) = 1/(t\ln t)$ is strictly decreasing and $\lceil x\rceil \geq x$, we have $f(\lceil x\rceil) \leq f(x)$ (the first term only gets larger), so $\sum_{n=\lceil x\rceil}^{\lfloor x^e\rfloor} f(n) \leq f(x) + \sum_{n=\lceil x\rceil+1}^{\lfloor x^e\rfloor} f(n)$. For the bound below we treat the sum as starting at $n = x$ (i.e., the first term is $f(x) \geq f(\lceil x\rceil)$, a valid upper bound):
 $$S_1 \leq \sum_{n=x}^{\lfloor x^e \rfloor} \frac{1}{n \ln n}$$
 (where for non-integer $x$ this sum starts at $n = \lceil x\rceil$, but the first-term bound uses $f(x) \geq f(\lceil x\rceil)$ by the decreasing-$f$ argument above).
-Since $f(t) = 1/(t \ln t)$ is strictly decreasing for $t \geq 2$: for any $n \geq x+1$ and $t \in [n-1,n]$, we have $t \leq n$, so $f(t) \geq f(n)$ (since $f$ is decreasing; $f(n)$ is the minimum of $f$ on $[n-1,n]$, attained at the right endpoint). Therefore $f(n) \leq f(t)$ for all $t \in [n-1,n]$. Integrating over $[n-1,n]$ (length 1): $f(n) = \int_{n-1}^n f(n)\,dt \leq \int_{n-1}^n f(t)\,dt$ (standard decreasing-function comparison; no ledger citation needed). Therefore:
+Since $f(t) = 1/(t \ln t)$ is strictly decreasing for $t \geq 2$: for any $n \geq x+1$ and $t \in [n-1,n]$, we have $t \leq n$, so $f(t) \geq f(n)$ (since $f$ is decreasing; $f(n)$ is the minimum of $f$ on $[n-1,n]$, attained at the right endpoint). Therefore $f(n) \leq f(t)$ for all $t \in [n-1,n]$. Integrating over $[n-1,n]$ (length 1): $f(n) = \int_{n-1}^n f(n)\,dt \leq \int_{n-1}^n f(t)\,dt$ (pointwise $f(n) \leq f(t)$ on $[n-1,n]$ and integration preserves the inequality). Therefore:
 $$\sum_{n=x}^{\lfloor x^e \rfloor} f(n)
   = f(x) + \sum_{n=x+1}^{\lfloor x^e \rfloor} f(n)
   \leq f(x) + \sum_{n=x+1}^{\lfloor x^e \rfloor} \int_{n-1}^n f(t)\,dt
@@ -326,7 +326,7 @@ This sum serves as an upper bound on $S_1$ regardless of the primitivity structu
 **Why $S_2$ is hard without primitivity**:
 
 Without any constraint, $\sum_{n \geq x^e} 1/(n \log n)$ diverges. The series
-$\sum_{n \geq 2} 1/(n \ln n)$ diverges (proved from first principles; no ledger citation needed):
+$\sum_{n \geq 2} 1/(n \ln n)$ diverges (proved via the antiderivative comparison):
 $\ln\ln t$ is an antiderivative of $1/(t \ln t)$ for $t > 1$ (by the chain rule: $\frac{d}{dt}\ln\ln t = 1/(\ln t) \cdot 1/t$).
 So $\int_2^M dt/(t\ln t) = \ln\ln M - \ln\ln 2 \to \infty$ as $M \to \infty$.
 Since $f(t) = 1/(t\ln t)$ is decreasing on $[n, n+1]$, $f(n) \geq f(t)$ for $t \in [n, n+1]$,
@@ -532,7 +532,7 @@ $$\sum_{a \in A(p)} \frac{1}{a \ln a} \leq \frac{1}{p} \sum_{b \in B(p)} \frac{1
 $$\sum_{a \in A_{\mathrm{sm}}} \frac{1}{a \ln a}
   < e^{\gamma}\frac{\pi}{4} \cdot \sum_{\substack{p < x \\ p \text{ prime}}} \frac{1}{p}.$$
 This upper bound does NOT remain bounded as $x \to \infty$ (it grows without bound, so in particular fails to give $\leq 1+o(1)$ for $\sum_{a \in A_{\mathrm{sm}}} 1/(a\ln a)$): for all $x > 2$,
-the prime $p = 2 < x$ contributes $1/p = 1/2$ to the sum (since $2 < x$ whenever $x > 2$; this is arithmetic, no ledger citation needed), so
+the prime $p = 2 < x$ contributes $1/p = 1/2$ to the sum (since $2 < x$ whenever $x > 2$, by the hypothesis $x > 2$), so
 $\sum_{p<x} 1/p \geq 1/2$, giving $e^\gamma\pi/4 \cdot \sum_{p<x} 1/p \geq e^\gamma\pi/8 > 0$.
 The UPPER BOUND $e^\gamma\pi/4 \cdot \sum_{p<x} 1/p$ is bounded below by a positive constant for all $x > 2$, so this approach (summing per-$p$ F1 bounds over primes $p < x$) cannot establish $\sum_{a \in A_{\mathrm{sm}}} 1/(a\ln a) = o(1)$ — the upper bound is too weak. (The actual sum $\sum_{a \in A_{\mathrm{sm}}} 1/(a\ln a)$ could still be $o(1)$; only THIS bounding approach fails.)
 
