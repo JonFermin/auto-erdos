@@ -114,7 +114,7 @@ $T_k(x) \to 0$ as $x \to \infty$.
 
 Proof: By Lemma `stratum_sub_bound`, the full series $\sum_{n \geq 2, \Omega(n)=k} 1/(n \log n)$
 converges (positive partial sums bounded above by $e^\gamma\pi/4$ via F1). Since all terms $1/(n\ln n) > 0$, the tail
-$T_k(x) \to 0$ as $x \to \infty$ (tail of a convergent positive series). See `proof_lemmas/lemma_large_floor_vanish.md`. $\square$
+$T_k(x) \to 0$ as $x \to \infty$ (by the definition of series convergence: a series $\sum_{n} c_n$ converges if and only if its tails $\sum_{n \geq M} c_n \to 0$ as $M \to \infty$; here $T_k(x) = \sum_{\Omega(n)=k, n \geq x} 1/(n\ln n)$ is exactly the tail of the convergent series $\sum_{n \geq 2, \Omega(n)=k} 1/(n\ln n)$). See `proof_lemmas/lemma_large_floor_vanish.md`. $\square$
 
 **Corollary (Low-stratum control, FIXED $K$ only)**: For each fixed constant $K \geq 1$
 (not depending on $x$),
@@ -208,9 +208,7 @@ $$\sum_{a \in A \cap I} \frac{1}{a \log a} \leq \frac{\log 2}{\log N} + O\!\left
 
 Proof: Every subset of $[N, 2N)$ is automatically primitive: if $a, b \in [N, 2N)$
 and $a \mid b$ with $a \neq b$, then $b \geq 2a \geq 2N$, contradicting $b < 2N$.
-So $A \cap [N, 2N)$ can be any subset of $[N, 2N)$. Since all terms $1/(a\log a)$
-are positive, the sum $\sum_{a \in A\cap I} 1/(a\log a)$ is non-decreasing as
-$A \cap I$ increases, so it is maximized when $A \cap I$ is the FULL set
+So $A \cap [N, 2N)$ can be any subset of $[N, 2N)$. Since $1/(a\log a) > 0$ for all integers $a \geq 2$ (as $a \geq 2$ implies $a > 0$ and $\log a \geq \log 2 > 0$, so both numerator and denominator are strictly positive), each term contributes positively to the sum, and the sum $\sum_{a \in A\cap I} 1/(a\log a)$ is strictly increasing as elements are added to $A \cap I$ and is maximized when $A \cap I$ is the FULL set
 $\{N, N+1, \ldots, 2N-1\}$:
 Since $f(t) = 1/(t \log t)$ is strictly decreasing for $t \geq 2$, for each integer $n \geq N+1$ and each $t \in [n-1,n]$ we have $t \leq n$, so $f(t) \geq f(n)$ (i.e., $f(n)$ is the minimum of $f$ on $[n-1,n]$). Therefore $f(n) = \int_{n-1}^n f(n)\,dt \leq \int_{n-1}^n f(t)\,dt$. Summing from $n = N+1$ to $2N-1$:
 $\sum_{n=N+1}^{2N-1} f(n) \leq \int_N^{2N-1} f(t)\,dt \leq \int_N^{2N} f(t)\,dt$.
@@ -592,8 +590,8 @@ applied with $m = qb'$, $n = p$, $k = b$. So the constraint reduces to $qb' \nmi
 **Why this helps**: The upward structural constraint (Lemma `sm_directional_no_div`)
 removes half of the cross-$p$ primitivity conditions automatically. What remains is
 a one-directional constraint: for $p < q$, no multiple of $qb'$ (with $b' \in B(q)$)
-can appear in $B(p)$. This is a genuine sieve-type condition on $B(p)$ imposed by
-$B(q)$, for every $q > p$.
+can appear in $B(p)$. This is a sieve-type condition on $B(p)$ imposed by
+$B(q)$, for every $q > p$ (non-vacuity of this sieve condition — whether any elements are actually removed — is not established here).
 
 **Open direction**: If the sets $\{qb' : b' \in B(q), q > p\}$ are "dense" enough in
 the integers, they sieve out most of $B(p)$, forcing $\sum_{b \in B(p)} 1/(pb \ln(pb))$
