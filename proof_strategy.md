@@ -44,7 +44,8 @@ similar rely only on $x \geq 2$.
   The $o(1)$ is as $k \to \infty$. For large $k$ the correction is negative
   and $k^2/2^k \to 0$ elementarily ($\log(k^2/2^k) = 2\log k - k\log 2 \to -\infty$
   since $k\log 2$ grows linearly while $2\log k$ grows logarithmically,
-  so $k^2/2^k = e^{2\log k - k\log 2} \to 0$), so the sum approaches 1 from BELOW (anti-trap 2). For
+  so $k^2/2^k = e^{2\log k - k\log 2} \to 0$; numerical spot-check: $k=20$: $400/2^{20} \approx 3.8\times10^{-4}$;
+  $k=50$: $2500/2^{50} \approx 2.2\times10^{-12}$), so the sum approaches 1 from BELOW (anti-trap 2). For
   small $k$ (e.g.\ $k=1$, the primes), F3's asymptotic is stated for $k \to \infty$
   and makes no claim about the value at $k=1$; the total is bounded above by
   F1 (less than $e^\gamma\pi/4$) and F2's $O(\cdot)$ is UNSIGNED so the
@@ -182,7 +183,12 @@ See `proof_lemmas/lemma_cross_stratum_control.md` for the precise gap statement.
 The critical regime is strata near $k = \lfloor \log_2 x \rfloor$. For such $k$,
 the smallest $k$-almost prime is $2^k$ and we have $2^k \leq x < 2^{k+1}$,
 so the restriction $a \geq x$ is nearly vacuous. The per-stratum bound gives
-$S_k(A,x) \leq T_k(x) \leq T_k(2) = L_k$ (since $T_k(x) = \sum_{n \geq x, \Omega(n)=k} 1/(n\ln n)$ sums over a subset of the index set $\{n \geq 2 : \Omega(n)=k\}$, and all terms are non-negative, so the tail starting at $x$ cannot exceed the full series starting at $2$). As $x \to \infty$, $k = \lfloor\log_2 x\rfloor \to \infty$, so by
+$S_k(A,x) \leq T_k(x) \leq T_k(2) = L_k$, where $T_k(2) := \sum_{n \geq 2, \Omega(n)=k} 1/(n\ln n)$
+is the full stratum series with floor $x = 2$ (i.e., $T_k$ evaluated at $x=2$, not a separate definition).
+The inequalities hold because: (i) $T_k(x) \leq T_k(2)$ since $\{n\geq x:\Omega(n)=k\} \subseteq \{n\geq 2:\Omega(n)=k\}$
+and all terms are non-negative; (ii) $T_k(2) = L_k$ since every $n$ with $\Omega(n)=k\geq 1$
+satisfies $n \geq 2^k \geq 2$, so the index set $\{n \geq 2:\Omega(n)=k\} = \{n:\Omega(n)=k\}$
+and $L_k := \sum_{n:\Omega(n)=k} 1/(n\ln n) = T_k(2)$ are the same sum. As $x \to \infty$, $k = \lfloor\log_2 x\rfloor \to \infty$, so by
 F3 (whose asymptotic is stated for $k \to \infty$): $T_k(2) = 1 - (c+o(1))k^2/2^k$.
 Since the correction term $k^2/2^k \to 0$ as $k \to \infty$ (for any fixed $c > 0$,
 $k^2/2^k \to 0$ elementarily), we have $T_k(2) \to 1$ as $k \to \infty$, from below.
@@ -507,7 +513,7 @@ $$\sum_{a \in A(p)} \frac{1}{a \ln a} \leq \frac{1}{p} \sum_{b \in B(p)} \frac{1
 **Why summing over $p$ fails**: Summing over all primes $p < x$:
 $$\sum_{a \in A_{\mathrm{sm}}} \frac{1}{a \ln a}
   < e^{\gamma}\frac{\pi}{4} \cdot \sum_{\substack{p < x \\ p \text{ prime}}} \frac{1}{p}.$$
-This upper bound does NOT tend to $0$ as $x \to \infty$: for all $x > 2$,
+This upper bound does NOT remain bounded as $x \to \infty$ (it grows without bound, so in particular fails to give $\leq 1+o(1)$ for $\sum_{a \in A_{\mathrm{sm}}} 1/(a\ln a)$): for all $x > 2$,
 the prime $p = 2 < x$ contributes $1/p = 1/2$ to the sum (since $2 < x$ whenever $x > 2$; this is arithmetic, no ledger citation needed), so
 $\sum_{p<x} 1/p \geq 1/2$, giving $e^\gamma\pi/4 \cdot \sum_{p<x} 1/p \geq e^\gamma\pi/8 > 0$.
 The bound is bounded below by a positive constant for all $x > 2$, so it

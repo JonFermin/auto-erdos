@@ -30,3 +30,4 @@
 {"qid":"Q13","status":"open","parent_qid":"Q12","summary":"[primitive_set_erdos] Joint A_sm/A_lg cross-exclusion constraint: A_sm∤A_lg is automatic (prime factor); A_lg∤A_sm is from primitivity. Use this to bound ∑A_sm + ∑A_lg ≤ 1+o(1) jointly via sieve-competition.","ts":"2026-07-16T11:38:00+00:00","session_id":"s_0716-080629-8e9c"}
 {"qid":"Q13","status":"claimed","session_id":"s_0716-080629-8e9c","summary":"Round 61: joint A_sm/A_lg exclusion structure — auto-exclusion + primitivity-exclusion analysis","ts":"2026-07-16T11:38:00+00:00"}
 {"qid":"Q13","status":"claimed","session_id":"s_0716-080629-8e9c","summary":"Round 62: fix F1 floor parenthetical (uniformity not floor-fixity); fix T_k(2)=L_k by noting Omega(1)=0","ts":"2026-07-16T11:43:08+00:00"}
+{"qid":"Q13","status":"claimed","session_id":"s_0716-080629-8e9c","summary":"Round 63: numerical spot-checks for k^2/2^k; fix Section 6 framing; clarify T_k(2) at Section 2 overview","ts":"2026-07-16T11:46:58+00:00"}
