@@ -42,7 +42,9 @@ similar rely only on $x \geq 2$.
   $$\sum_{a \in A_k} \frac{1}{a \log a} = 1 - (c + o(1)) \frac{k^2}{2^k},
   \quad c \approx 0.0656 > 0.$$
   The $o(1)$ is as $k \to \infty$. For large $k$ the correction is negative
-  and $k^2/2^k \to 0$, so the sum approaches 1 from BELOW (anti-trap 2). For
+  and $k^2/2^k \to 0$ elementarily ($\log(k^2/2^k) = 2\log k - k\log 2 \to -\infty$
+  since $k\log 2$ grows linearly while $2\log k$ grows logarithmically,
+  so $k^2/2^k = e^{2\log k - k\log 2} \to 0$), so the sum approaches 1 from BELOW (anti-trap 2). For
   small $k$ (e.g.\ $k=1$, the primes), F3's asymptotic is stated for $k \to \infty$
   and makes no claim about the value at $k=1$; the total is bounded above by
   F1 (less than $e^\gamma\pi/4$) and F2's $O(\cdot)$ is UNSIGNED so the
@@ -615,3 +617,38 @@ so $\sum_{k \geq 2} L_k$ diverges (by the divergence test, since $L_k \to 1 \neq
 term-by-term bound fails. Controlling the total $\sum_{k \geq 2} T_k(x^k)$ requires exploiting
 the antichain structure of $A_{\mathrm{lg}}$ (no $a, b \in A_{\mathrm{lg}}$ with $a \mid b$) across strata, which
 is the A_lg analogue of the cross-stratum control open problem in Section 2.
+
+---
+
+## Section 9 — Joint A_sm/A_lg exclusion structure (Q13)
+
+The decomposition $A = A_{\mathrm{sm}} \cup A_{\mathrm{lg}}$ (disjoint, $A_{\mathrm{sm}} = \{a \in A : p(a) < x\}$,
+$A_{\mathrm{lg}} = \{a \in A : p(a) \geq x\}$) inherits two exclusion constraints.
+
+**Auto-exclusion ($A_{\mathrm{sm}} \nmid A_{\mathrm{lg}}$, automatic)**: Let $a \in A_{\mathrm{sm}}$ and $b \in A_{\mathrm{lg}}$.
+Since $a \in A_{\mathrm{sm}}$, some prime $p < x$ divides $a$. Since $b \in A_{\mathrm{lg}}$, every prime factor
+of $b$ is $\geq x$, so $p \nmid b$. Hence $a \nmid b$. This holds for ANY pair
+$(a, b) \in A_{\mathrm{sm}} \times A_{\mathrm{lg}}$, regardless of whether $A$ is primitive.
+
+**Primitivity-exclusion ($A_{\mathrm{lg}} \nmid A_{\mathrm{sm}}$, from primitivity)**: For $b \in A_{\mathrm{lg}}$,
+$a \in A_{\mathrm{sm}}$, both in $A$: since $A$ is primitive, $b \nmid a$. (Arithmetically $b \mid a$ is
+not excluded by structure alone — $a \in A_{\mathrm{sm}}$ may have prime factors $\geq x$ besides its
+small factor; primitivity closes this gap.)
+
+**Sieve structure**: Both exclusions together imply: for every $b \in A_{\mathrm{lg}}$,
+$$A_{\mathrm{sm}} \cap \{b \cdot m : m \in \mathbb{N}\} = \emptyset.$$
+Equivalently, $A_{\mathrm{sm}}$ is an antichain in the integers with a small prime factor,
+sieved additionally so that none of its elements is a multiple of any $A_{\mathrm{lg}}$ element.
+
+**Sieve competition**: If $A_{\mathrm{lg}}$ is multiplicatively dense (many multiples in $[x, \infty)$),
+then many integers are removed from the pool available to $A_{\mathrm{sm}}$, forcing
+$\sum_{a \in A_{\mathrm{sm}}} 1/(a \log a)$ to be small. Conversely, a large $A_{\mathrm{sm}}$ leaves little
+room for $A_{\mathrm{lg}}$ (no $b \in A_{\mathrm{lg}}$ can divide any $a \in A_{\mathrm{sm}}$). Quantifying this
+trade-off — showing $\sum_{A_{\mathrm{sm}}} + \sum_{A_{\mathrm{lg}}} \leq 1 + o(1)$ via the joint
+exclusion structure — is open (Q13).
+
+**Remark on F1 applied separately**: F1 gives $\sum_{A_{\mathrm{sm}}} < e^\gamma\pi/4$ and
+$\sum_{A_{\mathrm{lg}}} < e^\gamma\pi/4$, yielding a total $< 2e^\gamma\pi/4 \approx 2.8$, which is
+weaker than F1 on $A$ itself (which gives $< e^\gamma\pi/4 \approx 1.4$). The joint
+primitive structure of $A$ is what tightens the bound; applying F1 to parts separately
+discards this information.
