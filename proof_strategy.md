@@ -144,6 +144,19 @@ $$\sum_{a \in A} \frac{1}{a \log a}
   $\sum_{k > K} T_k(2)$ diverges for any fixed $K$.
   The stratification bound is VACUOUS for the high-stratum sum, for any fixed $K$.
 
+**Synthesis (stratification alone gives no global bound)**: The stratification argument
+establishes only three things: (i) each stratum contribution $S_k(A,x) \leq T_k(x)$ is
+bounded (Lemma `stratum_sub_bound`); (ii) $T_k(x) \to 0$ as $x \to \infty$ for each
+FIXED $k$ (Lemma `large_floor_vanish`); (iii) for every fixed $K$, the high-stratum
+bound $\sum_{k > K} T_k(2) = +\infty$ diverges (by F3 and the divergence test). Together,
+(i)–(iii) establish that the stratification bound, applied stratum-by-stratum with a FIXED
+$K$, cannot yield a finite global upper bound on $\sum_{k} S_k(A,x)$: the low-stratum
+sum is $o(1)$ for fixed $K$, but the high-stratum bound is vacuous. Conclusion:
+stratification alone gives NO finite bound on $\sum_{k} S_k(A,x)$ — the cross-stratum
+primitivity constraint (the fact that $a \nmid b$ across strata, not just within each
+stratum) is the missing ingredient that prevents simultaneous near-maximal contributions
+from many strata. This gap is precisely Lemma `cross_stratum_control` below.
+
 **Key difficulty** (the open core, Lemma `cross_stratum_control`): The per-stratum
 argument fails globally. To bound the high-stratum contribution, one must use
 the PRIMITIVITY CONSTRAINT across strata — i.e., the fact that for distinct
