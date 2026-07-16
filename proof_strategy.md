@@ -323,7 +323,7 @@ so $\gcd(n,a) < a$ iff $a \nmid n$).
 primitive set $A \subset [x, \infty)$ with the decomposition above, find a
 quantitative upper bound on $S_2$ in terms of the primitivity constraint
 between $A_1$ and $A_2$. Specifically, what is needed is some function $f$
-with $f(t) \to 0$ as $t \to 1^-$ (i.e., $f$ vanishes as its argument approaches 1; the motivation: Lemma `S1_bound` shows $S_1 \leq 1 + o(1)$, so if $S_2 \leq f(S_1)$ with $f(1) = 0$, then $S_1 + S_2 \leq S_1 + f(S_1) \leq 1 + o(1) + f(1+o(1)) = 1 + o(1)$) such that $S_2 \leq f(S_1)$ for all
+with $f(t) \to 0$ as $t \to 1$ (from either side; i.e., $f$ vanishes as its argument approaches 1; the motivation: Lemma `S1_bound` shows $S_1 \leq 1 + o(1)$, so if $S_2 \leq f(S_1)$ with $f$ continuous at $1$ and $f(1) = 0$, then as $x \to \infty$ the bound $S_1 \leq 1 + 1/(x\ln x)$ gives $S_1 \to 1$, and by continuity $f(S_1) \to f(1) = 0$, hence $S_1 + S_2 \leq 1 + o(1) + o(1) = 1 + o(1)$) such that $S_2 \leq f(S_1)$ for all
 primitive $A$ and all $x$ large. The existence of such $f$ is OPEN — no such $f$ is currently known.
 
 *Why sieve-density arguments fail*:
@@ -599,8 +599,12 @@ $\Omega(a) = 1$ is a prime $p \geq x$. By Lemma `large_floor_vanish` (proved, ap
 $$\sum_{\substack{a \in A_{\mathrm{lg}} \\ \Omega(a)=1}} \frac{1}{a \log a} \leq T_1(x) \to 0 \quad (x \to \infty).$$
 
 **Strata $\Omega = k \geq 2$**: Each $a \in A_{\mathrm{lg}}$ with $\Omega(a) = k \geq 2$ has all $k$ prime
-factors $\geq x$ (since $p(a) \geq x$ bounds all prime factors from below). Hence
-$a = p_1 \cdots p_k \geq x^k \geq x^2$. For each fixed $k$:
+factors $\geq x$ (since $p(a) \geq x$ bounds every prime factor of $a$ from below). Write
+$a = p_1 \cdots p_k$ with each $p_i \geq x$; then $a \geq x \cdot x \cdots x = x^k \geq x^2$.
+Since every $a \in A_{\mathrm{lg}} \cap \{\Omega = k\}$ satisfies $a \geq x^k$ AND $\Omega(a) = k$, we have
+$A_{\mathrm{lg}} \cap \{\Omega = k\} \subseteq \{n : \Omega(n) = k,\; n \geq x^k\}$. All terms $1/(a\log a)$ are
+positive, so the sum over the subset is $\leq$ the sum over the larger set $\{n : \Omega(n) = k, n \geq x^k\}$,
+which is exactly $T_k(x^k)$. For each fixed $k$:
 $$\sum_{\substack{a \in A_{\mathrm{lg}} \\ \Omega(a) = k}} \frac{1}{a \log a} \leq T_k(x^k) \to 0 \quad (x \to \infty, \; k \text{ fixed}),$$
 since $T_k(y) \to 0$ as $y \to \infty$ (Lemma `large_floor_vanish`), and $x^k \to \infty$.
 
