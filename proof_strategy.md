@@ -110,9 +110,12 @@ still vanishes as $x \to \infty$, which is what matters for the conjecture.
 $T_k(x) \to 0$ as $x \to \infty$.
 
 Proof: Lemma `stratum_sub_bound` shows the full series $\sum_{n \geq 2, \Omega(n)=k} 1/(n \log n)$
-converges (using F1 applied to finite subsets). Since all terms are positive, the partial
-sums form a bounded increasing sequence, so $T_k(x) \to 0$ as $x \to \infty$ (tail of a
-convergent positive series). See `proof_lemmas/lemma_large_floor_vanish.md`. $\square$
+converges: for any finite $S \subseteq \{n : \Omega(n)=k\}$, $S$ is a primitive set
+($A_k$ has no internal divisibility) and $S \subseteq [2^k, \infty)$ (since $n \geq 2^k$ for
+all $n$ with $\Omega(n)=k$), so F1 gives $\sum_{s\in S} 1/(s\log s) < e^\gamma\pi/4 + \varepsilon_k$
+where $\varepsilon_k$ depends only on $k$ (not on $|S|$). Taking the supremum over all finite $S$ shows
+the series converges to a finite limit. Since all terms are positive, $T_k(x) \to 0$ as $x \to \infty$
+(tail of a convergent positive series). See `proof_lemmas/lemma_large_floor_vanish.md`. $\square$
 
 **Corollary (Low-stratum control, FIXED $K$ only)**: For each fixed constant $K \geq 1$
 (not depending on $x$),
@@ -137,7 +140,7 @@ $$\sum_{a \in A} \frac{1}{a \log a}
   the restriction $n \geq 2$ is automatically satisfied, so $T_k(2)$ equals the full stratum sum
   $\sum_{\Omega(n)=k} 1/(n\log n)$; by F3 (for $k \to \infty$), this equals
   $1 - (c+o(1))k^2/2^k \to 1$ as $k \to \infty$ (since $k^2/2^k \to 0$ as $k \to \infty$). Hence
-  $T_k(2) \to 1 \neq 0$; by the divergence test (a series whose terms do not tend to $0$ diverges),
+  $T_k(2) \to 1 \neq 0$; by the divergence test (an elementary criterion: if $a_k \not\to 0$ then $\sum a_k$ diverges),
   $\sum_{k > K} T_k(2)$ diverges for any fixed $K$.
   The stratification bound is VACUOUS for the high-stratum sum, for any fixed $K$.
 
