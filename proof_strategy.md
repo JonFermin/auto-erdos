@@ -37,11 +37,11 @@ similar rely only on $x \geq 2$.
   The $O(\cdot)$ term is **unsigned** — it could be positive or negative.
   Concluding $\sum > 1$ from F2 alone is a SIGN ERROR (anti-trap 1).
 
-- **F3** (Asymptotic for large $k$): For
+- **F3** (Asymptotic for large $k$, input fact from ledger): For
   $A_k = \{n \in \mathbb{N} : \Omega(n) = k\}$,
   $$\sum_{a \in A_k} \frac{1}{a \log a} = 1 - (c + o(1)) \frac{k^2}{2^k},
   \quad c \approx 0.0656 > 0.$$
-  The $o(1)$ is as $k \to \infty$. For large $k$ the correction is negative
+  The $o(1)$ is as $k \to \infty$. (F3 is taken as a given; numerical spot-checks below verify the vanishing of the correction $k^2/2^k$, not the full formula for $L_k$.) For large $k$ the correction is negative
   and $k^2/2^k \to 0$ elementarily ($\log(k^2/2^k) = 2\log k - k\log 2 \to -\infty$
   since $k\log 2$ grows linearly while $2\log k$ grows logarithmically,
   so $k^2/2^k = e^{2\log k - k\log 2} \to 0$; numerical spot-check: $k=20$: $400/2^{20} \approx 3.8\times10^{-4}$;
@@ -168,8 +168,9 @@ See `proof_lemmas/lemma_cross_stratum_control.md` for the precise gap statement.
 
 **What is established** (the provable part):
 
-1. **Per-stratum bound**: Each stratum of any primitive set contributes $\leq T_k(x)$,
-   a finite bound by F1 (Lemma `stratum_sub_bound`, proved from F1).
+1. **Per-stratum bound and tail vanishing**: Each stratum of any primitive set contributes $\leq T_k(x)$,
+   a finite bound (Lemma `stratum_sub_bound`, proved via F1); moreover $T_k(x) \to 0$ as $x \to \infty$
+   for each fixed $k$ (Lemma `large_floor_vanish`, see item 2 below).
 
 2. **Vanishing for fixed strata**: For each fixed $k$, as $x \to \infty$, the
    contribution from $k$-almost primes in $[x, \infty)$ vanishes (Lemma
