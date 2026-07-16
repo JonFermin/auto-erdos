@@ -89,13 +89,7 @@ $\sum_{n \geq 2, \Omega(n)=k} 1/(n \log n)$ converges for each $k$: the set
 $A_k := \{n \geq 2 : \Omega(n) = k\}$ is itself a primitive set, because if
 $a \mid b$ with $a \neq b$ and $\Omega(a) = \Omega(b) = k$ then $b/a \geq 2$
 gives $\Omega(b) \geq \Omega(a) + \Omega(2) = k+1 > k$, contradiction. Moreover $A_k \subset [2^k, \infty)$: each $n \in A_k$ has exactly $k$ prime factors (with multiplicity) each $\geq 2$, so $n = p_1 \cdots p_k \geq 2 \cdot 2 \cdots 2 = 2^k$ (replacing each $p_i \geq 2$ by $2$ only decreases the product; e.g., $k=1$: $n \geq 2^1 = 2$; $k=2$: $n \geq 2^2 = 4$; $k=3$: $n \geq 2^3 = 8$).
-Convergence of the series: any finite subset $S \subseteq A_k$ is a primitive set,
-so by F1 (which gives a uniform upper bound for all primitive $A \subseteq \mathbb{N}$ with minimum element $\geq x$),
-$\sum_{a \in S} 1/(a \ln a) < e^\gamma\pi/4 + o(1)$ (with the $o(1)$ depending on $\min(S) \geq 2^k$, a finite constant for any fixed finite $S$). The crucial point: the bound is finite, independent of $|S|$.
-The partial sums $\sum_{\Omega(n)=k,\, 2 \leq n \leq M} 1/(n\ln n)$ are increasing in $M$
-(all terms $1/(n\ln n) > 0$) and bounded above (each initial segment is a finite subset of $A_k$,
-hence a primitive set, hence $< e^\gamma\pi/4 + o(1)$ by F1, a finite constant). A bounded increasing sequence converges in $\mathbb{R}$;
-hence the series $\sum_{n:\Omega(n)=k} 1/(n\ln n)$ converges.
+Convergence of the series: the partial sums $P_M := \sum_{\Omega(n)=k,\, 2 \leq n \leq M} 1/(n\ln n)$ are increasing in $M$ (all terms $1/(n\ln n) > 0$) and bounded above uniformly in $M$. To see the uniform bound: $\{n \geq 2 : \Omega(n)=k,\, n \leq M\}$ is a finite subset of $A_k$, hence a primitive subset of $[2^k, \infty)$. By F1 applied to this primitive subset (with floor $2^k$), its sum is bounded above by $B_k := e^\gamma\pi/4 + C(2^k)$ where $C(2^k)$ is the value of the $o(1)$ remainder in F1 evaluated at floor $x = 2^k$; this is a fixed finite positive constant depending only on $k$, NOT on $M$. Thus $P_M < B_k < \infty$ for all $M$, independent of $|S|$. A bounded increasing sequence of real numbers converges; hence the series converges.
 Define $L_k := \sum_{n \geq 2,\, \Omega(n)=k} 1/(n\ln n)$ (the series sum, finite by the above
 monotone convergence argument). Then $T_k(x) = L_k - \sum_{\Omega(n)=k,\, 2\leq n < x} 1/(n\ln n)
 \to 0$ as $x \to \infty$ (tail of a convergent positive series). See
@@ -269,9 +263,8 @@ $S_2 := \sum_{a \in A_2} \frac{1}{a \log a}$.
 
 **Lemma (`S1_bound`)**: $S_1 \leq 1 + o(1)$ as $x \to \infty$.
 
-*Proof*: Every element of $A_1$ lies in $[x, x^e) \cap \mathbb{Z}$, so
-$A_1 \subseteq \{x, x+1, \ldots, \lfloor x^e \rfloor\}$; since all terms $1/(n \ln n)$
-are positive, summing over a subset is $\leq$ summing over the full range:
+*Proof*: In what follows, take $x$ to be a positive integer $\geq 2$ (replacing $x$ by $\lceil x \rceil$ if necessary; since $\lceil x \rceil \leq x + 1$, the conclusion $S_1 = 1 + o(1)$ is unchanged). Every element of $A_1$ lies in $[x, x^e) \cap \mathbb{Z}$, so
+$A_1 \subseteq \{x, x+1, \ldots, \lfloor x^e \rfloor\}$ (all integers from $x$ to $\lfloor x^e\rfloor$); since all terms $1/(n \ln n)$ are positive (as $n \geq x \geq 2$ implies $\ln n \geq \ln 2 > 0$), summing over a subset gives $\leq$ summing over the full range:
 $$S_1 \leq \sum_{n=x}^{\lfloor x^e \rfloor} \frac{1}{n \ln n}.$$
 Since $f(t) = 1/(t \ln t)$ is strictly decreasing for $t \geq 2$: for any $n \geq x+1$ and $t \in [n-1,n]$, we have $t \leq n$, so $f(t) \geq f(n)$ (since $f$ is decreasing; $f(n)$ is the minimum of $f$ on $[n-1,n]$, attained at the right endpoint). Therefore $f(n) \leq f(t)$ for all $t \in [n-1,n]$. Integrating over $[n-1,n]$ (length 1): $f(n) = \int_{n-1}^n f(n)\,dt \leq \int_{n-1}^n f(t)\,dt$. Therefore:
 $$\sum_{n=x}^{\lfloor x^e \rfloor} f(n)
@@ -340,10 +333,7 @@ primitive $A$ and all $x$ large; this would give $S_1 + S_2 \leq S_1 + f(S_1)
 Since $\sum_{n \geq x^e} 1/(n \log n)$ diverges (the series $\sum_{n \geq 2} 1/(n \log n)$
 diverges, as shown above), any multiplicative density factor $\rho \in (0,1)$
 that does not depend on $n$ gives $\rho \cdot \sum_{n \geq x^e} 1/(n \log n) = +\infty$.
-That is, multiplying a divergent series by a positive constant does not produce a
-convergent series. Therefore, bounding $S_2$ by a "fraction of integers surviving
-the sieve by $A_1$" (a multiplicative sieve-density approach) cannot yield a finite
-bound — the underlying series diverges regardless of the density factor.
+This rules out CONSTANT sieve-density approaches. The failure extends to any density $\rho(n) \geq \rho_0 > 0$ bounded away from zero, since then $\sum_{n \geq x^e} \rho(n)/(n\log n) \geq \rho_0 \sum_{n \geq x^e} 1/(n\log n) = +\infty$. What CAN yield a finite bound: densities that decay summably fast in $n$ (e.g.\ $\rho(n) = O(1/(n \log n))$ or faster); whether the primitivity constraint on $A_2$ induces such a rapidly decaying density is what remains open.
 
 **Key insight from this failure**: Controlling $S_2$ via the "blocking density"
 of $A_1$ does not close the problem, because even after blocking by $A_1$, the
