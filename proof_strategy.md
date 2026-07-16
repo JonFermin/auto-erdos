@@ -663,3 +663,63 @@ $\sum_{A_{\mathrm{lg}}} < e^\gamma\pi/4$ (both valid: $A_{\mathrm{sm}}$ and $A_{
 weaker than F1 on $A$ itself (which gives $< e^\gamma\pi/4 \approx 1.4$). The joint
 primitive structure of $A$ is what tightens the bound; applying F1 to parts separately
 discards this information.
+
+---
+
+## Section 10 — Toy model: prime vs semiprime cross-stratum exclusion (Q13 sub-case)
+
+**Setup**: This section analyzes the simplest non-trivial instance of the
+joint A_sm/A_lg exclusion: the case where $A$ contains elements from exactly
+two strata, $\Omega = 1$ (primes) and $\Omega = 2$ (semiprimes). This is a
+toy model for the general cross-stratum control problem.
+
+Let $P = A \cap \{\text{primes} \geq x\}$ and $Q = A \cap \{\text{semiprimes} \geq x\}$.
+Both are non-empty subsets of $A$ with $\Omega(p) = 1$ for $p \in P$ and
+$\Omega(q) = 2$ for $q \in Q$.
+
+**Key structural observation** (proved): No prime in $P$ can be a factor of any
+semiprime in $Q$.
+
+*Proof*: Suppose $p \in P$ is prime and $q \in Q$ is a semiprime with $p \mid q$.
+Write $q = p \cdot m$ for some integer $m \geq 2$ (since $q$ is semiprime and
+$q > p$ because $q \geq x \geq p$ and $q \neq p$ as $\Omega(q)=2 \neq 1=\Omega(p)$;
+moreover $m \geq 2$ since $q/p$ is an integer $\geq 2$ — if $m=1$ then $q=p$ contradicting
+$\Omega(q)=2$). Then $p \mid q$ with $p \neq q$, violating the primitivity of $A$.
+$\square$
+
+**Consequence for $Q$**: Every semiprime in $Q$ must avoid all primes in $P$ as
+factors. That is:
+$$Q \subseteq \{p_1 p_2 : p_1 \leq p_2 \text{ primes},\; p_1 \notin P,\; p_2 \notin P,\;
+p_1 p_2 \geq x\}.$$
+
+The pool of "available" semiprimes is the set of products of pairs of primes,
+neither of which belongs to $P$. If $P$ is large, this pool is sieved
+significantly.
+
+**Toy bound (open direction, not proved)**:
+
+Let $\sigma := \sum_{p \in P} 1/p$ (sum of reciprocals of primes in $P$). As the
+pool of primes for semiprime construction is reduced by $P$, a Brun-type sieve
+argument heuristically gives that removing primes of density $\sigma$ from the
+semiprime construction pool reduces the total available semiprime weight by a
+factor of approximately $(1 - \sigma)^2$ (each semiprime uses two prime factors
+independently). Making this rigorous would require a weighted Brun or
+Selberg sieve on the set of semiprimes with prime factors restricted to
+$\{p : p \notin P\}$.
+
+The hoped-for trade-off: $\text{(semiprime weight)} \lesssim (1-\sigma)^2 \cdot
+L_2$ and $\text{(prime weight)} = \sum_{p \in P} 1/(p \ln p) \leq T_1(x) \to 0$
+does not immediately give $\leq 1 + o(1)$ because $L_2 > 1$ and the factor
+$(1-\sigma)^2$ depends on the distribution of $P$.
+
+**Gap**: The heuristic sieve argument above is not yet quantitative enough to
+give a rigorous bound. The key missing ingredient is: given that
+$\sigma = \sum_{p \in P} 1/p$ (with $P \subseteq \{p \geq x : p \text{ prime}\}$,
+so $\sigma \leq T_1(x) / \min_{p \geq x} (1/\ln p) \to 0$ as $x \to \infty$
+and the individual terms $1/p$ are small), quantify the reduction in semiprime
+weight as a function of $\sigma$.
+
+**Status**: The structural observation (no prime in $P$ can be a factor of any
+semiprime in $Q$) is proved above. The quantitative sieve bound remains open.
+This is a specialization of Q13 (cross-stratum control) to the $\Omega=1$ vs
+$\Omega=2$ setting.
