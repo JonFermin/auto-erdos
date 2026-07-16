@@ -209,8 +209,7 @@ So $A \cap [N, 2N)$ can be any subset of $[N, 2N)$. Since all terms $1/(a\log a)
 are positive, the sum $\sum_{a \in A\cap I} 1/(a\log a)$ is non-decreasing as
 $A \cap I$ increases, so it is maximized when $A \cap I$ is the FULL set
 $\{N, N+1, \ldots, 2N-1\}$:
-Since $f(t) = 1/(t \log t)$ is strictly decreasing for $t \geq 2$, for each integer $n \geq N+1$:
-$f(n) \leq \int_{n-1}^n f(t)\,dt$ (since $f$ decreases on $[n-1,n]$). Summing from $n = N+1$ to $2N-1$:
+Since $f(t) = 1/(t \log t)$ is strictly decreasing for $t \geq 2$, for each integer $n \geq N+1$ and each $t \in [n-1,n]$ we have $t \leq n$, so $f(t) \geq f(n)$ (i.e., $f(n)$ is the minimum of $f$ on $[n-1,n]$). Therefore $f(n) = \int_{n-1}^n f(n)\,dt \leq \int_{n-1}^n f(t)\,dt$. Summing from $n = N+1$ to $2N-1$:
 $\sum_{n=N+1}^{2N-1} f(n) \leq \int_N^{2N-1} f(t)\,dt \leq \int_N^{2N} f(t)\,dt$.
 Adding $f(N) = 1/(N\log N)$:
 $$\sum_{a=N}^{2N-1} \frac{1}{a \log a} \leq \frac{1}{N\log N} + \int_N^{2N} \frac{dt}{t \log t},$$
