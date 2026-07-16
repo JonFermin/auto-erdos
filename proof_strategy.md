@@ -156,8 +156,9 @@ What is needed (and not proved here) is precisely the conjecture:
 
 $$\text{(cross\_stratum\_control, OPEN):} \quad \sum_{a \in A} \frac{1}{a \log a} \leq 1 + o(1).$$
 
-This is equivalent to requiring $\sum_{k > K} S_k(A,x) \leq 1 + o(1) - \sum_{k=1}^{K} S_k(A,x)$
-for some $K = K(x) \to \infty$. IF such a $K = K(x)$ were fixed (not varying with $x$), the low-stratum sum $\sum_{k=1}^K S_k = o(1)$ would be proved by the Corollary; but the Corollary is valid ONLY for fixed $K$, NOT for $K = K(x) \to \infty$ (as explicitly noted after the Corollary above). For a growing $K = K(x)$, the low-stratum bound is NOT proved here, and the reformulation IS the conjecture, not a proof of it.
+In the decomposition above, proving the conjecture amounts to showing that
+$\sum_{k > K} S_k(A,x) \leq 1 + o(1) - \sum_{k=1}^{K} S_k(A,x)$
+for some $K = K(x) \to \infty$ (a SUFFICIENT condition, since the low-stratum sum is bounded above by $\sum_{k=1}^K T_k(x)$ which is $o(1)$ for fixed $K$ — but not proved for $K = K(x) \to \infty$). IF such a $K = K(x)$ were fixed (not varying with $x$), the low-stratum sum $\sum_{k=1}^K S_k = o(1)$ would be proved by the Corollary; but the Corollary is valid ONLY for fixed $K$, NOT for $K = K(x) \to \infty$ (as explicitly noted after the Corollary above). For a growing $K = K(x)$, the low-stratum bound is NOT proved here, and the reformulation IS the conjecture, not a proof of it.
 
 See `proof_lemmas/lemma_cross_stratum_control.md` for the precise gap statement.
 
@@ -521,8 +522,7 @@ $$\sum_{a \in A_{\mathrm{sm}}} \frac{1}{a \ln a}
 This upper bound does NOT remain bounded as $x \to \infty$ (it grows without bound, so in particular fails to give $\leq 1+o(1)$ for $\sum_{a \in A_{\mathrm{sm}}} 1/(a\ln a)$): for all $x > 2$,
 the prime $p = 2 < x$ contributes $1/p = 1/2$ to the sum (since $2 < x$ whenever $x > 2$; this is arithmetic, no ledger citation needed), so
 $\sum_{p<x} 1/p \geq 1/2$, giving $e^\gamma\pi/4 \cdot \sum_{p<x} 1/p \geq e^\gamma\pi/8 > 0$.
-The bound is bounded below by a positive constant for all $x > 2$, so it
-cannot show $\sum_{a \in A_{\mathrm{sm}}} 1/(a\ln a) = o(1)$.
+The UPPER BOUND $e^\gamma\pi/4 \cdot \sum_{p<x} 1/p$ is bounded below by a positive constant for all $x > 2$, so this approach (summing per-$p$ F1 bounds over primes $p < x$) cannot establish $\sum_{a \in A_{\mathrm{sm}}} 1/(a\ln a) = o(1)$ — the upper bound is too weak. (The actual sum $\sum_{a \in A_{\mathrm{sm}}} 1/(a\ln a)$ could still be $o(1)$; only THIS bounding approach fails.)
 
 **Why per-$p$ bounds fail globally**: Each $B(p)$ is controlled by F1
 independently, but the $B(p)$ are NOT independent — they derive from a single
