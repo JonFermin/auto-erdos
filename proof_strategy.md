@@ -452,8 +452,10 @@ applied with $k=1$. $\square$
 
 **Contribution of $A_{\mathrm{lg}}$ by stratum**:
 
-Every $a \in A_{\mathrm{lg}}$ with $\Omega(a) = k$ has all $k$ prime factors (counted with multiplicity) $\geq x$,
-so $a = p_1 p_2 \cdots p_k$ with each $p_i \geq x$, giving $a \geq x^k$.
+Every $a \in A_{\mathrm{lg}}$ with $\Omega(a) = k$ has all $k$ prime factors (counted with multiplicity) $\geq x$:
+by definition of $A_{\mathrm{lg}}$, the smallest prime factor $p_{\min}(a) \geq x$; since all prime factors of $a$ are
+$\geq p_{\min}(a)$ by the definition of minimum, each prime factor $p_i \geq x$.
+So $a = p_1 p_2 \cdots p_k$ with each $p_i \geq x$, giving $a \geq x^k$ (product of $k$ factors each $\geq x$).
 
 - **$\Omega(a) = 1$ (primes $\geq x$)**:
   $$\sum_{\substack{a \in A_{\mathrm{lg}} \\ \Omega(a)=1}} \frac{1}{a \ln a}
@@ -533,7 +535,7 @@ $$\sum_{a \in A_{\mathrm{sm}}} \frac{1}{a \ln a}
   < e^{\gamma}\frac{\pi}{4} \cdot \sum_{\substack{p < x \\ p \text{ prime}}} \frac{1}{p}.$$
 This upper bound does NOT remain bounded as $x \to \infty$ (it grows without bound, so in particular fails to give $\leq 1+o(1)$ for $\sum_{a \in A_{\mathrm{sm}}} 1/(a\ln a)$): for all $x > 2$,
 the prime $p = 2 < x$ contributes $1/p = 1/2$ to the sum (since $2 < x$ whenever $x > 2$, by the hypothesis $x > 2$), so
-$\sum_{p<x} 1/p \geq 1/2$, giving $e^\gamma\pi/4 \cdot \sum_{p<x} 1/p \geq e^\gamma\pi/8 > 0$.
+$\sum_{p<x} 1/p \geq 1/2$, giving $e^\gamma\pi/4 \cdot \sum_{p<x} 1/p \geq e^\gamma\pi/4 \cdot (1/2) = e^\gamma\pi/8 > 0$ (since $e^\gamma\pi/4 \approx 1.399 > 0$, so $e^\gamma\pi/8 \approx 0.70 > 0$).
 The UPPER BOUND $e^\gamma\pi/4 \cdot \sum_{p<x} 1/p$ is bounded below by a positive constant for all $x > 2$, so this approach (summing per-$p$ F1 bounds over primes $p < x$) cannot establish $\sum_{a \in A_{\mathrm{sm}}} 1/(a\ln a) = o(1)$ — the upper bound is too weak. (The actual sum $\sum_{a \in A_{\mathrm{sm}}} 1/(a\ln a)$ could still be $o(1)$; only THIS bounding approach fails.)
 
 **Why per-$p$ bounds fail globally**: Each $B(p)$ is controlled by F1
