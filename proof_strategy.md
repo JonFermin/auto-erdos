@@ -90,8 +90,8 @@ $A_k := \{n \geq 2 : \Omega(n) = k\}$ is itself a primitive set, because if
 $a \mid b$ with $a \neq b$ and $\Omega(a) = \Omega(b) = k$ then $b/a \geq 2$
 gives $\Omega(b) \geq \Omega(a) + \Omega(2) = k+1 > k$, contradiction. Moreover $A_k \subset [2^k, \infty)$: each $n \in A_k$ has exactly $k$ prime factors (with multiplicity) each $\geq 2$, so $n = p_1 \cdots p_k \geq 2 \cdot 2 \cdots 2 = 2^k$ (replacing each $p_i \geq 2$ by $2$ only decreases the product; e.g., $k=1$: $n \geq 2^1 = 2$; $k=2$: $n \geq 2^2 = 4$; $k=3$: $n \geq 2^3 = 8$).
 Convergence of the series: any finite subset $S \subseteq A_k$ is a primitive set,
-so by F1 (which gives a uniform upper bound for all primitive $A \subseteq \mathbb{N}$),
-$\sum_{a \in S} 1/(a \ln a) < e^\gamma\pi/4 + o(1)$, a finite bound independent of $|S|$.
+so by F1 (which gives a uniform upper bound for all primitive $A \subseteq \mathbb{N}$ with minimum element $\geq x$),
+$\sum_{a \in S} 1/(a \ln a) < e^\gamma\pi/4 + o(1)$ (with the $o(1)$ depending on $\min(S) \geq 2^k$, a finite constant for any fixed finite $S$). The crucial point: the bound is finite, independent of $|S|$.
 The partial sums $\sum_{\Omega(n)=k,\, 2 \leq n \leq M} 1/(n\ln n)$ are increasing in $M$
 (all terms $1/(n\ln n) > 0$) and bounded above (each initial segment is a finite subset of $A_k$,
 hence a primitive set, hence $< e^\gamma\pi/4 + o(1)$ by F1, a finite constant). A bounded increasing sequence converges in $\mathbb{R}$;
@@ -184,8 +184,7 @@ See `proof_lemmas/lemma_cross_stratum_control.md` for the precise gap statement.
 The critical regime is strata near $k = \lfloor \log_2 x \rfloor$. For such $k$,
 the smallest $k$-almost prime is $2^k$ and we have $2^k \leq x < 2^{k+1}$,
 so the restriction $a \geq x$ is nearly vacuous. The per-stratum bound gives
-$S_k(A,x) \leq T_k(x) \leq T_k(2)$ (since $T_k(x)$ is a sub-sum of $T_k(2)$ with
-non-negative terms). As $x \to \infty$, $k = \lfloor\log_2 x\rfloor \to \infty$, so by
+$S_k(A,x) \leq T_k(x) \leq T_k(2) = L_k$ (since $T_k(x) = \sum_{n \geq x, \Omega(n)=k} 1/(n\ln n)$ sums over a subset of the index set $\{n \geq 2 : \Omega(n)=k\}$, and all terms are non-negative, so the tail starting at $x$ cannot exceed the full series starting at $2$). As $x \to \infty$, $k = \lfloor\log_2 x\rfloor \to \infty$, so by
 F3 (whose asymptotic is stated for $k \to \infty$): $T_k(2) = 1 - (c+o(1))k^2/2^k$.
 Since the correction term $k^2/2^k \to 0$ as $k \to \infty$ (for any fixed $c > 0$,
 $k^2/2^k \to 0$ elementarily), we have $T_k(2) \to 1$ as $k \to \infty$, from below.
@@ -290,8 +289,9 @@ $$\int_x^{x^e} \frac{dt}{t \ln t}
   = \ln e + \ln(\ln x) - \ln(\ln x) = \ln e,$$
 using $\ln(x^e) = e\ln x$ and $\ln(e\ln x) = \ln e + \ln(\ln x)$ (product rule $\ln(ab) = \ln a + \ln b$).
 By the identity $\ln(e^t) = t$ applied at $t = 1$: $\ln e = \ln(e^1) = 1$.
-Spot-check at $x = 10$: the upper limit is $x^e = 10^e$ (ten to the power $e \approx 2.718$, so $10^e \approx 521.7$); then $\ln\ln(10^e) - \ln\ln(10) = \ln(e\cdot\ln 10) - \ln(\ln 10) = 1 + \ln\ln 10 - \ln\ln 10 = 1$. $\checkmark$
-So $S_1 \leq 1 + \frac{1}{x \ln x} = 1 + O\!\left(\frac{1}{x\ln x}\right) = 1 + o(1)$ as $x \to \infty$, matching the lemma statement. $\square$
+Spot-check at $x = 10$: the upper limit is $x^e = 10^e$ (ten to the power $e \approx 2.718$, so $10^e \approx 522.7$); then $\ln\ln(10^e) - \ln\ln(10) = \ln(e\cdot\ln 10) - \ln(\ln 10) = 1 + \ln\ln 10 - \ln\ln 10 = 1$. $\checkmark$
+Substituting $f(x) = 1/(x\ln x)$ and $\int_x^{x^e} f(t)\,dt = \ln e = 1$ (the integral evaluated in the antiderivative calculation above) into the estimate $S_1 \leq f(x) + \int_x^{x^e} f(t)\,dt$:
+$$S_1 \leq \frac{1}{x\ln x} + 1 = 1 + \frac{1}{x \ln x} = 1 + O\!\left(\frac{1}{x\ln x}\right) = 1 + o(1)$$ as $x \to \infty$, matching the lemma statement. $\square$
 
 (Here and throughout Section 4, $\log = \ln$ denotes the natural logarithm.)
 
@@ -303,9 +303,9 @@ This sum serves as an upper bound on $S_1$ regardless of the primitivity structu
 **Why $S_2$ is hard without primitivity**:
 
 Without any constraint, $\sum_{n \geq x^e} 1/(n \log n)$ diverges. The series
-$\sum_{n \geq 2} 1/(n \ln n)$ diverges: since $\ln\ln t$ is a (standard) antiderivative
-of $1/(t \ln t)$ for $t > 1$ (by the chain rule: $\frac{d}{dt}\ln\ln t = 1/(\ln t) \cdot 1/t$),
-we have $\int_2^M dt/(t\ln t) = \ln\ln M - \ln\ln 2 \to \infty$ as $M \to \infty$.
+$\sum_{n \geq 2} 1/(n \ln n)$ diverges (proved from first principles; no ledger citation needed):
+$\ln\ln t$ is an antiderivative of $1/(t \ln t)$ for $t > 1$ (by the chain rule: $\frac{d}{dt}\ln\ln t = 1/(\ln t) \cdot 1/t$).
+So $\int_2^M dt/(t\ln t) = \ln\ln M - \ln\ln 2 \to \infty$ as $M \to \infty$.
 Since $f(t) = 1/(t\ln t)$ is decreasing on $[n, n+1]$, $f(n) \geq f(t)$ for $t \in [n, n+1]$,
 so $f(n) \geq \int_n^{n+1} f(t)\,dt$. Summing from $n = N$ to $M$:
 $\sum_{n=N}^M f(n) \geq \int_N^{M+1} f(t)\,dt = \ln\ln(M+1) - \ln\ln N \to \infty$.
@@ -584,8 +584,7 @@ participate in such a divisibility relation.
 **Cross-set constraint reformulated**: Primitivity of $A$ (in the downward cross-$p$ direction)
 requires: for all primes $p < q < x$ and all $b' \in B(q)$, no element of $B(p)$ is divisible
 by $qb'$. That is, $B(p) \cap qb' \mathbb{Z} = \emptyset$ is required for each $b' \in B(q)$.
-(This uses: $qb' \mid pb$ with $\gcd(qb', p) = 1$ implies $qb' \mid b$ by the coprime-divisibility lemma
-applied with $m = qb'$, $n = p$, $k = b$. So the constraint reduces to $qb' \nmid b$.)
+(This uses: the coprime-divisibility lemma with $\gcd(qb', p) = 1$ gives the equivalence $qb' \mid pb \iff qb' \mid b$. So the primitive-set condition $qb' \nmid pb$ is equivalent to $qb' \nmid b$, which is exactly $b \notin qb'\mathbb{Z}$, i.e., $B(p) \cap qb'\mathbb{Z} = \emptyset$.)
 
 **Why this helps**: The upward structural constraint (Lemma `sm_directional_no_div`)
 removes half of the cross-$p$ primitivity conditions automatically. What remains is
