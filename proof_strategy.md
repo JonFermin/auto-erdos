@@ -90,10 +90,11 @@ $A_k := \{n \geq 2 : \Omega(n) = k\}$ is itself a primitive set, because if
 $a \mid b$ with $a \neq b$ and $\Omega(a) = \Omega(b) = k$ then $b/a \geq 2$
 gives $\Omega(b) \geq \Omega(a) + \Omega(2) = k+1 > k$, contradiction. Moreover $A_k \subset [2^k, \infty)$: each $n \in A_k$ has exactly $k$ prime factors (with multiplicity) each $\geq 2$, so $n = p_1 \cdots p_k \geq 2 \cdot 2 \cdots 2 = 2^k$ (replacing each $p_i \geq 2$ by $2$ only decreases the product; e.g., $k=1$: $n \geq 2^1 = 2$; $k=2$: $n \geq 2^2 = 4$; $k=3$: $n \geq 2^3 = 8$).
 Convergence of the series: any finite subset $S \subseteq A_k$ is a primitive set,
-so F1 applies: $\sum_{a \in S} 1/(a \ln a) < e^\gamma\pi/4 + o(1)$, a finite bound.
+so by F1 (a uniform upper bound for all primitive $A \subseteq \mathbb{N}$),
+$\sum_{a \in S} 1/(a \ln a) < e^\gamma\pi/4$, a finite bound independent of $|S|$.
 The partial sums $\sum_{\Omega(n)=k,\, 2 \leq n \leq M} 1/(n\ln n)$ are increasing in $M$
 (all terms $1/(n\ln n) > 0$) and bounded above (each initial segment is a finite subset of $A_k$,
-hence a primitive set, hence bounded by F1). A bounded increasing sequence converges in $\mathbb{R}$;
+hence a primitive set, hence $< e^\gamma\pi/4$ by F1). A bounded increasing sequence converges in $\mathbb{R}$;
 hence the series $\sum_{n:\Omega(n)=k} 1/(n\ln n)$ converges.
 Define $L_k := \sum_{n \geq 2,\, \Omega(n)=k} 1/(n\ln n)$ (the series sum, finite by the above
 monotone convergence argument). Then $T_k(x) = L_k - \sum_{\Omega(n)=k,\, 2\leq n < x} 1/(n\ln n)
@@ -111,9 +112,8 @@ still vanishes as $x \to \infty$, which is what matters for the conjecture.
 **Lemma `large_floor_vanish`** (status: proved): For each fixed $k \geq 1$,
 $T_k(x) \to 0$ as $x \to \infty$.
 
-Proof: Lemma `stratum_sub_bound` shows the full series $\sum_{n \geq 2, \Omega(n)=k} 1/(n \log n)$
-converges by Lemma `stratum_sub_bound` (proved above: partial sums are positive and bounded by F1,
-so the Monotone Convergence Theorem applies). Since all terms $1/(n\ln n) > 0$, the tail
+Proof: By Lemma `stratum_sub_bound`, the full series $\sum_{n \geq 2, \Omega(n)=k} 1/(n \log n)$
+converges (positive partial sums bounded above by $e^\gamma\pi/4$ via F1). Since all terms $1/(n\ln n) > 0$, the tail
 $T_k(x) \to 0$ as $x \to \infty$ (tail of a convergent positive series). See `proof_lemmas/lemma_large_floor_vanish.md`. $\square$
 
 **Corollary (Low-stratum control, FIXED $K$ only)**: For each fixed constant $K \geq 1$
