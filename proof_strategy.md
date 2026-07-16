@@ -91,7 +91,7 @@ $\sum_{n \geq 2, \Omega(n)=k} 1/(n \log n)$ converges for each $k$: the set
 $A_k := \{n \geq 2 : \Omega(n) = k\}$ is itself a primitive set, because if
 $a \mid b$ with $a \neq b$ and $\Omega(a) = \Omega(b) = k$ then $b/a \geq 2$
 (a positive integer since $a \mid b$ and $a \neq b$); by complete additivity of $\Omega$ ($\Omega(mn) = \Omega(m) + \Omega(n)$ for all $m,n \geq 1$, as both sides count prime factors of $mn$ with multiplicity): $\Omega(b) = \Omega(a \cdot (b/a)) = \Omega(a) + \Omega(b/a) \geq k + \Omega(2) = k+1 > k$, contradiction. Moreover $A_k \subset [2^k, \infty)$: each $n \in A_k$ has exactly $k$ prime factors (with multiplicity) each $\geq 2$, so $n = p_1 \cdots p_k \geq 2 \cdot 2 \cdots 2 = 2^k$ (replacing each $p_i \geq 2$ by $2$ only decreases the product; e.g., $k=1$: $n \geq 2^1 = 2$; $k=2$: $n \geq 2^2 = 4$; $k=3$: $n \geq 2^3 = 8$).
-Convergence of the series: the partial sums $P_M := \sum_{\Omega(n)=k,\, 2 \leq n \leq M} 1/(n\ln n)$ are increasing in $M$ (all terms $1/(n\ln n) > 0$). They are bounded above uniformly in $M$: the index set $\{n \geq 2 : \Omega(n)=k, n \leq M\}$ is a primitive subset of $[2^k, \infty)$; by F1 (which bounds $\sum 1/(a\ln a)$ above by a finite number for ANY primitive subset of $[x,\infty)$ for any $x \geq 2$), each $P_M$ is bounded above by the same finite constant (independent of $M$, since the floor $2^k$ is fixed for fixed $k$). Hence the increasing sequence $(P_M)$ is bounded above; a bounded increasing sequence of reals converges.
+Convergence of the series: the partial sums $P_M := \sum_{\Omega(n)=k,\, 2 \leq n \leq M} 1/(n\ln n)$ are increasing in $M$ (all terms $1/(n\ln n) > 0$). They are bounded above uniformly in $M$: the index set $\{n \geq 2 : \Omega(n)=k, n \leq M\}$ is a primitive subset of $[2^k, \infty)$; by F1 (which bounds $\sum 1/(a\ln a)$ above by a finite number for ANY primitive subset of $[x,\infty)$ for any $x \geq 2$), each $P_M$ is bounded above by a finite constant that depends only on $k$ (not on $M$): F1's bound is a fixed finite number once the floor $x = 2^k$ is fixed, so the bound is uniform over all $M$ with $x$ fixed. Hence the increasing sequence $(P_M)$ is bounded above; a bounded increasing sequence of reals converges.
 Define $L_k := \sum_{n \geq 2,\, \Omega(n)=k} 1/(n\ln n)$ (the series sum, finite by the above
 monotone convergence argument). Then $T_k(x) = L_k - \sum_{\Omega(n)=k,\, 2\leq n < x} 1/(n\ln n)
 \to 0$ as $x \to \infty$ (tail of a convergent positive series). See
@@ -132,8 +132,11 @@ $$\sum_{a \in A} \frac{1}{a \log a}
 - **(II) High strata**: $\leq \sum_{k > K} T_k(x) \leq \sum_{k > K} T_k(2) < \infty$?
   No: $T_k(2) = \sum_{n \geq 2,\, \Omega(n)=k} 1/(n\log n)$. Since every $n$ with
   $\Omega(n)=k$ satisfies $n \geq 2^k \geq 2$ (for $k \geq 1$; the smallest such $n$ is $2^k$),
-  the restriction $n \geq 2$ is automatically satisfied, so $T_k(2)$ equals the full stratum sum
-  $\sum_{\Omega(n)=k} 1/(n\log n)$; by F3 (for $k \to \infty$), this equals
+  the restriction $n \geq 2$ is automatically satisfied (since $n \geq 2^k \geq 2$ for $k \geq 1$),
+  so $T_k(2) = \sum_{n \geq 2,\, \Omega(n)=k} 1/(n\log n)$ equals the full stratum sum
+  $\sum_{\Omega(n)=k} 1/(n\log n)$ (note: $\Omega(1) = 0 \neq k$ for $k \geq 1$, so $n=1$ contributes 0
+  and is excluded; F3's index set $A_k = \{n \in \mathbb{N}: \Omega(n)=k\}$ equals $\{n \geq 2: \Omega(n)=k\}$
+  for $k \geq 1$, confirming $T_k(2) = L_k$); by F3 (for $k \to \infty$), this equals
   $1 - (c+o(1))k^2/2^k \to 1$ as $k \to \infty$ (since $k^2/2^k \to 0$ as $k \to \infty$). Hence
   $T_k(2) \to 1 \neq 0$; by the divergence test (an elementary criterion: if $a_k \not\to 0$ then $\sum a_k$ diverges; no ledger citation needed — this is a standard calculus necessary condition for convergence),
   $\sum_{k > K} T_k(2)$ diverges for any fixed $K$.
