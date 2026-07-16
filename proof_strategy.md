@@ -64,7 +64,7 @@ By Lemma `large_floor_vanish`, for each fixed $k$ the stratum tail
 $T_k(x) \to 0$ as $x \to \infty$. This applies in particular to $k=1$
 (the prime stratum): $T_1(x) = \sum_{p \geq x} 1/(p \log p) \to 0$.
 For small $k$ (e.g.\ $k=1$), the full-stratum sum $\sum_{n:\Omega(n)=k} 1/(n\log n)$
-is finite — as proved in Lemma `stratum_sub_bound` using F1 applied to finite subsets and monotone convergence. (Primitivity of $A_k$ alone does not imply finiteness; F1's uniform bound is essential.)
+is finite — as proved in Lemma `stratum_sub_bound`: since $A_k$ is a primitive subset of $\mathbb{N}$, F1 provides a finite upper bound on $\sum_{a \in A_k} 1/(a\ln a)$; the partial sums form a bounded increasing sequence, so the series converges (monotone convergence). (Primitivity of $A_k$ alone does not imply finiteness; F1's uniform bound is essential.)
 F3 is stated for $k \to \infty$; it does not claim to determine the value at any fixed small $k$
 (such as $k=1$). For each fixed $k$, the tail $T_k(x) \to 0$ as $x \to \infty$ (proved via Lemma
 `large_floor_vanish`). This per-fixed-$k$ vanishing is a necessary ingredient for the conjecture,
