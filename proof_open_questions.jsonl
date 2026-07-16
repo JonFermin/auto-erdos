@@ -31,3 +31,6 @@
 {"qid":"Q13","status":"claimed","session_id":"s_0716-080629-8e9c","summary":"Round 61: joint A_sm/A_lg exclusion structure — auto-exclusion + primitivity-exclusion analysis","ts":"2026-07-16T11:38:00+00:00"}
 {"qid":"Q13","status":"claimed","session_id":"s_0716-080629-8e9c","summary":"Round 62: fix F1 floor parenthetical (uniformity not floor-fixity); fix T_k(2)=L_k by noting Omega(1)=0","ts":"2026-07-16T11:43:08+00:00"}
 {"qid":"Q13","status":"claimed","session_id":"s_0716-080629-8e9c","summary":"Round 63: numerical spot-checks for k^2/2^k; fix Section 6 framing; clarify T_k(2) at Section 2 overview","ts":"2026-07-16T11:46:58+00:00"}
+{"qid":"Q13","status":"claimed","session_id":"s_0716-080629-8e9c","summary":"Round 69: fix 4 ledger WARNs","ts":"2026-07-16T12:23:33+00:00"}
+{"qid":"Q13","status":"claimed","session_id":"s_0716-080629-8e9c","summary":"R76 edits: 4 fixes for internal WARNs (F1 const, F3 sign, S1 ceil, S2 x^e)","ts":"2026-07-16T12:51:03+00:00"}
+{"qid":"Q13","status":"claimed","session_id":"s_0716-080629-8e9c","summary":"R78 edits: revert F1 floor-param language to plain < e^γπ/4 + o(1), fix L143 index shift note","ts":"2026-07-16T13:02:40Z"}
