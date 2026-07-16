@@ -90,7 +90,7 @@ $A_k := \{n \geq 2 : \Omega(n) = k\}$ is itself a primitive set, because if
 $a \mid b$ with $a \neq b$ and $\Omega(a) = \Omega(b) = k$ then $b/a \geq 2$
 gives $\Omega(b) \geq \Omega(a) + \Omega(2) = k+1 > k$, contradiction. Moreover $A_k \subset [2^k, \infty)$: each $n \in A_k$ has exactly $k$ prime factors (with multiplicity) each $\geq 2$; any product of $k$ factors each $\geq 2$ is $\geq 2^k$ (by monotonicity of multiplication), so $n \geq 2^k$.
 Convergence of the series: any finite subset $S \subseteq A_k$ is a primitive set;
-by F1, $\sum_{a \in S} 1/(a \ln a)$ is bounded above (by F1's upper bound, which is finite).
+by F1, $\sum_{a \in S} 1/(a \ln a) < e^\gamma\pi/4 + o(1)$ (F1's uniform finite upper bound for any primitive $A \subseteq \mathbb{N}$).
 Since all terms $1/(n\ln n) > 0$, the partial sums form a bounded increasing sequence;
 hence the series $\sum_{n:\Omega(n)=k} 1/(n\ln n)$ converges.
 Since the partial sums $\sum_{\Omega(n)=k,\, 2\leq n \leq M} 1/(n\ln n)$ increase to a finite limit
@@ -112,8 +112,8 @@ $T_k(x) \to 0$ as $x \to \infty$.
 Proof: Lemma `stratum_sub_bound` shows the full series $\sum_{n \geq 2, \Omega(n)=k} 1/(n \log n)$
 converges: for any finite $S \subseteq \{n : \Omega(n)=k\}$, $S$ is a primitive set
 ($A_k$ has no internal divisibility) and $S \subseteq [2^k, \infty)$ (since $n \geq 2^k$ for
-all $n$ with $\Omega(n)=k$), so F1 gives $\sum_{s\in S} 1/(s\log s) < e^\gamma\pi/4 + \varepsilon_k$
-where $\varepsilon_k$ depends only on $k$ (not on $|S|$). Taking the supremum over all finite $S$ shows
+all $n$ with $\Omega(n)=k$), so by F1, $\sum_{s\in S} 1/(s\log s) < e^\gamma\pi/4 + o(1)$, a finite bound not depending on $|S|$.
+Taking the supremum over all finite $S$ shows
 the series converges to a finite limit. Since all terms are positive, $T_k(x) \to 0$ as $x \to \infty$
 (tail of a convergent positive series). See `proof_lemmas/lemma_large_floor_vanish.md`. $\square$
 
@@ -369,8 +369,8 @@ argument to $A_2 \subset [x^e, \infty)$ reduces to the same unsolved problem:
 $A_2$ is itself a primitive set, and controlling $\sum_{b \in A_2} 1/(b \log b)$
 requires precisely the structural insight we need for $A$. The only available
 non-trivial global upper bound for any primitive set is F1 (Erdős–Zhang):
-since $A_2 \subseteq [x^e, \infty)$ is a primitive set with $\min(A_2) \geq x^e \to \infty$ as $x \to \infty$,
-F1 applies (with $x$ replaced by $x^e$) and gives $S_2 < e^\gamma\pi/4 + o(1) \approx 1.399 + o(1)$. Combined with $S_1 \leq 1 + o(1)$ (Lemma `S1_bound`),
+$A_2$ is a primitive set and F1 applies (since $A_2 \subseteq \mathbb{N}$ is a primitive set),
+giving $S_2 < e^\gamma\pi/4 + o(1) \approx 1.399 + o(1)$. Combined with $S_1 \leq 1 + o(1)$ (Lemma `S1_bound`),
 this gives $S_1 + S_2 < (1 + o(1)) + (1.399 + o(1)) = 2.399 + o(1)$. Note $2.399 > 1.399$,
 so this combined bound is weaker than F1 applied directly to $A$ (which gives $< 1.399 + o(1)$),
 and not a proof of the conjecture. No recursive application closes the gap.
@@ -450,8 +450,8 @@ $T_k(2) = 1 - (c+o(1))k^2/2^k$, so $\sum_{k \geq 1} T_k(2)$ diverges. A naive
 sum of the per-stratum bounds over all $k$ is therefore not finite. A global argument
 exploiting the primitivity of $A_{\mathrm{lg}}$ as a whole is required.
 
-By **F1** applied to the primitive set $A_{\mathrm{lg}} \subseteq [x,\infty)$:
-$$\sum_{a \in A_{\mathrm{lg}}} \frac{1}{a \ln a} < e^{\gamma}\frac{\pi}{4},$$
+By **F1** (since $A_{\mathrm{lg}} \subseteq \mathbb{N}$ is a primitive set):
+$$\sum_{a \in A_{\mathrm{lg}}} \frac{1}{a \ln a} < e^{\gamma}\frac{\pi}{4} + o(1),$$
 which gives a finite upper bound (${\approx}1.399 > 1$) but not the sharper $\leq 1$ needed for the conjecture. The full stratum sum $T_k(2) = \sum_{n \geq 2,\, \Omega(n)=k} 1/(n \ln n)$ (note:
 the smallest $n$ with $\Omega(n) = k$ is $2^k \geq 2$, so the sum from $2$ equals the
 full stratum sum) tends to 1 as $k \to \infty$ (since $k^2/2^k \to 0$ elementarily,
@@ -502,11 +502,9 @@ $\ln(pb) = \ln p + \ln b > \ln b > 0$. In particular $\ln(pb) \geq \ln b$
 and $1/\ln(pb) \leq 1/\ln b$, giving:
 $$\frac{1}{pb \cdot \ln(pb)} \leq \frac{1}{pb \cdot \ln b}
   = \frac{1}{p} \cdot \frac{1}{b \ln b}.$$
-Summing over $B(p)$: since each $b \in B(p)$ has smallest prime factor $\geq p$, we have $b \geq p$,
-so $B(p) \subseteq [p, \infty)$ is a primitive set with $\min(B(p)) \geq p$.
-By **F1** applied to $B(p) \subseteq [p, \infty)$: $\sum_{b \in B(p)} 1/(b\ln b) < e^{\gamma}\pi/4 + o_p(1)$
-as $p \to \infty$ (the $o_p(1)$ term depends on $p$; for large $p$ it is negligible). Therefore:
-$$\sum_{a \in A(p)} \frac{1}{a \ln a} \leq \frac{1}{p} \sum_{b \in B(p)} \frac{1}{b \ln b} < \frac{e^{\gamma}\pi/4 + o_p(1)}{p}.$$
+Summing over $B(p)$: since $B(p) \subseteq \mathbb{N}$ is a primitive set (by Lemma `sm_quotient_primitive`),
+F1 gives $\sum_{b \in B(p)} 1/(b\ln b) < e^{\gamma}\pi/4 + o(1)$ (F1's uniform finite upper bound). Therefore:
+$$\sum_{a \in A(p)} \frac{1}{a \ln a} \leq \frac{1}{p} \sum_{b \in B(p)} \frac{1}{b \ln b} < \frac{e^{\gamma}\pi/4 + o(1)}{p}.$$
 
 **Why summing over $p$ fails**: Summing over all primes $p < x$:
 $$\sum_{a \in A_{\mathrm{sm}}} \frac{1}{a \ln a}
