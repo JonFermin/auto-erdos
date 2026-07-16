@@ -92,7 +92,7 @@ $\sum_{n \geq 2, \Omega(n)=k} 1/(n \log n)$ converges for each $k$: the set
 $A_k := \{n \geq 2 : \Omega(n) = k\}$ is itself a primitive set, because if
 $a \mid b$ with $a \neq b$ and $\Omega(a) = \Omega(b) = k$ then $b/a \geq 2$
 (a positive integer since $a \mid b$ and $a \neq b$); by complete additivity of $\Omega$ ($\Omega(mn) = \Omega(m) + \Omega(n)$ for all $m,n \geq 1$, as both sides count prime factors of $mn$ with multiplicity): $\Omega(b) = \Omega(a \cdot (b/a)) = \Omega(a) + \Omega(b/a) \geq k + \Omega(2) = k+1 > k$, contradiction. Moreover $A_k \subset [2^k, \infty)$: each $n \in A_k$ has exactly $k$ prime factors (with multiplicity) each $\geq 2$, so $n = p_1 \cdots p_k \geq 2 \cdot 2 \cdots 2 = 2^k$ (replacing each $p_i \geq 2$ by $2$ only decreases the product; e.g., $k=1$: $n \geq 2^1 = 2$; $k=2$: $n \geq 2^2 = 4$; $k=3$: $n \geq 2^3 = 8$).
-Convergence of the series: the partial sums $P_M := \sum_{\Omega(n)=k,\, 2 \leq n \leq M} 1/(n\ln n)$ are increasing in $M$ (all terms $1/(n\ln n) > 0$). They are bounded above uniformly in $M$: the index set $\{n \geq 2 : \Omega(n)=k, n \leq M\}$ is a primitive subset of $[2^k, \infty)$; by F1 (which bounds $\sum 1/(a\ln a)$ above by the universal constant $e^\gamma\pi/4$ for ANY primitive subset of $\mathbb{N}$, independent of any floor choice), each $P_M$ is bounded above by $e^\gamma\pi/4$. Hence the increasing sequence $(P_M)$ is bounded above; a bounded increasing sequence of reals converges.
+Convergence of the series: the partial sums $P_M := \sum_{\Omega(n)=k,\, 2 \leq n \leq M} 1/(n\ln n)$ are increasing in $M$ (all terms $1/(n\ln n) > 0$). They are bounded above uniformly in $M$: the index set $\{n \geq 2 : \Omega(n)=k, n \leq M\}$ is a primitive subset of $[2^k, \infty)$; by F1 (which applies to any primitive subset of $\mathbb{N}$, including finite subsets; the bound $e^\gamma\pi/4$ is universal and holds for the finite primitive set $\{n \geq 2 : \Omega(n)=k, n \leq M\}$ uniformly in $M$), each $P_M$ is bounded above by $e^\gamma\pi/4$. Hence the increasing sequence $(P_M)$ is bounded above; a bounded increasing sequence of reals converges.
 Define $L_k := \sum_{n \geq 2,\, \Omega(n)=k} 1/(n\ln n)$ (the series sum, finite by the above
 monotone convergence argument). Then $T_k(x) = L_k - \sum_{\Omega(n)=k,\, 2\leq n < x} 1/(n\ln n)
 \to 0$ as $x \to \infty$ (tail of a convergent positive series). See
@@ -507,7 +507,7 @@ and $1/\ln(pb) \leq 1/\ln b$, giving:
 $$\frac{1}{pb \cdot \ln(pb)} \leq \frac{1}{pb \cdot \ln b}
   = \frac{1}{p} \cdot \frac{1}{b \ln b}.$$
 Summing over $B(p)$: since $B(p) \subseteq \mathbb{N}$ is a primitive set (by Lemma `sm_quotient_primitive`),
-F1 gives $\sum_{b \in B(p)} 1/(b\ln b) < e^{\gamma}\pi/4 + o(1)$ (F1's uniform finite upper bound). Therefore:
+F1 gives $\sum_{b \in B(p)} 1/(b\ln b) < e^{\gamma}\pi/4 + o(1)$ where the $o(1)$ is as the floor of $B(p)$ tends to $\infty$; since $B(p) \subseteq [x/p, \infty)$ and $x/p \to \infty$ as $x \to \infty$ for each fixed prime $p$, this $o(1) \to 0$ in the ambient limit. Therefore:
 $$\sum_{a \in A(p)} \frac{1}{a \ln a} \leq \frac{1}{p} \sum_{b \in B(p)} \frac{1}{b \ln b} < \frac{e^{\gamma}\pi/4 + o(1)}{p}.$$
 
 **Why summing over $p$ fails**: Summing over all primes $p < x$:
@@ -657,7 +657,7 @@ trade-off — showing $\sum_{A_{\mathrm{sm}}} + \sum_{A_{\mathrm{lg}}} \leq 1 + 
 exclusion structure — is open (Q13).
 
 **Remark on F1 applied separately**: F1 gives $\sum_{A_{\mathrm{sm}}} < e^\gamma\pi/4$ and
-$\sum_{A_{\mathrm{lg}}} < e^\gamma\pi/4$, yielding a total $< 2e^\gamma\pi/4 \approx 2.8$, which is
+$\sum_{A_{\mathrm{lg}}} < e^\gamma\pi/4$ (both valid: $A_{\mathrm{sm}}$ and $A_{\mathrm{lg}}$ are each subsets of the primitive set $A$, hence each primitive in $\mathbb{N}$, so F1 applies to each), yielding a total $< 2e^\gamma\pi/4 \approx 2.8$, which is
 weaker than F1 on $A$ itself (which gives $< e^\gamma\pi/4 \approx 1.4$). The joint
 primitive structure of $A$ is what tightens the bound; applying F1 to parts separately
 discards this information.
