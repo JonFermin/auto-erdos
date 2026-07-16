@@ -149,8 +149,7 @@ What is needed (and not proved here) is precisely the conjecture:
 $$\text{(cross\_stratum\_control, OPEN):} \quad \sum_{a \in A} \frac{1}{a \log a} \leq 1 + o(1).$$
 
 This is equivalent to requiring $\sum_{k > K} S_k(A,x) \leq 1 + o(1) - \sum_{k=1}^{K} S_k(A,x)$
-for some $K = K(x) \to \infty$. Since the low-stratum sum $\sum_{k=1}^K S_k = o(1)$ (proved), the
-right side equals $1 + o(1)$; but this reformulation IS the conjecture, not a proof of it.
+for some $K = K(x) \to \infty$. IF such a $K = K(x)$ were fixed (not varying with $x$), the low-stratum sum $\sum_{k=1}^K S_k = o(1)$ would be proved by the Corollary; but the Corollary is valid ONLY for fixed $K$, NOT for $K = K(x) \to \infty$ (as explicitly noted after the Corollary above). For a growing $K = K(x)$, the low-stratum bound is NOT proved here, and the reformulation IS the conjecture, not a proof of it.
 
 See `proof_lemmas/lemma_cross_stratum_control.md` for the precise gap statement.
 
@@ -587,3 +586,28 @@ all $p$ then gives $\sum_{a \in A_{\mathrm{sm}}} 1/(a \ln a) = o(1)$ or $\leq 1 
 remains the central open problem for the $A_{\mathrm{sm}}$ component.
 
 See `proof_lemmas/lemma_sm_directional_constraint.md` for the precise statement.
+
+---
+
+## Section 8 — A_lg component: prime-stratum bound and k≥2 obstacle (Q12)
+
+Let $A_{\mathrm{lg}} = \{a \in A : p(a) \geq x\}$ (elements whose smallest prime factor $p(a) \geq x$).
+Decompose by $\Omega$:
+
+**Stratum $\Omega = 1$** (primes in $A$ that are $\geq x$): Any $a \in A_{\mathrm{lg}}$ with
+$\Omega(a) = 1$ is a prime $p \geq x$. By Lemma `large_floor_vanish` (proved, applies at $k=1$):
+$$\sum_{\substack{a \in A_{\mathrm{lg}} \\ \Omega(a)=1}} \frac{1}{a \log a} \leq T_1(x) \to 0 \quad (x \to \infty).$$
+
+**Strata $\Omega = k \geq 2$**: Each $a \in A_{\mathrm{lg}}$ with $\Omega(a) = k \geq 2$ has all $k$ prime
+factors $\geq x$ (since $p(a) \geq x$ bounds all prime factors from below). Hence
+$a = p_1 \cdots p_k \geq x^k \geq x^2$. For each fixed $k$:
+$$\sum_{\substack{a \in A_{\mathrm{lg}} \\ \Omega(a) = k}} \frac{1}{a \log a} \leq T_k(x^k) \to 0 \quad (x \to \infty, \; k \text{ fixed}),$$
+since $T_k(y) \to 0$ as $y \to \infty$ (Lemma `large_floor_vanish`), and $x^k \to \infty$.
+
+**Why summing over all $k$ remains open**: Each fixed-$k$ term $T_k(x^k) \to 0$, but
+$\sum_{k \geq 2} T_k(x^k)$ is not directly bounded by $1 + o(1)$: for instance,
+$T_k(x^k) \leq T_k(2) = L_k \to 1$ as $k \to \infty$ (by F3 and Lemma `stratum_sub_bound`),
+so $\sum_{k \geq 2} L_k$ diverges (by the divergence test, since $L_k \to 1 \neq 0$) — the naive
+term-by-term bound fails. Controlling the total $\sum_{k \geq 2} T_k(x^k)$ requires exploiting
+the antichain structure of $A_{\mathrm{lg}}$ (no $a, b \in A_{\mathrm{lg}}$ with $a \mid b$) across strata, which
+is the A_lg analogue of the cross-stratum control open problem in Section 2.
