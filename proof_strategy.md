@@ -132,8 +132,9 @@ $$\sum_{a \in A} \frac{1}{a \log a}
   by the Corollary above (valid since $K$ is a fixed constant).
 
 - **(II) High strata**: $\leq \sum_{k > K} T_k(x) \leq \sum_{k > K} T_k(2) < \infty$?
-  No: $T_k(2) = \sum_{n \geq 2,\, \Omega(n)=k} 1/(n\log n)$. The smallest $n$
-  with $\Omega(n)=k$ is $2^k \geq 2$, so $T_k(2)$ equals the full stratum sum
+  No: $T_k(2) = \sum_{n \geq 2,\, \Omega(n)=k} 1/(n\log n)$. Since every $n$ with
+  $\Omega(n)=k$ satisfies $n \geq 2^k \geq 2$ (for $k \geq 1$; the smallest such $n$ is $2^k$),
+  the restriction $n \geq 2$ is automatically satisfied, so $T_k(2)$ equals the full stratum sum
   $\sum_{\Omega(n)=k} 1/(n\log n)$; by F3 (for $k \to \infty$), this equals
   $1 - (c+o(1))k^2/2^k \to 1$ as $k \to \infty$ (since $k^2/2^k \to 0$ as $k \to \infty$). Hence
   $T_k(2) \to 1 \neq 0$; by the divergence test (a series whose terms do not tend to $0$ diverges),
@@ -270,13 +271,13 @@ $S_2 := \sum_{a \in A_2} \frac{1}{a \log a}$.
 $A_1 \subseteq \{x, x+1, \ldots, \lfloor x^e \rfloor\}$; since all terms $1/(n \ln n)$
 are positive, summing over a subset is $\leq$ summing over the full range:
 $$S_1 \leq \sum_{n=x}^{\lfloor x^e \rfloor} \frac{1}{n \ln n}.$$
-Since $f(t) = 1/(t \ln t)$ is strictly decreasing for $t \geq 2$: for any $n \geq x+1$ and $t \in [n-1,n]$, $t \leq n$ gives $f(n) \leq f(t)$. Integrating over $[n-1,n]$ (length 1): $f(n) = \int_{n-1}^n f(n)\,dt \leq \int_{n-1}^n f(t)\,dt$. Therefore:
+Since $f(t) = 1/(t \ln t)$ is strictly decreasing for $t \geq 2$: for any $n \geq x+1$ and $t \in [n-1,n]$, we have $t \leq n$, so $f(t) \geq f(n)$ (since $f$ is decreasing; $f(n)$ is the minimum of $f$ on $[n-1,n]$, attained at the right endpoint). Therefore $f(n) \leq f(t)$ for all $t \in [n-1,n]$. Integrating over $[n-1,n]$ (length 1): $f(n) = \int_{n-1}^n f(n)\,dt \leq \int_{n-1}^n f(t)\,dt$. Therefore:
 $$\sum_{n=x}^{\lfloor x^e \rfloor} f(n)
   = f(x) + \sum_{n=x+1}^{\lfloor x^e \rfloor} f(n)
   \leq f(x) + \sum_{n=x+1}^{\lfloor x^e \rfloor} \int_{n-1}^n f(t)\,dt
   = f(x) + \int_x^{\lfloor x^e \rfloor} f(t)\,dt
   \leq \frac{1}{x \ln x} + \int_x^{x^e} f(t)\,dt.$$
-(Since $f = 1/(t\ln t) \geq 0$ for $t > 1$, extending the upper limit of integration from $\lfloor x^e\rfloor$ to $x^e$ only increases the integral — a non-negative integrand on a larger interval gives a larger or equal integral.)
+(Since $\lfloor x^e \rfloor \leq x^e$ always, and $f(t) = 1/(t\ln t) \geq 0$ for $t > 1$: the additional interval $[\lfloor x^e \rfloor, x^e]$ has non-negative integrand, so $\int_x^{\lfloor x^e\rfloor} f\,dt \leq \int_x^{x^e} f\,dt$. When $x^e$ is an integer, $\lfloor x^e \rfloor = x^e$ and the two sides are equal.)
 By the chain rule, $\frac{d}{dt}(\ln \ln t) = \frac{1}{\ln t} \cdot \frac{1}{t} = \frac{1}{t \ln t}$,
 so $\ln \ln t$ is an antiderivative of $\frac{1}{t \ln t}$. Therefore:
 $$\int_x^{x^e} \frac{dt}{t \ln t}
