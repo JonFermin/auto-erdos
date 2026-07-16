@@ -88,10 +88,12 @@ all terms are positive, so $S_k(A,x) \leq T_k(x)$. The full series
 $\sum_{n \geq 2, \Omega(n)=k} 1/(n \log n)$ converges for each $k$: the set
 $A_k := \{n \geq 2 : \Omega(n) = k\}$ is itself a primitive set, because if
 $a \mid b$ with $a \neq b$ and $\Omega(a) = \Omega(b) = k$ then $b/a \geq 2$
-gives $\Omega(b) \geq \Omega(a) + \Omega(2) = k+1 > k$, contradiction. Moreover $A_k \subset [2^k, \infty)$: each $n \in A_k$ has exactly $k$ prime factors (with multiplicity) each $\geq 2$; any product of $k$ factors each $\geq 2$ is $\geq 2^k$ (by monotonicity of multiplication), so $n \geq 2^k$.
-Convergence of the series: any finite subset $S \subseteq A_k$ is a primitive set;
-by F1, $\sum_{a \in S} 1/(a \ln a) < e^\gamma\pi/4 + o(1)$ (F1's uniform finite upper bound for any primitive $A \subseteq \mathbb{N}$).
-Since all terms $1/(n\ln n) > 0$, the partial sums form a bounded increasing sequence;
+gives $\Omega(b) \geq \Omega(a) + \Omega(2) = k+1 > k$, contradiction. Moreover $A_k \subset [2^k, \infty)$: each $n \in A_k$ has exactly $k$ prime factors (with multiplicity) each $\geq 2$, so $n = p_1 \cdots p_k \geq 2 \cdot 2 \cdots 2 = 2^k$ (replacing each $p_i \geq 2$ by $2$ only decreases the product; e.g., $k=1$: $n \geq 2^1 = 2$; $k=2$: $n \geq 2^2 = 4$; $k=3$: $n \geq 2^3 = 8$).
+Convergence of the series: any finite subset $S \subseteq A_k$ is a primitive set,
+so F1 applies: $\sum_{a \in S} 1/(a \ln a) < e^\gamma\pi/4 + o(1)$, a finite bound.
+The partial sums $\sum_{\Omega(n)=k,\, 2 \leq n \leq M} 1/(n\ln n)$ are increasing in $M$
+(all terms $1/(n\ln n) > 0$) and bounded above (each initial segment is a finite subset of $A_k$,
+hence a primitive set, hence bounded by F1). A bounded increasing sequence converges in $\mathbb{R}$;
 hence the series $\sum_{n:\Omega(n)=k} 1/(n\ln n)$ converges.
 Since the partial sums $\sum_{\Omega(n)=k,\, 2\leq n \leq M} 1/(n\ln n)$ increase to a finite limit
 $L_k$ as $M \to \infty$, the remainder $T_k(x) = L_k - \sum_{\Omega(n)=k,\, 2\leq n < x} 1/(n\ln n)
@@ -190,8 +192,9 @@ non-negative terms). As $x \to \infty$, $k = \lfloor\log_2 x\rfloor \to \infty$,
 F3 (whose asymptotic is stated for $k \to \infty$): $T_k(2) = 1 - (c+o(1))k^2/2^k$.
 Since the correction term $k^2/2^k \to 0$ as $k \to \infty$ (for any fixed $c > 0$,
 $k^2/2^k \to 0$ elementarily), we have $T_k(2) \to 1$ as $k \to \infty$, from below.
-The divergence test then gives: since $T_k(2) \to 1 \neq 0$, the series $\sum_k T_k(2)$
-diverges. So summing per-stratum bounds over all $k$ is not useful.
+Since $T_k(2) \to 1 \neq 0$ as $k \to \infty$, the series $\sum_k T_k(2)$
+cannot converge (a necessary condition for convergence of $\sum a_k$ is $a_k \to 0$;
+here $T_k(2) \to 1 \neq 0$, so this fails). So summing per-stratum bounds over all $k$ is not useful.
 A global argument using primitivity to prevent multiple strata from simultaneously
 contributing weight close to $1$ is required.
 
@@ -321,8 +324,9 @@ $A_2$ avoids all divisibility relations with $A_1$. The "unblocked" residual is:
 $$A_2 \subseteq \mathcal{U}(A_1) := \{n \geq x^e : a \nmid n \text{ for all } a \in A_1\}.$$
 
 Equivalently, $\mathcal{U}(A_1)$ is the set of $n \geq x^e$ not divisible by any
-$a \in A_1$ (i.e. $\gcd(n, a) < a$ for all $a \in A_1$ — these two formulations
-are equivalent since $a \mid n \Leftrightarrow \gcd(n,a) = a$).
+$a \in A_1$ (i.e. $\gcd(n, a) < a$ for all $a \in A_1$ — equivalent since $\gcd(n,a)$
+always divides $a$, so $\gcd(n,a) \leq a$; equality $\gcd(n,a) = a$ holds iff $a \mid n$,
+so $\gcd(n,a) < a$ iff $a \nmid n$).
 
 **Lemma (`blocking_estimate`, STATUS: OPEN — the open core)**: For any
 primitive set $A \subset [x, \infty)$ with the decomposition above, find a
