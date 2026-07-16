@@ -290,6 +290,7 @@ $$\int_x^{x^e} \frac{dt}{t \ln t}
   = \ln e + \ln(\ln x) - \ln(\ln x) = \ln e,$$
 using $\ln(x^e) = e\ln x$ and $\ln(e\ln x) = \ln e + \ln(\ln x)$ (product rule $\ln(ab) = \ln a + \ln b$).
 By the identity $\ln(e^t) = t$ applied at $t = 1$: $\ln e = \ln(e^1) = 1$.
+Spot-check at $x = 10$: the upper limit is $x^e = 10^e$ (ten to the power $e \approx 2.718$, so $10^e \approx 521.7$); then $\ln\ln(10^e) - \ln\ln(10) = \ln(e\cdot\ln 10) - \ln(\ln 10) = 1 + \ln\ln 10 - \ln\ln 10 = 1$. $\checkmark$
 So $S_1 \leq 1 + \frac{1}{x \ln x} = 1 + O\!\left(\frac{1}{x\ln x}\right) = 1 + o(1)$ as $x \to \infty$, matching the lemma statement. $\square$
 
 (Here and throughout Section 4, $\log = \ln$ denotes the natural logarithm.)
