@@ -94,7 +94,7 @@ $\sum_{n \geq 2, \Omega(n)=k} 1/(n \log n)$ converges for each $k$: the set
 $A_k := \{n \geq 2 : \Omega(n) = k\}$ is itself a primitive set, because if
 $a \mid b$ with $a \neq b$ and $\Omega(a) = \Omega(b) = k$ then $b/a \geq 2$
 (a positive integer since $a \mid b$ and $a \neq b$); by complete additivity of $\Omega$ ($\Omega(mn) = \Omega(m) + \Omega(n)$ for all $m,n \geq 1$, as both sides count prime factors of $mn$ with multiplicity): $\Omega(b) = \Omega(a \cdot (b/a)) = \Omega(a) + \Omega(b/a) \geq k + \Omega(2) = k+1 > k$, contradiction. Moreover $A_k \subset [2^k, \infty)$: each $n \in A_k$ has exactly $k$ prime factors (with multiplicity) each $\geq 2$, so $n = p_1 \cdots p_k \geq 2 \cdot 2 \cdots 2 = 2^k$ (replacing each $p_i \geq 2$ by $2$ only decreases the product; e.g., $k=1$: $n \geq 2^1 = 2$; $k=2$: $n \geq 2^2 = 4$; $k=3$: $n \geq 2^3 = 8$).
-Convergence of the series: the partial sums $P_M := \sum_{\Omega(n)=k,\, 2 \leq n \leq M} 1/(n\ln n)$ are increasing in $M$ (all terms $1/(n\ln n) > 0$). They are bounded above uniformly in $M$: since all terms are positive, $P_M \leq L_k := \sum_{n \geq 2,\,\Omega(n)=k} 1/(n\ln n)$. The full-stratum sum $L_k$ is finite: $A_k = \{n \geq 2 : \Omega(n)=k\}$ is a primitive subset of $[2^k, \infty) \subseteq \mathbb{N}$, so F1 (applied to $A_k$ as a primitive set with floor $2^k$; the bound holds for each FIXED $k$ independently, giving a concrete finite upper bound on the sum over $A_k$) gives $L_k < \infty$ for each fixed $k$. Hence the increasing sequence $(P_M)$ is bounded above; a bounded increasing sequence of reals converges.
+Convergence of the series: the partial sums $P_M := \sum_{\Omega(n)=k,\, 2 \leq n \leq M} 1/(n\ln n)$ are increasing in $M$ (all terms $1/(n\ln n) > 0$). They are bounded above uniformly in $M$: since all terms are positive, $P_M \leq L_k := \sum_{n \geq 2,\,\Omega(n)=k} 1/(n\ln n)$. The full-stratum sum $L_k$ is finite: $A_k = \{n \geq 2 : \Omega(n)=k\}$ is a primitive subset of $[2^k, \infty) \subseteq \mathbb{N}$, so F1 (applied to the primitive set $A_k \subseteq [2^k, \infty)$) gives $\sum_{a \in A_k} 1/(a\ln a) < e^\gamma\pi/4 + o(1)$, so in particular $L_k < \infty$ for each fixed $k$. Hence the increasing sequence $(P_M)$ is bounded above; a bounded increasing sequence of reals converges.
 Define $L_k := \sum_{n \geq 2,\, \Omega(n)=k} 1/(n\ln n)$ (the series sum, finite by the above
 monotone convergence argument). Then $T_k(x) = L_k - \sum_{\Omega(n)=k,\, 2\leq n < x} 1/(n\ln n)
 \to 0$ as $x \to \infty$ (tail of a convergent positive series). See
@@ -456,7 +456,7 @@ so $a = p_1 p_2 \cdots p_k$ with each $p_i \geq x$, giving $a \geq x^k$.
 **Obstacle (summing over all $k$)**: The per-stratum bounds $T_k(x^k) \to 0$ hold
 for each FIXED $k$ as $x \to \infty$. However, the number of non-negligible strata
 grows with $x$ (heuristically, strata near $k \sim \log_2 x$ are most active since then $2^k \sim x$). By **F3**,
-$T_k(2) = 1 - (c+o(1))k^2/2^k$, so $\sum_{k \geq 1} T_k(2)$ diverges. A naive
+$T_k(2) \to 1$ as $k \to \infty$ (by F3, which gives $L_k = 1 - (c+o(1))k^2/2^k$ asymptotically for large $k$), so $\sum_{k \geq 1} T_k(2)$ diverges (a divergent series has terms not going to zero; $T_k(2) \to 1 \neq 0$). A naive
 sum of the per-stratum bounds over all $k$ is therefore not finite. A global argument
 exploiting the primitivity of $A_{\mathrm{lg}}$ as a whole is required.
 
