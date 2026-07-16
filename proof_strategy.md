@@ -133,7 +133,7 @@ $$\sum_{a \in A} \frac{1}{a \log a}
   the restriction $n \geq 2$ is automatically satisfied, so $T_k(2)$ equals the full stratum sum
   $\sum_{\Omega(n)=k} 1/(n\log n)$; by F3 (for $k \to \infty$), this equals
   $1 - (c+o(1))k^2/2^k \to 1$ as $k \to \infty$ (since $k^2/2^k \to 0$ as $k \to \infty$). Hence
-  $T_k(2) \to 1 \neq 0$; by the divergence test (an elementary criterion: if $a_k \not\to 0$ then $\sum a_k$ diverges),
+  $T_k(2) \to 1 \neq 0$; by the divergence test (an elementary criterion: if $a_k \not\to 0$ then $\sum a_k$ diverges; no ledger citation needed — this is a standard calculus necessary condition for convergence),
   $\sum_{k > K} T_k(2)$ diverges for any fixed $K$.
   The stratification bound is VACUOUS for the high-stratum sum, for any fixed $K$.
 
@@ -215,7 +215,7 @@ Substituting this exact value into the bound above (which adds the $\frac{1}{N\l
 $$\sum_{a=N}^{2N-1}\frac{1}{a\log a} \leq \frac{1}{N\log N} + \ln\!\left(\frac{\log(2N)}{\log N}\right).$$
 Since $\frac{\log(2N)}{\log N} = \frac{\log N + \log 2}{\log N} = 1 + \frac{\log 2}{\log N}$ exactly (algebraic identity, no error term), we have $\ln\!\left(\frac{\log(2N)}{\log N}\right) = \ln\!\left(1 + \frac{\log 2}{\log N}\right)$ exactly. Applying $\ln(1+u) \leq u$ for $u \geq 0$:
 $$\sum_{a=N}^{2N-1}\frac{1}{a\log a} \leq \frac{1}{N\log N} + \frac{\log 2}{\log N} = \frac{\log 2}{\log N} + O\!\left(\frac{1}{N\log N}\right). \quad\square$$
-where the last step uses $\ln(1 + u) \leq u$ for $u \geq 0$: since $e^u \geq 1 + u$ for all $u$ (this follows by comparing derivatives: $e^0 = 1 + 0 = 1$ and $\frac{d}{du} e^u = e^u \geq 1 = \frac{d}{du}(1+u)$ for $u \geq 0$), taking logarithms gives $u \geq \ln(1+u)$.
+where the last step uses $\ln(1 + u) \leq u$ for $u \geq 0$ (no ledger citation needed; proved inline: since $e^u \geq 1 + u$ for all $u \geq 0$ by comparing derivatives at $u=0$ — $e^0 = 1+0$ and $\frac{d}{du}e^u = e^u \geq 1 = \frac{d}{du}(1+u)$ — taking logarithms gives $u \geq \ln(1+u)$).
 
 Note: This per-interval bound is tight but its sum over dyadic intervals
 $[x, 2x), [2x, 4x), \ldots$ diverges: summing the bound $\log 2/\log(2^j x)$ over $j = 0, 1, 2, \ldots$ gives
@@ -266,7 +266,7 @@ $S_2 := \sum_{a \in A_2} \frac{1}{a \log a}$.
 *Proof*: In what follows, take $x$ to be a positive integer $\geq 2$ (replacing $x$ by $\lceil x \rceil$ if necessary; the conclusion $S_1 = 1 + o(1)$ is unchanged because the final bound $1 + 1/(\lceil x \rceil \ln \lceil x \rceil)$ satisfies $1/(\lceil x \rceil \ln \lceil x \rceil) \leq 1/(x \ln x) \to 0$ as $x \to \infty$, so it is still $o(1)$). Every element of $A_1$ lies in $[x, x^e) \cap \mathbb{Z}$, so
 $A_1 \subseteq \{x, x+1, \ldots, \lfloor x^e \rfloor\}$ (all integers from $x$ to $\lfloor x^e\rfloor$); since all terms $1/(n \ln n)$ are positive (as $n \geq x \geq 2$ implies $\ln n \geq \ln 2 > 0$), summing over a subset gives $\leq$ summing over the full range:
 $$S_1 \leq \sum_{n=x}^{\lfloor x^e \rfloor} \frac{1}{n \ln n}.$$
-Since $f(t) = 1/(t \ln t)$ is strictly decreasing for $t \geq 2$: for any $n \geq x+1$ and $t \in [n-1,n]$, we have $t \leq n$, so $f(t) \geq f(n)$ (since $f$ is decreasing; $f(n)$ is the minimum of $f$ on $[n-1,n]$, attained at the right endpoint). Therefore $f(n) \leq f(t)$ for all $t \in [n-1,n]$. Integrating over $[n-1,n]$ (length 1): $f(n) = \int_{n-1}^n f(n)\,dt \leq \int_{n-1}^n f(t)\,dt$. Therefore:
+Since $f(t) = 1/(t \ln t)$ is strictly decreasing for $t \geq 2$: for any $n \geq x+1$ and $t \in [n-1,n]$, we have $t \leq n$, so $f(t) \geq f(n)$ (since $f$ is decreasing; $f(n)$ is the minimum of $f$ on $[n-1,n]$, attained at the right endpoint). Therefore $f(n) \leq f(t)$ for all $t \in [n-1,n]$. Integrating over $[n-1,n]$ (length 1): $f(n) = \int_{n-1}^n f(n)\,dt \leq \int_{n-1}^n f(t)\,dt$ (standard decreasing-function comparison; no ledger citation needed). Therefore:
 $$\sum_{n=x}^{\lfloor x^e \rfloor} f(n)
   = f(x) + \sum_{n=x+1}^{\lfloor x^e \rfloor} f(n)
   \leq f(x) + \sum_{n=x+1}^{\lfloor x^e \rfloor} \int_{n-1}^n f(t)\,dt
@@ -504,7 +504,7 @@ $$\sum_{a \in A(p)} \frac{1}{a \ln a} \leq \frac{1}{p} \sum_{b \in B(p)} \frac{1
 $$\sum_{a \in A_{\mathrm{sm}}} \frac{1}{a \ln a}
   < e^{\gamma}\frac{\pi}{4} \cdot \sum_{\substack{p < x \\ p \text{ prime}}} \frac{1}{p}.$$
 This upper bound does NOT tend to $0$ as $x \to \infty$: for all $x > 2$,
-the prime $p = 2 < x$ contributes $1/p = 1/2$ to the sum (since $2 < x$ whenever $x > 2$), so
+the prime $p = 2 < x$ contributes $1/p = 1/2$ to the sum (since $2 < x$ whenever $x > 2$; this is arithmetic, no ledger citation needed), so
 $\sum_{p<x} 1/p \geq 1/2$, giving $e^\gamma\pi/4 \cdot \sum_{p<x} 1/p \geq e^\gamma\pi/8 > 0$.
 The bound is bounded below by a positive constant for all $x > 2$, so it
 cannot show $\sum_{a \in A_{\mathrm{sm}}} 1/(a\ln a) = o(1)$.
@@ -563,7 +563,7 @@ $a = pb \in A(p)$ with $p < q$ (hypothetically — primitivity forbids this):
 Then $qb' \mid pb$. Since $q \mid qb'$ and $qb' \mid pb$, we have $q \mid pb$.
 Since $q$ is prime and $\gcd(q, p) = 1$ (distinct primes), from $q \mid pb$ we get $q \mid b$ by Euclid's lemma. (Derivation: Bézout gives $qs + pt = 1$ for some integers $s, t$; multiply by $b$: $qsb + ptb = b$; then $q \mid qsb$ and $q \mid pb$ so $q \mid t(pb) = ptb$; hence $q \mid b$.)
 Also $p < q \leq p_{\min}(b')$ means $p$ is strictly less than every prime factor of $b'$, so $p \nmid b'$, giving $\gcd(p, b') = 1$; and $p \nmid q$ (distinct primes), so $\gcd(p, q) = 1$. Since $p$ is prime and $\gcd(p, q) = \gcd(p, b') = 1$, we have $\gcd(p, qb') = 1$ (as $p$ divides neither $q$ nor $b'$, hence not their product).
-Now $qb' \mid pb$ and $\gcd(qb', p) = 1$: by the coprime-divisibility lemma (if $\gcd(m,n)=1$ and $m \mid nk$ then $m \mid k$, proved via Bézout: $ms + nt = 1 \Rightarrow msk + ntk = k$, so $m \mid k$), with $m = qb'$, $n = p$, $k = b$: since $\gcd(qb', p) = 1$ and $qb' \mid pb$, we get $qb' \mid b$. Since $b' \geq 2$ (because $b'=1$ would require $a' = qb' = q \cdot 1 = q$; but $q < x$ by hypothesis (both $p,q$ are primes $< x$), contradicting $a' = q \in A \subset [x,\infty)$; so $b' \geq 2$):
+Now $qb' \mid pb$ and $\gcd(qb', p) = 1$: by the coprime-divisibility lemma (no ledger citation needed; proved inline via Bézout: if $\gcd(m,n)=1$ and $m \mid nk$, write $ms + nt = 1$; multiply by $k$: $msk + ntk = k$; then $m \mid msk$ and $m \mid nk$ so $m \mid ntk$; hence $m \mid k$), with $m = qb'$, $n = p$, $k = b$: since $\gcd(qb', p) = 1$ and $qb' \mid pb$, we get $qb' \mid b$. Since $b' \geq 2$ (because $b'=1$ would require $a' = qb' = q \cdot 1 = q$; but $q < x$ by hypothesis (both $p,q$ are primes $< x$), contradicting $a' = q \in A \subset [x,\infty)$; so $b' \geq 2$):
 $$qb' \geq 2q \geq 4 \quad (q \geq 2,\; b' \geq 2),$$
 so $b \geq qb' \geq 2q$. Thus downward divisibility forces $b$ to be a multiple of $qb'$,
 a quantity $\geq 2q \geq 4$; this places strong lower bounds on elements of $B(p)$ that could
