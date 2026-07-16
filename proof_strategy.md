@@ -88,7 +88,7 @@ all terms are positive, so $S_k(A,x) \leq T_k(x)$. The full series
 $\sum_{n \geq 2, \Omega(n)=k} 1/(n \log n)$ converges for each $k$: the set
 $A_k := \{n \geq 2 : \Omega(n) = k\}$ is itself a primitive set, because if
 $a \mid b$ with $a \neq b$ and $\Omega(a) = \Omega(b) = k$ then $b/a \geq 2$
-gives $\Omega(b) \geq \Omega(a) + \Omega(2) = k+1 > k$, contradiction. Moreover $A_k \subset [2^k, \infty)$: each $n \in A_k$ has exactly $k$ prime factors (with multiplicity) each $\geq 2$, so $n = p_1 \cdots p_k \geq 2 \cdot 2 \cdots 2 = 2^k$ (replacing each $p_i \geq 2$ by $2$ only decreases the product; e.g., $k=1$: $n \geq 2^1 = 2$; $k=2$: $n \geq 2^2 = 4$; $k=3$: $n \geq 2^3 = 8$).
+(a positive integer since $a \mid b$ and $a \neq b$); by complete additivity of $\Omega$ ($\Omega(mn) = \Omega(m) + \Omega(n)$ for all $m,n \geq 1$, as both sides count prime factors of $mn$ with multiplicity): $\Omega(b) = \Omega(a \cdot (b/a)) = \Omega(a) + \Omega(b/a) \geq k + \Omega(2) = k+1 > k$, contradiction. Moreover $A_k \subset [2^k, \infty)$: each $n \in A_k$ has exactly $k$ prime factors (with multiplicity) each $\geq 2$, so $n = p_1 \cdots p_k \geq 2 \cdot 2 \cdots 2 = 2^k$ (replacing each $p_i \geq 2$ by $2$ only decreases the product; e.g., $k=1$: $n \geq 2^1 = 2$; $k=2$: $n \geq 2^2 = 4$; $k=3$: $n \geq 2^3 = 8$).
 Convergence of the series: the partial sums $P_M := \sum_{\Omega(n)=k,\, 2 \leq n \leq M} 1/(n\ln n)$ are increasing in $M$ (all terms $1/(n\ln n) > 0$). They are bounded above uniformly in $M$: the index set $\{n \geq 2 : \Omega(n)=k, n \leq M\}$ is a primitive subset of $[2^k, \infty)$; by F1 (which bounds $\sum 1/(a\ln a)$ above by a finite number for ANY primitive subset of $[x,\infty)$ for any $x \geq 2$), each $P_M$ is bounded above by the same finite constant (independent of $M$, since the floor $2^k$ is fixed for fixed $k$). Hence the increasing sequence $(P_M)$ is bounded above; a bounded increasing sequence of reals converges.
 Define $L_k := \sum_{n \geq 2,\, \Omega(n)=k} 1/(n\ln n)$ (the series sum, finite by the above
 monotone convergence argument). Then $T_k(x) = L_k - \sum_{\Omega(n)=k,\, 2\leq n < x} 1/(n\ln n)
@@ -263,7 +263,7 @@ $S_2 := \sum_{a \in A_2} \frac{1}{a \log a}$.
 
 **Lemma (`S1_bound`)**: $S_1 \leq 1 + o(1)$ as $x \to \infty$.
 
-*Proof*: In what follows, take $x$ to be a positive integer $\geq 2$ (replacing $x$ by $\lceil x \rceil$ if necessary; since $\lceil x \rceil \leq x + 1$, the conclusion $S_1 = 1 + o(1)$ is unchanged). Every element of $A_1$ lies in $[x, x^e) \cap \mathbb{Z}$, so
+*Proof*: In what follows, take $x$ to be a positive integer $\geq 2$ (replacing $x$ by $\lceil x \rceil$ if necessary; the conclusion $S_1 = 1 + o(1)$ is unchanged because the final bound $1 + 1/(\lceil x \rceil \ln \lceil x \rceil)$ satisfies $1/(\lceil x \rceil \ln \lceil x \rceil) \leq 1/(x \ln x) \to 0$ as $x \to \infty$, so it is still $o(1)$). Every element of $A_1$ lies in $[x, x^e) \cap \mathbb{Z}$, so
 $A_1 \subseteq \{x, x+1, \ldots, \lfloor x^e \rfloor\}$ (all integers from $x$ to $\lfloor x^e\rfloor$); since all terms $1/(n \ln n)$ are positive (as $n \geq x \geq 2$ implies $\ln n \geq \ln 2 > 0$), summing over a subset gives $\leq$ summing over the full range:
 $$S_1 \leq \sum_{n=x}^{\lfloor x^e \rfloor} \frac{1}{n \ln n}.$$
 Since $f(t) = 1/(t \ln t)$ is strictly decreasing for $t \geq 2$: for any $n \geq x+1$ and $t \in [n-1,n]$, we have $t \leq n$, so $f(t) \geq f(n)$ (since $f$ is decreasing; $f(n)$ is the minimum of $f$ on $[n-1,n]$, attained at the right endpoint). Therefore $f(n) \leq f(t)$ for all $t \in [n-1,n]$. Integrating over $[n-1,n]$ (length 1): $f(n) = \int_{n-1}^n f(n)\,dt \leq \int_{n-1}^n f(t)\,dt$. Therefore:
@@ -282,7 +282,7 @@ $$\int_x^{x^e} \frac{dt}{t \ln t}
   = \ln e + \ln(\ln x) - \ln(\ln x) = \ln e,$$
 using $\ln(x^e) = e\ln x$ and $\ln(e\ln x) = \ln e + \ln(\ln x)$ (product rule $\ln(ab) = \ln a + \ln b$).
 By the identity $\ln(e^t) = t$ applied at $t = 1$: $\ln e = \ln(e^1) = 1$.
-Spot-check at $x = 10$: the upper limit is $x^e = 10^e$ (ten to the power $e \approx 2.718$, so $10^e \approx 522.7$); then $\ln\ln(10^e) - \ln\ln(10) = \ln(e\cdot\ln 10) - \ln(\ln 10) = 1 + \ln\ln 10 - \ln\ln 10 = 1$. $\checkmark$
+Spot-check of the INTEGRAL $\int_{10}^{10^e} dt/(t\ln t)$ (not of $S_1$ itself): at $x = 10$, the upper limit is $10^e \approx 522.7$, and $\ln\ln(10^e) - \ln\ln(10) = \ln(e\cdot\ln 10) - \ln(\ln 10) = 1 + \ln\ln 10 - \ln\ln 10 = 1$. $\checkmark$ (The full S_1 bound at $x=10$ is $S_1 \leq 1 + 1/(10\ln 10) \approx 1.043$, tending to $1$ as $x \to \infty$.)
 Substituting $f(x) = 1/(x\ln x)$ and $\int_x^{x^e} f(t)\,dt = \ln e = 1$ (the integral evaluated in the antiderivative calculation above) into the estimate $S_1 \leq f(x) + \int_x^{x^e} f(t)\,dt$:
 $$S_1 \leq \frac{1}{x\ln x} + 1 = 1 + \frac{1}{x \ln x} = 1 + O\!\left(\frac{1}{x\ln x}\right) = 1 + o(1)$$ as $x \to \infty$, matching the lemma statement. $\square$
 
@@ -563,8 +563,7 @@ $a = pb \in A(p)$ with $p < q$ (hypothetically — primitivity forbids this):
 Then $qb' \mid pb$. Since $q \mid qb'$ and $qb' \mid pb$, we have $q \mid pb$.
 Since $q$ is prime and $\gcd(q, p) = 1$ (distinct primes), from $q \mid pb$ we get $q \mid b$ by Euclid's lemma. (Derivation: Bézout gives $qs + pt = 1$ for some integers $s, t$; multiply by $b$: $qsb + ptb = b$; then $q \mid qsb$ and $q \mid pb$ so $q \mid t(pb) = ptb$; hence $q \mid b$.)
 Also $p < q \leq p_{\min}(b')$ means $p$ is strictly less than every prime factor of $b'$, so $p \nmid b'$, giving $\gcd(p, b') = 1$; and $p \nmid q$ (distinct primes), so $\gcd(p, q) = 1$. Since $p$ is prime and $\gcd(p, q) = \gcd(p, b') = 1$, we have $\gcd(p, qb') = 1$ (as $p$ divides neither $q$ nor $b'$, hence not their product).
-Now $qb' \mid pb$ and $\gcd(qb', p) = 1$: by the coprime-divisibility lemma (if $\gcd(m,n)=1$ and $m \mid nk$ then $m \mid k$, proved via Bézout: $ms + nt = 1 \Rightarrow msk + ntk = k$, so $m \mid k$), with $m = qb'$, $n = p$, $k = b$: since $\gcd(qb', p) = 1$ and $qb' \mid pb$, we get $qb' \mid b$. Since $b' \geq 2$ (as shown in
-Section 6 for $B(q)$, because $b'=1$ would require $a' = q < x$, contradicting $a' \geq x$):
+Now $qb' \mid pb$ and $\gcd(qb', p) = 1$: by the coprime-divisibility lemma (if $\gcd(m,n)=1$ and $m \mid nk$ then $m \mid k$, proved via Bézout: $ms + nt = 1 \Rightarrow msk + ntk = k$, so $m \mid k$), with $m = qb'$, $n = p$, $k = b$: since $\gcd(qb', p) = 1$ and $qb' \mid pb$, we get $qb' \mid b$. Since $b' \geq 2$ (because $b'=1$ would require $a' = qb' = q \cdot 1 = q$; but $q < x$ by hypothesis (both $p,q$ are primes $< x$), contradicting $a' = q \in A \subset [x,\infty)$; so $b' \geq 2$):
 $$qb' \geq 2q \geq 4 \quad (q \geq 2,\; b' \geq 2),$$
 so $b \geq qb' \geq 2q$. Thus downward divisibility forces $b$ to be a multiple of $qb'$,
 a quantity $\geq 2q \geq 4$; this places strong lower bounds on elements of $B(p)$ that could
