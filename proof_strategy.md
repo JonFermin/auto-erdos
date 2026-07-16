@@ -234,7 +234,7 @@ $\sum_{j=0}^\infty \frac{\log 2}{j \log 2 + \log x} = \sum_{j=0}^\infty \frac{1}
 (dividing numerator and denominator by $\log 2$: numerator $\log 2/\log 2 = 1$, denominator $(j\log 2 + \log x)/\log 2 = j + \log x/\log 2 = j + \log_2 x$),
 a harmonic-type series diverging as $j \to \infty$. The
 cross-interval primitivity constraint is essential to obtain a finite global
-bound. See `proof_lemmas/lemma_cross_stratum_control.md` for why this fails.
+bound (the divergence is a property of the dyadic sum alone, independent of the stratification argument).
 
 **Suggested directions for future work**:
 
@@ -451,7 +451,7 @@ so $a = p_1 p_2 \cdots p_k$ with each $p_i \geq x$, giving $a \geq x^k$.
 
 **Obstacle (summing over all $k$)**: The per-stratum bounds $T_k(x^k) \to 0$ hold
 for each FIXED $k$ as $x \to \infty$. However, the number of non-negligible strata
-grows with $x$ (roughly $k \sim \log_2 x$ strata are "active"). By **F3**,
+grows with $x$ (heuristically, strata near $k \sim \log_2 x$ are most active since then $2^k \sim x$). By **F3**,
 $T_k(2) = 1 - (c+o(1))k^2/2^k$, so $\sum_{k \geq 1} T_k(2)$ diverges. A naive
 sum of the per-stratum bounds over all $k$ is therefore not finite. A global argument
 exploiting the primitivity of $A_{\mathrm{lg}}$ as a whole is required.
@@ -651,9 +651,9 @@ $$A_{\mathrm{sm}} \cap \{b \cdot m : m \in \mathbb{N}\} = \emptyset.$$
 Equivalently, $A_{\mathrm{sm}}$ is an antichain in the integers with a small prime factor,
 sieved additionally so that none of its elements is a multiple of any $A_{\mathrm{lg}}$ element.
 
-**Sieve competition**: If $A_{\mathrm{lg}}$ is multiplicatively dense (many multiples in $[x, \infty)$),
-then many integers are removed from the pool available to $A_{\mathrm{sm}}$, forcing
-$\sum_{a \in A_{\mathrm{sm}}} 1/(a \log a)$ to be small. Conversely, a large $A_{\mathrm{sm}}$ leaves little
+**Sieve competition** (heuristic motivation, not a proved lemma): If $A_{\mathrm{lg}}$ is multiplicatively dense (many multiples in $[x, \infty)$),
+then many integers are removed from the pool available to $A_{\mathrm{sm}}$, heuristically reducing
+$\sum_{a \in A_{\mathrm{sm}}} 1/(a \log a)$. Conversely, a large $A_{\mathrm{sm}}$ leaves little
 room for $A_{\mathrm{lg}}$ (no $b \in A_{\mathrm{lg}}$ can divide any $a \in A_{\mathrm{sm}}$). Quantifying this
 trade-off — showing $\sum_{A_{\mathrm{sm}}} + \sum_{A_{\mathrm{lg}}} \leq 1 + o(1)$ via the joint
 exclusion structure — is open (Q13).
