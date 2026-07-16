@@ -221,11 +221,10 @@ Adding $f(N) = 1/(N\log N)$:
 $$\sum_{a=N}^{2N-1} \frac{1}{a \log a} \leq \frac{1}{N\log N} + \int_N^{2N} \frac{dt}{t \log t},$$
 so:
 $$\sum_{a=N}^{2N-1} \frac{1}{a \log a} \leq \int_N^{2N} \frac{dt}{t \log t} + \frac{1}{N \log N}$$
-The integral evaluates using the antiderivative: by the chain rule, $\frac{d}{dt}(\ln\ln t) = \frac{1}{\ln t}\cdot\frac{1}{t} = \frac{1}{t\ln t}$ (for $t > 1$), so
-$\int_N^{2N} \frac{dt}{t\ln t} = \bigl[\ln\ln t\bigr]_N^{2N} = \ln\ln(2N) - \ln\ln N = \ln\!\bigl(\frac{\ln(2N)}{\ln N}\bigr) = \ln\!\bigl(\frac{\log(2N)}{\log N}\bigr)$, giving:
-$$= \ln\!\left(\frac{\log(2N)}{\log N}\right) + O\!\left(\frac{1}{N \log N}\right)
-  = \ln\!\left(1 + \frac{\log 2}{\log N}\right) + O\!\left(\frac{1}{N \log N}\right)
-  \leq \frac{\log 2}{\log N} + O\!\left(\frac{1}{N \log N}\right), \quad \square$$
+The integral evaluates exactly: since $\frac{d}{dt}(\ln\ln t) = \frac{1}{t\ln t}$ for $t > 1$,
+$$\int_N^{2N} \frac{dt}{t\ln t} = \bigl[\ln\ln t\bigr]_N^{2N} = \ln\ln(2N) - \ln\ln N = \ln\!\left(\frac{\ln(2N)}{\ln N}\right) = \ln\!\left(\frac{\log(2N)}{\log N}\right).$$
+Substituting this exact value into the bound above (which adds the $\frac{1}{N\log N}$ term):
+$$\sum_{a=N}^{2N-1}\frac{1}{a\log a} \leq \frac{1}{N\log N} + \ln\!\left(\frac{\log(2N)}{\log N}\right) = \ln\!\left(1 + \frac{\log 2}{\log N}\right) + O\!\left(\frac{1}{N\log N}\right) \leq \frac{\log 2}{\log N} + O\!\left(\frac{1}{N\log N}\right). \quad\square$$
 where the last step uses $\ln(1 + u) \leq u$ for $u \geq 0$: since $e^u \geq 1 + u$ for all $u$ (this follows by comparing derivatives: $e^0 = 1 + 0 = 1$ and $\frac{d}{du} e^u = e^u \geq 1 = \frac{d}{du}(1+u)$ for $u \geq 0$), taking logarithms gives $u \geq \ln(1+u)$.
 
 Note: This per-interval bound is tight but its sum over dyadic intervals
