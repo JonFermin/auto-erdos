@@ -23,3 +23,4 @@
 {"qid":"Q12","status":"partial","session_id":"s_0715-083916-e364","summary":"prime-factor split defined; prime_tail_vanish proved; each fixed Omega-k stratum of A_lg = o(1); obstacle: summing over all k without global primitivity argument","ts":"2026-07-15T08:49:29+00:00"}
 {"qid":"Q12","status":"claimed","session_id":"s_0715-090653-4b95","summary":"continuing prime-factor split; Round 4: fix 2 WARNs + add Section 6 A_sm decomposition","ts":"2026-07-15T09:07:32+00:00"}
 {"qid":"Q12","status":"claimed","session_id":"s_0715-090653-4b95","summary":"Round 6: directional cross-p structural constraint — a∤a' for p<q is automatic; downward a'∤a requires primitivity","ts":"2026-07-15T09:27:09+00:00"}
+{"qid":"Q12","status":"claimed","session_id":"s_0716-080629-8e9c","summary":"continuing prime-factor split; Round 31: remove 2C+1 warn, simplify sieve-density, add new cross-stratum direction","ts":"2026-07-16T08:09:25+00:00"}

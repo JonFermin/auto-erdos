@@ -180,20 +180,14 @@ See `proof_lemmas/lemma_cross_stratum_control.md` for the precise gap statement.
 The critical regime is strata near $k = \lfloor \log_2 x \rfloor$. For such $k$,
 the smallest $k$-almost prime is $2^k$ and we have $2^k \leq x < 2^{k+1}$,
 so the restriction $a \geq x$ is nearly vacuous. The per-stratum bound gives
-$S_k(A,x) \leq T_k(x) \leq T_k(2)$ (since $x \geq 2$ implies $\{n \geq x : \Omega(n)=k\} \subseteq \{n \geq 2 : \Omega(n)=k\}$, so $T_k(x)$ is a partial sub-sum of $T_k(2)$ with non-negative terms, giving $T_k(x) \leq T_k(2)$). As $x \to \infty$, $k = \lfloor\log_2 x\rfloor \to \infty$, so F3's asymptotic formula applies: $T_k(2) = 1 - (c+o(1))k^2/2^k$. Since
-$k = \lfloor\log_2 x\rfloor$ satisfies $2^k \leq x$ (by definition of floor),
-hence $1/2^k \geq 1/x$, so $k^2/2^k \geq k^2/x$; since $k = \lfloor\log_2 x\rfloor \geq (\log_2 x) - 1$, we get
-$k^2/x \geq (\lfloor\log_2 x\rfloor)^2/x$, giving
-$T_k(2) \leq 1 - (c+o(1))(\lfloor\log_2 x\rfloor)^2/x$, which tends to 1
-from below as $x \to \infty$ (correction of order $(\log x)^2/x \to 0$).
-For any fixed $C$, the sum over strata $k \in [\lfloor\log_2 x\rfloor - C,
-\lfloor\log_2 x\rfloor + C]$ of these per-stratum bounds is at most
-$(2C+1) \cdot (1 - (c+o(1))(\lfloor\log_2 x\rfloor)^2/x)$ (since the range $[\lfloor\log_2 x\rfloor - C, \lfloor\log_2 x\rfloor + C]$ contains exactly $2C+1$ integer values of $k$). As $x \to \infty$, the correction
-$(c+o(1))(\lfloor\log_2 x\rfloor)^2/x \to 0$ (since $(\log_2 x)^2/x \to 0$), so
-each individual $T_{k'}(2)$ for $k'$ in the window satisfies $T_{k'}(2) \to 1$ as $x \to \infty$ (since $k' \approx \log_2 x \to \infty$ and the F3 correction $k'^2/2^{k'} \to 0$). For each fixed $C$, the sum of $2C+1$ such terms tends to $2C+1$. As $C$ grows (a separate limit from $x \to \infty$), $2C+1 \to \infty$.
-Controlling this requires a global argument that uses
-primitivity to prevent multiple "critical strata" from simultaneously
-contributing nearly 1.
+$S_k(A,x) \leq T_k(x) \leq T_k(2)$ (since $T_k(x)$ is a sub-sum of $T_k(2)$ with
+non-negative terms). As $x \to \infty$, $k = \lfloor\log_2 x\rfloor \to \infty$, so by
+F3 (whose asymptotic is stated for $k \to \infty$): $T_k(2) = 1 - (c+o(1))k^2/2^k \to 1$
+from below (the correction $k^2/2^k$ is positive and tends to $0$ as $k \to \infty$, so the
+sum approaches $1$ from below). Since $T_k(2) \to 1 \neq 0$, the series $\sum_k T_k(2)$
+diverges by the divergence test, so summing per-stratum bounds over all $k$ is not useful.
+A global argument using primitivity to prevent multiple strata from simultaneously
+contributing weight close to $1$ is required.
 
 **Dead ends ruled out**:
 - Using F2's unsigned big-O to conclude $\sum > 1$ for any stratum: SIGN ERROR.
@@ -304,7 +298,14 @@ This sum serves as an upper bound on $S_1$ regardless of the primitivity structu
 
 **Why $S_2$ is hard without primitivity**:
 
-Without any constraint, $\sum_{n \geq x^e} 1/(n \log n)$ diverges. Since $f(t) = 1/(t\ln t)$ is decreasing, for $t \in [n, n+1]$ we have $f(n) \geq f(t)$, so $f(n) = \int_n^{n+1} f(n)\,dt \geq \int_n^{n+1} f(t)\,dt$. Summing from $n = N$ to $M$: $\sum_{n=N}^M f(n) \geq \int_N^{M+1} f(t)\,dt = [\ln\ln t]_N^{M+1} = \ln\ln(M+1) - \ln\ln N$ (using the antiderivative from the $S_1$ proof above). Since $\ln\ln(M+1) \to \infty$, the series diverges. Primitivity is essential to control $S_2$.
+Without any constraint, $\sum_{n \geq x^e} 1/(n \log n)$ diverges. The series
+$\sum_{n \geq 2} 1/(n \ln n)$ diverges: since $\ln\ln t$ is a (standard) antiderivative
+of $1/(t \ln t)$ for $t > 1$ (by the chain rule: $\frac{d}{dt}\ln\ln t = 1/(\ln t) \cdot 1/t$),
+we have $\int_2^M dt/(t\ln t) = \ln\ln M - \ln\ln 2 \to \infty$ as $M \to \infty$.
+Since $f(t) = 1/(t\ln t)$ is decreasing on $[n, n+1]$, $f(n) \geq f(t)$ for $t \in [n, n+1]$,
+so $f(n) \geq \int_n^{n+1} f(t)\,dt$. Summing from $n = N$ to $M$:
+$\sum_{n=N}^M f(n) \geq \int_N^{M+1} f(t)\,dt = \ln\ln(M+1) - \ln\ln N \to \infty$.
+The series $\sum_{n \geq x^e} 1/(n \ln n)$ therefore diverges. Primitivity is essential to control $S_2$.
 
 **The blocking principle (the open part)**:
 
@@ -329,36 +330,15 @@ with $f(t) \to 0$ as $t \to 1^-$ (i.e., $f$ is a function vanishing as its argum
 primitive $A$ and all $x$ large; this would give $S_1 + S_2 \leq S_1 + f(S_1)
 \leq 1 + o(1)$. No such $f$ is currently known.
 
-*Why sieve-density arguments fail* (heuristic exploration):
+*Why sieve-density arguments fail*:
 
-A natural approach is to estimate how many integers in $[x^e, \infty)$ avoid
-divisibility by $A_1$. Suppose a fraction $\rho > 0$ (bounded below, uniformly
-in $j$) of integers in each interval $[N, 2N)$ escape blocking by $A_1$; the sum
-$\rho \cdot \sum_{n=N}^{2N} 1/(n \log n) \leq \rho \cdot (\log 2/\log N + O(1/(N\log N)))$
-over infinitely many dyadic intervals $N = x^e 2^j$ gives
-$\rho \cdot \sum_{j \geq 0} \frac{\log 2}{e \log x + j \log 2}$, which diverges for
-any fixed $\rho > 0$ (compare with $\sum_{j \geq 1} 1/j = \infty$, the harmonic series,
-since $\log 2 / (e\log x + j \log 2) \geq c/j$ for $j$ large). (Note: if $\rho_j \to 0$ fast enough as $j \to \infty$,
-the series could converge — but no such decay of $\rho_j$ is available from
-the blocking structure alone without additional primitivity input.)
-Multiplying a divergent series by a uniformly positive constant does not make
-it converge.
-
-**Why this fails**: The tail $\sum_{n \geq x^e, n \in \mathcal{U}(A_1)} 1/(n \log n)$
-cannot be bounded by a sieve-density argument alone, because the base series
-$\sum_{n \geq x^e} 1/(n \log n)$ diverges and a multiplicative density factor
-(not depending on $n$) cannot convert a divergent series to a convergent one.
-
-Conclusion: Controlling $S_2$ via "unblocked density from $A_1$" fails because
-the density factor does not cure divergence.
-
-**Correct interpretation**: Even if one accounts for the blocking by $A_1$
-at every dyadic scale $[x^e 2^j, x^e 2^{j+1})$ via a multiplicative density
-factor $\rho < 1$ (the proportion of integers surviving the sieve by $A_1$),
-the sum $\rho \cdot \sum_{j \geq 0} \log 2/(e \log x + j \log 2)$ is still $\rho$
-times a divergent series. Multiplying a divergent sum by any positive constant
-does not make it converge, so this "blocking density" heuristic cannot bound
-$S_2$.
+Since $\sum_{n \geq x^e} 1/(n \log n)$ diverges (the series $\sum_{n \geq 2} 1/(n \log n)$
+diverges, as shown above), any multiplicative density factor $\rho \in (0,1)$
+that does not depend on $n$ gives $\rho \cdot \sum_{n \geq x^e} 1/(n \log n) = +\infty$.
+That is, multiplying a divergent series by a positive constant does not produce a
+convergent series. Therefore, bounding $S_2$ by a "fraction of integers surviving
+the sieve by $A_1$" (a multiplicative sieve-density approach) cannot yield a finite
+bound — the underlying series diverges regardless of the density factor.
 
 **Key insight from this failure**: Controlling $S_2$ via the "blocking density"
 of $A_1$ does not close the problem, because even after blocking by $A_1$, the
