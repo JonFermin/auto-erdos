@@ -94,7 +94,7 @@ $\sum_{n \geq 2, \Omega(n)=k} 1/(n \log n)$ converges for each $k$: the set
 $A_k := \{n \geq 2 : \Omega(n) = k\}$ is itself a primitive set, because if
 $a \mid b$ with $a \neq b$ and $\Omega(a) = \Omega(b) = k$ then $b/a \geq 2$
 (a positive integer since $a \mid b$ and $a \neq b$); by complete additivity of $\Omega$ ($\Omega(mn) = \Omega(m) + \Omega(n)$ for all $m,n \geq 1$, as both sides count prime factors of $mn$ with multiplicity): $\Omega(b) = \Omega(a \cdot (b/a)) = \Omega(a) + \Omega(b/a) \geq k + \Omega(2) = k+1 > k$, contradiction. Moreover $A_k \subset [2^k, \infty)$: each $n \in A_k$ has exactly $k$ prime factors (with multiplicity) each $\geq 2$, so $n = p_1 \cdots p_k \geq 2 \cdot 2 \cdots 2 = 2^k$ (replacing each $p_i \geq 2$ by $2$ only decreases the product; e.g., $k=1$: $n \geq 2^1 = 2$; $k=2$: $n \geq 2^2 = 4$; $k=3$: $n \geq 2^3 = 8$).
-Convergence of the series: the partial sums $P_M := \sum_{\Omega(n)=k,\, 2 \leq n \leq M} 1/(n\ln n)$ are increasing in $M$ (all terms $1/(n\ln n) > 0$). They are bounded above uniformly in $M$: since all terms are positive, $P_M \leq L_k := \sum_{n \geq 2,\,\Omega(n)=k} 1/(n\ln n)$. The full-stratum sum $L_k$ is finite: $A_k = \{n \geq 2 : \Omega(n)=k\}$ is a primitive subset of $[2^k, \infty) \subseteq \mathbb{N}$, so F1 (applied to the primitive set $A_k \subseteq \mathbb{N}$) gives $\sum_{a \in A_k} 1/(a\ln a) < e^\gamma\pi/4$ (the constant form of Zhang's theorem: for any primitive $A \subseteq \mathbb{N}$, the sum is strictly below $e^\gamma\pi/4$; no floor parameter is needed here since $A_k \subseteq \mathbb{N}$ and the bound holds universally), so $L_k < e^\gamma\pi/4 < \infty$ for each fixed $k$. Hence the increasing sequence $(P_M)$ is bounded above; a bounded increasing sequence of reals converges.
+Convergence of the series: the partial sums $P_M := \sum_{\Omega(n)=k,\, 2 \leq n \leq M} 1/(n\ln n)$ are increasing in $M$ (all terms $1/(n\ln n) > 0$). They are bounded above uniformly in $M$: since all terms are positive, $P_M \leq L_k := \sum_{n \geq 2,\,\Omega(n)=k} 1/(n\ln n)$. The full-stratum sum $L_k$ is finite: $A_k = \{n \geq 2 : \Omega(n)=k\}$ is a primitive subset of $[2^k, \infty) \subseteq \mathbb{N}$, so F1 (applied to the primitive set $A_k \subseteq [2^k, \infty)$, with floor $2^k$ which is the smallest element of $A_k$) gives $\sum_{a \in A_k} 1/(a\ln a) < e^\gamma\pi/4 + o(1)$ where the $o(1) \to 0$ as $2^k \to \infty$ (i.e.\ as $k \to \infty$); for each FIXED $k$, the $o(1)$ term at floor $2^k$ is a fixed positive constant, so $L_k < e^\gamma\pi/4 + C_k < \infty$ where $C_k \geq 0$. Hence the increasing sequence $(P_M)$ is bounded above; a bounded increasing sequence of reals converges.
 Define $L_k := \sum_{n \geq 2,\, \Omega(n)=k} 1/(n\ln n)$ (the series sum, finite by the above
 monotone convergence argument). Then $T_k(x) = L_k - \sum_{\Omega(n)=k,\, 2\leq n < x} 1/(n\ln n)
 \to 0$ as $x \to \infty$ (tail of a convergent positive series). See
@@ -192,8 +192,8 @@ is the full stratum series with floor $x = 2$ (i.e., $T_k$ evaluated at $x=2$, n
 The inequalities hold because: (i) $T_k(x) \leq T_k(2)$ since $\{n\geq x:\Omega(n)=k\} \subseteq \{n\geq 2:\Omega(n)=k\}$
 and all terms are non-negative; (ii) $T_k(2) = L_k$ since every $n$ with $\Omega(n)=k\geq 1$
 satisfies $n \geq 2^k \geq 2$, so the index set $\{n \geq 2:\Omega(n)=k\} = \{n:\Omega(n)=k\}$
-and $L_k := \sum_{n:\Omega(n)=k} 1/(n\ln n) = T_k(2)$ are the same sum. As $x \to \infty$, $k = \lfloor\log_2 x\rfloor \to \infty$, so by
-F3 (whose asymptotic is stated for $k \to \infty$): $T_k(2) = 1 - (c+o(1))k^2/2^k$.
+and $L_k := \sum_{n:\Omega(n)=k} 1/(n\ln n) = T_k(2)$ are the same sum. As $x \to \infty$, $k = k(x) := \lfloor\log_2 x\rfloor \to \infty$ (since $k(x) \geq \log_2 x - 1 \to \infty$), so by
+F3 (whose asymptotic is stated for $k \to \infty$, and applies here since $k = k(x) \to \infty$ as $x \to \infty$): $T_k(2) = 1 - (c+o(1))k^2/2^k$.
 Since the correction term $k^2/2^k \to 0$ as $k \to \infty$ (for any fixed $c > 0$,
 $k^2/2^k \to 0$ elementarily), we have $T_k(2) \to 1$ as $k \to \infty$, from below.
 (The convergence $T_k(2) \to 1$ is a direct consequence of F3 — an input fact — combined with $k^2/2^k \to 0$, the latter verified by the spot-checks in Section 1; computing the stratum sums $T_k(2)$ at specific finite $k$ is not needed.)
@@ -491,8 +491,7 @@ Then $A_{\mathrm{sm}} = \bigsqcup_{p < x,\, p \text{ prime}} A(p)$ (disjoint uni
 the quotient set $B(p) := \{a/p : a \in A(p)\}$ is a primitive set.
 
 *Proof*: Suppose $b, b' \in B(p)$ are distinct with $b \mid b'$. Set
-$a = pb$, $a' = pb' \in A(p) \subseteq A$. Then $a \mid a'$ (since $b \mid b'$
-and $p \mid p$). But $A$ is primitive, so no distinct $a, a' \in A$ satisfies
+$a = pb$, $a' = pb' \in A(p) \subseteq A$. Then $a \mid a'$: since $b \mid b'$, write $b' = bc$ for some positive integer $c$; then $a' = pb' = pbc = a \cdot c$, so $a \mid a'$. But $A$ is primitive, so no distinct $a, a' \in A$ satisfies
 $a \mid a'$. Contradiction. Similarly $b' \nmid b$. $\square$
 
 **Properties of $B(p)$**: Each $b \in B(p)$ satisfies:
@@ -576,10 +575,8 @@ direction. The upward direction is free.
 
 **What downward divisibility would force**: Suppose $a' = qb' \in A(q)$ divided
 $a = pb \in A(p)$ with $p < q$ (hypothetically — primitivity forbids this):
-Then $qb' \mid pb$. Since $q \mid qb'$ and $qb' \mid pb$, we have $q \mid pb$.
-Since $q$ is prime and $\gcd(q, p) = 1$ (distinct primes), from $q \mid pb$ we get $q \mid b$ by Euclid's lemma. (Derivation: Bézout gives $qs + pt = 1$ for some integers $s, t$; multiply by $b$: $qsb + ptb = b$; then $q \mid qsb$ and $q \mid pb$ so $q \mid t(pb) = ptb$; hence $q \mid b$.)
-Also $p < q \leq p_{\min}(b')$ means $p$ is strictly less than every prime factor of $b'$, so $p \nmid b'$, giving $\gcd(p, b') = 1$; and $p \nmid q$ (distinct primes), so $\gcd(p, q) = 1$. Since $p$ is prime and $\gcd(p, q) = \gcd(p, b') = 1$, we have $\gcd(p, qb') = 1$ (as $p$ divides neither $q$ nor $b'$, hence not their product).
-Now $qb' \mid pb$ and $\gcd(qb', p) = 1$: by the coprime-divisibility lemma (no ledger citation needed; proved inline via Bézout: if $\gcd(m,n)=1$ and $m \mid nk$, write $ms + nt = 1$; multiply by $k$: $msk + ntk = k$; then $m \mid msk$ and $m \mid nk$ so $m \mid ntk$; hence $m \mid k$), with $m = qb'$, $n = p$, $k = b$: since $\gcd(qb', p) = 1$ and $qb' \mid pb$, we get $qb' \mid b$. Since $b' \geq 2$ (because $b'=1$ would require $a' = qb' = q \cdot 1 = q$; but $q < x$ by hypothesis (both $p,q$ are primes $< x$), contradicting $a' = q \in A \subset [x,\infty)$; so $b' \geq 2$):
+Then $qb' \mid pb$. We show $\gcd(qb', p) = 1$: since $p < q \leq p_{\min}(b')$, $p$ is not a prime factor of $b'$ (so $p \nmid b'$, $\gcd(p,b')=1$), and $p \nmid q$ (distinct primes, $\gcd(p,q)=1$); since $p$ divides neither $q$ nor $b'$, $\gcd(p, qb') = 1$.
+By the coprime-divisibility lemma (if $\gcd(m,n)=1$ and $m \mid nk$, then $m \mid k$; proved inline via Bézout: write $ms + nt = 1$; multiply by $k$: $msk + ntk = k$; since $m \mid msk$ and $m \mid nk$ we get $m \mid ntk$, hence $m \mid k$), with $m = qb'$, $n = p$, $k = b$: since $\gcd(qb', p) = 1$ and $qb' \mid pb$, we get $qb' \mid b$ directly. Since $b' \geq 2$ (because $b'=1$ would require $a' = qb' = q \cdot 1 = q$; but $q < x$ by hypothesis (both $p,q$ are primes $< x$), contradicting $a' = q \in A \subset [x,\infty)$; so $b' \geq 2$):
 $$qb' \geq 2q \geq 4 \quad (q \geq 2,\; b' \geq 2),$$
 so $b \geq qb' \geq 2q$. Thus downward divisibility forces $b$ to be a multiple of $qb'$,
 a quantity $\geq 2q \geq 4$; this places strong lower bounds on elements of $B(p)$ that could
