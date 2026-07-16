@@ -192,6 +192,7 @@ and $L_k := \sum_{n:\Omega(n)=k} 1/(n\ln n) = T_k(2)$ are the same sum. As $x \t
 F3 (whose asymptotic is stated for $k \to \infty$): $T_k(2) = 1 - (c+o(1))k^2/2^k$.
 Since the correction term $k^2/2^k \to 0$ as $k \to \infty$ (for any fixed $c > 0$,
 $k^2/2^k \to 0$ elementarily), we have $T_k(2) \to 1$ as $k \to \infty$, from below.
+(The convergence $T_k(2) \to 1$ is a direct consequence of F3 — an input fact — combined with $k^2/2^k \to 0$, the latter verified by the spot-checks in Section 1; computing the stratum sums $T_k(2)$ at specific finite $k$ is not needed.)
 Since $T_k(2) \to 1 \neq 0$ as $k \to \infty$, the series $\sum_k T_k(2)$
 cannot converge (a necessary condition for convergence of $\sum a_k$ is $a_k \to 0$;
 here $T_k(2) \to 1 \neq 0$, so this fails). So summing per-stratum bounds over all $k$ is not useful.
@@ -292,7 +293,7 @@ $$\int_x^{x^e} \frac{dt}{t \ln t}
   = \ln e + \ln(\ln x) - \ln(\ln x) = \ln e,$$
 using $\ln(x^e) = e\ln x$ and $\ln(e\ln x) = \ln e + \ln(\ln x)$ (product rule $\ln(ab) = \ln a + \ln b$).
 By the identity $\ln(e^t) = t$ applied at $t = 1$: $\ln e = \ln(e^1) = 1$.
-Spot-check of the INTEGRAL $\int_{10}^{10^e} dt/(t\ln t)$ (not of $S_1$ itself): at $x = 10$, the upper limit is $10^e \approx 522.7$, and $\ln\ln(10^e) - \ln\ln(10) = \ln(e\cdot\ln 10) - \ln(\ln 10) = 1 + \ln\ln 10 - \ln\ln 10 = 1$. $\checkmark$ (The full S_1 bound at $x=10$ is $S_1 \leq 1 + 1/(10\ln 10) \approx 1.043$, tending to $1$ as $x \to \infty$.)
+Spot-check of the INTEGRAL $\int_{10}^{10^e} dt/(t\ln t)$ (not of $S_1$ itself): at $x = 10$, the upper limit is $10^e \approx 522.7$, and $\ln\ln(10^e) - \ln\ln(10) = \ln(e\cdot\ln 10) - \ln(\ln 10) = 1 + \ln\ln 10 - \ln\ln 10 = 1$. $\checkmark$ (The full $S_1$ bound at finite $x$: $S_1 \leq 1 + 1/(x\ln x)$; spot-checks — $x=10$: $\leq 1 + 1/(10\ln 10) \approx 1.043$; $x=100$: $\leq 1 + 1/(100\ln 100) \approx 1.002$; $x=1000$: $\leq 1 + 1/(1000\ln 1000) \approx 1.0001$ — confirming numerical convergence to $1$ as $x \to \infty$.)
 Substituting $f(x) = 1/(x\ln x)$ and $\int_x^{x^e} f(t)\,dt = \ln e = 1$ (the integral evaluated in the antiderivative calculation above) into the estimate $S_1 \leq f(x) + \int_x^{x^e} f(t)\,dt$:
 $$S_1 \leq \frac{1}{x\ln x} + 1 = 1 + \frac{1}{x \ln x} = 1 + O\!\left(\frac{1}{x\ln x}\right) = 1 + o(1)$$ as $x \to \infty$, matching the lemma statement. $\square$
 
