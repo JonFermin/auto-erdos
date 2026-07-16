@@ -23,3 +23,4 @@
 {"event":"session_close","session_id":"s_0715-090653-4b95","ts":"2026-07-15T11:35:42+00:00","commit":"cf642ce","reason":"reason: token budget milestone; Round 30 keep_progress 0B/5W"}
 {"event":"round","session_id":"s_0716-080629-8e9c","ts":"2026-07-16T08:40:11+00:00","summary":"Round 34 keep_progress: 0B/6W — reduced from Round 32 0B/8W; removed heuristic, clarified conjecture vs formula","qid":"Q12","status":"keep_progress","commit":"f6d4dc0"}
 {"event":"round","session_id":"s_0716-080629-8e9c","ts":"2026-07-16T09:02:48+00:00","summary":"Round 36 keep_progress: 0B/11W — fixed F1 scope for A2 and B(p), F3 calibration","qid":"Q12","status":"keep_progress","commit":"4432812"}
+{"event":"round","session_id":"s_0716-080629-8e9c","ts":"2026-07-16T09:08:09+00:00","summary":"Round 37 keep_progress: 0B/8W — clarified stratum_sub_bound finite-subset F1 argument, labeled divergence test as elementary","qid":"Q12","status":"keep_progress","commit":"3b5dee3"}
