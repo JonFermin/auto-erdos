@@ -92,7 +92,7 @@ $\sum_{n \geq 2, \Omega(n)=k} 1/(n \log n)$ converges for each $k$: the set
 $A_k := \{n \geq 2 : \Omega(n) = k\}$ is itself a primitive set, because if
 $a \mid b$ with $a \neq b$ and $\Omega(a) = \Omega(b) = k$ then $b/a \geq 2$
 (a positive integer since $a \mid b$ and $a \neq b$); by complete additivity of $\Omega$ ($\Omega(mn) = \Omega(m) + \Omega(n)$ for all $m,n \geq 1$, as both sides count prime factors of $mn$ with multiplicity): $\Omega(b) = \Omega(a \cdot (b/a)) = \Omega(a) + \Omega(b/a) \geq k + \Omega(2) = k+1 > k$, contradiction. Moreover $A_k \subset [2^k, \infty)$: each $n \in A_k$ has exactly $k$ prime factors (with multiplicity) each $\geq 2$, so $n = p_1 \cdots p_k \geq 2 \cdot 2 \cdots 2 = 2^k$ (replacing each $p_i \geq 2$ by $2$ only decreases the product; e.g., $k=1$: $n \geq 2^1 = 2$; $k=2$: $n \geq 2^2 = 4$; $k=3$: $n \geq 2^3 = 8$).
-Convergence of the series: the partial sums $P_M := \sum_{\Omega(n)=k,\, 2 \leq n \leq M} 1/(n\ln n)$ are increasing in $M$ (all terms $1/(n\ln n) > 0$). They are bounded above uniformly in $M$: the index set $\{n \geq 2 : \Omega(n)=k, n \leq M\}$ is a primitive subset of $[2^k, \infty)$; by F1 (which applies to any primitive subset of $\mathbb{N}$, including finite subsets; the bound $e^\gamma\pi/4$ is universal and holds for the finite primitive set $\{n \geq 2 : \Omega(n)=k, n \leq M\}$ uniformly in $M$), each $P_M$ is bounded above by $e^\gamma\pi/4$. Hence the increasing sequence $(P_M)$ is bounded above; a bounded increasing sequence of reals converges.
+Convergence of the series: the partial sums $P_M := \sum_{\Omega(n)=k,\, 2 \leq n \leq M} 1/(n\ln n)$ are increasing in $M$ (all terms $1/(n\ln n) > 0$). They are bounded above uniformly in $M$: the index set $\{n \geq 2 : \Omega(n)=k, n \leq M\}$ is a primitive subset of $\mathbb{N}$; F1 gives $P_M < e^{\gamma}\pi/4 + o(1)$, in particular $P_M$ is bounded above by a finite constant uniformly in $M$. Hence the increasing sequence $(P_M)$ is bounded above; a bounded increasing sequence of reals converges.
 Define $L_k := \sum_{n \geq 2,\, \Omega(n)=k} 1/(n\ln n)$ (the series sum, finite by the above
 monotone convergence argument). Then $T_k(x) = L_k - \sum_{\Omega(n)=k,\, 2\leq n < x} 1/(n\ln n)
 \to 0$ as $x \to \infty$ (tail of a convergent positive series). See
@@ -509,7 +509,7 @@ and $1/\ln(pb) \leq 1/\ln b$, giving:
 $$\frac{1}{pb \cdot \ln(pb)} \leq \frac{1}{pb \cdot \ln b}
   = \frac{1}{p} \cdot \frac{1}{b \ln b}.$$
 Summing over $B(p)$: since $B(p) \subseteq \mathbb{N}$ is a primitive set (by Lemma `sm_quotient_primitive`),
-F1 gives $\sum_{b \in B(p)} 1/(b\ln b) < e^{\gamma}\pi/4 + o(1)$ where the $o(1)$ is as the floor of $B(p)$ tends to $\infty$; since $B(p) \subseteq [x/p, \infty)$ and $x/p \to \infty$ as $x \to \infty$ for each fixed prime $p$, this $o(1) \to 0$ in the ambient limit. Therefore:
+F1 (applied to the primitive set $B(p) \subseteq \mathbb{N}$) gives $\sum_{b \in B(p)} 1/(b\ln b) < e^{\gamma}\pi/4 + o(1)$. Therefore:
 $$\sum_{a \in A(p)} \frac{1}{a \ln a} \leq \frac{1}{p} \sum_{b \in B(p)} \frac{1}{b \ln b} < \frac{e^{\gamma}\pi/4 + o(1)}{p}.$$
 
 **Why summing over $p$ fails**: Summing over all primes $p < x$:
@@ -696,28 +696,19 @@ The pool of "available" semiprimes is the set of products of pairs of primes,
 neither of which belongs to $P$. If $P$ is large, this pool is sieved
 significantly.
 
-**Toy bound (open direction, not proved)**:
+**Towards a bound (open direction, not proved)**:
 
-Let $\sigma := \sum_{p \in P} 1/p$ (sum of reciprocals of primes in $P$). As the
-pool of primes for semiprime construction is reduced by $P$, a Brun-type sieve
-argument heuristically gives that removing primes of density $\sigma$ from the
-semiprime construction pool reduces the total available semiprime weight by a
-factor of approximately $(1 - \sigma)^2$ (each semiprime uses two prime factors
-independently). Making this rigorous would require a weighted Brun or
-Selberg sieve on the set of semiprimes with prime factors restricted to
-$\{p : p \notin P\}$.
+As the pool of primes available for semiprime construction is reduced (by exclusion
+of all $p \in P$ as factors), the weight of the restricted semiprime pool decreases.
+The prime weight satisfies $\sum_{p \in P} 1/(p \ln p) \leq T_1(x)$, which tends
+to $0$ as $x \to \infty$ by Lemma `large_floor_vanish` (proved, Section 2). So
+as $x \to \infty$, the prime stratum $P$ becomes light. Whether this lightness
+forces the restricted semiprime pool to be light enough that
+$\sum_{P} + \sum_{Q} \leq 1 + o(1)$ is the open quantitative question (Q13).
 
-The hoped-for trade-off: $\text{(semiprime weight)} \lesssim (1-\sigma)^2 \cdot
-L_2$ and $\text{(prime weight)} = \sum_{p \in P} 1/(p \ln p) \leq T_1(x) \to 0$
-does not immediately give $\leq 1 + o(1)$ because $L_2 > 1$ and the factor
-$(1-\sigma)^2$ depends on the distribution of $P$.
-
-**Gap**: The heuristic sieve argument above is not yet quantitative enough to
-give a rigorous bound. The key missing ingredient is: given that
-$\sigma = \sum_{p \in P} 1/p$ (with $P \subseteq \{p \geq x : p \text{ prime}\}$,
-so $\sigma \leq T_1(x) / \min_{p \geq x} (1/\ln p) \to 0$ as $x \to \infty$
-and the individual terms $1/p$ are small), quantify the reduction in semiprime
-weight as a function of $\sigma$.
+**Gap**: Making the trade-off quantitative — showing that small prime weight $\Rightarrow$
+restricted semiprime weight also small enough — requires a rigorous bound using
+the full joint primitivity structure of $A$, which is not yet available.
 
 **Status**: The structural observation (no prime in $P$ can be a factor of any
 semiprime in $Q$) is proved above. The quantitative sieve bound remains open.
