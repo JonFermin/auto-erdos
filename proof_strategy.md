@@ -95,9 +95,9 @@ The partial sums $\sum_{\Omega(n)=k,\, 2 \leq n \leq M} 1/(n\ln n)$ are increasi
 (all terms $1/(n\ln n) > 0$) and bounded above (each initial segment is a finite subset of $A_k$,
 hence a primitive set, hence bounded by F1). A bounded increasing sequence converges in $\mathbb{R}$;
 hence the series $\sum_{n:\Omega(n)=k} 1/(n\ln n)$ converges.
-Since the partial sums $\sum_{\Omega(n)=k,\, 2\leq n \leq M} 1/(n\ln n)$ increase to a finite limit
-$L_k$ as $M \to \infty$, the remainder $T_k(x) = L_k - \sum_{\Omega(n)=k,\, 2\leq n < x} 1/(n\ln n)
-\to 0$ as $x \to \infty$. See
+Define $L_k := \sum_{n \geq 2,\, \Omega(n)=k} 1/(n\ln n)$ (the series sum, finite by the above
+monotone convergence argument). Then $T_k(x) = L_k - \sum_{\Omega(n)=k,\, 2\leq n < x} 1/(n\ln n)
+\to 0$ as $x \to \infty$ (tail of a convergent positive series). See
 `proof_lemmas/lemma_stratum_sub_bound.md`. $\square$
 
 Note: The bound $T_k(x) \leq T_k(2)$ gives $T_k(x) \leq \sum_{n \geq 2,\Omega(n)=k}
@@ -112,12 +112,9 @@ still vanishes as $x \to \infty$, which is what matters for the conjecture.
 $T_k(x) \to 0$ as $x \to \infty$.
 
 Proof: Lemma `stratum_sub_bound` shows the full series $\sum_{n \geq 2, \Omega(n)=k} 1/(n \log n)$
-converges: for any finite $S \subseteq \{n : \Omega(n)=k\}$, $S$ is a primitive set
-($A_k$ has no internal divisibility) and $S \subseteq [2^k, \infty)$ (since $n \geq 2^k$ for
-all $n$ with $\Omega(n)=k$), so by F1, $\sum_{s\in S} 1/(s\log s) < e^\gamma\pi/4 + o(1)$, a finite bound not depending on $|S|$.
-Taking the supremum over all finite $S$ shows
-the series converges to a finite limit. Since all terms are positive, $T_k(x) \to 0$ as $x \to \infty$
-(tail of a convergent positive series). See `proof_lemmas/lemma_large_floor_vanish.md`. $\square$
+converges by Lemma `stratum_sub_bound` (proved above: partial sums are positive and bounded by F1,
+so the Monotone Convergence Theorem applies). Since all terms $1/(n\ln n) > 0$, the tail
+$T_k(x) \to 0$ as $x \to \infty$ (tail of a convergent positive series). See `proof_lemmas/lemma_large_floor_vanish.md`. $\square$
 
 **Corollary (Low-stratum control, FIXED $K$ only)**: For each fixed constant $K \geq 1$
 (not depending on $x$),
@@ -224,7 +221,9 @@ $$\sum_{a=N}^{2N-1} \frac{1}{a \log a} \leq \int_N^{2N} \frac{dt}{t \log t} + \f
 The integral evaluates exactly: since $\frac{d}{dt}(\ln\ln t) = \frac{1}{t\ln t}$ for $t > 1$,
 $$\int_N^{2N} \frac{dt}{t\ln t} = \bigl[\ln\ln t\bigr]_N^{2N} = \ln\ln(2N) - \ln\ln N = \ln\!\left(\frac{\ln(2N)}{\ln N}\right) = \ln\!\left(\frac{\log(2N)}{\log N}\right).$$
 Substituting this exact value into the bound above (which adds the $\frac{1}{N\log N}$ term):
-$$\sum_{a=N}^{2N-1}\frac{1}{a\log a} \leq \frac{1}{N\log N} + \ln\!\left(\frac{\log(2N)}{\log N}\right) = \ln\!\left(1 + \frac{\log 2}{\log N}\right) + O\!\left(\frac{1}{N\log N}\right) \leq \frac{\log 2}{\log N} + O\!\left(\frac{1}{N\log N}\right). \quad\square$$
+$$\sum_{a=N}^{2N-1}\frac{1}{a\log a} \leq \frac{1}{N\log N} + \ln\!\left(\frac{\log(2N)}{\log N}\right).$$
+Since $\frac{\log(2N)}{\log N} = \frac{\log N + \log 2}{\log N} = 1 + \frac{\log 2}{\log N}$ exactly (algebraic identity, no error term), we have $\ln\!\left(\frac{\log(2N)}{\log N}\right) = \ln\!\left(1 + \frac{\log 2}{\log N}\right)$ exactly. Applying $\ln(1+u) \leq u$ for $u \geq 0$:
+$$\sum_{a=N}^{2N-1}\frac{1}{a\log a} \leq \frac{1}{N\log N} + \frac{\log 2}{\log N} = \frac{\log 2}{\log N} + O\!\left(\frac{1}{N\log N}\right). \quad\square$$
 where the last step uses $\ln(1 + u) \leq u$ for $u \geq 0$: since $e^u \geq 1 + u$ for all $u$ (this follows by comparing derivatives: $e^0 = 1 + 0 = 1$ and $\frac{d}{du} e^u = e^u \geq 1 = \frac{d}{du}(1+u)$ for $u \geq 0$), taking logarithms gives $u \geq \ln(1+u)$.
 
 Note: This per-interval bound is tight but its sum over dyadic intervals
@@ -291,7 +290,7 @@ $$\int_x^{x^e} \frac{dt}{t \ln t}
   = \ln e + \ln(\ln x) - \ln(\ln x) = \ln e,$$
 using $\ln(x^e) = e\ln x$ and $\ln(e\ln x) = \ln e + \ln(\ln x)$ (product rule $\ln(ab) = \ln a + \ln b$).
 By the identity $\ln(e^t) = t$ applied at $t = 1$: $\ln e = \ln(e^1) = 1$.
-So $S_1 \leq 1 + \frac{1}{x \ln x} \to 1$ as $x \to \infty$. $\square$
+So $S_1 \leq 1 + \frac{1}{x \ln x} = 1 + O\!\left(\frac{1}{x\ln x}\right) = 1 + o(1)$ as $x \to \infty$, matching the lemma statement. $\square$
 
 (Here and throughout Section 4, $\log = \ln$ denotes the natural logarithm.)
 
@@ -375,8 +374,10 @@ non-trivial global upper bound for any primitive set is F1 (Erdős–Zhang):
 $A_2$ is a primitive set and F1 applies (since $A_2 \subseteq \mathbb{N}$ is a primitive set),
 giving $S_2 < e^\gamma\pi/4 + o(1) \approx 1.399 + o(1)$. Combined with $S_1 \leq 1 + o(1)$ (Lemma `S1_bound`),
 this gives $S_1 + S_2 < (1 + o(1)) + (1.399 + o(1)) = 2.399 + o(1)$. Note $2.399 > 1.399$,
-so this combined bound is weaker than F1 applied directly to $A$ (which gives $< 1.399 + o(1)$),
-and not a proof of the conjecture. No recursive application closes the gap.
+so this combined bound is weaker than F1 applied directly to $A$ (which gives $< 1.399 + o(1)$).
+This is consistent with F1 — F1 applies to all of $A$ and gives the tighter bound; the split
+is only illustrative of the decomposition's weakness, not a contradiction of F1.
+No recursive application closes the gap.
 
 **Dead end confirmed**: The trading decomposition at $x^e$ does NOT give
 $S_1 + S_2 \leq 1 + o(1)$ without additional input. The approach correctly
@@ -460,7 +461,7 @@ the smallest $n$ with $\Omega(n) = k$ is $2^k \geq 2$, so the sum from $2$ equal
 full stratum sum) tends to 1 as $k \to \infty$ (since $k^2/2^k \to 0$ elementarily,
 so F3's correction term $-ck^2/2^k \to 0^-$ as $k \to \infty$, meaning the sum approaches 1 from below). Hence $\sum_k T_k(2)$ diverges by
 the divergence test (terms $\to 1 \neq 0$); but this does not bound $\sum_{a \in A_\mathrm{lg}} 1/(a\ln a)$
-since $A_\mathrm{lg}$ intersects each stratum sparsely.
+since $A_\mathrm{lg}$ is a proper subset of each stratum $A_k$ (not the full stratum), so $\sum_k T_k(2)$ gives no upper bound on $\sum_{a \in A_\mathrm{lg}} 1/(a\ln a)$.
 
 **Reduction remark**: If one could prove $\sum_{a \in A_{\mathrm{lg}}} 1/(a \ln a) = o(1)$,
 the conjecture would reduce to showing $\sum_{a \in A_{\mathrm{sm}}} 1/(a \ln a) \leq 1 + o(1)$
