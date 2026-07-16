@@ -66,8 +66,10 @@ $T_k(x) \to 0$ as $x \to \infty$. This applies in particular to $k=1$
 For small $k$ (e.g.\ $k=1$), the full-stratum sum $\sum_{n:\Omega(n)=k} 1/(n\log n)$
 is finite — as proved in Lemma `stratum_sub_bound` using F1 applied to finite subsets and monotone convergence. (Primitivity of $A_k$ alone does not imply finiteness; F1's uniform bound is essential.)
 F3 is stated for $k \to \infty$; it does not claim to determine the value at any fixed small $k$
-(such as $k=1$). The TAIL vanishing $T_k(x) \to 0$ (proved via Lemma `large_floor_vanish`) is all
-that is needed for the conjecture's $o(1)$ bound.
+(such as $k=1$). For each fixed $k$, the tail $T_k(x) \to 0$ as $x \to \infty$ (proved via Lemma
+`large_floor_vanish`). This per-fixed-$k$ vanishing is a necessary ingredient for the conjecture,
+but is NOT sufficient alone: Section 2 shows that summing the per-stratum bounds over all $k$ fails
+(the series $\sum_k T_k(2)$ diverges since $T_k(2) \to 1$). A cross-stratum argument is still needed.
 
 ---
 
@@ -92,7 +94,7 @@ $\sum_{n \geq 2, \Omega(n)=k} 1/(n \log n)$ converges for each $k$: the set
 $A_k := \{n \geq 2 : \Omega(n) = k\}$ is itself a primitive set, because if
 $a \mid b$ with $a \neq b$ and $\Omega(a) = \Omega(b) = k$ then $b/a \geq 2$
 (a positive integer since $a \mid b$ and $a \neq b$); by complete additivity of $\Omega$ ($\Omega(mn) = \Omega(m) + \Omega(n)$ for all $m,n \geq 1$, as both sides count prime factors of $mn$ with multiplicity): $\Omega(b) = \Omega(a \cdot (b/a)) = \Omega(a) + \Omega(b/a) \geq k + \Omega(2) = k+1 > k$, contradiction. Moreover $A_k \subset [2^k, \infty)$: each $n \in A_k$ has exactly $k$ prime factors (with multiplicity) each $\geq 2$, so $n = p_1 \cdots p_k \geq 2 \cdot 2 \cdots 2 = 2^k$ (replacing each $p_i \geq 2$ by $2$ only decreases the product; e.g., $k=1$: $n \geq 2^1 = 2$; $k=2$: $n \geq 2^2 = 4$; $k=3$: $n \geq 2^3 = 8$).
-Convergence of the series: the partial sums $P_M := \sum_{\Omega(n)=k,\, 2 \leq n \leq M} 1/(n\ln n)$ are increasing in $M$ (all terms $1/(n\ln n) > 0$). They are bounded above uniformly in $M$: the index set $\{n \geq 2 : \Omega(n)=k, n \leq M\}$ is a primitive subset of $\mathbb{N}$; F1 gives $P_M < e^{\gamma}\pi/4 + o(1)$, in particular $P_M$ is bounded above by a finite constant uniformly in $M$. Hence the increasing sequence $(P_M)$ is bounded above; a bounded increasing sequence of reals converges.
+Convergence of the series: the partial sums $P_M := \sum_{\Omega(n)=k,\, 2 \leq n \leq M} 1/(n\ln n)$ are increasing in $M$ (all terms $1/(n\ln n) > 0$). They are bounded above uniformly in $M$: since all terms are positive, $P_M \leq L_k := \sum_{n \geq 2,\,\Omega(n)=k} 1/(n\ln n)$. The full-stratum sum $L_k$ is finite: $A_k = \{n \geq 2 : \Omega(n)=k\}$ is a primitive subset of $[2^k, \infty) \subseteq \mathbb{N}$, so F1 (applied to $A_k \subseteq [2^k, \infty)$) gives $L_k < e^\gamma\pi/4 + o(1)$ (with the $o(1) \to 0$ as the floor $2^k \to \infty$, i.e.\ as $k \to \infty$); in particular $L_k < \infty$ for each fixed $k$. Hence the increasing sequence $(P_M)$ is bounded above; a bounded increasing sequence of reals converges.
 Define $L_k := \sum_{n \geq 2,\, \Omega(n)=k} 1/(n\ln n)$ (the series sum, finite by the above
 monotone convergence argument). Then $T_k(x) = L_k - \sum_{\Omega(n)=k,\, 2\leq n < x} 1/(n\ln n)
 \to 0$ as $x \to \infty$ (tail of a convergent positive series). See
@@ -275,8 +277,9 @@ $S_2 := \sum_{a \in A_2} \frac{1}{a \log a}$.
 
 **Lemma (`S1_bound`)**: $S_1 \leq 1 + o(1)$ as $x \to \infty$.
 
-*Proof*: In what follows, take $x$ to be a positive integer $\geq 2$ (replacing $x$ by $\lceil x \rceil$ if necessary; the conclusion $S_1 = 1 + o(1)$ is unchanged because the final bound $1 + 1/(\lceil x \rceil \ln \lceil x \rceil)$ satisfies $1/(\lceil x \rceil \ln \lceil x \rceil) \leq 1/(x \ln x) \to 0$ as $x \to \infty$, so it is still $o(1)$). Every element of $A_1$ lies in $[x, x^e) \cap \mathbb{Z}$, so
-$A_1 \subseteq \{x, x+1, \ldots, \lfloor x^e \rfloor\}$ (all integers from $x$ to $\lfloor x^e\rfloor$); since all terms $1/(n \ln n)$ are positive (as $n \geq x \geq 2$ implies $\ln n \geq \ln 2 > 0$), summing over a subset gives $\leq$ summing over the full range:
+*Proof*: Every element of $A_1$ lies in $[x, x^e) \cap \mathbb{Z}$, which equals $\{\lceil x \rceil, \ldots, \lceil x^e \rceil - 1\}$ (integers $n$ with $x \leq n < x^e$). Since $\lceil x^e \rceil - 1 \leq \lfloor x^e \rfloor$ always, and all terms $1/(n \ln n)$ are positive (as $n \geq x \geq 2$ implies $\ln n \geq \ln 2 > 0$), summing over a superset gives an upper bound:
+$$S_1 \leq \sum_{n=\lceil x \rceil}^{\lfloor x^e \rfloor} \frac{1}{n \ln n}.$$
+(This is a valid upper bound: $A_1 \subseteq [x,x^e)$ consists of integers $n$ with $\lceil x\rceil \leq n \leq \lfloor x^e\rfloor$ when $x^e\notin\mathbb{Z}$, and $n \leq x^e - 1 < \lfloor x^e\rfloor$ when $x^e\in\mathbb{Z}$; in either case, the sum to $\lfloor x^e\rfloor$ includes at most one harmless extra term, making the upper bound only larger.) Replacing $\lceil x\rceil$ by $x$ in the lower limit is also a valid upper bound (adding non-negative terms):
 $$S_1 \leq \sum_{n=x}^{\lfloor x^e \rfloor} \frac{1}{n \ln n}.$$
 Since $f(t) = 1/(t \ln t)$ is strictly decreasing for $t \geq 2$: for any $n \geq x+1$ and $t \in [n-1,n]$, we have $t \leq n$, so $f(t) \geq f(n)$ (since $f$ is decreasing; $f(n)$ is the minimum of $f$ on $[n-1,n]$, attained at the right endpoint). Therefore $f(n) \leq f(t)$ for all $t \in [n-1,n]$. Integrating over $[n-1,n]$ (length 1): $f(n) = \int_{n-1}^n f(n)\,dt \leq \int_{n-1}^n f(t)\,dt$ (standard decreasing-function comparison; no ledger citation needed). Therefore:
 $$\sum_{n=x}^{\lfloor x^e \rfloor} f(n)
