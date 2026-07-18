@@ -165,8 +165,8 @@ such $k$, the smallest $k$-almost prime is $2^k \approx x$, so the restriction
 $a \geq x$ imposes almost no constraint on $A^{(k)}$. By F3, the total sum
 over $A_k$ (all $k$-almost primes) is strictly less than $1$ and approaches
 $1$ as $k \to \infty$. For $k$ near $k^*$ (where $2^{k^*} \approx x$), the
-per-stratum sum is close to $1$ because the positive correction in F3 involves
-$k^{*2}/2^{k^*} \approx (\log_2 x)^2/x$, which is negligible for large $x$.
+per-stratum sum is close to $1$ because the NEGATIVE correction in F3,
+$-(c+o(1))k^{*2}/2^{k^*} \approx -(c+o(1))(\log_2 x)^2/x$, is negligible for large $x$.
 Summing $2C$ such per-stratum bounds — each close to $1$ — gives a total close
 to $2C$, which grows without bound as $C \to \infty$, regardless of $x$.
 Controlling this requires a global argument that uses primitivity to prevent
