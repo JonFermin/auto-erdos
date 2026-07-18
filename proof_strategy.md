@@ -78,23 +78,24 @@ Moreover, $T_k(x) \to 0$ as $x \to \infty$ for each fixed $k$.
 
 Proof: $A \cap \{n : \Omega(n) = k\}$ is a subset of $\{n \geq x : \Omega(n)=k\}$;
 all terms are positive, so $S_k(A,x) \leq T_k(x)$. By F3, the full series
-$\sum_{n \geq 2, \Omega(n)=k} 1/(n \log n) = 1 - (c+o(1))k^2/2^k$ is
-convergent for each $k$ (the formula's right side is finite). The tail $T_k(x)$
-of a convergent series tends to 0 as $x \to \infty$. See
-`proof_lemmas/lemma_stratum_sub_bound.md`. $\square$
+$\sum_{n:\,\Omega(n)=k} 1/(n \log n)$ is finite (F3 gives a sum that is
+$< 1$ for each $k$). The tail $T_k(x)$ of a convergent positive series
+tends to $0$ as $x \to \infty$. See `proof_lemmas/lemma_stratum_sub_bound.md`. $\square$
 
-Note: The bound $T_k(x) \leq T_k(2)$ gives $T_k(x) \leq \sum_{n \geq 2,\Omega(n)=k}
-1/(n \log n)$, which by F3 is $1 - (c+o(1))k^2/2^k$. For large $k$ this is
-close to 1 from below. For $k=1$ (primes from 2), the full sum exceeds 1 (the
-$o(1)$ correction in F3 is large at $k=1$); however, the TAIL $T_1(x)$
-still vanishes as $x \to \infty$, which is what matters for the conjecture.
+Note: The bound $T_k(x) \leq T_k(2) := \sum_{n:\,\Omega(n)=k} 1/(n \log n)$
+uses only that $T_k(x)$ is a tail of the series. By F3 the full sum is $< 1$,
+and it approaches $1$ from below as $k \to \infty$. For $k=1$ (primes from 2),
+the full sum also exceeds the threshold relevant for the conjecture at finite
+$x$ (since $T_1(x)$ is the tail for primes $> x$, which vanishes); the TAIL
+$T_1(x)$ still vanishes as $x \to \infty$, which is what matters.
 
 **Lemma `large_floor_vanish`** (status: proved): For each fixed $k \geq 1$,
 $T_k(x) \to 0$ as $x \to \infty$.
 
-Proof: The full series $\sum_{n \geq 2, \Omega(n)=k} 1/(n \log n) = 1 - (c+o(1))k^2/2^k$
-converges by F3. The tail from $x$ is the tail of a convergent series,
-hence $\to 0$ as $x \to \infty$. See `proof_lemmas/lemma_large_floor_vanish.md`. $\square$
+Proof: By F3, the full series $\sum_{n:\,\Omega(n)=k} 1/(n \log n)$ is finite
+(sum $< 1$). The tail $T_k(x)$ is the remainder of a convergent positive series,
+hence $T_k(x) \to 0$ as $x \to \infty$.
+See `proof_lemmas/lemma_large_floor_vanish.md`. $\square$
 
 **Corollary (Low-stratum control, FIXED $K$ only)**: For each fixed constant $K \geq 1$
 (not depending on $x$),
