@@ -609,9 +609,19 @@ blocked weight from element $a$. An upper bound on each $W_k(a)$ yields an
 upper bound on the total blocked weight:
 $$\text{total blocked weight} \leq \sum_{a \in A^{(j)}} \frac{T_{k-j}(2)}{a} = T_{k-j}(2) \cdot S_j.$$
 
-Since $A^{(k)}$ avoids all multiples of elements of $A^{(j)}$, we have:
-$$S_k \leq T_k(2) - \text{total blocked weight} \leq T_k(2) - 0 = T_k(2),$$
-the last step using the trivial lower bound: total blocked weight $\geq 0$.
+*Blocking derivation*: Since $A$ is primitive, if $a \in A^{(j)}$ and $m \geq 2$ with $\Omega(m) = k-j$,
+then $am \in A$ would require $a \mid am$ with $a \neq am$, violating primitivity. So every
+$n \in A^{(k)}$ satisfies $a \nmid n$ for all $a \in A^{(j)}$. Therefore:
+$$A^{(k)} \subseteq \{n \geq x : \Omega(n) = k\} \setminus \mathrm{Blocked},$$
+where $\mathrm{Blocked} = \{am : a \in A^{(j)},\, m \geq 2,\, \Omega(m) = k-j\}$. Hence:
+$$S_k \leq \sum_{\substack{n \geq x,\, \Omega(n)=k \\ n \notin \mathrm{Blocked}}} \frac{1}{n\log n}
+= T_k(x) - (\text{weight of } \mathrm{Blocked} \cap [x,\infty))
+\leq T_k(2) - (\text{weight of } \mathrm{Blocked} \cap [x,\infty)).$$
+
+Since $a \geq x$ and $m \geq 2$, every blocked element $am \geq 2x \geq x$, so all of
+$\mathrm{Blocked}$ lies in $[x,\infty)$. In particular:
+$$S_k \leq T_k(2) - (\text{weight of Blocked}) \leq T_k(2) - 0 = T_k(2),$$
+using the trivial lower bound: weight of Blocked $\geq 0$.
 
 To obtain a non-trivial improvement ($S_k \leq T_k(2) - \delta$ for some $\delta > 0$),
 one needs a LOWER bound on the total blocked weight. The upper bound $\leq T_{k-j}(2) \cdot S_j$
@@ -651,11 +661,15 @@ $$W_k(a) := \sum_{\substack{m \geq 2 \\ \Omega(m) = k-j}} \frac{1}{am\log(am)}$$
 is the blocked weight, and $W_k(a) \leq T_{k-j}(2)/a < 1/a$ (upper bound
 from F3 sign\_disambiguation).
 
-The blocking identity gives:
-$$S_k \leq T_k(2) - \text{(total blocked weight)},$$
-where ``total blocked weight'' $= \sum_{a \in A^{(j)}} W_k(a) - \text{overlap}$.
-Since total blocked weight $\geq 0$, the trivial upper bound $S_k \leq T_k(2)$
-follows. A non-trivial improvement requires a LOWER BOUND on blocked weight.
+By the primitivity argument of Section 8 (blocking derivation), every element
+of $A^{(k)}$ avoids all multiples of $A^{(j)}$, giving:
+$$S_k \leq T_k(x) - (\text{weight of Blocked}) \leq T_k(2) - (\text{weight of Blocked}),$$
+where Blocked $= \{am : a \in A^{(j)},\, m \geq 2,\, \Omega(m)=k-j\}$ (all $\geq 2x$).
+The weight of Blocked (without double-counting) satisfies:
+$$0 \leq \text{weight of Blocked} \leq \sum_{a \in A^{(j)}} W_k(a),$$
+with equality on the right only when no two blockers $a, a'$ share a common multiple.
+Since weight of Blocked $\geq 0$, the trivial upper bound $S_k \leq T_k(2)$ follows.
+A non-trivial improvement requires a LOWER BOUND on the weight of Blocked.
 
 ### 9.2 The Bridge Lemma
 
@@ -675,19 +689,20 @@ and $\delta(d)$, then for primitive $A = A^{(j)} \cup A^{(j+d)}$ with
 $j, j+d \to \infty$:
 $$S = S_j + S_{j+d} \leq T_{j+d}(2) + S_j(1 - \delta) + o(1).$$
 
-*Proof*: From the Bridge Lemma: $S_{j+d} \leq T_{j+d}(2) - \delta \cdot S_j
-+ o(1)$. Add $S_j$. $\square$
+*Proof*: By the blocking derivation in Section 8 (primitivity argument):
+$S_{j+d} \leq T_{j+d}(2) - (\text{weight of Blocked})$.
+By the Bridge Lemma: $(\text{weight of Blocked}) \geq \delta \cdot S_j + o(1)$.
+Combining: $S_{j+d} \leq T_{j+d}(2) - \delta \cdot S_j + o(1)$.
+Adding $S_j$: $S \leq T_{j+d}(2) + S_j(1-\delta) + o(1)$. $\square$
 
-**Closure condition**: The conditional bound $T_{j+d}(2) + S_j(1 - \delta) + o(1)
-< 1 + o(1)$ holds if and only if:
-$$T_{j+d}(2) < 1 + \delta \cdot S_j + o(1) \iff 1 - T_{j+d}(2) > -\delta \cdot S_j + o(1).$$
+**Closure condition**: For $S < 1 + o(1)$ it suffices to show
+$T_{j+d}(2) + S_j(1-\delta) < 1 + o(1)$, i.e.:
+$$S_j(1 - \delta) < 1 - T_{j+d}(2) + o(1).$$
 
-Since $T_{j+d}(2) < 1$ (by F3 sign\_disambiguation), $1 - T_{j+d}(2) > 0$. For
-the closure condition to hold when $S_j \to 1$ (worst case), it requires:
-$$1 - T_{j+d}(2) > \delta \cdot (1 - o(1)) - o(1) \iff 1 - T_{j+d}(2) \geq \delta + o(1).$$
-
-By F3: $1 - T_{j+d}(2) = c \cdot (j+d)^2/2^{j+d} + o() \to 0$ as $j \to \infty$.
-So for fixed $\delta > 0$ and $j \to \infty$, eventually $1 - T_{j+d}(2) < \delta$.
+By F3: $1 - T_{j+d}(2) = c \cdot (j+d)^2/2^{j+d} + o(1) \to 0$ as $j \to \infty$.
+In the worst case $S_j \to 1$, so the left side $\to (1-\delta) > 0$ (fixed).
+Hence for all large $j$: $S_j(1-\delta) \geq (1-\delta)/2 > c(j+d)^2/2^{j+d}$,
+and the closure condition fails.
 
 **Conclusion from analysis**: The conditional proof fails for $j \to \infty$ with
 $d$ fixed: the F3 correction $1 - T_{j+d}(2)$ shrinks to zero, while the
