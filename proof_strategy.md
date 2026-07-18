@@ -704,8 +704,9 @@ Adding $S_j$: $S \leq T_{j+d}(2) + S_j(1-\delta) + o(1)$. $\square$
 $T_{j+d}(2) + S_j(1-\delta) < 1 + o(1)$, i.e.:
 $$S_j(1 - \delta) < 1 - T_{j+d}(2) + o(1).$$
 
-By F3: $1 - T_{j+d}(2) = (c + o(1)) \cdot (j+d)^2/2^{j+d} \to 0$ as $j \to \infty$
-(the $o(1)$ is inside the coefficient, consistent with F3's exact statement).
+By F3 (algebraic rearrangement of $T_{j+d}(2) = 1 - (c+o(1))(j+d)^2/2^{j+d}$, where F3 states $T_k(2) = 1-(c+o(1))k^2/2^k$ with $k = j+d$):
+$$1 - T_{j+d}(2) = (c + o(1)) \cdot (j+d)^2/2^{j+d} \to 0 \quad\text{as } j \to \infty,$$
+since $(j+d)^2/2^{j+d} \to 0$ exponentially and $c + o(1) \to c > 0$.
 
 **Failure witness**: The closure condition requires $S_j(1-\delta) < (c+o(1))(j+d)^2/2^{j+d}$ for all
 large $j$. Take $A^{(j)} = \mathcal{A}_j(x)$ (all $j$-almost primes $\geq x$ with $j \geq \lceil\log_2 x\rceil$);
