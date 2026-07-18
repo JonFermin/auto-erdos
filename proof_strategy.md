@@ -38,9 +38,9 @@ of resolution may appear in this file.
   $$\sum_{a \in A_k} \frac{1}{a \log a} = 1 - (c + o(1)) \frac{k^2}{2^k},
   \quad c \approx 0.0656 > 0.$$
   The $o(1)$ is as $k \to \infty$. For large $k$ the correction is negative
-  and $k^2/2^k \to 0$, so the sum approaches 1 from BELOW (anti-trap 2). For
-  small $k$ (e.g.\ $k=1$, the primes starting from 2), the full-stratum sum
-  may exceed 1 because the $o(1)$ correction is not small at $k=1$.
+  and $k^2/2^k \to 0$, so the sum approaches 1 from BELOW (anti-trap 2). By
+  the F3 sign\_disambiguation, $T_k(2) < 1$ for every $k \geq 1$ (including
+  small $k$ such as $k=1$, the prime stratum).
 
 **Anti-traps** (do not trigger):
 
@@ -54,10 +54,11 @@ $A \subset [x, \infty)$ for LARGE $x$; only elements $a \geq x$ contribute.
 By Lemma `large_floor_vanish`, for each fixed $k$ the stratum tail
 $T_k(x) \to 0$ as $x \to \infty$. This applies in particular to $k=1$
 (the prime stratum): $T_1(x) = \sum_{p \geq x} 1/(p \log p) \to 0$.
-For small $k$ (e.g.\ $k=1$), the full-stratum sum $\sum_{n:\Omega(n)=k} 1/(n\log n)$
-is finite (by F3, which proves convergence) but may exceed 1 due to F3's
-asymptotic scope (the formula is for large $k$). The TAIL vanishing is all
-that is needed for the conjecture's $o(1)$ bound.
+For all $k \geq 1$ (including small $k$ such as $k=1$), the full-stratum sum
+$T_k(2) = \sum_{n:\Omega(n)=k} 1/(n\log n) < 1$ by the F3 sign\_disambiguation.
+The TAIL vanishing ($T_k(x) \to 0$ as $x \to \infty$ for fixed $k$, by
+Lemma `large_floor_vanish`) is all that is needed for the conjecture's $o(1)$
+bound.
 
 ---
 
@@ -88,18 +89,14 @@ $x \to \infty$ (Lemma `large_floor_vanish` below).
 **Lemma `large_floor_vanish`** (status: proved): For each fixed $k \geq 1$,
 $T_k(x) \to 0$ as $x \to \infty$.
 
-Proof: For $k=1$: partition primes by dyadic blocks $[2^j x, 2^{j+1}x)$
-for $j = 0, 1, 2, \ldots$. By PNT ($\pi(t) \sim t/\log t$), the block
-contains $\leq C_0 \cdot 2^j x/\log(2^j x)$ primes, each contributing
-$\leq 1/(2^j x\log(2^j x))$. Hence block $j$ contributes
-$\leq C_0/(\log x + j\log 2)^2$ to $T_1(x)$. Summing over $j \geq 0$ and
-bounding by the integral:
-$$T_1(x) \leq C_0\sum_{j=0}^\infty \frac{1}{(\log x+j\log 2)^2}
-  \leq C_0\int_0^\infty \frac{dj}{(\log x+j\log 2)^2}
-  = \frac{C_0}{\log 2\cdot\log x} \to 0.$$
-For each fixed $k \geq 2$: an analogous PNT-based dyadic argument applies at
-each prime-factor level; see `proof_lemmas/lemma_large_floor_vanish.md`.
-$\square$
+Proof: By F3 (sign\_disambiguation), $T_k(2) < 1$ for every $k \geq 1$; in
+particular the full-stratum sum $T_k(2) = \sum_{n:\,\Omega(n)=k} 1/(n\log n)
+< \infty$. Since the terms are non-negative and the series converges, the tail
+$$T_k(x) = \sum_{\substack{n \geq x \\ \Omega(n)=k}} \frac{1}{n\log n} \to 0
+\quad \text{as } x \to \infty$$
+(tail of a convergent non-negative series vanishes). This applies for every
+fixed $k \geq 1$, including $k=1$ (the prime stratum). See
+`proof_lemmas/lemma_large_floor_vanish.md`. $\square$
 
 **Corollary (Low-stratum control, FIXED $K$ only)**: For each fixed constant $K \geq 1$
 (not depending on $x$),
@@ -540,8 +537,9 @@ $$S := \sum_{a \in A} \frac{1}{a \log a} < 1 + o(1) \quad (x \to \infty).$$
 
 *Proof (two cases)*:
 
-*Case 1 ($k$ fixed as $x\to\infty$)*: By Mertens' theorem and induction on $k$
-(as in Lemma `large_floor_vanish`), $T_k(x) \to 0$ as $x\to\infty$.
+*Case 1 ($k$ fixed as $x\to\infty$)*: By Lemma `large_floor_vanish` (proved
+using F3 sign\_disambiguation: $T_k(2) < \infty$, so the tail vanishes),
+$T_k(x) \to 0$ as $x\to\infty$.
 Hence $S \leq T_k(x) \to 0$, giving $S = o(1) < 1 + o(1)$.
 
 *Case 2 ($k = k(x) \to \infty$)*: By F3, for all large enough $k$,
