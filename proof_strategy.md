@@ -106,9 +106,9 @@ $$\sum_{a \in A} \frac{1}{a \log a}
 - **(I) Low strata** ($K$ fixed): $\leq \sum_{k=1}^K T_k(x) \to 0$ as $x \to \infty$
   by the Corollary above (valid since $K$ is a fixed constant).
 
-- **(II) High strata**: $\leq \sum_{k > K} T_k(x)$. For fixed $K$, the bound
-  $\sum_{k > K} T_k(x) \leq \sum_{k > K} (1 - ck^2/2^k)$ diverges since each term
-  $\to 1$ as $k \to \infty$.
+- **(II) High strata**: $\leq \sum_{k > K} T_k(x) \leq \sum_{k > K} T_k(2)$.
+  By F3, each $T_k(2) \to 1$ as $k \to \infty$, so $\sum_{k > K} T_k(2)$ diverges
+  (infinitely many terms each approaching 1).
   The stratification bound is VACUOUS for the high-stratum sum, for any fixed $K$.
 
 **Key difficulty** (the open core, Lemma `cross_stratum_control`): The per-stratum
@@ -134,8 +134,9 @@ See `proof_lemmas/lemma_cross_stratum_control.md` for the precise gap statement.
 
 **What is established** (the provable part):
 
-1. **Per-stratum bound**: Each stratum of any primitive set contributes $< 1$
-   to the sum (Lemma `stratum_sub_bound`, proved from F3).
+1. **Per-stratum bound**: Each stratum of any primitive set contributes at most
+   $T_k(x)$ to the sum, where $T_k(x) \to 0$ for fixed $k$ (Lemma `stratum_sub_bound`
+   plus Lemma `large_floor_vanish`, proved).
 
 2. **Vanishing for fixed strata**: For each fixed $k$, as $x \to \infty$, the
    contribution from $k$-almost primes in $[x, \infty)$ vanishes (Lemma
@@ -144,8 +145,8 @@ See `proof_lemmas/lemma_cross_stratum_control.md` for the precise gap statement.
 3. **Low-stratum $o(1)$**: For any fixed $K$, the sum over strata $k \leq K$
    from $[x, \infty)$ is $o(1)$ as $x \to \infty$.
 
-4. **Global upper bound (from F1)**: The total sum is $< 1.399 + o(1)$ (the
-   weaker Erdős–Zhang bound). This is an input fact, not proved here.
+4. **Global upper bound (from F1)**: The total sum is $< e^\gamma \pi/4 + o(1)$
+   (the Erdős–Zhang bound). This is an input fact, not proved here.
 
 **What remains open** (the proof gap):
 
@@ -163,8 +164,8 @@ multiple critical strata from simultaneously contributing nearly $1$.
 
 **Dead ends ruled out**:
 - Using F2's unsigned big-O to conclude $\sum > 1$ for any stratum: SIGN ERROR.
-- Summing per-stratum bounds $\sum_k (1-ck^2/2^k)$ and claiming total $\leq 1$:
-  this series diverges; the approach fails.
+- Summing per-stratum bounds $\sum_k T_k(2)$ (each $< 1$ by F3 but each $\to 1$
+  as $k\to\infty$) and claiming total $\leq 1$: this series diverges; the approach fails.
 - Claiming the conjecture is proved or disproved without a valid witness:
   not supported.
 
@@ -403,7 +404,7 @@ close the conjecture; the existence of such $f$ is not known.
 What is proved (combining Sections 2–4):
 - $S_1 \leq 1$ (Lemma `S1_bound`, exact)
 - $S_2 < e^\gamma \pi/4 + o(1)$ (from F1 applied to $A_2$ as a primitive set in $[x^e, \infty)$)
-- The combined bound $S_1 + S_2 \leq 2.399 + o(1)$ (weaker than F1 directly)
+- The combined bound $S_1 + S_2 < 1 + e^\gamma \pi/4 + o(1)$ (weaker than F1 directly)
 
 What is open: showing $S_2 = o(1)$ or $S_1 + S_2 \leq 1 + o(1)$ via the
 blocking structure. This requires a quantitative sieve bound or a new
