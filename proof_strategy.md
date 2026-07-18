@@ -158,15 +158,15 @@ See `proof_lemmas/lemma_cross_stratum_control.md` for the precise gap statement.
 
 The critical regime is strata $k \sim k^* := \lfloor \log_2 x \rfloor$. For
 such $k$, the smallest $k$-almost prime is $2^k \approx x$, so the restriction
-$a \geq x$ imposes almost no constraint on $A^{(k)}$. By F3, the per-stratum
-bound satisfies $T_k(2) = 1 - (c+o(1))k^2/2^k$. For $k$ near $k^*$, we have
-$2^{k^*} \approx x$, so the correction $k^{*2}/2^{k^*}$ is small (since $x$
-grows faster than any fixed power of $\log x$); thus $T_{k^*}(2)$ is close to
-$1$. Summing $2C$ such bounds — one for each stratum $k \in [k^*-C, k^*+C]$ —
-gives a total close to $2C$, which grows without bound as $C \to \infty$,
-regardless of $x$. Controlling this requires a global argument that uses
-primitivity to prevent multiple critical strata from simultaneously
-contributing nearly 1.
+$a \geq x$ imposes almost no constraint on $A^{(k)}$. By F3, the total sum
+over $A_k$ (all $k$-almost primes) is strictly less than $1$ and approaches
+$1$ as $k \to \infty$. For $k$ near $k^*$ (where $2^{k^*} \approx x$), the
+per-stratum sum is close to $1$ because the positive correction in F3 involves
+$k^{*2}/2^{k^*} \approx (\log_2 x)^2/x$, which is negligible for large $x$.
+Summing $2C$ such per-stratum bounds — each close to $1$ — gives a total close
+to $2C$, which grows without bound as $C \to \infty$, regardless of $x$.
+Controlling this requires a global argument that uses primitivity to prevent
+multiple critical strata from simultaneously contributing nearly $1$.
 
 **Dead ends ruled out**:
 - Using F2's unsigned big-O to conclude $\sum > 1$ for any stratum: SIGN ERROR.
@@ -185,9 +185,6 @@ $$\sum_{a \in A \cap I} \frac{1}{a \log a}
   \leq \sum_{n=N}^{2N-1} \frac{1}{n \log n}
   \leq \frac{N}{N \log N} = \frac{1}{\log N}. \quad \square$$
 
-(A sharper bound $\log 2/\log N + O(1/(N\log N))$ follows from the antiderivative
-$\int_N^{2N} dt/(t\log t) = \ln(1 + \log 2/\log N)$ — see
-`proof_lemmas/lemma_dyadic_interval_bound.md` for the full calculation.)
 
 Note: This per-interval bound is tight but its sum over dyadic intervals
 $[x, 2x), [2x, 4x), \ldots$ diverges (a harmonic-type series). The
@@ -235,13 +232,9 @@ $S_2 := \sum_{a \in A_2} \frac{1}{a \log a}$.
 
 **Lemma (`S1_bound`)**: $S_1 \leq 1 + O(1/\log x)$.
 
-*Proof*: Every element of $A_1$ lies in $[x, x^e)$.
-Since $\tfrac{d}{dt}[\ln\ln t] = 1/(t\log t)$ (elementary calculus):
-$$\int_x^{x^e} \frac{dt}{t\log t} = \bigl[\ln\ln t\bigr]_x^{x^e}
-  = \ln(e\ln x) - \ln(\ln x) = \ln e = 1.$$
-The integral of $1/(t\log t)$ over $[x, x^e)$ equals exactly $1$.
-Since $A_1 \subset [x, x^e)$ and $1/(n\log n)$ is positive and decreasing,
-$S_1 \leq 1 + O(1/\log x)$ (discretization details in `proof_lemmas/`). $\square$
+*Proof*: Deferred to `proof_lemmas/lemma_s1_bound.md`. The proof computes
+the antiderivative of $1/(t\log t)$ to evaluate $\int_x^{x^e} dt/(t\log t) = 1$,
+then applies a standard discretization argument. $\square$
 (Here and throughout Section 4, $\log = \ln$ denotes the natural logarithm.)
 
 This is tight: taking $A_1 = \emptyset$ gives $S_1 = 0$; taking $A_1$ to be
@@ -333,8 +326,8 @@ argument to $A_2 \subset [x^e, \infty)$ reduces to the same unsolved problem:
 $A_2$ is itself a primitive set, and controlling $\sum_{b \in A_2} 1/(b \log b)$
 requires precisely the structural insight we need for $A$. The only available
 non-trivial global upper bound for any primitive set is F1 (Erdős–Zhang),
-which gives $S_2 < 1.399 + o(1)$. Combined with $S_1 \leq 1$, this gives
-$S_1 + S_2 < 2.399 + o(1)$ — weaker than F1 applied directly to $A$, and not
+which gives $S_2 < e^\gamma \pi/4 + o(1)$ by F1. Combined with $S_1 \leq 1$, this gives
+$S_1 + S_2 < 1 + e^\gamma \pi/4 + o(1)$ — weaker than F1 applied directly to $A$, and not
 a proof of the conjecture. No recursive application closes the gap.
 
 **Dead end confirmed**: The trading decomposition at $x^e$ does NOT give
@@ -418,7 +411,7 @@ close the conjecture; the existence of such $f$ is not known.
 
 What is proved (combining Sections 2–4):
 - $S_1 \leq 1$ (Lemma `S1_bound`, exact)
-- $S_2 < 1.399 + o(1)$ (from F1 applied to $A_2$ as a primitive set in $[x^e, \infty)$)
+- $S_2 < e^\gamma \pi/4 + o(1)$ (from F1 applied to $A_2$ as a primitive set in $[x^e, \infty)$)
 - The combined bound $S_1 + S_2 \leq 2.399 + o(1)$ (weaker than F1 directly)
 
 What is open: showing $S_2 = o(1)$ or $S_1 + S_2 \leq 1 + o(1)$ via the
@@ -450,9 +443,11 @@ $$\sum_{a \in A} \frac{1}{a\log a} = \sum_{k=1}^{K} \sum_{a \in A^{(k)}}
 \frac{1}{a\log a} \leq \sum_{k=1}^{K} T_k(x),$$
 where $T_k(x) := \sum_{n \geq x,\,\Omega(n) = k} \frac{1}{n\log n}$.
 
-By F3, the total series $\sum_{n:\,\Omega(n)=k} \frac{1}{n\log n}$ converges
-to $1 - (c+o(1))k^2/2^k < \infty$. A convergent series of positive terms has
-tail $T_k(x) \to 0$ as $x \to \infty$. Since $K$ is fixed, the finite sum
+By F3, the total series $\sum_{n:\,\Omega(n)=k} \frac{1}{n\log n}$ is finite
+(its value is strictly less than $1$ by F3). Since all terms are positive and
+the total is finite, the tail $T_k(x) = \sum_{n \geq x,\,\Omega(n)=k}
+\frac{1}{n\log n} \to 0$ as $x \to \infty$ (the tail of any convergent
+positive series vanishes). Since $K$ is fixed, the finite sum
 $\sum_{k=1}^K T_k(x) \to 0$ as $x \to \infty$. $\square$
 
 **Consequence**: The conjecture holds easily (with $o(1)$ bound) whenever $A$
@@ -498,9 +493,9 @@ from exceeding $1$.
 Consider $A \subset [x, \infty)$ primitive with elements only in strata $j$ and
 $k$ (fixed $j < k$, both near $k^*$). Then:
 $$S = S_j + S_k \leq T_j(x) + T_k(x) \leq T_j(2) + T_k(2),$$
-where each $T_\ell(2) = 1 - (c+o(1))\ell^2/2^\ell < 1$ (F3). For $j$ or $k$
-small (say $j = 1$, $k = 2$), $T_j(2) + T_k(2)$ could exceed $1$, showing
-the naive two-stratum bound is insufficient.
+where by F3 each $T_\ell(2) = \sum_{n:\Omega(n)=\ell} \frac{1}{n\log n} < 1$.
+For $j$ or $k$ small (say $j = 1$, $k = 2$), the two per-stratum bounds
+could sum to exceed $1$, showing the naive two-stratum bound is insufficient.
 
 Cross-stratum primitivity constrains $A^{(k)}$: for each $a \in A^{(j)}$ and
 $b \in A^{(k)}$, $a \nmid b$. So $A^{(k)}$ is contained in the sieved set
