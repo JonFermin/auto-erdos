@@ -52,13 +52,11 @@ of resolution may appear in this file.
 
 **Conceptual calibration** (not a proof): The conjecture concerns
 $A \subset [x, \infty)$ for LARGE $x$; only elements $a \geq x$ contribute.
-By Lemma `large_floor_vanish`, for each fixed $k$ the stratum tail
-$T_k(x) \to 0$ as $x \to \infty$. This applies in particular to $k=1$
-(the prime stratum): $T_1(x) = \sum_{p \geq x} 1/(p \log p) \to 0$.
-For every $k \geq 1$, the full-stratum sum $T_k(2) = \sum_{n:\Omega(n)=k} 1/(n\log n)$
-converges (finite), so its tail $T_k(x) \to 0$ as $x \to \infty$ (Lemma
-`large_floor_vanish`). For large $k$, F3 gives $T_k(2) < 1$ (approaching 1 from
-below). The TAIL vanishing is all that is needed for the conjecture's $o(1)$ bound.
+For large $k$ (where F3 applies), $T_k(2) < 1$ strictly (approaching 1 from below
+as $k \to \infty$), so $T_k(x) \leq T_k(2) < 1$. For each fixed $k$, the tail
+$T_k(x) \to 0$ as $x \to \infty$ by the argument in
+`proof_lemmas/lemma_large_floor_vanish.md` (deferred from this file).
+The TAIL vanishing is the key quantitative ingredient for the conjecture's $o(1)$ bound.
 
 ---
 
@@ -83,13 +81,9 @@ See `proof_lemmas/lemma_stratum_sub_bound.md`. $\square$
 
 Note: We also have $T_k(x) \leq T_k(2) := \sum_{n:\,\Omega(n)=k} 1/(n \log n)$
 (removing the lower-bound constraint). By F3, as $k \to \infty$ the full sum
-$T_k(2)$ approaches $1$ from below. For each fixed $k$, $T_k(x) \to 0$ as
-$x \to \infty$ (Lemma `large_floor_vanish` below).
-
-**Lemma `large_floor_vanish`** (status: proved): For each fixed $k \geq 1$,
-$T_k(x) \to 0$ as $x \to \infty$.
-
-Proof: See `proof_lemmas/lemma_large_floor_vanish.md`. $\square$
+$T_k(2)$ approaches $1$ from below (strictly $< 1$ for all sufficiently large $k$).
+For the tail vanishing $T_k(x) \to 0$ for each fixed $k$, see
+`proof_lemmas/lemma_large_floor_vanish.md` (argument deferred from this file).
 
 **Corollary (Low-stratum control, FIXED $K$ only)**: For each fixed constant $K \geq 1$
 (not depending on $x$),
@@ -138,12 +132,12 @@ See `proof_lemmas/lemma_cross_stratum_control.md` for the precise gap statement.
 **What is established** (the provable part):
 
 1. **Per-stratum bound**: Each stratum of any primitive set contributes at most
-   $T_k(x)$ to the sum, where $T_k(x) \to 0$ for fixed $k$ (Lemma `stratum_sub_bound`
-   plus Lemma `large_floor_vanish`, proved).
+   $T_k(x)$ to the sum (Lemma `stratum_sub_bound`, proved). For large $k$,
+   $T_k(x) \leq T_k(2) < 1$ by F3.
 
 2. **Vanishing for fixed strata**: For each fixed $k$, as $x \to \infty$, the
-   contribution from $k$-almost primes in $[x, \infty)$ vanishes (Lemma
-   `large_floor_vanish`, proved).
+   contribution from $k$-almost primes in $[x, \infty)$ vanishes; see
+   `proof_lemmas/lemma_large_floor_vanish.md`.
 
 3. **Low-stratum $o(1)$**: For any fixed $K$, the sum over strata $k \leq K$
    from $[x, \infty)$ is $o(1)$ as $x \to \infty$.
@@ -532,8 +526,8 @@ $$S := \sum_{a \in A} \frac{1}{a \log a} < 1 + o(1) \quad (x \to \infty).$$
 
 *Proof (two cases)*:
 
-*Case 1 ($k$ fixed as $x\to\infty$)*: By Lemma `large_floor_vanish` ($T_k(2) < \infty$
-for every fixed $k$, so its tail $T_k(x) \to 0$), we get $T_k(x) \to 0$ as $x\to\infty$.
+*Case 1 ($k$ fixed as $x\to\infty$)*: By `proof_lemmas/lemma_large_floor_vanish.md`,
+$T_k(x) \to 0$ as $x \to \infty$ for each fixed $k$ (argument deferred from this file).
 Hence $S \leq T_k(x) \to 0$, giving $S = o(1) < 1 + o(1)$.
 
 *Case 2 ($k = k(x) \to \infty$)*: By F3 (asymptotic formula for large $k$): $T_k(2) =
@@ -565,15 +559,15 @@ Write $S = S_j + S_k$ where $S_j = \sum_{\substack{a \in A \\ \Omega(a)=j}} \fra
 and $S_k$ analogously. By Lemma `stratum_sub_bound`, $S_j \leq T_j(x)$ and
 $S_k \leq T_k(x) \leq T_k(2)$.
 
-*Case (a): $j$ bounded (fixed as $x\to\infty$).* By Lemma `large_floor_vanish`
-($T_j(2) < \infty$, so $T_j(x) \to 0$), $S_j = o(1)$.
-For $S_k$: if $k$ is also fixed, $S_k = o(1)$ by the same lemma. If
+*Case (a): $j$ bounded (fixed as $x\to\infty$).* By `proof_lemmas/lemma_large_floor_vanish.md`,
+$T_j(x) \to 0$ (argument deferred), so $S_j \leq T_j(x) = o(1)$.
+For $S_k$: if $k$ is also fixed, $S_k = o(1)$ by the same lemma file. If
 $k = k(x) \to \infty$, then by F3 (asymptotic for large $k$): $T_k(2) =
 1-(c+o(1))k^2/2^k < 1$ for all sufficiently large $k$,
 so $S_k \leq T_k(2) < 1$. In either subcase, $S = o(1) + (<1) < 1 + o(1)$. $\square$
 
 *Case (b): $k$ bounded (fixed as $x\to\infty$).* Then $j < k$ is also bounded,
-and by Lemma `large_floor_vanish`, both $T_j(x) \to 0$ and $T_k(x) \to 0$.
+and by `proof_lemmas/lemma_large_floor_vanish.md`, both $T_j(x) \to 0$ and $T_k(x) \to 0$.
 Hence $S = S_j + S_k \leq T_j(x) + T_k(x) \to 0 = o(1) < 1 + o(1)$. $\square$
 
 **The hard case (open sub-problem)**: When both $j = j(x) \to \infty$ and
@@ -597,7 +591,7 @@ Since $am \geq a \cdot m \geq a \cdot 2$ and $\log(am) \geq \log m$, we have
 $1/(am\log(am)) \leq 1/(am\log m)$, giving
 $$W_k(a) \leq \frac{1}{a} \sum_{\substack{m \geq 2 \\ \Omega(m) = k-j}}
 \frac{1}{m\log m} \leq \frac{T_{k-j}(2)}{a},$$
-where $T_{k-j}(2) < \infty$ (the $(k-j)$-stratum series converges for every fixed $k-j \geq 1$).
+where $T_{k-j}(2) := \sum_{\Omega(m)=k-j} \frac{1}{m\log m}$ is the $(k-j)$-stratum sum.
 
 **Direction note**: The bound $W_k(a) \leq T_{k-j}(2)/a$ is an UPPER bound on the
 blocked weight from element $a$. An upper bound on each $W_k(a)$ yields an
@@ -635,7 +629,7 @@ See `proof_lemmas/lemma_cross_stratum_control.md` for the broader context
 and status of the cross-stratum gap.
 
 **Net progress**: The bounded-stratum cases of `two_stratum_bound` are
-fully proved using `large_floor_vanish` (proved via F3) and
+fully proved using `proof_lemmas/lemma_large_floor_vanish.md` and
 `single_stratum_bound` (proved via F3). The full two-stratum bound for
 growing $j, k$ remains open.
 
@@ -656,8 +650,7 @@ $S_k := \sum_{a \in A^{(k)}} 1/(a\log a)$.
 
 From Section 8 (proved): For each $a \in A^{(j)}$,
 $$W_k(a) := \sum_{\substack{m \geq 2 \\ \Omega(m) = k-j}} \frac{1}{am\log(am)}$$
-is the blocked weight, and $W_k(a) \leq T_{k-j}(2)/a < 1/a$ (upper bound
-from F3 sign\_disambiguation).
+is the blocked weight, and $W_k(a) \leq T_{k-j}(2)/a$ (upper bound from Section 8).
 
 By the primitivity argument of Section 8 (blocking derivation), every element
 of $A^{(k)}$ avoids all multiples of $A^{(j)}$, giving:
