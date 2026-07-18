@@ -630,3 +630,98 @@ and status of the cross-stratum gap.
 fully proved using `large_floor_vanish` (proved via F3) and
 `single_stratum_bound` (proved via F3). The full two-stratum bound for
 growing $j, k$ remains open.
+
+---
+
+## Section 9 — Bridge Lemma Reduction (Q17)
+
+This section formally identifies the MINIMUM new given fact that, if added to
+the ledger, would close the two-stratum conjecture for growing strata. No
+analytic claims are made; the section is a pure logical reduction.
+
+### 9.1 Setup
+
+Fix the two-stratum case: $A = A^{(j)} \cup A^{(k)} \subset [x, \infty)$
+primitive with $j < k$ and both $j = j(x)$, $k = k(x) \to \infty$ as
+$x \to \infty$. Let $S_j := \sum_{a \in A^{(j)}} 1/(a\log a)$ and
+$S_k := \sum_{a \in A^{(k)}} 1/(a\log a)$.
+
+From Section 8 (proved): For each $a \in A^{(j)}$,
+$$W_k(a) := \sum_{\substack{m \geq 2 \\ \Omega(m) = k-j}} \frac{1}{am\log(am)}$$
+is the blocked weight, and $W_k(a) \leq T_{k-j}(2)/a < 1/a$ (upper bound
+from F3 sign\_disambiguation).
+
+The blocking identity gives:
+$$S_k \leq T_k(2) - \text{(total blocked weight)},$$
+where ``total blocked weight'' $= \sum_{a \in A^{(j)}} W_k(a) - \text{overlap}$.
+Since total blocked weight $\geq 0$, the trivial upper bound $S_k \leq T_k(2)$
+follows. A non-trivial improvement requires a LOWER BOUND on blocked weight.
+
+### 9.2 The Bridge Lemma
+
+**Bridge Lemma (status: OPEN — not in ledger)**: For any primitive set
+$A^{(j)} \subset [x, \infty)$ and $k = j + d$ with $d \geq 1$ fixed, there
+exists $\delta = \delta(d) > 0$ (depending only on $d$, not on $j$ or $x$)
+such that:
+$$\text{total blocked weight} \geq \delta \cdot S_j + o(1)
+\quad (x \to \infty).$$
+
+Here $o(1)$ is as $x \to \infty$ uniformly in $j$ and $A^{(j)}$.
+
+### 9.3 Conditional proof of two-stratum bound
+
+**Lemma (conditional on Bridge Lemma)**: If the Bridge Lemma holds for $d$
+and $\delta(d)$, then for primitive $A = A^{(j)} \cup A^{(j+d)}$ with
+$j, j+d \to \infty$:
+$$S = S_j + S_{j+d} \leq T_{j+d}(2) + S_j(1 - \delta) + o(1).$$
+
+*Proof*: From the Bridge Lemma: $S_{j+d} \leq T_{j+d}(2) - \delta \cdot S_j
++ o(1)$. Add $S_j$. $\square$
+
+**Closure condition**: The conditional bound $T_{j+d}(2) + S_j(1 - \delta) + o(1)
+< 1 + o(1)$ holds if and only if:
+$$T_{j+d}(2) < 1 + \delta \cdot S_j + o(1) \iff 1 - T_{j+d}(2) > -\delta \cdot S_j + o(1).$$
+
+Since $T_{j+d}(2) < 1$ (by F3 sign\_disambiguation), $1 - T_{j+d}(2) > 0$. For
+the closure condition to hold when $S_j \to 1$ (worst case), it requires:
+$$1 - T_{j+d}(2) > \delta \cdot (1 - o(1)) - o(1) \iff 1 - T_{j+d}(2) \geq \delta + o(1).$$
+
+By F3: $1 - T_{j+d}(2) = c \cdot (j+d)^2/2^{j+d} + o() \to 0$ as $j \to \infty$.
+So for fixed $\delta > 0$ and $j \to \infty$, eventually $1 - T_{j+d}(2) < \delta$.
+
+**Conclusion from analysis**: The conditional proof fails for $j \to \infty$ with
+$d$ fixed: the F3 correction $1 - T_{j+d}(2)$ shrinks to zero, while the
+required lower bound $\delta > 0$ stays fixed. The two-stratum bound for
+$j, j+d \to \infty$ with fixed gap $d$ CANNOT be closed by this approach.
+
+### 9.4 What WOULD close the gap
+
+The analysis above pinpoints the obstruction:
+- From Section 8, the cross-blocking upper bound gives $W_k(a) \leq T_{k-j}(2)/a$.
+- The lower bound needed: $\text{total blocked} \geq (1 - T_k(2)) + o(1) = c(j+d)^2/2^{j+d}+o()$.
+- Required: $\sum_{a \in A^{(j)}} W_k(a) \geq c(j+d)^2/2^{j+d} + o(1)$.
+- Since $W_k(a) \geq 0$ and $\sum_{a} W_k(a) \leq T_{k-j}(2) \cdot S_j \leq 1$,
+  and the needed lower bound $c(j+d)^2/2^{j+d} \to 0$, the required bound is
+  an ASYMPTOTIC estimate of blocked weight that tends to $0$ — but even this
+  small positive quantity cannot be extracted without knowing the density of
+  $k$-almost primes (a PNT-for-$k$-almost-primes fact not in the current ledger).
+
+**Alternative closure strategy**: Use a global argument that does NOT decompose
+by strata — e.g., a generating-function or Dirichlet-series approach that
+exploits the full primitivity structure of $A$ at once. Such approaches are
+standard in multiplicative combinatorics but require analytic machinery
+(complex analysis, Euler products, Mellin transforms) beyond F1/F2/F3.
+
+### 9.5 Summary of proof gap
+
+| Case | Status |
+|------|--------|
+| $k$ fixed | S = $o(1)$ (proved via `large\_floor\_vanish`) |
+| $j$ fixed, $k \to \infty$ | S $< 1 + o(1)$ (proved via `single\_stratum\_bound`) |
+| $j, k \to \infty$, $\max(j,k)$ bounded | S $= o(1)$ (proved) |
+| $j, k \to \infty$, gap $d = k-j$ fixed | Open; conditional proof fails (Section 9.3) |
+| $j, k \to \infty$, gap $d \to \infty$ | Open; same obstacle |
+| Multi-stratum (≥ 3 strata) | Open; reduces to two-stratum gap |
+
+The conjecture for primitive sets spanning multiple critical strata remains
+open. No proof or disproof is available from F1, F2, F3 alone.
