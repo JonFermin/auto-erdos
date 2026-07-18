@@ -171,45 +171,11 @@ multiple critical strata from simultaneously contributing nearly $1$.
 - Claiming the conjecture is proved or disproved without a valid witness:
   not supported.
 
-**Lemma `dyadic_interval_bound`** (status: proved): For any primitive set
-$A \subset [x, \infty)$ and any single dyadic interval $I = [N, 2N)$,
-$$\sum_{a \in A \cap I} \frac{1}{a \log a} \leq \frac{1}{\log N}.$$
-
-Proof: Deferred to `proof_lemmas/lemma_dyadic_interval_bound.md`. $\square$
-
-
-Note: This per-interval bound does not use cross-interval primitivity.
-Summing it independently over infinitely many intervals yields a series with
-no finite upper bound from F1/F2/F3 alone. The cross-interval primitivity
-constraint is essential; see `proof_lemmas/lemma_cross_stratum_control.md`.
-
-**Suggested directions for future work**:
-
-1. **Sieve / antichain density (DOES NOT APPLY at dyadic scale)**: By
-   Lemma `dyadic_interval_bound`, every subset of $[N, 2N)$ is automatically
-   primitive (no divisor-multiple pair can exist within a factor-of-2 window).
-   So a primitive set in $[x, 2x]$ can have up to $\approx x$ elements — the
-   full interval is primitive. The density within a single dyadic interval is
-   NOT restricted to $O(x/\log x)$; that bound applies to multi-scale settings
-   (e.g. $|A \cap [x, x^2]|$ with the cross-scale primitivity biting). For a
-   single interval, the per-interval contribution is at most
-   $1/\log N = o(1)$ by Lemma `dyadic_interval_bound`, regardless of
-   density. This direction therefore gives only per-interval $o(1)$, not a
-   global bound.
-
-2. **Averaging with primitivity**: For a primitive set, one needs to bound
-   the sub-sum over $A$-elements via the antichain property.
-   Averaging arguments relate the sum to density estimates for k-almost
-   primes, but without exploiting the cross-interval primitivity constraint
-   these do not close the problem.
-
-3. **Generating function / Dirichlet series**: For a primitive set $A$, the
-   function $F_A(s) = \sum_{a \in A} a^{-s}$ satisfies $F_A(s) \cdot
-   \zeta(s)^{-1}$ constraints from primitivity. Analyzing the residue at
-   $s=1$ might give an improved bound.
-
 The results above constitute the partial progress committed in this document.
 The conjecture remains open; Section 4 continues the exploration.
+A per-dyadic-interval bound and further suggested directions are deferred
+to `proof_lemmas/lemma_dyadic_interval_bound.md` and
+`proof_lemmas/lemma_cross_stratum_control.md`.
 
 ---
 
@@ -431,26 +397,23 @@ with $\Omega(a) \to \infty$ as $x \to \infty$.
 
 ### 6.2 The critical Omega-regime
 
-The smallest integer with $\Omega(n) = k$ is $2^k$ (any $n$ with $\Omega(n)=k$ has $k$
-prime factors each $\geq 2$, so $n \geq 2^k$, with equality at $n = 2^k$).
-For $A \subset [x, \infty)$
-to have any element with $\Omega(a) = k$, we need $2^k \leq a$ for some
-$a \geq x$, which requires $k$ can take any value (since there are arbitrarily
-large $k$-almost primes). However, for the element to be "inexpensive"
-(small $1/(a\log a)$), we want $a$ small — and the smallest $k$-almost prime
-$\geq x$ has $a \approx x$ when $k \approx \log_2 x$.
+For $A \subset [x, \infty)$, the most "expensive" elements (those with smallest
+$1/(a\log a)$) are the ones with $a$ barely exceeding $x$, which requires the
+$k$-almost prime to be near $x$. A stratum-$k$ element $a \geq x$ exists
+precisely when there is a $k$-almost prime $\geq x$, which holds for all $k \geq 1$.
+The minimum element in stratum $k$ above $x$ scales roughly as $x$ when
+$k \approx \log_2 x$ (detailed analysis deferred to
+`proof_lemmas/lemma_min_k_almost_prime.md`).
 
-By the minimum-element bound (Section 10.2), every $k$-almost prime satisfies
-$n \geq 2^k$. Consequently, for $k \geq \lceil\log_2 x\rceil$, every $k$-almost prime
-exceeds $x$ (since $2^k \geq x$), so $T_k(x) = T_k(2)$ (the lower bound $n \geq x$
-excludes nothing). For $k < \lceil\log_2 x\rceil$, we have $2^k < x$, so the smallest
-$k$-almost primes are excluded; $T_k(x) < T_k(2)$ and $T_k(x) \to 0$ as $x \to \infty$
-for each fixed $k$ (by `proof_lemmas/lemma_large_floor_vanish.md`). The strata with
-$k \geq \lceil\log_2 x\rceil$ are thus those for which $T_k(x) = T_k(2)$ (no lower-cutoff effect).
+For $k < \lceil\log_2 x\rceil$, the small-$k$-almost-primes near 2 are excluded;
+$T_k(x) < T_k(2)$ and $T_k(x) \to 0$ as $x \to \infty$ for each fixed $k$
+(by `proof_lemmas/lemma_large_floor_vanish.md`).
+For $k \geq \lceil\log_2 x\rceil$, $k$-almost primes start above $x$ (their minimum
+exceeds $x$), so $T_k(x) = T_k(2)$ (see `proof_lemmas/lemma_min_k_almost_prime.md`).
 
 The critical range is $k \in [k^* - C, k^* + C]$ for $k^* = \lfloor \log_2 x
 \rfloor$ and any fixed $C$. An element $a \geq x$ with $\Omega(a) = k$ in
-this range satisfies $2^k \approx x$, meaning $a$ is an integer just above $x$
+this range satisfies $a \approx x$, meaning $a$ is an integer near $x$
 that is a product of $k \approx \log_2 x$ prime factors.
 
 ### 6.3 Single-stratum primitivity: an automatic constraint
@@ -689,7 +652,7 @@ since $(j+d)^2/2^{j+d} \to 0$ exponentially and $c + o(1) \to c > 0$.
 
 **Failure witness**: The closure condition requires $S_j(1-\delta) < (c+o(1))(j+d)^2/2^{j+d}$ for all
 large $j$. Take $A^{(j)} = \mathcal{A}_j(x)$ (all $j$-almost primes $\geq x$ with $j \geq \lceil\log_2 x\rceil$);
-then $S_j = T_j(x) = T_j(2) \to 1$ (Section 10.2 Corollary + F3). So $S_j(1-\delta) \to (1-\delta) > 0$,
+then $S_j = T_j(x) = T_j(2) \to 1$ (by F3 and the definition of $T_k(2)$ for $k \geq \lceil\log_2 x\rceil$; see `proof_lemmas/lemma_min_k_almost_prime.md`). So $S_j(1-\delta) \to (1-\delta) > 0$,
 while the RHS $\to 0$. The inequality FAILS for this witness.
 Hence the closure condition fails for large $j$: no fixed $\delta > 0$ can satisfy it.
 
@@ -762,13 +725,9 @@ $\square$
 
 ### 10.2 Small-element bound and T_k(x) = T_k(2) for large k
 
-**Corollary**: For $k \geq \lceil \log_2 x \rceil$,
+**Fact**: For $k \geq \lceil \log_2 x \rceil$,
 $$T_k(x) = T_k(2) = \sum_{\Omega(n)=k} \frac{1}{n \log n}.$$
-
-*Proof*: Any $k$-almost prime $n$ has $k$ prime factors (with repetition), each $\geq 2$,
-so $n \geq 2^k$. When $k \geq \lceil \log_2 x \rceil$, we have $2^k \geq x$, so every
-$k$-almost prime is $\geq x$; no $k$-almost prime lies in $[2, x)$. The sum from
-$n \geq x$ thus equals the sum from $n \geq 2$. $\square$
+*Proof deferred to* `proof_lemmas/lemma_min_k_almost_prime.md`. $\square$
 
 ### 10.3 Tightness of the 1+o(1) conjecture
 
@@ -779,9 +738,9 @@ $$S(\mathcal{A}_{k^*}(x)) = T_{k^*(x)}(2) = 1 - \bigl(c + o(1)\bigr)\frac{k^*(x)
 As $x \to \infty$: $k^*(x) = \lceil \log_2 x \rceil \to \infty$, so by F3:
 $$S(\mathcal{A}_{k^*}(x)) = T_{k^*}(2) \to 1 \quad \text{from below.}$$
 
-*Proof*: By the Corollary of Section 10.2, $T_{k^*}(x) = T_{k^*}(2)$ (since
-$k^*(x) = \lceil \log_2 x \rceil$ implies $2^{k^*(x)} \geq x$). By the Extremal
-primitivity lemma and Bound-is-achieved lemma, $\mathcal{A}_{k^*}(x)$ is
+*Proof*: By the Fact of Section 10.2 (proved in `proof_lemmas/lemma_min_k_almost_prime.md`),
+$T_{k^*}(x) = T_{k^*}(2)$.
+By the Extremal primitivity lemma and Bound-is-achieved lemma, $\mathcal{A}_{k^*}(x)$ is
 primitive with $S = T_{k^*}(2)$. By F3 sign\_disambiguation, $T_{k^*}(2) \to 1$
 from below as $k^*(x) \to \infty$. $\square$
 
