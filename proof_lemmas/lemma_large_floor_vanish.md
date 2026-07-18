@@ -14,10 +14,12 @@ $$T_k(x) := \sum_{\substack{n \geq x \\ \Omega(n) = k}} \frac{1}{n \log n}
 
 **Proof**:
 
-For each fixed $k \geq 1$, $T_k(2) = \sum_{\Omega(n)=k} 1/(n\log n) < \infty$
-(the $k$-stratum series converges). By F3, $T_k(2) \to 1$ from below as
-$k \to \infty$; for small fixed $k$, $T_k(2)$ is a definite positive constant
-(which may exceed 1, e.g.\ $T_1(2) \approx 1.636$).
+For each fixed $k \geq 1$, the stratum $\mathcal{A}_k = \{n : \Omega(n) = k\}$ is a
+primitive set: if $n \mid m$ with $\Omega(n) = \Omega(m) = k$, then
+$\Omega(m) \geq \Omega(n) + 1 = k+1$, a contradiction. So by F1 applied to
+$A = \mathcal{A}_k$, the series $T_k(2) = \sum_{n \in \mathcal{A}_k} 1/(n\log n)
+< e^\gamma\pi/4 + o(1) < \infty$. By F3, $T_k(2) \to 1$ from below as $k \to \infty$;
+for small fixed $k$, $T_k(2)$ is a positive constant (e.g.\ $T_1(2) \approx 1.636 > 1$).
 
 For any convergent series $\sum_{n} a_n$ with $a_n \geq 0$, the tail sum
 $\sum_{n \geq N} a_n \to 0$ as $N \to \infty$ (this is a standard consequence

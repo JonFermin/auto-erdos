@@ -89,9 +89,11 @@ $x \to \infty$ (Lemma `large_floor_vanish` below).
 **Lemma `large_floor_vanish`** (status: proved): For each fixed $k \geq 1$,
 $T_k(x) \to 0$ as $x \to \infty$.
 
-Proof: For each fixed $k \geq 1$, $T_k(2) = \sum_{\Omega(n)=k} 1/(n\log n) < \infty$
-(the $k$-stratum series converges). Since the terms
-are non-negative and the series converges, the tail
+Proof: For each fixed $k \geq 1$, the stratum $\mathcal{A}_k := \{n : \Omega(n) = k\}$
+is a primitive set (no element divides another: if $n \mid m$ and $\Omega(n)=\Omega(m)=k$,
+then $\Omega(m) \geq \Omega(n)+1 = k+1$, a contradiction). By F1 applied to $A = \mathcal{A}_k$:
+$$T_k(2) = \sum_{n \in \mathcal{A}_k} \frac{1}{n\log n} < e^\gamma \frac{\pi}{4} + o(1) < \infty.$$
+Since the terms are non-negative and the series converges, the tail
 $$T_k(x) = \sum_{\substack{n \geq x \\ \Omega(n)=k}} \frac{1}{n\log n} \to 0
 \quad \text{as } x \to \infty$$
 (tail of a convergent non-negative series vanishes). This applies for every
