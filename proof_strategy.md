@@ -513,3 +513,34 @@ $\sum_{a \in A} 1/(a\log a) < 1 + o(1)$.
 This is a cleaner reformulation than the original: it isolates the critical
 Omega-regime, handles the "bounded Omega" case completely, and reduces the
 problem to the behavior of sieved $k$-almost prime sums.
+
+---
+
+## Section 7 — Single-Stratum Sub-Conjecture: PROVED (Q15)
+
+**Lemma `single_stratum_bound`** (status: proved): For any primitive set
+$A \subset [x, \infty)$ whose elements all satisfy $\Omega(a) = k$
+(a single fixed or growing stratum), the sum satisfies
+$$S := \sum_{a \in A} \frac{1}{a \log a} < 1 + o(1) \quad (x \to \infty).$$
+
+*Proof*: See `proof_lemmas/lemma_single_stratum_bound.md`. $\square$
+
+The proof splits into two cases:
+
+1. **$k$ fixed as $x \to \infty$**: $S \leq T_k(x) \to 0$ by Lemma
+   `large_floor_vanish` (proved). So $S = o(1) < 1 + o(1)$.
+
+2. **$k = k(x) \to \infty$ with $x$**: $S \leq T_k(x) \leq T_k(2)$.
+   By F3 (as $k \to \infty$), $T_k(2) = 1 - (c + o(1))k^2/2^k < 1$ for
+   all large enough $k$. Since $k(x) \to \infty$, eventually $T_k(2) < 1$.
+
+**Consequence**: The conjecture is proved for single-stratum primitive sets.
+The **multi-stratum case** is what remains open: when $A$ spans two or more
+distinct $\Omega$-values, cross-stratum primitivity must be used to prevent
+each stratum from contributing close to 1 simultaneously.
+
+**Updated open core**: For primitive $A \subset [x, \infty)$ with elements
+in at least TWO strata $k_1 < k_2$ (both near $k^* = \lfloor \log_2 x \rfloor$),
+prove $\sum_{a \in A} 1/(a \log a) < 1 + o(1)$.
+
+This formulation isolates the essential difficulty: cross-stratum primitivity.
