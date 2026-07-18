@@ -604,25 +604,24 @@ $$W_k(a) \leq \frac{1}{a} \sum_{\substack{m \geq 2 \\ \Omega(m) = k-j}}
 \frac{1}{m\log m} \leq \frac{T_{k-j}(2)}{a} < \frac{1}{a},$$
 where the last step uses F3 (sign\_disambiguation): $T_{k-j}(2) < 1$ for all $k-j \geq 1$.
 
-So the formal reduction of $T_k(2)$ from cross-blocking by $A^{(j)}$ is
-(ignoring overlaps between different $a$'s):
-$$S_k \leq T_k(2) - \sum_{a \in A^{(j)}} W_k(a) \leq T_k(2) - T_{k-j}(2) \cdot S_j + \text{(overlap)}.$$
+**Direction note**: The bound $W_k(a) \leq T_{k-j}(2)/a$ is an UPPER bound on the
+blocked weight from element $a$. An upper bound on each $W_k(a)$ yields an
+upper bound on the total blocked weight:
+$$\text{total blocked weight} \leq \sum_{a \in A^{(j)}} \frac{T_{k-j}(2)}{a} = T_{k-j}(2) \cdot S_j.$$
 
-Adding $S_j$:
-$$S \leq S_j + T_k(2) - T_{k-j}(2) \cdot S_j + \text{(overlap)}
-= T_k(2) + S_j(1 - T_{k-j}(2)) + \text{(overlap)}.$$
+Since $A^{(k)}$ avoids all multiples of elements of $A^{(j)}$, we have:
+$$S_k \leq T_k(2) - \text{total blocked weight} \leq T_k(2) - 0 = T_k(2),$$
+the last step using the trivial lower bound: total blocked weight $\geq 0$.
 
-Since $T_{k-j}(2) < 1$ (by F3), the term $S_j(1 - T_{k-j}(2)) \geq 0$,
-so this bound is WEAKER than $T_k(2)$ alone unless the overlap is negative
-(i.e.\ overblocking). Without an inclusion-exclusion bound controlling the
-overlap, this approach does not close the hard case.
+To obtain a non-trivial improvement ($S_k \leq T_k(2) - \delta$ for some $\delta > 0$),
+one needs a LOWER bound on the total blocked weight. The upper bound $\leq T_{k-j}(2) \cdot S_j$
+does not give a lower bound; it shows the blockage is bounded, not that it is large.
 
-**Gap identified (Q16 hard case)**: To close the two-stratum bound for
-$j, k \to \infty$, a quantitative lower bound on the blocked weight
-(avoiding double-counting across $a \in A^{(j)}$) is needed. This is a
-Selberg-type sieve estimate for $k$-almost primes — a new analytic input
-beyond the current ledger. The obstacle is not a lemma-file deferral gap
-but a genuine proof-theoretic gap requiring new given facts or new tools.
+**Gap identified (Q16 hard case)**: Closing the two-stratum bound for $j, k \to \infty$
+requires a lower bound on the total blocked weight — showing that cross-blocking
+by $A^{(j)}$ actually removes a significant portion of $T_k(2)$. The current ledger
+(F1, F2, F3) does not supply such a lower bound. The obstacle is a genuine
+analytic gap requiring new input beyond the current given facts.
 
 See `proof_lemmas/lemma_cross_stratum_control.md` for the broader context
 and status of the cross-stratum gap.
