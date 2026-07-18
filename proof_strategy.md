@@ -176,15 +176,17 @@ contributing nearly 1.
 
 **Lemma `dyadic_interval_bound`** (status: proved): For any primitive set
 $A \subset [x, \infty)$ and any single dyadic interval $I = [N, 2N)$,
-$$\sum_{a \in A \cap I} \frac{1}{a \log a} \leq \frac{\log 2}{\log N} + O\!\left(\frac{1}{N \log N}\right).$$
+$$\sum_{a \in A \cap I} \frac{1}{a \log a} \leq \frac{1}{\log N}.$$
 
-Proof: Every subset of $[N, 2N)$ is automatically primitive (no element divides
-another). So $A \cap [N, 2N)$ can be any subset of $[N, 2N)$. The sum is
-maximized when $A \cap I$ is the FULL set $\{N, N+1, \ldots, 2N-1\}$.
-Since $1/(t\log t)$ has antiderivative $\ln\ln t$, the integral over $[N, 2N)$ is:
-$$\int_N^{2N} \frac{dt}{t\log t} = \ln\ln(2N) - \ln\ln N = \ln\!\left(1 + \frac{\log 2}{\log N}\right) \leq \frac{\log 2}{\log N} + O\!\left(\frac{1}{N\log N}\right).$$
-The discrete sum over $\{N, \ldots, 2N-1\}$ is bounded by this integral value;
-see `proof_lemmas/lemma_dyadic_interval_bound.md` for the full discretization. $\square$
+Proof: Every $n \in [N, 2N)$ satisfies $n \geq N$, so $1/(n \log n) \leq 1/(N\log N)$.
+Since $|[N, 2N)| = N$:
+$$\sum_{a \in A \cap I} \frac{1}{a \log a}
+  \leq \sum_{n=N}^{2N-1} \frac{1}{n \log n}
+  \leq \frac{N}{N \log N} = \frac{1}{\log N}. \quad \square$$
+
+(A sharper bound $\log 2/\log N + O(1/(N\log N))$ follows from the antiderivative
+$\int_N^{2N} dt/(t\log t) = \ln(1 + \log 2/\log N)$ — see
+`proof_lemmas/lemma_dyadic_interval_bound.md` for the full calculation.)
 
 Note: This per-interval bound is tight but its sum over dyadic intervals
 $[x, 2x), [2x, 4x), \ldots$ diverges (a harmonic-type series). The
@@ -355,3 +357,75 @@ $[x, x^e)$ forces near-emptiness (in the $\sum 1/(a \log a)$ sense) of $A_2$.
 The "density" of $A_1$ in [x, x^e) needs to be measured in a way compatible
 with both the $1/(a \log a)$ metric AND the divisibility blocking structure.
 This is the essential unresolved point.
+
+---
+
+## Section 5 — Blocking-density perspective and the sieve gap
+
+This section formalises the cross-structure of the trading decomposition and
+identifies the essential missing ingredient.
+
+### 5.1 Blocked multiples
+
+For any $a \in A_1 \subset [x, x^e)$, primitivity of $A$ means that every
+proper multiple of $a$ is excluded from $A$. In particular, every proper
+multiple $ma$ (with $m \geq 2$) that lies in $[x^e, \infty)$ is excluded
+from $A_2$. Define the blocked set:
+$$B(a) := \{ma : m \geq 2,\; ma \geq x^e\}.$$
+Then $A_2 \cap B(a) = \emptyset$ for every $a \in A_1$.
+
+Since $a \geq x$, the smallest multiple in $B(a)$ is $\geq 2x$. Since
+$a < x^e$, elements of $B(a)$ that lie in $[x^e, \infty)$ are those with
+$m \geq \lceil x^e/a \rceil \geq 2$. The set $B(a)$ is an infinite
+arithmetic progression $\{ma : m \geq \lceil x^e/a \rceil\}$.
+
+### 5.2 Sieve formulation
+
+Collecting all blocked elements: define the **sieved set**
+$$\mathcal{S}(A_1) := \{n \geq x^e : a \nmid n \;\forall\, a \in A_1,\; n/a \geq 2\}.$$
+
+Primitivity and the blocking constraint give $A_2 \subset \mathcal{S}(A_1)$
+(since every $b \in A_2$ must satisfy $a \nmid b$ for all $a \in A_1$,
+and $b \geq x^e > a$ means $b/a \geq x^{e-1} \geq 2$ for large $x$,
+so the condition is just divisibility avoidance).
+
+The goal reduces to: show that $\sum_{b \in A_2} 1/(b\log b) = o(1)$
+whenever $A_1$ is "dense" in the $1/(a\log a)$ metric, i.e., $S_1$ is
+close to 1.
+
+### 5.3 The density-sparsity tension
+
+The trading approach posits: near-saturation of $S_1 \approx 1$ forces
+$A_1$ to contain many elements spread throughout $[x, x^e)$, each blocking
+a progression from $A_2$.
+
+However, this tension is hard to quantify because:
+- $A_1$ being large in the $1/(a\log a)$ metric does not directly translate
+  to a uniform density bound on the integers it blocks.
+- The blocked progressions $\{ma : m \geq \lceil x^e/a \rceil\}$ for
+  different $a \in A_1$ can overlap in complex ways, so the union
+  $\bigcup_{a \in A_1} B(a)$ might not cover a large fraction of $[x^e, 2x^e)$
+  in the $1/(n\log n)$ metric.
+
+The essential question: does there exist a function $f(S_1) \to 0$ as
+$S_1 \to 1$ such that for any primitive $A_2 \subset \mathcal{S}(A_1)$,
+$S_2 \leq f(S_1)$? A YES answer with $S_1 + S_2 \leq 1 + o(1)$ would
+close the conjecture; the existence of such $f$ is not known.
+
+### 5.4 Current status and next steps
+
+What is proved (combining Sections 2–4):
+- $S_1 \leq 1$ (Lemma `S1_bound`, exact)
+- $S_2 < 1.399 + o(1)$ (from F1 applied to $A_2$ as a primitive set in $[x^e, \infty)$)
+- The combined bound $S_1 + S_2 \leq 2.399 + o(1)$ (weaker than F1 directly)
+
+What is open: showing $S_2 = o(1)$ or $S_1 + S_2 \leq 1 + o(1)$ via the
+blocking structure. This requires a quantitative sieve bound or a new
+combinatorial argument exploiting cross-interval primitivity.
+
+Candidate approaches for future rounds:
+(A) Selberg-type upper sieve for $\sum_{n \in \mathcal{S}(A_1)} 1/(n\log n)$
+    when $A_1$ is a dense primitive set in $[x, x^e)$.
+(B) Showing the S2 region [x^e, ∞) contributes $o(1)$ whenever A1 nearly
+    saturates S1 = 1, via a counting argument on the divisibility antichain.
+(C) A direct approach not using the trading decomposition.
