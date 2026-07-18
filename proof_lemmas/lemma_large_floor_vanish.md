@@ -14,8 +14,11 @@ $$T_k(x) := \sum_{\substack{n \geq x \\ \Omega(n) = k}} \frac{1}{n \log n}
 
 **Proof**:
 
-By **F3**, the series $\sum_{n \geq 2, \Omega(n)=k} 1/(n \log n)$ converges to
-a finite value $T_k(2) = 1 - (c+o(1))k^2/2^k < \infty$.
+The series $\sum_{n \geq 2, \Omega(n)=k} 1/(n \log n)$ converges to a finite value
+$T_k(2) < \infty$ for every fixed $k \geq 1$: the count of $k$-almost primes $\leq N$
+is $O(N(\log\log N)^{k-1}/\log N)$, so the sum is bounded by comparison with a
+convergent series. (By F3, $T_k(2) \to 1$ from below as $k \to \infty$; for small
+fixed $k$, $T_k(2)$ is a definite positive constant that may exceed 1.)
 
 For any convergent series $\sum_{n} a_n$ with $a_n \geq 0$, the tail sum
 $\sum_{n \geq N} a_n \to 0$ as $N \to \infty$ (this is a standard consequence
@@ -38,6 +41,7 @@ finite sum of $K$ such terms also vanishes.
 - It does NOT help with "high strata" ($k \to \infty$ as $x \to \infty$), where
   the constraint $n \geq x$ bites less and the per-stratum sum stays close to 1.
 - For $k > \log_2 x$, the smallest $k$-almost prime is $2^k > x$, so $T_k(x) =
-  T_k(2) = 1 - (c+o(1))k^2/2^k$, which approaches 1 as $k \to \infty$. The
+  T_k(2)$ (no lower cutoff effect). By F3 (asymptotic as $k \to \infty$),
+  $T_k(2) \to 1$ from below, so the sum approaches 1 as $k \to \infty$. The
   "high-stratum" regime ($k \sim \log_2 x$) is the hard part; see
   `lemma_cross_stratum_control.md`.

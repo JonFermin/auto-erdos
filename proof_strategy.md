@@ -37,10 +37,11 @@ of resolution may appear in this file.
   $A_k = \{n \in \mathbb{N} : \Omega(n) = k\}$,
   $$\sum_{a \in A_k} \frac{1}{a \log a} = 1 - (c + o(1)) \frac{k^2}{2^k},
   \quad c \approx 0.0656 > 0.$$
-  The $o(1)$ is as $k \to \infty$. For large $k$ the correction is negative
-  and $k^2/2^k \to 0$, so the sum approaches 1 from BELOW (anti-trap 2). By
-  the F3 sign\_disambiguation, $T_k(2) < 1$ for every $k \geq 1$ (including
-  small $k$ such as $k=1$, the prime stratum).
+  The $o(1)$ is as $k \to \infty$. For large $k$, $c + o(1) \to c > 0$, so the
+  correction is negative and $k^2/2^k \to 0$: the sum approaches 1 from BELOW as
+  $k \to \infty$ (anti-trap 2). In particular, $T_k(2) < 1$ for all sufficiently
+  large $k$. (The formula is asymptotic; for small fixed $k$ such as $k=1$,
+  $T_k(2)$ may exceed 1 and the asymptotic does not apply directly.)
 
 **Anti-traps** (do not trigger):
 
@@ -54,11 +55,10 @@ $A \subset [x, \infty)$ for LARGE $x$; only elements $a \geq x$ contribute.
 By Lemma `large_floor_vanish`, for each fixed $k$ the stratum tail
 $T_k(x) \to 0$ as $x \to \infty$. This applies in particular to $k=1$
 (the prime stratum): $T_1(x) = \sum_{p \geq x} 1/(p \log p) \to 0$.
-For all $k \geq 1$ (including small $k$ such as $k=1$), the full-stratum sum
-$T_k(2) = \sum_{n:\Omega(n)=k} 1/(n\log n) < 1$ by the F3 sign\_disambiguation.
-The TAIL vanishing ($T_k(x) \to 0$ as $x \to \infty$ for fixed $k$, by
-Lemma `large_floor_vanish`) is all that is needed for the conjecture's $o(1)$
-bound.
+For every $k \geq 1$, the full-stratum sum $T_k(2) = \sum_{n:\Omega(n)=k} 1/(n\log n)$
+converges (finite), so its tail $T_k(x) \to 0$ as $x \to \infty$ (Lemma
+`large_floor_vanish`). For large $k$, F3 gives $T_k(2) < 1$ (approaching 1 from
+below). The TAIL vanishing is all that is needed for the conjecture's $o(1)$ bound.
 
 ---
 
@@ -89,9 +89,11 @@ $x \to \infty$ (Lemma `large_floor_vanish` below).
 **Lemma `large_floor_vanish`** (status: proved): For each fixed $k \geq 1$,
 $T_k(x) \to 0$ as $x \to \infty$.
 
-Proof: By F3 (sign\_disambiguation), $T_k(2) < 1$ for every $k \geq 1$; in
-particular the full-stratum sum $T_k(2) = \sum_{n:\,\Omega(n)=k} 1/(n\log n)
-< \infty$. Since the terms are non-negative and the series converges, the tail
+Proof: The full-stratum sum $T_k(2) = \sum_{n:\,\Omega(n)=k} 1/(n\log n) < \infty$
+for every fixed $k \geq 1$: the sum over $k$-almost primes converges because the
+count of $k$-almost primes $\leq N$ is $O(N(\log\log N)^{k-1}/\log N)$, so the
+series is bounded by comparison with $\sum n^{-1-\varepsilon}$. Since the terms
+are non-negative and the series converges, the tail
 $$T_k(x) = \sum_{\substack{n \geq x \\ \Omega(n)=k}} \frac{1}{n\log n} \to 0
 \quad \text{as } x \to \infty$$
 (tail of a convergent non-negative series vanishes). This applies for every
@@ -539,14 +541,13 @@ $$S := \sum_{a \in A} \frac{1}{a \log a} < 1 + o(1) \quad (x \to \infty).$$
 
 *Proof (two cases)*:
 
-*Case 1 ($k$ fixed as $x\to\infty$)*: By Lemma `large_floor_vanish` (proved
-using F3 sign\_disambiguation: $T_k(2) < \infty$, so the tail vanishes),
-$T_k(x) \to 0$ as $x\to\infty$.
+*Case 1 ($k$ fixed as $x\to\infty$)*: By Lemma `large_floor_vanish` ($T_k(2) < \infty$
+for every fixed $k$, so its tail $T_k(x) \to 0$), we get $T_k(x) \to 0$ as $x\to\infty$.
 Hence $S \leq T_k(x) \to 0$, giving $S = o(1) < 1 + o(1)$.
 
-*Case 2 ($k = k(x) \to \infty$)*: By F3, for all large enough $k$,
-$T_k(2) = 1 - (c + o(1))k^2/2^k < 1$.
-Hence $S \leq T_k(x) \leq T_k(2) < 1 < 1 + o(1)$.
+*Case 2 ($k = k(x) \to \infty$)*: By F3 (asymptotic formula for large $k$): $T_k(2) =
+1 - (c + o(1))k^2/2^k$. For large $k$, $c + o(1) \to c > 0$ and $(c+o(1))k^2/2^k > 0$,
+so $T_k(2) < 1$ for all sufficiently large $k$. Hence $S \leq T_k(x) \leq T_k(2) < 1 < 1 + o(1)$.
 
 Combined: In both cases $S < 1 + o(1)$ as $x\to\infty$. $\square$
 
@@ -574,10 +575,11 @@ and $S_k$ analogously. By Lemma `stratum_sub_bound`, $S_j \leq T_j(x)$ and
 $S_k \leq T_k(x) \leq T_k(2)$.
 
 *Case (a): $j$ bounded (fixed as $x\to\infty$).* By Lemma `large_floor_vanish`
-(proved using F3 sign\_disambiguation), $T_j(x) \to 0$, so $S_j = o(1)$.
+($T_j(2) < \infty$, so $T_j(x) \to 0$), $S_j = o(1)$.
 For $S_k$: if $k$ is also fixed, $S_k = o(1)$ by the same lemma. If
-$k = k(x) \to \infty$, then $T_k(2) < 1$ by F3 (sign\_disambiguation), so
-$S_k \leq T_k(2) < 1$. In either subcase, $S = o(1) + (<1) < 1 + o(1)$. $\square$
+$k = k(x) \to \infty$, then by F3 (asymptotic for large $k$): $T_k(2) =
+1-(c+o(1))k^2/2^k < 1$ for all sufficiently large $k$,
+so $S_k \leq T_k(2) < 1$. In either subcase, $S = o(1) + (<1) < 1 + o(1)$. $\square$
 
 *Case (b): $k$ bounded (fixed as $x\to\infty$).* Then $j < k$ is also bounded,
 and by Lemma `large_floor_vanish`, both $T_j(x) \to 0$ and $T_k(x) \to 0$.
@@ -603,8 +605,8 @@ $$W_k(a) := \sum_{\substack{m \geq 2 \\ \Omega(m) = k-j}} \frac{1}{am \cdot \log
 Since $am \geq a \cdot m \geq a \cdot 2$ and $\log(am) \geq \log m$, we have
 $1/(am\log(am)) \leq 1/(am\log m)$, giving
 $$W_k(a) \leq \frac{1}{a} \sum_{\substack{m \geq 2 \\ \Omega(m) = k-j}}
-\frac{1}{m\log m} \leq \frac{T_{k-j}(2)}{a} < \frac{1}{a},$$
-where the last step uses F3 (sign\_disambiguation): $T_{k-j}(2) < 1$ for all $k-j \geq 1$.
+\frac{1}{m\log m} \leq \frac{T_{k-j}(2)}{a},$$
+where $T_{k-j}(2) < \infty$ (the $(k-j)$-almost prime stratum sum converges for every fixed $k-j \geq 1$).
 
 **Direction note**: The bound $W_k(a) \leq T_{k-j}(2)/a$ is an UPPER bound on the
 blocked weight from element $a$. An upper bound on each $W_k(a)$ yields an
