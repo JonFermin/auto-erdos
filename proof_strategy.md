@@ -384,12 +384,23 @@ Candidate approaches for future rounds:
 
 ### 6.1 The low-stratum lemma (proved)
 
-**Lemma `low_stratum_vanish`**: Fix any integer $K \geq 1$. For any primitive
-set $A \subset [x, \infty)$ whose elements all satisfy $\Omega(a) \leq K$,
+**Observation (low-stratum sub-sum)**: For any primitive set $A \subset [x,\infty)$
+with all $\Omega(a) \leq K$,
 $$\sum_{a \in A} \frac{1}{a\log a} \leq \sum_{k=1}^{K} T_k(x).$$
 
-The behavior of this bound as $x \to \infty$ is given in
-`proof_lemmas/lemma_low_stratum_vanish.md`. $\square$
+*Proof*: Partition $A$ by stratum: $A^{(k)} = \{a \in A : \Omega(a) = k\}$.
+Each $a \in A^{(k)}$ satisfies $a \geq x$, so $1/(a\log a)$ is one term
+in $T_k(x) = \sum_{n \geq x,\, \Omega(n)=k} 1/(n\log n)$ (since $A^{(k)} \subset
+\{n \geq x : \Omega(n) = k\}$). Summing over $k = 1,\ldots, K$: $\sum_{a \in A}
+= \sum_{k=1}^K \sum_{a \in A^{(k)}} \leq \sum_{k=1}^K T_k(x)$. $\square$
+
+**Why the bound vanishes**: For each fixed $k$, the set $\mathcal{A}_k := \{n : \Omega(n)=k\}$
+is a primitive set (if $n \mid m$ with $\Omega(n)=\Omega(m)=k$, then $m$ has at least
+$k+1$ prime factors — a contradiction). By F1 applied to this primitive set,
+$T_k(2) = \sum_{n \in \mathcal{A}_k} 1/(n\log n) \leq e^\gamma\pi/4 < \infty$.
+Since $T_k(x)$ is the tail of the convergent series $T_k(2)$ beginning at $x$,
+tails of convergent series vanish: $T_k(x) \to 0$ as $x \to \infty$.
+Hence $\sum_{k=1}^K T_k(x) \to 0$ for any fixed $K$.
 
 **Consequence**: The conjecture holds easily (with $o(1)$ bound) whenever $A$
 is supported on strata of bounded Omega-number. The hard case requires elements
@@ -405,11 +416,14 @@ The minimum element in stratum $k$ above $x$ scales roughly as $x$ when
 $k \approx \log_2 x$ (detailed analysis deferred to
 `proof_lemmas/lemma_min_k_almost_prime.md`).
 
-For $k < \lceil\log_2 x\rceil$, the small-$k$-almost-primes near 2 are excluded;
-$T_k(x) < T_k(2)$ and $T_k(x) \to 0$ as $x \to \infty$ for each fixed $k$
-(by `proof_lemmas/lemma_large_floor_vanish.md`).
-For $k \geq \lceil\log_2 x\rceil$, $k$-almost primes start above $x$ (their minimum
-exceeds $x$), so $T_k(x) = T_k(2)$ (see `proof_lemmas/lemma_min_k_almost_prime.md`).
+For each fixed $k$: by the argument in Section 6.1 ("Why the bound vanishes"),
+$T_k(x) \to 0$ as $x \to \infty$ (tail of a series shown convergent via F1).
+
+For $k \geq \lceil\log_2 x\rceil$: any integer $n$ with $\Omega(n) = k$ has $k$
+prime factors each $\geq 2$, so $n \geq 2^k \geq x$; the lower bound $n \geq x$ in
+$T_k(x) = \sum_{n \geq x,\, \Omega(n)=k} 1/(n\log n)$ excludes no terms, giving
+$T_k(x) = T_k(2)$. (This uses only arithmetic: the product of $k$ integers each
+$\geq 2$ is at least $2^k$.)
 
 The critical range is $k \in [k^* - C, k^* + C]$ for $k^* = \lfloor \log_2 x
 \rfloor$ and any fixed $C$. An element $a \geq x$ with $\Omega(a) = k$ in
@@ -481,10 +495,11 @@ $$S := \sum_{a \in A} \frac{1}{a \log a} < 1 + o(1) \quad (x \to \infty).$$
 
 *Proof (two cases)*:
 
-*Case 1 ($k$ fixed as $x\to\infty$)*: For large fixed $k$ satisfying F3's sign
-disambiguation: $T_k(2) < 1$ by F3, so $S \leq T_k(x) \leq T_k(2) < 1 < 1 + o(1)$.
-For small fixed $k$: $S \leq T_k(x) \leq T_k(2)$; the analysis of $T_k(x)$ as $x\to\infty$
-is in `proof_lemmas/lemma_large_floor_vanish.md`.
+*Case 1 ($k$ fixed as $x\to\infty$)*: For all sufficiently large fixed $k$,
+$T_k(2) < 1$ by F3 sign disambiguation, so $S \leq T_k(x) \leq T_k(2) < 1 < 1 + o(1)$.
+For small fixed $k$: $\mathcal{A}_k$ is a primitive set (Section 6.1), so by F1,
+$T_k(2) < \infty$; thus $T_k(x)$ (tail of convergent series) $\to 0$ as $x \to \infty$,
+giving $S \leq T_k(x) = o(1) < 1 + o(1)$.
 
 *Case 2 ($k = k(x) \to \infty$)*: By F3 (asymptotic formula for large $k$): $T_k(2) =
 1 - (c + o(1))k^2/2^k$. For large $k$, $c + o(1) \to c > 0$ and $(c+o(1))k^2/2^k > 0$,
@@ -515,16 +530,17 @@ Write $S = S_j + S_k$ where $S_j = \sum_{\substack{a \in A \\ \Omega(a)=j}} \fra
 and $S_k$ analogously. By Lemma `stratum_sub_bound`, $S_j \leq T_j(x)$ and
 $S_k \leq T_k(x) \leq T_k(2)$.
 
-*Case (a): $j$ bounded (fixed as $x\to\infty$).* We have $S_j \leq T_j(x)$;
-the bound on $T_j(x)$ as $x\to\infty$ is in `proof_lemmas/lemma_large_floor_vanish.md`.
-For $S_k$: if $k$ is also fixed, $S_k \leq T_k(x)$ similarly. If
-$k = k(x) \to \infty$, then by F3 (asymptotic for large $k$): $T_k(2) =
-1-(c+o(1))k^2/2^k < 1$ for all sufficiently large $k$,
-so $S_k \leq T_k(2) < 1$. In either subcase, $S = o(1) + (<1) < 1 + o(1)$. $\square$
+*Case (a): $j$ bounded (fixed as $x\to\infty$).* We have $S_j \leq T_j(x)$.
+By Section 6.1 ("Why the bound vanishes"), $T_j(x) \to 0$ as $x\to\infty$
+(F1 gives $T_j(2) < \infty$; tail of convergent series vanishes). So $S_j = o(1)$.
+For $S_k$: if $k$ is also fixed, $S_k \leq T_k(x) = o(1)$ similarly. If
+$k = k(x) \to \infty$, then by F3 (asymptotic for large $k$): $T_k(2) < 1$
+for sufficiently large $k$, so $S_k \leq T_k(2) < 1$.
+In either subcase, $S = o(1) + (<1) < 1 + o(1)$. $\square$
 
 *Case (b): $k$ bounded (fixed as $x\to\infty$).* Then $j < k$ is also bounded,
-and $S_j \leq T_j(x)$, $S_k \leq T_k(x)$; the bounds on $T_j(x)$ and $T_k(x)$
-as $x\to\infty$ are in `proof_lemmas/lemma_large_floor_vanish.md`. $\square$
+and by Section 6.1, $T_j(x) \to 0$ and $T_k(x) \to 0$ as $x \to \infty$
+(F1 finite + tail argument). So $S = S_j + S_k \leq T_j(x) + T_k(x) = o(1) < 1 + o(1)$. $\square$
 
 **The hard case (open sub-problem)**: When both $j = j(x) \to \infty$ and
 $k = k(x) \to \infty$ as $x \to \infty$, the per-stratum bound gives
@@ -652,7 +668,10 @@ since $(j+d)^2/2^{j+d} \to 0$ exponentially and $c + o(1) \to c > 0$.
 
 **Failure witness**: The closure condition requires $S_j(1-\delta) < (c+o(1))(j+d)^2/2^{j+d}$ for all
 large $j$. Take $A^{(j)} = \mathcal{A}_j(x)$ (all $j$-almost primes $\geq x$ with $j \geq \lceil\log_2 x\rceil$);
-then $S_j = T_j(x) = T_j(2) \to 1$ (by F3 and the definition of $T_k(2)$ for $k \geq \lceil\log_2 x\rceil$; see `proof_lemmas/lemma_min_k_almost_prime.md`). So $S_j(1-\delta) \to (1-\delta) > 0$,
+then $S_j = T_j(x) = T_j(2)$ because any $j$-almost prime $n$ satisfies $n \geq 2^j \geq x$
+(arithmetic: product of $j$ primes each $\geq 2$ is $\geq 2^j \geq x$ for $j \geq \lceil\log_2 x\rceil$),
+so the constraint $n \geq x$ excludes no terms. By F3: $T_j(2) \to 1$ from below as $j \to \infty$.
+So $S_j \to 1$ and $S_j(1-\delta) \to (1-\delta) > 0$,
 while the RHS $\to 0$. The inequality FAILS for this witness.
 Hence the closure condition fails for large $j$: no fixed $\delta > 0$ can satisfy it.
 
@@ -723,11 +742,16 @@ $$S(\mathcal{A}_k(x)) = \sum_{n \in \mathcal{A}_k(x)} \frac{1}{n \log n} = T_k(x
 *Proof*: By definition, $T_k(x) = \sum_{\Omega(n)=k,\, n \geq x} 1/(n \log n) = S(\mathcal{A}_k(x))$.
 $\square$
 
-### 10.2 Small-element bound and T_k(x) = T_k(2) for large k
+### 10.2 Critical-stratum range
 
-**Fact**: For $k \geq \lceil \log_2 x \rceil$,
+For $k \geq \lceil \log_2 x \rceil$: every $k$-almost prime $n = p_1 \cdots p_k$
+(each $p_i \geq 2$) satisfies $n \geq 2^k \geq x$, so the lower bound
+$n \geq x$ in $T_k(x)$ is automatically satisfied — no terms are excluded:
 $$T_k(x) = T_k(2) = \sum_{\Omega(n)=k} \frac{1}{n \log n}.$$
-*Proof deferred to* `proof_lemmas/lemma_min_k_almost_prime.md`. $\square$
+(This is a purely arithmetic observation: the product of $k$ integers each $\geq 2$ is $\geq 2^k$.)
+For $k < \lceil \log_2 x \rceil$, some small-$k$-almost-primes lie below $x$,
+so $T_k(x) < T_k(2)$; but as noted in Section 6.1, $T_k(x) \to 0$ (F1-convergence
++ tail vanishing).
 
 ### 10.3 Tightness of the 1+o(1) conjecture
 
@@ -738,8 +762,9 @@ $$S(\mathcal{A}_{k^*}(x)) = T_{k^*(x)}(2) = 1 - \bigl(c + o(1)\bigr)\frac{k^*(x)
 As $x \to \infty$: $k^*(x) = \lceil \log_2 x \rceil \to \infty$, so by F3:
 $$S(\mathcal{A}_{k^*}(x)) = T_{k^*}(2) \to 1 \quad \text{from below.}$$
 
-*Proof*: By the Fact of Section 10.2 (proved in `proof_lemmas/lemma_min_k_almost_prime.md`),
-$T_{k^*}(x) = T_{k^*}(2)$.
+*Proof*: By Section 10.2, $T_{k^*}(x) = T_{k^*}(2)$
+(since $k^*(x) = \lceil\log_2 x\rceil$ implies $2^{k^*} \geq x$, so every
+$k^*$-almost prime satisfies $n \geq 2^{k^*} \geq x$ — arithmetic).
 By the Extremal primitivity lemma and Bound-is-achieved lemma, $\mathcal{A}_{k^*}(x)$ is
 primitive with $S = T_{k^*}(2)$. By F3 sign\_disambiguation, $T_{k^*}(2) \to 1$
 from below as $k^*(x) \to \infty$. $\square$
