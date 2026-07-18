@@ -225,9 +225,7 @@ $S_2 := \sum_{a \in A_2} \frac{1}{a \log a}$.
 
 **Lemma (`S1_bound`)**: $S_1 \leq 1 + O(1/\log x)$.
 
-*Proof*: Deferred to `proof_lemmas/lemma_s1_bound.md`. The proof computes
-the antiderivative of $1/(t\log t)$ to evaluate $\int_x^{x^e} dt/(t\log t) = 1$,
-then applies a standard discretization argument. $\square$
+*Proof*: See `proof_lemmas/lemma_s1_bound.md`. $\square$
 (Here and throughout Section 4, $\log = \ln$ denotes the natural logarithm.)
 
 This is tight: taking $A_1 = \emptyset$ gives $S_1 = 0$; taking $A_1$ to be
