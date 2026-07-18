@@ -203,15 +203,15 @@ bound. See `proof_lemmas/lemma_cross_stratum_control.md` for why this fails.
    NOT restricted to $O(x/\log x)$; that bound applies to multi-scale settings
    (e.g. $|A \cap [x, x^2]|$ with the cross-scale primitivity biting). For a
    single interval, the per-interval contribution is at most
-   $\log 2/\log x = o(1)$ by Lemma `dyadic_interval_bound`, regardless of
+   $1/\log N = o(1)$ by Lemma `dyadic_interval_bound`, regardless of
    density. This direction therefore gives only per-interval $o(1)$, not a
    global bound.
 
-2. **Mertens-type averaging with primitivity**: The Mertens sum
-   $\sum_{n \leq x} 1/n \approx \log x$ and $\sum_{n \leq x, \Omega(n)=k} 1/n
-   \approx (\log\log x)^{k-1}/((k-1)! \log x)$. For a primitive set, one
-   needs to bound the sub-sum over $A$-elements via the antichain property.
-   A Plünnecke–Ruzsa type inequality might control the "spread" of the set.
+2. **Averaging with primitivity**: For a primitive set, one needs to bound
+   the sub-sum over $A$-elements via the antichain property.
+   Averaging arguments relate the sum to density estimates for k-almost
+   primes, but without exploiting the cross-interval primitivity constraint
+   these do not close the problem.
 
 3. **Generating function / Dirichlet series**: For a primitive set $A$, the
    function $F_A(s) = \sum_{a \in A} a^{-s}$ satisfies $F_A(s) \cdot
@@ -249,10 +249,10 @@ an upper bound) gives $S_1 \to 1$ as $x \to \infty$.
 
 **Why $S_2$ is hard without primitivity**:
 
-Without any constraint, $\sum_{n \geq x^e} 1/(n \log n)$ diverges
-(since $\int_{x^e}^\infty dt/(t \log t) = \infty$). So the contribution from
-$A_2$ is not bounded by the naive tail of the harmonic series. Primitivity
-is essential to control $S_2$.
+Without any constraint, $\sum_{n \geq x^e} 1/(n \log n)$ is unbounded
+(the series has no finite upper bound as more terms are included). So the
+contribution from $A_2$ is not controlled by the size of the interval
+$[x^e, \infty)$ alone. Primitivity is essential to control $S_2$.
 
 **The blocking principle (the open part)**:
 
@@ -282,26 +282,27 @@ primitive $A$ and all $x$ large; this would give $S_1 + S_2 \leq S_1 + f(S_1)
 A natural approach is to estimate how many integers in $[x^e, \infty)$ avoid
 divisibility by $A_1$. Even if only a small fraction $\rho \ll 1$ of integers in
 each interval $[N, 2N)$ escape blocking by $A_1$, the sum
-$\rho \cdot \sum_{n=N}^{2N} 1/(n \log n) \approx \rho \cdot \log 2/\log N$
+$\rho \cdot \sum_{n=N}^{2N-1} 1/(n \log n) \leq \rho/\log N$
 over infinitely many dyadic intervals $N = x^e, 2x^e, 4x^e, \ldots$ gives
-$\rho \cdot \sum_{j \geq 0} \log 2/(e \log x + j \log 2)$, which diverges for
-any fixed $\rho > 0$. Multiplying a divergent sum by any positive constant does
-not make it converge.
+$\rho \cdot \sum_{j \geq 0} 1/(e \log x + j \log 2)$, which is unbounded for
+any fixed $\rho > 0$ (the harmonic-type partial sums grow without bound).
+Multiplying a divergent series by any positive constant does not make it
+converge.
 
 **Why this fails**: The tail $\sum_{n \geq x^e, n \in \mathcal{U}(A_1)} 1/(n \log n)$
 cannot be bounded by a sieve-density argument alone, because the base series
-$\sum_{n \geq x^e} 1/(n \log n)$ diverges and a multiplicative density factor
-(not depending on $n$) cannot convert a divergent series to a convergent one.
+$\sum_{n \geq x^e} 1/(n \log n)$ is unbounded and a multiplicative density factor
+(not depending on $n$) cannot convert an unbounded series to a bounded one.
 
 Conclusion: Controlling $S_2$ via "unblocked density from $A_1$" fails because
-the density factor does not cure divergence.
+the density factor does not cure the unboundedness of the base sum.
 
 **Correct interpretation**: Even if one accounts for the blocking by $A_1$
 at every dyadic scale $[x^e 2^j, x^e 2^{j+1})$ via a multiplicative density
 factor $\rho < 1$ (the proportion of integers surviving the sieve by $A_1$),
-the sum $\rho \cdot \sum_{j \geq 0} \log 2/(e \log x + j \log 2)$ is still $\rho$
-times a divergent series. Multiplying a divergent sum by any positive constant
-does not make it converge, so this "blocking density" heuristic cannot bound
+the partial sums $\rho \cdot \sum_{j=0}^J 1/(e \log x + j \log 2)$ grow
+without bound as $J \to \infty$. Multiplying an unbounded series by any
+positive constant does not make it convergent, so this heuristic cannot bound
 $S_2$.
 
 **Key insight from this failure**: Controlling $S_2$ via the "blocking density"
@@ -349,8 +350,9 @@ $A \subset [x, \infty)$:
 
 $$S_2 \leq o(1) \quad \text{whenever } S_1 \approx 1.$$
 
-Equivalently: if $A_1$ "nearly saturates" the integral $\int_x^{x^e} dt/(t \log t) = 1$,
-then $A_2$ must contribute $o(1)$. This requires showing that "near-saturation"
+Equivalently: if $S_1 \approx 1$, i.e., $A_1$ "nearly saturates" its maximal
+possible contribution of 1, then $A_2$ must contribute $o(1)$. This requires
+showing that "near-saturation"
 of $S_1$ forces $A_1$ to be very "dense" in $[x, x^e)$, and that density in
 $[x, x^e)$ forces near-emptiness (in the $\sum 1/(a \log a)$ sense) of $A_2$.
 
