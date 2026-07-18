@@ -236,7 +236,7 @@ $$A_1 := A \cap [x,\, x^e), \qquad A_2 := A \cap [x^e, \infty).$$
 Let $S_1 := \sum_{a \in A_1} \frac{1}{a \log a}$ and
 $S_2 := \sum_{a \in A_2} \frac{1}{a \log a}$.
 
-**Lemma (`S1_bound`)**: $S_1 \leq 1 + O(1/\log x)$.
+**Lemma (`S1_bound`)**: $S_1 \leq 1 + o(1)$ as $x \to \infty$.
 
 *Proof*: Since each $a \in A_1 \subset [x, x^e)$, we have
 $S_1 \leq \sum_{x \leq n < x^e} \frac{1}{n\log n}$.
@@ -244,10 +244,11 @@ The function $t \mapsto 1/(t\log t)$ is decreasing for $t > 1$, so each term sat
 $\frac{1}{n\log n} \leq \int_{n-1}^{n} \frac{dt}{t\log t}$, giving
 $S_1 \leq \int_{x-1}^{x^e} \frac{dt}{t\log t}$.
 By elementary calculus ($\tfrac{d}{dt}\log\log t = \tfrac{1}{t\log t}$, valid for $t > 1$):
-$\int_{x-1}^{x^e} \frac{dt}{t\log t} = \bigl[\log\log t\bigr]_{x-1}^{x^e}
-= \log(e\log x) - \log\log(x-1) = 1 + O(1/\log x)$,
-where $\log(e\log x) = 1 + \log\log x$ (elementary) and $\log\log(x-1) = \log\log x + O(1/(x\log x))$
-(Taylor expansion). See `proof_lemmas/lemma_s1_bound.md`. $\square$
+$$\int_{x-1}^{x^e} \frac{dt}{t\log t} = \bigl[\log\log t\bigr]_{x-1}^{x^e}
+= \log(e\log x) - \log\log(x-1),$$
+where $\log(e\log x) = 1 + \log\log x$.
+As $x \to \infty$, $x - 1 \to \infty$ and $\log\log(x-1) \to \log\log x$, so the
+integral $\to 1 + \log\log x - \log\log x = 1$. Hence $S_1 \leq 1 + o(1)$. $\square$
 (Here and throughout Section 4, $\log = \ln$ denotes the natural logarithm.)
 
 This is tight: taking $A_1 = \emptyset$ gives $S_1 = 0$; taking $A_1$ to be
