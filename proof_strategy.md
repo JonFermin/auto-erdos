@@ -87,10 +87,7 @@ $x \to \infty$ (Lemma `large_floor_vanish` below).
 **Lemma `large_floor_vanish`** (status: proved): For each fixed $k \geq 1$,
 $T_k(x) \to 0$ as $x \to \infty$.
 
-Proof: Deferred to `proof_lemmas/lemma_large_floor_vanish.md`. The proof uses
-the fact that the series $\sum_{n:\,\Omega(n)=k} 1/(n \log n)$ converges
-(a standard density estimate for $k$-almost primes shows the partial sums are
-bounded); the tail therefore vanishes. $\square$
+Proof: See `proof_lemmas/lemma_large_floor_vanish.md`. $\square$
 
 **Corollary (Low-stratum control, FIXED $K$ only)**: For each fixed constant $K \geq 1$
 (not depending on $x$),
