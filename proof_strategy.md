@@ -740,3 +740,90 @@ input beyond F1/F2/F3 and are therefore outside the scope of the current proof.
 
 The conjecture for primitive sets spanning multiple critical strata remains
 open. No proof or disproof is available from F1, F2, F3 alone.
+
+---
+
+## Section 10 — Extremal Analysis and Tightness of the Conjecture
+
+This section proves two results: (a) the single-stratum per-stratum bound
+$S_k \leq T_k(x)$ is ACHIEVED (not merely an upper bound), and (b) the
+conjecture's $1+o(1)$ form is optimal — it cannot be improved to $1-\varepsilon$
+for any fixed $\varepsilon > 0$.
+
+### 10.1 The Extremal Primitive Set
+
+**Definition**: For each integer $k \geq 1$ and threshold $x \geq 2$, define
+$$\mathcal{A}_k(x) := \{n \geq x : \Omega(n) = k\}.$$
+This is the set of ALL $k$-almost primes at or above $x$.
+
+**Lemma (Extremal primitivity)**: $\mathcal{A}_k(x)$ is primitive for every
+$k \geq 1$ and $x \geq 2$.
+
+*Proof*: Let $n, m \in \mathcal{A}_k(x)$ with $n \neq m$, so $\Omega(n) = \Omega(m) = k$.
+Suppose $n \mid m$. Then $m = n \cdot r$ for some integer $r \geq 2$, giving
+$\Omega(m) = \Omega(n) + \Omega(r) \geq k + 1 > k$. This contradicts $\Omega(m) = k$.
+So $n \nmid m$ and symmetrically $m \nmid n$. Hence $\mathcal{A}_k(x)$ is primitive. $\square$
+
+**Lemma (Bound is achieved)**: The per-stratum bound $S_k \leq T_k(x)$ is
+achieved by $A = \mathcal{A}_k(x)$:
+$$S(\mathcal{A}_k(x)) = \sum_{n \in \mathcal{A}_k(x)} \frac{1}{n \log n} = T_k(x).$$
+
+*Proof*: By definition, $T_k(x) = \sum_{\Omega(n)=k,\, n \geq x} 1/(n \log n) = S(\mathcal{A}_k(x))$.
+$\square$
+
+### 10.2 Small-element bound and T_k(x) = T_k(2) for large k
+
+**Lemma (Minimum k-almost prime)**: The smallest $k$-almost prime is $2^k$.
+
+*Proof*: Any $k$-almost prime is a product of exactly $k$ primes (with repetition),
+each $\geq 2$. The minimum product is $2^k$. $\square$
+
+**Corollary**: For $k \geq \lceil \log_2 x \rceil$ (equivalently $2^k \geq x$),
+every $k$-almost prime satisfies $n \geq 2^k \geq x$, so
+$$T_k(x) = T_k(2) = \sum_{\Omega(n)=k} \frac{1}{n \log n}.$$
+
+*Proof*: When $k \geq \lceil \log_2 x \rceil$, the smallest $k$-almost prime is
+$2^k \geq x$, so no $k$-almost prime lies in $[2, x)$. The sum from $n \geq x$
+equals the sum from $n \geq 2$. $\square$
+
+### 10.3 Tightness of the 1+o(1) conjecture
+
+**Theorem (Tightness)**: For each $x \geq 2$, set $k^*(x) = \lceil \log_2 x \rceil$.
+The primitive set $\mathcal{A}_{k^*}(x)$ is a subset of $[x, \infty)$ with
+$$S(\mathcal{A}_{k^*}(x)) = T_{k^*(x)}(2) = 1 - \bigl(c + o(1)\bigr)\frac{k^*(x)^2}{2^{k^*(x)}}.$$
+
+As $x \to \infty$: $k^*(x) = \lceil \log_2 x \rceil \to \infty$, so by F3:
+$$S(\mathcal{A}_{k^*}(x)) = T_{k^*}(2) \to 1 \quad \text{from below.}$$
+
+*Proof*: By the Corollary of Section 10.2, $T_{k^*}(x) = T_{k^*}(2)$ (since
+$k^*(x) = \lceil \log_2 x \rceil$ implies $2^{k^*(x)} \geq x$). By the Extremal
+primitivity lemma and Bound-is-achieved lemma, $\mathcal{A}_{k^*}(x)$ is
+primitive with $S = T_{k^*}(2)$. By F3 sign\_disambiguation, $T_{k^*}(2) \to 1$
+from below as $k^*(x) \to \infty$. $\square$
+
+**Consequence (Lower bound on supremum)**: For each $x \geq 2$:
+$$\sup_{\substack{A \subset [x,\infty) \\ \text{primitive}}} S(A, x) \geq T_{\lceil \log_2 x \rceil}(2) \to 1 \quad (x \to \infty).$$
+
+The supremum approaches $1$ from below.
+
+**Consequence (Optimality of the conjecture)**: The $1+o(1)$ upper bound in the
+Erdős conjecture CANNOT be replaced by $1 - \varepsilon$ for any fixed $\varepsilon > 0$:
+for any $\varepsilon > 0$, there exist large $x$ and primitive $A \subset [x,\infty)$
+with $S(A,x) > 1 - \varepsilon$ (take $A = \mathcal{A}_{k^*}(x)$ for large enough $x$,
+since $T_{k^*}(2) \to 1$).
+
+### 10.4 Bounds on the supremum
+
+Combining the upper and lower bounds on $\sup S$:
+$$T_{\lceil \log_2 x \rceil}(2) \leq \sup_{\substack{A \subset [x,\infty) \\ \text{primitive}}} S(A,x) \leq e^\gamma \frac{\pi}{4} + o(1).$$
+
+- **Lower bound**: $T_{\lceil \log_2 x \rceil}(2) \to 1$ from below (this section).
+- **Upper bound**: $e^\gamma \pi/4 \approx 1.399$ (from F1).
+
+The gap between the lower bound (approaching 1) and the upper bound ($\approx 1.399$)
+is the range in which the true supremum lies. The Erdős conjecture asserts the
+supremum tends to 1 (equivalently, the $1+o(1)$ upper bound holds for all primitive
+sets). Neither F1 alone nor F3 alone closes this gap; F1 gives 1.399, and F3 shows
+the supremum is bounded below by values approaching 1, but neither pins the supremum
+to exactly 1.
+
