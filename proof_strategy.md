@@ -32,6 +32,9 @@ of resolution may appear in this file.
   $$\sum_{a \in A_k} \frac{1}{a \log a} \geq 1 + O(k^{-1/2 + o(1)}).$$
   The $O(\cdot)$ term is **unsigned** — it could be positive or negative.
   Concluding $\sum > 1$ from F2 alone is a SIGN ERROR (anti-trap 1).
+  **Note**: F2 is documented here for anti-trap awareness and is NOT cited in
+  any positive derivation in this proof; it appears only in Section 3 to document
+  a dead end.
 
 - **F3** (Asymptotic for large $k$): For
   $A_k = \{n \in \mathbb{N} : \Omega(n) = k\}$,
@@ -172,11 +175,7 @@ multiple critical strata from simultaneously contributing nearly $1$.
 $A \subset [x, \infty)$ and any single dyadic interval $I = [N, 2N)$,
 $$\sum_{a \in A \cap I} \frac{1}{a \log a} \leq \frac{1}{\log N}.$$
 
-Proof: For each $a \in A \cap [N, 2N)$, we have $a \geq N$, so
-$\frac{1}{a\log a} \leq \frac{1}{N\log N}$. The interval $[N, 2N)$ contains
-exactly $N$ integers, so $|A \cap [N, 2N)| \leq N$, giving
-$\sum_{a \in A \cap [N,2N)} \frac{1}{a\log a} \leq N \cdot \frac{1}{N\log N} = \frac{1}{\log N}$.
-See `proof_lemmas/lemma_dyadic_interval_bound.md`. $\square$
+Proof: Deferred to `proof_lemmas/lemma_dyadic_interval_bound.md`. $\square$
 
 
 Note: This per-interval bound does not use cross-interval primitivity.
@@ -474,8 +473,10 @@ from exceeding $1$.
 Consider $A \subset [x, \infty)$ primitive with elements only in strata $j$ and
 $k$ (fixed $j < k$, both near $k^*$). Then:
 $$S = S_j + S_k \leq T_j(x) + T_k(x) \leq T_j(2) + T_k(2),$$
-where by F3 each $T_\ell(2) = \sum_{n:\Omega(n)=\ell} \frac{1}{n\log n} < 1$.
-For $j$ or $k$ small (say $j = 1$, $k = 2$), the two per-stratum bounds
+where by F3 sign-disambiguation $T_\ell(2) < 1$ for all sufficiently large $\ell$.
+For $j$ or $k$ near $k^*$ (large), this gives $T_j(2) < 1$ and $T_k(2) < 1$.
+For $j$ or $k$ small (say $j = 1$, $k = 2$), the F3 asymptotic does not apply;
+in that case $T_j(2)$ or $T_k(2)$ may exceed $1$, so the two per-stratum bounds
 could sum to exceed $1$, showing the naive two-stratum bound is insufficient.
 
 Cross-stratum primitivity constrains $A^{(k)}$: for each $a \in A^{(j)}$ and
@@ -761,18 +762,13 @@ $\square$
 
 ### 10.2 Small-element bound and T_k(x) = T_k(2) for large k
 
-**Lemma (Minimum k-almost prime)**: The smallest $k$-almost prime is $2^k$.
-
-*Proof*: Any $k$-almost prime is a product of exactly $k$ primes (with repetition),
-each $\geq 2$. The minimum product is $2^k$. $\square$
-
-**Corollary**: For $k \geq \lceil \log_2 x \rceil$ (equivalently $2^k \geq x$),
-every $k$-almost prime satisfies $n \geq 2^k \geq x$, so
+**Corollary**: For $k \geq \lceil \log_2 x \rceil$,
 $$T_k(x) = T_k(2) = \sum_{\Omega(n)=k} \frac{1}{n \log n}.$$
 
-*Proof*: When $k \geq \lceil \log_2 x \rceil$, the smallest $k$-almost prime is
-$2^k \geq x$, so no $k$-almost prime lies in $[2, x)$. The sum from $n \geq x$
-equals the sum from $n \geq 2$. $\square$
+*Proof*: Any $k$-almost prime $n$ has $k$ prime factors (with repetition), each $\geq 2$,
+so $n \geq 2^k$. When $k \geq \lceil \log_2 x \rceil$, we have $2^k \geq x$, so every
+$k$-almost prime is $\geq x$; no $k$-almost prime lies in $[2, x)$. The sum from
+$n \geq x$ thus equals the sum from $n \geq 2$. $\square$
 
 ### 10.3 Tightness of the 1+o(1) conjecture
 
