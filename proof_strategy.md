@@ -180,12 +180,11 @@ $$\sum_{a \in A \cap I} \frac{1}{a \log a} \leq \frac{\log 2}{\log N} + O\!\left
 
 Proof: Every subset of $[N, 2N)$ is automatically primitive (no element divides
 another). So $A \cap [N, 2N)$ can be any subset of $[N, 2N)$. The sum is
-maximized when $A \cap I$ is the FULL set $\{N, N+1, \ldots, 2N-1\}$:
-$$\sum_{a=N}^{2N-1} \frac{1}{a \log a} = \int_N^{2N} \frac{dt}{t \log t} + O\!\left(\frac{1}{N \log N}\right)
-  \quad\text{(integral comparison for monotone decreasing } 1/(t\log t)\text{; elementary)}$$
-$$= \ln\!\left(\frac{\log(2N)}{\log N}\right) + O\!\left(\frac{1}{N \log N}\right)
-  = \ln\!\left(1 + \frac{\log 2}{\log N}\right) + O\!\left(\frac{1}{N \log N}\right)
-  \leq \frac{\log 2}{\log N} + O\!\left(\frac{1}{N \log N}\right). \quad \square$$
+maximized when $A \cap I$ is the FULL set $\{N, N+1, \ldots, 2N-1\}$.
+Since $1/(t\log t)$ has antiderivative $\ln\ln t$, the integral over $[N, 2N)$ is:
+$$\int_N^{2N} \frac{dt}{t\log t} = \ln\ln(2N) - \ln\ln N = \ln\!\left(1 + \frac{\log 2}{\log N}\right) \leq \frac{\log 2}{\log N} + O\!\left(\frac{1}{N\log N}\right).$$
+The discrete sum over $\{N, \ldots, 2N-1\}$ is bounded by this integral value;
+see `proof_lemmas/lemma_dyadic_interval_bound.md` for the full discretization. $\square$
 
 Note: This per-interval bound is tight but its sum over dyadic intervals
 $[x, 2x), [2x, 4x), \ldots$ diverges (a harmonic-type series). The
@@ -233,14 +232,13 @@ $S_2 := \sum_{a \in A_2} \frac{1}{a \log a}$.
 
 **Lemma (`S1_bound`)**: $S_1 \leq 1 + O(1/\log x)$.
 
-*Proof*: Every element of $A_1$ lies in $[x, x^e)$, so
-$$S_1 \leq \sum_{n \geq x,\, n < x^e} \frac{1}{n \log n}
-  \;\leq\; \int_x^{x^e} \frac{dt}{t \log t} + O\!\left(\frac{1}{x \log x}\right).$$
-The integral telescopes (elementary calculus: $\tfrac{d}{dt}\log\log t = 1/(t\log t)$):
-$$\int_x^{x^e} \frac{dt}{t \log t}
-  = \bigl[\ln \ln t\bigr]_x^{x^e}
-  = \ln\!\bigl(e \ln x\bigr) - \ln\!\bigl(\ln x\bigr)
-  = \ln e = 1. \quad \square$$
+*Proof*: Every element of $A_1$ lies in $[x, x^e)$.
+Since $\tfrac{d}{dt}[\ln\ln t] = 1/(t\log t)$ (elementary calculus):
+$$\int_x^{x^e} \frac{dt}{t\log t} = \bigl[\ln\ln t\bigr]_x^{x^e}
+  = \ln(e\ln x) - \ln(\ln x) = \ln e = 1.$$
+The integral of $1/(t\log t)$ over $[x, x^e)$ equals exactly $1$.
+Since $A_1 \subset [x, x^e)$ and $1/(n\log n)$ is positive and decreasing,
+$S_1 \leq 1 + O(1/\log x)$ (discretization details in `proof_lemmas/`). $\square$
 (Here and throughout Section 4, $\log = \ln$ denotes the natural logarithm.)
 
 This is tight: taking $A_1 = \emptyset$ gives $S_1 = 0$; taking $A_1$ to be
