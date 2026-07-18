@@ -703,14 +703,14 @@ The analysis above pinpoints the obstruction:
 - Since $W_k(a) \geq 0$ and $\sum_{a} W_k(a) \leq T_{k-j}(2) \cdot S_j \leq 1$,
   and the needed lower bound $c(j+d)^2/2^{j+d} \to 0$, the required bound is
   an ASYMPTOTIC estimate of blocked weight that tends to $0$ — but even this
-  small positive quantity cannot be extracted without knowing the density of
-  $k$-almost primes (a PNT-for-$k$-almost-primes fact not in the current ledger).
+  small positive quantity is not provable from F1, F2, and F3 alone: those
+  facts bound $T_k(x)$ from above but provide no quantitative lower bound
+  on the weight blocked by a specific set $A^{(j)}$ from the stratum $k$.
 
 **Alternative closure strategy**: Use a global argument that does NOT decompose
-by strata — e.g., a generating-function or Dirichlet-series approach that
-exploits the full primitivity structure of $A$ at once. Such approaches are
-standard in multiplicative combinatorics but require analytic machinery
-(complex analysis, Euler products, Mellin transforms) beyond F1/F2/F3.
+by strata — e.g., an approach exploiting the full primitivity structure of $A$
+at once rather than decomposing into strata. Such approaches require analytic
+input beyond F1/F2/F3 and are therefore outside the scope of the current proof.
 
 ### 9.5 Summary of proof gap
 
