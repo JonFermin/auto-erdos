@@ -173,11 +173,7 @@ multiple critical strata from simultaneously contributing nearly $1$.
 $A \subset [x, \infty)$ and any single dyadic interval $I = [N, 2N)$,
 $$\sum_{a \in A \cap I} \frac{1}{a \log a} \leq \frac{1}{\log N}.$$
 
-Proof: Every $n \in [N, 2N)$ satisfies $n \geq N$, so $1/(n \log n) \leq 1/(N\log N)$.
-Since $|[N, 2N)| = N$:
-$$\sum_{a \in A \cap I} \frac{1}{a \log a}
-  \leq \sum_{n=N}^{2N-1} \frac{1}{n \log n}
-  \leq \frac{N}{N \log N} = \frac{1}{\log N}. \quad \square$$
+Proof: See `proof_lemmas/lemma_dyadic_interval_bound.md`. $\square$
 
 
 Note: This per-interval bound is tight but its sum over dyadic intervals
@@ -525,14 +521,10 @@ $$S := \sum_{a \in A} \frac{1}{a \log a} < 1 + o(1) \quad (x \to \infty).$$
 
 *Proof*: See `proof_lemmas/lemma_single_stratum_bound.md`. $\square$
 
-The proof splits into two cases:
-
-1. **$k$ fixed as $x \to \infty$**: $S \leq T_k(x) \to 0$ by Lemma
-   `large_floor_vanish` (proved). So $S = o(1) < 1 + o(1)$.
-
-2. **$k = k(x) \to \infty$ with $x$**: $S \leq T_k(x) \leq T_k(2)$.
-   By F3 (as $k \to \infty$), $T_k(2) = 1 - (c + o(1))k^2/2^k < 1$ for
-   all large enough $k$. Since $k(x) \to \infty$, eventually $T_k(2) < 1$.
+The proof handles two regimes: fixed $k$ (using Lemma `large_floor_vanish`,
+giving $S = o(1)$) and growing $k$ (using F3 asymptotics as $k \to \infty$
+to conclude $T_k(2) < 1$ for all large $k$, hence $S \leq T_k(2) < 1$).
+Full details and justification in the lemma file.
 
 **Consequence**: The conjecture is proved for single-stratum primitive sets.
 The **multi-stratum case** is what remains open: when $A$ spans two or more
