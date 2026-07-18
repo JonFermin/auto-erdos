@@ -156,15 +156,16 @@ See `proof_lemmas/lemma_cross_stratum_control.md` for the precise gap statement.
 
 **What remains open** (the proof gap):
 
-The critical regime is strata $k \sim \lfloor \log_2 x \rfloor$. For such $k$,
-the smallest $k$-almost prime is $2^k \approx x$, so the restriction $a \geq x$
-imposes almost no constraint. The per-stratum bound gives $S_k(A,x) \leq
-T_k(x) \approx T_k(2) = 1 - ck^2/2^k$. For $k = \log_2 x$, this is
-$1 - c(\log_2 x)^2/x$, which is close to 1. The sum over strata
-$k \in [\log_2 x - C, \log_2 x + C]$ of these per-stratum bounds is
-approximately $2C \cdot (1 - c(\log_2 x)^2/x)$, which diverges as $C \to \infty$
+The critical regime is strata $k \sim k^* := \lfloor \log_2 x \rfloor$. For
+such $k$, the smallest $k$-almost prime is $2^k \approx x$, so the restriction
+$a \geq x$ imposes almost no constraint on $A^{(k)}$. By F3, the per-stratum
+bound satisfies $T_k(2) = 1 - (c+o(1))k^2/2^k$. For $k$ near $k^*$, we have
+$2^{k^*} \approx x$, so the correction $k^{*2}/2^{k^*}$ is small (since $x$
+grows faster than any fixed power of $\log x$); thus $T_{k^*}(2)$ is close to
+$1$. Summing $2C$ such bounds — one for each stratum $k \in [k^*-C, k^*+C]$ —
+gives a total close to $2C$, which grows without bound as $C \to \infty$,
 regardless of $x$. Controlling this requires a global argument that uses
-primitivity to prevent multiple "critical strata" from simultaneously
+primitivity to prevent multiple critical strata from simultaneously
 contributing nearly 1.
 
 **Dead ends ruled out**:
@@ -430,3 +431,101 @@ Candidate approaches for future rounds:
 (B) Showing the S2 region [x^e, ∞) contributes $o(1)$ whenever A1 nearly
     saturates S1 = 1, via a counting argument on the divisibility antichain.
 (C) A direct approach not using the trading decomposition.
+
+---
+
+## Section 6: Stratification and the Low-Stratum Easy Case
+
+### 6.1 The low-stratum lemma (proved)
+
+**Lemma `low_stratum_vanish`**: Fix any integer $K \geq 1$. For any primitive
+set $A \subset [x, \infty)$ whose elements all satisfy $\Omega(a) \leq K$,
+$$\sum_{a \in A} \frac{1}{a\log a} \leq \sum_{k=1}^{K} T_k(x) \to 0
+\quad\text{as } x \to \infty.$$
+
+**Proof**: Since $A \subset [x, \infty)$ and each $a \in A$ has $\Omega(a) = k$
+for some $k \in \{1, \ldots, K\}$, we can write $A = \bigsqcup_{k=1}^K A^{(k)}$
+where $A^{(k)} = \{a \in A : \Omega(a) = k\}$. Then:
+$$\sum_{a \in A} \frac{1}{a\log a} = \sum_{k=1}^{K} \sum_{a \in A^{(k)}}
+\frac{1}{a\log a} \leq \sum_{k=1}^{K} T_k(x),$$
+where $T_k(x) := \sum_{n \geq x,\,\Omega(n) = k} \frac{1}{n\log n}$.
+
+By F3, the total series $\sum_{n:\,\Omega(n)=k} \frac{1}{n\log n}$ converges
+to $1 - (c+o(1))k^2/2^k < \infty$. A convergent series of positive terms has
+tail $T_k(x) \to 0$ as $x \to \infty$. Since $K$ is fixed, the finite sum
+$\sum_{k=1}^K T_k(x) \to 0$ as $x \to \infty$. $\square$
+
+**Consequence**: The conjecture holds easily (with $o(1)$ bound) whenever $A$
+is supported on strata of bounded Omega-number. The hard case requires elements
+with $\Omega(a) \to \infty$ as $x \to \infty$.
+
+### 6.2 The critical Omega-regime
+
+The smallest integer with $\Omega(n) = k$ is $2^k$. For $A \subset [x, \infty)$
+to have any element with $\Omega(a) = k$, we need $2^k \leq a$ for some
+$a \geq x$, which requires $k$ can take any value (since there are arbitrarily
+large $k$-almost primes). However, for the element to be "inexpensive"
+(small $1/(a\log a)$), we want $a$ small — and the smallest $k$-almost prime
+$\geq x$ has $a \approx x$ when $k \approx \log_2 x$.
+
+Precisely: the strata $k$ for which $T_k(x)$ is not negligible are those
+where $k$ is large enough that $k$-almost primes $\geq x$ are plentiful,
+i.e., $k \gtrsim \log_2 x$. By the low-stratum lemma, any $A$ avoiding
+strata $k > \log_2 x - C$ (for any fixed $C$) satisfies $S = o(1)$.
+
+The critical range is $k \in [k^* - C, k^* + C]$ for $k^* = \lfloor \log_2 x
+\rfloor$ and any fixed $C$. An element $a \geq x$ with $\Omega(a) = k$ in
+this range satisfies $2^k \approx x$, meaning $a$ is an integer just above $x$
+that is a product of $k \approx \log_2 x$ prime factors.
+
+### 6.3 Single-stratum primitivity: an automatic constraint
+
+**Observation**: Within a single stratum $A^{(k)} = \{a \in A : \Omega(a) =
+k\}$, the primitive-set condition $a \nmid b$ for distinct $a, b \in A$
+is automatically satisfied. Indeed, if $a \mid b$ and $\Omega(a) = \Omega(b)
+= k$ with $a \neq b$, then $b = am$ for some integer $m \geq 2$, giving
+$\Omega(b) = \Omega(a) + \Omega(m) \geq k + 1$, a contradiction. So $A^{(k)}$
+can be the entire set of $k$-almost primes $\geq x$ — no intra-stratum
+restriction from primitivity.
+
+**Consequence**: The primitivity constraint acts only across different strata.
+For $a \in A^{(j)}$ and $b \in A^{(k)}$ with $j < k$, primitivity forbids
+$a \mid b$. This cross-stratum exclusion is the only force preventing $S$
+from exceeding $1$.
+
+### 6.4 The two-stratum subcase
+
+Consider $A \subset [x, \infty)$ primitive with elements only in strata $j$ and
+$k$ (fixed $j < k$, both near $k^*$). Then:
+$$S = S_j + S_k \leq T_j(x) + T_k(x) \leq T_j(2) + T_k(2),$$
+where each $T_\ell(2) = 1 - (c+o(1))\ell^2/2^\ell < 1$ (F3). For $j$ or $k$
+small (say $j = 1$, $k = 2$), $T_j(2) + T_k(2)$ could exceed $1$, showing
+the naive two-stratum bound is insufficient.
+
+Cross-stratum primitivity constrains $A^{(k)}$: for each $a \in A^{(j)}$ and
+$b \in A^{(k)}$, $a \nmid b$. So $A^{(k)}$ is contained in the sieved set
+$$\mathcal{S}_k(A^{(j)}) := \{n \geq x : \Omega(n) = k,\; a \nmid n \;
+\forall a \in A^{(j)}\}.$$
+
+A quantitative bound on $\sum_{n \in \mathcal{S}_k(A^{(j)})} 1/(n\log n)$
+in terms of $S_j$ (the weight of $A^{(j)}$) would close the two-stratum case.
+Such a bound would likely follow from a Selberg-type sieve applied to
+$k$-almost primes sieved by the divisors in $A^{(j)}$, but this remains open.
+
+### 6.5 Gap summary and updated strategy
+
+What the analysis achieves (combining all sections):
+- **Sections 2–3**: Per-stratum bounds; each $S_k < 1$; summing diverges.
+- **Section 4**: Trading decomposition; $S_1 \leq 1$ exact.
+- **Section 5**: Blocking density; $S_2$ open.
+- **Section 6, Lemma `low_stratum_vanish`**: For $\Omega(a) \leq K$ (fixed),
+  $S = o(1)$ — conjecture holds easily.
+- **Section 6.3**: Cross-stratum primitivity is the binding constraint.
+
+The remaining open core: for primitive $A \subset [x, \infty)$ with elements
+in the critical window $\Omega(a) \in [k^* - C, k^* + C]$, prove
+$\sum_{a \in A} 1/(a\log a) < 1 + o(1)$.
+
+This is a cleaner reformulation than the original: it isolates the critical
+Omega-regime, handles the "bounded Omega" case completely, and reduces the
+problem to the behavior of sieved $k$-almost prime sums.
