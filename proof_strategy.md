@@ -75,7 +75,10 @@ $$T_k(x) := \sum_{\substack{n \geq x \\ \Omega(n) = k}} \frac{1}{n \log n}.$$
 [x, \infty)$ and any $k \geq 1$,
 $$S_k(A, x) \leq T_k(x).$$
 
-Proof: See `proof_lemmas/lemma_stratum_sub_bound.md`. $\square$
+Proof: $A^{(k)} := A \cap \{n : \Omega(n) = k\}$ is a subset of
+$\{n \geq x : \Omega(n)=k\}$, so every term in $\sum_{a \in A^{(k)}} 1/(a\log a)$
+also appears in $T_k(x)$, giving $S_k(A,x) \leq T_k(x)$.
+See `proof_lemmas/lemma_stratum_sub_bound.md`. $\square$
 
 Note: We also have $T_k(x) \leq T_k(2) := \sum_{n:\,\Omega(n)=k} 1/(n \log n)$
 (removing the lower-bound constraint). By F3, as $k \to \infty$ the full sum
