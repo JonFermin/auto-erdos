@@ -554,3 +554,80 @@ See `proof_lemmas/lemma_single_stratum_bound.md` for the complete argument.
 The remaining open case is when $A$ spans two or more $\Omega$-strata; in
 that case, cross-stratum primitivity must prevent simultaneous near-1
 contributions from multiple strata.
+
+---
+
+## Section 8 — Two-Stratum Bound (Q16)
+
+**Lemma `two_stratum_bound`** (status: partial): For any primitive set
+$A \subset [x, \infty)$ supported on exactly two $\Omega$-strata $j < k$
+(i.e.\ $\Omega(a) \in \{j, k\}$ for all $a \in A$), the sum satisfies
+$$S := \sum_{a \in A} \frac{1}{a \log a} < 1 + o(1) \quad (x \to \infty)$$
+whenever at least one of $j$ or $k$ is bounded (does not grow with $x$).
+
+*Proof of the bounded-stratum cases*:
+
+Write $S = S_j + S_k$ where $S_j = \sum_{\substack{a \in A \\ \Omega(a)=j}} \frac{1}{a\log a}$
+and $S_k$ analogously. By Lemma `stratum_sub_bound`, $S_j \leq T_j(x)$ and
+$S_k \leq T_k(x) \leq T_k(2)$.
+
+*Case (a): $j$ bounded (fixed as $x\to\infty$).* By Lemma `large_floor_vanish`
+(proved using F3 sign\_disambiguation), $T_j(x) \to 0$, so $S_j = o(1)$.
+For $S_k$: if $k$ is also fixed, $S_k = o(1)$ by the same lemma. If
+$k = k(x) \to \infty$, then $T_k(2) < 1$ by F3 (sign\_disambiguation), so
+$S_k \leq T_k(2) < 1$. In either subcase, $S = o(1) + (<1) < 1 + o(1)$. $\square$
+
+*Case (b): $k$ bounded (fixed as $x\to\infty$).* Then $j < k$ is also bounded,
+and by Lemma `large_floor_vanish`, both $T_j(x) \to 0$ and $T_k(x) \to 0$.
+Hence $S = S_j + S_k \leq T_j(x) + T_k(x) \to 0 = o(1) < 1 + o(1)$. $\square$
+
+**The hard case (open sub-problem)**: When both $j = j(x) \to \infty$ and
+$k = k(x) \to \infty$ as $x \to \infty$, the per-stratum bound gives
+$S \leq T_j(2) + T_k(2)$. By F3, $T_j(2) \to 1$ and $T_k(2) \to 1$ from
+below, so this bound $\to 2$, which is vacuous.
+
+**Cross-stratum blocking (formal exploration)**:
+
+Within the two-stratum case, primitivity of $A$ forces: for every
+$a \in A^{(j)}$ and every $b \in A^{(k)}$, we have $a \nmid b$ (since
+$j < k$ and $a \mid b$ with $\Omega(a) = j$, $\Omega(b) = k$ would require
+$b = a \cdot m$ for some $m$ with $\Omega(m) = k - j \geq 1$, but then
+$a, b \in A$ and $a \mid b$ — contradicting primitivity). So
+$$A^{(k)} \subseteq \mathcal{S}_k(A^{(j)}) := \bigl\{n \geq x : \Omega(n) = k,\;
+a \nmid n \text{ for all } a \in A^{(j)}\bigr\}.$$
+
+For each $a \in A^{(j)}$, define the blocked weight:
+$$W_k(a) := \sum_{\substack{m \geq 2 \\ \Omega(m) = k-j}} \frac{1}{am \cdot \log(am)}.$$
+Since $am \geq a \cdot m \geq a \cdot 2$ and $\log(am) \geq \log m$, we have
+$1/(am\log(am)) \leq 1/(am\log m)$, giving
+$$W_k(a) \leq \frac{1}{a} \sum_{\substack{m \geq 2 \\ \Omega(m) = k-j}}
+\frac{1}{m\log m} \leq \frac{T_{k-j}(2)}{a} < \frac{1}{a},$$
+where the last step uses F3 (sign\_disambiguation): $T_{k-j}(2) < 1$ for all $k-j \geq 1$.
+
+So the formal reduction of $T_k(2)$ from cross-blocking by $A^{(j)}$ is
+(ignoring overlaps between different $a$'s):
+$$S_k \leq T_k(2) - \sum_{a \in A^{(j)}} W_k(a) \leq T_k(2) - T_{k-j}(2) \cdot S_j + \text{(overlap)}.$$
+
+Adding $S_j$:
+$$S \leq S_j + T_k(2) - T_{k-j}(2) \cdot S_j + \text{(overlap)}
+= T_k(2) + S_j(1 - T_{k-j}(2)) + \text{(overlap)}.$$
+
+Since $T_{k-j}(2) < 1$ (by F3), the term $S_j(1 - T_{k-j}(2)) \geq 0$,
+so this bound is WEAKER than $T_k(2)$ alone unless the overlap is negative
+(i.e.\ overblocking). Without an inclusion-exclusion bound controlling the
+overlap, this approach does not close the hard case.
+
+**Gap identified (Q16 hard case)**: To close the two-stratum bound for
+$j, k \to \infty$, a quantitative lower bound on the blocked weight
+(avoiding double-counting across $a \in A^{(j)}$) is needed. This is a
+Selberg-type sieve estimate for $k$-almost primes — a new analytic input
+beyond the current ledger. The obstacle is not a lemma-file deferral gap
+but a genuine proof-theoretic gap requiring new given facts or new tools.
+
+See `proof_lemmas/lemma_cross_stratum_control.md` for the broader context
+and status of the cross-stratum gap.
+
+**Net progress**: The bounded-stratum cases of `two_stratum_bound` are
+fully proved using `large_floor_vanish` (proved via F3) and
+`single_stratum_bound` (proved via F3). The full two-stratum bound for
+growing $j, k$ remains open.
