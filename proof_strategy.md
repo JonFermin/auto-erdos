@@ -88,14 +88,18 @@ $x \to \infty$ (Lemma `large_floor_vanish` below).
 **Lemma `large_floor_vanish`** (status: proved): For each fixed $k \geq 1$,
 $T_k(x) \to 0$ as $x \to \infty$.
 
-Proof: For $k=1$: by the prime number theorem ($\pi(t) \sim t/\log t$) and
-partial (Abel) summation, the series $\sum_p 1/(p\log p)$ converges to a finite
-constant, and its tail satisfies $T_1(x) = O(1/\log x) \to 0$. For each
-fixed $k \geq 2$: for large $k$, $T_k(2) < 1$ by F3 (so finite); for any
-specific small fixed $k$, $T_k(2)$ is likewise finite by a Mertens-based
-induction extending the $k=1$ argument (see
-`proof_lemmas/lemma_large_floor_vanish.md`). In all cases $T_k(x) \to 0$
-as $x \to \infty$. $\square$
+Proof: For $k=1$: partition primes by dyadic blocks $[2^j x, 2^{j+1}x)$
+for $j = 0, 1, 2, \ldots$. By PNT ($\pi(t) \sim t/\log t$), the block
+contains $\leq C_0 \cdot 2^j x/\log(2^j x)$ primes, each contributing
+$\leq 1/(2^j x\log(2^j x))$. Hence block $j$ contributes
+$\leq C_0/(\log x + j\log 2)^2$ to $T_1(x)$. Summing over $j \geq 0$ and
+bounding by the integral:
+$$T_1(x) \leq C_0\sum_{j=0}^\infty \frac{1}{(\log x+j\log 2)^2}
+  \leq C_0\int_0^\infty \frac{dj}{(\log x+j\log 2)^2}
+  = \frac{C_0}{\log 2\cdot\log x} \to 0.$$
+For each fixed $k \geq 2$: an analogous PNT-based dyadic argument applies at
+each prime-factor level; see `proof_lemmas/lemma_large_floor_vanish.md`.
+$\square$
 
 **Corollary (Low-stratum control, FIXED $K$ only)**: For each fixed constant $K \geq 1$
 (not depending on $x$),
