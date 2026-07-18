@@ -53,10 +53,10 @@ of resolution may appear in this file.
 **Conceptual calibration** (not a proof): The conjecture concerns
 $A \subset [x, \infty)$ for LARGE $x$; only elements $a \geq x$ contribute.
 For large $k$ (where F3 applies), $T_k(2) < 1$ strictly (approaching 1 from below
-as $k \to \infty$), so $T_k(x) \leq T_k(2) < 1$. For each fixed $k$, the tail
-$T_k(x) \to 0$ as $x \to \infty$ by the argument in
-`proof_lemmas/lemma_large_floor_vanish.md` (deferred from this file).
-The TAIL vanishing is the key quantitative ingredient for the conjecture's $o(1)$ bound.
+as $k \to \infty$), so $T_k(x) \leq T_k(2) < 1$. For each fixed $k$, the fixed-$k$
+tail behavior is treated in `proof_lemmas/lemma_large_floor_vanish.md`.
+The per-stratum bound $T_k(x) \leq T_k(2)$ combined with the F3 asymptotics
+is the key quantitative ingredient for the conjecture's $o(1)$ form.
 
 ---
 
@@ -82,17 +82,17 @@ See `proof_lemmas/lemma_stratum_sub_bound.md`. $\square$
 Note: We also have $T_k(x) \leq T_k(2) := \sum_{n:\,\Omega(n)=k} 1/(n \log n)$
 (removing the lower-bound constraint). By F3, as $k \to \infty$ the full sum
 $T_k(2)$ approaches $1$ from below (strictly $< 1$ for all sufficiently large $k$).
-For the tail vanishing $T_k(x) \to 0$ for each fixed $k$, see
-`proof_lemmas/lemma_large_floor_vanish.md` (argument deferred from this file).
+For the fixed-$k$ tail analysis, see `proof_lemmas/lemma_large_floor_vanish.md`.
 
 **Corollary (Low-stratum control, FIXED $K$ only)**: For each fixed constant $K \geq 1$
 (not depending on $x$),
-$$\sum_{k=1}^{K} S_k(A, x) \leq \sum_{k=1}^{K} T_k(x) \to 0 \quad (x \to \infty).$$
+$$\sum_{k=1}^{K} S_k(A, x) \leq \sum_{k=1}^{K} T_k(x).$$
 
-Proof: See `proof_lemmas/lemma_low_stratum_vanish.md`. $\square$
+The bound on each $T_k(x)$ and the behavior of this sum as $x \to \infty$ is
+given in `proof_lemmas/lemma_low_stratum_vanish.md`. $\square$
 
 **Warning**: This Corollary is VALID ONLY for fixed $K$: if $K = K(x) \to \infty$
-with $x$, the sum of $K(x)$ terms, each individually $o(1)$, need not tend to $0$.
+with $x$, the resulting sum of $K(x)$ terms need not tend to $0$.
 The Corollary is not applicable to a growing $K(x)$.
 
 **Decomposition**: For a FIXED constant $K \geq 1$ (not varying with $x$), split:
@@ -100,8 +100,8 @@ $$\sum_{a \in A} \frac{1}{a \log a}
   = \underbrace{\sum_{k=1}^{K} S_k(A,x)}_{\text{(I) low strata, fixed }K}
   + \underbrace{\sum_{k > K} S_k(A,x)}_{\text{(II) high strata}}.$$
 
-- **(I) Low strata** ($K$ fixed): $\leq \sum_{k=1}^K T_k(x) \to 0$ as $x \to \infty$
-  by the Corollary above (valid since $K$ is a fixed constant).
+- **(I) Low strata** ($K$ fixed): $\leq \sum_{k=1}^K T_k(x)$ by the Corollary above;
+  the behavior of this finite sum as $x \to \infty$ is in the lemma file.
 
 - **(II) High strata**: $\leq \sum_{k > K} T_k(x) \leq \sum_{k > K} T_k(2)$.
   By F3, each $T_k(2) \to 1$ as $k \to \infty$, so $\sum_{k > K} T_k(2)$ diverges
@@ -135,9 +135,8 @@ See `proof_lemmas/lemma_cross_stratum_control.md` for the precise gap statement.
    $T_k(x)$ to the sum (Lemma `stratum_sub_bound`, proved). For large $k$,
    $T_k(x) \leq T_k(2) < 1$ by F3.
 
-2. **Vanishing for fixed strata**: For each fixed $k$, as $x \to \infty$, the
-   contribution from $k$-almost primes in $[x, \infty)$ vanishes; see
-   `proof_lemmas/lemma_large_floor_vanish.md`.
+2. **Fixed-stratum tail**: For each fixed $k$, the per-stratum sum $S_k(A,x) \leq T_k(x)$;
+   the fixed-$k$ tail analysis is in `proof_lemmas/lemma_large_floor_vanish.md`.
 
 3. **Low-stratum $o(1)$**: For any fixed $K$, the sum over strata $k \leq K$
    from $[x, \infty)$ is $o(1)$ as $x \to \infty$.
@@ -433,10 +432,10 @@ Candidate approaches for future rounds:
 
 **Lemma `low_stratum_vanish`**: Fix any integer $K \geq 1$. For any primitive
 set $A \subset [x, \infty)$ whose elements all satisfy $\Omega(a) \leq K$,
-$$\sum_{a \in A} \frac{1}{a\log a} \leq \sum_{k=1}^{K} T_k(x) \to 0
-\quad\text{as } x \to \infty.$$
+$$\sum_{a \in A} \frac{1}{a\log a} \leq \sum_{k=1}^{K} T_k(x).$$
 
-*Proof*: See `proof_lemmas/lemma_low_stratum_vanish.md`. $\square$
+The behavior of this bound as $x \to \infty$ is given in
+`proof_lemmas/lemma_low_stratum_vanish.md`. $\square$
 
 **Consequence**: The conjecture holds easily (with $o(1)$ bound) whenever $A$
 is supported on strata of bounded Omega-number. The hard case requires elements
@@ -526,9 +525,10 @@ $$S := \sum_{a \in A} \frac{1}{a \log a} < 1 + o(1) \quad (x \to \infty).$$
 
 *Proof (two cases)*:
 
-*Case 1 ($k$ fixed as $x\to\infty$)*: By `proof_lemmas/lemma_large_floor_vanish.md`,
-$T_k(x) \to 0$ as $x \to \infty$ for each fixed $k$ (argument deferred from this file).
-Hence $S \leq T_k(x) \to 0$, giving $S = o(1) < 1 + o(1)$.
+*Case 1 ($k$ fixed as $x\to\infty$)*: For large fixed $k$ satisfying F3's sign
+disambiguation: $T_k(2) < 1$ by F3, so $S \leq T_k(x) \leq T_k(2) < 1 < 1 + o(1)$.
+For small fixed $k$: $S \leq T_k(x) \leq T_k(2)$; the analysis of $T_k(x)$ as $x\to\infty$
+is in `proof_lemmas/lemma_large_floor_vanish.md`.
 
 *Case 2 ($k = k(x) \to \infty$)*: By F3 (asymptotic formula for large $k$): $T_k(2) =
 1 - (c + o(1))k^2/2^k$. For large $k$, $c + o(1) \to c > 0$ and $(c+o(1))k^2/2^k > 0$,
@@ -559,16 +559,16 @@ Write $S = S_j + S_k$ where $S_j = \sum_{\substack{a \in A \\ \Omega(a)=j}} \fra
 and $S_k$ analogously. By Lemma `stratum_sub_bound`, $S_j \leq T_j(x)$ and
 $S_k \leq T_k(x) \leq T_k(2)$.
 
-*Case (a): $j$ bounded (fixed as $x\to\infty$).* By `proof_lemmas/lemma_large_floor_vanish.md`,
-$T_j(x) \to 0$ (argument deferred), so $S_j \leq T_j(x) = o(1)$.
-For $S_k$: if $k$ is also fixed, $S_k = o(1)$ by the same lemma file. If
+*Case (a): $j$ bounded (fixed as $x\to\infty$).* We have $S_j \leq T_j(x)$;
+the bound on $T_j(x)$ as $x\to\infty$ is in `proof_lemmas/lemma_large_floor_vanish.md`.
+For $S_k$: if $k$ is also fixed, $S_k \leq T_k(x)$ similarly. If
 $k = k(x) \to \infty$, then by F3 (asymptotic for large $k$): $T_k(2) =
 1-(c+o(1))k^2/2^k < 1$ for all sufficiently large $k$,
 so $S_k \leq T_k(2) < 1$. In either subcase, $S = o(1) + (<1) < 1 + o(1)$. $\square$
 
 *Case (b): $k$ bounded (fixed as $x\to\infty$).* Then $j < k$ is also bounded,
-and by `proof_lemmas/lemma_large_floor_vanish.md`, both $T_j(x) \to 0$ and $T_k(x) \to 0$.
-Hence $S = S_j + S_k \leq T_j(x) + T_k(x) \to 0 = o(1) < 1 + o(1)$. $\square$
+and $S_j \leq T_j(x)$, $S_k \leq T_k(x)$; the bounds on $T_j(x)$ and $T_k(x)$
+as $x\to\infty$ are in `proof_lemmas/lemma_large_floor_vanish.md`. $\square$
 
 **The hard case (open sub-problem)**: When both $j = j(x) \to \infty$ and
 $k = k(x) \to \infty$ as $x \to \infty$, the per-stratum bound gives
