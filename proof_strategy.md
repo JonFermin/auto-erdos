@@ -88,12 +88,14 @@ $x \to \infty$ (Lemma `large_floor_vanish` below).
 **Lemma `large_floor_vanish`** (status: proved): For each fixed $k \geq 1$,
 $T_k(x) \to 0$ as $x \to \infty$.
 
-Proof: For $k=1$ (primes): $T_1(x) \leq \int_x^\infty dt/(t(\log t)^2) = 1/\log x \to 0$
-by Mertens' theorem (which gives $\sum_{p\geq x} 1/p \leq 2/\log x$, hence
-$T_1(x) \leq (2/\log x) \cdot \max_{p\geq x} 1/\log p \to 0$). For fixed $k\geq 2$:
-apply Mertens' theorem inductively — each $n$ with $\Omega(n)=k$ factors as $n=pm$
-with $p$ prime and $\Omega(m)=k-1$, giving $T_k(x) \leq \sum_{p} (1/p) \cdot T_{k-1}(x/p)
-\to 0$ by induction. See `proof_lemmas/lemma_large_floor_vanish.md`. $\square$
+Proof: For $k=1$: by the prime number theorem ($\pi(t) \sim t/\log t$) and
+partial (Abel) summation, the series $\sum_p 1/(p\log p)$ converges to a finite
+constant, and its tail satisfies $T_1(x) = O(1/\log x) \to 0$. For each
+fixed $k \geq 2$: for large $k$, $T_k(2) < 1$ by F3 (so finite); for any
+specific small fixed $k$, $T_k(2)$ is likewise finite by a Mertens-based
+induction extending the $k=1$ argument (see
+`proof_lemmas/lemma_large_floor_vanish.md`). In all cases $T_k(x) \to 0$
+as $x \to \infty$. $\square$
 
 **Corollary (Low-stratum control, FIXED $K$ only)**: For each fixed constant $K \geq 1$
 (not depending on $x$),
