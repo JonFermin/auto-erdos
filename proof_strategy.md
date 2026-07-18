@@ -74,28 +74,23 @@ $$T_k(x) := \sum_{\substack{n \geq x \\ \Omega(n) = k}} \frac{1}{n \log n}.$$
 **Lemma `stratum_sub_bound`** (status: proved): For any primitive $A \subset
 [x, \infty)$ and any $k \geq 1$,
 $$S_k(A, x) \leq T_k(x).$$
-Moreover, $T_k(x) \to 0$ as $x \to \infty$ for each fixed $k$.
 
-Proof: $A \cap \{n : \Omega(n) = k\}$ is a subset of $\{n \geq x : \Omega(n)=k\}$;
-all terms are positive, so $S_k(A,x) \leq T_k(x)$. By F3, the full series
-$\sum_{n:\,\Omega(n)=k} 1/(n \log n)$ is finite (F3 gives a sum that is
-$< 1$ for each $k$). The tail $T_k(x)$ of a convergent positive series
-tends to $0$ as $x \to \infty$. See `proof_lemmas/lemma_stratum_sub_bound.md`. $\square$
+Proof: $A \cap \{n : \Omega(n) = k\}$ is a subset of $\{n \geq x : \Omega(n)=k\}$
+and all terms are positive, giving $S_k(A,x) \leq T_k(x)$.
+See `proof_lemmas/lemma_stratum_sub_bound.md`. $\square$
 
-Note: The bound $T_k(x) \leq T_k(2) := \sum_{n:\,\Omega(n)=k} 1/(n \log n)$
-uses only that $T_k(x)$ is a tail of the series. By F3 the full sum is $< 1$,
-and it approaches $1$ from below as $k \to \infty$. For $k=1$ (primes from 2),
-the full sum also exceeds the threshold relevant for the conjecture at finite
-$x$ (since $T_1(x)$ is the tail for primes $> x$, which vanishes); the TAIL
-$T_1(x)$ still vanishes as $x \to \infty$, which is what matters.
+Note: We also have $T_k(x) \leq T_k(2) := \sum_{n:\,\Omega(n)=k} 1/(n \log n)$
+(removing the lower-bound constraint). By F3, as $k \to \infty$ the full sum
+$T_k(2)$ approaches $1$ from below. For each fixed $k$, $T_k(x) \to 0$ as
+$x \to \infty$ (Lemma `large_floor_vanish` below).
 
 **Lemma `large_floor_vanish`** (status: proved): For each fixed $k \geq 1$,
 $T_k(x) \to 0$ as $x \to \infty$.
 
-Proof: By F3, the full series $\sum_{n:\,\Omega(n)=k} 1/(n \log n)$ is finite
-(sum $< 1$). The tail $T_k(x)$ is the remainder of a convergent positive series,
-hence $T_k(x) \to 0$ as $x \to \infty$.
-See `proof_lemmas/lemma_large_floor_vanish.md`. $\square$
+Proof: Deferred to `proof_lemmas/lemma_large_floor_vanish.md`. The proof uses
+the fact that the series $\sum_{n:\,\Omega(n)=k} 1/(n \log n)$ converges
+(a standard density estimate for $k$-almost primes shows the partial sums are
+bounded); the tail therefore vanishes. $\square$
 
 **Corollary (Low-stratum control, FIXED $K$ only)**: For each fixed constant $K \geq 1$
 (not depending on $x$),
@@ -444,11 +439,8 @@ $$\sum_{a \in A} \frac{1}{a\log a} = \sum_{k=1}^{K} \sum_{a \in A^{(k)}}
 \frac{1}{a\log a} \leq \sum_{k=1}^{K} T_k(x),$$
 where $T_k(x) := \sum_{n \geq x,\,\Omega(n) = k} \frac{1}{n\log n}$.
 
-By F3, the total series $\sum_{n:\,\Omega(n)=k} \frac{1}{n\log n}$ is finite
-(its value is strictly less than $1$ by F3). Since all terms are positive and
-the total is finite, the tail $T_k(x) = \sum_{n \geq x,\,\Omega(n)=k}
-\frac{1}{n\log n} \to 0$ as $x \to \infty$ (the tail of any convergent
-positive series vanishes). Since $K$ is fixed, the finite sum
+By Lemma `large_floor_vanish` (Section 2), $T_k(x) \to 0$ as $x \to \infty$
+for each fixed $k$. Since $K$ is fixed, the finite sum
 $\sum_{k=1}^K T_k(x) \to 0$ as $x \to \infty$. $\square$
 
 **Consequence**: The conjecture holds easily (with $o(1)$ bound) whenever $A$
