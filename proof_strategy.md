@@ -240,10 +240,12 @@ $S_2 := \sum_{a \in A_2} \frac{1}{a \log a}$.
 $S_1 \leq \sum_{x \leq n < x^e} \frac{1}{n\log n}$.
 The function $t \mapsto 1/(t\log t)$ is decreasing for $t > 1$, so each term satisfies
 $\frac{1}{n\log n} \leq \int_{n-1}^{n} \frac{dt}{t\log t}$, giving
-$S_1 \leq \int_{x-1}^{x^e} \frac{dt}{t\log t} = \bigl[\log\log t\bigr]_{x-1}^{x^e}
+$S_1 \leq \int_{x-1}^{x^e} \frac{dt}{t\log t}$.
+By elementary calculus ($\tfrac{d}{dt}\log\log t = \tfrac{1}{t\log t}$, valid for $t > 1$):
+$\int_{x-1}^{x^e} \frac{dt}{t\log t} = \bigl[\log\log t\bigr]_{x-1}^{x^e}
 = \log(e\log x) - \log\log(x-1) = 1 + O(1/\log x)$,
-where $\log(e\log x) = 1 + \log\log x$ and $\log\log(x-1) = \log\log x + O(1/(x\log x))$.
-See `proof_lemmas/lemma_s1_bound.md`. $\square$
+where $\log(e\log x) = 1 + \log\log x$ (elementary) and $\log\log(x-1) = \log\log x + O(1/(x\log x))$
+(Taylor expansion). See `proof_lemmas/lemma_s1_bound.md`. $\square$
 (Here and throughout Section 4, $\log = \ln$ denotes the natural logarithm.)
 
 This is tight: taking $A_1 = \emptyset$ gives $S_1 = 0$; taking $A_1$ to be
@@ -422,7 +424,7 @@ close the conjecture; the existence of such $f$ is not known.
 
 What is proved (combining Sections 2–4):
 - $S_1 \leq 1$ (Lemma `S1_bound`, exact)
-- $S_2 < e^\gamma \pi/4 + o(1)$ (from F1, which applies to any primitive set $A_2 \subset [x^e,\infty)$; $o(1)$ as $x\to\infty$)
+- $S_2 < e^\gamma \pi/4 + o(1)$ (from F1, which applies to any primitive set $A_2 \subset [x^e,\infty)$; F1's correction is $o(1)$ as $\min(A_2)\to\infty$, and $\min(A_2) \geq x^e \to \infty$ as $x\to\infty$)
 - The combined bound $S_1 + S_2 < 1 + e^\gamma \pi/4 + o(1)$ (weaker than F1 directly)
 
 What is open: showing $S_2 = o(1)$ or $S_1 + S_2 \leq 1 + o(1)$ via the
@@ -616,7 +618,10 @@ $$A^{(k)} \subseteq \{n \geq x : \Omega(n) = k\} \setminus \mathrm{Blocked},$$
 where $\mathrm{Blocked} = \{am : a \in A^{(j)},\, m \geq 2,\, \Omega(m) = k-j\}$. Hence:
 $$S_k \leq \sum_{\substack{n \geq x,\, \Omega(n)=k \\ n \notin \mathrm{Blocked}}} \frac{1}{n\log n}
 = T_k(x) - (\text{weight of } \mathrm{Blocked} \cap [x,\infty))
-\leq T_k(2) - (\text{weight of } \mathrm{Blocked} \cap [x,\infty)).$$
+\leq T_k(2) - (\text{weight of } \mathrm{Blocked} \cap [x,\infty)),$$
+where $T_k(x) \leq T_k(2)$ since $T_k(x) = \sum_{n \geq x,\,\Omega(n)=k} \frac{1}{n\log n}$
+is a sub-sum of $T_k(2) = \sum_{n \geq 2,\,\Omega(n)=k} \frac{1}{n\log n}$ (every term of $T_k(x)$
+appears in $T_k(2)$, and $T_k(2)$ has additional non-negative terms for $2 \leq n < x$).
 
 Since $a \geq x$ and $m \geq 2$, every blocked element $am \geq 2x \geq x$, so all of
 $\mathrm{Blocked}$ lies in $[x,\infty)$. In particular:
@@ -699,10 +704,14 @@ Adding $S_j$: $S \leq T_{j+d}(2) + S_j(1-\delta) + o(1)$. $\square$
 $T_{j+d}(2) + S_j(1-\delta) < 1 + o(1)$, i.e.:
 $$S_j(1 - \delta) < 1 - T_{j+d}(2) + o(1).$$
 
-By F3: $1 - T_{j+d}(2) = c \cdot (j+d)^2/2^{j+d} + o(1) \to 0$ as $j \to \infty$.
-In the worst case $S_j \to 1$, so the left side $\to (1-\delta) > 0$ (fixed).
-Hence for all large $j$: $S_j(1-\delta) \geq (1-\delta)/2 > c(j+d)^2/2^{j+d}$,
-and the closure condition fails.
+By F3: $1 - T_{j+d}(2) = (c + o(1)) \cdot (j+d)^2/2^{j+d} \to 0$ as $j \to \infty$
+(the $o(1)$ is inside the coefficient, consistent with F3's exact statement).
+
+**Failure witness**: The closure condition requires $S_j(1-\delta) < (c+o(1))(j+d)^2/2^{j+d}$ for all
+large $j$. Take $A^{(j)} = \mathcal{A}_j(x)$ (all $j$-almost primes $\geq x$ with $j \geq \lceil\log_2 x\rceil$);
+then $S_j = T_j(x) = T_j(2) \to 1$ (Section 10.2 Corollary + F3). So $S_j(1-\delta) \to (1-\delta) > 0$,
+while the RHS $\to 0$. The inequality FAILS for this witness.
+Hence the closure condition fails for large $j$: no fixed $\delta > 0$ can satisfy it.
 
 **Conclusion from analysis**: The conditional proof fails for $j \to \infty$ with
 $d$ fixed: the F3 correction $1 - T_{j+d}(2)$ shrinks to zero, while the
@@ -713,8 +722,8 @@ $j, j+d \to \infty$ with fixed gap $d$ CANNOT be closed by this approach.
 
 The analysis above pinpoints the obstruction:
 - From Section 8, the cross-blocking upper bound gives $W_k(a) \leq T_{k-j}(2)/a$.
-- The lower bound needed: $\text{total blocked} \geq (1 - T_k(2)) + o(1) = c(j+d)^2/2^{j+d}+o()$.
-- Required: $\sum_{a \in A^{(j)}} W_k(a) \geq c(j+d)^2/2^{j+d} + o(1)$.
+- The lower bound needed: $\text{total blocked} \geq 1 - T_k(2) = (c+o(1))(j+d)^2/2^{j+d}$ (by F3).
+- Required: $\sum_{a \in A^{(j)}} W_k(a) \geq (c+o(1))(j+d)^2/2^{j+d}$.
 - Since $W_k(a) \geq 0$ and $\sum_{a} W_k(a) \leq T_{k-j}(2) \cdot S_j \leq 1$,
   and the needed lower bound $c(j+d)^2/2^{j+d} \to 0$, the required bound is
   an ASYMPTOTIC estimate of blocked weight that tends to $0$ — but even this
