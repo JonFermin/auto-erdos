@@ -313,8 +313,7 @@ argument to $A_2 \subset [x^e, \infty)$ reduces to the same unsolved problem:
 $A_2$ is itself a primitive set, and controlling $\sum_{b \in A_2} 1/(b \log b)$
 requires precisely the structural insight we need for $A$. The only available
 non-trivial global upper bound for any primitive set is F1 (Erdős–Zhang),
-which gives $S_2 < e^\gamma \pi/4 + o(1)$ by F1 (F1 applies to any primitive set,
-including $A_2 \subset [x^e, \infty)$; the $o(1)$ is as $x\to\infty$ since $x^e\to\infty$).
+which gives $S_2 < e^\gamma \pi/4 + o(1)$ by F1 (applied to the primitive set $A_2$).
 Combined with $S_1 \leq 1$, this gives
 $S_1 + S_2 < 1 + e^\gamma \pi/4 + o(1)$ — weaker than F1 applied directly to $A$, and not
 a proof of the conjecture. No recursive application closes the gap.
@@ -400,7 +399,7 @@ close the conjecture; the existence of such $f$ is not known.
 
 What is proved (combining Sections 2–4):
 - $S_1 \leq 1$ (Lemma `S1_bound`, exact)
-- $S_2 < e^\gamma \pi/4 + o(1)$ (from F1, which applies to any primitive set $A_2 \subset [x^e,\infty)$; $o(1)$ as $x\to\infty$)
+- $S_2 < e^\gamma \pi/4 + o(1)$ (from F1 applied to the primitive set $A_2$)
 - The combined bound $S_1 + S_2 < 1 + e^\gamma \pi/4 + o(1)$ (weaker than F1 directly)
 
 What is open: showing $S_2 = o(1)$ or $S_1 + S_2 \leq 1 + o(1)$ via the
