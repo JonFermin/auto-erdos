@@ -220,14 +220,10 @@ $$A_1 := A \cap [x,\, x^e), \qquad A_2 := A \cap [x^e, \infty).$$
 Let $S_1 := \sum_{a \in A_1} \frac{1}{a \log a}$ and
 $S_2 := \sum_{a \in A_2} \frac{1}{a \log a}$.
 
-**Lemma (`S1_bound`)**: $S_1 \leq 1 + o(1)$ as $x \to \infty$.
-
-*Proof*: See `proof_lemmas/lemma_s1_bound.md`. $\square$
+**Upper bound on $S_1$**: Since $A_1 \subset [x, \infty)$ is a primitive set,
+F1 gives $S_1 < e^\gamma \frac{\pi}{4} + o(1)$.
 (Here and throughout Section 4, $\log = \ln$ denotes the natural logarithm.)
-
-This is tight: taking $A_1 = \emptyset$ gives $S_1 = 0$; taking $A_1$ to be
-the full set $\{n \in \mathbb{Z} : x \leq n < x^e\}$ (not primitive, but
-an upper bound) gives $S_1 \to 1$ as $x \to \infty$.
+A finer bound via basic integral comparison is in `proof_lemmas/lemma_s1_bound.md`.
 
 **Why $S_2$ is hard without primitivity**:
 
@@ -255,9 +251,8 @@ are equivalent since $a \mid n \Leftrightarrow \gcd(n,a) = a$).
 primitive set $A \subset [x, \infty)$ with the decomposition above, find a
 quantitative upper bound on $S_2$ in terms of the primitivity constraint
 between $A_1$ and $A_2$. Specifically, what is needed is some function $f$
-with $f(t) = o(1)$ as $t \to 1^-$ such that $S_2 \leq f(S_1)$ for all
-primitive $A$ and all $x$ large; this would give $S_1 + S_2 \leq S_1 + f(S_1)
-\leq 1 + o(1)$. No such $f$ is currently known.
+such that $S_2 \leq f(S_1)$ for all primitive $A$ and all $x$ large,
+and $f$ is small enough that $S_1 + f(S_1) \leq 1 + o(1)$. No such $f$ is currently known.
 
 *Why sieve-density arguments fail* (heuristic exploration):
 
@@ -314,14 +309,14 @@ $A_2$ is itself a primitive set, and controlling $\sum_{b \in A_2} 1/(b \log b)$
 requires precisely the structural insight we need for $A$. The only available
 non-trivial global upper bound for any primitive set is F1 (Erdős–Zhang),
 which gives $S_2 < e^\gamma \pi/4 + o(1)$ by F1 (applied to the primitive set $A_2$).
-Combined with $S_1 \leq 1$, this gives
-$S_1 + S_2 < 1 + e^\gamma \pi/4 + o(1)$ — weaker than F1 applied directly to $A$, and not
+Combined with $S_1 < e^\gamma \pi/4 + o(1)$ (F1 applied to the primitive set $A_1$), this gives
+$S_1 + S_2 < 2(e^\gamma \pi/4) + o(1)$ — weaker than F1 applied directly to $A$, and not
 a proof of the conjecture. No recursive application closes the gap.
 
 **Dead end confirmed**: The trading decomposition at $x^e$ does NOT give
-$S_1 + S_2 \leq 1 + o(1)$ without additional input. The approach correctly
-bounds $S_1 \leq 1$ (tight) but cannot control $S_2 \leq o(1)$ without
-genuinely using the cross-structure of primitivity between $A_1$ and $A_2$.
+$S_1 + S_2 \leq 1 + o(1)$ without additional input. The F1 bound on $S_1$
+leaves $S_2$ entirely uncontrolled without exploiting the cross-structure of
+primitivity between $A_1$ and $A_2$.
 
 See `proof_lemmas/lemma_trading_decomposition.md` for the precise gap statement.
 
@@ -330,15 +325,16 @@ See `proof_lemmas/lemma_trading_decomposition.md` for the precise gap statement.
 To prove the conjecture, one needs to show that for a primitive set
 $A \subset [x, \infty)$:
 
-$$S_2 \leq o(1) \quad \text{whenever } S_1 \approx 1.$$
+The essential question is: for a primitive set $A \subset [x, \infty)$, can one show
+$S_1 + S_2 \leq 1 + o(1)$ exploiting the joint primitivity structure?
 
-Equivalently: if $S_1 \approx 1$, i.e., $A_1$ "nearly saturates" its maximal
-possible contribution of 1, then $A_2$ must contribute $o(1)$. This requires
-showing that "near-saturation"
-of $S_1$ forces $A_1$ to be very "dense" in $[x, x^e)$, and that density in
-$[x, x^e)$ forces near-emptiness (in the $\sum 1/(a \log a)$ sense) of $A_2$.
+If $S_1$ is large (say near $e^\gamma\pi/4$), then $A_1$ is "dense" in the
+$1/(a\log a)$ sense, and that density should force many multiples into $[x^e, \infty)$,
+leaving $A_2$ (which avoids all those multiples) sparsely distributed.
+This requires showing that density in $[x, x^e)$
+forces near-emptiness (in the $\sum 1/(a \log a)$ sense) of $A_2$.
 
-The "density" of $A_1$ in [x, x^e) needs to be measured in a way compatible
+The "density" of $A_1$ in $[x, x^e)$ needs to be measured in a way compatible
 with both the $1/(a \log a)$ metric AND the divisibility blocking structure.
 This is the essential unresolved point.
 
@@ -390,17 +386,17 @@ However, this tension is hard to quantify because:
   $\bigcup_{a \in A_1} B(a)$ might not cover a large fraction of $[x^e, 2x^e)$
   in the $1/(n\log n)$ metric.
 
-The essential question: does there exist a function $f(S_1) \to 0$ as
-$S_1 \to 1$ such that for any primitive $A_2 \subset \mathcal{S}(A_1)$,
-$S_2 \leq f(S_1)$? A YES answer with $S_1 + S_2 \leq 1 + o(1)$ would
-close the conjecture; the existence of such $f$ is not known.
+The essential question: does there exist a function $f$ with
+$f(t) + t \leq 1 + o(1)$ for $t$ in the relevant range of $S_1$, such
+that for any primitive $A_2 \subset \mathcal{S}(A_1)$, $S_2 \leq f(S_1)$?
+A YES answer would close the conjecture; the existence of such $f$ is not known.
 
 ### 5.4 Current status and next steps
 
 What is proved (combining Sections 2–4):
-- $S_1 \leq 1$ (Lemma `S1_bound`, exact)
-- $S_2 < e^\gamma \pi/4 + o(1)$ (from F1 applied to the primitive set $A_2$)
-- The combined bound $S_1 + S_2 < 1 + e^\gamma \pi/4 + o(1)$ (weaker than F1 directly)
+- $S_1 < e^\gamma \pi/4 + o(1)$ (F1 applied to primitive set $A_1$)
+- $S_2 < e^\gamma \pi/4 + o(1)$ (F1 applied to the primitive set $A_2$)
+- The combined bound $S_1 + S_2 < 2(e^\gamma \pi/4) + o(1)$ (weaker than F1 directly)
 
 What is open: showing $S_2 = o(1)$ or $S_1 + S_2 \leq 1 + o(1)$ via the
 blocking structure. This requires a quantitative sieve bound or a new
@@ -489,7 +485,7 @@ $k$-almost primes sieved by the divisors in $A^{(j)}$, but this remains open.
 
 What the analysis achieves (combining all sections):
 - **Sections 2–3**: Per-stratum bounds; each $S_k < 1$; summing diverges.
-- **Section 4**: Trading decomposition; $S_1 \leq 1$ exact.
+- **Section 4**: Trading decomposition; $S_1 < e^\gamma\pi/4 + o(1)$ by F1.
 - **Section 5**: Blocking density; $S_2$ open.
 - **Section 6, Lemma `low_stratum_vanish`**: For $\Omega(a) \leq K$ (fixed),
   $S = o(1)$ — conjecture holds easily.
