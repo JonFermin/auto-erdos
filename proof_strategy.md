@@ -79,9 +79,12 @@ $\{n \geq x : \Omega(n)=k\}$, so every term in $\sum_{a \in A^{(k)}} 1/(a\log a)
 also appears in $T_k(x)$, giving $S_k(A,x) \leq T_k(x)$.
 See `proof_lemmas/lemma_stratum_sub_bound.md`. $\square$
 
-Note: We also have $T_k(x) \leq T_k(2) := \sum_{n:\,\Omega(n)=k} 1/(n \log n)$
-(removing the lower-bound constraint). By F3, as $k \to \infty$ the full sum
-$T_k(2)$ approaches $1$ from below (strictly $< 1$ for all sufficiently large $k$).
+Note: We write $T_k(2) := \sum_{n:\,\Omega(n)=k} 1/(n \log n)$ as a **definition** (notation only,
+not a new claim): this is the full $k$-stratum sum used in F3. F3 directly states
+$T_k(2) = 1 - (c+o(1))k^2/2^k$ as $k \to \infty$, with sign-disambiguation $T_k(2) < 1$
+for all sufficiently large $k$. We have $T_k(x) \leq T_k(2)$ since
+$T_k(x)$ sums over $n \geq x$ while $T_k(2)$ sums over all $n \geq 2$
+(every term of $T_k(x)$ also appears in $T_k(2)$).
 For the fixed-$k$ tail analysis, see `proof_lemmas/lemma_large_floor_vanish.md`.
 
 **Corollary (Low-stratum control, FIXED $K$ only)**: For each fixed constant $K \geq 1$
@@ -221,16 +224,17 @@ Let $S_1 := \sum_{a \in A_1} \frac{1}{a \log a}$ and
 $S_2 := \sum_{a \in A_2} \frac{1}{a \log a}$.
 
 **Upper bound on $S_1$**: Since $A_1 \subset [x, \infty)$ is a primitive set,
-F1 gives $S_1 < e^\gamma \frac{\pi}{4} + o(1)$.
+F1 gives $S_1 < e^\gamma \frac{\pi}{4} + o(1)$ (o(1) as $x \to \infty$).
 (Here and throughout Section 4, $\log = \ln$ denotes the natural logarithm.)
 A finer bound via basic integral comparison is in `proof_lemmas/lemma_s1_bound.md`.
 
 **Why $S_2$ is hard without primitivity**:
 
-Without any constraint, $\sum_{n \geq x^e} 1/(n \log n)$ is unbounded
-(the series has no finite upper bound as more terms are included). So the
-contribution from $A_2$ is not controlled by the size of the interval
-$[x^e, \infty)$ alone. Primitivity is essential to control $S_2$.
+The contribution from $A_2$ cannot be controlled by F1/F2/F3 applied to $A_2$ alone:
+F1 gives $S_2 < e^\gamma\pi/4 + o(1)$ (o(1) as $x^e \to \infty$, hence as $x \to \infty$),
+but this bound exceeds the conjecture's target $1 + o(1)$ since $e^\gamma\pi/4 \approx 1.399 > 1$.
+The joint primitivity constraint — that no element of $A_1$ divides any element of $A_2$
+and vice versa — is the only known mechanism to control $S_2$ below $1$.
 
 **The blocking principle (the open part)**:
 
@@ -308,8 +312,8 @@ argument to $A_2 \subset [x^e, \infty)$ reduces to the same unsolved problem:
 $A_2$ is itself a primitive set, and controlling $\sum_{b \in A_2} 1/(b \log b)$
 requires precisely the structural insight we need for $A$. The only available
 non-trivial global upper bound for any primitive set is F1 (Erdős–Zhang),
-which gives $S_2 < e^\gamma \pi/4 + o(1)$ by F1 (applied to the primitive set $A_2$).
-Combined with $S_1 < e^\gamma \pi/4 + o(1)$ (F1 applied to the primitive set $A_1$), this gives
+which gives $S_2 < e^\gamma \pi/4 + o(1)$ (o(1) as $x \to \infty$) by F1 (applied to the primitive set $A_2 \subset [x^e,\infty)$).
+Combined with $S_1 < e^\gamma \pi/4 + o(1)$ (o(1) as $x \to \infty$, F1 applied to the primitive set $A_1$), this gives
 $S_1 + S_2 < 2(e^\gamma \pi/4) + o(1)$ — weaker than F1 applied directly to $A$, and not
 a proof of the conjecture. No recursive application closes the gap.
 
@@ -394,9 +398,9 @@ A YES answer would close the conjecture; the existence of such $f$ is not known.
 ### 5.4 Current status and next steps
 
 What is proved (combining Sections 2–4):
-- $S_1 < e^\gamma \pi/4 + o(1)$ (F1 applied to primitive set $A_1$)
-- $S_2 < e^\gamma \pi/4 + o(1)$ (F1 applied to the primitive set $A_2$)
-- The combined bound $S_1 + S_2 < 2(e^\gamma \pi/4) + o(1)$ (weaker than F1 directly)
+- $S_1 < e^\gamma \pi/4 + o(1)$ (F1 applied to primitive set $A_1 \subset [x,\infty)$; o(1) as $x \to \infty$)
+- $S_2 < e^\gamma \pi/4 + o(1)$ (F1 applied to primitive set $A_2 \subset [x^e,\infty)$; o(1) as $x^e \to \infty$, equivalently as $x \to \infty$)
+- The combined bound $S_1 + S_2 < 2(e^\gamma \pi/4) + o(1)$ (weaker than F1 directly; both o(1) terms are as $x \to \infty$)
 
 What is open: showing $S_2 = o(1)$ or $S_1 + S_2 \leq 1 + o(1)$ via the
 blocking structure. This requires a quantitative sieve bound or a new
@@ -437,10 +441,13 @@ large $k$-almost primes). However, for the element to be "inexpensive"
 (small $1/(a\log a)$), we want $a$ small — and the smallest $k$-almost prime
 $\geq x$ has $a \approx x$ when $k \approx \log_2 x$.
 
-Precisely: the strata $k$ for which $T_k(x)$ is not negligible are those
-where $k$ is large enough that $k$-almost primes $\geq x$ are plentiful,
-i.e., $k \gtrsim \log_2 x$. By the low-stratum lemma, any $A$ avoiding
-strata $k > \log_2 x - C$ (for any fixed $C$) satisfies $S = o(1)$.
+By the minimum-element bound (Section 10.2), every $k$-almost prime satisfies
+$n \geq 2^k$. Consequently, for $k \geq \lceil\log_2 x\rceil$, every $k$-almost prime
+exceeds $x$ (since $2^k \geq x$), so $T_k(x) = T_k(2)$ (the lower bound $n \geq x$
+excludes nothing). For $k < \lceil\log_2 x\rceil$, we have $2^k < x$, so the smallest
+$k$-almost primes are excluded; $T_k(x) < T_k(2)$ and $T_k(x) \to 0$ as $x \to \infty$
+for each fixed $k$ (by `proof_lemmas/lemma_large_floor_vanish.md`). The strata with
+$k \geq \lceil\log_2 x\rceil$ are thus those for which $T_k(x) = T_k(2)$ (no lower-cutoff effect).
 
 The critical range is $k \in [k^* - C, k^* + C]$ for $k^* = \lfloor \log_2 x
 \rfloor$ and any fixed $C$. An element $a \geq x$ with $\Omega(a) = k$ in
@@ -478,14 +485,14 @@ $$\mathcal{S}_k(A^{(j)}) := \{n \geq x : \Omega(n) = k,\; a \nmid n \;
 
 A quantitative bound on $\sum_{n \in \mathcal{S}_k(A^{(j)})} 1/(n\log n)$
 in terms of $S_j$ (the weight of $A^{(j)}$) would close the two-stratum case.
-Such a bound would likely follow from a Selberg-type sieve applied to
-$k$-almost primes sieved by the divisors in $A^{(j)}$, but this remains open.
+Such a quantitative bound on the sieved $k$-almost-prime sum would require
+analytic input beyond F1/F2/F3; this case remains open.
 
 ### 6.5 Gap summary and updated strategy
 
 What the analysis achieves (combining all sections):
 - **Sections 2–3**: Per-stratum bounds; each $S_k < 1$; summing diverges.
-- **Section 4**: Trading decomposition; $S_1 < e^\gamma\pi/4 + o(1)$ by F1.
+- **Section 4**: Trading decomposition; $S_1 < e^\gamma\pi/4 + o(1)$ (o(1) as $x \to \infty$) by F1.
 - **Section 5**: Blocking density; $S_2$ open.
 - **Section 6, Lemma `low_stratum_vanish`**: For $\Omega(a) \leq K$ (fixed),
   $S = o(1)$ — conjecture holds easily.
