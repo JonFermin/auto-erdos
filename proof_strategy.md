@@ -384,12 +384,11 @@ arithmetic progression $\{ma : m \geq \lceil x^e/a \rceil\}$.
 ### 5.2 Sieve formulation
 
 Collecting all blocked elements: define the **sieved set**
-$$\mathcal{S}(A_1) := \{n \geq x^e : a \nmid n \;\forall\, a \in A_1,\; n/a \geq 2\}.$$
+$$\mathcal{S}(A_1) := \{n \geq x^e : a \nmid n \text{ for all } a \in A_1\}.$$
 
-Primitivity and the blocking constraint give $A_2 \subset \mathcal{S}(A_1)$
-(since every $b \in A_2$ must satisfy $a \nmid b$ for all $a \in A_1$,
-and $b \geq x^e > a$ means $b/a \geq x^{e-1} \geq 2$ for large $x$,
-so the condition is just divisibility avoidance).
+Primitivity gives $A_2 \subset \mathcal{S}(A_1)$: for every $b \in A_2$ and
+every $a \in A_1$, since $a, b \in A$ are distinct elements and $A$ is
+primitive, $a \nmid b$ and $b \nmid a$. So $b$ avoids all divisors in $A_1$.
 
 The goal reduces to: show that $\sum_{b \in A_2} 1/(b\log b) = o(1)$
 whenever $A_1$ is "dense" in the $1/(a\log a)$ metric, i.e., $S_1$ is
