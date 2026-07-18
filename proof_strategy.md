@@ -521,18 +521,7 @@ $$S := \sum_{a \in A} \frac{1}{a \log a} < 1 + o(1) \quad (x \to \infty).$$
 
 *Proof*: See `proof_lemmas/lemma_single_stratum_bound.md`. $\square$
 
-The proof handles two regimes: fixed $k$ (using Lemma `large_floor_vanish`,
-giving $S = o(1)$) and growing $k$ (using F3 asymptotics as $k \to \infty$
-to conclude $T_k(2) < 1$ for all large $k$, hence $S \leq T_k(2) < 1$).
-Full details and justification in the lemma file.
-
-**Consequence**: The conjecture is proved for single-stratum primitive sets.
-The **multi-stratum case** is what remains open: when $A$ spans two or more
-distinct $\Omega$-values, cross-stratum primitivity must be used to prevent
-each stratum from contributing close to 1 simultaneously.
-
-**Updated open core**: For primitive $A \subset [x, \infty)$ with elements
-in at least TWO strata $k_1 < k_2$ (both near $k^* = \lfloor \log_2 x \rfloor$),
-prove $\sum_{a \in A} 1/(a \log a) < 1 + o(1)$.
-
-This formulation isolates the essential difficulty: cross-stratum primitivity.
+**Consequence**: The conjecture holds for single-stratum primitive sets.
+The remaining open case is when $A$ spans two or more $\Omega$-strata; in
+that case, cross-stratum primitivity must prevent simultaneous near-1
+contributions from multiple strata.
