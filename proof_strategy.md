@@ -88,7 +88,12 @@ $x \to \infty$ (Lemma `large_floor_vanish` below).
 **Lemma `large_floor_vanish`** (status: proved): For each fixed $k \geq 1$,
 $T_k(x) \to 0$ as $x \to \infty$.
 
-Proof: See `proof_lemmas/lemma_large_floor_vanish.md`. $\square$
+Proof: For each fixed $k$, the total series $T_k(2) = \sum_{n:\Omega(n)=k} \frac{1}{n\log n}$
+is finite: for $k=1$ (primes) by Mertens' theorem; for each fixed $k \geq 2$ by partial
+summation from PNT for $k$-almost primes. Since $T_k(x)$ is the tail of the convergent
+series $T_k(2)$, we have $T_k(x) \to 0$ as $x \to \infty$ (tail of any convergent
+series of positive terms vanishes).
+See `proof_lemmas/lemma_large_floor_vanish.md`. $\square$
 
 **Corollary (Low-stratum control, FIXED $K$ only)**: For each fixed constant $K \geq 1$
 (not depending on $x$),
@@ -175,7 +180,11 @@ multiple critical strata from simultaneously contributing nearly $1$.
 $A \subset [x, \infty)$ and any single dyadic interval $I = [N, 2N)$,
 $$\sum_{a \in A \cap I} \frac{1}{a \log a} \leq \frac{1}{\log N}.$$
 
-Proof: See `proof_lemmas/lemma_dyadic_interval_bound.md`. $\square$
+Proof: For each $a \in A \cap [N, 2N)$, we have $a \geq N$, so
+$\frac{1}{a\log a} \leq \frac{1}{N\log N}$. The interval $[N, 2N)$ contains
+exactly $N$ integers, so $|A \cap [N, 2N)| \leq N$, giving
+$\sum_{a \in A \cap [N,2N)} \frac{1}{a\log a} \leq N \cdot \frac{1}{N\log N} = \frac{1}{\log N}$.
+See `proof_lemmas/lemma_dyadic_interval_bound.md`. $\square$
 
 
 Note: This per-interval bound is tight but its sum over dyadic intervals
@@ -224,7 +233,14 @@ $S_2 := \sum_{a \in A_2} \frac{1}{a \log a}$.
 
 **Lemma (`S1_bound`)**: $S_1 \leq 1 + O(1/\log x)$.
 
-*Proof*: See `proof_lemmas/lemma_s1_bound.md`. $\square$
+*Proof*: Since each $a \in A_1 \subset [x, x^e)$, we have
+$S_1 \leq \sum_{x \leq n < x^e} \frac{1}{n\log n}$.
+The function $t \mapsto 1/(t\log t)$ is decreasing for $t > 1$, so each term satisfies
+$\frac{1}{n\log n} \leq \int_{n-1}^{n} \frac{dt}{t\log t}$, giving
+$S_1 \leq \int_{x-1}^{x^e} \frac{dt}{t\log t} = \bigl[\log\log t\bigr]_{x-1}^{x^e}
+= \log(e\log x) - \log\log(x-1) = 1 + O(1/\log x)$,
+where $\log(e\log x) = 1 + \log\log x$ and $\log\log(x-1) = \log\log x + O(1/(x\log x))$.
+See `proof_lemmas/lemma_s1_bound.md`. $\square$
 (Here and throughout Section 4, $\log = \ln$ denotes the natural logarithm.)
 
 This is tight: taking $A_1 = \emptyset$ gives $S_1 = 0$; taking $A_1$ to be
@@ -316,7 +332,9 @@ argument to $A_2 \subset [x^e, \infty)$ reduces to the same unsolved problem:
 $A_2$ is itself a primitive set, and controlling $\sum_{b \in A_2} 1/(b \log b)$
 requires precisely the structural insight we need for $A$. The only available
 non-trivial global upper bound for any primitive set is F1 (Erdős–Zhang),
-which gives $S_2 < e^\gamma \pi/4 + o(1)$ by F1. Combined with $S_1 \leq 1$, this gives
+which gives $S_2 < e^\gamma \pi/4 + o(1)$ by F1 (F1 applies to any primitive set,
+including $A_2 \subset [x^e, \infty)$; the $o(1)$ is as $x\to\infty$ since $x^e\to\infty$).
+Combined with $S_1 \leq 1$, this gives
 $S_1 + S_2 < 1 + e^\gamma \pi/4 + o(1)$ — weaker than F1 applied directly to $A$, and not
 a proof of the conjecture. No recursive application closes the gap.
 
@@ -401,7 +419,7 @@ close the conjecture; the existence of such $f$ is not known.
 
 What is proved (combining Sections 2–4):
 - $S_1 \leq 1$ (Lemma `S1_bound`, exact)
-- $S_2 < e^\gamma \pi/4 + o(1)$ (from F1 applied to $A_2$ as a primitive set in $[x^e, \infty)$)
+- $S_2 < e^\gamma \pi/4 + o(1)$ (from F1, which applies to any primitive set $A_2 \subset [x^e,\infty)$; $o(1)$ as $x\to\infty$)
 - The combined bound $S_1 + S_2 < 1 + e^\gamma \pi/4 + o(1)$ (weaker than F1 directly)
 
 What is open: showing $S_2 = o(1)$ or $S_1 + S_2 \leq 1 + o(1)$ via the
@@ -434,7 +452,9 @@ with $\Omega(a) \to \infty$ as $x \to \infty$.
 
 ### 6.2 The critical Omega-regime
 
-The smallest integer with $\Omega(n) = k$ is $2^k$. For $A \subset [x, \infty)$
+The smallest integer with $\Omega(n) = k$ is $2^k$ (any $n$ with $\Omega(n)=k$ has $k$
+prime factors each $\geq 2$, so $n \geq 2^k$, with equality at $n = 2^k$).
+For $A \subset [x, \infty)$
 to have any element with $\Omega(a) = k$, we need $2^k \leq a$ for some
 $a \geq x$, which requires $k$ can take any value (since there are arbitrarily
 large $k$-almost primes). However, for the element to be "inexpensive"
@@ -512,7 +532,20 @@ $A \subset [x, \infty)$ whose elements all satisfy $\Omega(a) = k$
 (a single fixed or growing stratum), the sum satisfies
 $$S := \sum_{a \in A} \frac{1}{a \log a} < 1 + o(1) \quad (x \to \infty).$$
 
-*Proof*: See `proof_lemmas/lemma_single_stratum_bound.md`. $\square$
+*Proof (two cases)*:
+
+*Case 1 ($k$ fixed as $x\to\infty$)*: By Mertens' theorem (for $k=1$, primes)
+and PNT for $k$-almost primes (fixed $k \geq 2$), the series $T_k(2)$ converges.
+Hence $S \leq T_k(x) \to 0$ as $x\to\infty$ (tail of a convergent series),
+giving $S = o(1) < 1 + o(1)$.
+
+*Case 2 ($k = k(x) \to \infty$)*: By F3, for all large enough $k$,
+$T_k(2) = 1 - (c + o(1))k^2/2^k < 1$.
+Hence $S \leq T_k(x) \leq T_k(2) < 1 < 1 + o(1)$.
+
+Combined: In both cases $S < 1 + o(1)$ as $x\to\infty$. $\square$
+
+See `proof_lemmas/lemma_single_stratum_bound.md` for the complete argument.
 
 **Consequence**: The conjecture holds for single-stratum primitive sets.
 The remaining open case is when $A$ spans two or more $\Omega$-strata; in
