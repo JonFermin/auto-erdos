@@ -192,10 +192,10 @@ $\sum_{a \in A \cap [N,2N)} \frac{1}{a\log a} \leq N \cdot \frac{1}{N\log N} = \
 See `proof_lemmas/lemma_dyadic_interval_bound.md`. $\square$
 
 
-Note: This per-interval bound is tight but its sum over dyadic intervals
-$[x, 2x), [2x, 4x), \ldots$ diverges (a harmonic-type series). The
-cross-interval primitivity constraint is essential to obtain a finite global
-bound. See `proof_lemmas/lemma_cross_stratum_control.md` for why this fails.
+Note: This per-interval bound does not use cross-interval primitivity.
+Summing it independently over infinitely many intervals yields a series with
+no finite upper bound from F1/F2/F3 alone. The cross-interval primitivity
+constraint is essential; see `proof_lemmas/lemma_cross_stratum_control.md`.
 
 **Suggested directions for future work**:
 
@@ -292,10 +292,9 @@ divisibility by $A_1$. Even if only a small fraction $\rho \ll 1$ of integers in
 each interval $[N, 2N)$ escape blocking by $A_1$, the sum
 $\rho \cdot \sum_{n=N}^{2N-1} 1/(n \log n) \leq \rho/\log N$
 over infinitely many dyadic intervals $N = x^e, 2x^e, 4x^e, \ldots$ gives
-$\rho \cdot \sum_{j \geq 0} 1/(e \log x + j \log 2)$, which is unbounded for
-any fixed $\rho > 0$ (the harmonic-type partial sums grow without bound).
-Multiplying a divergent series by any positive constant does not make it
-converge.
+$\rho \cdot \sum_{j \geq 0} 1/(e \log x + j \log 2)$, which is not bounded by
+any finite constant independent of $J$ — the partial sums grow with $J$.
+No multiplier $\rho > 0$ can convert this into a bounded series.
 
 **Why this fails**: The tail $\sum_{n \geq x^e, n \in \mathcal{U}(A_1)} 1/(n \log n)$
 cannot be bounded by a sieve-density argument alone, because the base series
