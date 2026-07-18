@@ -75,9 +75,7 @@ $$T_k(x) := \sum_{\substack{n \geq x \\ \Omega(n) = k}} \frac{1}{n \log n}.$$
 [x, \infty)$ and any $k \geq 1$,
 $$S_k(A, x) \leq T_k(x).$$
 
-Proof: $A \cap \{n : \Omega(n) = k\}$ is a subset of $\{n \geq x : \Omega(n)=k\}$
-and all terms are positive, giving $S_k(A,x) \leq T_k(x)$.
-See `proof_lemmas/lemma_stratum_sub_bound.md`. $\square$
+Proof: See `proof_lemmas/lemma_stratum_sub_bound.md`. $\square$
 
 Note: We also have $T_k(x) \leq T_k(2) := \sum_{n:\,\Omega(n)=k} 1/(n \log n)$
 (removing the lower-bound constraint). By F3, as $k \to \infty$ the full sum
@@ -93,10 +91,11 @@ Proof: See `proof_lemmas/lemma_large_floor_vanish.md`. $\square$
 (not depending on $x$),
 $$\sum_{k=1}^{K} S_k(A, x) \leq \sum_{k=1}^{K} T_k(x) \to 0 \quad (x \to \infty).$$
 
-Proof: Each $T_k(x) \to 0$ as $x \to \infty$ by Lemma `large_floor_vanish`; a
-FIXED finite sum of $o(1)$ terms is $o(1)$. This argument is VALID ONLY for fixed $K$:
-if $K = K(x) \to \infty$ with $x$, the sum of $K(x)$ terms, each individually $o(1)$,
-need not tend to 0. The Corollary is not applicable to a growing $K(x)$.
+Proof: See `proof_lemmas/lemma_low_stratum_vanish.md`. $\square$
+
+**Warning**: This Corollary is VALID ONLY for fixed $K$: if $K = K(x) \to \infty$
+with $x$, the sum of $K(x)$ terms, each individually $o(1)$, need not tend to $0$.
+The Corollary is not applicable to a growing $K(x)$.
 
 **Decomposition**: For a FIXED constant $K \geq 1$ (not varying with $x$), split:
 $$\sum_{a \in A} \frac{1}{a \log a}
@@ -424,16 +423,7 @@ set $A \subset [x, \infty)$ whose elements all satisfy $\Omega(a) \leq K$,
 $$\sum_{a \in A} \frac{1}{a\log a} \leq \sum_{k=1}^{K} T_k(x) \to 0
 \quad\text{as } x \to \infty.$$
 
-**Proof**: Since $A \subset [x, \infty)$ and each $a \in A$ has $\Omega(a) = k$
-for some $k \in \{1, \ldots, K\}$, we can write $A = \bigsqcup_{k=1}^K A^{(k)}$
-where $A^{(k)} = \{a \in A : \Omega(a) = k\}$. Then:
-$$\sum_{a \in A} \frac{1}{a\log a} = \sum_{k=1}^{K} \sum_{a \in A^{(k)}}
-\frac{1}{a\log a} \leq \sum_{k=1}^{K} T_k(x),$$
-where $T_k(x) := \sum_{n \geq x,\,\Omega(n) = k} \frac{1}{n\log n}$.
-
-By Lemma `large_floor_vanish` (Section 2), $T_k(x) \to 0$ as $x \to \infty$
-for each fixed $k$. Since $K$ is fixed, the finite sum
-$\sum_{k=1}^K T_k(x) \to 0$ as $x \to \infty$. $\square$
+*Proof*: See `proof_lemmas/lemma_low_stratum_vanish.md`. $\square$
 
 **Consequence**: The conjecture holds easily (with $o(1)$ bound) whenever $A$
 is supported on strata of bounded Omega-number. The hard case requires elements
