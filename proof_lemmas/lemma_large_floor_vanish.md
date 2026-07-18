@@ -14,11 +14,10 @@ $$T_k(x) := \sum_{\substack{n \geq x \\ \Omega(n) = k}} \frac{1}{n \log n}
 
 **Proof**:
 
-The series $\sum_{n \geq 2, \Omega(n)=k} 1/(n \log n)$ converges to a finite value
-$T_k(2) < \infty$ for every fixed $k \geq 1$: the count of $k$-almost primes $\leq N$
-is $O(N(\log\log N)^{k-1}/\log N)$, so the sum is bounded by comparison with a
-convergent series. (By F3, $T_k(2) \to 1$ from below as $k \to \infty$; for small
-fixed $k$, $T_k(2)$ is a definite positive constant that may exceed 1.)
+For each fixed $k \geq 1$, $T_k(2) = \sum_{\Omega(n)=k} 1/(n\log n) < \infty$
+(the $k$-stratum series converges). By F3, $T_k(2) \to 1$ from below as
+$k \to \infty$; for small fixed $k$, $T_k(2)$ is a definite positive constant
+(which may exceed 1, e.g.\ $T_1(2) \approx 1.636$).
 
 For any convergent series $\sum_{n} a_n$ with $a_n \geq 0$, the tail sum
 $\sum_{n \geq N} a_n \to 0$ as $N \to \infty$ (this is a standard consequence

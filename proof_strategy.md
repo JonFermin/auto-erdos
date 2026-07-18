@@ -89,10 +89,8 @@ $x \to \infty$ (Lemma `large_floor_vanish` below).
 **Lemma `large_floor_vanish`** (status: proved): For each fixed $k \geq 1$,
 $T_k(x) \to 0$ as $x \to \infty$.
 
-Proof: The full-stratum sum $T_k(2) = \sum_{n:\,\Omega(n)=k} 1/(n\log n) < \infty$
-for every fixed $k \geq 1$: the sum over $k$-almost primes converges because the
-count of $k$-almost primes $\leq N$ is $O(N(\log\log N)^{k-1}/\log N)$, so the
-series is bounded by comparison with $\sum n^{-1-\varepsilon}$. Since the terms
+Proof: For each fixed $k \geq 1$, $T_k(2) = \sum_{\Omega(n)=k} 1/(n\log n) < \infty$
+(the $k$-stratum series converges). Since the terms
 are non-negative and the series converges, the tail
 $$T_k(x) = \sum_{\substack{n \geq x \\ \Omega(n)=k}} \frac{1}{n\log n} \to 0
 \quad \text{as } x \to \infty$$
@@ -426,7 +424,7 @@ close the conjecture; the existence of such $f$ is not known.
 
 What is proved (combining Sections 2–4):
 - $S_1 \leq 1$ (Lemma `S1_bound`, exact)
-- $S_2 < e^\gamma \pi/4 + o(1)$ (from F1, which applies to any primitive set $A_2 \subset [x^e,\infty)$; F1's correction is $o(1)$ as $\min(A_2)\to\infty$, and $\min(A_2) \geq x^e \to \infty$ as $x\to\infty$)
+- $S_2 < e^\gamma \pi/4 + o(1)$ (from F1, which applies to any primitive set $A_2 \subset [x^e,\infty)$; $o(1)$ as $x\to\infty$)
 - The combined bound $S_1 + S_2 < 1 + e^\gamma \pi/4 + o(1)$ (weaker than F1 directly)
 
 What is open: showing $S_2 = o(1)$ or $S_1 + S_2 \leq 1 + o(1)$ via the
@@ -606,7 +604,7 @@ Since $am \geq a \cdot m \geq a \cdot 2$ and $\log(am) \geq \log m$, we have
 $1/(am\log(am)) \leq 1/(am\log m)$, giving
 $$W_k(a) \leq \frac{1}{a} \sum_{\substack{m \geq 2 \\ \Omega(m) = k-j}}
 \frac{1}{m\log m} \leq \frac{T_{k-j}(2)}{a},$$
-where $T_{k-j}(2) < \infty$ (the $(k-j)$-almost prime stratum sum converges for every fixed $k-j \geq 1$).
+where $T_{k-j}(2) < \infty$ (the $(k-j)$-stratum series converges for every fixed $k-j \geq 1$).
 
 **Direction note**: The bound $W_k(a) \leq T_{k-j}(2)/a$ is an UPPER bound on the
 blocked weight from element $a$. An upper bound on each $W_k(a)$ yields an
