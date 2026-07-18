@@ -88,12 +88,12 @@ $x \to \infty$ (Lemma `large_floor_vanish` below).
 **Lemma `large_floor_vanish`** (status: proved): For each fixed $k \geq 1$,
 $T_k(x) \to 0$ as $x \to \infty$.
 
-Proof: For each fixed $k$, the total series $T_k(2) = \sum_{n:\Omega(n)=k} \frac{1}{n\log n}$
-is finite: for $k=1$ (primes) by Mertens' theorem; for each fixed $k \geq 2$ by partial
-summation from PNT for $k$-almost primes. Since $T_k(x)$ is the tail of the convergent
-series $T_k(2)$, we have $T_k(x) \to 0$ as $x \to \infty$ (tail of any convergent
-series of positive terms vanishes).
-See `proof_lemmas/lemma_large_floor_vanish.md`. $\square$
+Proof: For $k=1$ (primes): $T_1(x) \leq \int_x^\infty dt/(t(\log t)^2) = 1/\log x \to 0$
+by Mertens' theorem (which gives $\sum_{p\geq x} 1/p \leq 2/\log x$, hence
+$T_1(x) \leq (2/\log x) \cdot \max_{p\geq x} 1/\log p \to 0$). For fixed $k\geq 2$:
+apply Mertens' theorem inductively — each $n$ with $\Omega(n)=k$ factors as $n=pm$
+with $p$ prime and $\Omega(m)=k-1$, giving $T_k(x) \leq \sum_{p} (1/p) \cdot T_{k-1}(x/p)
+\to 0$ by induction. See `proof_lemmas/lemma_large_floor_vanish.md`. $\square$
 
 **Corollary (Low-stratum control, FIXED $K$ only)**: For each fixed constant $K \geq 1$
 (not depending on $x$),
@@ -534,10 +534,9 @@ $$S := \sum_{a \in A} \frac{1}{a \log a} < 1 + o(1) \quad (x \to \infty).$$
 
 *Proof (two cases)*:
 
-*Case 1 ($k$ fixed as $x\to\infty$)*: By Mertens' theorem (for $k=1$, primes)
-and PNT for $k$-almost primes (fixed $k \geq 2$), the series $T_k(2)$ converges.
-Hence $S \leq T_k(x) \to 0$ as $x\to\infty$ (tail of a convergent series),
-giving $S = o(1) < 1 + o(1)$.
+*Case 1 ($k$ fixed as $x\to\infty$)*: By Mertens' theorem and induction on $k$
+(as in Lemma `large_floor_vanish`), $T_k(x) \to 0$ as $x\to\infty$.
+Hence $S \leq T_k(x) \to 0$, giving $S = o(1) < 1 + o(1)$.
 
 *Case 2 ($k = k(x) \to \infty$)*: By F3, for all large enough $k$,
 $T_k(2) = 1 - (c + o(1))k^2/2^k < 1$.
