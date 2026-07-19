@@ -900,9 +900,133 @@ requires either a novel construction or a proof that no such injection exists
 | Promotion (low $\to$ high stratum): weight-decreasing | Dead end documented (Section 11.4) |
 | Demotion (high $\to$ low stratum): injectivity under primitivity | Open (Section 11.4) |
 
-The exchange-injection approach is unresolved. The demotion direction (high stratum
-elements mapped to $k^*$-almost primes via removal of prime factors) is the more
-promising candidate: it gives the correct weight direction and the injectivity
-obstacle may be addressable via the primitivity constraint. This direction is
-proposed for future sessions.
+The exchange-injection approach is unresolved. Section 12 pursues the demotion
+direction via Hall's theorem.
 
+
+## Section 12 — Demotion Injectivity via Hall's Theorem (Q20)
+
+This section analyzes whether a weight-increasing injective map
+$\varphi: A \hookrightarrow \mathcal{A}_{k^*}(x)$ exists for primitive
+$A \subseteq [x,\infty)$, focusing on the simplest nontrivial case
+$A \subseteq \mathcal{A}_{k^*+1}(x)$ (one stratum above $k^*$).
+
+### 12.1 Setup: demotion bipartite graph
+
+Fix $k^* = \lceil \log_2 x \rceil$. For any $a$ with $\Omega(a) = k^*+1$, define
+its *demotion neighbors*:
+$$N(a) := \{a/p : p \mid a,\ p \text{ prime}\} \cap \mathcal{A}_{k^*}(x).$$
+Each $b = a/p \in N(a)$ satisfies $\Omega(b) = k^*$, $b < a$, and $b \mid a$.
+Since $a \geq x \geq 2^{k^*}$ and $b = a/p \geq a/a = 1$... more precisely,
+$b \geq x/a \cdot a = x$ only if $p \leq 1$, which is impossible. So $b < a$,
+and $b$ may or may not be $\geq x$.
+
+**Observation**: For $a \in \mathcal{A}_{k^*+1}(x)$ (so $a \geq x$), each demotion
+$b = a/p$ satisfies $b = a/p \geq x/p$. Since the smallest prime $p \geq 2$,
+$b \geq x/p \geq x/a \cdot a/p$... Without a uniform lower bound on $b$, some
+demotions may produce $b < x$, placing $b \notin \mathcal{A}_{k^*}(x)$.
+
+**Revised demotion**: Allow demotion to any $k^*$-almost prime $b$ with $b \mid a$
+(not necessarily $b \geq x$). The weight condition $1/(b \log b) > 1/(a \log a)$
+still holds (since $b < a$), whether or not $b \geq x$.
+
+### 12.2 Hall's theorem application
+
+Define the bipartite graph $G = (A, R, E)$ where $A \subseteq \mathcal{A}_{k^*+1}(x)$
+is a primitive set, $R = \{k^*\text{-almost primes}\}$, and $(a,b) \in E$ iff
+$b \mid a$ and $\Omega(b) = k^*$. A weight-increasing injective demotion map
+$\varphi: A \hookrightarrow R$ is a perfect matching in $G$.
+
+By Hall's marriage theorem, a perfect matching exists iff for every
+$S \subseteq A$: $|N(S)| \geq |S|$, where $N(S) = \bigcup_{a \in S} N(a)$.
+
+### 12.3 Hall's condition for singletons and pairs
+
+**Singletons** ($|S| = 1$): $|N(\{a\})| \geq 1$ iff $a$ has at least one
+$k^*$-almost prime divisor. Since $\Omega(a) = k^*+1 > k^* \geq 1$, any
+divisor $a/p$ (for $p \mid a$ prime) satisfies $\Omega(a/p) = k^*$. So $|N(a)| \geq 1$.
+
+**Pairs** ($|S| = \{a, a'\}$, $a \neq a'$, $a, a' \in A$ primitive so $a \nmid a'$
+and $a' \nmid a$): Need $|N(a) \cup N(a')| \geq 2$.
+- $|N(a) \cup N(a')| = 1$ iff $N(a) = N(a') = \{b\}$ for a single $k^*$-almost prime $b$.
+- If $N(a) = N(a') = \{b\}$, then $b$ is the UNIQUE $k^*$-almost prime divisor of
+  both $a$ and $a'$. So $a = b \cdot p$ and $a' = b \cdot q$ for (possibly repeated)
+  primes $p, q$ with $\{p\} = $ the unique prime removed from $a$, $\{q\} = $ from $a'$.
+  Then $a = bp$ and $a' = bq$. For $|N(a)| = 1$, we need $a$ to have a UNIQUE way to
+  remove one prime and land on a $k^*$-almost prime; this requires $a$ to have a prime
+  factor appearing with multiplicity 1 that is the ONLY prime factor at all. That means
+  $a = p^{k^*} \cdot q$ for primes $p, q$ (possibly $p = q$, giving $a = p^{k^*+1}$,
+  which has unique demotion $a/p = p^{k^*}$).
+
+**Case: $a = p^{k^*+1}$ (prime power), $a' = q^{k^*+1}$ (prime power)**:
+$N(a) = \{p^{k^*}\}$ and $N(a') = \{q^{k^*}\}$. If $p \neq q$, then $N(a) \cap N(a') = \emptyset$,
+so $|N(a) \cup N(a')| = 2$. Hall's condition holds. If $p = q$, then $a = a'$ contradicting
+distinctness. So this case is fine. ✓
+
+**Case: $a = p^{k^*} \cdot q$, $a' = p^{k^*} \cdot r$ (sharing a common $p^{k^*}$ factor)**:
+$N(a)$ includes $p^{k^*} = a/q$ (remove $q$) and $p^{k^*-1} \cdot q = a/p$ (remove one $p$).
+$N(a')$ includes $p^{k^*} = a'/r$ (remove $r$) and $p^{k^*-1} \cdot r = a'/p$ (remove one $p$).
+Since $a = p^{k^*}q$ and $a' = p^{k^*}r$ with $q \neq r$ (else $a = a'$):
+$N(a) \ni p^{k^*-1}q \neq p^{k^*-1}r \in N(a')$ (as $q \neq r$).
+$|N(a) \cup N(a')| \geq |\{p^{k^*}, p^{k^*-1}q, p^{k^*-1}r\}| = 3 \geq 2$. ✓
+
+**Primitivity constraint**: $a \nmid a'$ with $a = p^{k^*}q$, $a' = p^{k^*}r$:
+$a \mid a'$ iff $p^{k^*}q \mid p^{k^*}r$ iff $q \mid r$. For $q, r$ distinct primes,
+$q \nmid r$. So primitivity holds automatically here. ✓
+
+### 12.4 Hall's condition: general case analysis
+
+**Claim (Q20-Conjecture)**: For any finite primitive $A \subseteq \mathcal{A}_{k^*+1}(x)$,
+the bipartite graph $G$ defined above satisfies Hall's condition, so an injective
+demotion map $\varphi: A \to \mathcal{A}_{k^*}$ exists.
+
+**Proof attempt via Hall's deficiency**:
+Assume for contradiction that Hall's condition fails: $\exists S \subseteq A$ with
+$|N(S)| < |S|$. Let $B = N(S)$, so $|B| < |S|$. Every $a \in S$ has $N(a) \subseteq B$,
+meaning $a/p \in B$ for all primes $p \mid a$. So the ENTIRE divisor structure of $S$
+maps into $B$.
+
+For each $b \in B$ and $a \in S$ with $a/p = b$ (i.e., $b \mid a$ and $a = bp$),
+the prime $p = a/b$. So $a$ is completely determined by $b$ and $p$: $a = bp$.
+The elements of $S$ that map to a given $b \in B$ are exactly
+$\{b \cdot p : p \text{ prime}, b \cdot p \in S\}$.
+
+Thus $|S| = \sum_{b \in B} |\{p \text{ prime} : b \cdot p \in S, N(b \cdot p) \subseteq B\}|$.
+
+For Hall's condition to fail: $\sum_{b \in B} c(b) > |B|$ where $c(b) = |\{p : bp \in S\}|$.
+By pigeonhole, some $b^* \in B$ satisfies $c(b^*) \geq 2$, i.e., $\exists$ distinct
+primes $p, q$ with $b^*p, b^*q \in S$.
+
+But then: $b^*p \mid b^*pq$ and $b^*q \mid b^*pq$. Does primitivity prevent $b^*p \mid b^*q$?
+$b^*p \mid b^*q$ iff $p \mid q$. For distinct primes $p \neq q$, $p \nmid q$. ✓
+So $\{b^*p, b^*q\} \subseteq S$ is primitive. But we also need $N(b^*p) \subseteq B$
+and $N(b^*q) \subseteq B$ — meaning ALL $k^*$-almost prime divisors of $b^*p$ and $b^*q$
+lie in $B$.
+
+Divisors of $b^*p$ that are $k^*$-almost primes: $b^*$ (remove $p$), and $b^*/r \cdot p$
+for each prime $r \mid b^*$ (remove $r$ from $b^*$). For $N(b^*p) \subseteq B$, we need
+all these in $B$.
+
+**Key constraint**: $b^* \in B$ (by assumption). So the demotion $b^*p \to b^*$ is already
+in $B$. But for $|N(b^*p)| = 1$ (only one demotion), we'd need $b^* = r^{k^*}$ (prime power)
+so removing $r$ from $b^*$ gives $r^{k^*-1} \notin \mathcal{A}_{k^*}$ — wait, $r^{k^*-1}$ has
+$k^*-1$ prime factors, not $k^*$. So the demotion of $b^*p = r^{k^*} \cdot p$ removes $p$
+to get $r^{k^*} = b^*$ or removes $r$ to get $r^{k^*-1} \cdot p \in \mathcal{A}_{k^*}$.
+Both are in $B$ by assumption ($b^* \in B$, and $r^{k^*-1}p \in B$).
+
+This line of reasoning is becoming complex. The Hall's deficiency approach requires
+tracking the entire divisibility lattice, which is not resolved here.
+
+### 12.5 Summary of Q20 findings
+
+| Component | Status |
+|---|---|
+| Singleton Hall's condition ($|S|=1$) | Proved: $|N(a)| \geq 1$ always |
+| Pair Hall's condition ($|S|=2$) | Proved for prime-power and shared-base cases |
+| General Hall's condition | Open: deficiency analysis started but not closed |
+| Hall's theorem $\Rightarrow$ injective demotion | Proved conditional on Hall's condition |
+
+**Status**: The demotion injectivity for single-stratum $A \subseteq \mathcal{A}_{k^*+1}(x)$
+reduces to Hall's condition on the divisibility bipartite graph. Hall's condition holds for
+pairs; the general case (Hall's deficiency analysis) is OPEN. The key obstacle is bounding
+the number of elements of $S$ mapping to each $b \in B$ versus $|B|$ itself.
