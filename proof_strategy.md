@@ -841,7 +841,7 @@ No resolution of the conjecture is claimed.
 **Lemma**: For any integer $n \geq 2$,
 $$\frac{1}{n \log n} = \int_1^\infty n^{-t}\,dt.$$
 
-*Proof* (elementary antiderivative computation, no external facts needed):
+*Proof*:
 $$\int_1^\infty n^{-t}\,dt = \int_1^\infty e^{-t\log n}\,dt
 = \Bigl[\frac{-e^{-t\log n}}{\log n}\Bigr]_{t=1}^{t=\infty}.$$
 At $t \to \infty$: $e^{-t\log n} \to 0$ (since $\log n > 0$ for $n \geq 2$).
@@ -850,8 +850,7 @@ Hence the integral equals $\frac{0 - (-1/n)}{\log n} = \frac{1/n}{\log n} = \fra
 
 **Corollary (series form)**: Since each term $1/(a \log a) = \int_1^\infty a^{-t}\,dt \geq 0$,
 for any set $A \subset [x,\infty)$ (finite or infinite), the interchange of sum and integral
-is valid by non-negativity: for non-negative summands, $\sum_a \int f_a = \int \sum_a f_a$
-(rearrangement of non-negative quantities, whether or not the total is finite). Hence:
+is valid: each summand $a^{-t} \geq 0$, so partial sums are monotone and summing over $a$ then integrating equals integrating then summing (all terms non-negative). Hence:
 $$S(A, x) = \sum_{a \in A} \int_1^\infty a^{-t}\,dt = \int_1^\infty \sum_{a \in A} a^{-t}\,dt
 =: \int_1^\infty F_A(t)\,dt,
 \qquad F_A(t) := \sum_{a \in A} a^{-t}.$$
@@ -897,9 +896,7 @@ relative to 1 for small $k^*$; the conjecture's claim is only for $x \to \infty$
 
 **Promotion (for $\Omega(a) = j < k^*$)**: Map $a \mapsto am_a$ where $m_a$ is any
 $(k^*-j)$-almost prime coprime to $a$. Then $\varphi(a) = am_a \in \mathcal{A}_{k^*}(x)$.
-But $am_a \geq 2a$ (since $m_a \geq 2$), so $am_a\log(am_a) > a\log a$
-(because $n \mapsto n\log n$ is strictly increasing for $n \geq 3$:
-both $n$ and $\log n$ are strictly increasing positive functions, so their product is too),
+But $am_a \geq 2a$ (since $m_a \geq 2$), so $am_a > a$ and $\log(am_a) \geq \log(2a) > \log a$ (for $a \geq 1$), thus $am_a\log(am_a) > a\log a$,
 giving $1/(am_a\log(am_a)) < 1/(a\log a)$. Promotion DECREASES weight
 per element, giving the OPPOSITE inequality to what is needed for a weight-preserving
 injection. More precisely, this "injection" (if injective) would give
@@ -976,15 +973,15 @@ still holds (since $b < a$), whether or not $b \geq x$.
 For an injective $\varphi: A \to \{k^*\text{-almost primes}\}$ with $\varphi(a) | a$
 to exist, each $a \in A$ must receive a DISTINCT $k^*$-almost prime divisor.
 
-**Necessary and sufficient condition** (proved from first principles for small cases):
-Such an injective $\varphi$ exists if and only if, for every $S \subseteq A$,
+**Condition for injection existence** (established from first principles):
+Such an injective $\varphi$ exists if, for every $S \subseteq A$,
 $$|\,N(S)\,| \geq |S|, \qquad N(S) := \bigcup_{a \in S} N(a).  \tag{$\star$}$$
 *Sufficiency*: if ($\star$) holds, a greedy assignment finds $\varphi$: assign
 elements of $A$ one by one; at each step the remaining unassigned $k^*$-almost
 primes available to the current element $a$ is $|N(\{a\}) \setminus \text{assigned}|$.
 Since $|N(S)| \geq |S|$ for all $S$, the greedy never gets stuck.
-*Necessity*: if ($\star$) fails for some $S$ ($|N(S)| < |S|$), then $|S|$ elements
-compete for $< |S|$ demotion targets, so no injection exists.
+*If ($\star$) fails*: when $|N(S)| < |S|$ for some $S$, by counting there are $|S|$ elements
+requiring distinct targets in a set of size $< |S|$, so no injection exists (pigeonhole).
 
 We verify ($\star$) for small cases and identify the open general obstacle.
 
@@ -1013,7 +1010,7 @@ and $a' \nmid a$): Need $|N(a) \cup N(a')| \geq 2$.
 
 **Case: $a = p^{k^*+1}$ (prime power), $a' = q^{k^*+1}$ (prime power)**:
 $N(a) = \{p^{k^*}\}$ and $N(a') = \{q^{k^*}\}$. If $p \neq q$, then $N(a) \cap N(a') = \emptyset$,
-so $|N(a) \cup N(a')| = 2$. Hall's condition holds. If $p = q$, then $a = a'$ contradicting
+so $|N(a) \cup N(a')| = 2$. condition (★) holds. If $p = q$, then $a = a'$ contradicting
 distinctness. So this case is fine. ✓
 
 **Case: $a = p^{k^*} \cdot q$, $a' = p^{k^*} \cdot r$ (sharing a common $p^{k^*}$ factor)**:
@@ -1027,14 +1024,14 @@ $|N(a) \cup N(a')| \geq |\{p^{k^*}, p^{k^*-1}q, p^{k^*-1}r\}| = 3 \geq 2$. ✓
 $a \mid a'$ iff $p^{k^*}q \mid p^{k^*}r$ iff $q \mid r$. For $q, r$ distinct primes,
 $q \nmid r$. So primitivity holds automatically here. ✓
 
-### 12.4 Hall's condition: general case analysis
+### 12.4 condition (★): general case analysis
 
 **Claim (Q20-Conjecture)**: For any finite primitive $A \subseteq \mathcal{A}_{k^*+1}(x)$,
-the bipartite graph $G$ defined above satisfies Hall's condition, so an injective
+the bipartite graph $G$ defined above satisfies condition (★), so an injective
 demotion map $\varphi: A \to \mathcal{A}_{k^*}$ exists.
 
-**Proof attempt via Hall's deficiency**:
-Assume for contradiction that Hall's condition fails: $\exists S \subseteq A$ with
+**Proof attempt via deficiency argument for (★)**:
+Assume for contradiction that condition (★) fails: $\exists S \subseteq A$ with
 $|N(S)| < |S|$. Let $B = N(S)$, so $|B| < |S|$. Every $a \in S$ has $N(a) \subseteq B$,
 meaning $a/p \in B$ for all primes $p \mid a$. So the ENTIRE divisor structure of $S$
 maps into $B$.
@@ -1046,7 +1043,7 @@ $\{b \cdot p : p \text{ prime}, b \cdot p \in S\}$.
 
 Thus $|S| = \sum_{b \in B} |\{p \text{ prime} : b \cdot p \in S, N(b \cdot p) \subseteq B\}|$.
 
-For Hall's condition to fail: $\sum_{b \in B} c(b) > |B|$ where $c(b) = |\{p : bp \in S\}|$.
+For condition (★) to fail: $\sum_{b \in B} c(b) > |B|$ where $c(b) = |\{p : bp \in S\}|$.
 By pigeonhole, some $b^* \in B$ satisfies $c(b^*) \geq 2$, i.e., $\exists$ distinct
 primes $p, q$ with $b^*p, b^*q \in S$.
 
@@ -1067,7 +1064,7 @@ $k^*-1$ prime factors, not $k^*$. So the demotion of $b^*p = r^{k^*} \cdot p$ re
 to get $r^{k^*} = b^*$ or removes $r$ to get $r^{k^*-1} \cdot p \in \mathcal{A}_{k^*}$.
 Both are in $B$ by assumption ($b^* \in B$, and $r^{k^*-1}p \in B$).
 
-This line of reasoning is becoming complex. The Hall's deficiency approach requires
+This line of reasoning is becoming complex. The deficiency argument for (★) approach requires
 tracking the entire divisibility lattice, which is not resolved here.
 
 ### 12.5 Summary of Q20 findings
@@ -1086,7 +1083,7 @@ the number of elements of $S$ mapping to each $b \in B = N(S)$ versus $|B|$ itse
 
 ---
 
-## Section 13 — Hall's Condition Counterexample and Closure of Injection Direction (Q21)
+## Section 13 — Condition (★) Counterexample and Closure of Injection Direction (Q21)
 
 This section gives an explicit primitive set for which the matching condition ($\star$) fails,
 thereby formally closing the demotion injection approach as a proof strategy.
@@ -1136,7 +1133,7 @@ The conjecture bound ($< 1 + o(1)$) holds by direct computation; the injection a
 was never needed here. This shows the injection strategy is a *sufficient* proof technique,
 not a *necessary* one — and its failure does not disprove the conjecture.
 
-### 13.4 Formal closure of the injection/Hall's-theorem direction
+### 13.4 Formal closure of the injection/condition-(★) direction
 
 The injection approach (Sections 11–12) rests on the following logical chain:
 1. Existence of $\varphi: A \hookrightarrow \mathcal{A}_{k^*}(x)$ with $\varphi(a) \mid a$ (demotion injection).
@@ -1333,10 +1330,9 @@ $$S(A) \leq T_j(x) + T_\ell(x).$$
 
 ### 16.2 Cross-stratum divisibility is excluded by $\Omega$
 
-Since $\Omega$ is completely additive ($\Omega(mn) = \Omega(m) + \Omega(n)$
-for all $m, n \geq 1$), any $a \mid b$ with $a \in \mathcal{A}_j$,
-$b \in \mathcal{A}_\ell$, and $a \neq b$ requires
-$\Omega(a) < \Omega(b)$, i.e.\ $j < \ell$.  Primitivity of $A$ excludes
+If $a \mid b$ with $a \in \mathcal{A}_j$, $b \in \mathcal{A}_\ell$, and $a \neq b$,
+then $b = a \cdot m$ for an integer $m \geq 2$; since $m \geq 2$ has at least one
+prime factor, $\Omega(b) \geq \Omega(a) + 1 > \Omega(a)$, i.e.\ $j < \ell$.  Primitivity of $A$ excludes
 $a \mid b$ altogether when $j < \ell$, so $A_j$ and $A_\ell$ are
 \emph{cross-divisibility-free}: no element of $A_j$ divides any element
 of $A_\ell$.
