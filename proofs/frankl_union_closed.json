@@ -1,0 +1,47 @@
+{
+  "name": "frankl_union_closed",
+  "family": "union_closed",
+  "track": "proof",
+  "claim_status": "open",
+  "claim_latex": "Frankl's union-closed sets conjecture (1979): for every finite union-closed family $\\mathcal{F}$ of finite sets with $\\mathcal{F} \\neq \\{\\emptyset\\}$, there exists an element $x$ belonging to at least half of the members of $\\mathcal{F}$.",
+  "given_facts": [
+    {
+      "id": "F1_gilmer_2022",
+      "statement": "Gilmer (2022): there is a universal constant $c = 0.01$ such that in every finite union-closed family (not $\\{\\emptyset\\}$) some element belongs to at least a $c$-fraction of the members.",
+      "sign_disambiguation": "LOWER bound on the max element frequency — the first constant-fraction result, via an information-theoretic (entropy) argument. It does NOT prove the conjecture (which needs 1/2).",
+      "citation": "J. Gilmer, 'A constant lower bound for the union-closed sets conjecture', arXiv:2211.09055 (Nov 2022).",
+      "warns": [
+        "F1 constrains counterexamples only weakly; F2 is the binding constraint."
+      ]
+    },
+    {
+      "id": "F2_ahs_golden_ratio",
+      "statement": "Alweiss–Huang–Sellke (and independently others, days after Gilmer): the constant improves to $(3-\\sqrt{5})/2 \\approx 0.381966$; small further $\\varepsilon$-improvements exist (Sawin, Pebody, Yu, Cambie line, roughly 0.3823).",
+      "sign_disambiguation": "LOWER bound on max element frequency. Any counterexample family must have its maximum frequency in the narrow window $[0.382, 0.5)$.",
+      "citation": "R. Alweiss, B. Huang, M. Sellke, arXiv:2211.11731, published Electron. J. Combin. 31(3) #P3.35 (2024); further improvements: Sawin, Pebody, Yu, Cambie (exact current record unverified, ~0.3823).",
+      "warns": [
+        "The window [0.382, 0.5) is where any witness must live — max frequency strictly below half but necessarily at least ~0.382."
+      ]
+    },
+    {
+      "id": "F3_chase_lovett_barrier",
+      "statement": "Chase–Lovett: $(3-\\sqrt{5})/2$ is OPTIMAL for the 'approximate union-closed' relaxation — Gilmer-style entropy arguments alone cannot pass $\\approx 0.382$.",
+      "sign_disambiguation": "A BARRIER result about a proof technique, not about the conjecture's truth. It does not say the conjecture is false or that 0.382 is the truth for exactly-union-closed families.",
+      "citation": "Z. Chase, S. Lovett, arXiv:2211.11689 (2022).",
+      "warns": [
+        "A full proof must exploit exact union-closure beyond what the entropy relaxation sees; equally, a counterexample hunter should study the approximate-optimal families Chase–Lovett construct — they show what 'frequency just above 0.382' structures look like."
+      ]
+    }
+  ],
+  "witness_type": "union_closed_family_low_frequency",
+  "witness_threshold": 1.0,
+  "witness_verifier_module": "library.union_closed_witness",
+  "witness_schema": {
+    "sets": "list of lists of ints — the family members (distinct finite sets, elements are arbitrary ints, remapped internally). Caps: at most 5000 members, ground set at most 4096 elements, at most 500000 total element instances. The verifier checks union-closure exhaustively and requires EVERY element's frequency strictly below |F|/2."
+  },
+  "round_cap": 50,
+  "time_budget_s": 1800,
+  "writeup_models": ["opus"],
+  "status_audited": "2026-07-11 — full conjecture confirmed OPEN as of July 2026 (constant-fraction bounds known, see F1/F2). A 2025/2026 item titled 'An algorithmic proof of Frankl's union-closed sets conjecture' circulates but is not a recognized resolution.",
+  "note": "Not an Erdős problem (Frankl 1979) but included in the Track 2 portfolio for its witness-decidable shape: a universal claim over finite objects where ONE verified finite family settles it. The verifier is fully polynomial (bitmask union-closure check, O(|F|^2) ORs) — no budget caveats, unlike erdos_gyarfas. Known small-case verifications mean a counterexample, if any, is large or structurally exotic; F2 forces its max frequency into [0.382, 0.5). Track 1-style search fits: evolve union-closed families (e.g. closures of random generators, lattice-derived families) minimizing max frequency, and keep the trajectory as evidence even when it plateaus above 0.5."
+}

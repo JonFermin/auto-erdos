@@ -1,0 +1,9 @@
+[
+  {
+    "flag": "BLOCKING",
+    "line_ref": 33,
+    "evidence": "central claim 'sum over A_k exceeds 1 for large k' attacked at k=10: truncated stratum sums stay below 1, consistent with F3's approach-from-below",
+    "suggestion": "The claimed exceedance fails on every finite instance tried; per F3 the stratum sum is 1 - (c+o(1))k^2/2^k < 1. Retract or supply a positivity argument for the O-term.",
+    "numerical_check": "1 - 0.0656 * (10**2) / (2**10) < 1"
+  }
+]

@@ -1,0 +1,34 @@
+{
+  "cli_invocation": [
+    "codex",
+    "exec",
+    "--sandbox",
+    "read-only",
+    "--skip-git-repo-check",
+    "-"
+  ],
+  "duration_seconds": 224.53,
+  "exit_code": 0,
+  "extraction_mode": "verbatim",
+  "model_alias": "codex",
+  "model_id_requested": "codex-default",
+  "prompt_template_path": "prompts/proof_only.md",
+  "prompt_template_sha256": "ad5dfec968133295e1f8140ea743cd4949d2386931b3341e44ae77f21451dc31",
+  "record": "sidon_500_26_a1c1c6b.json",
+  "record_branch": "erdos-research/0429-143332",
+  "record_commit": "a1c1c6b",
+  "record_problem": "sidon_500",
+  "record_score": 26,
+  "render_meta": {
+    "baseline": 23,
+    "candidate_sha256": "746f307a6fc2c5b3d3df3cce6ceb18146991c758344362f7b0791e5dbe9022f6",
+    "improvement": 3,
+    "n_or_N": 500,
+    "rendered_prompt_chars": 2802,
+    "score": 26
+  },
+  "rendered_prompt_sha256": "af20bc5fcd61377bdfa278c77a1ca35025c9d596d8a63ae48ab191ac1f4a179d",
+  "response_sha256": "32edef74169e25a2f0b493ba3fa31646af370b132b0154e5d8d7154db4f64069",
+  "writeup_mode": "proof",
+  "written_at": "2026-05-01T03:33:09+00:00"
+}

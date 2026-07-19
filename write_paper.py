@@ -280,10 +280,12 @@ def call_codex(prompt: str, model: str | None) -> tuple[str, list[str], int, flo
     if model:
         cmd += ["-m", model]
     cmd.append("-")
-    return _run_with_stdin(cmd, prompt)
+    # On Windows, `codex` is a .cmd wrapper that subprocess can't exec directly.
+    use_shell = sys.platform == "win32"
+    return _run_with_stdin(cmd, prompt, shell=use_shell)
 
 
-def _run_with_stdin(cmd: list[str], stdin_text: str) -> tuple[str, list[str], int, float]:
+def _run_with_stdin(cmd: list[str], stdin_text: str, *, shell: bool = False) -> tuple[str, list[str], int, float]:
     """Run a CLI with stdin_text on stdin, return (stdout, cmd, returncode, duration_s)."""
     started = time.time()
     proc = subprocess.run(
@@ -293,6 +295,7 @@ def _run_with_stdin(cmd: list[str], stdin_text: str) -> tuple[str, list[str], in
         capture_output=True,
         encoding="utf-8",
         errors="replace",
+        shell=shell,
     )
     duration = time.time() - started
     return proc.stdout, cmd, proc.returncode, duration

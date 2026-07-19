@@ -247,6 +247,10 @@ def _last_session_close_reason(journal: list[dict]) -> str | None:
 
 
 def main() -> int:
+    # Windows consoles default to cp1252, which chokes on math glyphs in
+    # the handoff/notes (≤, Erdős, …). Never let printing kill a boot.
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--top-n", type=int, default=5,
                         help="number of open questions to print (default 5)")
@@ -309,6 +313,18 @@ def main() -> int:
         HANDOFF.read_text(encoding="utf-8") if HANDOFF.exists()
         else "(no handoff yet — this is a cold first start)\n"
     )
+    # Cumulative cross-branch notes (the compounding knowledge channel).
+    # Tail-bounded so a long-lived problem doesn't flood session stdout.
+    notes_tail_chars = 6000
+    try:
+        from proof_prepare import load_proof_notes
+        notes_text = load_proof_notes()
+    except Exception:  # noqa: BLE001 — notes are best-effort context
+        notes_text = ""
+    notes_truncated = False
+    if len(notes_text) > notes_tail_chars:
+        notes_text = notes_text[-notes_tail_chars:]
+        notes_truncated = True
 
     if args.json:
         payload = {
@@ -321,6 +337,8 @@ def main() -> int:
             "released_orphan_qids": released_qids,
             "last_session_close_reason": last_close,
             "handoff": handoff_text,
+            "proof_notes_tail": notes_text,
+            "proof_notes_truncated": notes_truncated,
             "open_questions": open_items[: args.top_n],
             "live_open_count": len(open_items),
         }
@@ -343,6 +361,17 @@ def main() -> int:
     print(handoff_text)
     if last_close:
         print(f"--- last session_close reason: {last_close}")
+    print()
+    print("=== cumulative proof notes (cross-branch, cross-session) ===")
+    if notes_text:
+        if notes_truncated:
+            print(f"(... older notes truncated; run `uv run proof_notes.py` for the full file ...)")
+        print(notes_text)
+    else:
+        print("(none yet — append with `uv run proof_notes.py \"<insight>\"`;")
+        print(" record every killed approach, the current minimal open lemma,")
+        print(" and any literature finding — this is the ONLY channel that")
+        print(" survives across branches and parallel worktrees)")
     print()
     print(f"=== proof_open_questions (top {args.top_n} of {len(open_items)} live open) ===")
     for q in open_items[: args.top_n]:
