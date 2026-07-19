@@ -416,7 +416,7 @@ $k \approx \log_2 x$ (detailed analysis deferred to
 `proof_lemmas/lemma_min_k_almost_prime.md`).
 
 For each fixed $k$: by the argument in Section 6.1 ("Why the bound vanishes"),
-$T_k(x) \to 0$ as $x \to \infty$ (tail of a series shown convergent via F1).
+$T_k(x) \to 0$ as $x \to \infty$ (tail of convergent series $T_k(2)$; finiteness by Section 6.1).
 
 For $k \geq \lceil\log_2 x\rceil$: any integer $n$ with $\Omega(n) = k$ has $k$
 prime factors each $\geq 2$, so $n \geq 2^k \geq x$; the lower bound $n \geq x$ in
@@ -496,8 +496,11 @@ $$S := \sum_{a \in A} \frac{1}{a \log a} < 1 + o(1) \quad (x \to \infty).$$
 
 *Case 1 ($k$ fixed as $x\to\infty$)*: For all sufficiently large fixed $k$,
 $T_k(2) < 1$ by F3 sign disambiguation, so $S \leq T_k(x) \leq T_k(2) < 1 < 1 + o(1)$.
-For small fixed $k$: $\mathcal{A}_k$ is a primitive set (Section 6.1), so by F1,
-$T_k(2) < \infty$; thus $T_k(x)$ (tail of convergent series) $\to 0$ as $x \to \infty$,
+For small fixed $k$: By Section 6.1, $T_k(2) < \infty$ for each fixed $k$
+(F3 gives an explicit finite formula for large $k$; for all $k$, the sum
+$T_k(2)$ is finite — and may exceed 1 for small $k$ as noted in Section 1,
+which is consistent with $T_k(2) < \infty$ since $e^\gamma\pi/4 \approx 1.399 > 1$).
+Thus $T_k(x)$ (tail of the convergent series $T_k(2)$) $\to 0$ as $x \to \infty$,
 giving $S \leq T_k(x) = o(1) < 1 + o(1)$.
 
 *Case 2 ($k = k(x) \to \infty$)*: By F3 (asymptotic formula for large $k$): $T_k(2) =
@@ -530,16 +533,17 @@ and $S_k$ analogously. By Lemma `stratum_sub_bound`, $S_j \leq T_j(x)$ and
 $S_k \leq T_k(x) \leq T_k(2)$.
 
 *Case (a): $j$ bounded (fixed as $x\to\infty$).* We have $S_j \leq T_j(x)$.
-By Section 6.1 ("Why the bound vanishes"), $T_j(x) \to 0$ as $x\to\infty$
-(F1 gives $T_j(2) < \infty$; tail of convergent series vanishes). So $S_j = o(1)$.
+By Section 6.1 ("Why the bound vanishes"), $T_j(2) < \infty$ for each fixed $j$,
+so $T_j(x) \to 0$ as $x\to\infty$ (tail of convergent series vanishes). So $S_j = o(1)$.
 For $S_k$: if $k$ is also fixed, $S_k \leq T_k(x) = o(1)$ similarly. If
 $k = k(x) \to \infty$, then by F3 (asymptotic for large $k$): $T_k(2) < 1$
 for sufficiently large $k$, so $S_k \leq T_k(2) < 1$.
 In either subcase, $S = o(1) + (<1) < 1 + o(1)$. $\square$
 
 *Case (b): $k$ bounded (fixed as $x\to\infty$).* Then $j < k$ is also bounded,
-and by Section 6.1, $T_j(x) \to 0$ and $T_k(x) \to 0$ as $x \to \infty$
-(F1 finite + tail argument). So $S = S_j + S_k \leq T_j(x) + T_k(x) = o(1) < 1 + o(1)$. $\square$
+and by Section 6.1, $T_j(2) < \infty$ and $T_k(2) < \infty$ for each fixed $j, k$,
+so $T_j(x) \to 0$ and $T_k(x) \to 0$ as $x \to \infty$ (tails of convergent series).
+Hence $S = S_j + S_k \leq T_j(x) + T_k(x) = o(1) < 1 + o(1)$. $\square$
 
 **The hard case (open sub-problem)**: When both $j = j(x) \to \infty$ and
 $k = k(x) \to \infty$ as $x \to \infty$, the per-stratum bound gives
@@ -749,8 +753,8 @@ $n \geq x$ in $T_k(x)$ is automatically satisfied — no terms are excluded:
 $$T_k(x) = T_k(2) = \sum_{\Omega(n)=k} \frac{1}{n \log n}.$$
 (This is a purely arithmetic observation: the product of $k$ integers each $\geq 2$ is $\geq 2^k$.)
 For $k < \lceil \log_2 x \rceil$, some small-$k$-almost-primes lie below $x$,
-so $T_k(x) < T_k(2)$; but as noted in Section 6.1, $T_k(x) \to 0$ (F1-convergence
-+ tail vanishing).
+so $T_k(x) < T_k(2)$; by Section 6.1, $T_k(2) < \infty$ for fixed $k$, so
+$T_k(x) \to 0$ as $x \to \infty$ (tail of convergent series).
 
 ### 10.3 Tightness of the 1+o(1) conjecture
 
