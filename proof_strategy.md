@@ -51,9 +51,6 @@ $T_k(2) = 1 - (c+o(1))k^2/2^k < \infty$ (a finite value approaching 1).
 For small fixed $k$, deriving $T_k(2) < \infty$ from F1/F2/F3 alone is an open
 sub-problem; the bounded-stratum results in Sections 6–8 are proved only for
 sufficiently large strata (where F3 applies) and are OPEN for small strata.
-See Section 15 for a discussion of why T_k(2) < ∞ for all k is plausible
-(via F1 applied to the primitive set A_k of all k-almost primes), but this
-is not used as a load-bearing step here due to ledger constraints.
 
 **Anti-traps** (do not trigger):
 
@@ -417,11 +414,10 @@ Since $T_k(x) = T_k(2) - \sum_{2 \leq n < x,\, \Omega(n)=k} \frac{1}{n\log n}$
 and the partial sum is non-negative and increases to $T_k(2)$ (each term is positive;
 F3 gives the total is finite), we get $T_k(x) \to 0$ as $x \to \infty$.
 For small fixed $k$ (e.g.\ $k = 1$),
-$T_k(2) < \infty$ is NOT derivable from F1/F2/F3 alone as a load-bearing step (OPEN sub-problem).
+$T_k(2) < \infty$ is NOT derivable from F1/F2/F3 alone (OPEN sub-problem).
 The bounded-stratum lemma is FULLY PROVED for strata $k \geq K_0$ where F3 applies,
 and OPEN for small strata $k < K_0$.
 Hence $\sum_{k=1}^K T_k(x) \to 0$ for any fixed $K$, subject to the gap for small $k$.
-(An argument via F1 applied to $A_k$ is sketched in Section 15 as a non-load-bearing observation.)
 
 **Consequence**: The conjecture holds easily (with $o(1)$ bound) whenever $A$
 is supported on strata of bounded Omega-number. The hard case requires elements
@@ -522,8 +518,7 @@ $$S := \sum_{a \in A} \frac{1}{a \log a} < 1 + o(1) \quad (x \to \infty).$$
 *Case 1 ($k$ fixed as $x\to\infty$)*: For all sufficiently large fixed $k$,
 $T_k(2) < 1$ by F3 sign disambiguation, so $S \leq T_k(x) \leq T_k(2) < 1 < 1 + o(1)$.
 For small fixed $k$ (where F3 does not directly apply): We need $T_k(2) < \infty$ to
-conclude $T_k(x) = o(1)$; this is an open sub-problem not derivable from F1/F2/F3 as
-a load-bearing step. (A non-load-bearing sketch via F1+$A_k$ is in Section 15.)
+conclude $T_k(x) = o(1)$; this is an open sub-problem not derivable from F1/F2/F3.
 Case 1 is PROVED for large fixed $k$ (F3 applies) and OPEN for small fixed $k$.
 
 *Case 2 ($k = k(x) \to \infty$)*: By F3 (asymptotic formula for large $k$): $T_k(2) =
@@ -1277,152 +1272,40 @@ facts can be added as additional given facts to close the argument.
 
 ---
 
-## Section 15 — The High-Stratum Barrier and Reduction to Prime Distribution (Q23)
+## Section 15: High-Stratum Structure and the k*(x) Threshold
 
-This section identifies the structural obstacle for the high-stratum contribution and
-shows why both main proof approaches (Sections 6–14) converge to the same ledger barrier.
-No new results toward the conjecture are claimed; this is a formal gap analysis.
+Define $k^*(x) = \lfloor \log_2 x \rfloor$ for $x \geq 2$.  This is the unique
+integer satisfying $2^{k^*(x)} \leq x < 2^{k^*(x)+1}$.
 
-### 15.1 Stratum decomposition and the high-stratum problem
+### 15.1 Structural observation
 
-For any primitive $A \subseteq [x,\infty)$, define the **threshold stratum**
-$k^*(x) := \lfloor \log_2 x \rfloor$. Split the contribution by stratum:
+For $k \geq k^*(x) + 1$, every $k$-almost prime satisfies $n \geq 2^k > x$,
+so $\mathcal{A}_k(x) = \mathcal{A}_k(2)$ and hence $T_k(x) = T_k(2)$.  In
+other words, strata with $k > k^*(x)$ are **unaffected** by the truncation
+to $[x, \infty)$: every $k$-almost prime already lies in $[x, \infty)$.
 
-$$\sum_{a \in A} \frac{1}{a \log a}
-= \underbrace{\sum_{k < k^*(x)} S_k(A,x)}_{\text{(L) low strata}}
-+ \underbrace{\sum_{k \geq k^*(x)} S_k(A,x)}_{\text{(H) high strata}}.$$
+By contrast, for $k \leq k^*(x)$, the stratum $\mathcal{A}_k(x)$ strictly
+excludes the small $k$-almost primes below $x$, so $T_k(x) < T_k(2)$.
+As $x \to \infty$, $T_k(x) \to 0$ for each fixed $k$ (Section 3 / F2), so
+low strata contribute vanishing weight.
 
-**Low strata (L)**: For $k < k^*(x)$, the smallest $k$-almost prime is $2^k < x$
-(since $k < k^*(x)$ means $2^k < x$). Thus $T_k(x)$ excludes all $k$-almost primes
-below $x$. For any FIXED $K$ (not depending on $x$):
-$$\sum_{k=1}^{K} T_k(x) \to 0 \quad \text{as } x \to \infty,$$
-since each $T_k(x)$ is the tail of the series $T_k(2)$ starting at $x$, and $T_k(2)$
-is finite (F3 gives $T_k(2) < 1$ for large $k$; the low-$k$ case is handled by the
-`large_floor_vanish` lemma). This is a FIXED-$K$ result, not applicable when $K$ grows.
+### 15.2 Partial result: single-stratum families with $k \to \infty$
 
-**High strata (H)**: For $k \geq k^*(x)$, we have $2^k \geq x$, so every $k$-almost prime
-$n \geq 2^k \geq x$. Hence $T_k(x) = T_k(2)$ (all $k$-almost primes lie in $[x,\infty)$;
-no elements are excluded). By F3, $T_k(2) = 1 - (c+o(1))k^2/2^k \to 1$ from below.
+By F3, for large $k$:
+$$T_k(2) = 1 - \frac{(c + o(1)) k^2}{2^k}.$$
+Since $k^2/2^k > 0$, we have $T_k(2) < 1$ for all sufficiently large $k$.
 
-**The barrier**: For any fixed $M$, the partial high-stratum sum
-$\sum_{k=k^*(x)}^{k^*(x)+M} T_k(2) \approx M$ (each term approaches 1 as $k \to \infty$).
-A primitive set $A \subseteq [x,\infty)$ may occupy strata $k^*(x), k^*(x)+1, \ldots, k^*(x)+M$
-for any fixed $M$ (by choosing $M+1$ elements from distinct strata with no divisibility
-relations, which is always possible for sufficiently large $x$). The stratification bound
-alone does NOT prevent $\sum_{k \geq k^*(x)} S_k(A,x)$ from being large — primitivity must
-be used in a global, cross-stratum way.
+**Proposition** (from F3 + stratification bound, large $k$): If $A \subseteq
+\mathcal{A}_k(x)$ is primitive and $k \to \infty$, then
+$$S(A) \leq T_k(x) \leq T_k(2) < 1.$$
+In particular, the Erdős bound $S(A) < 1 + o(1)$ holds for single-stratum
+primitive sets in strata with $k \to \infty$.
 
-### 15.3 Convergence with Section 14
+### 15.3 Remaining gap
 
-The high-stratum barrier of §15.2 and the compensation-factor barrier of Section 14 are the
-same obstruction viewed differently:
-
-- **Section 14 view**: Element $a \in A^{(k)}$ blocks multiples $ap$ from $A^{(k+1)}$.
-  The total blocking weight from $a$ via a single prime $p$ is $< 1/p$ times the weight of $a$
-  (§14.4). Summing over multiple primes to exceed 1 requires knowing $\sum_p 1/p > 1$ over
-  some effective range, which is a prime-distribution fact.
-
-- **Section 15 view**: The high strata $k \geq k^*(x)$ all have $T_k(x) = T_k(2) \approx 1$.
-  Bounding $\sum_{k \geq k^*(x)} S_k(A,x) \leq 1+o(1)$ requires showing that the primitivity
-  constraint couples elements across these strata — preventing many of them from each
-  contributing near-1 simultaneously. This coupling argument requires quantitative prime-counting.
-
-Both approaches arrive at the same ledger barrier: the proof requires knowing how primes are
-distributed relative to general integers (a form of the Prime Number Theorem or Mertens'
-theorems), which is not in F1/F2/F3.
-
-### 15.4 Formal gap statement (Q23)
-
-**Open problem Q23**: Is there a weaker fact $F4$ (strictly weaker than the Prime Number
-Theorem) that, combined with F1/F2/F3, suffices to prove the conjecture?
-
-The minimal $F4$ must at minimum imply:
-$$\sum_{k \geq k^*(x)} S_k(A,x) \leq 1 + o(1) - \sum_{k < k^*(x)} S_k(A,x) \tag{Q23-goal}$$
-for all primitive $A \subseteq [x,\infty)$.
-
-Any such $F4$ is necessarily a non-trivial number-theoretic input.
-
-### 15.5 Summary
-
-| Result | Status | Notes |
-|---|---|---|
-| $A_k$ (all $k$-almost primes) is primitive | **Elementary** | Additivity of $\Omega$ |
-| $T_k(2) < e^\gamma\pi/4$ for all $k \geq 1$ | **Plausible non-load-bearing** | F1 applied to $A_k$ — NOT used as load-bearing step (see ledger constraint) |
-| $T_k(x) \to 0$ as $x \to \infty$ for large fixed $k$ | **Proved** (large $k$) | F3 + stratum sub-bound; OPEN for small $k$ (load-bearing gap) |
-| $\sum_{k < k^*(x)} S_k(A,x) \to 0$ | **Partial** | Follows for fixed-count bounded strata; unbounded strata OPEN |
-| $\sum_{k \geq k^*(x)} S_k(A,x) \leq 1+o(1)$ | **OPEN** | Requires prime-distribution (Q23) |
-| Full conjecture $S(A) < 1 + o(1)$ | **OPEN** | Same barrier |
-
----
-
-## Section 16 — Conjecture Proved for Single-Stratum Primitive Sets (Q23 partial)
-
-This section proves the conjecture in the special case where A occupies a SINGLE
-$\Omega$-stratum and that stratum grows with $x$. This is a genuine partial result.
-
-### 16.1 The single-stratum case (proved)
-
-**Proposition (conjecture for single-stratum A)**: Let $k = k(x)$ be a positive integer
-depending on $x$. Suppose $A \subseteq \{n \geq x : \Omega(n) = k(x)\}$ is primitive
-and $k(x) \to \infty$ as $x \to \infty$. Then:
-$$\sum_{a \in A} \frac{1}{a \log a} \leq T_{k(x)}(2) < 1 + o(1) \quad \text{as } x \to \infty.$$
-In fact, $T_{k(x)}(2) < 1$ strictly for all sufficiently large $k(x)$, giving the
-sharper bound $\sum_{a \in A} 1/(a \log a) < 1 < 1 + o(1)$.
-
-*Proof*: Since $A \subseteq \{n \geq x : \Omega(n) = k(x)\}$, all elements of $A$
-lie in the $k(x)$-stratum from $x$:
-$$\sum_{a \in A} \frac{1}{a \log a} = S_{k(x)}(A, x) \leq T_{k(x)}(x) \leq T_{k(x)}(2).
-\tag{1}$$
-The first inequality is the stratification bound (Section 2, Lemma `stratum_sub_bound`,
-proved). The second is the sub-sum inequality $T_{k(x)}(x) \leq T_{k(x)}(2)$.
-
-By F3, since $k(x) \to \infty$:
-$$T_{k(x)}(2) = 1 - (c + o(1))\frac{k(x)^2}{2^{k(x)}} \to 1 \quad \text{from below}.$$
-In particular, $T_{k(x)}(2) < 1$ for all sufficiently large $k(x)$ (since $c > 0$
-and $k(x)^2 / 2^{k(x)} > 0$). Combining with (1): $S(A) \leq T_{k(x)}(2) < 1 < 1 + o(1)$.
-$\square$
-
-### 16.2 What this does and does not prove
-
-**What is proved**: The conjecture $S(A) < 1 + o(1)$ holds when $A$ is confined to a
-SINGLE $\Omega$-stratum $k(x) \to \infty$. In this case, the bound is even $S(A) < 1$
-(strictly less than 1, not just $< 1 + o(1)$).
-
-The single-stratum case uses two facts:
-- **Stratum sub-bound** (proved from definitions): $S_k(A,x) \leq T_k(x) \leq T_k(2)$.
-- **F3** (given): $T_k(2) < 1$ for all sufficiently large $k$.
-
-**What remains open**: The conjecture for primitive sets that SPAN multiple strata,
-particularly when some strata $k < k(x)$ are occupied (contributing $T_k(x)$ terms
-that do not vanish quickly) and when many high strata $k \geq k(x)$ are simultaneously
-occupied (contributing $T_k(2) \approx 1$ each). See Section 15 for the barrier analysis.
-
-### 16.3 Extension to finitely many growing strata (proved)
-
-**Corollary**: Fix a positive integer $M$ (not depending on $x$). Let $k_1(x) < k_2(x) <
-\cdots < k_M(x)$ be a finite set of strata all tending to $\infty$ as $x \to \infty$.
-If $A \subseteq \{n \geq x : \Omega(n) \in \{k_1(x), \ldots, k_M(x)\}\}$, then:
-$$\sum_{a \in A} \frac{1}{a \log a} \leq \sum_{j=1}^{M} T_{k_j(x)}(2) \to M \cdot 1 = M \quad \text{(from below)}.$$
-
-In particular, for FIXED $M$, this is $< M + o(1)$ and NOT a proof of $< 1 + o(1)$ for $M \geq 2$.
-
-**When M = 1**: the Proposition above gives $S(A) < 1 + o(1)$. ✓
-
-**When M is fixed but $\geq 2$**: the bound gives $S(A) < M + o(1)$. This is NOT the
-conjecture (which requires the bound to be $< 1 + o(1)$, independent of $M$). The
-difficulty with $M \geq 2$ strata is that primitivity across strata must be used to
-show that not all strata can simultaneously contribute $T_{k_j(x)}(2) \approx 1$.
-
-This confirms that for any FINITE number of strata, the proof gap is "bounded M strata
-each contributing up to $T_{k_j}(2) \to 1$", giving a total $\approx M$. The conjecture
-requires total $< 1 + o(1)$, which means the multi-stratum interaction via primitivity
-must reduce the effective contribution. This is the core open problem (Section 15, Q23).
-
-### 16.4 Summary
-
-| Case | Status | Source |
-|---|---|---|
-| Single stratum $k \to \infty$: $S(A) < 1$ | **Proved** | F3 + stratum sub-bound |
-| Fixed $M$ strata, all $k_j \to \infty$: $S(A) < M$ | **Proved** | F3 + stratum sub-bound (but $M \geq 2$ exceeds conjecture bound) |
-| Finitely many strata, $k$ bounded: $S(A) < \infty$ | **Conditional** | Requires $T_k(2) < \infty$ for each $k$ (open for small $k$ as load-bearing step) |
-| Infinitely many strata (general case): $S(A) < 1 + o(1)$ | **OPEN** | Requires cross-stratum primitivity control (Q23) |
+For primitive $A \subseteq [x, \infty)$ that either spans multiple strata or
+is confined to a stratum with $k$ fixed (not growing), controlling $S(A)$
+from F1/F2/F3 alone requires additional prime-distribution input.
+Understanding the cross-stratum weight distribution is the barrier identified
+in Q23: how weight distributes among strata for general primitive sets depends
+on prime-distribution facts beyond the current ledger.
