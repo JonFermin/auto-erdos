@@ -1203,25 +1203,21 @@ $$C(a) := \frac{\text{blocking weight from } a}{\text{own weight of } a}
 = \frac{\sum_{p \text{ prime}} \frac{1}{ap\log(ap)}}{\frac{1}{a\log a}}
 = \log a \cdot \sum_{p \text{ prime}} \frac{1}{p(\log a + \log p)}.$$
 
-**Claim (elementary arithmetic)**: For all sufficiently large $a$, $C(a) > 1$.
+**Claim (EXTERNAL — uses specific prime values $\log 2, \log 3, \log 5$ and arithmetic $1/2+1/3+1/5=31/30$; NOT derivable from F1/F2/F3)**: For all sufficiently large $a$, $C(a) > 1$.
 
-*Proof*: Restrict to the three primes $p \in \{2, 3, 5\}$ (a lower bound since every prime term is positive):
+> **Ledger caveat**: This claim relies on external prime-number knowledge — specifically the
+> values $\log 2, \log 3, \log 5$ and the arithmetic identity $1/2+1/3+1/5 = 31/30 > 1$.
+> None of these are in the F1/F2/F3 ledger. The claim is stated as an external mathematical
+> fact (standard number theory), not as a consequence of F1/F2/F3. All downstream uses of
+> $C(a) > 1$ are conditional on this external fact.
+
+*Proof (external prime-number argument — not from F1/F2/F3 ledger)*: Restrict to the three primes $p \in \{2, 3, 5\}$ (a lower bound since every prime term is positive):
 $$C(a) \geq \frac{\log a}{2(\log a + \log 2)} + \frac{\log a}{3(\log a + \log 3)} + \frac{\log a}{5(\log a + \log 5)}.$$
 Each term $\frac{1}{p(1 + \log p / \log a)}$ is strictly increasing in $a$ and approaches $1/p$ as $a \to \infty$.
-So the right-hand side approaches $1/2 + 1/3 + 1/5 = 31/30 > 1$ from below.
-Hence for all sufficiently large $a$, $C(a) > 31/30 - \varepsilon > 1$. $\square$
+The limit $1/2 + 1/3 + 1/5 = 31/30 > 1$ is external arithmetic using prime values not in F1/F2/F3.
+Hence for all sufficiently large $a$, $C(a) > 31/30 - \varepsilon > 1$ (external fact, not from F1/F2/F3). $\square$
 
-**Corollary**: For all $a \geq x$ with $x$ sufficiently large, $C(a) > 1$.
-
-*Illustrative numerical check* (using $\log 2 \approx 0.6931$, $\log 3 \approx 1.0986$,
-$\log 5 \approx 1.6094$ — standard mathematical constants, NOT derivable from
-F1/F2/F3; cited here for reader verification only, not as a proof step):
-At $\log a = 100$:
-$$C(a) \geq \frac{100}{2(100 + 0.6931)} + \frac{100}{3(100 + 1.0986)} + \frac{100}{5(100 + 1.6094)}
-= \frac{100}{201.386} + \frac{100}{303.296} + \frac{100}{508.047}
-\approx 0.4966 + 0.3297 + 0.1968 = 1.023 > 1.$$
-(This numerical check is consistent with the asymptotic argument above; the
-proof of $C(a) > 1$ does not depend on these specific values.)
+**Corollary (external)**: For all $a \geq x$ with $x$ sufficiently large, $C(a) > 1$ (same external caveat as Claim above — conditional on prime-value knowledge outside F1/F2/F3).
 
 ### 14.3 Conditional two-stratum bound via C(a) > 1
 
@@ -1274,8 +1270,12 @@ $$\text{collision weight} = \sum_{\substack{m:\, 2m,\, 3m \in A_{k-1}}} \frac{1}
 *Proof*: $\log(6m) = \log 6 + \log m > \log 3 + \log m = \log(3m)$, so $1/(6m\log 6m) < 1/(6m\log 3m)
 = (1/2)\cdot 1/(3m\log 3m)$. $\square$
 
-The right-hand side is at most $(1/2) \cdot S_{k-1}(A_{k-1})$, so the collision correction
-is at most half the primary term. After accounting for collisions:
+The right-hand side is at most $(1/2) \cdot S_{k-1}(A_{k-1})$: every $m$ in the sum
+satisfies $3m \in A_{k-1}$ by hypothesis, so $1/(3m\log 3m)$ is the $a=3m$ term of
+$S_{k-1}(A_{k-1}) = \sum_{a \in A_{k-1}} 1/(a\log a)$; thus
+$\sum_{m:\,2m,3m\in A_{k-1}} 1/(3m\log 3m) \leq S_{k-1}(A_{k-1})$ (positive-term
+sub-sum of $S_{k-1}$, elementary — each term appears in the full sum, and all terms are positive).
+So the collision correction is at most half the primary term. After accounting for collisions:
 $$\sum_{b \in \{2a\}\cup\{3a\}} \frac{1}{b\log b} \geq \sum_a \frac{1}{2a\log 2a} + \sum_a \frac{1}{3a\log 3a} - \frac{1}{2} S_{k-1}(A_{k-1}).$$
 For each $a \in A_{k-1}$ with $a \geq x$: termwise, $1/(2a\log(2a)) + 1/(3a\log(3a))
 = \frac{1}{a\log a}\Bigl[\frac{\log a}{2(\log 2 + \log a)} + \frac{\log a}{3(\log 3 + \log a)}\Bigr]
