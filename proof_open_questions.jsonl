@@ -48,3 +48,4 @@
 {"qid":"Q23","status":"resolved","session_id":"s_0719-080737-d8f9","summary":"Q23: High-stratum barrier (k>=k*(x)) formally documented; both approaches converge to same prime-distribution ledger gap; Section 15 added","ts":"2026-07-19T11:42:57+00:00"}
 {"qid":"Q24","status":"open","session_id":"s_0719-080737-d8f9","summary":"Section 15: k*(x) threshold, high-stratum T_k(x)=T_k(2) structural fact, single-stratum k→∞ partial result proved (F3). Q24: explore whether cross-stratum decomposition can be made effective using only F1/F2/F3.","ts":"2026-07-19T12:15:35+00:00"}
 {"qid":"Q24","status":"claimed","session_id":"s_0719-080737-d8f9","summary":"claiming Q24: logging Section 15 round","ts":"2026-07-19T12:15:35+00:00"}
+{"qid":"Q24","status":"resolved","session_id":"s_0719-080737-d8f9","summary":"Section 16 two-stratum structural observation drafted; critic issues resolved across Secs 4/8/9/12/13/14; keep_progress logged","ts":"2026-07-19T13:15:14+00:00"}
