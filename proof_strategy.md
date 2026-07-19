@@ -47,11 +47,10 @@ of resolution may appear in this file.
   $T_k(2)$ may exceed 1 and the asymptotic does not apply directly.)
 
 **Note on $T_k(2)$ finiteness**: For large $k$ (where F3 applies), F3 gives
-$T_k(2) = 1 - (c+o(1))k^2/2^k < \infty$; the correction $k^2/2^k \to 0$ so F3 pins
-$T_k(2)$ at a finite value approaching 1. For small fixed $k$ (e.g.\ $k=1,2$), whether
-$T_k(2) < \infty$ cannot be concluded from F1, F2, or F3 alone using only elementary
-arithmetic — this is an acknowledged gap in the bounded-stratum argument of Section 6;
-see "gap note" there.
+$T_k(2) = 1 - (c+o(1))k^2/2^k < \infty$ (a finite value approaching 1).
+For small fixed $k$, deriving $T_k(2) < \infty$ from F1/F2/F3 alone is an open
+sub-problem; the bounded-stratum results in Sections 6–8 are proved only for
+sufficiently large strata (where F3 applies) and are OPEN for small strata.
 
 **Anti-traps** (do not trigger):
 
@@ -408,10 +407,9 @@ in $T_k(x) = \sum_{n \geq x,\, \Omega(n)=k} 1/(n\log n)$ (since $A^{(k)} \subset
 **Why the bound vanishes** (for large $k$; gap for small $k$): By F3, for each
 SUFFICIENTLY LARGE fixed $k$, $T_k(2) = 1-(c+o(1))k^2/2^k < \infty$, so $T_k(x) \to 0$
 as $x \to \infty$ (tail of convergent series). For small fixed $k$ (e.g.\ $k = 1$),
-$T_k(2) < \infty$ is a standard fact of analytic number theory (prime density estimates)
-but is NOT derivable from F1/F2/F3; it is cited here as an acknowledged gap.
+$T_k(2) < \infty$ is NOT derivable from F1/F2/F3 alone (OPEN sub-problem).
 The bounded-stratum lemma is FULLY PROVED for strata $k \geq K_0$ where F3 applies,
-and CONDITIONAL on the analytic gap for $k < K_0$.
+and OPEN for small strata $k < K_0$.
 Hence $\sum_{k=1}^K T_k(x) \to 0$ for any fixed $K$, subject to the gap for small $k$.
 
 **Consequence**: The conjecture holds easily (with $o(1)$ bound) whenever $A$
@@ -511,8 +509,8 @@ $$S := \sum_{a \in A} \frac{1}{a \log a} < 1 + o(1) \quad (x \to \infty).$$
 *Case 1 ($k$ fixed as $x\to\infty$)*: For all sufficiently large fixed $k$,
 $T_k(2) < 1$ by F3 sign disambiguation, so $S \leq T_k(x) \leq T_k(2) < 1 < 1 + o(1)$.
 For small fixed $k$ (where F3 does not directly apply): We need $T_k(2) < \infty$ to
-conclude $T_k(x) = o(1)$; this is the gap documented in Section 6.1. Conditioned on this
-standard fact, $T_k(x) \to 0$ (tail of convergent series), giving $S = o(1) < 1+o(1)$.
+conclude $T_k(x) = o(1)$; this is an open sub-problem not derivable from F1/F2/F3.
+Case 1 is PROVED for large fixed $k$ (F3 applies) and OPEN for small fixed $k$.
 
 *Case 2 ($k = k(x) \to \infty$)*: By F3 (asymptotic formula for large $k$): $T_k(2) =
 1 - (c + o(1))k^2/2^k$. For large $k$, $c + o(1) \to c > 0$ and $(c+o(1))k^2/2^k > 0$,
@@ -545,8 +543,8 @@ $S_k \leq T_k(x) \leq T_k(2)$.
 
 *Case (a): $j$ bounded (fixed as $x\to\infty$).* We have $S_j \leq T_j(x)$.
 For large fixed $j$ (F3 applies): $T_j(2) < \infty$ and $T_j(x) \to 0$.
-For small fixed $j$: conditional on the gap (Section 6.1), $T_j(2) < \infty$ and $T_j(x) \to 0$.
-So $S_j = o(1)$ (proved for large $j$; conditional for small $j$).
+For small fixed $j$: $T_j(2) < \infty$ is not derivable from F1/F2/F3 (OPEN sub-problem);
+so $S_j = o(1)$ is PROVED for large $j$ and OPEN for small $j$.
 For $S_k$: if $k$ is also fixed, $S_k \leq T_k(x) = o(1)$ similarly. If
 $k = k(x) \to \infty$, then by F3 (asymptotic for large $k$): $T_k(2) < 1$
 for sufficiently large $k$, so $S_k \leq T_k(2) < 1$.
@@ -555,8 +553,8 @@ In either subcase, $S = o(1) + (<1) < 1 + o(1)$. $\square$
 *Case (b): $k$ bounded (fixed as $x\to\infty$).* Then $j < k$ is also bounded.
 For sufficiently large fixed $j, k$ (F3 applies): $T_j(2) < \infty$ and $T_k(2) < \infty$,
 so $T_j(x) \to 0$ and $T_k(x) \to 0$ as $x \to \infty$.
-For small fixed $j, k$: conditional on the gap (Section 6.1).
-Hence $S = S_j + S_k = o(1) < 1 + o(1)$ (proved for large strata; conditional for small). $\square$
+For small fixed $j, k$: OPEN (not derivable from F1/F2/F3).
+Hence $S = S_j + S_k = o(1) < 1 + o(1)$ (proved for large strata; OPEN for small). $\square$
 
 **The hard case (open sub-problem)**: When both $j = j(x) \to \infty$ and
 $k = k(x) \to \infty$ as $x \to \infty$, the per-stratum bound gives
@@ -768,7 +766,7 @@ $$T_k(x) = T_k(2) = \sum_{\Omega(n)=k} \frac{1}{n \log n}.$$
 For $k < \lceil \log_2 x \rceil$, some small-$k$-almost-primes lie below $x$,
 so $T_k(x) < T_k(2)$. For large fixed $k$ (F3 applies), $T_k(2) < \infty$, so
 $T_k(x) \to 0$ as $x \to \infty$ (tail of convergent series); for small fixed $k$
-this is conditional on the gap in Section 6.1.
+this is OPEN (not derivable from F1/F2/F3).
 
 ### 10.3 Tightness of the 1+o(1) conjecture
 
@@ -1264,9 +1262,12 @@ For each $a \in A_{k-1}$ with $a \geq x$: termwise, $1/(2a\log(2a)) + 1/(3a\log(
 So for all $a \geq x$ (large $x$): $1/(2a\log 2a) + 1/(3a\log 3a) \geq (5/6 - \varepsilon_x)/(a\log a)$
 for some $\varepsilon_x \to 0$ as $x \to \infty$. Summing over $a \in A_{k-1}$:
 $\sum_{a} [1/(2a\log 2a) + 1/(3a\log 3a)] \geq (5/6 - \varepsilon_x) S_{k-1}(A_{k-1})$,
-and $(5/6) - 1/2 = 1/3 < 1$.
+and the combined $\{p=2, p=3\}$ effective ratio is $5/6 - \varepsilon_x$.
 
-Still insufficient: $p=2$ and $p=3$ together give effective ratio $5/6 - 1/2 = 1/3 < 1$.
+The ratio $5/6 < 1$: adding primes 2 and 3 together still falls short of 1. The shortfall
+is $1 - 5/6 = 1/6$; adding the $p=5$ contribution (ratio $+1/5$) raises the total to
+$1/2 + 1/3 + 1/5 = 31/30 > 1$ in principle, but only if double-counting corrections
+among $\{2, 3, 5\}$ are small.
 Adding $p=5$ and bounding its collision correction similarly would give effective ratio
 $(1/2+1/3+1/5) - (\text{corrections}) = 31/30 - \text{corrections}$; if corrections
 $< 1/30$, the argument closes. This requires bounding the total collision weight among
