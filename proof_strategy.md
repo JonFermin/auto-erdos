@@ -402,7 +402,11 @@ $$\sum_{a \in A} \frac{1}{a\log a} \leq \sum_{k=1}^{K} T_k(x).$$
 Each $a \in A^{(k)}$ satisfies $a \geq x$, so $1/(a\log a)$ is one term
 in $T_k(x) = \sum_{n \geq x,\, \Omega(n)=k} 1/(n\log n)$ (since $A^{(k)} \subset
 \{n \geq x : \Omega(n) = k\}$). Summing over $k = 1,\ldots, K$: $\sum_{a \in A}
-= \sum_{k=1}^K \sum_{a \in A^{(k)}} \leq \sum_{k=1}^K T_k(x)$. $\square$
+= \sum_{k=1}^K \sum_{a \in A^{(k)}} \leq \sum_{k=1}^K T_k(x)$.
+**Note**: This inequality holds even if some $T_k(x) = +\infty$ (a finite positive sum
+is trivially $\leq +\infty$). The bound is useful only when all $T_k(x) < \infty$,
+which holds for large $k$ via F3 but is OPEN for small $k$ — see "Why the bound vanishes"
+below. The inequality itself is elementary and holds unconditionally. $\square$
 
 **Why the bound vanishes** (for large $k$; gap for small $k$): By F3, for each
 SUFFICIENTLY LARGE fixed $k$, $T_k(2) = 1-(c+o(1))k^2/2^k < \infty$.
@@ -1203,45 +1207,28 @@ $$C(a) := \frac{\text{blocking weight from } a}{\text{own weight of } a}
 = \frac{\sum_{p \text{ prime}} \frac{1}{ap\log(ap)}}{\frac{1}{a\log a}}
 = \log a \cdot \sum_{p \text{ prime}} \frac{1}{p(\log a + \log p)}.$$
 
-**Claim (EXTERNAL — uses specific prime values $\log 2, \log 3, \log 5$ and arithmetic $1/2+1/3+1/5=31/30$; NOT derivable from F1/F2/F3)**: For all sufficiently large $a$, $C(a) > 1$.
-
-> **Ledger caveat**: This claim relies on external prime-number knowledge — specifically the
-> values $\log 2, \log 3, \log 5$ and the arithmetic identity $1/2+1/3+1/5 = 31/30 > 1$.
-> None of these are in the F1/F2/F3 ledger. The claim is stated as an external mathematical
-> fact (standard number theory), not as a consequence of F1/F2/F3. All downstream uses of
-> $C(a) > 1$ are conditional on this external fact.
-
-*Proof (external prime-number argument — not from F1/F2/F3 ledger)*: Restrict to the three primes $p \in \{2, 3, 5\}$ (a lower bound since every prime term is positive):
+**Research note (informal — NOT a ledger claim)**: An informal calculation restricting
+to primes $p \in \{2, 3, 5\}$ (using standard prime-number facts outside F1/F2/F3)
+gives:
 $$C(a) \geq \frac{\log a}{2(\log a + \log 2)} + \frac{\log a}{3(\log a + \log 3)} + \frac{\log a}{5(\log a + \log 5)}.$$
-Each term $\frac{1}{p(1 + \log p / \log a)}$ is strictly increasing in $a$ and approaches $1/p$ as $a \to \infty$.
-The limit $1/2 + 1/3 + 1/5 = 31/30 > 1$ is external arithmetic using prime values not in F1/F2/F3.
-Hence for all sufficiently large $a$, $C(a) > 31/30 - \varepsilon > 1$ (external fact, not from F1/F2/F3). $\square$
+Each term $\frac{\log a}{p(\log a + \log p)}$ is strictly less than $1/p$ and increases toward $1/p$ as $\log a \to \infty$, with the lower bound approaching $1/2+1/3+1/5=31/30>1$ (external arithmetic).
+However, this calculation uses specific prime values outside the F1/F2/F3 ledger.
+**Whether $C(a) > 1$ for sufficiently large $a$ is OPEN from F1/F2/F3** — it would require
+prime distribution results not in the given facts. This section documents the informal
+heuristic; no proof of $C(a) > 1$ is claimed here.
 
-**Corollary (external)**: For all $a \geq x$ with $x$ sufficiently large, $C(a) > 1$ (same external caveat as Claim above — conditional on prime-value knowledge outside F1/F2/F3).
+### 14.3 Research direction: conditional two-stratum cancellation (OPEN)
 
-### 14.3 Conditional two-stratum bound via C(a) > 1
+**Sketch (NOT a proof — all steps depend on unresolved hypotheses)**: If one could show
+that the blocked weight $\sum_{b \in B} 1/(b\log b) \geq S_{k-1}(A_{k-1})$ (call this
+Hypothesis H), then: from Section 14.1, $S_k(A_k) \leq T_k(x) - S_{k-1}$, giving
+$S = S_{k-1} + S_k \leq T_k(x) \leq T_k(2) < 1 + o(1)$ (by F3 for large $k$).
 
-**Theorem (conditional on sufficiency of blocked weight)**: Suppose 
-$\sum_{b \in B} \frac{1}{b \log b} \geq S_{k-1}(A_{k-1})$.
-Then for sufficiently large $x$ (so $k = k^*(x) \to \infty$ and F3 applies):
-$$S(A) = S_{k-1}(A_{k-1}) + S_k(A_k) \leq T_k(x) \leq T_k(2) = 1 - (c+o(1))\frac{k^2}{2^k} < 1 + o(1).$$
-
-*Proof*: From Section 14.1, $S_k(A_k) \leq T_k(x) - \sum_{b \in B} 1/(b\log b) \leq T_k(x) - S_{k-1}$
-(using the hypothesis). Hence $S = S_{k-1} + S_k \leq T_k(x)$.
-Now $T_k(x) \leq T_k(2)$ (arithmetic sub-sum) and $T_k(2) \to 1$ from below by F3
-(valid since $k = k^*(x) \to \infty$). So $S \leq T_k(x) \leq T_k(2) < 1 + o(1)$. $\square$
-
-**Consistency note**: The hypothesis $\sum_{b\in B} \geq S_{k-1}$ is NOT proved in general
-(Section 14.4 shows double-counting occurs, making this hard to establish). Sections 14.4–14.5
-analyze when the hypothesis can be verified and document the gap. This is a CONDITIONAL result
-with an open hypothesis, not a claimed proof.
-
-**Why this avoids Section 9.3's obstruction**: Section 9.3 showed that the algebraic condition
-$S_j(1-\delta) < 1 - T_k(2) + o(1)$ fails because $T_k(2) \to 1$ (F3 correction vanishes).
-Section 14.3's conditional gives $S \leq T_k(x)$ identically — the cancellation
-$S_{k-1} + (T_k(x) - S_{k-1}) = T_k(x)$ holds regardless of $S_{k-1}$'s value, avoiding
-the problematic algebraic gap. The conditional IS subject to a different gap (the double-counting
-hypothesis), documented in Sections 14.4–14.5.
+**Why Hypothesis H is NOT provable from F1/F2/F3 in this section**:
+- Section 14.4 shows double-counting: the $p=2$ map alone gives blocked-weight ratio $\to 1/2 < 1$, insufficient.
+- Section 14.5 shows the $\{p=2, p=3\}$ collision-corrected bound gives ratio $\leq 5/6 < 1$, still insufficient.
+- Reaching ratio $> 1$ would require $p=5$ and bounding collisions among $\{2,3,5\}$ — which depends on prime distribution facts outside F1/F2/F3 (the informal computation giving $31/30 > 1$ in Section 14.2 is external).
+- **Conclusion**: Hypothesis H is OPEN from the F1/F2/F3 ledger. Q23 tracks this.
 
 ### 14.4 Double-counting obstacle
 
@@ -1299,13 +1286,15 @@ $p \neq q \in \{2, 3, 5\}$ exist in $A_{k-1}$.
 
 | Component | Status |
 |---|---|
-| Compensation factor $C(a) \to 31/30 > 1$ as $a \to \infty$ | **Proved** (elementary arithmetic) |
-| Conditional two-stratum bound: $C(a)>1 \Rightarrow S(A) \leq T_k(x)$ | **Proved conditional** |
-| $p=2$ injection gives ratio $\to 1/2 < 1$ | **Proved** (insufficient alone) |
-| Collision correction $\leq (1/2) \cdot$ collision source weight | **Proved** |
-| Combined $\{2,3,5\}$ correction $< 1/30$ to close argument | **OPEN** (Q23) |
+| Compensation factor definition $C(a) = \log a \sum_p 1/(p(\log a+\log p))$ | **Defined** (algebraic, from proof setup) |
+| Informal heuristic $C(a) \to 31/30 > 1$ (using primes $\{2,3,5\}$) | **OPEN from F1/F2/F3** (external prime facts) |
+| $p=2$ injection gives blocked-weight ratio $\to 1/2 < 1$ | **Proved** (insufficient alone) |
+| $\{2,3\}$ collision-corrected ratio $\leq 5/6 < 1$ | **Proved** (Sections 14.4-14.5) |
+| Collision correction $\leq (1/2) \cdot$ collision source weight | **Proved** (Lemma 14.5) |
+| Combined $\{2,3,5\}$ correction $< 1/30$ to reach ratio $> 1$ | **OPEN** (Q23) |
 
-**Status**: The compensation approach gives $C(a) \to 31/30 > 1$, establishing that
-for large $x$ each element of $A_{k-1}$ blocks more than its own weight in principle.
-The double-counting correction needs to be bounded below $1/30$ of $S_{k-1}(A_{k-1})$.
-Q23 will bound the collision terms via the primitivity constraint on $A_{k-1}$.
+**Status**: The compensation-factor heuristic suggests the approach could work if $C(a) > 1$
+for large $a$, but this requires prime-distribution results outside F1/F2/F3.
+The double-counting structure (Section 14.4-14.5) shows the $\{2,3\}$ bound gives ratio
+$5/6 < 1$; closing to $> 1$ requires controlling $p=5$ collisions (Q23).
+No unconditional or conditional proof of the conjecture is claimed in this section.
