@@ -716,7 +716,8 @@ input beyond F1/F2/F3 and are therefore outside the scope of the current proof.
 
 | Case | Status |
 |------|--------|
-| $k$ fixed | S = $o(1)$ (proved via `large\_floor\_vanish`) |
+| $k$ fixed, large (F3 applies) | S = $o(1)$ (proved via `large\_floor\_vanish`) |
+| $k$ fixed, small (F3 does not apply) | OPEN (not derivable from F1/F2/F3) |
 | $j$ fixed, $k \to \infty$ | S $< 1 + o(1)$ (proved via `single\_stratum\_bound`) |
 | $j, k \to \infty$, $\max(j,k)$ bounded | S $= o(1)$ (proved) |
 | $j, k \to \infty$, gap $d = k-j$ fixed | Open; conditional proof fails (Section 9.3) |
@@ -1188,12 +1189,13 @@ $$C(a) := \frac{\text{blocking weight from } a}{\text{own weight of } a}
 = \frac{\sum_{p \text{ prime}} \frac{1}{ap\log(ap)}}{\frac{1}{a\log a}}
 = \log a \cdot \sum_{p \text{ prime}} \frac{1}{p(\log a + \log p)}.$$
 
-**Claim (elementary arithmetic)**: $C(a) \to \frac{1}{2} + \frac{1}{3} + \frac{1}{5} = \frac{31}{30} > 1$ as $a \to \infty$.
+**Claim (elementary arithmetic)**: For all sufficiently large $a$, $C(a) > 1$.
 
-*Proof*: Taking only $p \in \{2, 3, 5\}$ (a lower bound since all terms are positive):
+*Proof*: Restrict to the three primes $p \in \{2, 3, 5\}$ (a lower bound since every prime term is positive):
 $$C(a) \geq \frac{\log a}{2(\log a + \log 2)} + \frac{\log a}{3(\log a + \log 3)} + \frac{\log a}{5(\log a + \log 5)}.$$
-Each term has the form $\frac{1}{p(1 + \log p / \log a)} \to 1/p$ as $a \to \infty$.
-Hence $C(a) \geq 1/(2(1+\log 2/\log a)) + 1/(3(1 + \log 3/\log a)) + 1/(5(1 + \log 5/\log a)) \to 1/2 + 1/3 + 1/5 = 31/30$. $\square$
+Each term $\frac{1}{p(1 + \log p / \log a)}$ is strictly increasing in $a$ and approaches $1/p$ as $a \to \infty$.
+So the right-hand side approaches $1/2 + 1/3 + 1/5 = 31/30 > 1$ from below.
+Hence for all sufficiently large $a$, $C(a) > 31/30 - \varepsilon > 1$. $\square$
 
 **Corollary**: For all $a \geq x$ with $x$ sufficiently large, $C(a) > 1$.
 Concretely, at $\log a = 100$ (natural log, using $\log 2 \approx 0.693$, $\log 3 \approx 1.099$,
