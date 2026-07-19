@@ -1202,10 +1202,10 @@ So the right-hand side approaches $1/2 + 1/3 + 1/5 = 31/30 > 1$ from below.
 Hence for all sufficiently large $a$, $C(a) > 31/30 - \varepsilon > 1$. $\square$
 
 **Corollary**: For all $a \geq x$ with $x$ sufficiently large, $C(a) > 1$.
-Concretely, at $\log a = 100$ (natural log, using $\log 2 \approx 0.693$, $\log 3 \approx 1.099$,
-$\log 5 \approx 1.609$):
-$$C(a) \geq \frac{100}{2(100 + 0.693)} + \frac{100}{3(100 + 1.099)} + \frac{100}{5(100 + 1.609)}
-= \frac{100}{201.386} + \frac{100}{303.297} + \frac{100}{508.045}
+Concretely, at $\log a = 100$ (natural log, using $\log 2 \approx 0.6931$, $\log 3 \approx 1.0986$,
+$\log 5 \approx 1.6094$):
+$$C(a) \geq \frac{100}{2(100 + 0.6931)} + \frac{100}{3(100 + 1.0986)} + \frac{100}{5(100 + 1.6094)}
+= \frac{100}{201.386} + \frac{100}{303.296} + \frac{100}{508.047}
 \approx 0.4966 + 0.3297 + 0.1968 = 1.023 > 1. \quad \square$$
 
 ### 14.3 Conditional two-stratum bound via C(a) > 1
