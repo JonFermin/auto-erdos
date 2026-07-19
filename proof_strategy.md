@@ -578,10 +578,13 @@ Since $am \geq a \cdot m \geq a \cdot 2$ and $\log(am) \geq \log m$, we have
 $1/(am\log(am)) \leq 1/(am\log m)$, giving
 $$W_k(a) \leq \frac{1}{a} \sum_{\substack{m \geq 2 \\ \Omega(m) = k-j}}
 \frac{1}{m\log m} \leq \frac{T_{k-j}(2)}{a},$$
-where $T_{k-j}(2) := \sum_{\Omega(m)=k-j} \frac{1}{m\log m}$ is the $(k-j)$-stratum sum.
+where $T_{k-j}(2) := \sum_{\Omega(m)=k-j} \frac{1}{m\log m}$ is the $(k-j)$-stratum sum
+(this definition is notation only — we do not claim $T_{k-j}(2) < \infty$ here;
+by F3, $T_{k-j}(2) < \infty$ for sufficiently large $k-j$; for small $k-j$,
+finiteness is OPEN from F1/F2/F3 alone).
 
 **Direction note**: The bound $W_k(a) \leq T_{k-j}(2)/a$ is an UPPER bound on the
-blocked weight from element $a$. An upper bound on each $W_k(a)$ yields an
+blocked weight from element $a$, useful only when $T_{k-j}(2) < \infty$. An upper bound on each $W_k(a)$ yields an
 upper bound on the total blocked weight:
 $$\text{total blocked weight} \leq \sum_{a \in A^{(j)}} \frac{T_{k-j}(2)}{a} = T_{k-j}(2) \cdot S_j.$$
 
