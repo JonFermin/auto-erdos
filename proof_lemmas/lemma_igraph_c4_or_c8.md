@@ -49,22 +49,32 @@ $\{u_b, u_{a+b}\}$ are distinct because $\{0,a\} \cap \{b, a+b\} =
 $8$-cycle. $\square$
 
 **Sandbox-checkable core.** The entire content of the proof beyond
-edge-by-edge inspection is the residue-distinctness claim of Case 2. It
-is expressible with `math`-plus-basic-builtins only (no graph
-construction needed) as the single expression
+edge-by-edge membership inspection is (i) the residue-distinctness claim
+of Case 2 and (ii) distinctness of the two outer edges and of the two
+inner edges as unordered pairs. Both are expressible with the
+aggregator's allowed builtins only — `set`, `len`, `min`, `max`,
+`range`, `all` (note: `frozenset`, `sorted`, `bin` are NOT available in
+the aggregator sandbox; unordered pairs are encoded as
+`(min(x,y),max(x,y))` tuples) — as the single complete expression
 
 ```
-all((b%m==a%m or (a+b)%m==0) or len({0,a%m,b%m,(a+b)%m})==4
-    for m in range(3,30) for a in range(1,m) for b in range(1,m)
+all((b%m==a%m or (a+b)%m==0) or (len({0,a%m,b%m,(a+b)%m})==4
+    and len({(min(0,a%m),max(0,a%m)),(min(b%m,(a+b)%m),max(b%m,(a+b)%m))})==2
+    and len({(min(a%m,(a+b)%m),max(a%m,(a+b)%m)),(min(0,b%m),max(0,b%m))})==2)
+    for m in range(3,25) for a in range(1,m) for b in range(1,m)
     if (2*a)%m!=0 and (2*b)%m!=0)
 ```
 
-which evaluates True (verified in the aggregator sandbox). Re-deriving
-the edge membership itself requires building the lift graph, which does
-not fit a one-line sandbox expression; that part is covered by the CHECK
-blocks below (probe 1 validates edges and distinctness on all simple
-$I(m,a,b)$, $m \le 60$; probe 2 cross-checks against exhaustive search
-for $m \le 12$).
+which evaluates True (verified in the aggregator sandbox; 300 chars).
+This is the complete one-line re-derivation — spoke-edge distinctness is
+immediate from residue-distinctness, and edge MEMBERSHIP (that
+$u_ju_{j+a}$, $v_jv_{j+b}$, $u_jv_j$ are edges) is definitional for the
+I-graph, so nothing further is one-line checkable. Re-deriving edge
+membership independently requires building the lift graph, which cannot
+fit a sandbox expression; that part is covered by the CHECK blocks below
+(probe 1 validates edges and distinctness on all simple $I(m,a,b)$,
+$m \le 60$; probe 2 cross-checks against exhaustive search for
+$m \le 12$).
 
 **Remarks.**
 
