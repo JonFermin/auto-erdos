@@ -1137,3 +1137,114 @@ the fact that elements of a primitive set are "spread out" in their prime factor
 | Conjecture holds for $S$ by direct computation | $S(S) \approx 0.185 \ll 1$ |
 | Injection direction (Sections 11–12) | CLOSED as complete proof path |
 | Next direction: analytic bound on $F_A(t)$ without injection | Proposed (Q22) |
+
+---
+
+## Section 14 — Compensation Factor and Adjacent-Stratum Bound (Q22)
+
+This section introduces the **compensation factor** $C(a)$ — the ratio of blocked weight
+in $\mathcal{A}_k$ to the own weight of $a \in \mathcal{A}_{k-1}$ — and shows by elementary
+arithmetic that $C(a) \to 31/30 > 1$ as $a \to \infty$. A conditional two-stratum bound
+follows. The double-counting obstacle is documented, motivating Q23.
+
+### 14.1 Setup: adjacent strata and the blocking structure
+
+Fix primitive $A \subseteq \mathcal{A}_{k-1}(x) \cup \mathcal{A}_k(x)$ with $k = k^*$.
+Write $A_{k-1} = A \cap \mathcal{A}_{k-1}(x)$ and $A_k = A \cap \mathcal{A}_k(x)$.
+
+By primitivity: for every $a \in A_{k-1}$ and every prime $p$, the element $ap$
+(which has $\Omega(ap) = \Omega(a)+1 = k$ and $ap \geq 2x \geq x$) satisfies
+$a \mid ap$ and $a \in A$, so $ap \notin A$ and hence $ap \notin A_k$.
+
+Define the **blocked set**: $B = \{ap : a \in A_{k-1},\; p \text{ prime}\} \cap \mathcal{A}_k(x)$.
+Every element of $B$ is excluded from $A_k$, so:
+$$S_k(A_k) \leq T_k(x) - \sum_{b \in B} \frac{1}{b \log b}.$$
+
+### 14.2 Compensation factor (elementary computation)
+
+For each $a \in A_{k-1}$ and prime $p$, the element $ap$ contributes weight $1/(ap\log(ap))$
+to the blocked set. Define the **compensation factor**:
+$$C(a) := \frac{\text{blocking weight from } a}{\text{own weight of } a}
+= \frac{\sum_{p \text{ prime}} \frac{1}{ap\log(ap)}}{\frac{1}{a\log a}}
+= \log a \cdot \sum_{p \text{ prime}} \frac{1}{p(\log a + \log p)}.$$
+
+**Claim (elementary arithmetic)**: $C(a) \to \frac{1}{2} + \frac{1}{3} + \frac{1}{5} = \frac{31}{30} > 1$ as $a \to \infty$.
+
+*Proof*: Taking only $p \in \{2, 3, 5\}$ (a lower bound since all terms are positive):
+$$C(a) \geq \frac{\log a}{2(\log a + \log 2)} + \frac{\log a}{3(\log a + \log 3)} + \frac{\log a}{5(\log a + \log 5)}.$$
+Each term has the form $\frac{1}{p(1 + \log p / \log a)} \to 1/p$ as $a \to \infty$.
+Hence $C(a) \geq 1/(2(1+\log 2/\log a)) + 1/(3(1 + \log 3/\log a)) + 1/(5(1 + \log 5/\log a)) \to 1/2 + 1/3 + 1/5 = 31/30$. $\square$
+
+**Corollary**: For all $a \geq x$ with $x$ sufficiently large (so $\log x \geq T^*$ where
+$T^* \approx 100$ suffices), $C(a) > 1$. Concretely, at $\log a = 100$:
+the lower bound evaluates to $100/200.69 + 100/301.10 + 100/501.61 \approx 0.498 + 0.332 + 0.199 = 1.029 > 1$. $\square$
+
+### 14.3 Conditional two-stratum bound via C(a) > 1
+
+**Theorem (conditional on no double-counting)**: If the map $a \mapsto \{2a, 3a, 5a\}$
+from $A_{k-1}$ to blocked elements is injective on average (precisely: 
+$\sum_{b \in B} 1/(b \log b) \geq \sum_{a \in A_{k-1}} 1/(a \log a)$), then for sufficiently
+large $x$:
+$$S(A) = S_{k-1}(A_{k-1}) + S_k(A_k) \leq S_{k-1}(A_{k-1}) + T_k(x) - S_{k-1}(A_{k-1}) = T_k(x) \leq 1 + o(1).$$
+
+*Proof of conditional step*: From Section 14.1, $S_k(A_k) \leq T_k(x) - \sum_{b \in B} 1/(b\log b)$.
+If $\sum_{b\in B} 1/(b\log b) \geq S_{k-1}(A_{k-1})$ (the hypothesis), then
+$S_k(A_k) \leq T_k(x) - S_{k-1}(A_{k-1})$,
+giving $S(A) = S_{k-1} + S_k \leq T_k(x) \leq 1 + o(1)$ by Section 7. $\square$
+
+The hypothesis "$\sum_{b\in B} \geq S_{k-1}(A_{k-1})$" is implied by $C(a) > 1$ for each $a$
+if there is NO double-counting in $B$.
+
+### 14.4 Double-counting obstacle
+
+**Obstacle**: Multiple elements $a, a' \in A_{k-1}$ may block the same $b \in \mathcal{A}_k(x)$.
+Specifically: $2a = 3a'$ when $a = 3m$, $a' = 2m$ for some integer $m$
+(both can be in $A_{k-1}$ since $2m \nmid 3m$ and $3m \nmid 2m$).
+In this case the element $6m$ is double-counted: blocked by both $a$ and $a'$.
+
+The simple injective map $a \mapsto 2a$ (which IS injective) gives:
+$$\sum_{b \in B} \frac{1}{b\log b} \geq \sum_{a \in A_{k-1}} \frac{1}{2a\log(2a)}
+= \sum_{a \in A_{k-1}} \frac{1}{2a(\log 2 + \log a)},$$
+and the ratio to own weight $1/(a\log a)$ is $\log a / (2(\log 2 + \log a)) \to 1/2 < 1$.
+So the $p=2$-only bound is insufficient.
+
+To get ratio $> 1$, we need either:
+- all three primes $\{2, 3, 5\}$ with no double-counting, OR
+- a separate analysis of the double-counted elements showing they contribute negligibly.
+
+### 14.5 Bounding the double-counting correction
+
+**Lemma**: The collision weight (elements of $B$ blocked by $\geq 2$ elements of $A_{k-1}$
+using primes $\{2, 3\}$) satisfies:
+$$\text{collision weight} = \sum_{\substack{m:\, 2m,\, 3m \in A_{k-1}}} \frac{1}{6m\log(6m)}
+\leq \frac{1}{2} \cdot \sum_{\substack{m:\, 2m,\, 3m \in A_{k-1}}} \frac{1}{3m\log(3m)}.$$
+
+*Proof*: $\log(6m) = \log 6 + \log m > \log 3 + \log m = \log(3m)$, so $1/(6m\log 6m) < 1/(6m\log 3m)
+= (1/2)\cdot 1/(3m\log 3m)$. $\square$
+
+The right-hand side is at most $(1/2) \cdot S_{k-1}(A_{k-1})$, so the collision correction
+is at most half the primary term. After accounting for collisions:
+$$\sum_{b \in \{2a\}\cup\{3a\}} \frac{1}{b\log b} \geq \sum_a \frac{1}{2a\log 2a} + \sum_a \frac{1}{3a\log 3a} - \frac{1}{2} S_{k-1}(A_{k-1}).$$
+As $a \to \infty$: the sum $\sum_a [1/(2a\log 2a) + 1/(3a\log 3a)] \to (1/2 + 1/3) S_{k-1}(A_{k-1}) = (5/6) S_{k-1}$, and $(5/6) - 1/2 = 1/3 < 1$.
+
+Still insufficient: $p=2$ and $p=3$ together give effective ratio $5/6 - 1/2 = 1/3 < 1$.
+Adding $p=5$ and bounding its collision correction similarly would give effective ratio
+$(1/2+1/3+1/5) - (\text{corrections}) = 31/30 - \text{corrections}$; if corrections
+$< 1/30$, the argument closes. This requires bounding the total collision weight among
+primes $\{2, 3, 5\}$, which depends on how many pairs $(a, a')$ with $pa = qa'$ for
+$p \neq q \in \{2, 3, 5\}$ exist in $A_{k-1}$.
+
+### 14.6 Summary of Q22 findings
+
+| Component | Status |
+|---|---|
+| Compensation factor $C(a) \to 31/30 > 1$ as $a \to \infty$ | **Proved** (elementary arithmetic) |
+| Conditional two-stratum bound: $C(a)>1 \Rightarrow S(A) \leq T_k(x)$ | **Proved conditional** |
+| $p=2$ injection gives ratio $\to 1/2 < 1$ | **Proved** (insufficient alone) |
+| Collision correction $\leq (1/2) \cdot$ collision source weight | **Proved** |
+| Combined $\{2,3,5\}$ correction $< 1/30$ to close argument | **OPEN** (Q23) |
+
+**Status**: The compensation approach gives $C(a) \to 31/30 > 1$, establishing that
+for large $x$ each element of $A_{k-1}$ blocks more than its own weight in principle.
+The double-counting correction needs to be bounded below $1/30$ of $S_{k-1}(A_{k-1})$.
+Q23 will bound the collision terms via the primitivity constraint on $A_{k-1}$.
