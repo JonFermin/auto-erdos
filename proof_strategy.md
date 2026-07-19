@@ -1347,3 +1347,77 @@ Any such $F4$ is necessarily a non-trivial number-theoretic input.
 | $\sum_{k < k^*(x)} S_k(A,x) \to 0$ | **Partial** | Follows from fixed-$k$ vanishing when strata occupied are bounded; unbounded case OPEN |
 | $\sum_{k \geq k^*(x)} S_k(A,x) \leq 1+o(1)$ | **OPEN** | Requires prime-distribution (Q23) |
 | Full conjecture $S(A) < 1 + o(1)$ | **OPEN** | Same barrier |
+
+---
+
+## Section 16 — Conjecture Proved for Single-Stratum Primitive Sets (Q23 partial)
+
+This section proves the conjecture in the special case where A occupies a SINGLE
+$\Omega$-stratum and that stratum grows with $x$. This is a genuine partial result.
+
+### 16.1 The single-stratum case (proved)
+
+**Proposition (conjecture for single-stratum A)**: Let $k = k(x)$ be a positive integer
+depending on $x$. Suppose $A \subseteq \{n \geq x : \Omega(n) = k(x)\}$ is primitive
+and $k(x) \to \infty$ as $x \to \infty$. Then:
+$$\sum_{a \in A} \frac{1}{a \log a} \leq T_{k(x)}(2) < 1 + o(1) \quad \text{as } x \to \infty.$$
+In fact, $T_{k(x)}(2) < 1$ strictly for all sufficiently large $k(x)$, giving the
+sharper bound $\sum_{a \in A} 1/(a \log a) < 1 < 1 + o(1)$.
+
+*Proof*: Since $A \subseteq \{n \geq x : \Omega(n) = k(x)\}$, all elements of $A$
+lie in the $k(x)$-stratum from $x$:
+$$\sum_{a \in A} \frac{1}{a \log a} = S_{k(x)}(A, x) \leq T_{k(x)}(x) \leq T_{k(x)}(2).
+\tag{1}$$
+The first inequality is the stratification bound (Section 2, Lemma `stratum_sub_bound`,
+proved). The second is the sub-sum inequality $T_{k(x)}(x) \leq T_{k(x)}(2)$.
+
+By F3, since $k(x) \to \infty$:
+$$T_{k(x)}(2) = 1 - (c + o(1))\frac{k(x)^2}{2^{k(x)}} \to 1 \quad \text{from below}.$$
+In particular, $T_{k(x)}(2) < 1$ for all sufficiently large $k(x)$ (since $c > 0$
+and $k(x)^2 / 2^{k(x)} > 0$). Combining with (1): $S(A) \leq T_{k(x)}(2) < 1 < 1 + o(1)$.
+$\square$
+
+### 16.2 What this does and does not prove
+
+**What is proved**: The conjecture $S(A) < 1 + o(1)$ holds when $A$ is confined to a
+SINGLE $\Omega$-stratum $k(x) \to \infty$. In this case, the bound is even $S(A) < 1$
+(strictly less than 1, not just $< 1 + o(1)$).
+
+The single-stratum case uses two facts:
+- **Stratum sub-bound** (proved from definitions): $S_k(A,x) \leq T_k(x) \leq T_k(2)$.
+- **F3** (given): $T_k(2) < 1$ for all sufficiently large $k$.
+
+**What remains open**: The conjecture for primitive sets that SPAN multiple strata,
+particularly when some strata $k < k(x)$ are occupied (contributing $T_k(x)$ terms
+that do not vanish quickly) and when many high strata $k \geq k(x)$ are simultaneously
+occupied (contributing $T_k(2) \approx 1$ each). See Section 15 for the barrier analysis.
+
+### 16.3 Extension to finitely many growing strata (proved)
+
+**Corollary**: Fix a positive integer $M$ (not depending on $x$). Let $k_1(x) < k_2(x) <
+\cdots < k_M(x)$ be a finite set of strata all tending to $\infty$ as $x \to \infty$.
+If $A \subseteq \{n \geq x : \Omega(n) \in \{k_1(x), \ldots, k_M(x)\}\}$, then:
+$$\sum_{a \in A} \frac{1}{a \log a} \leq \sum_{j=1}^{M} T_{k_j(x)}(2) \to M \cdot 1 = M \quad \text{(from below)}.$$
+
+In particular, for FIXED $M$, this is $< M + o(1)$ and NOT a proof of $< 1 + o(1)$ for $M \geq 2$.
+
+**When M = 1**: the Proposition above gives $S(A) < 1 + o(1)$. ✓
+
+**When M is fixed but $\geq 2$**: the bound gives $S(A) < M + o(1)$. This is NOT the
+conjecture (which requires the bound to be $< 1 + o(1)$, independent of $M$). The
+difficulty with $M \geq 2$ strata is that primitivity across strata must be used to
+show that not all strata can simultaneously contribute $T_{k_j(x)}(2) \approx 1$.
+
+This confirms that for any FINITE number of strata, the proof gap is "bounded M strata
+each contributing up to $T_{k_j}(2) \to 1$", giving a total $\approx M$. The conjecture
+requires total $< 1 + o(1)$, which means the multi-stratum interaction via primitivity
+must reduce the effective contribution. This is the core open problem (Section 15, Q23).
+
+### 16.4 Summary
+
+| Case | Status | Source |
+|---|---|---|
+| Single stratum $k \to \infty$: $S(A) < 1$ | **Proved** | F3 + stratum sub-bound |
+| Fixed $M$ strata, all $k_j \to \infty$: $S(A) < M$ | **Proved** | F3 + stratum sub-bound (but $M \geq 2$ exceeds conjecture bound) |
+| Finitely many strata, $k$ bounded: $S(A) < \infty$ | **Proved** | F1 applied to each stratum (each $T_k < e^\gamma\pi/4$) |
+| Infinitely many strata (general case): $S(A) < 1 + o(1)$ | **OPEN** | Requires cross-stratum primitivity control (Q23) |
