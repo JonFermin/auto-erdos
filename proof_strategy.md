@@ -1274,20 +1274,22 @@ facts can be added as additional given facts to close the argument.
 
 ## Section 15: High-Stratum Structure and the k*(x) Threshold
 
-Define $k^*(x) = \lfloor \log_2 x \rfloor$ for $x \geq 2$.  This is the unique
-integer satisfying $2^{k^*(x)} \leq x < 2^{k^*(x)+1}$.
+Define $k^*(x) = \lceil \log_2 x \rceil$ for $x \geq 2$, consistent with
+Section 10.  This is the smallest integer with $2^{k^*(x)} \geq x$.
 
 ### 15.1 Structural observation
 
-For $k \geq k^*(x) + 1$, every $k$-almost prime satisfies $n \geq 2^k > x$,
-so $\mathcal{A}_k(x) = \mathcal{A}_k(2)$ and hence $T_k(x) = T_k(2)$.  In
-other words, strata with $k > k^*(x)$ are **unaffected** by the truncation
-to $[x, \infty)$: every $k$-almost prime already lies in $[x, \infty)$.
+For $k \geq k^*(x)$, every $k$-almost prime satisfies $n \geq 2^k \geq x$,
+so $\mathcal{A}_k(x) = \mathcal{A}_k(2)$ and hence $T_k(x) = T_k(2)$.
+Strata with $k \geq k^*(x)$ are **unaffected** by the truncation to
+$[x, \infty)$: every $k$-almost prime already lies in $[x, \infty)$.
 
-By contrast, for $k \leq k^*(x)$, the stratum $\mathcal{A}_k(x)$ strictly
-excludes the small $k$-almost primes below $x$, so $T_k(x) < T_k(2)$.
-As $x \to \infty$, $T_k(x) \to 0$ for each fixed $k$ (Section 3 / F2), so
-low strata contribute vanishing weight.
+By contrast, for $k < k^*(x)$, the stratum $\mathcal{A}_k(x)$ strictly
+excludes the $k$-almost primes below $x$, so $T_k(x) < T_k(2)$.
+Whether $T_k(x) \to 0$ as $x \to \infty$ (for fixed $k$) requires
+$T_k(2) < \infty$, which for small fixed $k$ is OPEN from F1/F2/F3
+(see Sections 6.1, 6.2, 7); for large fixed $k$ (F3 applies) the finiteness
+follows and $T_k(x) \to 0$.
 
 ### 15.2 Partial result: single-stratum families with $k \to \infty$
 
