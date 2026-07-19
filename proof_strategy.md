@@ -795,3 +795,109 @@ sets). Neither F1 alone nor F3 alone closes this gap; F1 gives 1.399, and F3 sho
 the supremum is bounded below by values approaching 1, but neither pins the supremum
 to exactly 1.
 
+---
+
+## Section 11 — Integral Representation and Benchmark Analysis (Q19)
+
+This section introduces the integral representation of $1/(n\log n)$, identifies the
+correct extremal benchmark for the restricted problem ($A \subset [x, \infty)$),
+and proposes the exchange-injection reduction as a logical next direction.
+No resolution of the conjecture is claimed.
+
+### 11.1 Integral representation (Q19-Lemma-A, status: proved)
+
+**Lemma**: For any integer $n \geq 2$,
+$$\frac{1}{n \log n} = \int_1^\infty n^{-t}\,dt.$$
+
+*Proof*: $\int_1^\infty e^{-t\log n}\,dt
+= \bigl[-e^{-t\log n}/\log n\bigr]_{t=1}^{\infty}
+= 0 - (-1/\log n)\cdot e^{-\log n}
+= 1/(n\log n)$.
+Valid for all $n \geq 2$ since $\log n > 0$. $\square$
+
+**Corollary (series form)**: By Tonelli's theorem (all summands non-negative), for
+any primitive $A \subset [x,\infty)$:
+$$S(A, x) = \sum_{a \in A} \frac{1}{a \log a} = \int_1^\infty F_A(t)\,dt,
+\qquad F_A(t) := \sum_{a \in A} a^{-t}.$$
+
+For each fixed $t > 1$, the series $F_A(t)$ converges (bounded by $\zeta(t)$).
+The conjecture $S(A,x) < 1 + o(1)$ is equivalent to $\int_1^\infty F_A(t)\,dt < 1 + o(1)$.
+
+### 11.2 Correct extremal benchmark for $A \subset [x,\infty)$
+
+Section 10 establishes that, for $k^* = \lceil\log_2 x\rceil$, the primitive set
+$\mathcal{A}_{k^*}(x)$ (all $k^*$-almost primes) lies entirely in $[x,\infty)$ and
+satisfies $S(\mathcal{A}_{k^*}(x)) = T_{k^*}(2) \to 1$ from below (as $k^*\to\infty$,
+equivalently $x\to\infty$).
+
+This establishes $\sup_{A \subset [x,\infty),\,\text{primitive}} S(A,x) \geq T_{k^*}(2)$,
+with the left side approaching 1 from below. Accordingly, the relevant benchmark for
+the restricted problem is $T_{k^*}(2)$, NOT the prime-tail $\sum_{p \geq x} 1/(p\log p)$.
+The prime-tail is a tail of the convergent series $\sum_p 1/(p\log p)$ and tends to 0,
+while the $k^*$-stratum example has sum tending to 1. No comparison between an arbitrary
+primitive $A \subset [x,\infty)$ and $\sum_{p\geq x} 1/(p\log p)$ is claimed.
+
+### 11.3 Exchange reduction (conditional, Q19)
+
+**Definition**: A *weight-preserving injection* from $A$ to $\mathcal{A}_{k^*}(x)$
+is an injection $\varphi: A \hookrightarrow \mathcal{A}_{k^*}(x)$ such that:
+$$\sum_{a \in A} \frac{1}{a \log a} \leq \sum_{b \in \varphi(A)} \frac{1}{b \log b}.$$
+(The image set carries at least as much weight as $A$.)
+
+**Lemma (conditional)**: If a weight-preserving injection $\varphi$ exists for all
+primitive $A \subset [x,\infty)$ and all sufficiently large $x$, then the conjecture holds:
+for all such $A$ and $x$, $S(A,x) \leq T_{k^*}(2)$.
+
+*Proof*: $S(A,x) \leq \sum_{b \in \varphi(A)} 1/(b\log b) \leq T_{k^*}(2)$
+(since $\varphi(A) \subseteq \mathcal{A}_{k^*}(x)$ and all terms are non-negative). $\square$
+
+Here $T_{k^*}(2) = 1 - (c+o(1))k^{*2}/2^{k^*}$ by F3 (asymptotic, valid for large $k^*$,
+i.e., large $x$), so $S(A,x) \leq T_{k^*}(2) < 1 + o(1)$ for all sufficiently large $x$,
+matching the conjecture. (F3 is an asymptotic statement and does not pin $T_{k^*}(2)$
+relative to 1 for small $k^*$; the conjecture's claim is only for $x \to \infty$.)
+
+**Status of the weight-preserving injection**: OPEN. No such injection is constructed here.
+
+### 11.4 Why natural constructions fail
+
+**Promotion (for $\Omega(a) = j < k^*$)**: Map $a \mapsto am_a$ where $m_a$ is any
+$(k^*-j)$-almost prime coprime to $a$. Then $\varphi(a) = am_a \in \mathcal{A}_{k^*}(x)$.
+But $am_a \geq 2a$, so $1/(am_a\log(am_a)) < 1/(a\log a)$. Promotion DECREASES weight
+per element, giving the OPPOSITE inequality to what is needed for a weight-preserving
+injection. More precisely, this "injection" (if injective) would give
+$\sum_a 1/(a\log a) \geq \sum_b 1/(b\log b)$, the wrong direction.
+
+**Demotion (for $\Omega(a) = j > k^*$)**: Map $a \mapsto a/d$ where $d | a$
+and $\Omega(a/d) = k^*$. Then $a/d < a$, so $1/((a/d)\log(a/d)) > 1/(a\log a)$ —
+the weight INCREASES, which is the CORRECT direction. However:
+- Multiple $a \in A^{(j)}$ may demote to the same $k^*$-almost prime $b = a/d = a'/d'$
+  (e.g., $a = 12 = 2^2 \cdot 3$ and $a' = 18 = 2 \cdot 3^2$, both demoting by removing
+  one prime to give $b = 6 = 2 \cdot 3$). Injectivity FAILS without additional
+  structure from primitivity.
+- For $a$ and $a'$ with $a | a'$ (which is FORBIDDEN by primitivity), the demotion paths
+  are constrained. Primitivity prevents certain collisions but may not prevent all.
+  Whether primitivity is sufficient for injectivity of the demotion map is unresolved.
+
+**Summary of construction failures**:
+- Promotion: wrong direction (weight-decreasing, not weight-preserving).
+- Demotion: correct direction but injectivity under primitivity is unresolved.
+The weight-preserving injection for a general multi-stratum primitive $A$
+requires either a novel construction or a proof that no such injection exists
+(and the conjecture requires a different proof strategy).
+
+### 11.5 Summary of Q19 findings
+
+| Component | Status |
+|---|---|
+| Integral representation $1/(n\log n) = \int_1^\infty n^{-t}\,dt$ | Proved (Section 11.1) |
+| Extremal benchmark for $[x,\infty)$: $k^*$-stratum, not primes | Identified (Sections 10, 11.2) |
+| Conditional: weight-preserving injection $\Rightarrow$ conjecture | Proved conditional (Section 11.3) |
+| Promotion (low $\to$ high stratum): weight-decreasing | Dead end documented (Section 11.4) |
+| Demotion (high $\to$ low stratum): injectivity under primitivity | Open (Section 11.4) |
+
+The exchange-injection approach is unresolved. The demotion direction (high stratum
+elements mapped to $k^*$-almost primes via removal of prime factors) is the more
+promising candidate: it gives the correct weight direction and the injectivity
+obstacle may be addressable via the primitivity constraint. This direction is
+proposed for future sessions.
+
