@@ -199,7 +199,7 @@ Let $S_1 := \sum_{a \in A_1} \frac{1}{a \log a}$ and
 $S_2 := \sum_{a \in A_2} \frac{1}{a \log a}$.
 
 **Upper bound on $S_1$**: Since $A_1 \subset [x, \infty)$ is a primitive set,
-F1 gives $S_1 < e^\gamma \frac{\pi}{4} + o(1)$ (o(1) as $x \to \infty$).
+F1 gives $S_1 < e^\gamma \frac{\pi}{4} + o(1)$ (F1 applies to any primitive $A_1 \subseteq \mathbb{N}$; the o(1) is F1's own error term, independent of $x$).
 (Here and throughout Section 4, $\log = \ln$ denotes the natural logarithm.)
 A finer bound via basic integral comparison is in `proof_lemmas/lemma_s1_bound.md`.
 
@@ -288,7 +288,7 @@ $A_2$ is itself a primitive set, and controlling $\sum_{b \in A_2} 1/(b \log b)$
 requires precisely the structural insight we need for $A$. The only available
 non-trivial global upper bound for any primitive set is F1 (Erdős–Zhang),
 which gives $S_2 < e^\gamma \pi/4 + o(1)$ by F1 (applied to the primitive set $A_2 \subset [x^e,\infty) \subseteq \mathbb{N}$; F1 applies since $A_2$ is primitive).
-Combined with $S_1 < e^\gamma \pi/4 + o(1)$ (o(1) as $x \to \infty$, F1 applied to the primitive set $A_1$), this gives
+Combined with $S_1 < e^\gamma \pi/4 + o(1)$ (F1 applied to the primitive set $A_1 \subseteq \mathbb{N}$; the o(1) is F1's absolute error term), this gives
 $S_1 + S_2 < 2(e^\gamma \pi/4) + o(1)$ — weaker than F1 applied directly to $A$, and not
 a proof of the conjecture. No recursive application closes the gap.
 
@@ -373,7 +373,7 @@ A YES answer would close the conjecture; the existence of such $f$ is not known.
 ### 5.4 Current status and next steps
 
 What is proved (combining Sections 2–4):
-- $S_1 < e^\gamma \pi/4 + o(1)$ (F1 applied to primitive set $A_1 \subset [x,\infty)$; o(1) as $x \to \infty$)
+- $S_1 < e^\gamma \pi/4 + o(1)$ (F1 applied to primitive set $A_1 \subset [x,\infty) \subseteq \mathbb{N}$; o(1) is F1's absolute bound, not $x$-dependent)
 - $S_2 < e^\gamma \pi/4 + o(1)$ (F1 applied directly: $A_2 \subset [x^e,\infty) \subseteq \mathbb{N}$ is a primitive set, so F1 applies)
 - The combined bound $S_1 + S_2 < 2(e^\gamma \pi/4) + o(1)$ (weaker than F1 directly)
 
@@ -490,7 +490,7 @@ analytic input beyond F1/F2/F3; this case remains open.
 
 What the analysis achieves (combining all sections):
 - **Sections 2–3**: Per-stratum bounds; each $S_k < 1$; summing diverges.
-- **Section 4**: Trading decomposition; $S_1 < e^\gamma\pi/4 + o(1)$ (o(1) as $x \to \infty$) by F1.
+- **Section 4**: Trading decomposition; $S_1 < e^\gamma\pi/4 + o(1)$ by F1 (o(1) is F1's absolute term).
 - **Section 5**: Blocking density; $S_2$ open.
 - **Section 6, Lemma `low_stratum_vanish`**: For $\Omega(a) \leq K$ (fixed),
   $S = o(1)$ — conjecture holds easily.
@@ -583,8 +583,8 @@ a \nmid n \text{ for all } a \in A^{(j)}\bigr\}.$$
 
 For each $a \in A^{(j)}$, define the blocked weight:
 $$W_k(a) := \sum_{\substack{m \geq 2 \\ \Omega(m) = k-j}} \frac{1}{am \cdot \log(am)}.$$
-Since $am \geq a \cdot m \geq a \cdot 2$ and $\log(am) \geq \log m$, we have
-$1/(am\log(am)) \leq 1/(am\log m)$, giving
+Since $a \geq 2$ and $m \geq 2$, we have $am \geq 2m > m > 0$, so $\log(am) > \log(m) > 0$.
+Thus $am\log(am) > am\log(m)$, giving $1/(am\log(am)) < 1/(am\log m)$, so
 $$W_k(a) \leq \frac{1}{a} \sum_{\substack{m \geq 2 \\ \Omega(m) = k-j}}
 \frac{1}{m\log m} \leq \frac{T_{k-j}(2)}{a},$$
 where $T_{k-j}(2) := \sum_{\Omega(m)=k-j} \frac{1}{m\log m}$ is the $(k-j)$-stratum sum
@@ -714,7 +714,7 @@ $j, j+d \to \infty$ with fixed gap $d$ CANNOT be closed by this approach.
 The analysis above pinpoints the obstruction:
 - From Section 8, the cross-blocking upper bound gives $W_k(a) \leq T_{k-j}(2)/a$.
 - The lower bound needed: $\text{total blocked} \geq 1 - T_k(2) = (c+o(1))(j+d)^2/2^{j+d}$ (by F3).
-- Required: $\sum_{a \in A^{(j)}} W_k(a) \geq (c+o(1))(j+d)^2/2^{j+d}$.
+- Unachievable requirement (Section 9.3 showed this fails for large $j$): $\sum_{a \in A^{(j)}} W_k(a) \geq (c+o(1))(j+d)^2/2^{j+d}$.
 - Since $W_k(a) \geq 0$ and $\sum_{a} W_k(a) \leq T_{k-j}(2) \cdot S_j \leq 1$,
   and the needed lower bound $c(j+d)^2/2^{j+d} \to 0$, the required bound is
   an ASYMPTOTIC estimate of blocked weight that tends to $0$ — but even this
@@ -1002,11 +1002,16 @@ and $a' \nmid a$): Need $|N(a) \cup N(a')| \geq 2$.
 - If $N(a) = N(a') = \{b\}$, then $b$ is the UNIQUE $k^*$-almost prime divisor of
   both $a$ and $a'$. So $a = b \cdot p$ and $a' = b \cdot q$ for primes $p, q$
   with $\{p\} =$ the unique prime removed from $a$, $\{q\} =$ from $a'$.
-  Then $a = bp$ and $a' = bq$. For $|N(a)| = 1$, we need $a$ to have a UNIQUE way to
-  remove one prime and land on a $k^*$-almost prime; this requires $a$ to have a prime
-  factor appearing with multiplicity 1 that is the ONLY prime factor at all. That means
-  $a = p^{k^*} \cdot q$ for primes $p, q$ (possibly $p = q$, giving $a = p^{k^*+1}$,
-  which has unique demotion $a/p = p^{k^*}$).
+  Then $a = bp$ and $a' = bq$. For $N(a) = \{b\}$ exactly (so $b$ is the UNIQUE
+  $k^*$-almost prime divisor of $a$), removing any prime $r \mid a$ must give
+  $a/r = b$ (the same element). Since $a = bp$ has prime factors from $b$ and $p$,
+  removing $p$ gives $b$, while removing a prime $r \mid b$ gives $b/r \cdot p$
+  (which is $k^*$-almost prime and DIFFERENT from $b$ unless $b/r \cdot p = b$,
+  impossible). So $|N(a)| = 1$ (i.e.\ $N(a) = \{b\}$ exactly) requires $a = p^{k^*+1}$
+  (prime power with $b = p^{k^*}$), where every demotion lands on $p^{k^*} = b$.
+  If $a = p^{k^*} \cdot q$ with $p \neq q$, then $a/q = p^{k^*}$ and
+  $a/p = p^{k^*-1}q$ are BOTH $k^*$-almost prime divisors, so $|N(a)| \geq 2$;
+  this case is handled in the second case below.
 
 **Case: $a = p^{k^*+1}$ (prime power), $a' = q^{k^*+1}$ (prime power)**:
 $N(a) = \{p^{k^*}\}$ and $N(a') = \{q^{k^*}\}$. If $p \neq q$, then $N(a) \cap N(a') = \emptyset$,
