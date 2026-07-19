@@ -46,14 +46,18 @@ of resolution may appear in this file.
   large $k$. (The formula is asymptotic; for small fixed $k$ such as $k=1$,
   $T_k(2)$ may exceed 1 and the asymptotic does not apply directly.)
 
-- **F4** (Finiteness of $T_k(2)$ for fixed $k$, additional given fact): For each
+- **F4** (Finiteness of $T_k(2)$ for fixed $k$, derived from F1): For each
   fixed $k \geq 1$, the series
   $$T_k(2) := \sum_{\substack{n \geq 2 \\ \Omega(n) = k}} \frac{1}{n \log n}$$
-  converges to a finite positive value. For large $k$ this follows from F3 ($T_k(2)
-  \approx 1 < \infty$). For small fixed $k$ (e.g.\ $k=1,2$) this is a standard
-  fact: the $k$-almost prime counting function $\pi_k(x) \sim x(\log\log x)^{k-1}/((k-1)!\log x)$
-  (Sathe--Selberg), so partial summation gives $T_k(2) < \infty$ for every fixed $k$.
-  This fact is cited as **F4** wherever $T_k(2) < \infty$ for fixed $k$ is used below.
+  is finite. *Derivation (uses only F1 and elementary arithmetic)*: The set
+  $\mathcal{A}_k = \{n \geq 2 : \Omega(n) = k\}$ is a primitive subset of $\mathbb{N}$
+  (if $n \mid m$ with $\Omega(n) = \Omega(m) = k$ and $n \neq m$, then
+  $m = n \cdot r$ with $r \geq 2$, giving $\Omega(m) \geq k+1$, a contradiction;
+  hence no element divides another). By F1 applied to the primitive set
+  $\mathcal{A}_k \subseteq \mathbb{N}$:
+  $T_k(2) = S(\mathcal{A}_k) < e^\gamma\pi/4 + o(1) < \infty.$
+  Hence $T_k(2) < \infty$ for every fixed $k \geq 1$. Cited as **F4** wherever
+  $T_k(2) < \infty$ for fixed $k$ is used below.
 
 **Anti-traps** (do not trigger):
 
@@ -65,8 +69,12 @@ of resolution may appear in this file.
 **Conceptual calibration** (not a proof): The conjecture concerns
 $A \subset [x, \infty)$ for LARGE $x$; only elements $a \geq x$ contribute.
 For large $k$ (where F3 applies), $T_k(2) < 1$ strictly (approaching 1 from below
-as $k \to \infty$), so $T_k(x) \leq T_k(2) < 1$. For each fixed $k$, the fixed-$k$
-tail behavior is treated in `proof_lemmas/lemma_large_floor_vanish.md`.
+as $k \to \infty$), so $T_k(x) \leq T_k(2) < 1$.
+(Note: $T_k(x) \leq T_k(2)$ is an arithmetic sub-sum fact, not from F3:
+$T_k(x) = \sum_{n \geq x, \Omega(n)=k} 1/(n\log n)$ is a sub-sum of
+$T_k(2) = \sum_{n \geq 2, \Omega(n)=k} 1/(n\log n)$ with additional non-negative terms.)
+For each fixed $k$, the fixed-$k$ tail behavior is treated in
+`proof_lemmas/lemma_large_floor_vanish.md`.
 The per-stratum bound $T_k(x) \leq T_k(2)$ combined with the F3 asymptotics
 is the key quantitative ingredient for the conjecture's $o(1)$ form.
 
@@ -766,17 +774,18 @@ $T_k(x) \to 0$ as $x \to \infty$ (tail of convergent series).
 
 **Theorem (Tightness)**: For each $x \geq 2$, set $k^*(x) = \lceil \log_2 x \rceil$.
 The primitive set $\mathcal{A}_{k^*}(x)$ is a subset of $[x, \infty)$ with
-$$S(\mathcal{A}_{k^*}(x)) = T_{k^*(x)}(2) = 1 - \bigl(c + o(1)\bigr)\frac{k^*(x)^2}{2^{k^*(x)}}.$$
+$$S(\mathcal{A}_{k^*}(x)) = T_{k^*(x)}(2).$$
+As $x \to \infty$, $k^*(x) \to \infty$; F3 then gives
+$T_{k^*(x)}(2) = 1 - (c+o(1))\frac{k^*(x)^2}{2^{k^*(x)}} \to 1$ from below,
+where the $o(1)$ is as $k^*(x) \to \infty$ (equivalently, as $x \to \infty$), consistent
+with the domain of F3 ($k \to \infty$).
 
-As $x \to \infty$: $k^*(x) = \lceil \log_2 x \rceil \to \infty$, so by F3:
-$$S(\mathcal{A}_{k^*}(x)) = T_{k^*}(2) \to 1 \quad \text{from below.}$$
-
-*Proof*: By Section 10.2, $T_{k^*}(x) = T_{k^*}(2)$
-(since $k^*(x) = \lceil\log_2 x\rceil$ implies $2^{k^*} \geq x$, so every
-$k^*$-almost prime satisfies $n \geq 2^{k^*} \geq x$ — arithmetic).
-By the Extremal primitivity lemma and Bound-is-achieved lemma, $\mathcal{A}_{k^*}(x)$ is
-primitive with $S = T_{k^*}(2)$. By F3 sign\_disambiguation, $T_{k^*}(2) \to 1$
-from below as $k^*(x) \to \infty$. $\square$
+*Proof*: By Section 10.2, $T_{k^*}(x) = T_{k^*}(2)$ (arithmetic: every $k^*$-almost
+prime $n \geq 2^{k^*} \geq x$ since $k^* = \lceil\log_2 x\rceil$; no lower bound
+$n \geq x$ is excluded). By the Extremal primitivity and Bound-achieved lemmas,
+$S(\mathcal{A}_{k^*}(x)) = T_{k^*}(2)$. Applying F3 with $k = k^*(x) \to \infty$
+gives $T_{k^*}(2) \to 1$ from below. (F3 is an asymptotic as $k \to \infty$; it
+applies here because $k^*(x) \to \infty$.) $\square$
 
 **Consequence (Lower bound on supremum)**: For each $x \geq 2$:
 $$\sup_{\substack{A \subset [x,\infty) \\ \text{primitive}}} S(A, x) \geq T_{\lceil \log_2 x \rceil}(2) \to 1 \quad (x \to \infty).$$
@@ -1162,9 +1171,12 @@ By primitivity: for every $a \in A_{k-1}$ and every prime $p$, the element $ap$
 (which has $\Omega(ap) = \Omega(a)+1 = k$ and $ap \geq 2x \geq x$) satisfies
 $a \mid ap$ and $a \in A$, so $ap \notin A$ and hence $ap \notin A_k$.
 
-Define the **blocked set**: $B = \{ap : a \in A_{k-1},\; p \text{ prime}\} \cap \mathcal{A}_k(x)$.
-Every element of $B$ is excluded from $A_k$, so:
+Define the **blocked set** (as a set, not multiset):
+$B = \{ap : a \in A_{k-1},\; p \text{ prime}\} \cap \mathcal{A}_k(x)$.
+Each $b \in B$ is an element excluded from $A_k$ (regardless of how many pairs $(a,p)$
+produce it). Since $A_k \subseteq \{n \geq x : \Omega(n)=k\} \setminus B$:
 $$S_k(A_k) \leq T_k(x) - \sum_{b \in B} \frac{1}{b \log b}.$$
+(The subtraction counts each blocked element $b$ exactly once; no multiplicity issue.)
 
 ### 14.2 Compensation factor (elementary computation)
 
@@ -1200,6 +1212,13 @@ If $\sum_{b\in B} 1/(b\log b) \geq S_{k-1}(A_{k-1})$ (the hypothesis), then
 $S_k(A_k) \leq T_k(x) - S_{k-1}(A_{k-1})$,
 giving $S(A) = S_{k-1} + S_k \leq T_k(x) \leq 1 + o(1)$ by Section 7. $\square$
 
+**Reconciliation with Section 9.3**: Section 9.3's conditional requires a LOWER bound
+$\delta S_j$ on the blocked weight, then concludes $S_j + S_k < 1+o(1)$ by checking an
+algebraic inequality that fails when $T_k(2) \to 1$ (F3 correction vanishes). Section 14.3's
+conditional is different: the hypothesis IS $\sum_{b\in B} \geq S_{k-1}$, and the conclusion
+$S(A) \leq T_k(x)$ gives $S(A) < 1 + o(1)$ because $T_k(x) \leq T_k(2) \to 1$ from below
+(by F3, valid since $k = k^*(x) \to \infty$). No algebraic gap from Section 9.3 appears here:
+$S_{k-1} + (T_k(x) - S_{k-1}) = T_k(x) < 1 + o(1)$ identically, regardless of $S_{k-1}$.
 The hypothesis "$\sum_{b\in B} \geq S_{k-1}(A_{k-1})$" is implied by $C(a) > 1$ for each $a$
 if there is NO double-counting in $B$.
 
