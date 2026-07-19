@@ -559,7 +559,8 @@ Hence $S = S_j + S_k = o(1) < 1 + o(1)$ (proved for large strata; OPEN for small
 **The hard case (open sub-problem)**: When both $j = j(x) \to \infty$ and
 $k = k(x) \to \infty$ as $x \to \infty$, the per-stratum bound gives
 $S \leq T_j(2) + T_k(2)$. By F3, $T_j(2) \to 1$ and $T_k(2) \to 1$ from
-below, so this bound $\to 2$, which is vacuous.
+below, so this two-stratum bound $T_j(2) + T_k(2) \to 1 + 1 = 2$, which is vacuous.
+(This is the two-term case of the diverging series from Section 3: no contradiction.)
 
 **Cross-stratum blocking (formal exploration)**:
 
