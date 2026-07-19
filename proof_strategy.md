@@ -396,8 +396,11 @@ in $T_k(x) = \sum_{n \geq x,\, \Omega(n)=k} 1/(n\log n)$ (since $A^{(k)} \subset
 
 **Why the bound vanishes**: For each fixed $k$, the set $\mathcal{A}_k := \{n : \Omega(n)=k\}$
 is a primitive set (if $n \mid m$ with $\Omega(n)=\Omega(m)=k$, then $m$ has at least
-$k+1$ prime factors — a contradiction). By F1 applied to this primitive set,
-$T_k(2) = \sum_{n \in \mathcal{A}_k} 1/(n\log n) \leq e^\gamma\pi/4 < \infty$.
+$k+1$ prime factors — a contradiction). By F1 applied to $\mathcal{A}_k \cap [2^k, \infty)$
+(which equals $\mathcal{A}_k$ since the smallest $k$-almost prime is $2^k$),
+$T_k(2) = \sum_{n \in \mathcal{A}_k} 1/(n\log n) < e^\gamma\pi/4 + o_k(1) < \infty$
+(where $o_k(1) \to 0$ as $k \to \infty$, since $\min(\mathcal{A}_k) = 2^k \to \infty$).
+In particular, $T_k(2) < \infty$ for each fixed $k$.
 Since $T_k(x)$ is the tail of the convergent series $T_k(2)$ beginning at $x$,
 tails of convergent series vanish: $T_k(x) \to 0$ as $x \to \infty$.
 Hence $\sum_{k=1}^K T_k(x) \to 0$ for any fixed $K$.
@@ -815,13 +818,17 @@ $$\frac{1}{n \log n} = \int_1^\infty n^{-t}\,dt.$$
 = 1/(n\log n)$.
 Valid for all $n \geq 2$ since $\log n > 0$. $\square$
 
-**Corollary (series form)**: By Tonelli's theorem (all summands non-negative), for
-any primitive $A \subset [x,\infty)$:
-$$S(A, x) = \sum_{a \in A} \frac{1}{a \log a} = \int_1^\infty F_A(t)\,dt,
+**Corollary (series form)**: For any primitive $A \subset [x,\infty)$,
+$S(A,x) = \sum_{a \in A} 1/(a \log a) < \infty$ (by F1, given fact). Since each term
+$1/(a \log a) = \int_1^\infty a^{-t}\,dt \geq 0$, Tonelli's theorem (interchange of
+non-negative sums and integrals is always valid) gives:
+$$S(A, x) = \sum_{a \in A} \int_1^\infty a^{-t}\,dt = \int_1^\infty \sum_{a \in A} a^{-t}\,dt
+=: \int_1^\infty F_A(t)\,dt,
 \qquad F_A(t) := \sum_{a \in A} a^{-t}.$$
 
-For each fixed $t > 1$, the series $F_A(t)$ converges (bounded by $\zeta(t)$).
-The conjecture $S(A,x) < 1 + o(1)$ is equivalent to $\int_1^\infty F_A(t)\,dt < 1 + o(1)$.
+The interchange is justified: the left side $S(A,x) < \infty$ (by F1), so the double
+integral $\int_1^\infty F_A(t)\,dt$ is finite and equal to $S(A,x)$.
+The conjecture $S(A,x) < 1 + o(1)$ is therefore equivalent to $\int_1^\infty F_A(t)\,dt < 1 + o(1)$.
 
 ### 11.2 Correct extremal benchmark for $A \subset [x,\infty)$
 
