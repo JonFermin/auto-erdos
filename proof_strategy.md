@@ -1311,3 +1311,40 @@ from F1/F2/F3 alone requires additional prime-distribution input.
 Understanding the cross-stratum weight distribution is the barrier identified
 in Q23: how weight distributes among strata for general primitive sets depends
 on prime-distribution facts beyond the current ledger.
+
+---
+
+## Section 16: Two-Stratum Structural Observation (Q24)
+
+Let $A \subseteq [x, \infty)$ be primitive with $\operatorname{supp}_\Omega(A)
+\subseteq \{j, \ell\}$ for two distinct stratum indices $j < \ell$.  Write
+$A_j = A \cap \mathcal{A}_j(x)$ and $A_\ell = A \cap \mathcal{A}_\ell(x)$.
+
+### 16.1 Stratification bound for two strata
+
+By the stratum-by-stratum bound (used throughout this strategy),
+$$S(A) \leq T_j(x) + T_\ell(x).$$
+
+### 16.2 Cross-stratum divisibility is excluded by $\Omega$
+
+Since $\Omega$ is completely additive ($\Omega(mn) = \Omega(m) + \Omega(n)$
+for all $m, n \geq 1$), any $a \mid b$ with $a \in \mathcal{A}_j$,
+$b \in \mathcal{A}_\ell$, and $a \neq b$ requires
+$\Omega(a) < \Omega(b)$, i.e.\ $j < \ell$.  Primitivity of $A$ excludes
+$a \mid b$ altogether when $j < \ell$, so $A_j$ and $A_\ell$ are
+\emph{cross-divisibility-free}: no element of $A_j$ divides any element
+of $A_\ell$.
+
+### 16.3 High-stratum component via Section 15
+
+When $\ell \geq k^*(x)$: Section 15.1 gives $T_\ell(x) = T_\ell(2)$.
+When additionally $\ell$ is large: F3 gives $T_\ell(2) < 1$.
+The high-stratum component is thus controlled by the ledger for large $\ell$.
+
+### 16.4 Low-stratum component and open status
+
+The low-stratum term $T_j(x)$ for fixed small $j$ is an open direction
+per Sections 6.1 and 6.2: whether $T_j(2)$ is finite, and whether
+$T_j(x) \to 0$ as $x \to \infty$, are not settled by F1/F2/F3.
+Consequently, controlling $T_j(x) + T_\ell(x)$ from the given facts alone
+is open.  This is the Q24 barrier.
