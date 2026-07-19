@@ -46,18 +46,12 @@ of resolution may appear in this file.
   large $k$. (The formula is asymptotic; for small fixed $k$ such as $k=1$,
   $T_k(2)$ may exceed 1 and the asymptotic does not apply directly.)
 
-- **F4** (Finiteness of $T_k(2)$ for fixed $k$, derived from F1): For each
-  fixed $k \geq 1$, the series
-  $$T_k(2) := \sum_{\substack{n \geq 2 \\ \Omega(n) = k}} \frac{1}{n \log n}$$
-  is finite. *Derivation (uses only F1 and elementary arithmetic)*: The set
-  $\mathcal{A}_k = \{n \geq 2 : \Omega(n) = k\}$ is a primitive subset of $\mathbb{N}$
-  (if $n \mid m$ with $\Omega(n) = \Omega(m) = k$ and $n \neq m$, then
-  $m = n \cdot r$ with $r \geq 2$, giving $\Omega(m) \geq k+1$, a contradiction;
-  hence no element divides another). By F1 applied to the primitive set
-  $\mathcal{A}_k \subseteq \mathbb{N}$:
-  $T_k(2) = S(\mathcal{A}_k) < e^\gamma\pi/4 + o(1) < \infty.$
-  Hence $T_k(2) < \infty$ for every fixed $k \geq 1$. Cited as **F4** wherever
-  $T_k(2) < \infty$ for fixed $k$ is used below.
+**Note on $T_k(2)$ finiteness**: For large $k$ (where F3 applies), F3 gives
+$T_k(2) = 1 - (c+o(1))k^2/2^k < \infty$; the correction $k^2/2^k \to 0$ so F3 pins
+$T_k(2)$ at a finite value approaching 1. For small fixed $k$ (e.g.\ $k=1,2$), whether
+$T_k(2) < \infty$ cannot be concluded from F1, F2, or F3 alone using only elementary
+arithmetic — this is an acknowledged gap in the bounded-stratum argument of Section 6;
+see "gap note" there.
 
 **Anti-traps** (do not trigger):
 
@@ -411,10 +405,14 @@ in $T_k(x) = \sum_{n \geq x,\, \Omega(n)=k} 1/(n\log n)$ (since $A^{(k)} \subset
 \{n \geq x : \Omega(n) = k\}$). Summing over $k = 1,\ldots, K$: $\sum_{a \in A}
 = \sum_{k=1}^K \sum_{a \in A^{(k)}} \leq \sum_{k=1}^K T_k(x)$. $\square$
 
-**Why the bound vanishes**: By F4 (additional given fact, Section 1), $T_k(2) < \infty$
-for each fixed $k \geq 1$. Since $T_k(x)$ is the tail of the convergent series $T_k(2)$
-starting at $x$, the tail $T_k(x) \to 0$ as $x \to \infty$ (tails of convergent
-series vanish). Hence $\sum_{k=1}^K T_k(x) \to 0$ for any fixed $K$.
+**Why the bound vanishes** (for large $k$; gap for small $k$): By F3, for each
+SUFFICIENTLY LARGE fixed $k$, $T_k(2) = 1-(c+o(1))k^2/2^k < \infty$, so $T_k(x) \to 0$
+as $x \to \infty$ (tail of convergent series). For small fixed $k$ (e.g.\ $k = 1$),
+$T_k(2) < \infty$ is a standard fact of analytic number theory (prime density estimates)
+but is NOT derivable from F1/F2/F3; it is cited here as an acknowledged gap.
+The bounded-stratum lemma is FULLY PROVED for strata $k \geq K_0$ where F3 applies,
+and CONDITIONAL on the analytic gap for $k < K_0$.
+Hence $\sum_{k=1}^K T_k(x) \to 0$ for any fixed $K$, subject to the gap for small $k$.
 
 **Consequence**: The conjecture holds easily (with $o(1)$ bound) whenever $A$
 is supported on strata of bounded Omega-number. The hard case requires elements
@@ -430,8 +428,9 @@ The minimum element in stratum $k$ above $x$ scales roughly as $x$ when
 $k \approx \log_2 x$ (detailed analysis deferred to
 `proof_lemmas/lemma_min_k_almost_prime.md`).
 
-For each fixed $k$: by F4 (Section 1), $T_k(2) < \infty$, so $T_k(x) \to 0$ as
-$x \to \infty$ (tail of convergent series $T_k(2)$ vanishes).
+For each fixed large $k$ (where F3 applies): $T_k(2) < \infty$ by F3, so $T_k(x) \to 0$
+as $x \to \infty$ (tail of convergent series vanishes). For small fixed $k$, this uses
+the gap noted in Section 6.1.
 
 For $k \geq \lceil\log_2 x\rceil$: any integer $n$ with $\Omega(n) = k$ has $k$
 prime factors each $\geq 2$, so $n \geq 2^k \geq x$; the lower bound $n \geq x$ in
@@ -511,11 +510,9 @@ $$S := \sum_{a \in A} \frac{1}{a \log a} < 1 + o(1) \quad (x \to \infty).$$
 
 *Case 1 ($k$ fixed as $x\to\infty$)*: For all sufficiently large fixed $k$,
 $T_k(2) < 1$ by F3 sign disambiguation, so $S \leq T_k(x) \leq T_k(2) < 1 < 1 + o(1)$.
-For small fixed $k$: By F4 (Section 1), $T_k(2) < \infty$ for each fixed $k$
-(and may exceed 1 for small $k$ as noted in Section 1, consistent with
-$e^\gamma\pi/4 \approx 1.399 > 1$).
-Thus $T_k(x)$ (tail of the convergent series $T_k(2)$ starting at $x$) $\to 0$ as
-$x \to \infty$, giving $S \leq T_k(x) = o(1) < 1 + o(1)$.
+For small fixed $k$ (where F3 does not directly apply): We need $T_k(2) < \infty$ to
+conclude $T_k(x) = o(1)$; this is the gap documented in Section 6.1. Conditioned on this
+standard fact, $T_k(x) \to 0$ (tail of convergent series), giving $S = o(1) < 1+o(1)$.
 
 *Case 2 ($k = k(x) \to \infty$)*: By F3 (asymptotic formula for large $k$): $T_k(2) =
 1 - (c + o(1))k^2/2^k$. For large $k$, $c + o(1) \to c > 0$ and $(c+o(1))k^2/2^k > 0$,
@@ -547,17 +544,19 @@ and $S_k$ analogously. By Lemma `stratum_sub_bound`, $S_j \leq T_j(x)$ and
 $S_k \leq T_k(x) \leq T_k(2)$.
 
 *Case (a): $j$ bounded (fixed as $x\to\infty$).* We have $S_j \leq T_j(x)$.
-By F4 (Section 1), $T_j(2) < \infty$ for each fixed $j$,
-so $T_j(x) \to 0$ as $x\to\infty$ (tail of convergent series vanishes). So $S_j = o(1)$.
+For large fixed $j$ (F3 applies): $T_j(2) < \infty$ and $T_j(x) \to 0$.
+For small fixed $j$: conditional on the gap (Section 6.1), $T_j(2) < \infty$ and $T_j(x) \to 0$.
+So $S_j = o(1)$ (proved for large $j$; conditional for small $j$).
 For $S_k$: if $k$ is also fixed, $S_k \leq T_k(x) = o(1)$ similarly. If
 $k = k(x) \to \infty$, then by F3 (asymptotic for large $k$): $T_k(2) < 1$
 for sufficiently large $k$, so $S_k \leq T_k(2) < 1$.
 In either subcase, $S = o(1) + (<1) < 1 + o(1)$. $\square$
 
-*Case (b): $k$ bounded (fixed as $x\to\infty$).* Then $j < k$ is also bounded,
-and by F4 (Section 1), $T_j(2) < \infty$ and $T_k(2) < \infty$ for each fixed $j, k$,
-so $T_j(x) \to 0$ and $T_k(x) \to 0$ as $x \to \infty$ (tails of convergent series).
-Hence $S = S_j + S_k \leq T_j(x) + T_k(x) = o(1) < 1 + o(1)$. $\square$
+*Case (b): $k$ bounded (fixed as $x\to\infty$).* Then $j < k$ is also bounded.
+For sufficiently large fixed $j, k$ (F3 applies): $T_j(2) < \infty$ and $T_k(2) < \infty$,
+so $T_j(x) \to 0$ and $T_k(x) \to 0$ as $x \to \infty$.
+For small fixed $j, k$: conditional on the gap (Section 6.1).
+Hence $S = S_j + S_k = o(1) < 1 + o(1)$ (proved for large strata; conditional for small). $\square$
 
 **The hard case (open sub-problem)**: When both $j = j(x) \to \infty$ and
 $k = k(x) \to \infty$ as $x \to \infty$, the per-stratum bound gives
@@ -767,8 +766,9 @@ $n \geq x$ in $T_k(x)$ is automatically satisfied — no terms are excluded:
 $$T_k(x) = T_k(2) = \sum_{\Omega(n)=k} \frac{1}{n \log n}.$$
 (This is a purely arithmetic observation: the product of $k$ integers each $\geq 2$ is $\geq 2^k$.)
 For $k < \lceil \log_2 x \rceil$, some small-$k$-almost-primes lie below $x$,
-so $T_k(x) < T_k(2)$; by F4 (Section 1), $T_k(2) < \infty$ for fixed $k$, so
-$T_k(x) \to 0$ as $x \to \infty$ (tail of convergent series).
+so $T_k(x) < T_k(2)$. For large fixed $k$ (F3 applies), $T_k(2) < \infty$, so
+$T_k(x) \to 0$ as $x \to \infty$ (tail of convergent series); for small fixed $k$
+this is conditional on the gap in Section 6.1.
 
 ### 10.3 Tightness of the 1+o(1) conjecture
 
@@ -1171,12 +1171,16 @@ By primitivity: for every $a \in A_{k-1}$ and every prime $p$, the element $ap$
 (which has $\Omega(ap) = \Omega(a)+1 = k$ and $ap \geq 2x \geq x$) satisfies
 $a \mid ap$ and $a \in A$, so $ap \notin A$ and hence $ap \notin A_k$.
 
-Define the **blocked set** (as a set, not multiset):
+Define the **blocked set** (as a set, no repetition):
 $B = \{ap : a \in A_{k-1},\; p \text{ prime}\} \cap \mathcal{A}_k(x)$.
-Each $b \in B$ is an element excluded from $A_k$ (regardless of how many pairs $(a,p)$
-produce it). Since $A_k \subseteq \{n \geq x : \Omega(n)=k\} \setminus B$:
-$$S_k(A_k) \leq T_k(x) - \sum_{b \in B} \frac{1}{b \log b}.$$
-(The subtraction counts each blocked element $b$ exactly once; no multiplicity issue.)
+By construction, $B \subseteq \mathcal{A}_k(x)$. By primitivity: for every $b = ap \in B$
+(with $a \in A_{k-1} \subseteq A$ and $a \mid ap = b$), we have $b \notin A$
+(since $a, b \in A$ with $a \mid b$ would violate primitivity). So $B \cap A_k = \emptyset$
+(where $A_k = A \cap \mathcal{A}_k(x) \subseteq A$). Therefore $A_k \subseteq \mathcal{A}_k(x) \setminus B$:
+$$S_k(A_k) \leq \sum_{n \in \mathcal{A}_k(x) \setminus B} \frac{1}{n \log n}
+= T_k(x) - \sum_{b \in B} \frac{1}{b \log b}.$$
+(This uses $B \subseteq \mathcal{A}_k(x)$ and $B \cap A_k = \emptyset$; each $b \in B$
+is counted exactly once in the subtraction regardless of how many $(a,p)$ pairs produce it.)
 
 ### 14.2 Compensation factor (elementary computation)
 
@@ -1202,25 +1206,27 @@ $$C(a) \geq \frac{100}{2(100 + 0.693)} + \frac{100}{3(100 + 1.099)} + \frac{100}
 
 ### 14.3 Conditional two-stratum bound via C(a) > 1
 
-**Theorem (conditional)**: Suppose $\sum_{b \in B} \frac{1}{b \log b} \geq S_{k-1}(A_{k-1})$
-(i.e., the total blocked weight in $\mathcal{A}_k(x)$ is at least the lower-stratum weight).
-Then for sufficiently large $x$:
-$$S(A) = S_{k-1}(A_{k-1}) + S_k(A_k) \leq S_{k-1}(A_{k-1}) + T_k(x) - S_{k-1}(A_{k-1}) = T_k(x) \leq 1 + o(1).$$
+**Theorem (conditional on sufficiency of blocked weight)**: Suppose 
+$\sum_{b \in B} \frac{1}{b \log b} \geq S_{k-1}(A_{k-1})$.
+Then for sufficiently large $x$ (so $k = k^*(x) \to \infty$ and F3 applies):
+$$S(A) = S_{k-1}(A_{k-1}) + S_k(A_k) \leq T_k(x) \leq T_k(2) = 1 - (c+o(1))\frac{k^2}{2^k} < 1 + o(1).$$
 
-*Proof of conditional step*: From Section 14.1, $S_k(A_k) \leq T_k(x) - \sum_{b \in B} 1/(b\log b)$.
-If $\sum_{b\in B} 1/(b\log b) \geq S_{k-1}(A_{k-1})$ (the hypothesis), then
-$S_k(A_k) \leq T_k(x) - S_{k-1}(A_{k-1})$,
-giving $S(A) = S_{k-1} + S_k \leq T_k(x) \leq 1 + o(1)$ by Section 7. $\square$
+*Proof*: From Section 14.1, $S_k(A_k) \leq T_k(x) - \sum_{b \in B} 1/(b\log b) \leq T_k(x) - S_{k-1}$
+(using the hypothesis). Hence $S = S_{k-1} + S_k \leq T_k(x)$.
+Now $T_k(x) \leq T_k(2)$ (arithmetic sub-sum) and $T_k(2) \to 1$ from below by F3
+(valid since $k = k^*(x) \to \infty$). So $S \leq T_k(x) \leq T_k(2) < 1 + o(1)$. $\square$
 
-**Reconciliation with Section 9.3**: Section 9.3's conditional requires a LOWER bound
-$\delta S_j$ on the blocked weight, then concludes $S_j + S_k < 1+o(1)$ by checking an
-algebraic inequality that fails when $T_k(2) \to 1$ (F3 correction vanishes). Section 14.3's
-conditional is different: the hypothesis IS $\sum_{b\in B} \geq S_{k-1}$, and the conclusion
-$S(A) \leq T_k(x)$ gives $S(A) < 1 + o(1)$ because $T_k(x) \leq T_k(2) \to 1$ from below
-(by F3, valid since $k = k^*(x) \to \infty$). No algebraic gap from Section 9.3 appears here:
-$S_{k-1} + (T_k(x) - S_{k-1}) = T_k(x) < 1 + o(1)$ identically, regardless of $S_{k-1}$.
-The hypothesis "$\sum_{b\in B} \geq S_{k-1}(A_{k-1})$" is implied by $C(a) > 1$ for each $a$
-if there is NO double-counting in $B$.
+**Consistency note**: The hypothesis $\sum_{b\in B} \geq S_{k-1}$ is NOT proved in general
+(Section 14.4 shows double-counting occurs, making this hard to establish). Sections 14.4–14.5
+analyze when the hypothesis can be verified and document the gap. This is a CONDITIONAL result
+with an open hypothesis, not a claimed proof.
+
+**Why this avoids Section 9.3's obstruction**: Section 9.3 showed that the algebraic condition
+$S_j(1-\delta) < 1 - T_k(2) + o(1)$ fails because $T_k(2) \to 1$ (F3 correction vanishes).
+Section 14.3's conditional gives $S \leq T_k(x)$ identically — the cancellation
+$S_{k-1} + (T_k(x) - S_{k-1}) = T_k(x)$ holds regardless of $S_{k-1}$'s value, avoiding
+the problematic algebraic gap. The conditional IS subject to a different gap (the double-counting
+hypothesis), documented in Sections 14.4–14.5.
 
 ### 14.4 Double-counting obstacle
 
