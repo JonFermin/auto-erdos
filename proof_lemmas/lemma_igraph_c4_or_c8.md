@@ -48,6 +48,24 @@ $\{u_b, u_{a+b}\}$ are distinct because $\{0,a\} \cap \{b, a+b\} =
 \emptyset$; likewise the two inner edges. Hence the walk is a simple
 $8$-cycle. $\square$
 
+**Sandbox-checkable core.** The entire content of the proof beyond
+edge-by-edge inspection is the residue-distinctness claim of Case 2. It
+is expressible with `math`-plus-basic-builtins only (no graph
+construction needed) as the single expression
+
+```
+all((b%m==a%m or (a+b)%m==0) or len({0,a%m,b%m,(a+b)%m})==4
+    for m in range(3,30) for a in range(1,m) for b in range(1,m)
+    if (2*a)%m!=0 and (2*b)%m!=0)
+```
+
+which evaluates True (verified in the aggregator sandbox). Re-deriving
+the edge membership itself requires building the lift graph, which does
+not fit a one-line sandbox expression; that part is covered by the CHECK
+blocks below (probe 1 validates edges and distinctness on all simple
+$I(m,a,b)$, $m \le 60$; probe 2 cross-checks against exhaustive search
+for $m \le 12$).
+
 **Remarks.**
 
 - The lemma is insensitive to connectivity: if $\gcd(m,a,b) > 1$ the

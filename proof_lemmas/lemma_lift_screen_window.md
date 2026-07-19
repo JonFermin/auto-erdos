@@ -55,6 +55,14 @@ nothing about theta or $K_4$ lifts with more than 64 vertices (see
 Section 4 of `proof_strategy.md` for the large-$m$ theta observation),
 and nothing about cubic graphs outside these lift families.
 
+**Re-derivation note.** The lemma's content is an exhaustive fixed-length
+cycle search over tens of thousands of graphs; it cannot be re-derived by
+a one-line sandbox expression (graph construction plus DFS exceed the
+math-and-basic-builtins budget). The deterministic CHECK block below IS
+the re-derivation path: it re-screens a slice (all simple theta lifts for
+$m \in \{19, 31\}$ and all $K_4$ lifts for $m = 13$ — 2,785 graphs) with
+a self-contained complete DFS and fails loudly on any survivor.
+
 <!-- CHECK
 # Falsification probe: re-screen a deterministic slice of the window with
 # a self-contained stdlib search. Slice = all simple theta lifts for
