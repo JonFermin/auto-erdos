@@ -405,8 +405,11 @@ in $T_k(x) = \sum_{n \geq x,\, \Omega(n)=k} 1/(n\log n)$ (since $A^{(k)} \subset
 = \sum_{k=1}^K \sum_{a \in A^{(k)}} \leq \sum_{k=1}^K T_k(x)$. $\square$
 
 **Why the bound vanishes** (for large $k$; gap for small $k$): By F3, for each
-SUFFICIENTLY LARGE fixed $k$, $T_k(2) = 1-(c+o(1))k^2/2^k < \infty$, so $T_k(x) \to 0$
-as $x \to \infty$ (tail of convergent series). For small fixed $k$ (e.g.\ $k = 1$),
+SUFFICIENTLY LARGE fixed $k$, $T_k(2) = 1-(c+o(1))k^2/2^k < \infty$.
+Since $T_k(x) = T_k(2) - \sum_{2 \leq n < x,\, \Omega(n)=k} \frac{1}{n\log n}$
+and the partial sum is non-negative and increases to $T_k(2)$ (each term is positive;
+F3 gives the total is finite), we get $T_k(x) \to 0$ as $x \to \infty$.
+For small fixed $k$ (e.g.\ $k = 1$),
 $T_k(2) < \infty$ is NOT derivable from F1/F2/F3 alone (OPEN sub-problem).
 The bounded-stratum lemma is FULLY PROVED for strata $k \geq K_0$ where F3 applies,
 and OPEN for small strata $k < K_0$.
@@ -426,9 +429,11 @@ The minimum element in stratum $k$ above $x$ scales roughly as $x$ when
 $k \approx \log_2 x$ (detailed analysis deferred to
 `proof_lemmas/lemma_min_k_almost_prime.md`).
 
-For each fixed large $k$ (where F3 applies): $T_k(2) < \infty$ by F3, so $T_k(x) \to 0$
-as $x \to \infty$ (tail of convergent series vanishes). For small fixed $k$, this uses
-the gap noted in Section 6.1.
+For each fixed large $k$ (where F3 applies): F3 gives $T_k(2) = 1 - (c+o(1))k^2/2^k < \infty$.
+Since $T_k(x) = T_k(2) - \sum_{2 \leq n < x,\, \Omega(n)=k} \frac{1}{n\log n}$
+and the subtracted partial sum is non-negative and increases to $T_k(2)$ as $x \to \infty$
+(each term is positive; by F3 the total is finite), $T_k(x) \to 0$.
+For small fixed $k$ (F3 does not apply), finiteness of $T_k(2)$ is OPEN from F1/F2/F3.
 
 For $k \geq \lceil\log_2 x\rceil$: any integer $n$ with $\Omega(n) = k$ has $k$
 prime factors each $\geq 2$, so $n \geq 2^k \geq x$; the lower bound $n \geq x$ in
@@ -769,8 +774,10 @@ $n \geq x$ in $T_k(x)$ is automatically satisfied — no terms are excluded:
 $$T_k(x) = T_k(2) = \sum_{\Omega(n)=k} \frac{1}{n \log n}.$$
 (This is a purely arithmetic observation: the product of $k$ integers each $\geq 2$ is $\geq 2^k$.)
 For $k < \lceil \log_2 x \rceil$, some small-$k$-almost-primes lie below $x$,
-so $T_k(x) < T_k(2)$. For large fixed $k$ (F3 applies), $T_k(2) < \infty$, so
-$T_k(x) \to 0$ as $x \to \infty$ (tail of convergent series); for small fixed $k$
+so $T_k(x) < T_k(2)$. For large fixed $k$ (F3 applies), F3 gives $T_k(2) = 1-(c+o(1))k^2/2^k < \infty$;
+since $T_k(x) = T_k(2) - \sum_{2 \leq n < x,\, \Omega(n)=k} \frac{1}{n\log n}$
+and the subtracted partial sum increases to $T_k(2)$ (each term is positive),
+$T_k(x) \to 0$ as $x \to \infty$; for small fixed $k$
 this is OPEN (not derivable from F1/F2/F3).
 
 ### 10.3 Tightness of the 1+o(1) conjecture
