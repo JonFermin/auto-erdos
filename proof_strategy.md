@@ -1046,3 +1046,94 @@ tracking the entire divisibility lattice, which is not resolved here.
 reduces to the matching condition ($\star$) on the divisibility graph. Condition ($\star$) holds for
 singletons and pairs; the general case is OPEN. The key obstacle is bounding
 the number of elements of $S$ mapping to each $b \in B = N(S)$ versus $|B|$ itself.
+
+---
+
+## Section 13 — Hall's Condition Counterexample and Closure of Injection Direction (Q21)
+
+This section gives an explicit primitive set for which the matching condition ($\star$) fails,
+thereby formally closing the demotion injection approach as a proof strategy.
+The conjecture is confirmed directly for the example, showing the sum can be small
+even without an injection. A new direction is proposed.
+
+### 13.1 A primitive set failing condition ($\star$)
+
+**Claim (self-contained)**: The set
+$$S = \{6, 10, 15, 21, 35\} = \{2 \cdot 3,\; 2 \cdot 5,\; 3 \cdot 5,\; 3 \cdot 7,\; 5 \cdot 7\}$$
+is a primitive subset of $\mathcal{A}_2([2, \infty))$ (semiprimes $\geq 2$), and its neighbourhood
+$N(S) = \{2, 3, 5, 7\}$ satisfies $|N(S)| = 4 < 5 = |S|$, so condition ($\star$) fails for $S$.
+
+**Primitivity**: Each element is a product of exactly two distinct primes. Two such products
+$p \cdot q$ and $r \cdot s$ (with $p < q$, $r < s$) satisfy $pq \mid rs$ only if $p = r$ and $q = s$,
+i.e., they are equal. Checking all $\binom{5}{2} = 10$ pairs confirms no divisibility:
+$6 \nmid 10, 15, 21, 35$; $10 \nmid 15, 21, 35$; $15 \nmid 21, 35$; $21 \nmid 35$. $\square$
+
+**Neighbourhoods** (k$^*$ = 1, demote to primes):
+$N(6) = \{2, 3\}$, $N(10) = \{2, 5\}$, $N(15) = \{3, 5\}$, $N(21) = \{3, 7\}$, $N(35) = \{5, 7\}$.
+
+So $N(S) = \{2, 3, 5, 7\}$, $|N(S)| = 4$. With $|S| = 5 > 4$, condition ($\star$) fails. $\square$
+
+**Consequence**: No injective map $\varphi: S \to \{2, 3, 5, 7\}$ with $\varphi(a) \mid a$ exists
+(5 elements, 4 possible images, pigeonhole). Hence demotion injection fails for $S$.
+
+### 13.2 Fractional matching also fails
+
+The same counting argument shows even a fractional perfect matching (with unit
+capacity per prime) fails. The prime 3 appears as a divisibility neighbor of $6, 15, 21$
+(3 elements), and the prime 5 appears as a neighbor of $10, 15, 35$ (3 elements), while
+the total right-side capacity is 4. The total demand is 5, strictly exceeding total supply:
+no fractional redistribution of weight-1 per left vertex to right vertices (capacity 1 each)
+is feasible. Both the integral and fractional injection approaches fail for $S$.
+
+### 13.3 Direct verification: conjecture holds for $S$ without injection
+
+Even though no demotion injection exists, the Erdős sum over $S$ is small:
+$$S(S) = \frac{1}{6\log 6} + \frac{1}{10\log 10} + \frac{1}{15\log 15} + \frac{1}{21\log 21} + \frac{1}{35\log 35}.$$
+Using $\log n$ (natural logarithm): $\log 6 \approx 1.792$, $\log 10 \approx 2.303$,
+$\log 15 \approx 2.708$, $\log 21 \approx 3.045$, $\log 35 \approx 3.555$.
+$$S(S) \approx 0.0931 + 0.0434 + 0.0246 + 0.0157 + 0.0080 = 0.185 \ll 1.$$
+The conjecture bound ($< 1 + o(1)$) holds by direct computation; the injection approach
+was never needed here. This shows the injection strategy is a *sufficient* proof technique,
+not a *necessary* one — and its failure does not disprove the conjecture.
+
+### 13.4 Formal closure of the injection/Hall's-theorem direction
+
+The injection approach (Sections 11–12) rests on the following logical chain:
+1. Existence of $\varphi: A \hookrightarrow \mathcal{A}_{k^*}(x)$ with $\varphi(a) \mid a$ (demotion injection).
+2. Weight transfer: $1/(a\log a) \leq 1/(\varphi(a)\log\varphi(a))$ for each $a$ (since $\varphi(a) \leq a$).
+3. Injectivity + (2) $\Rightarrow$ $S(A) \leq S(\mathcal{A}_{k^*}, x) = T_{k^*}(x) \leq 1 + o(1)$.
+
+Step (1) requires condition ($\star$), which Section 13.1 shows can fail for primitive $A$
+in $\mathcal{A}_{k^*+1}(x)$. Therefore this three-step chain does NOT prove the conjecture in general.
+
+**Status**: The injection direction is CLOSED as a complete proof path. It may still prove
+the conjecture for restricted families (e.g., primitive sets avoiding the Petersen-graph
+pattern), but a full proof requires a different argument.
+
+### 13.5 Open problem and proposed direction (Q22)
+
+The Erdős sum bound $S(A) < 1 + o(1)$ must be proved without relying on a global
+injection. Two directions emerge:
+
+**Direction A (analytic, no injection)**: Use the integral representation
+$S(A) = \int_1^\infty F_A(t)\,dt$ to bound $F_A(t) \leq G(t)$ for some integrable $G$
+with $\int_1^\infty G(t)\,dt \leq 1 + o(1)$, where the bound on $F_A$ uses
+primitivity directly (rather than via injection).
+
+**Direction B (local injection)**: Partition $A$ into blocks, inject each block locally
+into a region where condition ($\star$) holds, and bound the sum block-by-block.
+This would succeed if each block has bounded size relative to its neighbourhood,
+which primitivity of $A$ might enforce.
+
+The next question (Q22) will pursue Direction A: bound $F_A(t)$ pointwise using
+the fact that elements of a primitive set are "spread out" in their prime factorizations.
+
+### 13.6 Summary of Q21 findings
+
+| Component | Status |
+|---|---|
+| Condition ($\star$) fails for $S = \{6,10,15,21,35\}$ | Proved by explicit neighbourhood count |
+| Fractional injection also fails for $S$ | Proved by capacity argument |
+| Conjecture holds for $S$ by direct computation | $S(S) \approx 0.185 \ll 1$ |
+| Injection direction (Sections 11–12) | CLOSED as complete proof path |
+| Next direction: analytic bound on $F_A(t)$ without injection | Proposed (Q22) |
