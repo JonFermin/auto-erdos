@@ -394,16 +394,12 @@ in $T_k(x) = \sum_{n \geq x,\, \Omega(n)=k} 1/(n\log n)$ (since $A^{(k)} \subset
 \{n \geq x : \Omega(n) = k\}$). Summing over $k = 1,\ldots, K$: $\sum_{a \in A}
 = \sum_{k=1}^K \sum_{a \in A^{(k)}} \leq \sum_{k=1}^K T_k(x)$. $\square$
 
-**Why the bound vanishes**: For each fixed $k$, the set $\mathcal{A}_k := \{n : \Omega(n)=k\}$
-is a primitive set (if $n \mid m$ with $\Omega(n)=\Omega(m)=k$, then $m$ has at least
-$k+1$ prime factors — a contradiction). By F1 applied to $\mathcal{A}_k \cap [2^k, \infty)$
-(which equals $\mathcal{A}_k$ since the smallest $k$-almost prime is $2^k$),
-$T_k(2) = \sum_{n \in \mathcal{A}_k} 1/(n\log n) < e^\gamma\pi/4 + o_k(1) < \infty$
-(where $o_k(1) \to 0$ as $k \to \infty$, since $\min(\mathcal{A}_k) = 2^k \to \infty$).
-In particular, $T_k(2) < \infty$ for each fixed $k$.
-Since $T_k(x)$ is the tail of the convergent series $T_k(2)$ beginning at $x$,
-tails of convergent series vanish: $T_k(x) \to 0$ as $x \to \infty$.
-Hence $\sum_{k=1}^K T_k(x) \to 0$ for any fixed $K$.
+**Why the bound vanishes**: By F3 (given fact), for each fixed $k$,
+$$T_k(2) = \sum_{n \in \mathcal{A}_k} \frac{1}{n\log n} = 1 - (c+o(1))\frac{k^2}{2^k}$$
+(where $o(1) \to 0$ as $k \to \infty$). The formula gives a finite value for each $k$
+(an explicit finite sum equals a finite expression). Since $T_k(x)$ is the tail of
+$T_k(2) < \infty$ beginning at $x$, the tail $T_k(x) \to 0$ as $x \to \infty$
+(tails of convergent series vanish). Hence $\sum_{k=1}^K T_k(x) \to 0$ for any fixed $K$.
 
 **Consequence**: The conjecture holds easily (with $o(1)$ bound) whenever $A$
 is supported on strata of bounded Omega-number. The hard case requires elements
@@ -818,16 +814,14 @@ $$\frac{1}{n \log n} = \int_1^\infty n^{-t}\,dt.$$
 = 1/(n\log n)$.
 Valid for all $n \geq 2$ since $\log n > 0$. $\square$
 
-**Corollary (series form)**: For any primitive $A \subset [x,\infty)$,
-$S(A,x) = \sum_{a \in A} 1/(a \log a) < \infty$ (by F1, given fact). Since each term
-$1/(a \log a) = \int_1^\infty a^{-t}\,dt \geq 0$, Tonelli's theorem (interchange of
-non-negative sums and integrals is always valid) gives:
+**Corollary (series form)**: Since each term $1/(a \log a) = \int_1^\infty a^{-t}\,dt \geq 0$,
+for any set $A \subset [x,\infty)$ (finite or infinite), the interchange of sum and integral
+is valid by non-negativity: for non-negative summands, $\sum_a \int f_a = \int \sum_a f_a$
+(rearrangement of non-negative quantities, whether or not the total is finite). Hence:
 $$S(A, x) = \sum_{a \in A} \int_1^\infty a^{-t}\,dt = \int_1^\infty \sum_{a \in A} a^{-t}\,dt
 =: \int_1^\infty F_A(t)\,dt,
 \qquad F_A(t) := \sum_{a \in A} a^{-t}.$$
 
-The interchange is justified: the left side $S(A,x) < \infty$ (by F1), so the double
-integral $\int_1^\infty F_A(t)\,dt$ is finite and equal to $S(A,x)$.
 The conjecture $S(A,x) < 1 + o(1)$ is therefore equivalent to $\int_1^\infty F_A(t)\,dt < 1 + o(1)$.
 
 ### 11.2 Correct extremal benchmark for $A \subset [x,\infty)$
