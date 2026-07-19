@@ -1272,67 +1272,40 @@ facts can be added as additional given facts to close the argument.
 
 ---
 
-## Section 15 — Stratum Finiteness from F1 and the High-Stratum Barrier (Q23)
+## Section 15 — The High-Stratum Barrier and Reduction to Prime Distribution (Q23)
 
-This section establishes a new lemma (all-$k$ finiteness of $T_k(2)$) provable from F1,
-then identifies where the proof gap persists for the high-stratum contribution.
+This section identifies the structural obstacle for the high-stratum contribution and
+shows why both main proof approaches (Sections 6–14) converge to the same ledger barrier.
+No new results toward the conjecture are claimed; this is a formal gap analysis.
 
-### 15.1 All-stratum finiteness (proved from F1)
+### 15.1 Stratum decomposition and the high-stratum problem
 
-**Lemma (all-$k$ stratum finiteness)**: For every $k \geq 1$,
-$$T_k(2) := \sum_{\substack{n \geq 2 \\ \Omega(n) = k}} \frac{1}{n \log n}
-< e^\gamma \frac{\pi}{4}.$$
+For any primitive $A \subseteq [x,\infty)$, define the **threshold stratum**
+$k^*(x) := \lfloor \log_2 x \rfloor$. Split the contribution by stratum:
 
-*Proof*: Let $A_k$ denote the set of all positive integers $n$ with $\Omega(n) = k$.
-We claim $A_k$ is a **primitive set** (no element divides another distinct element).
-Indeed, if $n \mid m$ and $n \neq m$ with $\Omega(n) = k$, then $m/n \geq 2$ is a
-positive integer $> 1$, so $\Omega(m/n) \geq 1$. By complete additivity of $\Omega$:
-$\Omega(m) = \Omega(n) + \Omega(m/n) \geq k + 1 > k$, contradicting $\Omega(m) = k$.
-Hence $A_k$ is primitive.
+$$\sum_{a \in A} \frac{1}{a \log a}
+= \underbrace{\sum_{k < k^*(x)} S_k(A,x)}_{\text{(L) low strata}}
++ \underbrace{\sum_{k \geq k^*(x)} S_k(A,x)}_{\text{(H) high strata}}.$$
 
-By F1 applied to the primitive set $A_k$:
-$$\sum_{a \in A_k} \frac{1}{a \log a} < e^\gamma \frac{\pi}{4}.$$
-Since the left side equals $T_k(2)$ by definition, the lemma follows. $\square$
+**Low strata (L)**: For $k < k^*(x)$, the smallest $k$-almost prime is $2^k < x$
+(since $k < k^*(x)$ means $2^k < x$). Thus $T_k(x)$ excludes all $k$-almost primes
+below $x$. For any FIXED $K$ (not depending on $x$):
+$$\sum_{k=1}^{K} T_k(x) \to 0 \quad \text{as } x \to \infty,$$
+since each $T_k(x)$ is the tail of the series $T_k(2)$ starting at $x$, and $T_k(2)$
+is finite (F3 gives $T_k(2) < 1$ for large $k$; the low-$k$ case is handled by the
+`large_floor_vanish` lemma). This is a FIXED-$K$ result, not applicable when $K$ grows.
 
-**Note**: F3 establishes $T_k(2) < 1$ for all sufficiently large $k$ (with the
-stronger quantitative form $T_k(2) = 1 - (c+o(1))k^2/2^k$). The present lemma
-is weaker ($T_k(2) < e^\gamma\pi/4 \approx 1.399$) but holds for ALL $k \geq 1$,
-including small strata where F3 does not apply.
+**High strata (H)**: For $k \geq k^*(x)$, we have $2^k \geq x$, so every $k$-almost prime
+$n \geq 2^k \geq x$. Hence $T_k(x) = T_k(2)$ (all $k$-almost primes lie in $[x,\infty)$;
+no elements are excluded). By F3, $T_k(2) = 1 - (c+o(1))k^2/2^k \to 1$ from below.
 
-**Corollary (fixed-$k$ tail vanishing)**: For each fixed $k \geq 1$,
-$$T_k(x) \to 0 \quad \text{as } x \to \infty.$$
-
-*Proof*: $T_k(x) = \sum_{n \geq x,\, \Omega(n)=k} 1/(n \log n)$ is the tail from $x$ of the
-convergent series $T_k(2) < \infty$. As $x \to \infty$, the tail of a convergent series
-tends to $0$. $\square$
-
-This corollary strengthens the low-stratum $o(1)$ result of Section 2 by giving it for
-ALL fixed $k$, not just for $k \leq K$ (a fixed finite range).
-
-### 15.2 Why the corollary does not close the conjecture
-
-The corollary establishes $T_k(x) \to 0$ for each FIXED $k$. However, for the full sum
-over a primitive $A \subseteq [x,\infty)$, we must sum over ALL strata occupied by $A$.
-The occupied set $K(A,x) := \{k : \exists a \in A,\, \Omega(a) = k\}$ can be unbounded.
-
-Concretely, by splitting at $k^*(x) := \lfloor \log_2 x \rfloor$:
-
-**Low strata** ($k < k^*(x)$): The smallest $k$-almost prime is $2^k < x$ (since
-$k < k^*(x)$ implies $2^k < x$). So $T_k(x)$ excludes the low part of the stratum.
-By the Corollary, $T_k(x) \to 0$ for each fixed $k$ as $x \to \infty$. In particular,
-for any fixed $K$:
-$$\sum_{k=1}^{K} T_k(x) \to 0 \quad \text{as } x \to \infty. \tag{$\star$}$$
-
-**High strata** ($k \geq k^*(x)$): Since $2^k \geq 2^{k^*(x)} \geq x$, every $k$-almost
-prime satisfies $n \geq 2^k \geq x$, so $T_k(x) = T_k(2)$.
-By F3, $T_k(2) = 1 - (c+o(1))k^2/2^k$; in particular $T_k(2) \to 1$ from below as
-$k \to \infty$.
-
-**The key issue**: For any fixed $K$, the tail sum $\sum_{k > K} T_k(x)$ may be large.
-Specifically, $\sum_{k=k^*(x)}^{k^*(x)+M} T_k(2) \approx M$ for large $M$ (since each term
-approaches $1$). A primitive set $A \subseteq [x,\infty)$ can potentially have elements in
-strata $k^*(x), k^*(x)+1, \ldots, k^*(x)+M$ for any $M$ (by choosing elements from mutually
-non-divisible families across strata). The primitivity constraint alone does NOT prevent this.
+**The barrier**: For any fixed $M$, the partial high-stratum sum
+$\sum_{k=k^*(x)}^{k^*(x)+M} T_k(2) \approx M$ (each term approaches 1 as $k \to \infty$).
+A primitive set $A \subseteq [x,\infty)$ may occupy strata $k^*(x), k^*(x)+1, \ldots, k^*(x)+M$
+for any fixed $M$ (by choosing $M+1$ elements from distinct strata with no divisibility
+relations, which is always possible for sufficiently large $x$). The stratification bound
+alone does NOT prevent $\sum_{k \geq k^*(x)} S_k(A,x)$ from being large — primitivity must
+be used in a global, cross-stratum way.
 
 ### 15.3 Convergence with Section 14
 
