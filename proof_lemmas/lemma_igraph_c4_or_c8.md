@@ -56,10 +56,15 @@ $8$-cycle. $\square$
 - Some I-graphs have a $C_4$ in Case 2 as well (e.g. $GP(4k, k)$ has
   inner 4-cycles); the lemma only asserts existence of one of the two
   lengths.
-- Screen data (this session): all 198 graphs $GP(n,k)$,
-  $15 \le n \le 32$, and all 1,248 simple $I(m,a,b)$ with
-  $m \in [15,32]$ have their first power-of-2 cycle at length 4 or 8 —
-  none reached 16. Consistent with the case split above.
+- Machine verification (ranges match the CHECK blocks below): the
+  explicit construction is arithmetically validated on every simple
+  $I(m,a,b)$ with $3 \le m \le 60$, and cross-checked against an
+  independent exhaustive per-length cycle search on every simple
+  $I(m,a,b)$ with $3 \le m \le 12$. Separately, the window screen found
+  the first power-of-2 cycle at length 4 or 8 on all 198 graphs
+  $GP(n,k)$, $15 \le n \le 32$, and on all 1,248 simple $I(m,a,b)$ with
+  $m \in [15,32]$ — none reached 16. Consistent with the case split
+  above.
 
 <!-- CHECK
 # Falsification probe 1: verify the explicit C4/C8 construction on every

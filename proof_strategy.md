@@ -71,9 +71,11 @@ contains a cycle of length $4$ or a cycle of length $8$. Concretely: if
 $b \equiv \pm a \pmod m$ then $u_0, u_a, v_a, v_0$ is a 4-cycle;
 otherwise
 $$u_0,\; u_a,\; v_a,\; v_{a+b},\; u_{a+b},\; u_b,\; v_b,\; v_0$$
-is an 8-cycle (the four residues $\{0, a, b, a+b\}$ are pairwise
-distinct mod $m$ under the case assumption together with the simplicity
-constraints $a \not\equiv 0$, $b \not\equiv 0$).
+is an 8-cycle. The four residues $\{0, a, b, a+b\}$ are pairwise
+distinct mod $m$: $0 \ne a$ and $0 \ne b$ by simplicity; $0 \ne a+b$
+because $b \not\equiv -a$ is part of the case assumption; $a \ne b$ is
+the other half of the case assumption; and $a \ne a+b$, $b \ne a+b$
+again by simplicity.
 
 Consequently the conjecture restricted to the I-graph family (hence to the
 entire generalized Petersen family) holds, with cycle length 4 or 8 always
@@ -84,10 +86,13 @@ be an Erdős–Gyárfás witness. This settles the first-lemma target of Q8
 proof needs no size restriction) and closes the GP/dumbbell arm of the
 screen permanently.
 
-Computational corroboration: exhaustive per-length search confirms the
-explicit cycles on all $GP(n,k)$ with $3 \le n \le 40$ and finds a first
-power-of-2 hit at length 4 or 8 on every simple I-graph in the witness
-window $m \in [15,32]$ (1,248 lifts).
+Computational corroboration (ranges match the CHECK blocks in the lemma
+file): the explicit-cycle construction is arithmetically validated on
+every simple $I(m,a,b)$ with $3 \le m \le 60$; it is cross-checked
+against independent exhaustive per-length cycle search on every simple
+$I(m,a,b)$ with $3 \le m \le 12$; and the window screen found a first
+power-of-2 hit at length 4 or 8 on every simple I-graph with
+$m \in [15,32]$ (1,248 lifts).
 
 ## Section 4 — Theta and $K_4$ lifts: window screened clean, no witness
 
@@ -108,11 +113,14 @@ $C_4$ and no $C_8$, dying only at $C_{16}$. A cycle of length $2s$ in a
 theta lift projects to a closed base walk whose signed voltage sum
 vanishes mod $m$, with consecutive edge types forced distinct (each lift
 vertex carries exactly one edge of each type); for $C_{16}$ this forces a
-relation $\alpha a_2 + \beta a_3 \equiv 0 \pmod m$ with
-$|\alpha|, |\beta| \le 8$, plus a realizability condition on the type
-sequence. Within the window ($m \le 32$) such short relations always
-exist — which is why the screen finds a $C_{16}$ every time — but for
-large modulus, generic voltage pairs admit no short relation at scale 16.
+relation $\alpha a_2 + \beta a_3 \equiv 0 \pmod m$, where $\alpha$
+(resp. $\beta$) is the signed count of type-$a_2$ (resp. type-$a_3$)
+edges, so $|\alpha|, |\beta| \le 8$ because each type occupies at most 8
+of the 16 alternating slots; a realizability condition on the type
+sequence also applies. Within the window ($m \le 32$) such short
+relations always exist — which is why every theta lift that avoids $C_4$
+and $C_8$ still dies at $C_{16}$ — but for large modulus, generic
+voltage pairs admit no short relation at scale 16.
 A large-$m$ theta lift cannot enter this harness's witness gate (vertex
 cap 64), and defeating EVERY power-of-2 length up to its vertex count
 $2m$ requires avoiding relations at every scale up to $m$, which counting

@@ -33,8 +33,12 @@ increasing order with short-circuit). Outcome:
 - every graph produced a power-of-2 cycle at length $\le 16$
   (first-hit histogram: theta 864/2,526/1,206 at 4/8/16; I-graph
   248/1,000 at 4/8; $K_4$ 3,758/6,994/6,960 at 4/8/16);
-- zero survivors, zero budget exhaustions — every completed search is an
-  exhaustive certificate for its (graph, length) pair.
+- zero survivors. Budget exhaustion was tracked per (graph, length) pair
+  and recorded as "inconclusive", never as a pass; the inconclusive
+  count was zero, so every search that ran is an exhaustive certificate
+  for its (graph, length) pair. The CHECK block below re-derives the
+  claim on a deterministic slice with a complete, budget-free DFS, so
+  the slice cannot silently miss a cycle.
 
 Hence no member of these families within the $\le 64$-vertex witness cap
 is an Erdős–Gyárfás witness, and the Q8 counterexample arm over these
