@@ -599,20 +599,22 @@ $$\text{total blocked weight} \leq \sum_{a \in A^{(j)}} \frac{T_{k-j}(2)}{a} = T
 
 *Blocking derivation*: Since $A$ is primitive, if $a \in A^{(j)}$ and $m \geq 2$ with $\Omega(m) = k-j$,
 then $am \in A$ would require $a \mid am$ with $a \neq am$, violating primitivity. So every
-$n \in A^{(k)}$ satisfies $a \nmid n$ for all $a \in A^{(j)}$. Therefore:
-$$A^{(k)} \subseteq \{n \geq x : \Omega(n) = k\} \setminus \mathrm{Blocked},$$
-where $\mathrm{Blocked} = \{am : a \in A^{(j)},\, m \geq 2,\, \Omega(m) = k-j\}$. Hence:
-$$S_k \leq \sum_{\substack{n \geq x,\, \Omega(n)=k \\ n \notin \mathrm{Blocked}}} \frac{1}{n\log n}
-= T_k(x) - (\text{weight of } \mathrm{Blocked} \cap [x,\infty))
-\leq T_k(2) - (\text{weight of } \mathrm{Blocked} \cap [x,\infty)),$$
-where $T_k(x) \leq T_k(2)$ since $T_k(x) = \sum_{n \geq x,\,\Omega(n)=k} \frac{1}{n\log n}$
-is a sub-sum of $T_k(2) = \sum_{n \geq 2,\,\Omega(n)=k} \frac{1}{n\log n}$ (every term of $T_k(x)$
-appears in $T_k(2)$, and $T_k(2)$ has additional non-negative terms for $2 \leq n < x$).
+$n \in A^{(k)}$ satisfies $a \nmid n$ for all $a \in A^{(j)}$.
 
-Since $a \geq x$ and $m \geq 2$, every blocked element $am \geq 2x \geq x$, so all of
-$\mathrm{Blocked}$ lies in $[x,\infty)$. In particular:
-$$S_k \leq T_k(2) - (\text{weight of Blocked}) \leq T_k(2) - 0 = T_k(2),$$
-using the trivial lower bound: weight of Blocked $\geq 0$.
+**Blocked elements lie in $[x,\infty)$**: For any $a \in A^{(j)} \subseteq [x,\infty)$ and
+$m \geq 2$, we have $am \geq 2a \geq 2x > x$. So every blocked element $am$ satisfies
+$am \geq x$, i.e.\ $\mathrm{Blocked} \subseteq [x,\infty)$.
+
+Therefore $A^{(k)} \subseteq \{n \geq x : \Omega(n) = k\} \setminus \mathrm{Blocked}$,
+where $\mathrm{Blocked} = \{am : a \in A^{(j)},\, m \geq 2,\, \Omega(m) = k-j\}$
+(with $\mathrm{Blocked} \subseteq [x,\infty)$ as shown above). Hence:
+$$S_k \leq \sum_{\substack{n \geq x,\, \Omega(n)=k \\ n \notin \mathrm{Blocked}}} \frac{1}{n\log n}
+= T_k(x) - (\text{weight of } \mathrm{Blocked})
+\leq T_k(2) - (\text{weight of } \mathrm{Blocked}),$$
+where $T_k(x) \leq T_k(2)$ since $T_k(x) = \sum_{n \geq x,\,\Omega(n)=k} \frac{1}{n\log n}$
+is a sub-sum of $T_k(2)$ (all terms of $T_k(x)$ appear in $T_k(2)$, with additional non-negative terms).
+Using the trivial lower bound weight of Blocked $\geq 0$:
+$$S_k \leq T_k(2) - (\text{weight of Blocked}) \leq T_k(2).$$
 
 To obtain a non-trivial improvement ($S_k \leq T_k(2) - \delta$ for some $\delta > 0$),
 one needs a LOWER bound on the total blocked weight. The upper bound $\leq T_{k-j}(2) \cdot S_j$
@@ -1174,10 +1176,10 @@ the fact that elements of a primitive set are "spread out" in their prime factor
 
 ## Section 14 — Compensation Factor and Adjacent-Stratum Bound (Q22)
 
-This section introduces the **compensation factor** $C(a)$ — the ratio of blocked weight
-in $\mathcal{A}_k$ to the own weight of $a \in \mathcal{A}_{k-1}$ — and shows by elementary
-arithmetic that $C(a) \to 31/30 > 1$ as $a \to \infty$. A conditional two-stratum bound
-follows. The double-counting obstacle is documented, motivating Q23.
+This section introduces the **compensation factor** $C(a)$ and documents the
+double-counting obstacle for the compensation-factor approach. Whether $C(a) > 1$
+for large $a$ is OPEN from F1/F2/F3 (requires prime-distribution estimates).
+See Q22, Q23.
 
 ### 14.1 Setup: adjacent strata and the blocking structure
 
@@ -1199,23 +1201,17 @@ $$S_k(A_k) \leq \sum_{n \in \mathcal{A}_k(x) \setminus B} \frac{1}{n \log n}
 (This uses $B \subseteq \mathcal{A}_k(x)$ and $B \cap A_k = \emptyset$; each $b \in B$
 is counted exactly once in the subtraction regardless of how many $(a,p)$ pairs produce it.)
 
-### 14.2 Compensation factor (elementary computation)
+### 14.2 Compensation factor (definition)
 
 For each $a \in A_{k-1}$ and prime $p$, the element $ap$ contributes weight $1/(ap\log(ap))$
 to the blocked set. Define the **compensation factor**:
 $$C(a) := \frac{\text{blocking weight from } a}{\text{own weight of } a}
-= \frac{\sum_{p \text{ prime}} \frac{1}{ap\log(ap)}}{\frac{1}{a\log a}}
 = \log a \cdot \sum_{p \text{ prime}} \frac{1}{p(\log a + \log p)}.$$
 
-**Research note (informal — NOT a ledger claim)**: An informal calculation restricting
-to primes $p \in \{2, 3, 5\}$ (using standard prime-number facts outside F1/F2/F3)
-gives:
-$$C(a) \geq \frac{\log a}{2(\log a + \log 2)} + \frac{\log a}{3(\log a + \log 3)} + \frac{\log a}{5(\log a + \log 5)}.$$
-Each term $\frac{\log a}{p(\log a + \log p)}$ is strictly less than $1/p$ and increases toward $1/p$ as $\log a \to \infty$, with the lower bound approaching $1/2+1/3+1/5=31/30>1$ (external arithmetic).
-However, this calculation uses specific prime values outside the F1/F2/F3 ledger.
-**Whether $C(a) > 1$ for sufficiently large $a$ is OPEN from F1/F2/F3** — it would require
-prime distribution results not in the given facts. This section documents the informal
-heuristic; no proof of $C(a) > 1$ is claimed here.
+Whether $C(a) > 1$ for sufficiently large $a$ is **OPEN from F1/F2/F3**: establishing
+this requires prime-distribution estimates (e.g.\ Mertens' theorem) that are not in
+the F1/F2/F3 ledger. No claim about $C(a)$ exceeding any specific threshold is made
+in this document. This open question is tracked as Q22.
 
 ### 14.3 Research direction: conditional two-stratum cancellation (OPEN)
 
@@ -1230,71 +1226,46 @@ $S = S_{k-1} + S_k \leq T_k(x) \leq T_k(2) < 1 + o(1)$ (by F3 for large $k$).
 - Reaching ratio $> 1$ would require $p=5$ and bounding collisions among $\{2,3,5\}$ — which depends on prime distribution facts outside F1/F2/F3 (the informal computation giving $31/30 > 1$ in Section 14.2 is external).
 - **Conclusion**: Hypothesis H is OPEN from the F1/F2/F3 ledger. Q23 tracks this.
 
-### 14.4 Double-counting obstacle
+### 14.4 Double-counting obstacle (sketch — OPEN)
 
-**Obstacle**: Multiple elements $a, a' \in A_{k-1}$ may block the same $b \in \mathcal{A}_k(x)$.
-Specifically: $2a = 3a'$ when $a = 3m$, $a' = 2m$ for some integer $m$
-(both can be in $A_{k-1}$ since $2m \nmid 3m$ and $3m \nmid 2m$).
-In this case the element $6m$ is double-counted: blocked by both $a$ and $a'$.
+**Obstacle**: Multiple elements $a, a' \in A_{k-1}$ may block the same $b \in \mathcal{A}_k(x)$
+via different prime multiplications (e.g.\ $pa = qa'$ for distinct primes $p, q$).
+When this occurs, naively summing over all prime-multiplication pairs overcounts the blocked set.
 
-The simple injective map $a \mapsto 2a$ (which IS injective) gives:
-$$\sum_{b \in B} \frac{1}{b\log b} \geq \sum_{a \in A_{k-1}} \frac{1}{2a\log(2a)}
-= \sum_{a \in A_{k-1}} \frac{1}{2a(\log 2 + \log a)},$$
-and the ratio to own weight $1/(a\log a)$ is $\log a / (2(\log 2 + \log a)) \to 1/2 < 1$.
-So the $p=2$-only bound is insufficient.
+For any single fixed prime $p$, the injective map $a \mapsto pa$ gives a valid lower bound:
+$$\sum_{b \in B} \frac{1}{b\log b} \geq \sum_{a \in A_{k-1}} \frac{1}{pa\log(pa)}.$$
+The ratio $\frac{1/(pa\log(pa))}{1/(a\log a)} = \frac{\log a}{p(\log a + \log p)} < 1/p$
+is less than $1/p$ for every prime $p$ (since $\log a < \log a + \log p$).
+Since $1/p < 1$ for every prime $p$, the single-prime bound is insufficient alone.
 
-To get ratio $> 1$, we need either:
-- all three primes $\{2, 3, 5\}$ with no double-counting, OR
-- a separate analysis of the double-counted elements showing they contribute negligibly.
+To achieve ratio $> 1$ one would need contributions from multiple primes exceeding the
+collision corrections — this requires prime-distribution results outside F1/F2/F3. OPEN (Q22-Q23).
 
-### 14.5 Bounding the double-counting correction
+### 14.5 Collision correction (sketch — OPEN)
 
-**Lemma**: The collision weight (elements of $B$ blocked by $\geq 2$ elements of $A_{k-1}$
-using primes $\{2, 3\}$) satisfies:
-$$\text{collision weight} = \sum_{\substack{m:\, 2m,\, 3m \in A_{k-1}}} \frac{1}{6m\log(6m)}
-\leq \frac{1}{2} \cdot \sum_{\substack{m:\, 2m,\, 3m \in A_{k-1}}} \frac{1}{3m\log(3m)}.$$
+**Elementary lemma (abstract)**: For any two distinct primes $p < q$, the collision weight
+(elements blocked by both prime $p$ and prime $q$) satisfies:
+$$\text{collision weight} \leq \sum_{\substack{m:\, pm,\, qm \in A_{k-1}}} \frac{1}{pqm\log(pqm)}.$$
+Since $pq > q > p$, we have $1/(pqm\log(pqm)) \leq 1/(qm\log(qm))$, so the collision
+weight is at most a sub-sum of the $q$-prime contribution. Since every $m$ in the sum
+satisfies $qm \in A_{k-1}$, the sum is a sub-sum of $S_{k-1}(A_{k-1})$ (elementary subset inequality).
+The precise MAGNITUDE of this correction relative to $S_{k-1}$ depends on how many such
+$m$ exist — which requires prime-distribution reasoning outside F1/F2/F3.
 
-*Proof*: $\log(6m) = \log 6 + \log m > \log 3 + \log m = \log(3m)$, so $1/(6m\log 6m) < 1/(6m\log 3m)
-= (1/2)\cdot 1/(3m\log 3m)$. $\square$
-
-The right-hand side is at most $(1/2) \cdot S_{k-1}(A_{k-1})$: every $m$ in the sum
-satisfies $3m \in A_{k-1}$ by hypothesis, so $1/(3m\log 3m)$ is the $a=3m$ term of
-$S_{k-1}(A_{k-1}) = \sum_{a \in A_{k-1}} 1/(a\log a)$; thus
-$\sum_{m:\,2m,3m\in A_{k-1}} 1/(3m\log 3m) \leq S_{k-1}(A_{k-1})$ (positive-term
-sub-sum of $S_{k-1}$, elementary — each term appears in the full sum, and all terms are positive).
-So the collision correction is at most half the primary term. After accounting for collisions:
-$$\sum_{b \in \{2a\}\cup\{3a\}} \frac{1}{b\log b} \geq \sum_a \frac{1}{2a\log 2a} + \sum_a \frac{1}{3a\log 3a} - \frac{1}{2} S_{k-1}(A_{k-1}).$$
-For each $a \in A_{k-1}$ with $a \geq x$: termwise, $1/(2a\log(2a)) + 1/(3a\log(3a))
-= \frac{1}{a\log a}\Bigl[\frac{\log a}{2(\log 2 + \log a)} + \frac{\log a}{3(\log 3 + \log a)}\Bigr]
-\to \frac{1}{a\log a}\cdot\bigl(\tfrac{1}{2}+\tfrac{1}{3}\bigr)$ as $a \to \infty$.
-So for all $a \geq x$ (large $x$): $1/(2a\log 2a) + 1/(3a\log 3a) \geq (5/6 - \varepsilon_x)/(a\log a)$
-for some $\varepsilon_x \to 0$ as $x \to \infty$. Summing over $a \in A_{k-1}$:
-$\sum_{a} [1/(2a\log 2a) + 1/(3a\log 3a)] \geq (5/6 - \varepsilon_x) S_{k-1}(A_{k-1})$,
-and the combined $\{p=2, p=3\}$ effective ratio is $5/6 - \varepsilon_x$.
-
-The ratio $5/6 < 1$: adding primes 2 and 3 together still falls short of 1. The shortfall
-is $1 - 5/6 = 1/6$; adding the $p=5$ contribution (ratio $+1/5$) raises the total to
-$1/2 + 1/3 + 1/5 = 31/30 > 1$ in principle, but only if double-counting corrections
-among $\{2, 3, 5\}$ are small.
-Adding $p=5$ and bounding its collision correction similarly would give effective ratio
-$(1/2+1/3+1/5) - (\text{corrections}) = 31/30 - \text{corrections}$; if corrections
-$< 1/30$, the argument closes. This requires bounding the total collision weight among
-primes $\{2, 3, 5\}$, which depends on how many pairs $(a, a')$ with $pa = qa'$ for
-$p \neq q \in \{2, 3, 5\}$ exist in $A_{k-1}$.
+**Status**: Whether the total multi-prime blocked weight minus collision corrections exceeds
+$S_{k-1}(A_{k-1})$ (needed to close the two-stratum bound) is OPEN from F1/F2/F3. Q23 tracks this.
 
 ### 14.6 Summary of Q22 findings
 
 | Component | Status |
 |---|---|
-| Compensation factor definition $C(a) = \log a \sum_p 1/(p(\log a+\log p))$ | **Defined** (algebraic, from proof setup) |
-| Informal heuristic $C(a) \to 31/30 > 1$ (using primes $\{2,3,5\}$) | **OPEN from F1/F2/F3** (external prime facts) |
-| $p=2$ injection gives blocked-weight ratio $\to 1/2 < 1$ | **Proved** (insufficient alone) |
-| $\{2,3\}$ collision-corrected ratio $\leq 5/6 < 1$ | **Proved** (Sections 14.4-14.5) |
-| Collision correction $\leq (1/2) \cdot$ collision source weight | **Proved** (Lemma 14.5) |
-| Combined $\{2,3,5\}$ correction $< 1/30$ to reach ratio $> 1$ | **OPEN** (Q23) |
+| Compensation factor $C(a)$ definition | **Defined** (algebraic, no ledger content required) |
+| Whether $C(a) > 1$ for large $a$ | **OPEN from F1/F2/F3** (requires prime-distribution facts) |
+| Single-prime $p$ injection: blocked-weight ratio $< 1/p < 1$ | **Elementary** (each term $\log a / (p(\log a + \log p)) < 1/p < 1$) |
+| Multi-prime total minus collision corrections $> S_{k-1}$ | **OPEN** (Q22, Q23 — requires prime-distribution reasoning) |
 
-**Status**: The compensation-factor heuristic suggests the approach could work if $C(a) > 1$
-for large $a$, but this requires prime-distribution results outside F1/F2/F3.
-The double-counting structure (Section 14.4-14.5) shows the $\{2,3\}$ bound gives ratio
-$5/6 < 1$; closing to $> 1$ requires controlling $p=5$ collisions (Q23).
-No unconditional or conditional proof of the conjecture is claimed in this section.
+**Status**: The compensation-factor approach is OPEN. The definition of $C(a)$ is algebraic
+and clear, but showing $C(a) > 1$ and bounding the collision correction relative to $S_{k-1}$
+both require prime-distribution results outside F1/F2/F3. No proof of the conjecture
+is claimed in this section. Future work (Q22, Q23) will investigate whether prime-distribution
+facts can be added as additional given facts to close the argument.
