@@ -812,11 +812,12 @@ No resolution of the conjecture is claimed.
 **Lemma**: For any integer $n \geq 2$,
 $$\frac{1}{n \log n} = \int_1^\infty n^{-t}\,dt.$$
 
-*Proof*: $\int_1^\infty e^{-t\log n}\,dt
-= \bigl[-e^{-t\log n}/\log n\bigr]_{t=1}^{\infty}
-= 0 - (-1/\log n)\cdot e^{-\log n}
-= 1/(n\log n)$.
-Valid for all $n \geq 2$ since $\log n > 0$. $\square$
+*Proof* (elementary antiderivative computation, no external facts needed):
+$$\int_1^\infty n^{-t}\,dt = \int_1^\infty e^{-t\log n}\,dt
+= \Bigl[\frac{-e^{-t\log n}}{\log n}\Bigr]_{t=1}^{t=\infty}.$$
+At $t \to \infty$: $e^{-t\log n} \to 0$ (since $\log n > 0$ for $n \geq 2$).
+At $t = 1$: $e^{-\log n} = n^{-1} = 1/n$.
+Hence the integral equals $\frac{0 - (-1/n)}{\log n} = \frac{1/n}{\log n} = \frac{1}{n\log n}$. $\square$
 
 **Corollary (series form)**: Since each term $1/(a \log a) = \int_1^\infty a^{-t}\,dt \geq 0$,
 for any set $A \subset [x,\infty)$ (finite or infinite), the interchange of sum and integral
@@ -901,7 +902,7 @@ requires either a novel construction or a proof that no such injection exists
 | Demotion (high $\to$ low stratum): injectivity under primitivity | Open (Section 11.4) |
 
 The exchange-injection approach is unresolved. Section 12 pursues the demotion
-direction via Hall's theorem.
+direction via the matching condition (★) analyzed from first principles.
 
 
 ## Section 12 — Demotion Injectivity via Matching (Q20)
