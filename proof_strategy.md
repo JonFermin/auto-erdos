@@ -1104,7 +1104,10 @@ $N(S) = \{2, 3, 5, 7\}$ satisfies $|N(S)| = 4 < 5 = |S|$, so condition ($\star$)
 
 **Primitivity**: Each element is a product of exactly two distinct primes. Two such products
 $p \cdot q$ and $r \cdot s$ (with $p < q$, $r < s$) satisfy $pq \mid rs$ only if $p = r$ and $q = s$,
-i.e., they are equal. Checking all $\binom{5}{2} = 10$ pairs confirms no divisibility:
+i.e., they are equal. Proof: $pq \mid rs$ implies $p \mid rs$; since $p, r, s$ are all prime,
+$p = r$ or $p = s$; if $p = s$ then $s = p < q \leq r < s$, a contradiction; so $p = r$;
+then $q \mid s$, and $q, s$ prime with $q \mid s$ forces $q = s$. $\square$
+Checking all $\binom{5}{2} = 10$ pairs confirms no divisibility:
 $6 \nmid 10, 15, 21, 35$; $10 \nmid 15, 21, 35$; $15 \nmid 21, 35$; $21 \nmid 35$. $\square$
 
 **Neighbourhoods** (k$^*$ = 1, demote to primes):
@@ -1226,8 +1229,8 @@ Hypothesis H), then: from Section 14.1, $S_k(A_k) \leq T_k(x) - S_{k-1}$, giving
 $S = S_{k-1} + S_k \leq T_k(x) \leq T_k(2) < 1 + o(1)$ (by F3 for large $k$).
 
 **Why Hypothesis H is NOT provable from F1/F2/F3 in this section**:
-- Section 14.4 shows double-counting: the $p=2$ map alone gives blocked-weight ratio $\to 1/2 < 1$, insufficient.
-- Section 14.5 shows the $\{p=2, p=3\}$ collision-corrected bound gives ratio $\leq 5/6 < 1$, still insufficient.
+- Section 14.4 sketches (OPEN): the $p=2$ map alone gives blocked-weight ratio $< 1/2 < 1$, insufficient.
+- Section 14.5 sketches (OPEN): the $\{p=2, p=3\}$ collision-corrected bound gives ratio $< 5/6 < 1$, still insufficient.
 - Reaching ratio $> 1$ would require $p=5$ and bounding collisions among $\{2,3,5\}$ — which depends on prime distribution facts outside F1/F2/F3 (the informal computation giving $31/30 > 1$ in Section 14.2 is external).
 - **Conclusion**: Hypothesis H is OPEN from the F1/F2/F3 ledger. Q23 tracks this.
 
