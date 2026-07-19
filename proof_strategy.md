@@ -48,9 +48,11 @@ of resolution may appear in this file.
 
 **Note on $T_k(2)$ finiteness**: For large $k$ (where F3 applies), F3 gives
 $T_k(2) = 1 - (c+o(1))k^2/2^k < \infty$ (a finite value approaching 1).
-For small fixed $k$, deriving $T_k(2) < \infty$ from F1/F2/F3 alone is an open
-sub-problem; the bounded-stratum results in Sections 6–8 are proved only for
-sufficiently large strata (where F3 applies) and are OPEN for small strata.
+For all $k \geq 1$: $T_k(2) < \infty$ follows from F1 applied to the primitive set $A_k$
+of all $k$-almost primes (which is primitive since no $k$-almost prime divides another
+distinct $k$-almost prime, by complete additivity of $\Omega$). See Section 15.
+Therefore $T_k(x) \to 0$ as $x \to \infty$ for each fixed $k$ (tail of a convergent series),
+and the bounded-stratum results in Sections 6–8 are proved for ALL fixed strata.
 
 **Anti-traps** (do not trigger):
 
@@ -413,11 +415,11 @@ SUFFICIENTLY LARGE fixed $k$, $T_k(2) = 1-(c+o(1))k^2/2^k < \infty$.
 Since $T_k(x) = T_k(2) - \sum_{2 \leq n < x,\, \Omega(n)=k} \frac{1}{n\log n}$
 and the partial sum is non-negative and increases to $T_k(2)$ (each term is positive;
 F3 gives the total is finite), we get $T_k(x) \to 0$ as $x \to \infty$.
-For small fixed $k$ (e.g.\ $k = 1$),
-$T_k(2) < \infty$ is NOT derivable from F1/F2/F3 alone (OPEN sub-problem).
-The bounded-stratum lemma is FULLY PROVED for strata $k \geq K_0$ where F3 applies,
-and OPEN for small strata $k < K_0$.
-Hence $\sum_{k=1}^K T_k(x) \to 0$ for any fixed $K$, subject to the gap for small $k$.
+For all fixed $k \geq 1$: $T_k(2) < \infty$ follows from F1 applied to the
+primitive set $A_k$ of all $k$-almost primes (proved in Section 15). Therefore the tail
+$T_k(x) \to 0$ as $x \to \infty$ for every fixed $k$, and the bounded-stratum lemma holds
+for ALL fixed strata (not only large $k$ where F3 applies).
+Hence $\sum_{k=1}^K T_k(x) \to 0$ for any fixed $K$.
 
 **Consequence**: The conjecture holds easily (with $o(1)$ bound) whenever $A$
 is supported on strata of bounded Omega-number. The hard case requires elements
@@ -517,9 +519,9 @@ $$S := \sum_{a \in A} \frac{1}{a \log a} < 1 + o(1) \quad (x \to \infty).$$
 
 *Case 1 ($k$ fixed as $x\to\infty$)*: For all sufficiently large fixed $k$,
 $T_k(2) < 1$ by F3 sign disambiguation, so $S \leq T_k(x) \leq T_k(2) < 1 < 1 + o(1)$.
-For small fixed $k$ (where F3 does not directly apply): We need $T_k(2) < \infty$ to
-conclude $T_k(x) = o(1)$; this is an open sub-problem not derivable from F1/F2/F3.
-Case 1 is PROVED for large fixed $k$ (F3 applies) and OPEN for small fixed $k$.
+For all fixed $k$ (small or large): $T_k(2) < \infty$ by F1 applied to $A_k$
+(primitive set of all $k$-almost primes; see Section 15). Hence $T_k(x) \to 0$ as
+$x \to \infty$, and $S \leq T_k(x) \to 0 < 1 + o(1)$. Case 1 is FULLY PROVED for all fixed $k$.
 
 *Case 2 ($k = k(x) \to \infty$)*: By F3 (asymptotic formula for large $k$): $T_k(2) =
 1 - (c + o(1))k^2/2^k$. For large $k$, $c + o(1) \to c > 0$ and $(c+o(1))k^2/2^k > 0$,
