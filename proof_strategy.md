@@ -44,7 +44,7 @@ of resolution may appear in this file.
   correction is negative and $k^2/2^k \to 0$: the sum approaches 1 from BELOW as
   $k \to \infty$ (anti-trap 2). In particular, $T_k(2) < 1$ for all sufficiently
   large $k$. (The formula is asymptotic; for small fixed $k$ such as $k=1$,
-  $T_k(2)$ may exceed 1 and the asymptotic does not apply directly.)
+  F3 gives no upper bound on $T_k(2)$ for small fixed $k$; the asymptotic does not apply directly.)
 
 **Note on $T_k(2)$ finiteness**: For large $k$ (where F3 applies), F3 gives
 $T_k(2) = 1 - (c+o(1))k^2/2^k < \infty$ (a finite value approaching 1).
@@ -199,7 +199,7 @@ Let $S_1 := \sum_{a \in A_1} \frac{1}{a \log a}$ and
 $S_2 := \sum_{a \in A_2} \frac{1}{a \log a}$.
 
 **Upper bound on $S_1$**: Since $A_1 \subset [x, \infty)$ is a primitive set,
-F1 gives $S_1 < e^\gamma \frac{\pi}{4} + o(1)$ (F1 applies to any primitive $A_1 \subseteq \mathbb{N}$; the o(1) is F1's own error term, independent of $x$).
+F1 gives $S_1 < e^\gamma \frac{\pi}{4} + o(1)$ (by F1).
 (Here and throughout Section 4, $\log = \ln$ denotes the natural logarithm.)
 A finer bound via basic integral comparison is in `proof_lemmas/lemma_s1_bound.md`.
 
@@ -288,7 +288,7 @@ $A_2$ is itself a primitive set, and controlling $\sum_{b \in A_2} 1/(b \log b)$
 requires precisely the structural insight we need for $A$. The only available
 non-trivial global upper bound for any primitive set is F1 (Erdős–Zhang),
 which gives $S_2 < e^\gamma \pi/4 + o(1)$ by F1 (applied to the primitive set $A_2 \subset [x^e,\infty) \subseteq \mathbb{N}$; F1 applies since $A_2$ is primitive).
-Combined with $S_1 < e^\gamma \pi/4 + o(1)$ (F1 applied to the primitive set $A_1 \subseteq \mathbb{N}$; the o(1) is F1's absolute error term), this gives
+Combined with $S_1 < e^\gamma \pi/4 + o(1)$ (by F1), this gives
 $S_1 + S_2 < 2(e^\gamma \pi/4) + o(1)$ — weaker than F1 applied directly to $A$, and not
 a proof of the conjecture. No recursive application closes the gap.
 
@@ -373,7 +373,7 @@ A YES answer would close the conjecture; the existence of such $f$ is not known.
 ### 5.4 Current status and next steps
 
 What is proved (combining Sections 2–4):
-- $S_1 < e^\gamma \pi/4 + o(1)$ (F1 applied to primitive set $A_1 \subset [x,\infty) \subseteq \mathbb{N}$; o(1) is F1's absolute bound, not $x$-dependent)
+- $S_1 < e^\gamma \pi/4 + o(1)$ (by F1)
 - $S_2 < e^\gamma \pi/4 + o(1)$ (F1 applied directly: $A_2 \subset [x^e,\infty) \subseteq \mathbb{N}$ is a primitive set, so F1 applies)
 - The combined bound $S_1 + S_2 < 2(e^\gamma \pi/4) + o(1)$ (weaker than F1 directly)
 
@@ -473,8 +473,8 @@ $$S = S_j + S_k \leq T_j(x) + T_k(x) \leq T_j(2) + T_k(2),$$
 where by F3 sign-disambiguation $T_\ell(2) < 1$ for all sufficiently large $\ell$.
 For $j$ or $k$ near $k^*$ (large), this gives $T_j(2) < 1$ and $T_k(2) < 1$.
 For $j$ or $k$ small (say $j = 1$, $k = 2$), the F3 asymptotic does not apply;
-in that case $T_j(2)$ or $T_k(2)$ may exceed $1$, so the two per-stratum bounds
-could sum to exceed $1$, showing the naive two-stratum bound is insufficient.
+in that case F3 gives no upper bound on $T_j(2)$ or $T_k(2)$; whether they exceed $1$
+is open from F1/F2/F3, so the naive two-stratum bound is insufficient from the given facts.
 
 Cross-stratum primitivity constrains $A^{(k)}$: for each $a \in A^{(j)}$ and
 $b \in A^{(k)}$, $a \nmid b$. So $A^{(k)}$ is contained in the sieved set
@@ -490,7 +490,7 @@ analytic input beyond F1/F2/F3; this case remains open.
 
 What the analysis achieves (combining all sections):
 - **Sections 2–3**: Per-stratum bounds; each $S_k < 1$; summing diverges.
-- **Section 4**: Trading decomposition; $S_1 < e^\gamma\pi/4 + o(1)$ by F1 (o(1) is F1's absolute term).
+- **Section 4**: Trading decomposition; $S_1 < e^\gamma\pi/4 + o(1)$ by F1.
 - **Section 5**: Blocking density; $S_2$ open.
 - **Section 6, Lemma `low_stratum_vanish`**: For $\Omega(a) \leq K$ (fixed),
   $S = o(1)$ — conjecture holds easily.
@@ -691,7 +691,7 @@ Adding $S_j$: $S \leq T_{j+d}(2) + S_j(1-\delta) + o(1)$. $\square$
 $T_{j+d}(2) + S_j(1-\delta) < 1 + o(1)$, i.e.:
 $$S_j(1 - \delta) < 1 - T_{j+d}(2) + o(1).$$
 
-By F3 (algebraic rearrangement of $T_{j+d}(2) = 1 - (c+o(1))(j+d)^2/2^{j+d}$, where F3 states $T_k(2) = 1-(c+o(1))k^2/2^k$ with $k = j+d$):
+By F3 (with $k = j+d \to \infty$ as $j \to \infty$, so F3 applies):
 $$1 - T_{j+d}(2) = (c + o(1)) \cdot (j+d)^2/2^{j+d} \to 0 \quad\text{as } j \to \infty,$$
 since $(j+d)^2/2^{j+d} \to 0$ exponentially and $c + o(1) \to c > 0$.
 
@@ -791,10 +791,8 @@ this is OPEN (not derivable from F1/F2/F3).
 **Theorem (Tightness)**: For each $x \geq 2$, set $k^*(x) = \lceil \log_2 x \rceil$.
 The primitive set $\mathcal{A}_{k^*}(x)$ is a subset of $[x, \infty)$ with
 $$S(\mathcal{A}_{k^*}(x)) = T_{k^*(x)}(2).$$
-As $x \to \infty$, $k^*(x) \to \infty$; F3 then gives
-$T_{k^*(x)}(2) = 1 - (c+o(1))\frac{k^*(x)^2}{2^{k^*(x)}} \to 1$ from below,
-where the $o(1)$ is as $k^*(x) \to \infty$ (equivalently, as $x \to \infty$), consistent
-with the domain of F3 ($k \to \infty$).
+Since $k^*(x) \to \infty$ as $x \to \infty$, F3 applies (with $k = k^*(x)$) and gives
+$T_{k^*(x)}(2) \to 1$ from below.
 
 *Proof*: By Section 10.2, $T_{k^*}(x) = T_{k^*}(2)$ (arithmetic: every $k^*$-almost
 prime $n \geq 2^{k^*} \geq x$ since $k^* = \lceil\log_2 x\rceil$; no lower bound
@@ -1217,7 +1215,7 @@ $$C(a) := \frac{\text{blocking weight from } a}{\text{own weight of } a}
 = \log a \cdot \sum_{p \text{ prime}} \frac{1}{p(\log a + \log p)}.$$
 
 Whether $C(a) > 1$ for sufficiently large $a$ is **OPEN from F1/F2/F3**: establishing
-this requires prime-distribution estimates (e.g.\ Mertens' theorem) that are not in
+this requires prime-distribution estimates not in
 the F1/F2/F3 ledger. No claim about $C(a)$ exceeding any specific threshold is made
 in this document. This open question is tracked as Q22.
 
@@ -1231,7 +1229,7 @@ $S = S_{k-1} + S_k \leq T_k(x) \leq T_k(2) < 1 + o(1)$ (by F3 for large $k$).
 **Why Hypothesis H is NOT provable from F1/F2/F3 in this section**:
 - Section 14.4 sketches (OPEN): the $p=2$ map alone gives blocked-weight ratio $< 1/2 < 1$, insufficient.
 - Section 14.5 sketches (OPEN): the $\{p=2, p=3\}$ collision-corrected bound gives ratio $< 5/6 < 1$, still insufficient.
-- Reaching ratio $> 1$ would require $p=5$ and bounding collisions among $\{2,3,5\}$ — which depends on prime distribution facts outside F1/F2/F3 (the informal computation giving $31/30 > 1$ in Section 14.2 is external).
+- Reaching ratio $> 1$ would require $p=5$ and bounding collisions among $\{2,3,5\}$ — which depends on prime distribution facts outside F1/F2/F3.
 - **Conclusion**: Hypothesis H is OPEN from the F1/F2/F3 ledger. Q23 tracks this.
 
 ### 14.4 Double-counting obstacle (sketch — OPEN)
