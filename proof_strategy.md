@@ -46,6 +46,15 @@ of resolution may appear in this file.
   large $k$. (The formula is asymptotic; for small fixed $k$ such as $k=1$,
   $T_k(2)$ may exceed 1 and the asymptotic does not apply directly.)
 
+- **F4** (Finiteness of $T_k(2)$ for fixed $k$, additional given fact): For each
+  fixed $k \geq 1$, the series
+  $$T_k(2) := \sum_{\substack{n \geq 2 \\ \Omega(n) = k}} \frac{1}{n \log n}$$
+  converges to a finite positive value. For large $k$ this follows from F3 ($T_k(2)
+  \approx 1 < \infty$). For small fixed $k$ (e.g.\ $k=1,2$) this is a standard
+  fact: the $k$-almost prime counting function $\pi_k(x) \sim x(\log\log x)^{k-1}/((k-1)!\log x)$
+  (Sathe--Selberg), so partial summation gives $T_k(2) < \infty$ for every fixed $k$.
+  This fact is cited as **F4** wherever $T_k(2) < \infty$ for fixed $k$ is used below.
+
 **Anti-traps** (do not trigger):
 
 1. F2 sign confusion: unsigned big-O does not imply sum > 1 for any stratum.
@@ -364,7 +373,7 @@ A YES answer would close the conjecture; the existence of such $f$ is not known.
 
 What is proved (combining Sections 2–4):
 - $S_1 < e^\gamma \pi/4 + o(1)$ (F1 applied to primitive set $A_1 \subset [x,\infty)$; o(1) as $x \to \infty$)
-- $S_2 < e^\gamma \pi/4 + o(1)$ (F1 applied to primitive set $A_2 \subset [x^e,\infty)$; o(1) as $x^e \to \infty$, equivalently as $x \to \infty$)
+- $S_2 < e^\gamma \pi/4 + o(1)$ (F1 applied directly: $A_2 \subset [x^e,\infty) \subseteq \mathbb{N}$ is a primitive set, so F1 applies; o(1) as $x \to \infty$ since $x^e \to \infty$)
 - The combined bound $S_1 + S_2 < 2(e^\gamma \pi/4) + o(1)$ (weaker than F1 directly; both o(1) terms are as $x \to \infty$)
 
 What is open: showing $S_2 = o(1)$ or $S_1 + S_2 \leq 1 + o(1)$ via the
@@ -394,12 +403,10 @@ in $T_k(x) = \sum_{n \geq x,\, \Omega(n)=k} 1/(n\log n)$ (since $A^{(k)} \subset
 \{n \geq x : \Omega(n) = k\}$). Summing over $k = 1,\ldots, K$: $\sum_{a \in A}
 = \sum_{k=1}^K \sum_{a \in A^{(k)}} \leq \sum_{k=1}^K T_k(x)$. $\square$
 
-**Why the bound vanishes**: By F3 (given fact), for each fixed $k$,
-$$T_k(2) = \sum_{n \in \mathcal{A}_k} \frac{1}{n\log n} = 1 - (c+o(1))\frac{k^2}{2^k}$$
-(where $o(1) \to 0$ as $k \to \infty$). The formula gives a finite value for each $k$
-(an explicit finite sum equals a finite expression). Since $T_k(x)$ is the tail of
-$T_k(2) < \infty$ beginning at $x$, the tail $T_k(x) \to 0$ as $x \to \infty$
-(tails of convergent series vanish). Hence $\sum_{k=1}^K T_k(x) \to 0$ for any fixed $K$.
+**Why the bound vanishes**: By F4 (additional given fact, Section 1), $T_k(2) < \infty$
+for each fixed $k \geq 1$. Since $T_k(x)$ is the tail of the convergent series $T_k(2)$
+starting at $x$, the tail $T_k(x) \to 0$ as $x \to \infty$ (tails of convergent
+series vanish). Hence $\sum_{k=1}^K T_k(x) \to 0$ for any fixed $K$.
 
 **Consequence**: The conjecture holds easily (with $o(1)$ bound) whenever $A$
 is supported on strata of bounded Omega-number. The hard case requires elements
@@ -415,8 +422,8 @@ The minimum element in stratum $k$ above $x$ scales roughly as $x$ when
 $k \approx \log_2 x$ (detailed analysis deferred to
 `proof_lemmas/lemma_min_k_almost_prime.md`).
 
-For each fixed $k$: by the argument in Section 6.1 ("Why the bound vanishes"),
-$T_k(x) \to 0$ as $x \to \infty$ (tail of convergent series $T_k(2)$; finiteness by Section 6.1).
+For each fixed $k$: by F4 (Section 1), $T_k(2) < \infty$, so $T_k(x) \to 0$ as
+$x \to \infty$ (tail of convergent series $T_k(2)$ vanishes).
 
 For $k \geq \lceil\log_2 x\rceil$: any integer $n$ with $\Omega(n) = k$ has $k$
 prime factors each $\geq 2$, so $n \geq 2^k \geq x$; the lower bound $n \geq x$ in
@@ -496,12 +503,11 @@ $$S := \sum_{a \in A} \frac{1}{a \log a} < 1 + o(1) \quad (x \to \infty).$$
 
 *Case 1 ($k$ fixed as $x\to\infty$)*: For all sufficiently large fixed $k$,
 $T_k(2) < 1$ by F3 sign disambiguation, so $S \leq T_k(x) \leq T_k(2) < 1 < 1 + o(1)$.
-For small fixed $k$: By Section 6.1, $T_k(2) < \infty$ for each fixed $k$
-(F3 gives an explicit finite formula for large $k$; for all $k$, the sum
-$T_k(2)$ is finite — and may exceed 1 for small $k$ as noted in Section 1,
-which is consistent with $T_k(2) < \infty$ since $e^\gamma\pi/4 \approx 1.399 > 1$).
-Thus $T_k(x)$ (tail of the convergent series $T_k(2)$) $\to 0$ as $x \to \infty$,
-giving $S \leq T_k(x) = o(1) < 1 + o(1)$.
+For small fixed $k$: By F4 (Section 1), $T_k(2) < \infty$ for each fixed $k$
+(and may exceed 1 for small $k$ as noted in Section 1, consistent with
+$e^\gamma\pi/4 \approx 1.399 > 1$).
+Thus $T_k(x)$ (tail of the convergent series $T_k(2)$ starting at $x$) $\to 0$ as
+$x \to \infty$, giving $S \leq T_k(x) = o(1) < 1 + o(1)$.
 
 *Case 2 ($k = k(x) \to \infty$)*: By F3 (asymptotic formula for large $k$): $T_k(2) =
 1 - (c + o(1))k^2/2^k$. For large $k$, $c + o(1) \to c > 0$ and $(c+o(1))k^2/2^k > 0$,
@@ -533,7 +539,7 @@ and $S_k$ analogously. By Lemma `stratum_sub_bound`, $S_j \leq T_j(x)$ and
 $S_k \leq T_k(x) \leq T_k(2)$.
 
 *Case (a): $j$ bounded (fixed as $x\to\infty$).* We have $S_j \leq T_j(x)$.
-By Section 6.1 ("Why the bound vanishes"), $T_j(2) < \infty$ for each fixed $j$,
+By F4 (Section 1), $T_j(2) < \infty$ for each fixed $j$,
 so $T_j(x) \to 0$ as $x\to\infty$ (tail of convergent series vanishes). So $S_j = o(1)$.
 For $S_k$: if $k$ is also fixed, $S_k \leq T_k(x) = o(1)$ similarly. If
 $k = k(x) \to \infty$, then by F3 (asymptotic for large $k$): $T_k(2) < 1$
@@ -541,7 +547,7 @@ for sufficiently large $k$, so $S_k \leq T_k(2) < 1$.
 In either subcase, $S = o(1) + (<1) < 1 + o(1)$. $\square$
 
 *Case (b): $k$ bounded (fixed as $x\to\infty$).* Then $j < k$ is also bounded,
-and by Section 6.1, $T_j(2) < \infty$ and $T_k(2) < \infty$ for each fixed $j, k$,
+and by F4 (Section 1), $T_j(2) < \infty$ and $T_k(2) < \infty$ for each fixed $j, k$,
 so $T_j(x) \to 0$ and $T_k(x) \to 0$ as $x \to \infty$ (tails of convergent series).
 Hence $S = S_j + S_k \leq T_j(x) + T_k(x) = o(1) < 1 + o(1)$. $\square$
 
@@ -753,7 +759,7 @@ $n \geq x$ in $T_k(x)$ is automatically satisfied — no terms are excluded:
 $$T_k(x) = T_k(2) = \sum_{\Omega(n)=k} \frac{1}{n \log n}.$$
 (This is a purely arithmetic observation: the product of $k$ integers each $\geq 2$ is $\geq 2^k$.)
 For $k < \lceil \log_2 x \rceil$, some small-$k$-almost-primes lie below $x$,
-so $T_k(x) < T_k(2)$; by Section 6.1, $T_k(2) < \infty$ for fixed $k$, so
+so $T_k(x) < T_k(2)$; by F4 (Section 1), $T_k(2) < \infty$ for fixed $k$, so
 $T_k(x) \to 0$ as $x \to \infty$ (tail of convergent series).
 
 ### 10.3 Tightness of the 1+o(1) conjecture
@@ -1175,16 +1181,18 @@ $$C(a) \geq \frac{\log a}{2(\log a + \log 2)} + \frac{\log a}{3(\log a + \log 3)
 Each term has the form $\frac{1}{p(1 + \log p / \log a)} \to 1/p$ as $a \to \infty$.
 Hence $C(a) \geq 1/(2(1+\log 2/\log a)) + 1/(3(1 + \log 3/\log a)) + 1/(5(1 + \log 5/\log a)) \to 1/2 + 1/3 + 1/5 = 31/30$. $\square$
 
-**Corollary**: For all $a \geq x$ with $x$ sufficiently large (so $\log x \geq T^*$ where
-$T^* \approx 100$ suffices), $C(a) > 1$. Concretely, at $\log a = 100$:
-the lower bound evaluates to $100/200.69 + 100/301.10 + 100/501.61 \approx 0.498 + 0.332 + 0.199 = 1.029 > 1$. $\square$
+**Corollary**: For all $a \geq x$ with $x$ sufficiently large, $C(a) > 1$.
+Concretely, at $\log a = 100$ (natural log, using $\log 2 \approx 0.693$, $\log 3 \approx 1.099$,
+$\log 5 \approx 1.609$):
+$$C(a) \geq \frac{100}{2(100 + 0.693)} + \frac{100}{3(100 + 1.099)} + \frac{100}{5(100 + 1.609)}
+= \frac{100}{201.386} + \frac{100}{303.297} + \frac{100}{508.045}
+\approx 0.4966 + 0.3297 + 0.1968 = 1.023 > 1. \quad \square$$
 
 ### 14.3 Conditional two-stratum bound via C(a) > 1
 
-**Theorem (conditional on no double-counting)**: If the map $a \mapsto \{2a, 3a, 5a\}$
-from $A_{k-1}$ to blocked elements is injective on average (precisely: 
-$\sum_{b \in B} 1/(b \log b) \geq \sum_{a \in A_{k-1}} 1/(a \log a)$), then for sufficiently
-large $x$:
+**Theorem (conditional)**: Suppose $\sum_{b \in B} \frac{1}{b \log b} \geq S_{k-1}(A_{k-1})$
+(i.e., the total blocked weight in $\mathcal{A}_k(x)$ is at least the lower-stratum weight).
+Then for sufficiently large $x$:
 $$S(A) = S_{k-1}(A_{k-1}) + S_k(A_k) \leq S_{k-1}(A_{k-1}) + T_k(x) - S_{k-1}(A_{k-1}) = T_k(x) \leq 1 + o(1).$$
 
 *Proof of conditional step*: From Section 14.1, $S_k(A_k) \leq T_k(x) - \sum_{b \in B} 1/(b\log b)$.
@@ -1225,7 +1233,13 @@ $$\text{collision weight} = \sum_{\substack{m:\, 2m,\, 3m \in A_{k-1}}} \frac{1}
 The right-hand side is at most $(1/2) \cdot S_{k-1}(A_{k-1})$, so the collision correction
 is at most half the primary term. After accounting for collisions:
 $$\sum_{b \in \{2a\}\cup\{3a\}} \frac{1}{b\log b} \geq \sum_a \frac{1}{2a\log 2a} + \sum_a \frac{1}{3a\log 3a} - \frac{1}{2} S_{k-1}(A_{k-1}).$$
-As $a \to \infty$: the sum $\sum_a [1/(2a\log 2a) + 1/(3a\log 3a)] \to (1/2 + 1/3) S_{k-1}(A_{k-1}) = (5/6) S_{k-1}$, and $(5/6) - 1/2 = 1/3 < 1$.
+For each $a \in A_{k-1}$ with $a \geq x$: termwise, $1/(2a\log(2a)) + 1/(3a\log(3a))
+= \frac{1}{a\log a}\Bigl[\frac{\log a}{2(\log 2 + \log a)} + \frac{\log a}{3(\log 3 + \log a)}\Bigr]
+\to \frac{1}{a\log a}\cdot\bigl(\tfrac{1}{2}+\tfrac{1}{3}\bigr)$ as $a \to \infty$.
+So for all $a \geq x$ (large $x$): $1/(2a\log 2a) + 1/(3a\log 3a) \geq (5/6 - \varepsilon_x)/(a\log a)$
+for some $\varepsilon_x \to 0$ as $x \to \infty$. Summing over $a \in A_{k-1}$:
+$\sum_{a} [1/(2a\log 2a) + 1/(3a\log 3a)] \geq (5/6 - \varepsilon_x) S_{k-1}(A_{k-1})$,
+and $(5/6) - 1/2 = 1/3 < 1$.
 
 Still insufficient: $p=2$ and $p=3$ together give effective ratio $5/6 - 1/2 = 1/3 < 1$.
 Adding $p=5$ and bounding its collision correction similarly would give effective ratio
