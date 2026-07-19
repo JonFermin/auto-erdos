@@ -1,10 +1,13 @@
 """proof_prepare.py — READ-ONLY proof-attempt verifier (Track 2).
 
 Parallel to ``prepare.py``. Reads ``proof_strategy.md`` and the problem ledger
-at ``proofs/<PROOF_TAG>.json``, runs five critic LLMs in parallel against the
-proof draft, optionally runs the deterministic witness verifier (when the
-proof commits a ``<!-- WITNESS -->`` block), aggregates findings, and emits a
-fixed ``print_summary`` block that ``proof_log_result.py`` parses.
+at ``proofs/<PROOF_TAG>.json``, runs seven critic LLMs in parallel against the
+proof draft (ledger, sign, openness, numerical, internal correctness critics
+plus the strategy-promise critic and the adversarial falsify critic), runs
+the deterministic lemma CHECK blocks in ``proof_lemmas/``, optionally runs
+the deterministic witness verifier (when the proof commits a
+``<!-- WITNESS -->`` block), aggregates findings, and emits a fixed
+``print_summary`` block that ``proof_log_result.py`` parses.
 
 Track 1 (``prepare.py``) is untouched. This module duplicates the small bits
 it needs (``load_spec``, ``_short_commit``, repo-root resolution) so the
@@ -46,7 +49,15 @@ PROOF_STRATEGY_MD = REPO_ROOT / "proof_strategy.md"
 
 DEFAULT_TIME_BUDGET_S = 1800  # 30 min default for proof verification
 
-CRITIC_NAMES = ("ledger", "sign", "openness", "numerical", "internal")
+# Shared cache root — mirrors prepare.py's resolution so Track 2's
+# cross-branch state (cumulative notes) lives next to Track 1's caches.
+_CACHE_DIR = (
+    Path(os.environ["AUTOERDOS_CACHE_DIR"]).expanduser()
+    if os.environ.get("AUTOERDOS_CACHE_DIR")
+    else Path.home() / ".cache" / "auto-erdos"
+)
+
+CRITIC_NAMES = ("ledger", "sign", "openness", "numerical", "internal", "strategy", "falsify")
 CRITIC_TIMEOUT_S = 240  # per critic; 4 minutes is generous for opus
 
 # AUTOERDOS_PROOF_CRITICS controls the LLM critic pass.
@@ -69,6 +80,27 @@ def _critics_enabled() -> bool:
 _WITNESS_RE = re.compile(
     r"<!--\s*WITNESS\s*\n(.*?)\nWITNESS\s*-->",
     re.DOTALL,
+)
+
+# Lemma-level falsification checks: a lemma file may embed one or more
+#   <!-- CHECK
+#   <python code, stdlib only>
+#   CHECK -->
+# blocks. Each is run in an isolated subprocess; the snippet must exit 0
+# when the lemma survives the test and raise (AssertionError is idiomatic)
+# when the tested instances falsify it. A failing CHECK is a deterministic
+# BLOCKING finding — cheaper than a full session discovering the dead end.
+_CHECK_RE = re.compile(
+    r"<!--\s*CHECK\s*\n(.*?)\nCHECK\s*-->",
+    re.DOTALL,
+)
+PROOF_LEMMAS_DIR = REPO_ROOT / "proof_lemmas"
+LEMMA_CHECK_TIMEOUT_S = int(os.environ.get("AUTOERDOS_LEMMA_CHECK_TIMEOUT_S", "15"))
+_LEMMA_CHECK_MAX_CHARS = 20_000
+
+_FRONTMATTER_STATUS_RE = re.compile(
+    r"\A---\s*\n.*?^status:\s*(\w+)\s*$.*?\n---",
+    re.DOTALL | re.MULTILINE,
 )
 
 
@@ -169,8 +201,184 @@ def _run_witness_verifier(payload: dict, spec: dict) -> tuple[int, float, str]:
 
 
 # --------------------------------------------------------------------------- #
+# Cumulative proof notes — the ONE cross-branch, cross-session knowledge
+# channel for Track 2 (mirrors Track 1's notes_<TAG>.md). Lives in the
+# shared cache dir so every worktree/branch of the same problem sees it.
+# Intended content: approach → why it failed → what would revive it, the
+# current minimal open lemma stated formally, literature findings, and
+# numerical constants. Session handoffs are per-branch and ≤1 page; this
+# file is where insight compounds instead of being re-derived.
+# --------------------------------------------------------------------------- #
+
+def _proof_notes_path(tag: str | None = None) -> Path:
+    return _CACHE_DIR / f"proof_notes_{tag or PROOF_TAG}.md"
+
+
+def load_proof_notes(tag: str | None = None) -> str:
+    """Return the accumulated cross-branch proof notes ('' if none yet)."""
+    path = _proof_notes_path(tag)
+    if not path.exists():
+        return ""
+    try:
+        return path.read_text(encoding="utf-8")
+    except OSError:
+        return ""
+
+
+def append_proof_notes(text: str, tag: str | None = None) -> None:
+    """Append a timestamped markdown section to the problem's proof notes.
+
+    Best-effort file locking (parallel proof worktrees may append
+    concurrently); a lock failure degrades to an unlocked append rather
+    than losing the note.
+    """
+    path = _proof_notes_path(tag)
+    stamp = datetime.now(timezone.utc).isoformat(timespec="seconds")
+    block = f"\n## {stamp}\n\n{text.rstrip()}\n"
+    path.parent.mkdir(parents=True, exist_ok=True)
+    try:
+        with open(path, "a", encoding="utf-8") as f:
+            try:
+                if platform.system() == "Windows":
+                    import msvcrt
+                    f.seek(0)
+                    msvcrt.locking(f.fileno(), msvcrt.LK_LOCK, 1)
+                else:
+                    import fcntl
+                    fcntl.flock(f.fileno(), fcntl.LOCK_EX)
+            except OSError:
+                pass  # degrade to unlocked append
+            f.seek(0, os.SEEK_END)
+            if f.tell() == 0:
+                f.write(f"# proof notes — {tag or PROOF_TAG}\n")
+            f.write(block)
+            f.flush()
+            try:
+                if platform.system() == "Windows":
+                    import msvcrt
+                    f.seek(0)
+                    msvcrt.locking(f.fileno(), msvcrt.LK_UNLCK, 1)
+                else:
+                    import fcntl
+                    fcntl.flock(f.fileno(), fcntl.LOCK_UN)
+            except OSError:
+                pass
+    except OSError:
+        return
+
+
+# --------------------------------------------------------------------------- #
+# Lemma CHECK blocks — deterministic falsification tests
+# --------------------------------------------------------------------------- #
+
+def _lemma_status(text: str) -> str:
+    m = _FRONTMATTER_STATUS_RE.match(text)
+    return m.group(1).lower() if m else "unknown"
+
+
+def run_lemma_checks(lemmas_dir: Path | None = None) -> tuple[list[Finding], dict]:
+    """Run every ``<!-- CHECK -->`` block in proof_lemmas/lemma_*.md.
+
+    Returns (findings, meta). Semantics:
+      - blocks in lemmas with status disproved/abandoned are skipped (dead
+        lemmas keep their checks as audit trail, but re-running them adds
+        nothing);
+      - a check that exits non-zero (assertion failure, exception) is a
+        BLOCKING finding — the lemma is numerically falsified and the agent
+        should set ``status: disproved``;
+      - a check that times out is a WARN (no evidence either way);
+      - a passing check produces no finding, only a count in meta.
+
+    Runs in a subprocess with ``python -I`` (isolated mode, no site, no env
+    inheritance of PYTHON*) so a snippet can use the stdlib but starts from
+    a clean interpreter. This is agent-authored code executed by the
+    harness — the same trust level as strategy.py in Track 1.
+    """
+    d = lemmas_dir or PROOF_LEMMAS_DIR
+    findings: list[Finding] = []
+    ran = failed = timed_out = skipped = 0
+    if d.is_dir():
+        for path in sorted(d.glob("lemma_*.md")):
+            try:
+                text = path.read_text(encoding="utf-8")
+            except OSError:
+                continue
+            blocks = _CHECK_RE.findall(text)
+            if not blocks:
+                continue
+            status = _lemma_status(text)
+            if status in ("disproved", "abandoned"):
+                skipped += len(blocks)
+                continue
+            for i, code in enumerate(blocks):
+                if len(code) > _LEMMA_CHECK_MAX_CHARS:
+                    findings.append(Finding(
+                        critic="lemma_check", flag="WARN", line_ref=None,
+                        evidence=f"lemma_check_too_long: {path.name}#{i} ({len(code)} chars)",
+                        suggestion=f"CHECK blocks are capped at {_LEMMA_CHECK_MAX_CHARS} chars; split or slim the test",
+                    ))
+                    continue
+                ran += 1
+                try:
+                    proc = subprocess.run(
+                        [sys.executable, "-I", "-c", code],
+                        capture_output=True, text=True,
+                        timeout=LEMMA_CHECK_TIMEOUT_S,
+                        cwd=str(REPO_ROOT),
+                    )
+                except subprocess.TimeoutExpired:
+                    timed_out += 1
+                    findings.append(Finding(
+                        critic="lemma_check", flag="WARN", line_ref=None,
+                        evidence=f"lemma_check_timeout: {path.name}#{i} > {LEMMA_CHECK_TIMEOUT_S}s",
+                        suggestion="shrink the test's instance sizes, or raise AUTOERDOS_LEMMA_CHECK_TIMEOUT_S",
+                    ))
+                    continue
+                if proc.returncode != 0:
+                    failed += 1
+                    tail = (proc.stderr or proc.stdout or "").strip().splitlines()
+                    tail_txt = tail[-1][:200] if tail else "(no output)"
+                    findings.append(Finding(
+                        critic="lemma_check", flag="BLOCKING", line_ref=None,
+                        evidence=f"lemma_check_failed: {path.name}#{i}: {tail_txt}",
+                        suggestion=f"the lemma is numerically falsified — set status: disproved in {path.name} and rework the proof structure",
+                    ))
+    meta = {"ran": ran, "failed": failed, "timed_out": timed_out, "skipped": skipped}
+    return findings, meta
+
+
+# --------------------------------------------------------------------------- #
 # Critic execution
 # --------------------------------------------------------------------------- #
+
+_LEMMA_FILES_MAX_CHARS = 40_000
+
+
+def _collect_lemma_files_md() -> str:
+    """Concatenate proof_lemmas/lemma_*.md for critics that need lemma
+    context (strategy, falsify). Bounded so a long-lived problem's lemma
+    corpus doesn't blow the prompt budget; dead lemmas are summarized to
+    their frontmatter + first lines rather than dropped (dead ends are
+    exactly what the strategy critic needs to see)."""
+    if not PROOF_LEMMAS_DIR.is_dir():
+        return "(no lemma files)"
+    parts: list[str] = []
+    for path in sorted(PROOF_LEMMAS_DIR.glob("lemma_*.md")):
+        try:
+            text = path.read_text(encoding="utf-8")
+        except OSError:
+            continue
+        status = _lemma_status(text)
+        if status in ("disproved", "abandoned") and len(text) > 1500:
+            text = text[:1500] + f"\n... [truncated; status={status}, full body in {path.name}]\n"
+        parts.append(f"===== {path.name} =====\n{text}")
+    if not parts:
+        return "(no lemma files)"
+    out = "\n\n".join(parts)
+    if len(out) > _LEMMA_FILES_MAX_CHARS:
+        out = out[:_LEMMA_FILES_MAX_CHARS] + "\n... [lemma corpus truncated at prompt budget]\n"
+    return out
+
 
 def _render_critic_prompt(critic_name: str, spec: dict, proof_md: str, *, witness_valid: int) -> str:
     template_path = PROMPTS_DIR / f"critic_{critic_name}.md"
@@ -186,6 +394,11 @@ def _render_critic_prompt(critic_name: str, spec: dict, proof_md: str, *, witnes
         "proof_strategy_md": proof_md,
         "witness_valid": str(witness_valid),
     }
+    # Only build the lemma corpus for templates that reference it —
+    # safe_substitute ignores unknown keys, but reading every lemma file
+    # for the five critics that don't use them is wasted I/O.
+    if "$lemma_files_md" in template_text or "${lemma_files_md}" in template_text:
+        fields["lemma_files_md"] = _collect_lemma_files_md()
     return Template(template_text).safe_substitute(**fields)
 
 
@@ -314,11 +527,12 @@ def _sandboxed_eval(expr: str, timeout_s: int = 5) -> tuple[bool, str]:
 
 
 def _evaluate_numerical_findings(findings: list[Finding]) -> None:
-    """Mutate findings: for each Finding from the numerical critic with a
-    numerical_check, run it sandboxed; record pass/fail; escalate WARN→BLOCKING
-    on FAIL. Findings with numerical_check==None get result=skipped."""
+    """Mutate findings: for each Finding from the numerical or falsify
+    critics with a numerical_check, run it sandboxed; record pass/fail;
+    escalate WARN→BLOCKING on FAIL. Findings with numerical_check==None
+    get result=skipped."""
     for f in findings:
-        if f.critic != "numerical":
+        if f.critic not in ("numerical", "falsify"):
             continue
         if f.numerical_check is None:
             f.numerical_check_result = "skipped"
@@ -372,21 +586,31 @@ def verify_proof(
     else:
         witness_valid, witness_score, witness_reason = _run_witness_verifier(payload, spec)
 
+    # 1.5. Lemma CHECK blocks — deterministic, cheap, and run in BOTH
+    #      critics-on and critics-off modes. A failing check is a BLOCKING
+    #      finding regardless of what the LLM critics think.
+    lemma_findings, lemma_meta = run_lemma_checks()
+    findings.extend(lemma_findings)
+    critic_metas["_lemma_checks"] = lemma_meta
+
     # 2. Critics — gated by AUTOERDOS_PROOF_CRITICS. When off, we skip the
-    #    LLM pass entirely and rely on (a) the witness verifier above and
-    #    (b) the resolution-string defense-in-depth in _compute_verdict_hint.
+    #    LLM pass entirely and rely on (a) the witness verifier above,
+    #    (b) the lemma CHECK blocks above, and (c) the resolution-string
+    #    defense-in-depth in _compute_verdict_hint.
     #    This is the speculative-exploration mode: fewer wall-clock seconds
     #    per round, no critic-driven BLOCKING flags, but a falsified
     #    disproof still cannot keep_disproof without a real witness.
     if not _critics_enabled():
         critic_metas["_critics"] = {"status": "off", "reason": "AUTOERDOS_PROOF_CRITICS disabled"}
-        verdict = _compute_verdict_hint(spec, witness_valid, 0, proof_md)
+        blocking = sum(1 for f in findings if f.flag == "BLOCKING")
+        warn = sum(1 for f in findings if f.flag == "WARN")
+        verdict = _compute_verdict_hint(spec, witness_valid, blocking, proof_md)
         return ProofVerifyResult(
             claim_status=spec.get("claim_status", "unknown"),
             witness_valid=witness_valid,
             witness_score=witness_score,
-            critic_blocking_count=0,
-            critic_warn_count=0,
+            critic_blocking_count=blocking,
+            critic_warn_count=warn,
             verdict_hint=verdict,
             verifier_seconds=time.time() - t0,
             findings=findings,
@@ -495,8 +719,13 @@ def _compute_verdict_hint(spec: dict, witness_valid: int, blocking: int, proof_m
     if blocking > 0:
         return "blocked"
     # Defense-in-depth: if proof asserts resolution but no witness, treat as
-    # blocked even if the openness critic missed.
-    if spec.get("claim_status") == "open":
+    # blocked even if the openness critic missed. Fires on open claims AND
+    # on proved rediscovery benchmarks — on a proved claim, unwitnessed
+    # disproof phrasing contradicts a published theorem, and unwitnessed
+    # "we have proven"/"qed" is still an unverified resolution claim (a
+    # benchmark writeup should say "we reconstruct <citation>'s argument",
+    # which does not trip these strings).
+    if spec.get("claim_status") in ("open", "proved"):
         resolution_strings = (
             "the assertion is false", "the conjecture is false",
             "we disprove", "this disproves", "we have proven",

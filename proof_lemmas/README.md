@@ -39,6 +39,35 @@ what's been tried, what blocks progress, what the next move would be.
   Body explains why (so future agents don't re-derive the dead end).
   `discharged_by_round` is set.
 
+## CHECK blocks — machine falsification tests (dual attack)
+
+Any lemma file may embed one or more falsification tests:
+
+```markdown
+<!-- CHECK
+# stdlib-only Python. Exit 0 = the lemma survives the tested instances.
+# Raise (AssertionError is idiomatic) = the lemma is FALSIFIED.
+import math
+for k in range(1, 50):
+    assert some_claimed_inequality(k), f"fails at k={k}"
+CHECK -->
+```
+
+`proof_prepare.py` runs every CHECK block in every non-dead lemma
+(status not in {disproved, abandoned}) in an isolated subprocess
+(`python -I`, 15s timeout via `AUTOERDOS_LEMMA_CHECK_TIMEOUT_S`, 20k char
+cap). A failing check is a deterministic **BLOCKING** finding — it fires
+in both critics-on and critics-off modes. The intended discipline:
+
+- **Write the CHECK before writing the proof.** Ten seconds of compute
+  kills a false lemma that would otherwise cost a full session (the
+  trading-decomposition dead end of 2026-07-11 is the canonical example
+  of a session spent on something a numeric probe could have redirected).
+- A check that passes is *evidence*, not proof — the lemma still needs
+  its `status: proved` body.
+- When a check fails, set `status: disproved` and keep both the body and
+  the check — the falsifying instance is part of the audit trail.
+
 ## Citing lemmas in the main proof
 
 In `proof_strategy.md`, cite by lemma id:

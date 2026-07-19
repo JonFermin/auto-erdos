@@ -2,16 +2,26 @@
   "name": "primitive_set_erdos",
   "family": "primitive_set",
   "track": "proof",
-  "claim_status": "open",
+  "claim_status": "proved",
   "claim_latex": "For any $x$, if $A \\subset [x, \\infty)$ is a primitive set of integers (no distinct element divides another) then $\\sum_{a \\in A} \\frac{1}{a \\log a} < 1 + o(1)$, where the $o(1)$ term tends to $0$ as $x \\to \\infty$.",
+  "literature_resolution": {
+    "status": "proved",
+    "citation": "B. Alexeev, K. Barreto, Y. Li, J. D. Lichtman, L. Price, J. I. Shah, Q. Tang, T. Tao, 'Primitive sets and von Mangoldt chains: Erdős Problem #1196 and beyond', arXiv:2605.00301 (May 2026)",
+    "statement": "Theorem 1.1: if $A$ is primitive and $A \\subset [x, \\infty)$ then $\\sum_{a \\in A} \\frac{1}{a \\log a} \\leq 1 + O(1/\\log x)$. Combined with the k-almost-prime lower-bound engine (f(N_k) -> 1 from below), the limit of the sup is exactly 1.",
+    "method": "Markov chains over divisibility chains with von Mangoldt weights (log n = sum of Lambda(d) over d | n); core sub-invariance inequality reported as Lemma 3.3(iii). Method suggested by output of GPT-5.4 Pro; human-verified. This was Erdős problem #1196 (Erdős–Sárközy–Szemerédi, 1966).",
+    "audited_at": "2026-07-11",
+    "confidence": "arXiv preprint as of July 2026, authors include Lichtman and Tao; not yet journal-published"
+  },
+  "benchmark_mode": "This claim is now a THEOREM. The spec is retained as a REDISCOVERY BENCHMARK: a proof loop that can independently reconstruct (or verify step-by-step) the von Mangoldt chain argument calibrates harness changes. A verified counterexample witness is mathematically impossible — witness_valid == 1 on this problem indicates a bug in library.primitive_set_witness and must be treated as such, never as a result.",
   "given_facts": [
     {
-      "id": "F1_erdos_zhang_upper",
-      "statement": "For any primitive set $A \\subseteq \\mathbb{N}$, $\\sum_{a \\in A} \\frac{1}{a \\log a} < e^{\\gamma} \\frac{\\pi}{4} + o(1) \\approx 1.399 + o(1)$.",
+      "id": "F1_tail_upper_1399",
+      "statement": "$\\limsup_{x\\to\\infty} \\sup\\{\\sum_{a \\in A} \\frac{1}{a \\log a} : A \\subset [x,\\infty) \\text{ primitive}\\} \\leq e^{\\gamma} \\frac{\\pi}{4} \\approx 1.3987$.",
       "sign_disambiguation": "UPPER bound on the sum, STRICTLY LESS THAN. The constant $e^\\gamma \\pi/4 \\approx 1.399$ is positive; this fact does NOT contradict the conjecture (which posits a tighter bound of 1).",
-      "citation": "Erdős 1935; Zhang 1993",
+      "citation": "J. D. Lichtman, 'A proof of the Erdős primitive set conjecture', Forum of Mathematics Pi 11 (2023) e31, arXiv:2202.02384, Theorem 1.5. Historical chain: Erdős 1935 proved boundedness; Erdős–Zhang 1993 (Proc. AMS 117) proved f(A) < 1.84 unconditionally; Lichtman–Pomerance 2019 (arXiv:1806.02250) proved f(A) < e^{\\gamma} \\approx 1.781 unconditionally.",
       "warns": [
-        "This is an upper bound, not a lower bound. It is consistent with the conjecture. Misreading it as a lower bound is a sign error."
+        "This is an upper bound, not a lower bound. It is consistent with the conjecture. Misreading it as a lower bound is a sign error.",
+        "The 1.399 constant is Lichtman 2023, NOT Erdős–Zhang 1993 (their constant was 1.84, with no min-element restriction). A previous version of this ledger misattributed it."
       ]
     },
     {
@@ -25,24 +35,62 @@
     },
     {
       "id": "F3_omega_k_exact_below_one",
-      "statement": "For $A_k = \\{n \\in \\mathbb{N} : \\Omega(n) = k\\}$, $\\sum_{a \\in A_k} \\frac{1}{a \\log a} = 1 - (c + o(1)) \\frac{k^2}{2^k}$ where $c \\approx 0.0656$.",
-      "sign_disambiguation": "The leading correction is $-(c+o(1)) k^2 / 2^k$ with $c > 0$, so the sum is STRICTLY LESS THAN 1 for every $k \\geq 1$, approaching $1$ from BELOW as $k \\to \\infty$. This is the canonical 'extremal-looking' primitive set; even it does not violate the conjecture.",
-      "citation": "stated as fact F3 in the user prompt",
+      "statement": "For $A_k = \\{n \\in \\mathbb{N} : \\Omega(n) = k\\}$, $\\sum_{a \\in A_k} \\frac{1}{a \\log a} = 1 - (c + o(1)) \\frac{k^2}{2^k}$ where $c = \\frac{\\log 2}{4} d \\approx 0.0656$ for an explicit constant $d \\approx 0.37869$.",
+      "sign_disambiguation": "The leading correction is $-(c+o(1)) k^2 / 2^k$ with $c > 0$, so the sum is STRICTLY LESS THAN 1 for every large $k$, approaching $1$ from BELOW as $k \\to \\infty$. This is the canonical 'extremal-looking' primitive set; even it does not violate the conjecture.",
+      "citation": "O. Gorodetsky, J. D. Lichtman, M. D. Wong, 'On Erdős sums of almost primes', C. R. Math. Acad. Sci. Paris (2024), arXiv:2303.08277. Same paper DISPROVES the Banks–Martin monotonicity conjecture: f(N_k) attains a global minimum (at k = 6) and is eventually monotonically INCREASING toward 1.",
       "warns": [
         "F3 directly contradicts any claim that A_k is a counterexample. F3 is consistent with F2 once F2's unsigned-O is read correctly."
+      ]
+    },
+    {
+      "id": "F4_lichtman_2022_basic_conjecture",
+      "statement": "For every primitive set $A$, $\\sum_{a \\in A} \\frac{1}{a \\log a} \\leq \\sum_{p \\text{ prime}} \\frac{1}{p \\log p} = 1.6366\\ldots$ — the primes maximize the Erdős sum (the original 1935/1988 conjecture, Erdős problem #164).",
+      "sign_disambiguation": "NON-STRICT upper bound, attained exactly by $A = \\mathcal{P}$. Unconditional — no min-element restriction.",
+      "citation": "J. D. Lichtman, Forum of Mathematics Pi 11 (2023) e31, arXiv:2202.02384. Short new proof also in arXiv:2605.00301.",
+      "warns": [
+        "Global ceiling: any tail bound proved must be consistent with 1.6366. A 'counterexample' to the basic form would contradict a published theorem — treat as a bug."
+      ]
+    },
+    {
+      "id": "F5_lp_stratum_density",
+      "statement": "Write $A_q = \\{a \\in A : p(a) = q\\}$ where $p(a)$ is the SMALLEST prime factor of $a$. If $q \\notin A$ then $f(A_q) < e^{\\gamma} g(q)$ where $g(q) = \\frac{1}{q}\\prod_{p<q}(1 - \\frac{1}{p})$ is the natural density of $\\{n : p(n) = q\\}$. The strata are disjoint so $\\sum_q g(q) \\leq 1$, giving $f(A) < e^{\\gamma}$.",
+      "sign_disambiguation": "Per-stratum UPPER bound, strict, requires $q \\notin A$ (if $q \\in A$ then $A_q = \\{q\\}$ by primitivity and $f(A_q) = f(q)$ exactly).",
+      "citation": "J. D. Lichtman, C. Pomerance, 'The Erdős conjecture for primitive sets', Proc. AMS Ser. B 6 (2019) 1–14, arXiv:1806.02250, Proposition 2.1.",
+      "warns": [
+        "This is THE reusable lemma shape: per-least-prime-factor stratum bound proportional to a density, then densities sum to at most 1. The e^{\\gamma} factor is what the von Mangoldt chain method replaces with 1 + o(1)."
+      ]
+    },
+    {
+      "id": "F6_resolution_von_mangoldt",
+      "statement": "THEOREM (resolves this spec's claim): if $A$ is primitive and $A \\subset [x, \\infty)$, $x \\geq 2$, then $\\sum_{a \\in A} \\frac{1}{a \\log a} \\leq 1 + O(1/\\log x)$.",
+      "sign_disambiguation": "One-sided UPPER bound with positive error term $O(1/\\log x)$. Together with F3's lower-bound engine ($f(N_k \\cap (x,\\infty)) \\to 1$), the limit of the sup is exactly 1.",
+      "citation": "Alexeev, Barreto, Li, Lichtman, Price, Shah, Tang, Tao, arXiv:2605.00301 (May 2026), Theorem 1.1.",
+      "warns": [
+        "This fact resolves the claim. Any 'counterexample' witness on this problem contradicts a theorem — witness_valid == 1 means a verifier bug.",
+        "A rediscovery-benchmark proof must not simply cite this fact for the central step; the point of the benchmark is to reconstruct the argument."
+      ]
+    },
+    {
+      "id": "F7_von_mangoldt_core_lemma",
+      "statement": "Core sub-invariance inequality of the von Mangoldt chain method: for integers $m \\geq 1$, $\\sum_{q} \\frac{\\Lambda(q)}{q \\log(mq) \\log(2mq)} \\leq \\frac{1}{\\log(2m)}$, summed over prime powers $q$, where $\\Lambda$ is the von Mangoldt function. Using $\\log n = \\sum_{d \\mid n} \\Lambda(d)$, this lets a Markov chain over divisibility chains dominate $f(A)$ by the chain's initial mass.",
+      "sign_disambiguation": "UPPER bound, unconditional, uniform in $m$. MEDIUM CONFIDENCE on the exact displayed form (extracted from an automated HTML fetch of arXiv:2605.00301, reported as Lemma 3.3(iii)); the structural role (sub-invariance / supermartingale property of von Mangoldt weights along divisor chains) is high confidence. Re-derive before formal use.",
+      "citation": "arXiv:2605.00301, Lemma 3.3(iii).",
+      "warns": [
+        "The exact log(mq) vs log(2mq) placement should be re-derived or checked against the PDF before being used as a cited step in a proof."
       ]
     }
   ],
   "witness_type": "primitive_set_with_threshold_sum",
   "witness_threshold": 1.0,
+  "witness_min_x_floor": 1000000,
   "witness_verifier_module": "library.primitive_set_witness",
   "witness_schema": {
-    "x_floor": "int >= 2 — every element of `elements` must be >= x_floor",
+    "x_floor": "int >= witness_min_x_floor — every element of `elements` must be >= x_floor; witnesses below witness_min_x_floor are rejected because the claim's o(1) term is not negligible there (the 0706 session's primes-{2..47} exit-7 at x_floor=2 was exactly this false positive)",
     "elements": "list[int], pairwise non-divisible, each >= x_floor",
     "claimed_sum_lower_bound": "float — agent's own claim of a lower bound on sum 1/(a log a); the verifier recomputes it rigorously"
   },
   "round_cap": 50,
   "time_budget_s": 1800,
   "writeup_models": ["opus"],
-  "note": "Erdős's primitive-set conjecture in tightened form. The conjectured bound is 1 + o(1) where o(1) tends to 0 as x_floor grows. F1 establishes a real proven upper bound of ~1.399; F3 shows the canonical Omega(n)=k extremal set sum approaches 1 from below. Counterexamples require a primitive set in [x_floor, infty) with rigorously verified sum > witness_threshold. The o(1) caveat in the conjecture means a finite-x witness exceeding 1 by a small amount is suggestive but not conclusive — the critic_openness pass and any human reviewer must judge whether the o(1) gap at the witness's x_floor is small enough to call it a counterexample."
+  "note": "Erdős–Sárközy–Szemerédi tail conjecture (Erdős problem #1196) — PROVED May 2026 (see literature_resolution). Retained as a rediscovery benchmark, not an open target; see benchmark_mode. The min-floor witness gate exists because a small-x witness exceeding 1 proves nothing (the o(1) term dominates; primes {2..47} at x_floor=2 sum to ~1.388 while being fully consistent with the theorem — this fired a spurious exit 7 on 2026-07-06, record proof_primitive_set_erdos_20625349742b_addc6d5.json). On this proved claim, ANY witness_valid == 1 outcome is a verifier bug by definition."
 }

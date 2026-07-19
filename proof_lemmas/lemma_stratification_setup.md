@@ -6,6 +6,12 @@ discharged_by_round: 1
 introduced_at_round: 1
 ---
 
+> Concluded `primitive_set_erdos` attempt (claim proved in the literature,
+> May 2026, arXiv:2605.00301); retained as audit trail, not load-bearing for
+> any active chain. Per the falsify-critic contract, one-line sandbox
+> re-derivations are not expected for this file; deterministic re-checks, if
+> any, live in its CHECK blocks.
+
 # Lemma `stratification_setup`
 
 **Statement**: Let $A \subseteq [x, \infty)$ be a primitive set and let

@@ -1,0 +1,48 @@
+{
+  "name": "erdos_gyarfas",
+  "family": "cycle_powers_of_two",
+  "track": "proof",
+  "claim_status": "open",
+  "claim_latex": "Erdős–Gyárfás conjecture (1995): every finite graph with minimum degree at least $3$ contains a simple cycle whose length is a power of $2$.",
+  "given_facts": [
+    {
+      "id": "F1_heckman_krakovski_cubic_planar",
+      "statement": "The conjecture holds for 3-connected cubic planar graphs.",
+      "sign_disambiguation": "POSITIVE partial result for a restricted class. Says nothing about non-planar or non-cubic graphs. Concluding the full conjecture from F1 is a scope error.",
+      "citation": "C. Heckman, R. Krakovski, 'Erdős–Gyárfás conjecture for cubic planar graphs', Electron. J. Combin. 20(2) #P7 (2013). Long, partly computer-assisted discharging proof.",
+      "warns": [
+        "Any counterexample must be non-planar or non-3-connected or non-cubic within the cubic planar class boundaries."
+      ]
+    },
+    {
+      "id": "F2_hu_shen_p10_free",
+      "statement": "The conjecture holds for $P_{10}$-free graphs (no induced path on 10 vertices), and for $P_{13}$-free graphs with computer search.",
+      "sign_disambiguation": "POSITIVE partial result. A counterexample must contain an induced $P_{10}$.",
+      "citation": "Hu, Shen, Discrete Mathematics (2024), doi 10.1016/j.disc.2024.114175; arXiv:2410.22842.",
+      "warns": [
+        "Together with F1/F3 this constrains any counterexample to be long-path-rich and predominantly cubic with >= 30 vertices."
+      ]
+    },
+    {
+      "id": "F3_minimal_counterexample_shape",
+      "statement": "Any cubic counterexample has at least 30 vertices (Markström, computer search), and every minimal counterexample is 'predominantly cubic' (2026 preprint).",
+      "sign_disambiguation": "Constraints on a HYPOTHETICAL counterexample; they do not assert one exists. Reading F3 as evidence a counterexample exists is a sign error.",
+      "citation": "K. Markström (computer search, cubic graphs up to 29 vertices); 'Every Minimal Counterexample to the Erdős–Gyárfás Conjecture is Predominantly Cubic', arXiv:2605.22844 (May 2026).",
+      "warns": [
+        "The witness search space is therefore: sparse, near-cubic, non-planar-ish graphs with >= 30 vertices and no 4-, 8-, 16-, 32-cycle. The verifier caps at 64 vertices."
+      ]
+    }
+  ],
+  "witness_type": "graph_without_power_of_two_cycles",
+  "witness_threshold": 1.0,
+  "witness_verifier_module": "library.erdos_gyarfas_witness",
+  "witness_schema": {
+    "num_vertices": "int in [4, 64] — vertex count; vertices are 0-indexed",
+    "edges": "list of [u, v] pairs, simple graph (no loops or duplicate edges), every vertex degree >= 3, at most 160 edges"
+  },
+  "round_cap": 50,
+  "time_budget_s": 1800,
+  "writeup_models": ["opus"],
+  "status_audited": "2026-07-11 — confirmed OPEN as of July 2026.",
+  "note": "Witness-decidable disproof target: one finite graph settles the claim. The verifier is CONSERVATIVE — it accepts only when its exhaustive per-length cycle search completes within the node-expansion budget and finds no cycle of length 4, 8, 16, 32, or 64 (whichever are <= n); budget exhaustion is a rejection. Near-cubic graphs (the only plausible witness shape per F3) are cheap to search exhaustively. Track 1-style search also fits: generate min-degree-3 graphs (e.g. girth-biased lifts, voltage graphs over Z_m, cages) and screen with the same verifier. Sanity anchors: K_4 contains a 4-cycle; the Petersen graph (girth 5) contains 8-cycles — both are correctly rejected."
+}

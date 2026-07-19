@@ -1,0 +1,14 @@
+[
+  {
+    "flag": "BLOCKING",
+    "line_ref": 37,
+    "evidence": "strategy hinges on concluding 'sum > 1' from F2's unsigned big-O — the ledger's sign_disambiguation rules this out",
+    "suggestion": "The plan requires a statement the given-facts ledger forbids (F2 sign discipline, F3 exact asymptotics from below). Replace with a direction that does not contradict the ledger."
+  },
+  {
+    "flag": "WARN",
+    "line_ref": null,
+    "evidence": "no falsifiable next lemma — the writeup jumps straight to the resolution claim with no intermediate killable step",
+    "suggestion": "State one lemma strictly weaker than the claim that a numeric probe could kill, and add a <!-- CHECK --> block for it."
+  }
+]

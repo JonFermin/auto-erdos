@@ -1,10 +1,16 @@
 ---
 id: cross_stratum_control
-status: open
+status: abandoned
 depends_on: [stratum_sub_bound, large_floor_vanish]
 discharged_by_round: null
 introduced_at_round: 1
 ---
+
+> Concluded `primitive_set_erdos` attempt (claim proved in the literature,
+> May 2026, arXiv:2605.00301); retained as audit trail, not load-bearing for
+> any active chain. Per the falsify-critic contract, one-line sandbox
+> re-derivations are not expected for this file; deterministic re-checks, if
+> any, live in its CHECK blocks.
 
 # Lemma: cross-stratum control (the open core)
 
@@ -95,3 +101,12 @@ $\sum_{k \sim \log_2 x} S_k(A, x)$ uniformly over primitive sets $A \subset
 total bound of $1 + o(1)$.
 
 This may require new ideas beyond F1–F3.
+
+---
+
+**Abandoned 2026-07-18 (session s_0718-205004-c44a).** The parent claim
+`primitive_set_erdos` (Erdős #1196) was proved in the literature in May
+2026 (arXiv:2605.00301) and the spec was reclassified as a rediscovery
+benchmark in the 2026-07-11 audit. This attempt is concluded; the lemma
+is retained as audit trail. Nothing here is wrong — it is simply moot as
+research (the o(1) gap it chased is closed by the published proof).

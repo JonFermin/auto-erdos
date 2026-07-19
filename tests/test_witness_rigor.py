@@ -254,12 +254,19 @@ def test_problem_json_loads_and_has_required_fields():
         assert required in spec, f"missing required field {required}"
     assert spec["track"] == "proof"
     assert spec["family"] == "primitive_set"
-    assert spec["claim_status"] == "open"
-    # Witness threshold is the conjectured bound.
+    # 2026-07-11 literature audit: Erdős #1196 was proved May 2026
+    # (arXiv:2605.00301); the spec is now a rediscovery benchmark.
+    assert spec["claim_status"] == "proved"
+    assert "literature_resolution" in spec
+    # The spurious-exit-7 guard added alongside the audit (primes {2..47}
+    # at x_floor=2 must never validate again).
+    assert int(spec["witness_min_x_floor"]) >= 10**6
+    # Witness threshold is the (now proven) bound.
     assert float(spec["witness_threshold"]) == 1.0
-    # Given facts ledger has the three facts the user prompt named.
+    # Given facts ledger keeps the original trap facts (F1 was renamed in
+    # the audit — its old id misattributed the 1.399 constant to Erdős–Zhang).
     facts = {f["id"] for f in spec["given_facts"]}
-    assert "F1_erdos_zhang_upper" in facts
+    assert "F1_tail_upper_1399" in facts
     assert "F2_omega_k_lower_unsigned" in facts
     assert "F3_omega_k_exact_below_one" in facts
     # F2 is the one whose sign is the load-bearing trap; verify the

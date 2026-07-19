@@ -24,6 +24,15 @@
       ]
     },
     {
+      "id": "F4_cushman_2025_preprint",
+      "statement": "Cushman (Dec 2025, preprint): $\\max(|A+A|, |A \\cdot A|) \\gg_{\\varepsilon} |A|^{4/3 + 10/4407 - \\varepsilon}$ ($10/4407 \\approx 0.00227$, improving Rudnev–Stevens's $2/1167 \\approx 0.00171$).",
+      "sign_disambiguation": "LOWER bound, PREPRINT status (not yet peer-reviewed as of July 2026) — treat as best-claimed, cite F2 as best-published. Note: a rumored general Bloom improvement to max(|A+A|,|AA|) does NOT exist — Bloom arXiv:2501.09470 concerns |A(A+A)| (a different quantity), and the |A|^{12/7} result (arXiv:2512.04931) applies only to integers with O(1) prime factors.",
+      "citation": "A. Cushman, 'A note on the sum-product problem and the convex sumset problem', arXiv:2512.13849 (Dec 2025).",
+      "warns": [
+        "Preprint — do not cite as settled. The gap between 4/3 + 0.0023 and the conjectured exponent 2 remains enormous; this problem is realistically beyond a construction-search loop and any full proof attempt should be treated as exploratory."
+      ]
+    },
+    {
       "id": "F3_erdos_szemeredi_original",
       "statement": "Erdős–Szemerédi 1983 (original conjecture): for every $\\varepsilon > 0$ there exists $c_\\varepsilon > 0$ such that $\\max(|A+A|, |A \\cdot A|) \\geq c_\\varepsilon |A|^{2 - \\varepsilon}$ for all finite $A \\subset \\mathbb{Z}_{>0}$.",
       "sign_disambiguation": "ASYMPTOTIC quantifier-over-$\\varepsilon$. The conjecture states that the exponent can be pushed arbitrarily close to $2$, but it is only a quantifier-over-$\\varepsilon$ statement: for each $\\varepsilon > 0$ separately. Concluding that $\\max \\geq |A|^{2}$ unconditionally (the $\\varepsilon = 0$ case) is a sign error — the conjecture does NOT assert this; only the limit $\\varepsilon \\to 0^+$ approaches it.",
@@ -45,5 +54,6 @@
   "round_cap": 50,
   "time_budget_s": 1800,
   "writeup_models": ["opus"],
+  "status_audited": "2026-07-11 — confirmed OPEN as of July 2026. Best published exponent 4/3 + 2/1167 (Rudnev–Stevens); best claimed 4/3 + 10/4407 (Cushman preprint, F4).",
   "note": "Erdős–Szemerédi sum-product conjecture (1983). Witness contract: a finite distinct-positive-integer set $A$ together with a parameter $\\varepsilon \\in (0,1)$ such that $|A+A| + |A \\cdot A| < |A|^{2-\\varepsilon}$. The verifier computes both sumset and productset cardinalities (O(|A|^2) work, capped at |A| <= 5000) and checks the strict inequality against the ceiling of the real-valued threshold. The default $\\varepsilon = 2/3$ corresponds to the Solymosi $4/3$-bound regime — beating it for a finite witness would refute Solymosi/Rudnev–Stevens and almost certainly indicate a coding error. The genuinely-open case is $\\varepsilon$ slightly larger than $1 - (4/3 + 2/1167)/2 = 1/3 - 1/1167$, where current literature is unable to derive the bound. Track 1 search loop also fits — hunt for sets with anomalously small combined sumset+productset, e.g. variants of the Erdős–Szemerédi multiplicative-additive interpolation. The witness_threshold field is set to 0 because the actual threshold is computed dynamically from |A| and eps inside the verifier; the keep rule fires on is_valid alone."
 }

@@ -101,6 +101,9 @@ def _read_handoff_from_stdin_or_default(reason: str, sid: str) -> str:
 
 
 def main() -> int:
+    # Windows consoles default to cp1252, which chokes on math glyphs.
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
         "reason",
@@ -188,7 +191,42 @@ def main() -> int:
         pass
 
     print(f"session_close: {sid} ({reason})")
+    _maybe_suggest_expert_brief()
     return 0
+
+
+def _maybe_suggest_expert_brief() -> None:
+    """If open lemmas exist and this problem has already burned 2+ sessions,
+    the reduction is stable enough to be worth showing a human — say so.
+    Best-effort: never let this break session close."""
+    try:
+        lemmas_dir = REPO_ROOT / "proof_lemmas"
+        open_lemmas = []
+        if lemmas_dir.is_dir():
+            import re
+            status_re = re.compile(r"^status:\s*(\w+)\s*$", re.MULTILINE)
+            for p in lemmas_dir.glob("lemma_*.md"):
+                m = status_re.search(p.read_text(encoding="utf-8"))
+                if m and m.group(1).lower() == "open":
+                    open_lemmas.append(p.name)
+        if not open_lemmas:
+            return
+        closes = 0
+        if JOURNAL.exists():
+            with open(JOURNAL, encoding="utf-8") as f:
+                for line in f:
+                    if '"session_close"' in line:
+                        closes += 1
+        if closes >= 2:
+            print(
+                f"HINT: {len(open_lemmas)} open lemma(s) have now survived {closes} sessions "
+                f"({', '.join(sorted(open_lemmas)[:3])}{'...' if len(open_lemmas) > 3 else ''}). "
+                f"A stable reduction is an artifact worth escalating: run "
+                f"`uv run expert_brief.py` to render a standalone one-page statement "
+                f"for a human expert or a fresh /erdos-proof-ideation pass."
+            )
+    except Exception:  # noqa: BLE001 — advisory only
+        return
 
 
 if __name__ == "__main__":

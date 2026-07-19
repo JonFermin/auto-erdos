@@ -9,9 +9,19 @@
       "id": "F1_emw_exhaustive_search",
       "statement": "For all $n \\leq 10^{14}$, no triple $(n, n+1, n+2)$ has all three powerful.",
       "sign_disambiguation": "POSITIVE existence claim about the *non-existence* of triples up to a finite bound. The bound is an UPPER bound on $n$ (the smallest possibly-powerful triple, if any exists, has $n > 10^{14}$). Treating this as a proof of the conjecture is a sign error: it only rules out small witnesses.",
-      "citation": "stated as F1 in the project prompt; matches Mollin–Walsh-style computational searches",
+      "citation": "stated as F1 in the project prompt; matches Mollin–Walsh-style computational searches. CAUTION (2026-07-11 literature audit): no published source stating an explicit exhaustive-search bound for consecutive powerful triples was verifiable; the 10^14 figure should be treated as a working assumption, not a citable fact.",
       "warns": [
-        "F1 only rules out small $n$. A witness must have $n > 10^{14}$. Any chain that concludes 'EMW is proved' from F1 alone is BLOCKING."
+        "F1 only rules out small $n$. A witness must have $n > 10^{14}$. Any chain that concludes 'EMW is proved' from F1 alone is BLOCKING.",
+        "The 10^14 bound itself is UNVERIFIED in the literature — do not cite it in a writeup without independent verification."
+      ]
+    },
+    {
+      "id": "F4_chan_2025_partial",
+      "statement": "Tsz Ho Chan (2025): there are no consecutive powerful triples $(n, n+1, n+2)$ in which the middle term is a perfect cube and each outer term has exactly one prime raised to an odd power. A companion 2025 preprint eliminates a further family around cubes with prime-square factors.",
+      "sign_disambiguation": "NON-EXISTENCE for restricted structural families only. Says nothing about triples outside these families; the general conjecture remains open.",
+      "citation": "T. H. Chan, 'A note on three consecutive powerful numbers', INTEGERS 25 (2025) #A7, arXiv:2503.21485 (via Pell equations, elliptic curves, second-order recurrences); arXiv:2507.16828 (2025).",
+      "warns": [
+        "Structural-family results like F4 are the current state of the art — a full proof must handle families F4 does not cover."
       ]
     },
     {
@@ -43,5 +53,6 @@
   "round_cap": 50,
   "time_budget_s": 1800,
   "writeup_models": ["opus"],
+  "status_audited": "2026-07-11 — confirmed OPEN as of July 2026 (best partial results: Chan 2025 structural families, F4).",
   "note": "Erdős–Mollin–Walsh conjecture. Two-track problem: Track 1 search loop hunts for a witness $n$ via sieving; Track 2 proof loop attempts a proof under the F1+F2+F3 ledger. Witness is a single integer $n$ with $n, n+1, n+2$ all powerful — verifier factors all three by trial division up to sqrt(max), checks every prime factor has multiplicity >= 2. Score = the smallest such $n$ (chosen so larger witnesses don't strictly outrank smaller ones — a single witness suffices). Computer-verified up to ~10^14 via Heath-Brown / Mollin–Walsh; any witness has $n > 10^{14}$, so the verifier must accept arbitrary-precision integers."
 }

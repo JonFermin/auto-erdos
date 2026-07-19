@@ -2,16 +2,44 @@
   "name": "erdos_primitive_set_basic",
   "family": "primitive_set",
   "track": "proof",
-  "claim_status": "open",
+  "claim_status": "proved",
+  "literature_resolution": {
+    "status": "proved",
+    "citation": "J. D. Lichtman, 'A proof of the Erdős primitive set conjecture', Forum of Mathematics, Pi 11 (2023) e31; arXiv:2202.02384 (Feb 2022)",
+    "statement": "Theorem: for every primitive set $A$, $\\sum_{a \\in A} \\frac{1}{a \\log a} \\leq \\sum_p \\frac{1}{p \\log p} = 1.6366\\ldots$, with equality for $A = \\mathcal{P}$. This was Erdős problem #164.",
+    "method": "To each $a \\in A$ associate the L-multiples $L_a = \\{ba : p \\mid b \\Rightarrow p \\geq P(a)\\}$ ($P(a)$ = largest prime factor). Primitivity makes the $L_a$ pairwise disjoint, so their combined multiplicative density is at most 1; a refined Mertens-type analysis of elements whose largest prime factor is close to $a$ itself supplies the savings that makes the primes exactly extremal. A short new proof also appears in arXiv:2605.00301 (2026).",
+    "audited_at": "2026-07-11",
+    "confidence": "peer-reviewed and published (Forum of Mathematics, Pi, 2023)"
+  },
+  "benchmark_mode": "This claim is a PUBLISHED THEOREM. The spec is retained as a REDISCOVERY BENCHMARK — the best calibration instrument the proof loop has: a known, human-checkable proof exists (Lichtman 2022), so harness changes can be scored by whether the loop reconstructs the L-multiples density comparison. A verified counterexample witness is mathematically impossible — witness_valid == 1 here means a bug in library.primitive_set_witness, never a result.",
   "claim_latex": "For every primitive set $A \\subseteq \\mathbb{N}$ (no $x$-floor restriction), $\\sum_{a \\in A} \\frac{1}{a \\log a} \\leq \\sum_{p \\text{ prime}} \\frac{1}{p \\log p}$, where the right-hand side is the all-primes sum $\\approx 1.6366$.",
   "given_facts": [
     {
       "id": "F1_erdos_zhang_upper",
       "statement": "For any primitive set $A \\subseteq \\mathbb{N}$, $\\sum_{a \\in A} \\frac{1}{a \\log a} < e^{\\gamma} \\frac{\\pi}{4} + o(1) \\approx 1.399 + o(1)$ as the minimum element of $A$ tends to infinity.",
       "sign_disambiguation": "UPPER bound on the sum, STRICTLY LESS THAN, with $o(1) \\to 0$ as $\\min(A) \\to \\infty$. The constant $e^\\gamma \\pi / 4 \\approx 1.399$ is positive and below the conjectured ceiling $\\sum_p 1/(p \\log p) \\approx 1.6366$. F1 is therefore CONSISTENT WITH the conjecture (and weaker, since 1.399 < 1.6366). Note that for finite $\\min(A)$ — e.g. the all-primes set with $\\min(A) = 2$ — the $o(1)$ term is non-trivial and the all-primes sum $\\approx 1.6366$ does not contradict F1.",
-      "citation": "Erdős 1935; Zhang 1993",
+      "citation": "J. D. Lichtman, arXiv:2202.02384, Theorem 1.5 (the 1.399 tail constant). Historical chain: Erdős 1935 (boundedness); Erdős–Zhang 1993 (f(A) < 1.84 unconditionally); Lichtman–Pomerance 2019, arXiv:1806.02250 (f(A) < e^{\\gamma} \\approx 1.781 unconditionally).",
       "warns": [
-        "F1 has $o(1) \\to 0$ only as $\\min(A) \\to \\infty$. The all-primes sum $\\sum_p 1/(p \\log p) \\approx 1.6366$ uses $\\min(A) = 2$, so F1 does not bound it by 1.399 + 0. Reading F1 as giving $1.399$ unconditionally is a sign error."
+        "F1 has $o(1) \\to 0$ only as $\\min(A) \\to \\infty$. The all-primes sum $\\sum_p 1/(p \\log p) \\approx 1.6366$ uses $\\min(A) = 2$, so F1 does not bound it by 1.399 + 0. Reading F1 as giving $1.399$ unconditionally is a sign error.",
+        "The 1.399 constant is Lichtman 2023, NOT Erdős–Zhang 1993 (their constant was 1.84). A previous version of this ledger misattributed it."
+      ]
+    },
+    {
+      "id": "F4_lp_stratum_density",
+      "statement": "Write $A_q = \\{a \\in A : p(a) = q\\}$ where $p(a)$ is the SMALLEST prime factor of $a$. If $q \\notin A$ then $f(A_q) < e^{\\gamma} g(q)$ where $g(q) = \\frac{1}{q}\\prod_{p<q}(1 - \\frac{1}{p})$ is the natural density of $\\{n : p(n) = q\\}$. Strata are disjoint, so $\\sum_q g(q) \\leq 1$.",
+      "sign_disambiguation": "Per-stratum UPPER bound, strict, requires $q \\notin A$. Summing gives the unconditional $f(A) < e^{\\gamma}$.",
+      "citation": "Lichtman–Pomerance 2019, arXiv:1806.02250, Proposition 2.1. Related: all odd primes are 'Erdős strong' ($f(A_p) \\leq f(p)$) — Lichtman arXiv:2202.02384; the prime 2 was shown Erdős strong in arXiv:2605.00301.",
+      "warns": [
+        "This is the reusable lemma shape for the whole family: stratum bound proportional to a density, densities sum to at most 1."
+      ]
+    },
+    {
+      "id": "F5_zhang_small_omega",
+      "statement": "For every primitive $A$ all of whose elements satisfy $\\Omega(a) \\leq 4$, $f(A) \\leq f(\\mathcal{P})$.",
+      "sign_disambiguation": "Upper bound (non-strict), conditional on the structural hypothesis $\\Omega(a) \\leq 4$. MEDIUM CONFIDENCE on the exact hypothesis wording (from secondary summaries).",
+      "citation": "Z. Zhang, J. Number Theory 39 (1991) 14–17; see also Math. Comp. 60 (1993) 827–834.",
+      "warns": [
+        "Historically the first f(A) <= f(P) result for a natural subclass; template for 'handle small Omega exactly' arguments."
       ]
     },
     {
@@ -44,5 +72,5 @@
   "round_cap": 50,
   "time_budget_s": 1800,
   "writeup_models": ["opus"],
-  "note": "Erdős's primitive-set conjecture in its BASIC form (the original 1935 form): the all-primes sum is the maximum over primitive sets. Sister problem to primitive_set_erdos, which conjectures the much tighter bound 1 + o(1) at $x \\to \\infty$. The basic form has more headroom (1.6366 vs 1.0) and is plausibly more tractable. Witness threshold is 1.637, a tight rigorous upper bound on $\\sum_p 1/(p \\log p) \\approx 1.6366$ (so any witness exceeding 1.637 is guaranteed to exceed the true conjectured ceiling). The verifier is reused verbatim from primitive_set_erdos (`library.primitive_set_witness`); the sign-disambiguation discipline of F1/F2/F3 is identical, with the basic-form ceiling 1.6366 substituted for the tightened 1.0. Track 1 search loop also fits — hunt for primitive A with sum > 1.637."
+  "note": "Erdős's primitive-set conjecture in its BASIC form (the original 1935 form, Erdős problem #164) — PROVED by Lichtman 2022, published 2023 (see literature_resolution). Retained as a rediscovery benchmark; see benchmark_mode. Witness threshold is 1.637, a tight rigorous upper bound on $\\sum_p 1/(p \\log p) \\approx 1.6366$; since the claim is a published theorem, any witness exceeding it would contradict Lichtman's theorem and therefore indicates a verifier bug, never a result."
 }

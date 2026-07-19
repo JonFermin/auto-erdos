@@ -184,6 +184,27 @@ def verify_witness(payload: dict, spec: dict) -> VerifyResult:
     if x_floor < 2:
         return VerifyResult(False, 0.0, f"x_floor={x_floor} must be >= 2 (log undefined for a in {{0,1}})", time.time() - t0)
 
+    # Optional spec gate: for claims of the form "sum < T + o(1) as x_floor
+    # -> infinity", a witness at small x_floor proves nothing (the o(1) term
+    # dominates — e.g. primes {2..47} at x_floor=2 rigorously exceed 1.0 yet
+    # are fully consistent with the conjecture). Specs for such claims set
+    # "witness_min_x_floor"; witnesses below it are rejected outright so the
+    # loop cannot claim a spurious keep_disproof.
+    min_x_floor = spec.get("witness_min_x_floor")
+    if min_x_floor is not None:
+        try:
+            min_x_floor = int(min_x_floor)
+        except (TypeError, ValueError) as e:
+            return VerifyResult(False, 0.0, f"spec['witness_min_x_floor'] unparseable: {e}", time.time() - t0)
+        if x_floor < min_x_floor:
+            return VerifyResult(
+                False, 0.0,
+                f"x_floor={x_floor} below spec witness_min_x_floor={min_x_floor}: "
+                f"the claim's o(1) term is not negligible at this floor, so exceeding "
+                f"the threshold here does not contradict the conjecture",
+                time.time() - t0,
+            )
+
     try:
         threshold = Decimal(repr(float(spec["witness_threshold"])))
     except (KeyError, TypeError, ValueError) as e:

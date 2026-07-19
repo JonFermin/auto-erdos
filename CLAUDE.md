@@ -208,3 +208,46 @@ keep:
 swallowed; a broken backend never undoes a kept record. The autoresearch
 and deep-autoresearch skills do not set these env vars, so writeups stay
 out of their hot path.
+
+## Track 2 — proof attempts (proof_program.md)
+
+Parallel harness for *proving/disproving claims* instead of beating
+bounds. Canonical instructions: `proof_program.md` — read it before any
+proof loop. Artifact: `proof_strategy.md` + `proof_lemmas/lemma_*.md`.
+Verifier: `proof_prepare.py` — 7 LLM critics (ledger, sign, openness,
+numerical, internal, strategy, falsify), deterministic lemma
+`<!-- CHECK -->` blocks (stdlib Python falsification probes, run even in
+critics-off mode), and per-problem deterministic witness verifiers in
+`library/*_witness.py`. Gatekeeper: `proof_log_result.py` (exit 7 =
+verified counterexample, exit 6 = converged partial result).
+
+Problem specs live in `proofs/*.json` with `claim_status`:
+- **open**: `erdos_mollin_walsh`, `erdos_gyarfas` (witness-decidable:
+  one finite graph settles it), `frankl_union_closed` (witness-decidable:
+  one finite family), `erdos_szemeredi_sum_product` (exploratory only).
+- **proved** (rediscovery benchmarks, per the 2026-07-11 literature
+  audit): `primitive_set_erdos` (Erdős #1196, proved May 2026,
+  arXiv:2605.00301) and `erdos_primitive_set_basic` (Lichtman 2022).
+  On these, `witness_valid == 1` means a verifier bug, never a result.
+
+Track 2 commands:
+
+```bash
+uv run proof_session_start.py      # ALWAYS first — prints handoff, notes, queue
+uv run proof_notes.py "<insight>"  # cumulative cross-branch notes channel
+uv run proof_notes.py              # read the notes
+uv run expert_brief.py             # one-page standalone brief of the open core
+uv run formalize_lemma.py proof_lemmas/lemma_<id>.md   # Lean 4 skeleton (post-loop)
+uv run proof_session_end.py "reason: ..."              # ALWAYS last
+```
+
+Skills: `erdos-proof-attempt` drives rounds; `erdos-proof-ideation` fans
+out N parallel proposer agents with distinct mathematical lenses + a
+judge before rounds are spent — use it whenever the open-questions queue
+is empty or a dead end was just documented.
+
+Standing policy: **dual attack** — every open lemma gets a CHECK-block
+falsification probe *before* proof effort is spent on it. The
+witness contract for `primitive_set_erdos` carries `witness_min_x_floor`
+(1e6): small-x witnesses are rejected because the claim's o(1) term
+dominates there (this killed a spurious exit-7 from 2026-07-06).

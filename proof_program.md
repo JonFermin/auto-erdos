@@ -5,19 +5,32 @@ a *construction* that beats a literature lower bound, Track 2 attempts a
 *proof* of an open claim. The harness shape is the same — edit one
 artifact, run a verifier, run a gatekeeper, keep/discard — but the
 artifact is `proof_strategy.md` (markdown + LaTeX, plus optional witness
-JSON), the verifier is `proof_prepare.py` (five LLM critics + deterministic
-witness checker), and the keep rule is structurally different: there is no
-"score > baseline"; a round is kept either because it produces a verified
-counterexample (`witness_valid == 1`) or because all critics return clean
-findings on a partial / open writeup.
+JSON), the verifier is `proof_prepare.py` (seven LLM critics +
+deterministic lemma CHECK blocks + deterministic witness checker), and the
+keep rule is structurally different: there is no "score > baseline"; a
+round is kept either because it produces a verified counterexample
+(`witness_valid == 1`) or because all critics return clean findings on a
+partial / open writeup.
 
 ## Setup
 
 To start a new proof attempt:
 
-1. **Pick a problem**: choose a `PROOF_TAG` from `proofs/*.json`. Default
-   `primitive_set_erdos` (the seed problem motivated by the ChatGPT failure
-   on Erdős's primitive-set conjecture).
+1. **Pick a problem**: choose a `PROOF_TAG` from `proofs/*.json`. Check
+   `claim_status` FIRST:
+   - `open` — a genuine target. Current open problems:
+     `erdos_mollin_walsh` (no three consecutive powerful integers),
+     `erdos_gyarfas` (power-of-2 cycles; witness-decidable — one finite
+     graph settles it), `frankl_union_closed` (witness-decidable — one
+     finite family settles it), `erdos_szemeredi_sum_product` (realistically
+     beyond this loop; exploratory only).
+   - `proved` — a REDISCOVERY BENCHMARK, not an open problem. As of the
+     2026-07-11 literature audit this includes `primitive_set_erdos`
+     (Erdős #1196, proved May 2026, arXiv:2605.00301) and
+     `erdos_primitive_set_basic` (Lichtman 2022). On these, the goal is
+     reconstructing the known argument to calibrate harness changes; a
+     `witness_valid == 1` outcome is a verifier BUG by definition, never a
+     result. See each spec's `literature_resolution` and `benchmark_mode`.
 2. **Create a worktree on a fresh branch** off master, named
    `erdos-proof/<MMDD-HHMMSS-rnd>`. Use a worktree (`worktrees/<tag>/`) so
    parallel attempts on the same problem don't clash.
@@ -28,9 +41,16 @@ To start a new proof attempt:
    - `proof_lemmas/README.md` — lemma file format.
    - This file (`proof_program.md`).
 4. **Run `proof_session_start.py` FIRST**. Always. It prints the prior
-   handoff, the live open-questions queue, and the most recent
-   session_close reason.
-5. **Confirm and go.**
+   handoff, the cumulative cross-branch notes, the live open-questions
+   queue, and the most recent session_close reason.
+5. **If the open-questions queue is empty or stale, run ideation before
+   burning rounds**: the `/erdos-proof-ideation` skill fans out N parallel
+   proposer agents with forced-distinct lenses (sieve/density,
+   weight-redistribution, entropy, extremal/stability,
+   counterexample-first) against the spec + dead-end ledger, judges them,
+   and queues the top 1-2 as new qids. Serial single-idea sessions are the
+   weakest search over proof space — don't default to them.
+6. **Confirm and go.**
 
 ## Ground rules (do not violate)
 
@@ -66,6 +86,26 @@ without a matching `session_close`. The next `proof_session_start.py`
 detects the orphan, releases any orphan-claimed qids, and stashes any
 in-progress edit work to a labelled stash ref (`proof-wip-<sha>-<sid>`)
 — never silently discarded.
+
+## Dual attack — standing policy
+
+Every session pushes the current minimal open lemma on BOTH fronts
+simultaneously:
+
+- **Prove it**: develop the argument in the lemma file / proof_strategy.md.
+- **Falsify it**: write a `<!-- CHECK -->` block (stdlib Python,
+  assert-style; see `proof_lemmas/README.md`) probing the lemma on
+  concrete instances — boundary values, degenerate objects, regimes where
+  an o(1) is large — and, where the problem has a witness contract, feed
+  candidate counterexamples to the witness verifier.
+
+**Write the CHECK before writing the proof.** Whichever front gives signal
+first redirects the session: a failing CHECK kills the lemma in seconds
+(set `status: disproved`, pick a new direction) instead of costing the
+full session the trading-decomposition dead end cost on 2026-07-11. A
+passing CHECK is evidence, not proof — but it is also a permanent
+regression test: `proof_prepare.py` re-runs every CHECK block every time,
+in critics-on AND critics-off modes, and a failure is a BLOCKING finding.
 
 ## Round cycle
 
@@ -119,6 +159,11 @@ echo '{"event":"round","session_id":"<sid>","round_n":<n>,"ts":"<iso>","summary"
 # 8. (When done.) Resolve the qid.
 echo '{"qid":"Q3","status":"resolved","session_id":"<sid>","summary":"<outcome>","ts":"<iso>"}' \
     >> proof_open_questions.jsonl
+
+# 9. Feed the cumulative notes channel (cross-branch, survives everything).
+#    MANDATORY whenever you kill an approach, restate the minimal open
+#    lemma, or learn something from the literature:
+uv run proof_notes.py "approach <name> failed because <why>; would revive if <what>"
 ```
 
 ## Session end
@@ -167,6 +212,59 @@ The agent does NOT decide convergence. `proof_log_result.py` does, by:
 When all three hold, exit 6 fires after the row is logged. The agent
 should run session_end and archive the branch.
 
+## Cumulative notes channel
+
+`~/.cache/auto-erdos/proof_notes_<PROOF_TAG>.md` is the ONE cross-branch,
+cross-session knowledge channel (Track 2's analogue of Track 1's
+`notes_<TAG>.md`). Session handoffs are per-branch and one page; parallel
+worktrees can't see each other's handoffs at all. The notes file is where
+insight compounds instead of being re-derived. Read: printed by
+`proof_session_start.py` (tail-bounded), or `uv run proof_notes.py`.
+Write: `uv run proof_notes.py "<insight>"` or
+`proof_prepare.append_proof_notes(...)`. Required content discipline:
+approach → why it failed → what would revive it; the current minimal open
+lemma, stated formally; literature findings with citations; numerical
+constants future sessions will need.
+
+## Formalization ladder (Lean)
+
+Informal review — even seven critics deep — misses exactly the
+quantifier/sign errors this problem family is famous for. The ladder:
+
+1. **exploration** — markdown + LaTeX in `proof_lemmas/`;
+2. **critic screen** — 7-critic pass clean at a milestone;
+3. **numeric screen** — `<!-- CHECK -->` probes pass;
+4. **Lean skeleton** — for a load-bearing `status: proved` lemma that has
+   survived 3+ stable rounds, run
+   `uv run formalize_lemma.py proof_lemmas/lemma_<id>.md`. It renders the
+   frozen `prompts/lean_formalize.md` template, shells to `claude -p`
+   (same provenance chain as `write_paper.py` — hashes in a `.meta.json`
+   sidecar), and writes `lean/<tag>__<id>.lean`. The prompt instructs the
+   model to report `-- DEFECT FOUND:` when the informal statement does not
+   survive faithful formalization — that outcome is a RESULT (fix the
+   lemma), not a failure;
+5. **human compile** — a human (or CI with a Lean toolchain) runs
+   `lake build` against mathlib4 and audits FIDELITY NOTES + `sorry`s.
+
+Rungs 4-5 are post-loop, wall-clock-expensive, and optional per-lemma; a
+final claimed proof of an open problem should not be announced without
+them.
+
+## Expert-brief escalation
+
+A stable reduction is an artifact even while unproven. When open lemmas
+have survived 2+ sessions (`proof_session_end.py` prints a hint), run:
+
+```bash
+uv run expert_brief.py            # briefs/<tag>_<date>.md
+```
+
+It deterministically renders a self-contained one-page statement: the
+claim, the facts ledger, every open lemma verbatim (these ARE the minimal
+open problems), the ruled-out approaches, and the notes tail. Hand it to
+a human expert, post it, or feed it to a fresh `/erdos-proof-ideation`
+fan-out.
+
 ## Idea seeds (when stuck on the primitive-set seed problem)
 
 - **Stratify by Omega(a)**. For each integer $a$ with $\Omega(a) = k$,
@@ -202,6 +300,13 @@ should run session_end and archive the branch.
 - Don't claim resolution of an open conjecture without a verified
   witness. The openness critic + the `_compute_verdict_hint`
   defense-in-depth check both fire on resolution phrasing.
+- Don't treat a `claim_status: proved` spec as an open problem, and never
+  report `witness_valid == 1` on one as a discovery — on a proved claim a
+  valid witness is impossible and means the verifier is broken. File it as
+  a bug.
+- Don't re-enter an approach the notes channel or a
+  `status: disproved/abandoned` lemma documents as dead without stating
+  what is different this time (the strategy critic flags this).
 - Don't read F2's unsigned big-O as positive. The sign critic has a
   hard-coded clause that emits `unsigned-O-sign-confusion`.
 - Don't edit critic prompts mid-loop. Their sha256 is logged into
@@ -210,8 +315,13 @@ should run session_end and archive the branch.
   `status: disproved` and keep the body — the dead end is part of the
   audit trail.
 - Don't run `proof_prepare.py` every round. It's wall-clock expensive
-  (~5 critic calls × ~30s each on a cold cache). Run it every K=5
-  rounds, or at a logical milestone.
+  (~7 critic calls × ~30s each on a cold cache). Run it every K=5
+  rounds, or at a logical milestone. (The deterministic parts — lemma
+  CHECK blocks and the witness verifier — are cheap; critics-off mode
+  gives you just those.)
+- Don't edit `prompts/critic_strategy.md` / `prompts/critic_falsify.md`
+  any more casually than the original five — same sha256-logged
+  reproducibility contract.
 
 ## Critics-off mode (`AUTOERDOS_PROOF_CRITICS=0`)
 
@@ -220,12 +330,15 @@ loop to skip the LLM critic pass entirely. `proof_prepare.py` then:
 
 - Still runs the deterministic witness verifier (a `keep_disproof`
   always requires a real verifier-accepted witness).
+- Still runs every lemma `<!-- CHECK -->` block — a failing check is a
+  BLOCKING finding even with critics off, so critic_blocking can be
+  non-zero in this mode.
 - Still applies the `_compute_verdict_hint` defense-in-depth — a proof
   on an `open` claim that contains resolution phrasing (`the conjecture
   is false`, `we disprove`, `qed`, …) without a witness is forced to
   `verdict_hint=blocked` regardless.
-- Skips the five `claude -p` critic calls and emits
-  `critic_blocking=0`, `critic_warn=0`, `reason=critics_off: …`.
+- Skips the seven `claude -p` critic calls; `reason=critics_off: …`, and
+  the blocking/warn counts reflect only the deterministic checks above.
 
 Trade-off: faster rounds (~30× wall-clock under cold cache), more raw
 exploration, no critic-driven WARN findings to nudge the agent.

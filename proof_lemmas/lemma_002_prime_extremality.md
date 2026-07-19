@@ -19,6 +19,12 @@ unconditional_for: p_leq_298937_all_cases
 unconditional_CaseA: all_p
 ---
 
+> Concluded `primitive_set_erdos` attempt (claim proved in the literature,
+> May 2026, arXiv:2605.00301); retained as audit trail, not load-bearing for
+> any active chain. Per the falsify-critic contract, one-line sandbox
+> re-derivations are not expected for this file; deterministic re-checks, if
+> any, live in its CHECK blocks.
+
 # Lemma 2: Prime extremality (the hard lemma)
 
 **Statement.** For any primitive set $A \subseteq [x, \infty)$,
