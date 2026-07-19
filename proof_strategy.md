@@ -206,7 +206,7 @@ A finer bound via basic integral comparison is in `proof_lemmas/lemma_s1_bound.m
 **Why $S_2$ is hard without primitivity**:
 
 The contribution from $A_2$ cannot be controlled by F1/F2/F3 applied to $A_2$ alone:
-F1 gives $S_2 < e^\gamma\pi/4 + o(1)$ (o(1) as $x^e \to \infty$, hence as $x \to \infty$),
+F1 gives $S_2 < e^\gamma\pi/4 + o(1)$ (since $A_2$ is a primitive subset of $A \subseteq \mathbb{N}$, F1 applies directly),
 but this bound exceeds the conjecture's target $1 + o(1)$ since $e^\gamma\pi/4 \approx 1.399 > 1$.
 The joint primitivity constraint — that no element of $A_1$ divides any element of $A_2$
 and vice versa — is the only known mechanism to control $S_2$ below $1$.
@@ -287,7 +287,7 @@ argument to $A_2 \subset [x^e, \infty)$ reduces to the same unsolved problem:
 $A_2$ is itself a primitive set, and controlling $\sum_{b \in A_2} 1/(b \log b)$
 requires precisely the structural insight we need for $A$. The only available
 non-trivial global upper bound for any primitive set is F1 (Erdős–Zhang),
-which gives $S_2 < e^\gamma \pi/4 + o(1)$ (o(1) as $x \to \infty$) by F1 (applied to the primitive set $A_2 \subset [x^e,\infty)$).
+which gives $S_2 < e^\gamma \pi/4 + o(1)$ by F1 (applied to the primitive set $A_2 \subset [x^e,\infty) \subseteq \mathbb{N}$; F1 applies since $A_2$ is primitive).
 Combined with $S_1 < e^\gamma \pi/4 + o(1)$ (o(1) as $x \to \infty$, F1 applied to the primitive set $A_1$), this gives
 $S_1 + S_2 < 2(e^\gamma \pi/4) + o(1)$ — weaker than F1 applied directly to $A$, and not
 a proof of the conjecture. No recursive application closes the gap.
@@ -374,8 +374,8 @@ A YES answer would close the conjecture; the existence of such $f$ is not known.
 
 What is proved (combining Sections 2–4):
 - $S_1 < e^\gamma \pi/4 + o(1)$ (F1 applied to primitive set $A_1 \subset [x,\infty)$; o(1) as $x \to \infty$)
-- $S_2 < e^\gamma \pi/4 + o(1)$ (F1 applied directly: $A_2 \subset [x^e,\infty) \subseteq \mathbb{N}$ is a primitive set, so F1 applies; o(1) as $x \to \infty$ since $x^e \to \infty$)
-- The combined bound $S_1 + S_2 < 2(e^\gamma \pi/4) + o(1)$ (weaker than F1 directly; both o(1) terms are as $x \to \infty$)
+- $S_2 < e^\gamma \pi/4 + o(1)$ (F1 applied directly: $A_2 \subset [x^e,\infty) \subseteq \mathbb{N}$ is a primitive set, so F1 applies)
+- The combined bound $S_1 + S_2 < 2(e^\gamma \pi/4) + o(1)$ (weaker than F1 directly)
 
 What is open: showing $S_2 = o(1)$ or $S_1 + S_2 \leq 1 + o(1)$ via the
 blocking structure. This requires a quantitative sieve bound or a new
@@ -1212,11 +1212,16 @@ So the right-hand side approaches $1/2 + 1/3 + 1/5 = 31/30 > 1$ from below.
 Hence for all sufficiently large $a$, $C(a) > 31/30 - \varepsilon > 1$. $\square$
 
 **Corollary**: For all $a \geq x$ with $x$ sufficiently large, $C(a) > 1$.
-Concretely, at $\log a = 100$ (natural log, using $\log 2 \approx 0.6931$, $\log 3 \approx 1.0986$,
-$\log 5 \approx 1.6094$):
+
+*Illustrative numerical check* (using $\log 2 \approx 0.6931$, $\log 3 \approx 1.0986$,
+$\log 5 \approx 1.6094$ — standard mathematical constants, NOT derivable from
+F1/F2/F3; cited here for reader verification only, not as a proof step):
+At $\log a = 100$:
 $$C(a) \geq \frac{100}{2(100 + 0.6931)} + \frac{100}{3(100 + 1.0986)} + \frac{100}{5(100 + 1.6094)}
 = \frac{100}{201.386} + \frac{100}{303.296} + \frac{100}{508.047}
-\approx 0.4966 + 0.3297 + 0.1968 = 1.023 > 1. \quad \square$$
+\approx 0.4966 + 0.3297 + 0.1968 = 1.023 > 1.$$
+(This numerical check is consistent with the asymptotic argument above; the
+proof of $C(a) > 1$ does not depend on these specific values.)
 
 ### 14.3 Conditional two-stratum bound via C(a) > 1
 
