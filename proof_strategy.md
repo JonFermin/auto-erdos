@@ -1269,3 +1269,108 @@ and clear, but showing $C(a) > 1$ and bounding the collision correction relative
 both require prime-distribution results outside F1/F2/F3. No proof of the conjecture
 is claimed in this section. Future work (Q22, Q23) will investigate whether prime-distribution
 facts can be added as additional given facts to close the argument.
+
+---
+
+## Section 15 — Stratum Finiteness from F1 and the High-Stratum Barrier (Q23)
+
+This section establishes a new lemma (all-$k$ finiteness of $T_k(2)$) provable from F1,
+then identifies where the proof gap persists for the high-stratum contribution.
+
+### 15.1 All-stratum finiteness (proved from F1)
+
+**Lemma (all-$k$ stratum finiteness)**: For every $k \geq 1$,
+$$T_k(2) := \sum_{\substack{n \geq 2 \\ \Omega(n) = k}} \frac{1}{n \log n}
+< e^\gamma \frac{\pi}{4}.$$
+
+*Proof*: Let $A_k$ denote the set of all positive integers $n$ with $\Omega(n) = k$.
+We claim $A_k$ is a **primitive set** (no element divides another distinct element).
+Indeed, if $n \mid m$ and $n \neq m$ with $\Omega(n) = k$, then $m/n \geq 2$ is a
+positive integer $> 1$, so $\Omega(m/n) \geq 1$. By complete additivity of $\Omega$:
+$\Omega(m) = \Omega(n) + \Omega(m/n) \geq k + 1 > k$, contradicting $\Omega(m) = k$.
+Hence $A_k$ is primitive.
+
+By F1 applied to the primitive set $A_k$:
+$$\sum_{a \in A_k} \frac{1}{a \log a} < e^\gamma \frac{\pi}{4}.$$
+Since the left side equals $T_k(2)$ by definition, the lemma follows. $\square$
+
+**Note**: F3 establishes $T_k(2) < 1$ for all sufficiently large $k$ (with the
+stronger quantitative form $T_k(2) = 1 - (c+o(1))k^2/2^k$). The present lemma
+is weaker ($T_k(2) < e^\gamma\pi/4 \approx 1.399$) but holds for ALL $k \geq 1$,
+including small strata where F3 does not apply.
+
+**Corollary (fixed-$k$ tail vanishing)**: For each fixed $k \geq 1$,
+$$T_k(x) \to 0 \quad \text{as } x \to \infty.$$
+
+*Proof*: $T_k(x) = \sum_{n \geq x,\, \Omega(n)=k} 1/(n \log n)$ is the tail from $x$ of the
+convergent series $T_k(2) < \infty$. As $x \to \infty$, the tail of a convergent series
+tends to $0$. $\square$
+
+This corollary strengthens the low-stratum $o(1)$ result of Section 2 by giving it for
+ALL fixed $k$, not just for $k \leq K$ (a fixed finite range).
+
+### 15.2 Why the corollary does not close the conjecture
+
+The corollary establishes $T_k(x) \to 0$ for each FIXED $k$. However, for the full sum
+over a primitive $A \subseteq [x,\infty)$, we must sum over ALL strata occupied by $A$.
+The occupied set $K(A,x) := \{k : \exists a \in A,\, \Omega(a) = k\}$ can be unbounded.
+
+Concretely, by splitting at $k^*(x) := \lfloor \log_2 x \rfloor$:
+
+**Low strata** ($k < k^*(x)$): The smallest $k$-almost prime is $2^k < x$ (since
+$k < k^*(x)$ implies $2^k < x$). So $T_k(x)$ excludes the low part of the stratum.
+By the Corollary, $T_k(x) \to 0$ for each fixed $k$ as $x \to \infty$. In particular,
+for any fixed $K$:
+$$\sum_{k=1}^{K} T_k(x) \to 0 \quad \text{as } x \to \infty. \tag{$\star$}$$
+
+**High strata** ($k \geq k^*(x)$): Since $2^k \geq 2^{k^*(x)} \geq x$, every $k$-almost
+prime satisfies $n \geq 2^k \geq x$, so $T_k(x) = T_k(2)$.
+By F3, $T_k(2) = 1 - (c+o(1))k^2/2^k$; in particular $T_k(2) \to 1$ from below as
+$k \to \infty$.
+
+**The key issue**: For any fixed $K$, the tail sum $\sum_{k > K} T_k(x)$ may be large.
+Specifically, $\sum_{k=k^*(x)}^{k^*(x)+M} T_k(2) \approx M$ for large $M$ (since each term
+approaches $1$). A primitive set $A \subseteq [x,\infty)$ can potentially have elements in
+strata $k^*(x), k^*(x)+1, \ldots, k^*(x)+M$ for any $M$ (by choosing elements from mutually
+non-divisible families across strata). The primitivity constraint alone does NOT prevent this.
+
+### 15.3 Convergence with Section 14
+
+The high-stratum barrier of §15.2 and the compensation-factor barrier of Section 14 are the
+same obstruction viewed differently:
+
+- **Section 14 view**: Element $a \in A^{(k)}$ blocks multiples $ap$ from $A^{(k+1)}$.
+  The total blocking weight from $a$ via a single prime $p$ is $< 1/p$ times the weight of $a$
+  (§14.4). Summing over multiple primes to exceed 1 requires knowing $\sum_p 1/p > 1$ over
+  some effective range, which is a prime-distribution fact.
+
+- **Section 15 view**: The high strata $k \geq k^*(x)$ all have $T_k(x) = T_k(2) \approx 1$.
+  Bounding $\sum_{k \geq k^*(x)} S_k(A,x) \leq 1+o(1)$ requires showing that the primitivity
+  constraint couples elements across these strata — preventing many of them from each
+  contributing near-1 simultaneously. This coupling argument requires quantitative prime-counting.
+
+Both approaches arrive at the same ledger barrier: the proof requires knowing how primes are
+distributed relative to general integers (a form of the Prime Number Theorem or Mertens'
+theorems), which is not in F1/F2/F3.
+
+### 15.4 Formal gap statement (Q23)
+
+**Open problem Q23**: Is there a weaker fact $F4$ (strictly weaker than the Prime Number
+Theorem) that, combined with F1/F2/F3, suffices to prove the conjecture?
+
+The minimal $F4$ must at minimum imply:
+$$\sum_{k \geq k^*(x)} S_k(A,x) \leq 1 + o(1) - \sum_{k < k^*(x)} S_k(A,x) \tag{Q23-goal}$$
+for all primitive $A \subseteq [x,\infty)$.
+
+Any such $F4$ is necessarily a non-trivial number-theoretic input.
+
+### 15.5 Summary
+
+| Result | Status | Proof |
+|---|---|---|
+| $A_k$ (all $k$-almost primes) is primitive | **Proved** | Additivity of $\Omega$ |
+| $T_k(2) < e^\gamma\pi/4$ for all $k \geq 1$ | **Proved** | F1 applied to $A_k$ |
+| $T_k(x) \to 0$ as $x \to \infty$ (fixed $k$) | **Proved** | Tail of convergent series |
+| $\sum_{k < k^*(x)} S_k(A,x) \to 0$ | **Partial** | Follows from fixed-$k$ vanishing when strata occupied are bounded; unbounded case OPEN |
+| $\sum_{k \geq k^*(x)} S_k(A,x) \leq 1+o(1)$ | **OPEN** | Requires prime-distribution (Q23) |
+| Full conjecture $S(A) < 1 + o(1)$ | **OPEN** | Same barrier |
