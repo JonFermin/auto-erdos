@@ -1235,7 +1235,7 @@ $S = S_{k-1} + S_k \leq T_k(x) \leq T_k(2) < 1 + o(1)$ (by F3 for large $k$).
 via different prime multiplications (e.g.\ $pa = qa'$ for distinct primes $p, q$).
 When this occurs, naively summing over all prime-multiplication pairs overcounts the blocked set.
 
-For any single fixed prime $p$, the injective map $a \mapsto pa$ gives a valid lower bound:
+For any single fixed prime $p$, the set $\{pa : a \in A_{k-1}\} \subseteq B$ by definition of $B$ in Section 14.1 (since $pa \in \mathcal{A}_k(x)$ for each $a \in A_{k-1}$, as $\Omega(pa)=k$ and $pa \geq 2x \geq x$). The map $a \mapsto pa$ is injective, giving:
 $$\sum_{b \in B} \frac{1}{b\log b} \geq \sum_{a \in A_{k-1}} \frac{1}{pa\log(pa)}.$$
 The ratio $\frac{1/(pa\log(pa))}{1/(a\log a)} = \frac{\log a}{p(\log a + \log p)} < 1/p$
 is less than $1/p$ for every prime $p$ (since $\log a < \log a + \log p$).
@@ -1251,7 +1251,8 @@ collision corrections — this requires prime-distribution results outside F1/F2
 $$\text{collision weight} \leq \sum_{\substack{m:\, pm,\, qm \in A_{k-1}}} \frac{1}{pqm\log(pqm)}.$$
 Since $pq > q > p$, we have $1/(pqm\log(pqm)) \leq 1/(qm\log(qm))$, so the collision
 weight is at most a sub-sum of the $q$-prime contribution. Since every $m$ in the sum
-satisfies $qm \in A_{k-1}$, the sum is a sub-sum of $S_{k-1}(A_{k-1})$ (elementary subset inequality).
+satisfies $qm \in A_{k-1}$, we have $\{qm : pm, qm \in A_{k-1}\} \subseteq A_{k-1}$,
+so the sum is a sub-sum of $S_{k-1}(A_{k-1})$.
 The precise MAGNITUDE of this correction relative to $S_{k-1}$ depends on how many such
 $m$ exist — which requires prime-distribution reasoning outside F1/F2/F3.
 
