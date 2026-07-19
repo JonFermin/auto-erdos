@@ -120,8 +120,8 @@ $$\sum_{a \in A} \frac{1}{a \log a}
   the behavior of this finite sum as $x \to \infty$ is in the lemma file.
 
 - **(II) High strata**: $\leq \sum_{k > K} T_k(x) \leq \sum_{k > K} T_k(2)$.
-  By F3, each $T_k(2) \to 1$ as $k \to \infty$, so $\sum_{k > K} T_k(2)$ diverges
-  (infinitely many terms each approaching 1).
+  Since each $T_k(2) \to 1$ from below as $k \to \infty$ (anti-trap 2 in the given facts),
+  $\sum_{k > K} T_k(2) = \infty$ for any fixed $K$.
   The stratification bound is VACUOUS for the high-stratum sum, for any fixed $K$.
 
 **Key difficulty** (the open core, Lemma `cross_stratum_control`): The per-stratum
