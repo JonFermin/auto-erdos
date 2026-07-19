@@ -1,6 +1,6 @@
 ---
 id: trading_decomposition
-status: open
+status: abandoned
 depends_on: [stratum_sub_bound, large_floor_vanish, dyadic_interval_bound]
 discharged_by_round: null
 introduced_at_round: 3
@@ -122,3 +122,12 @@ beyond what was already known.
 
 The approach is recorded as a "dead end" in the sense that it does not
 yield a proof without new ideas for Part 2.
+
+---
+
+**Abandoned 2026-07-18 (session s_0718-205004-c44a).** The parent claim
+`primitive_set_erdos` (Erdős #1196) was proved in the literature in May
+2026 (arXiv:2605.00301) and the spec was reclassified as a rediscovery
+benchmark in the 2026-07-11 audit. This attempt is concluded; the lemma
+is retained as audit trail. Nothing here is wrong — it is simply moot as
+research (the o(1) gap it chased is closed by the published proof).
