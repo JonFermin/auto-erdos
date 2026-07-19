@@ -882,7 +882,10 @@ relative to 1 for small $k^*$; the conjecture's claim is only for $x \to \infty$
 
 **Promotion (for $\Omega(a) = j < k^*$)**: Map $a \mapsto am_a$ where $m_a$ is any
 $(k^*-j)$-almost prime coprime to $a$. Then $\varphi(a) = am_a \in \mathcal{A}_{k^*}(x)$.
-But $am_a \geq 2a$, so $1/(am_a\log(am_a)) < 1/(a\log a)$. Promotion DECREASES weight
+But $am_a \geq 2a$ (since $m_a \geq 2$), so $am_a\log(am_a) > a\log a$
+(because $n \mapsto n\log n$ is strictly increasing for $n \geq 3$:
+both $n$ and $\log n$ are strictly increasing positive functions, so their product is too),
+giving $1/(am_a\log(am_a)) < 1/(a\log a)$. Promotion DECREASES weight
 per element, giving the OPPOSITE inequality to what is needed for a weight-preserving
 injection. More precisely, this "injection" (if injective) would give
 $\sum_a 1/(a\log a) \geq \sum_b 1/(b\log b)$, the wrong direction.
