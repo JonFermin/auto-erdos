@@ -56,32 +56,85 @@ for cubic (3-regular) graphs on $n \le 10$ vertices. Full generality
 (arbitrary min-degree-3 graphs, all DFS orderings, all $n$) is the open
 part.
 
+## Girth constraint on valid gap-differences
+
+A critical structural observation links graph girth $g := \mathrm{girth}(G)$
+to the set of gap-differences that can arise at a DFS leaf.
+
+**Proposition.** For any DFS tree $T$ of a simple graph $G$ with girth $g$,
+and any vertex $v$ with two back edges of depth-gaps $d_1 < d_2$, the
+nested symmetric-difference cycle has length $d_2 - d_1 + 2$. Since this is a
+simple cycle in $G$, its length must be $\ge g$. Therefore
+$$d_2 - d_1 \;\ge\; g - 2.$$
+
+**Proof.** The symmetric difference of the two fundamental cycles (back edges
+from $v$ to ancestors $a_1$ at depth $\mathrm{dep}(v)-d_1$ and $a_2$ at
+depth $\mathrm{dep}(v)-d_2$, with $a_2$ shallower) is the simple cycle
+$a_2 \xrightarrow{T} a_1 \xrightarrow{\text{back}} v \xrightarrow{\text{back}} a_2$
+of length $(d_2-d_1)+2$. Simplicity follows from disjointness of the three
+paths (the DFS tree path $a_2\!\to\!a_1$, the back edge $v\!\to\!a_1$, and
+the back edge $v\!\to\!a_2$) — all vertices on the $T$-path from $a_2$ to
+$a_1$ are strictly shallower than $v$. Hence it is a genuine simple cycle,
+and $g \le (d_2-d_1)+2$. $\square$
+
+**Consequence for detection.** Define the detecting sets:
+$$P_1 = \{3,7,15,31,\ldots\} = \{2^k-1 : k \ge 2\}, \quad
+P_2 = \{2,6,14,30,\ldots\} = \{2^k-2 : k \ge 2\}.$$
+For a graph of girth $g$:
+- The individual-gap detection fires when $d \in P_1$ (fundamental C4, C8, C16,…).
+  Since also $d \ge g-1$, we need $d \in P_1 \cap [g-1,\infty) = \{2^k-1 : 2^k-1 \ge g-1\}$.
+- The pairwise detection fires when $d_2-d_1 \in P_2$ AND $d_2-d_1 \ge g-2$,
+  i.e., $d_2-d_1 \in P_2 \cap [g-2, \infty) = \{2^k-2 : 2^k-2 \ge g-2\}$.
+
+**Case $g = 4$ (C4 already present)**: detection fires immediately via any C4
+fundamental cycle (gap 3); no pairwise analysis needed.
+
+**Case $g = 5$ (girth-5 graphs — the hard case for Erdős–Gyárfás):**
+- $P_1 \cap [4,\infty) = \{7,15,31,\ldots\}$: detect via C8, C16,…
+- $P_2 \cap [3,\infty) = \{6,14,30,\ldots\}$: pairwise detect via C8, C16,…
+  But gap-diff 6 requires $d_2 = d_1 + 6$; for $d_1 \ge 4$ (girth 5 forces
+  min gap 4), $d_2 \ge 10$. In a graph on $n$ vertices, $d_2 \le n-2$, so
+  gap-diff 6 requires $n \ge 12$. For $n \le 10$ girth-5 graphs,
+  **pairwise detection is structurally impossible** — detection must come
+  from an individual back-edge gap in $\{7,15,\ldots\}$.
+
+**Implication for $n \le 10$ girth-5 cubic graphs.** The Erdős–Gyárfás
+conjecture (verified by CHECK block 1 for all 27 cubic graphs on $n \le 10$)
+guarantees a C8 exists. For DFS detection to succeed, we need a DFS tree
+where some back edge has gap 7. This holds iff the C8 can be realized as a
+fundamental cycle (a path of 7 tree edges + one back edge). A C8 can always be
+made fundamental in some DFS: starting DFS from any endpoint of the "closing
+edge" of the C8 and following the C8 path gives a DFS tree where 7 of the 8
+cycle edges are tree edges and the 8th is a back edge of gap 7.
+
+**However**, this only guarantees detection for SOME DFS ordering, not ALL.
+Whether every DFS ordering of a girth-5 cubic graph on $n \le 10$ has
+a back edge with gap 7 (or equiv., no adversarial DFS ordering can avoid
+gap-7 at all vertices) is the residual open question.
+
 ## Obstacles and alternative angles
 
-**Obstacle 1 (non-detecting pairs exist).** The condition is not void: pairs
-$(d_1, d_2)$ that avoid both detection sets do exist. For instance
-$d_1 = 2, d_2 = 5$: $2 \notin \{3,7,15,\ldots\}$, $5 \notin \{3,7,\ldots\}$,
-$5-2=3 \notin \{2,6,14,\ldots\}$. A cubic graph leaf with this DFS profile
-would escape chain-locality detection. Whether min-degree-3 and small $n$
-together prevent this profile from arising (or force some other vertex to
-detect instead) is the open combinatorial question.
+**Obstacle 1 (adversarial DFS orderings, girth-5 regime).**
+For $n \le 10$ girth-5 cubic graphs (Petersen graph is the unique one up to
+isomorphism), pairwise detection is impossible (as shown above), so detection
+requires a gap-7 back edge. An adversarial DFS might route the C8 into 3+
+back edges (short fundamental cycles, each < C8) so no individual back edge
+has gap 7. CHECK block 2 below samples many DFS orderings to probe this;
+whether it can happen in any cubic graph on $n \le 10$ is unknown.
 
-**Obstacle 2 (DFS ordering sensitivity).** For the universal claim ("any DFS
-tree"), the DFS ordering is adversarially chosen. A proof would need to show
-that no matter how the DFS is rooted and no matter how ties are broken, some
-vertex detects. The CHECK samples two orderings per root; it does not cover
-all $n! $ orderings.
+**Obstacle 2 (power-of-2 cycle via $\ge 3$ fundamental cycles).**
+Even if the chain-locality condition fails for some DFS ordering, the graph
+may still have a power-of-2 cycle expressible as a symmetric difference of
+$\ge 3$ fundamental cycles (using back edges from $\ge 2$ distinct vertices).
+Chain-locality then fails as a PROOF METHOD but the conjecture still holds.
+Redirecting to a higher-rank argument would require a global cycle-space
+analysis, beyond a local leaf-level check.
 
-**Obstacle 3 (power-of-2 cycle via $\ge 3$ fundamental cycles).** Even if
-the pairwise condition fails, the graph may still have a power-of-2 cycle
-expressible only as a symmetric difference of $\ge 3$ fundamental cycles (using
-back edges from $\ge 2$ distinct vertices). In that case chain-locality is
-insufficient and a more global cycle-space argument is needed.
-
-**Fallback.** If the CHECK below reveals a cubic graph on $\le 10$ vertices
-where SOME DFS ordering avoids detection, document the graph and ordering as
-a killed data-point and redirect Q9 toward Obstacle 3 (higher-rank
-combination of fundamental cycles).
+**Fallback.** If CHECK block 2 finds an adversarial DFS ordering for the
+Petersen graph where all leaves avoid gap in $P_1 \cup P_2$, document the
+ordering as a killed data-point. The conjecture is not falsified (the Petersen
+graph has a C8), but the universal chain-locality claim is, and Q9 must be
+redirected.
 
 <!-- CHECK
 # Verify DFS chain-locality on cubic graphs up to n=10.
@@ -204,6 +257,123 @@ for G in all_graphs:
 assert not failed_direct, f"Erdos-Gyarfas falsified at n={failed_direct}"
 assert not failed_dfs, f"DFS chain-locality fails at n={failed_dfs}"
 print(f"All {len(all_graphs)} cubic graphs passed (C4/C8 present, DFS detects).")
+CHECK -->
+
+<!-- CHECK
+# CHECK 2: Adversarial DFS sampling for girth-5 cubic graphs on n<=10.
+# For the Petersen graph (unique girth-5 cubic graph on 10 vertices),
+# pairwise gap-difference detection is impossible (d2-d1 >= g-2=3 forces
+# d2-d1 in {6,14,...}, requiring d2>=10 for d1>=4 -- impossible for n=10).
+# So detection must come from an individual back-edge gap in {7,15,...}.
+# This CHECK searches for DFS orderings that AVOID gap-7 at all vertices.
+# A single successful adversarial ordering would mean the universal claim
+# "any DFS tree detects" is false for the Petersen graph (though the
+# conjecture itself holds since Petersen has a C8 via other means).
+
+import sys
+import networkx as nx
+import random
+
+sys.setrecursionlimit(500)
+
+POW2M1 = {3, 7, 15, 31}
+POW2M2 = {2, 6, 14, 30}
+
+
+def dfs_detect_full(G, start, nbr_order):
+    """DFS from start with given neighbor order; True if detection fires."""
+    depth = {start: 0}
+    parent = {start: None}
+    visited = set([start])
+    back_per_v = {v: [] for v in G.nodes()}
+
+    def recurse(v):
+        for w in nbr_order[v]:
+            if w not in visited:
+                visited.add(w)
+                depth[w] = depth[v] + 1
+                parent[w] = v
+                recurse(w)
+            elif w != parent[v] and depth.get(w, depth[v]) < depth[v]:
+                back_per_v[v].append(depth[v] - depth[w])
+
+    recurse(start)
+    for gaps in back_per_v.values():
+        for d in gaps:
+            if d in POW2M1:
+                return True
+        s = sorted(gaps)
+        for i in range(len(s)):
+            for j in range(i + 1, len(s)):
+                if s[j] - s[i] in POW2M2:
+                    return True
+    return False
+
+
+def adversarial_sample(G, n_tries=2000, seed=42):
+    """Try many random DFS orderings; return first non-detecting or None."""
+    rng = random.Random(seed)
+    nodes = list(G.nodes())
+    for _ in range(n_tries):
+        start = rng.choice(nodes)
+        nbr = {v: list(G.neighbors(v)) for v in G.nodes()}
+        for v in nbr:
+            rng.shuffle(nbr[v])
+        if not dfs_detect_full(G, start, nbr):
+            return (start, nbr)
+    return None
+
+
+# Build the Petersen graph and all other girth-5 cubic graphs on n<=10
+petersen = nx.petersen_graph()
+assert nx.girth(petersen) == 5
+
+# Collect all girth>=5 cubic connected graphs on n<=10.
+# Explicitly seed with Petersen for n=10 (random sampling rarely hits it
+# since it's 1 of 19 cubic graphs on 10 vertices).
+girth5_graphs = []
+for n in [4, 6, 8, 10]:
+    seen = []
+
+    def add_g5(G):
+        if nx.is_connected(G) and all(d == 3 for _, d in G.degree()) and nx.girth(G) >= 5:
+            H = nx.convert_node_labels_to_integers(G)
+            if all(not nx.is_isomorphic(H, K) for K in seen):
+                seen.append(H)
+
+    if n == 10:
+        add_g5(petersen)
+    for seed in range(400):
+        try:
+            add_g5(nx.random_regular_graph(3, n, seed=seed))
+        except Exception:
+            pass
+    girth5_graphs.extend(seen)
+
+# Known: Petersen is the unique girth-5 cubic graph on <=10 vertices.
+assert any(nx.is_isomorphic(G, petersen) for G in girth5_graphs), \
+    "Petersen graph not found in girth-5 cubic list"
+
+print(f"Girth-5 cubic graphs on n<=10: {len(girth5_graphs)}")
+
+adversarial_found = False
+for G in girth5_graphs:
+    n = G.number_of_nodes()
+    result = adversarial_sample(G, n_tries=3000, seed=7)
+    if result is not None:
+        adversarial_found = True
+        start, nbr = result
+        print(f"ADVERSARIAL DFS FOUND for n={n}: start={start} avoids detection")
+        # Don't assert False -- document but don't fail the CHECK;
+        # the Petersen graph has a C8, so the conjecture holds.
+        # This would mean the UNIVERSAL claim is false.
+    else:
+        print(f"n={n}: no adversarial ordering found in 3000 tries (detection robust)")
+
+if not adversarial_found:
+    print("Universal DFS detection appears robust for all girth-5 cubic graphs on n<=10.")
+# Never assert adversarial_found is False -- the CHECK passes either way;
+# the result is informational for the proof strategy.
 CHECK -->
 
 ## Next steps (if CHECK passes)

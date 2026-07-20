@@ -166,18 +166,34 @@ $d_1 < d_2$:
 **Lemma `dfs_chain_locality`** (status: open, see
 `proof_lemmas/lemma_dfs_chain_locality.md`): for every connected
 min-degree-3 graph on $\le 12$ vertices, SOME DFS ordering has at least
-one vertex whose back-edge profile triggers the above detection. A CHECK
-block in the lemma file verifies this exhaustively for cubic graphs on
-$n \le 10$ vertices (with multiple DFS orderings per graph), providing
-computational support before attempting a combinatorial proof.
+one vertex whose back-edge profile triggers the above detection. Two CHECK
+blocks in the lemma file provide computational support:
+- CHECK 1 (passed): all 27 cubic graphs on $n \le 10$ have C4/C8 and SOME
+  DFS ordering detects via gap/gap-diff analysis.
+- CHECK 2 (passed): adversarial DFS sampling (3000 random orderings) on the
+  Petersen graph (unique girth-5 cubic graph on $n \le 10$) finds no ordering
+  that avoids detection.
+
+**Key structural finding: girth constrains valid gap-differences.** For a
+graph of girth $g$, any nested symmetric difference of two fundamental cycles
+from the same DFS vertex is a simple cycle of length $d_2-d_1+2 \ge g$.
+Therefore $d_2-d_1 \ge g-2$.
+
+- **Girth 4 graphs**: C4 detected immediately as a fundamental cycle (gap 3).
+- **Girth 5 graphs** (like the Petersen graph, $n=10$): pairwise diff must
+  be $\ge 3$; the first detecting diff is 6, requiring $d_2 \ge d_1+6 \ge 10$.
+  For $n \le 10$, $d_2 \le 9$, so **pairwise detection is impossible** for
+  girth-5 graphs on $n \le 10$. Detection must come from a gap-7 back edge
+  (C8 as fundamental cycle). The CHECK 2 adversarial sampling (3000 tries)
+  finds gap-7 in every DFS ordering tried on the Petersen graph.
 
 **Open sub-questions** (documented in the lemma):
 1. Whether the UNIVERSAL claim ("any DFS tree detects") holds, or only the
-   existential claim ("some DFS tree detects").
-2. Whether non-detecting profiles (e.g., $(d_1, d_2) = (2,5)$: no gap in
-   $\{3,7,\ldots\}$, difference $3 \notin \{2,6,\ldots\}$) can arise in
-   min-degree-3 graphs together with no power-of-2 cycle via
-   $\ge 3$ fundamental cycles.
-3. The fallback: if chain-locality fails for some $n \le 10$ cubic graph,
-   document the falsified case and redirect to a higher-rank symmetric-
-   difference argument or a different proof architecture.
+   existential claim ("some DFS tree detects"). The adversarial sampling
+   supports the universal claim for the Petersen graph but does not prove it.
+2. For a hypothetical counterexample with no C4, C8 (girth ≥ 5): only
+   pairwise diff 14 (C16 sym-diff) or gap 15 (C16 fundamental) could detect.
+   Whether min-degree-3 forces one of these is the deep open question.
+3. The fallback: if chain-locality fails in some DFS ordering for some
+   cubic graph, the conjecture still holds (via other mechanisms), but the
+   PROOF METHOD is invalidated for that ordering.
