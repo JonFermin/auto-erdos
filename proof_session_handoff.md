@@ -1,50 +1,49 @@
-# Session handoff (session s_0718-205004-c44a)
+# Session handoff (session s_0720-080701-9061)
 
-**Stop reason**: logical milestone â€” Q8 fully resolved, keep_progress record committed.
+**Stop reason**: logical milestone — 3 keep_progress rounds on Q9; token budget approaching.
 
-**Outcome**: 1 keep_progress round (commit d770634, record
-records/proof_erdos_gyarfas_38c18775bf2f_d770634.json). First session on
-`erdos_gyarfas` (prior sessions were the now-concluded primitive_set_erdos).
+**Outcome**: 3 keep_progress records committed on `erdos_gyarfas`:
+- `proof_erdos_gyarfas_844f48dd2a77_fbea36c.json` (round 1: lemma introduced, CHECK 1 passes)
+- `proof_erdos_gyarfas_883cde623441_78af681.json` (round 2: girth-constraint proved, Petersen adversarial sampling)
+- `proof_erdos_gyarfas_16f4acac6c9f_dadbeec.json` (round 3: CHECK 3 KILLS universal claim)
 
-**What was established**:
-- Lemma `igraph_c4_or_c8` (proved, all sizes): every simple I-graph
-  I(m,a,b) â€” hence every GP(n,k) â€” has a C4 (b â‰¡ Â±a) or the explicit C8
-  u0,ua,va,v(a+b),u(a+b),ub,vb,v0. No I-graph witness exists at ANY size.
-- Lemma `lift_screen_window` (proved, machine-checked): all 23,556
-  theta/I-graph/K4 Z_m-lifts in the â‰¤64-vertex witness cap contain a
-  power-of-2 cycle of length â‰¤ 16; searches complete; no survivors.
-- Old primitive_set lemmas: 3 open ones marked abandoned (claim proved in
-  literature May 2026); all annotated as non-load-bearing audit trail.
+**What was established this session**:
+1. **Lemma `dfs_chain_locality`** (status: open, in proof_lemmas/): DFS back-edge
+   pairwise gap analysis for Erdős–Gyárfás. Three CHECK blocks:
+   - CHECK 1 (passed): all 27 cubic graphs n≤10 have C4/C8 AND SOME DFS detects via gap/gap-diff.
+   - CHECK 2 (passed): 3000 adversarial DFS orderings on Petersen graph all detected.
+   - CHECK 3 (KEY KILL): 14/27 cubic graphs on n≤10 have DFS orderings that AVOID detection (girth 3 and 4 graphs). **Universal claim ("any DFS tree detects") is FALSE.**
 
-**HARNESS BUG (blocking the full critic panel â€” needs a human fix)**:
-prompts/critic_falsify.md promises "math and Python builtins" but
-proof_prepare._sandboxed_eval allowlists only ~20 names (no frozenset,
-sorted, bin, dict, str), and _evaluate_numerical_findings escalates ANY
-crashed check to BLOCKING even on OK-flagged findings. 5 full-panel runs
-(commits e5de13e, 412c4bd, 97077a4, de4a370, d770634 in
-proof_verifier_results.tsv) each produced exactly such spurious blockers
-(sorted, `__`, bin, frozenset, then a critic typo â€” unmatched paren);
-every falsify/internal/openness/strategy finding's PROSE was positive
-("lemma survives", "Airtight", "C4 valid"). All substantive WARNs were
-fixed in rounds 2â€“5. The kept round was therefore logged in critics-off
-mode (deterministic gates: CHECK blocks incl. a 2,785-graph re-screen,
-witness verifier, resolution-string scan â€” all clean; TSV reason
-critics_off). Fix candidates: add frozenset/sorted/bin to safe_builtins,
-align prompt text with the real allowlist, or stop escalating OK-flagged
-findings whose check crashed (vs. evaluated False). After the fix,
-re-run the full panel on d770634 to upgrade the record's provenance.
+2. **Girth-constraint proved** (proof_strategy.md Section 6): pairwise sym-diff cycle has
+   length d2-d1+2 ≥ girth(G). For girth-5 graphs on n≤10, pairwise detection is impossible
+   (requires d2≥10); only gap-7 individual detection works.
 
-**qid state**: Q8 resolved. Q9 (DFS depth-chain discharging), Q10/Q11
-(frankl_union_closed) open. Notes channel has a new structural lead:
-large-m theta lifts and the voltage-relation obstruction (candidate new
-qid; proof-direction only â€” the 64-vertex witness cap blocks the
-disproof direction).
+3. **Petersen graph is robust**: no adversarial ordering (among 3000 tried) avoids detection.
+   This aligns with the girth-5 analysis — only gap-7 works, and the Petersen's C8 always
+   appears as a fundamental cycle in practice.
+
+4. **Redirect established**: Q9 should pursue "CANONICAL DFS always detects" instead of
+   "ANY DFS tree detects." Candidate canonical rule: depth-maximizing DFS (root at min-
+   eccentricity vertex, explore neighbors in depth-first order).
+
+**qid state**: Q9 is released (not resolved). Canonical-DFS sub-claim is the next step.
+Q10 and Q11 (frankl_union_closed) remain open — consider them if Q9 canonical approach
+stalls.
+
+**Harness bug still present**: critic sandbox allowlist excludes frozenset/sorted/bin. All
+3 rounds were logged in critics-off mode (deterministic gates only). Bug must be fixed by
+human before full-panel runs.
 
 **Suggested next move**:
-1. Human: fix the sandbox allowlist bug, then optionally re-run
-   `PROOF_TAG=erdos_gyarfas uv run proof_prepare.py` at d770634 for a
-   clean full-panel row.
-2. Next agent session: take Q9 (depth-chain discharging) â€” write the
-   pairwise chain-locality CHECK on all min-degree-3 graphs â‰¤10 vertices
-   BEFORE any proof text (judge's expansion condition), or ideate a qid
-   from the theta-lift voltage-relation lead.
+1. Q9 canonical DFS: write a CHECK that tests whether, for each cubic graph on n≤10,
+   the depth-maximizing DFS (start from min-eccentricity vertex, break ties by degree)
+   achieves gap-7 detection for girth-5 and gap-3 detection for girth-4. If CHECK passes,
+   write the proof argument.
+2. If Q9 stalls: take Q10 (frankl_union_closed KL deficiency) — an independent direction
+   with a killable first lemma (deficiency lower bound, quantitative).
+
+**Files modified this session**:
+- proof_strategy.md (added Section 6 on Q9 progress, girth analysis, CHECK 3 kill)
+- proof_lemmas/lemma_dfs_chain_locality.md (new, 3 CHECK blocks, girth analysis, kill doc)
+- proof_open_questions.jsonl (claimed then released Q9)
+- proof_journal.jsonl (3 round entries)
