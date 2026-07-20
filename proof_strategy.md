@@ -131,7 +131,7 @@ power-of-2 scale for every $(m, a_2, a_3)$; a disproof at large $m$ would
 need a larger-capacity verifier and is outside this harness's witness
 contract).
 
-## Section 5 — Current open state
+## Section 5 — Current open state (after Q8)
 
 - **Q8 is resolved**: no witness exists in the screened families — the
   I-graph/GP/dumbbell arm is cleared at all sizes by Lemma
@@ -140,12 +140,44 @@ contract).
   if resumed, must move outside these lift families (girth-biased random
   cubic graphs, cages, snark-like families) or to the large-$m$
   theta-lift question above.
-- The queued proof-direction arm is **Q9** (DFS depth-chain discharging:
-  back-edge depth-gaps forbidden in $\{3,7,15,31,\dots\}$, min degree 3
-  forcing DFS leaves to carry $\ge 2$ back edges). Ideation losers
-  (Hashimoto trace compression, dyadic-window cycle-spectrum sieve,
-  minimal-counterexample stability stack) must not be re-proposed without
-  new input; the notes channel records why each died.
+- Ideation losers (Hashimoto trace compression, dyadic-window
+  cycle-spectrum sieve, minimal-counterexample stability stack) must not be
+  re-proposed without new input; the notes channel records why each died.
 - Minimal open statement: the conjecture itself, with the search space for
   a hypothetical counterexample narrowed by F1–F3 and, from this session,
   by the I-graph clearance (all sizes) and the theta/$K_4$ window screen.
+
+## Section 6 — Q9: DFS depth-chain discharging (in progress)
+
+**Strategy.** A DFS tree $T$ of a min-degree-3 graph $G$ decomposes all
+edges into tree edges and back edges. A back edge from $v$ to ancestor $w$
+has depth-gap $d = \mathrm{dep}(v) - \mathrm{dep}(w) \ge 2$, yielding a
+fundamental cycle of length $d+1$.
+
+Key observation: in a DFS of a cubic graph, every DFS leaf carries exactly
+two back edges (degree 3 minus one parent tree-edge). If their gaps are
+$d_1 < d_2$:
+- $d_i + 1 \in \{4,8,16,\ldots\}$ iff $d_i \in \{3,7,15,\ldots\}$:
+  fundamental cycle witnesses the conjecture.
+- $(d_2 - d_1) + 2 \in \{4,8,16,\ldots\}$ iff $d_2 - d_1 \in \{2,6,14,\ldots\}$:
+  nested symmetric difference of the two fundamental cycles is a
+  power-of-2 simple cycle.
+
+**Lemma `dfs_chain_locality`** (status: open, see
+`proof_lemmas/lemma_dfs_chain_locality.md`): for every connected
+min-degree-3 graph on $\le 12$ vertices, SOME DFS ordering has at least
+one vertex whose back-edge profile triggers the above detection. A CHECK
+block in the lemma file verifies this exhaustively for cubic graphs on
+$n \le 10$ vertices (with multiple DFS orderings per graph), providing
+computational support before attempting a combinatorial proof.
+
+**Open sub-questions** (documented in the lemma):
+1. Whether the UNIVERSAL claim ("any DFS tree detects") holds, or only the
+   existential claim ("some DFS tree detects").
+2. Whether non-detecting profiles (e.g., $(d_1, d_2) = (2,5)$: no gap in
+   $\{3,7,\ldots\}$, difference $3 \notin \{2,6,\ldots\}$) can arise in
+   min-degree-3 graphs together with no power-of-2 cycle via
+   $\ge 3$ fundamental cycles.
+3. The fallback: if chain-locality fails for some $n \le 10$ cubic graph,
+   document the falsified case and redirect to a higher-rank symmetric-
+   difference argument or a different proof architecture.
