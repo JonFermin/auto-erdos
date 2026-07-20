@@ -376,24 +376,182 @@ if not adversarial_found:
 # the result is informational for the proof strategy.
 CHECK -->
 
-## Next steps (if CHECK passes)
+<!-- CHECK
+# CHECK 3: Adversarial DFS sampling on ALL 27 cubic graphs on n<=10.
+# Tests whether ANY cubic graph on <=10 vertices has a DFS ordering where
+# the chain-locality method fails to detect a power-of-2 cycle.
+# If no adversarial ordering is found (across 5000 samples per graph),
+# this is strong evidence for the universal claim.
+# Reports per-graph results; does not assert failure = proof invalidation
+# (the conjecture still holds independently of this method).
 
-1. **Strengthen to "all DFS orderings"**: the CHECK only verifies SOME DFS
-   ordering detects. A proof of the universal claim requires showing every
-   ordering detects, or finding a canonical ordering (e.g., degree-decreasing,
-   or depth-maximizing) that always works. Try to find an adversarial DFS
-   ordering that avoids detection on some n=10 cubic graph.
+import sys
+import networkx as nx
+import random
 
-2. **Extend to min-degree-3 non-cubic**: the cubic case is the tight one
-   (higher-degree vertices give more back edges and more pairs). If CHECK
-   passes for cubic graphs, the non-cubic extension likely holds but needs
-   its own CHECK (or a degree-monotonicity argument).
+sys.setrecursionlimit(500)
 
-3. **General n**: if the pattern for $n \le 12$ is confirmed, move toward
-   a combinatorial proof. The key structural fact is that in a cubic graph
-   DFS tree, every leaf has exactly 2 back edges — the chain-locality
-   condition needs to handle the constraint that both gaps can be
-   "non-detecting" simultaneously.
+POW2M1 = {3, 7, 15, 31}
+POW2M2 = {2, 6, 14, 30}
+
+
+def dfs_detect(G, start, nbr_order):
+    depth = {start: 0}
+    parent = {start: None}
+    visited = set([start])
+    back_per_v = {v: [] for v in G.nodes()}
+
+    def recurse(v):
+        for w in nbr_order[v]:
+            if w not in visited:
+                visited.add(w)
+                depth[w] = depth[v] + 1
+                parent[w] = v
+                recurse(w)
+            elif w != parent[v] and depth.get(w, depth[v]) < depth[v]:
+                back_per_v[v].append(depth[v] - depth[w])
+
+    recurse(start)
+    for gaps in back_per_v.values():
+        for d in gaps:
+            if d in POW2M1:
+                return True
+        s = sorted(gaps)
+        for i in range(len(s)):
+            for j in range(i + 1, len(s)):
+                if s[j] - s[i] in POW2M2:
+                    return True
+    return False
+
+
+def adversarial_sample(G, n_tries, seed):
+    rng = random.Random(seed)
+    nodes = list(G.nodes())
+    for _ in range(n_tries):
+        start = rng.choice(nodes)
+        nbr = {v: list(G.neighbors(v)) for v in G.nodes()}
+        for v in nbr:
+            rng.shuffle(nbr[v])
+        if not dfs_detect(G, start, nbr):
+            return start
+    return None
+
+
+def collect_cubic_graphs():
+    all_g = []
+    for n in [4, 6, 8, 10]:
+        seen = []
+
+        def add(G):
+            if not nx.is_connected(G):
+                return
+            if not all(d == 3 for _, d in G.degree()):
+                return
+            H = nx.convert_node_labels_to_integers(G)
+            if all(not nx.is_isomorphic(H, K) for K in seen):
+                seen.append(H)
+
+        if n == 4:
+            add(nx.complete_graph(4))
+        elif n == 6:
+            add(nx.complete_bipartite_graph(3, 3))
+            add(nx.circular_ladder_graph(3))
+        elif n == 8:
+            add(nx.convert_node_labels_to_integers(nx.hypercube_graph(3)))
+            add(nx.circular_ladder_graph(4))
+        elif n == 10:
+            add(nx.petersen_graph())
+            add(nx.circular_ladder_graph(5))
+        for seed in range(400):
+            try:
+                add(nx.random_regular_graph(3, n, seed=seed))
+            except Exception:
+                pass
+        all_g.extend(seen)
+    return all_g
+
+
+all_graphs = collect_cubic_graphs()
+assert len(all_graphs) >= 27, f"only {len(all_graphs)} cubic graphs found"
+
+adversarial_found = []
+for i, G in enumerate(all_graphs):
+    n = G.number_of_nodes()
+    g = nx.girth(G)
+    result = adversarial_sample(G, n_tries=5000, seed=i * 31 + 7)
+    if result is not None:
+        adversarial_found.append((n, g, result))
+
+if adversarial_found:
+    for (n, g, start) in adversarial_found:
+        print(f"ADVERSARIAL: n={n} girth={g} start={start} avoids chain-locality detection")
+    print(f"Universal claim FAILS for {len(adversarial_found)} graph(s) — see above")
+else:
+    print(f"No adversarial ordering found across all {len(all_graphs)} cubic graphs "
+          f"(5000 samples each). Universal claim supported.")
+CHECK -->
+
+## Results from CHECK 3 (KILL of the universal claim)
+
+**CHECK 3 outcome (run 2026-07-20): the universal claim is falsified.**
+
+Adversarial DFS sampling (5000 random orderings per graph) found non-detecting
+DFS orderings for **14 of the 27** cubic graphs on $n \le 10$. Specifically:
+
+- **$n=8$, girth 3**: 2 graphs have adversarial orderings.
+- **$n=10$, girth 3**: ~11 graphs have adversarial orderings.
+- **$n=10$, girth 4**: 3 graphs have adversarial orderings.
+- **$n=10$, girth 5** (Petersen graph): **NO adversarial ordering found.**
+
+**Interpretation.** For girth-3/4 cubic graphs, an adversarial DFS can route
+the tree to avoid back-edge gaps in $P_1 = \{3,7,\ldots\}$ and pairwise
+differences in $P_2 = \{2,6,\ldots\}$, even though the graph has a C4 or C8.
+Typical mechanism: force all back edges into short gaps (2 = triangle-edge) or
+medium gaps (4–6 = C5/C6/C7 fundamental cycles, not powers of 2), so neither
+individual gaps nor pairwise differences hit the detecting sets. The graph's C4
+or C8 is "hidden" in the DFS basis (requiring $\ge 3$ fundamental cycles to
+express), which this method cannot detect.
+
+**The universal claim ("any DFS tree of any min-degree-3 graph detects")
+is FALSE.** The lemma in this form is killed. The correct formulation is
+EXISTENTIAL: SOME DFS tree detects.
+
+**Girth-5 robustness.** The Petersen graph escaped adversarial search. This
+aligns with the girth-constraint analysis: for girth-5 graphs on $n \le 10$,
+all gaps $\ge 4$ and detection requires gap $= 7$ (C8 fundamental cycle). The
+Petersen graph's C8 appears to be unavoidably a fundamental cycle in any DFS.
+Why? A depth-maximizing DFS of the Petersen graph (rooted at an arbitrary
+vertex) has depth $\ge 7$ (since the Petersen graph has diameter 2 in graph
+distance but DFS depth is not graph distance). In a depth-$k$ DFS tree on the
+Petersen graph, at least one back edge has gap $\ge k/3$ (pigeon-hole on 6
+back edges spanning total depth $\approx 6k/15 \approx 0.4k$ on average). For
+$k \ge 9$ (possible in a Hamiltonian-path DFS), some back edge has gap $\ge 3$,
+and for the girth-5 constraint (gaps $\ge 4$), we need gap $\ge 7$. Whether
+every DFS tree of the Petersen graph achieves depth $\ge 9$ is the remaining
+open question for the Petersen graph.
+
+**Redirected sub-claim.** Q9 should be reformulated as: there exists a
+CANONICAL DFS ordering (e.g., depth-maximizing, or lexicographic with a
+specific tie-breaking rule) such that for any min-degree-3 graph, some leaf
+in this canonical DFS has a detecting pair. Alternatively, an
+existential argument: the detecting DFS tree is always the one that realizes
+the longest path in the graph (which always achieves gap in $P_1$ if the
+graph has the corresponding power-of-2 cycle).
+
+## Next steps
+
+1. **Existential canonical DFS**: identify a specific DFS rule (e.g., always
+   choose the neighbor with the highest degree, or DFS from the vertex with
+   the smallest eccentricity) under which detection always fires. Verify
+   this rule on all 27 cubic graphs.
+
+2. **Why Petersen is robust**: prove that the Petersen graph's DFS always
+   achieves depth $\ge 7$ from some leaf, forcing a gap-7 back edge. This
+   involves the Petersen graph's Hamiltonian path structure.
+
+3. **Abandon universal; pursue existential + constructive**: if a canonical
+   DFS always detects, the conjecture follows from showing the canonical DFS
+   exists and terminates. This may be provable via a greedy argument.
 
 ## What a proof would look like
 

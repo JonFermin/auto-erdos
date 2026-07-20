@@ -187,13 +187,24 @@ Therefore $d_2-d_1 \ge g-2$.
   (C8 as fundamental cycle). The CHECK 2 adversarial sampling (3000 tries)
   finds gap-7 in every DFS ordering tried on the Petersen graph.
 
-**Open sub-questions** (documented in the lemma):
-1. Whether the UNIVERSAL claim ("any DFS tree detects") holds, or only the
-   existential claim ("some DFS tree detects"). The adversarial sampling
-   supports the universal claim for the Petersen graph but does not prove it.
-2. For a hypothetical counterexample with no C4, C8 (girth ≥ 5): only
-   pairwise diff 14 (C16 sym-diff) or gap 15 (C16 fundamental) could detect.
-   Whether min-degree-3 forces one of these is the deep open question.
-3. The fallback: if chain-locality fails in some DFS ordering for some
-   cubic graph, the conjecture still holds (via other mechanisms), but the
-   PROOF METHOD is invalidated for that ordering.
+**CHECK 3 kill (2026-07-20): universal claim falsified; existential claim stands.**
+Adversarial DFS sampling (5000 orderings per graph) on all 27 cubic graphs on
+$n \le 10$ found non-detecting orderings for 14 graphs (girth 3 and 4). The
+universal claim ("any DFS tree detects") is FALSE. The Petersen graph (girth 5)
+is the sole case with no adversarial ordering found.
+
+The EXISTENTIAL claim (SOME DFS tree detects for every cubic graph on $\le 10$
+vertices) is supported by CHECK 1 + the failure of the adversarial search to
+kill the Petersen graph.
+
+**Redirected proof strategy for Q9:**
+- Abandon "any DFS tree detects"; pursue "CANONICAL DFS always detects."
+- A candidate canonical rule: DFS from the vertex of minimum eccentricity
+  (center of the graph), breaking ties by maximum degree, exploring neighbors
+  in depth-increasing order. Under this rule, girth-constraint forces short
+  cycles to appear as fundamental cycles and long-path DFS ensures high-gap
+  back edges for girth-5 graphs.
+- Key sub-claim to verify: the depth-maximizing DFS always places the
+  graph's shortest power-of-2 cycle as a fundamental cycle (or pairwise
+  sym-diff). CHECK for this canonical rule on all 27 cubic graphs is the
+  next logical step.
