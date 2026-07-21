@@ -140,7 +140,7 @@ contract).
   if resumed, must move outside these lift families (girth-biased random
   cubic graphs, cages, snark-like families) or to the large-$m$
   theta-lift question above.
-- The queued proof-direction arm is **Q9** (DFS depth-chain discharging:
+- The active proof-direction arm is **Q9** (DFS depth-chain discharging:
   back-edge depth-gaps forbidden in $\{3,7,15,31,\dots\}$, min degree 3
   forcing DFS leaves to carry $\ge 2$ back edges). Ideation losers
   (Hashimoto trace compression, dyadic-window cycle-spectrum sieve,
@@ -149,3 +149,47 @@ contract).
 - Minimal open statement: the conjecture itself, with the search space for
   a hypothetical counterexample narrowed by F1–F3 and, from this session,
   by the I-graph clearance (all sizes) and the theta/$K_4$ window screen.
+
+## Section 6 — Q9: DFS chain-locality approach (in progress)
+
+**Goal**: prove that every connected graph $G$ with $\delta(G) \ge 3$
+contains a cycle of length $2^k$ for some $k \ge 2$.
+
+**DFS tree setup.** Fix an arbitrary DFS spanning tree $T$ of $G$. Every
+non-tree edge $(u,v)$ is a back edge (undirected DFS has no cross edges),
+connecting a descendant to an ancestor. The associated *fundamental cycle*
+$C_{uv}$ uses the tree path from $u$ up to $v$ plus the back edge; its
+length is $\mathrm{depth}(u) - \mathrm{depth}(v) + 1$.
+
+**Pairwise chain-locality lemma** (Lemma `dfs_chain_locality`, status:
+open). For any $G$ with $\delta(G) \ge 3$ and any DFS tree $T$:
+
+1. Some fundamental cycle of $T$ has length $2^k$, OR
+2. The symmetric difference $C_{e_1} \triangle C_{e_2}$ of some two
+   fundamental cycles is a simple cycle of length $2^k$.
+
+*Computational evidence* (round 2, 2026-07-21): every connected min-degree-3
+labeled graph on $n = 4,5,6$ vertices passes for ALL DFS trees (1,885
+graphs exhaustively; sorted and reversed adjacency tested per root). The
+Petersen graph ($n = 10$, girth 5) also passes. No counterexample in 1,887
+graphs.
+
+**Why (1) failing forces two back edges at every DFS leaf.** If (1) fails,
+no back edge $(u,v)$ has depth-gap $2^k - 1$. Every DFS leaf $\ell$ has
+$\mathrm{outdeg}_T(\ell) = 0$, so all $\deg_G(\ell) \ge 3$ incident edges
+are back edges (going to ancestors). In particular every leaf carries $\ge
+3$ back edges. (Non-leaf vertices with $\mathrm{outdeg}_T \ge 1$ carry
+$\ge 0$ back edges; they are not the immediate target of the argument.)
+
+**Target for next round.** For a DFS leaf $\ell$ with back edges to
+ancestors $a_1, a_2$ at depths $d_1 \le d_2 < \mathrm{depth}(\ell)$, the
+sym-diff $C_{\ell a_1} \triangle C_{\ell a_2}$ has length
+$(\mathrm{depth}(\ell) - d_1 + 1) + (\mathrm{depth}(\ell) - d_2 + 1) -
+2(\mathrm{depth}(\ell) - d_2) = (d_2 - d_1) + 2$ when $a_1$ is an
+ancestor of $a_2$ and the sym-diff is a simple cycle (which requires the
+two tree paths to share a suffix). So (2) requires $(d_2 - d_1) + 2 = 2^k$,
+i.e., $d_2 - d_1 = 2^k - 2$ for some $k \ge 2$. With $\ge 3$ back edges
+per leaf, there are $\ge 3$ depth values $\{d_1, d_2, d_3\}$ (of the
+ancestor endpoints), and by pigeonhole or parity some pair must satisfy
+$d_j - d_i \equiv 2 \pmod{4}$ or similar. Making this rigorous is the
+goal of the next round.
