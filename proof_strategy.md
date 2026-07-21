@@ -181,15 +181,24 @@ are back edges (going to ancestors). In particular every leaf carries $\ge
 3$ back edges. (Non-leaf vertices with $\mathrm{outdeg}_T \ge 1$ carry
 $\ge 0$ back edges; they are not the immediate target of the argument.)
 
-**Target for next round.** For a DFS leaf $\ell$ with back edges to
-ancestors $a_1, a_2$ at depths $d_1 \le d_2 < \mathrm{depth}(\ell)$, the
-sym-diff $C_{\ell a_1} \triangle C_{\ell a_2}$ has length
-$(\mathrm{depth}(\ell) - d_1 + 1) + (\mathrm{depth}(\ell) - d_2 + 1) -
-2(\mathrm{depth}(\ell) - d_2) = (d_2 - d_1) + 2$ when $a_1$ is an
-ancestor of $a_2$ and the sym-diff is a simple cycle (which requires the
-two tree paths to share a suffix). So (2) requires $(d_2 - d_1) + 2 = 2^k$,
-i.e., $d_2 - d_1 = 2^k - 2$ for some $k \ge 2$. With $\ge 3$ back edges
-per leaf, there are $\ge 3$ depth values $\{d_1, d_2, d_3\}$ (of the
-ancestor endpoints), and by pigeonhole or parity some pair must satisfy
-$d_j - d_i \equiv 2 \pmod{4}$ or similar. Making this rigorous is the
-goal of the next round.
+**Nested-path characterization (Round 3 update).** The sym-diff $C_{e_1} \triangle
+C_{e_2}$ is a simple cycle iff all four depth-ordered endpoints $v_1, v_2, u_2, u_1$
+(deeper endpoints $u_i$, shallower $v_i$) lie on a single root-to-vertex path with
+$d_{v_1} \le d_{v_2} \le d_{u_2} \le d_{u_1}$.  Setting $a = d_{u_1} - d_{u_2}$
+and $b = d_{v_2} - d_{v_1}$ (both $\ge 0$), the sym-diff length is $a + b + 2$,
+and condition (2) requires $a + b = 2^k - 2$.
+
+**Diagnostic finding (n=4..6).** Across all 1,174 DFS-tree instances where (A)
+fails, the satisfying sym-diff always has $a + b = 2$ (a $C_4$, $k = 2$).  Breakdown:
+same-deep ($a = 0$, $u_1 = u_2$) 319; same-shallow ($b = 0$, $v_1 = v_2$) 295;
+cross (all four vertices distinct) 560.  The same-leaf analysis ($u_1 = u_2 = \ell$)
+covers only same-deep and is **insufficient** — 48% of satisfying pairs are
+cross-vertex.  Counterexample to same-leaf: leaf with ancestor depths $\{0,1,4\}$
+and forbidden gaps $\{3,7,15\}$; pairwise differences $1, 3, 4$ miss $\{2, 6, 14\}$.
+
+**Target for next round.** Prove that in any min-degree-3 DFS tree where (A) fails,
+some nested pair achieves $a + b = 2^k - 2$.  The forbidden-gap constraint ($\delta_i
+\notin \{3,7,15,\ldots\}$ for every back-edge depth-gap $\delta_i$) and the
+$\ge 3$ back edges per DFS leaf must together force — via a covering or pigeonhole
+argument on depth sequences along root-to-leaf paths — a cross-vertex nested pair
+with $a + b$ in the sequence $\{2, 6, 14, 30, \ldots\}$.

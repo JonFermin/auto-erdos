@@ -52,20 +52,43 @@ Petersen graph ($n = 10$, girth 5, 3-regular) and $K_{3,3}$ ($n = 6$,
 bipartite, 3-regular) also pass for all roots and orderings. No
 counterexample found in 1,887 graphs tested.
 
-**Next step for proof.** Identify why (2) is always achievable when (1) fails:
-- When no fundamental cycle has power-of-2 length, the DFS leaf must carry
-  $\ge 2$ back edges.
-- Their tree paths to ancestors overlap in a shared suffix; the sym-diff
-  cycle length is $\delta_1 + \delta_2 - 2\ell + 2$.
-- A depth/divisibility argument should force some choice of back-edge pair
-  and overlap length to achieve a power-of-2 sum.
+**Nested-path condition (when is the sym-diff a simple cycle?).** For back edges
+$e_1 = (u_1, v_1)$ and $e_2 = (u_2, v_2)$ with $d_{u_i} > d_{v_i}$ (deeper endpoint
+listed first), the symmetric difference $C_{e_1} \triangle C_{e_2}$ is a simple cycle
+if and only if the four vertices lie on a single root-to-vertex path in $T$ with
+(wlog) $d_{v_1} \le d_{v_2} \le d_{u_2} \le d_{u_1}$.  When the **nested-path
+condition** holds the sym-diff visits
+$u_1 \xrightarrow{\text{tree}} u_2 \xrightarrow{e_2} v_2 \xrightarrow{\text{tree}}
+v_1 \xrightarrow{e_1} u_1$ and has length
+$$|C_{e_1} \triangle C_{e_2}| = (d_{u_1} - d_{u_2}) + (d_{v_2} - d_{v_1}) + 2 =: a + b + 2.$$
+Condition (2) requires $a + b = 2^k - 2$ for some $k \ge 2$.  The three structural
+subtypes are: *same-deep* ($u_1 = u_2$, $a = 0$, length $b + 2$); *same-shallow*
+($v_1 = v_2$, $b = 0$, length $a + 2$); *cross* (all four vertices distinct).
 
-**Current obstacle.** The divisibility step is non-trivial: $\delta_1 +
-\delta_2 - 2\ell + 2 = 2^k$ can be read as $(\delta_1 - \ell) + (\delta_2 -
-\ell) = 2^k - 2$, i.e., two non-negative integers summing to $2^k - 2$.
-We need to show that for at least one DFS leaf with $\ge 2$ back edges,
-some pair satisfies this. A pigeonhole or parity argument may work; see
-next session.
+**Diagnostic (n=4..6, 1,174 DFS-tree instances where (A) fails).** The satisfying
+pair for (B) always has $a + b = 2$ (a $C_4$ sym-diff, $k = 2$).  Type breakdown:
+same-deep 319, same-shallow 295, cross 560.  Crucially, 48% are cross-vertex nested
+pairs, so restricting to the *same-leaf* case ($u_1 = u_2 = \ell$, both back edges
+from the same DFS leaf) is **insufficient**.  Example failure: leaf with ancestor
+depths $\{0, 1, 4\}$; pairwise differences are $1, 3, 4$ — none equal $2^k - 2$.
+
+**Next step for proof.** Show that in every min-degree-3 DFS tree where (A) fails,
+some nested pair $(e_1, e_2)$ achieves $a + b = 2^k - 2$ for some $k \ge 2$.
+Key constraints: (i) every DFS leaf carries $\ge 3$ back edges (all $\deg \ge 3$
+incident edges go to ancestors); (ii) every back-edge depth-gap $\delta_i =
+d_{u_i} - d_{v_i}$ avoids $\{3, 7, 15, 31, \ldots\}$ (else a fundamental cycle of
+power-of-2 length would exist, satisfying (A)).  A promising angle: along a long
+root-to-leaf path that accumulates many back-edge anchor points, the forbidden-gap
+constraint forces a covering or pigeonhole argument on the resulting depth sequence
+to produce a nested pair with $a + b \in \{2, 6, 14, \ldots\}$.
+
+**Current obstacle.** The same-leaf reduction is insufficient (see diagnostic above).
+The proof must exploit the global DFS tree geometry: track back-edge anchor depths
+across multiple vertices along a single root-to-leaf path, and show that the
+forbidden-gap constraint combined with $\ge 3$ back edges per leaf creates enough
+depth-difference diversity to force a nested pair with $a + b = 2^k - 2$.
+Formalizing this via a covering argument or a structural claim about DFS trees of
+min-degree-3 graphs is the goal of the next round.
 
 <!-- CHECK
 # Falsification probe for pairwise DFS chain-locality.
@@ -178,6 +201,16 @@ for u, v in ([(i,(i+1)%5) for i in range(5)]
 adj_p = [list(a) for a in adj_p]
 tested += 1
 assert check_graph(10, adj_p, frozenset(es_p)), "Petersen FAILS chain-locality"
+
+# Heawood graph (n=14, girth 6, 3-regular — girth 6 so no C4/C5;
+#   any power-of-2 sym-diff must achieve C8 or longer from a nested pair)
+adj_h = [[] for _ in range(14)]
+es_h = set()
+for u, v in ([(i,(i+1)%14) for i in range(14)]          # outer 14-cycle
+             + [(0,5),(2,7),(4,9),(6,11),(8,13),(10,1),(12,3)]):  # chords
+    adj_h[u].append(v); adj_h[v].append(u); es_h.add((min(u,v),max(u,v)))
+tested += 1
+assert check_graph(14, adj_h, frozenset(es_h)), "Heawood FAILS chain-locality"
 
 assert tested >= 5, f"Only {tested} graphs checked"
 CHECK -->
