@@ -117,34 +117,48 @@ is a $C_4$.  The min-degree constraint forces $p$ to have $\ge 1$ back edge (sin
 $p$ has 2 tree edges — to $\ell$ and to $\mathrm{par}(p)$ — so needs $\ge 1$ more
 to reach degree 3).
 
-**Target for next round (Round 6).** Prove the 3-locality claim: in every
-min-degree-3 DFS tree where (1) fails, SOME subset of 2 or 3 fundamental cycles
-has a simple power-of-2 sym-diff.  The structural insight from Round 5:
+**Round 6 finding: depth-separation and bridge structure (new).** Exhaustive
+inspection of all 6 failing (pairwise-bad) cases from the $n \le 14$ sample reveals
+a uniform pattern:
 
-- **When pairwise fails**: the pairwise sym-diff at the "right" length (e.g. 8)
-  is NOT a simple cycle — it decomposes into two disjoint cycles.  This happens
-  when two relevant back edges lie on different spines (no common root-to-vertex
-  path through both pairs of endpoints).
-- **Why triple fixes it**: a third fundamental cycle shares a tree path with one
-  component of the pairwise union, merging the two components into a single cycle
-  of the same total length.  Concretely, the failing-case triples $(e_i, e_j, e_k)$
-  always have one back edge "bridging" two otherwise-disconnected components.
-- **Proof direction**: show that whenever a pairwise sym-diff is a non-simple
-  2-regular graph (two disjoint cycles $D_1 \cup D_2$) of power-of-2 total length,
-  the min-degree-3 constraint forces a back edge whose fundamental cycle shares
-  edges with exactly one $D_i$, allowing a third sym-diff to merge them.
+1. **Depth-separation**: the two components $D_0$ and $D_1$ of the non-simple
+   pairwise sym-diff are ALWAYS depth-separated — one component's vertex-depths
+   are entirely above the other's.  Concretely: $\max\{\mathrm{dep}(v) : v \in D_0\}
+   < \min\{\mathrm{dep}(v) : v \in D_1\}$ (or vice versa) in all 6 cases.
 
-**Current obstacle.** Formalizing the "bridging back edge" argument: need to show
-that in every A-fail DFS tree where no pairwise sym-diff is a simple p2-cycle, some
-back edge's fundamental cycle intersects exactly one component of a p2-length
-pairwise union.  The min-degree constraint gives back edges near every leaf, but
-controlling which component they intersect requires spine-locality analysis.
+2. **Bridge existence**: in all 6 cases there exists a back edge $e_k$ whose
+   fundamental cycle $C_{e_k}$ has an **odd** overlap count with EACH component:
+   $|C_{e_k} \cap D_0|$ is odd and $|C_{e_k} \cap D_1|$ is odd.  Because the
+   sym-diff $D_0 \triangle (C_{e_k} \cap D_0)$ retains even valence everywhere
+   except at the interface, an odd-overlap inclusion merges $D_0$ and $D_1$ into
+   a single connected 2-regular subgraph — concretely, $(D_0 \cup D_1) \triangle
+   C_{e_k}$ is a simple cycle of the same total length.
 
-The antichain gap set $\{4, 8, 12, 16\}$ (no pairwise gap difference in $\{2,6,14\}$)
-motivated the search for case (iii) in Round 4, but Round 5 reveals that the correct
-resolution is TRIPLE sym-diffs, not pair-based gap arithmetic.  Gap arithmetic remains
-relevant for understanding WHEN pairwise fails, but the proof now targets the
-triple-locality claim directly.
+3. **Bridge structure (observed)**: the bridging cycle's spine always traverses
+   through vertices of both components.  In cases 1–5 (same n=10 graph, different
+   DFS roots) the bridge has gap 5, with its deep endpoint inside $D_\text{deep}$
+   and shallow endpoint inside $D_\text{shallow}$.  In case 6 (n=14) the bridge
+   has gap 9, with its deep endpoint strictly below $D_\text{deep}$, spanning
+   through both depth bands.
+
+**Proof target for Round 7.** Show that depth-separation is forced whenever pairwise
+gives a non-simple p2-length subgraph (structural claim about DFS fundamental cycles),
+and that min-degree-3 forces a bridge with odd overlaps in each component.
+Specifically:
+- Why depth-separation? The two fundamental cycles whose pairwise sym-diff is non-simple
+  must lie on different DFS spines; their depth intervals don't share a single root-to-leaf
+  path.  The two cycles' depth ranges can't interleave arbitrarily — they are either
+  nested or depth-separated.  A non-simple pairwise sym-diff rules out nesting (which
+  would require a shared tree path), forcing depth-separation.
+- Why a bridge exists? A vertex at the "border" between the two depth bands must exist
+  in the DFS tree (the first common ancestor of the two components).  Min-degree-3
+  forces back edges from deep vertices toward shallow ancestors.  A back edge spanning
+  both depth bands hits the odd-overlap condition if it enters both components.
+
+**Current obstacle.** Proving the border argument rigorously: need to show that the
+depth-band border always has a back edge crossing both $D_0$ and $D_1$.  The argument
+depends on the structure of the two original back edges and the DFS tree topology
+between them.  This is the remaining gap toward a complete proof of 3-locality.
 
 <!-- CHECK
 # Falsification probe for 3-locality DFS chain-locality (Round 5 revision).

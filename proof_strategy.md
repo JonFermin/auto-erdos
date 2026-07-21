@@ -213,11 +213,22 @@ cycles rather than one.  In EVERY such failing case, a **triple** sym-diff of fu
 cycles IS a simple $C_8$.  Distribution over 1,706 A-fail DFS trees in the sample:
 1,699 resolved by B2 (pairwise), 7 by B3 (triple), 0 needing quadruple or larger.
 
-**Revised lemma target (Round 6).** The 3-locality claim: for any DFS tree of a
-min-degree-3 graph, (A) or (B2) or (B3) holds.  Proof strategy: show that whenever
-a pairwise sym-diff achieves the right power-of-2 total length but is not simple
-(= two disjoint cycles), the min-degree-3 constraint forces a back edge whose
-fundamental cycle "bridges" one component, and their triple sym-diff is simple.
-The forbidden-gap condition ($\delta \notin \{3,7,15,\ldots\}$) constrains which
-back edges are available as bridges.  Gap arithmetic from Round 4 remains relevant
-for identifying the bridging structure.
+**Round 6 finding: depth-separation + odd-overlap bridge.** Inspection of all 6
+pairwise-failing DFS trees from the $n \le 14$ sample yields a uniform pattern:
+
+(a) **Depth-separation**: the two components $D_0, D_1$ of the non-simple pairwise
+    sym-diff have vertex-depths that don't interleave — one component occupies a
+    strictly deeper depth band than the other.  All 6 cases confirm this.
+
+(b) **Odd-overlap bridge**: in every case a back edge $e_k$ exists such that $C_{e_k}$
+    shares an ODD number of edges with each of $D_0$ and $D_1$.  Such a bridge makes
+    $(D_0 \cup D_1) \triangle C_{e_k}$ a connected simple cycle.  The bridge's spine
+    path spans both depth bands (passing through vertices of both $D_0$ and $D_1$).
+
+**Revised proof target (Round 7).** Prove that depth-separation is forced by the
+non-simple pairwise sym-diff condition (ruling out nesting, leaving only separation
+or depth-interleaving), and that min-degree-3 forces an odd-overlap bridge whenever
+depth-separation holds.  The border-vertex argument: the DFS tree must have some edge
+crossing between the two depth bands; a back edge from a deep vertex through this
+border always achieves odd overlap if it spans far enough (forbidden-gap condition
+restricts short "safe" back edges, pushing them into the crossing regime).
