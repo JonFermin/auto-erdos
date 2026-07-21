@@ -52,43 +52,68 @@ Petersen graph ($n = 10$, girth 5, 3-regular) and $K_{3,3}$ ($n = 6$,
 bipartite, 3-regular) also pass for all roots and orderings. No
 counterexample found in 1,887 graphs tested.
 
-**Nested-path condition (when is the sym-diff a simple cycle?).** For back edges
-$e_1 = (u_1, v_1)$ and $e_2 = (u_2, v_2)$ with $d_{u_i} > d_{v_i}$ (deeper endpoint
-listed first), the symmetric difference $C_{e_1} \triangle C_{e_2}$ is a simple cycle
-if and only if the four vertices lie on a single root-to-vertex path in $T$ with
-(wlog) $d_{v_1} \le d_{v_2} \le d_{u_2} \le d_{u_1}$.  When the **nested-path
-condition** holds the sym-diff visits
-$u_1 \xrightarrow{\text{tree}} u_2 \xrightarrow{e_2} v_2 \xrightarrow{\text{tree}}
-v_1 \xrightarrow{e_1} u_1$ and has length
-$$|C_{e_1} \triangle C_{e_2}| = (d_{u_1} - d_{u_2}) + (d_{v_2} - d_{v_1}) + 2 =: a + b + 2.$$
-Condition (2) requires $a + b = 2^k - 2$ for some $k \ge 2$.  The three structural
-subtypes are: *same-deep* ($u_1 = u_2$, $a = 0$, length $b + 2$); *same-shallow*
-($v_1 = v_2$, $b = 0$, length $a + 2$); *cross* (all four vertices distinct).
+**Spine-pair condition (when is the sym-diff a simple cycle?).** For back edges
+$e_1 = (u_1, v_1)$ and $e_2 = (u_2, v_2)$ with $d_{u_i} > d_{v_i}$ and $d_{u_1} \ge
+d_{u_2}$ (wlog), the symmetric difference $C_{e_1} \triangle C_{e_2}$ is a simple
+cycle if and only if all four vertices lie on one root-to-vertex path and the depth
+intervals $[d_{v_1}, d_{u_1}]$ and $[d_{v_2}, d_{u_2}]$ overlap (share $\ge 1$ tree
+edge).  There are two structural sub-cases, both giving
+$$|C_{e_1} \triangle C_{e_2}| = |d_{u_1} - d_{u_2}| + |d_{v_1} - d_{v_2}| + 2.$$
 
-**Diagnostic (n=4..6, 1,174 DFS-tree instances where (A) fails).** The satisfying
-pair for (B) always has $a + b = 2$ (a $C_4$ sym-diff, $k = 2$).  Type breakdown:
-same-deep 319, same-shallow 295, cross 560.  Crucially, 48% are cross-vertex nested
-pairs, so restricting to the *same-leaf* case ($u_1 = u_2 = \ell$, both back edges
-from the same DFS leaf) is **insufficient**.  Example failure: leaf with ancestor
-depths $\{0, 1, 4\}$; pairwise differences are $1, 3, 4$ — none equal $2^k - 2$.
+- *Nested* ($d_{v_1} \le d_{v_2}$, so $d_{v_1} \le d_{v_2} \le d_{u_2} \le d_{u_1}$):
+  interval of $e_2$ sits inside interval of $e_1$.  Setting $a = d_{u_1} - d_{u_2} \ge 0$
+  and $b = d_{v_2} - d_{v_1} \ge 0$: $\text{sd\_len} = a+b+2$ and
+  $\delta_1 - \delta_2 = a+b$ (gap difference equals $a+b$).
+  Special cases: *same-deep* ($u_1 = u_2$, $a = 0$); *same-shallow* ($v_1 = v_2$, $b = 0$).
+
+- *Crossing* ($d_{v_1} > d_{v_2}$, so $d_{v_2} < d_{v_1} < d_{u_2} < d_{u_1}$):
+  the two intervals overlap in $[d_{v_1}, d_{u_2}]$ but neither contains the other.
+  Setting $A = d_{u_1} - d_{u_2} \ge 1$ and $B = d_{v_1} - d_{v_2} \ge 1$:
+  $\text{sd\_len} = A+B+2$ and $\delta_1 - \delta_2 = A - B$ (gap difference can be
+  zero when $A = B$, i.e.\ the two back edges have the **same gap**).  The minimal
+  case $A = B = 1$ (adjacent spine vertices with the same-gap back edges) gives
+  $\text{sd\_len} = 4$ with $\delta_1 = \delta_2$.
+
+Condition (2) requires $|d_{u_1}-d_{u_2}| + |d_{v_1}-d_{v_2}| = 2^k - 2$ for some
+$k \ge 2$.  For $k=2$ (a $C_4$ sym-diff): either two nested back edges with gap
+difference 2, or two crossing back edges with $A = B = 1$ (same gap, adjacent spine
+positions).
+
+**Diagnostic (n=4..6, 1,174 DFS-tree instances where (A) fails, Round 3--4).**
+- Gap sets appearing: $\{2,4\}$ (310 cases), $\{2,4,5\}$ (852), $\{2,5\}$ (12).
+- Every satisfying pair for (B) has $\text{sd\_len} = 4$ ($C_4$, $k=2$).
+  Of 1,174 satisfying pairs: 800 are nested ($|\delta_1 - \delta_2| = 2$, i.e.\
+  gap difference 2), and 374 are crossing ($A = B = 1$, same gap, adjacent spine).
+- Same-leaf analysis fails: leaves with ancestor depths $\{0,1,4\}$ have no
+  same-deep $C_4$ (depth-differences 1, 3, 4 — none equal 2).  The 374 crossing
+  pairs use a different mechanism: parent of the leaf carries the same-gap back edge.
+
+**Crossing-pair structural observation.** For a DFS leaf $\ell$ with a back edge of
+gap $g$ (to ancestor at depth $d_\ell - g$), if the parent $p = \mathrm{par}(\ell)$
+also has a back edge of the **same gap** $g$ (to depth $d_p - g = d_\ell - g - 1$):
+the pair $\{e_\ell, e_p\}$ is a crossing pair with $A = B = 1$, and their sym-diff
+is a $C_4$.  The min-degree constraint forces $p$ to have $\ge 1$ back edge (since
+$p$ has 2 tree edges — to $\ell$ and to $\mathrm{par}(p)$ — so needs $\ge 1$ more
+to reach degree 3).
 
 **Next step for proof.** Show that in every min-degree-3 DFS tree where (A) fails,
-some nested pair $(e_1, e_2)$ achieves $a + b = 2^k - 2$ for some $k \ge 2$.
-Key constraints: (i) every DFS leaf carries $\ge 3$ back edges (all $\deg \ge 3$
-incident edges go to ancestors); (ii) every back-edge depth-gap $\delta_i =
-d_{u_i} - d_{v_i}$ avoids $\{3, 7, 15, 31, \ldots\}$ (else a fundamental cycle of
-power-of-2 length would exist, satisfying (A)).  A promising angle: along a long
-root-to-leaf path that accumulates many back-edge anchor points, the forbidden-gap
-constraint forces a covering or pigeonhole argument on the resulting depth sequence
-to produce a nested pair with $a + b \in \{2, 6, 14, \ldots\}$.
+SOME spine pair $(e_1, e_2)$ achieves $|d_{u_1}-d_{u_2}| + |d_{v_1}-d_{v_2}| =
+2^k-2$.  The key cases to unify:
+(i) Some leaf has two back edges whose gaps differ by 2 (nested $C_4$).
+(ii) Some consecutive spine pair $(w, \mathrm{child}(w))$ shares a back-edge gap
+    (crossing $C_4$).
+(iii) When neither holds for $C_4$, back-edge gaps lie in $\{g : g \equiv 0
+    \pmod{4}\} \cup \{5, 9, 13, \ldots\}$ with no same-gap adjacent pair; then
+    gap-difference 6 or 14 should be forced by the density of back edges, giving
+    $C_8$ or $C_{16}$.
 
-**Current obstacle.** The same-leaf reduction is insufficient (see diagnostic above).
-The proof must exploit the global DFS tree geometry: track back-edge anchor depths
-across multiple vertices along a single root-to-leaf path, and show that the
-forbidden-gap constraint combined with $\ge 3$ back edges per leaf creates enough
-depth-difference diversity to force a nested pair with $a + b = 2^k - 2$.
-Formalizing this via a covering argument or a structural claim about DFS trees of
-min-degree-3 graphs is the goal of the next round.
+**Current obstacle.** No single argument covers all three cases simultaneously.  The
+antichain $\{4, 8, 12, 16\}$ (gaps all $\equiv 0 \pmod 4$, no pair with difference
+in $\{2, 6, 14\}$) shows that same-spine gap analysis alone is insufficient without
+also using the parent's back edges.  A full proof must integrate the global spine
+structure: track gap multisets along the root-to-leaf path and show that the
+forbidden-gap constraint $(\delta \notin \{3,7,15,\ldots\})$ combined with
+$\delta(G) \ge 3$ always forces at least one of (i), (ii), (iii) above.
 
 <!-- CHECK
 # Falsification probe for pairwise DFS chain-locality.

@@ -181,24 +181,32 @@ are back edges (going to ancestors). In particular every leaf carries $\ge
 3$ back edges. (Non-leaf vertices with $\mathrm{outdeg}_T \ge 1$ carry
 $\ge 0$ back edges; they are not the immediate target of the argument.)
 
-**Nested-path characterization (Round 3 update).** The sym-diff $C_{e_1} \triangle
-C_{e_2}$ is a simple cycle iff all four depth-ordered endpoints $v_1, v_2, u_2, u_1$
-(deeper endpoints $u_i$, shallower $v_i$) lie on a single root-to-vertex path with
-$d_{v_1} \le d_{v_2} \le d_{u_2} \le d_{u_1}$.  Setting $a = d_{u_1} - d_{u_2}$
-and $b = d_{v_2} - d_{v_1}$ (both $\ge 0$), the sym-diff length is $a + b + 2$,
-and condition (2) requires $a + b = 2^k - 2$.
+**Spine-pair characterization (Round 4 update).** The sym-diff $C_{e_1} \triangle
+C_{e_2}$ is a simple cycle iff all four endpoints lie on a common DFS spine AND the
+two depth intervals overlap.  The unified length formula (wlog $d_{u_1} \ge d_{u_2}$):
+$$|C_{e_1} \triangle C_{e_2}| = |d_{u_1} - d_{u_2}| + |d_{v_1} - d_{v_2}| + 2.$$
+Two sub-cases: *nested* ($d_{v_1} \le d_{v_2}$, gap-difference $\delta_1-\delta_2$
+equals the sum) and *crossing* ($d_{v_1} > d_{v_2}$, depth intervals partially overlap
+in the middle; gap-difference $\delta_1-\delta_2 = (d_{u_1}-d_{u_2})-(d_{v_1}-d_{v_2})$
+can be 0 even though the sym-diff has length $> 2$).  Condition (2) requires
+$|d_{u_1}-d_{u_2}| + |d_{v_1}-d_{v_2}| = 2^k-2$ for some $k \ge 2$.
 
-**Diagnostic finding (n=4..6).** Across all 1,174 DFS-tree instances where (A)
-fails, the satisfying sym-diff always has $a + b = 2$ (a $C_4$, $k = 2$).  Breakdown:
-same-deep ($a = 0$, $u_1 = u_2$) 319; same-shallow ($b = 0$, $v_1 = v_2$) 295;
-cross (all four vertices distinct) 560.  The same-leaf analysis ($u_1 = u_2 = \ell$)
-covers only same-deep and is **insufficient** — 48% of satisfying pairs are
-cross-vertex.  Counterexample to same-leaf: leaf with ancestor depths $\{0,1,4\}$
-and forbidden gaps $\{3,7,15\}$; pairwise differences $1, 3, 4$ miss $\{2, 6, 14\}$.
+**Diagnostic (n=4..6), refined.** 1,174 A-fail DFS-tree instances; every satisfying
+pair is a $C_4$ ($k=2$, sum $=2$).  Of these: 800 are nested ($|\delta_1-\delta_2|=2$)
+and 374 are crossing ($|d_{u_1}-d_{u_2}|=|d_{v_1}-d_{v_2}|=1$, same gap
+$\delta_1=\delta_2$, adjacent spine vertices).  Gap sets in A-fail trees: $\{2,4\}$,
+$\{2,4,5\}$, $\{2,5\}$.
 
-**Target for next round.** Prove that in any min-degree-3 DFS tree where (A) fails,
-some nested pair achieves $a + b = 2^k - 2$.  The forbidden-gap constraint ($\delta_i
-\notin \{3,7,15,\ldots\}$ for every back-edge depth-gap $\delta_i$) and the
-$\ge 3$ back edges per DFS leaf must together force — via a covering or pigeonhole
-argument on depth sequences along root-to-leaf paths — a cross-vertex nested pair
-with $a + b$ in the sequence $\{2, 6, 14, 30, \ldots\}$.
+**Key mechanism for crossing pairs.** If DFS leaf $\ell$ has a back edge of gap $g$,
+and its parent $p=\mathrm{par}(\ell)$ also has a back edge of the SAME gap $g$, then
+the pair $\{e_\ell, e_p\}$ is a crossing pair with $A=B=1$ and sym-diff a $C_4$,
+regardless of any other gaps.  The min-degree constraint forces $p$ to carry $\ge 1$
+back edge (it uses 2 of its $\ge 3$ edges on tree edges to $\ell$ and $\mathrm{par}(p)$).
+
+**Target for next round.** Prove that in every min-degree-3 DFS tree where (A) fails,
+SOME spine pair achieves the required sum: (i) nested $C_4$ via gap difference 2, or
+(ii) crossing $C_4$ via same-gap adjacent pair, or (iii) $C_8$/$C_{16}$ for larger
+power-of-2 when both (i) and (ii) fail.  The antichain $\{4,8,12,16\}$ (no pairwise
+difference in $\{2,6,14\}$) shows (iii) is needed for large graphs; integrating the
+min-degree constraint and the forbidden-gap condition into a spine-density argument is
+the core goal.
