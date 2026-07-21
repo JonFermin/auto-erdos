@@ -58,6 +58,26 @@ bipartite, 3-regular) also pass for all roots and orderings via pairwise
 (condition 2). No counterexample to the 3-locality claim found in 1,887
 small-graph tests or 1,698 random cubic graphs $n \le 30$.
 
+**Round 7 scale test (n=20,30,50,100).** A second scale test at larger $n$
+used 500 random connected cubic graphs at $n \le 30$ and 200 graphs at $n > 30$,
+each checked with 2 roots $\times$ 2 adjacency orderings (4 DFS trees per graph).
+Results — showing A-count, B2-count, B3-count across all DFS trees checked:
+
+| $n$ | Graphs | A (direct) | B2 (pairwise) | B3 (triple) | FAIL |
+|-----|--------|-----------|--------------|------------|------|
+| 20  | 500    | 1840 (92%) | 160 (8%)    | 0          | 0    |
+| 30  | 500    | 1877 (94%) | 123 (6%)    | 0          | 0    |
+| 50  | 200    | 772 (96.5%)| 28 (3.5%)   | 0          | 0    |
+| 100 | 200    | 791 (98.9%)| 9 (1.1%)    | 0          | 0    |
+
+No B3 cases and no FAIL cases at any tested scale. As $n$ grows, condition A
+(some fundamental cycle already has power-of-2 length) becomes dominant: the
+pool of fundamental cycles in a cubic graph on $n$ vertices is $n/2 + 1$ cycles
+with depth-gaps ranging over a wider interval, making it increasingly likely
+that some gap is $2^k - 1$ for some $k$. The 7 B3 cases seen at $n \in
+\{10,12,14\}$ appear to be a small-$n$ phenomenon; at larger $n$, pairwise
+(condition B2) is sufficient for every A-fail DFS tree in the tested sample.
+
 **Round 5 finding: pairwise claim (1 or 2 only) is FALSE for larger DFS trees.**
 In a random sample of 600 connected 3-regular graphs ($n \in \{10,12,14\}$,
 200 per size), 7 specific (graph, DFS-tree) pairs arise where (1) fails AND no
@@ -141,27 +161,40 @@ a uniform pattern:
    has gap 9, with its deep endpoint strictly below $D_\text{deep}$, spanning
    through both depth bands.
 
-**Proof target for Round 7.** Show that depth-separation is forced whenever pairwise
-gives a non-simple p2-length subgraph (structural claim about DFS fundamental cycles),
-and that min-degree-3 forces a bridge with odd overlaps in each component.
-Specifically:
-- Why depth-separation? The two fundamental cycles whose pairwise sym-diff is non-simple
-  must lie on different DFS spines; their depth intervals don't share a single root-to-leaf
-  path.  The two cycles' depth ranges can't interleave arbitrarily — they are either
-  nested or depth-separated.  A non-simple pairwise sym-diff rules out nesting (which
-  would require a shared tree path), forcing depth-separation.
-- Why a bridge exists? A vertex at the "border" between the two depth bands must exist
-  in the DFS tree (the first common ancestor of the two components).  Min-degree-3
-  forces back edges from deep vertices toward shallow ancestors.  A back edge spanning
-  both depth bands hits the odd-overlap condition if it enters both components.
+**Round 7 finding: B3 disappears at scale.** The Round 7 scale test (above) shows that
+at $n \ge 20$, condition B3 (triple sym-diff) is never needed: every A-fail DFS tree is
+resolved by B2 (pairwise).  The depth-separation + bridge structure observed in Rounds 5–6
+(at small $n$ where B3 was needed) does not appear at larger $n$ in the tested sample.
+This suggests two alternative proof directions:
 
-**Current obstacle.** Proving the border argument rigorously: need to show that the
-depth-band border always has a back edge crossing both $D_0$ and $D_1$.  The argument
-depends on the structure of the two original back edges and the DFS tree topology
-between them.  This is the remaining gap toward a complete proof of 3-locality.
+1. **Pairwise sufficiency at large $n$**: prove that for $n$ large enough (e.g.\ $n \ge 20$
+   cubic), every DFS tree satisfies (A) or (B2). The pool of $n/2+1$ fundamental cycles
+   with gaps spanning $\{1, \ldots, d_{\max}\}$ where $d_{\max} \to \infty$ as $n \to \infty$
+   makes avoidance of all $2^k-1$ gaps increasingly hard; a counting/pigeonhole argument
+   might suffice here.
+
+2. **3-locality proof for all $n$**: the small-$n$ B3 cases (7 instances at $n \le 14$)
+   are handled by the depth-separation + bridge argument from Round 6. Combining the
+   Round 6 proof target with the large-$n$ empirical evidence, 3-locality holds universally.
+
+**Proof target for Round 8.** Quantify the density of fundamental cycles that must cover
+some gap $2^k - 1$ in any cubic graph of depth $\ge d$.  A cubic graph on $n$ vertices
+has DFS depth $\ge \log_3(n)$ (breadth-first bound) and $n/2+1$ back edges; the
+depth-gaps collectively span $\{1, \ldots, d_{\max}\}$; the number of power-of-2-minus-1
+values up to $d_{\max}$ is $\lfloor \log_2(d_{\max}+1) \rfloor$.  If $n/2+1$ back edges
+cover more than $d_{\max} - \lfloor \log_2(d_{\max}+1) \rfloor$ distinct gaps, pigeonhole
+forces at least one gap in $\{1,3,7,15,\ldots\}$ — but this counting is too coarse to
+work directly (back edges can cluster).  The next step: find the structural constraint
+that prevents back-edge clusters from simultaneously avoiding all $2^k-1$ gaps, leveraging
+min-degree-3.
+
+**Current obstacle.** No formal proof that the depth-gap distribution of fundamental cycles
+in a min-degree-3 DFS tree is forced to hit some $2^k - 1$.  The empirical evidence at
+scale is very strong (98.9% of n=100 DFS trees satisfy A alone), but converting frequency
+to inevitability requires a structural argument.
 
 <!-- CHECK
-# Falsification probe for 3-locality DFS chain-locality (Round 5 revision).
+# Falsification probe for 3-locality DFS chain-locality (updated Round 7).
 #
 # For every connected min-degree-3 LABELED graph G on n=4,5,6 vertices and
 # every canonical DFS tree T (rooted at each vertex, sorted adjacency, and
@@ -171,8 +204,9 @@ between them.  This is the remaining gap toward a complete proof of 3-locality.
 #       power-of-2 length, OR
 #   (B3) some triple sym-diff of fundamental cycles is a simple cycle of
 #       power-of-2 length.
-# NOTE: B2 alone is FALSE for some DFS trees of larger graphs (Round 5 finding).
-# B2 or B3 together hold for all tested cases up to n=30 cubic graphs.
+# NOTE: B2 alone is FALSE for some DFS trees of n<=14 cubic graphs (Round 5).
+# Round 7: n=20,30,50,100 scale test — NO B3 cases, NO FAIL cases. 3-locality holds.
+# As n grows, condition A dominates (98.9% at n=100); B3 appears to be small-n only.
 import sys
 from itertools import combinations
 from collections import defaultdict

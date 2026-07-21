@@ -225,10 +225,28 @@ pairwise-failing DFS trees from the $n \le 14$ sample yields a uniform pattern:
     $(D_0 \cup D_1) \triangle C_{e_k}$ a connected simple cycle.  The bridge's spine
     path spans both depth bands (passing through vertices of both $D_0$ and $D_1$).
 
-**Revised proof target (Round 7).** Prove that depth-separation is forced by the
-non-simple pairwise sym-diff condition (ruling out nesting, leaving only separation
-or depth-interleaving), and that min-degree-3 forces an odd-overlap bridge whenever
-depth-separation holds.  The border-vertex argument: the DFS tree must have some edge
-crossing between the two depth bands; a back edge from a deep vertex through this
-border always achieves odd overlap if it spans far enough (forbidden-gap condition
-restricts short "safe" back edges, pushing them into the crossing regime).
+**Round 7 finding: B3 vanishes at scale.** Scale test on $n \in \{20,30,50,100\}$
+random cubic graphs (500 graphs for $n \le 30$; 200 for $n > 50$; 2 roots $\times$ 2
+orderings each): **zero B3 cases and zero FAIL cases** across all sizes.
+Distribution of how each DFS tree is resolved:
+
+| $n$  | A (direct p2 fund. cycle) | B2 (pairwise) | B3 (triple) | FAIL |
+|------|--------------------------|--------------|------------|------|
+| 20   | 92%                      | 8%           | 0          | 0    |
+| 30   | 94%                      | 6%           | 0          | 0    |
+| 50   | 96.5%                    | 3.5%         | 0          | 0    |
+| 100  | 98.9%                    | 1.1%         | 0          | 0    |
+
+As $n$ increases, condition A (a fundamental cycle already has power-of-2 length)
+dominates.  The 7 B3 cases found at $n \le 14$ appear to be a small-$n$ artifact.
+At larger $n$, the $n/2+1$ fundamental cycles span a wider depth-gap range, making
+it increasingly likely (apparently near-certain) that some gap hits $2^k - 1$.
+
+**Revised proof target (Round 8).** Two directions are now open:
+1. **Pairwise sufficiency at large $n$**: show that for cubic graphs with $n \ge n_0$,
+   every DFS tree satisfies (A) or (B2) — a depth-gap density argument on $n/2+1$
+   back edges versus the set of "forbidden" gaps $\{1,2,4,6,10,\ldots\} \setminus
+   \{3,7,15,31,\ldots\}$.
+2. **3-locality for all $n$**: formalize the depth-separation + bridge proof from
+   Round 6 to cover the residual small-$n$ B3 cases.  A completed Round 6 argument
+   plus Round 7's pairwise sufficiency at large $n$ together cover all $n$.
