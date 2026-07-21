@@ -203,10 +203,21 @@ the pair $\{e_\ell, e_p\}$ is a crossing pair with $A=B=1$ and sym-diff a $C_4$,
 regardless of any other gaps.  The min-degree constraint forces $p$ to carry $\ge 1$
 back edge (it uses 2 of its $\ge 3$ edges on tree edges to $\ell$ and $\mathrm{par}(p)$).
 
-**Target for next round.** Prove that in every min-degree-3 DFS tree where (A) fails,
-SOME spine pair achieves the required sum: (i) nested $C_4$ via gap difference 2, or
-(ii) crossing $C_4$ via same-gap adjacent pair, or (iii) $C_8$/$C_{16}$ for larger
-power-of-2 when both (i) and (ii) fail.  The antichain $\{4,8,12,16\}$ (no pairwise
-difference in $\{2,6,14\}$) shows (iii) is needed for large graphs; integrating the
-min-degree constraint and the forbidden-gap condition into a spine-density argument is
-the core goal.
+**Round 5 finding: pairwise claim is FALSE; 3-locality holds (empirically).** A sample
+of 600 connected 3-regular graphs ($n \in \{10,12,14\}$) was tested over all canonical
+DFS trees (2 root-orderings × $n$ roots).  In 7 (graph, DFS-tree) pairs, condition (A)
+fails AND no pairwise sym-diff (condition B2) is a simple power-of-2 cycle — though the
+graph contains a $C_8$.  The failure mode: the relevant back edges lie on different DFS
+spines, so every pairwise sym-diff of the "right" edge-count decomposes into two disjoint
+cycles rather than one.  In EVERY such failing case, a **triple** sym-diff of fundamental
+cycles IS a simple $C_8$.  Distribution over 1,706 A-fail DFS trees in the sample:
+1,699 resolved by B2 (pairwise), 7 by B3 (triple), 0 needing quadruple or larger.
+
+**Revised lemma target (Round 6).** The 3-locality claim: for any DFS tree of a
+min-degree-3 graph, (A) or (B2) or (B3) holds.  Proof strategy: show that whenever
+a pairwise sym-diff achieves the right power-of-2 total length but is not simple
+(= two disjoint cycles), the min-degree-3 constraint forces a back edge whose
+fundamental cycle "bridges" one component, and their triple sym-diff is simple.
+The forbidden-gap condition ($\delta \notin \{3,7,15,\ldots\}$) constrains which
+back edges are available as bridges.  Gap arithmetic from Round 4 remains relevant
+for identifying the bridging structure.
