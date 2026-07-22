@@ -13,3 +13,4 @@
 {"event":"session_close","session_id":"s_0718-205004-c44a","ts":"2026-07-19T03:19:07+00:00","commit":"98f36db","reason":"reason: logical milestone \u2014 Q8 resolved with keep_progress record; Q9 queued for a fresh session"}
 {"event":"round","session_id":"s_0722-080706-a3ea","ts":"2026-07-22T08:22:00Z","summary":"Q9 disproof: pairwise chain-locality falsified at n=10 root=7; keep_progress record committed; redirect to Q10","qid":"Q9","status":"keep_progress","commit":"256ded6"}
 {"event":"round","session_id":"s_0722-080706-a3ea","ts":"2026-07-22T08:31:25+00:00","summary":"Round 3: Q10 KL-deficiency lemma created and CHECK passes (0 violations); keep_progress","qid":"Q10","status":"keep_progress","commit":"9307f18"}
+{"event":"session_close","session_id":"s_0722-080706-a3ea","ts":"2026-07-22T08:31:53+00:00","commit":"c9196c8","reason":"reason: logical milestone \u2014 Q9 disproved, Q10 first-lemma checked; token budget approaching"}
