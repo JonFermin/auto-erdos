@@ -23,3 +23,4 @@
 {"qid":"Q9","status":"claimed","session_id":"s_0722-080706-a3ea","summary":"taking Q9 — pairwise chain-locality CHECK on all min-degree-3 graphs up to n=10","ts":"2026-07-22T08:24:00Z"}
 {"qid":"Q9","status":"resolved","session_id":"s_0722-080706-a3ea","summary":"Q9 pairwise chain-locality DISPROVED: n=10 cubic graph at DFS root 7 has all C8 cycles requiring 3-way fundamental-cycle sym_diff — pairwise discharging approach closed","ts":"2026-07-22T08:22:00Z"}
 {"qid":"Q10","status":"claimed","session_id":"s_0722-080706-a3ea","summary":"taking Q10 — KL union deficiency first-lemma CHECK: log2|F| - H(AuB) >= (1-p)^2/4","ts":"2026-07-22T08:27:18Z"}
+{"qid":"Q10","status":"resolved","session_id":"s_0722-080706-a3ea","summary":"Q10 first-lemma CHECK passes: log2|F|-H(AuB)>=(1-p)^2/4 holds on all tested families; analytic proof direction documented; lemma status open pending proof","ts":"2026-07-22T08:31:25+00:00"}
