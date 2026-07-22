@@ -147,5 +147,63 @@ contract).
   minimal-counterexample stability stack) must not be re-proposed without
   new input; the notes channel records why each died.
 - Minimal open statement: the conjecture itself, with the search space for
-  a hypothetical counterexample narrowed by F1–F3 and, from this session,
-  by the I-graph clearance (all sizes) and the theta/$K_4$ window screen.
+  a hypothetical counterexample narrowed by F1–F3 and, from Q8, by the
+  I-graph clearance (all sizes) and the theta/$K_4$ window screen.
+- Q9 has begun (session s\_0722-080706-a3ea) — see Section 6 for the
+  first-lemma disproof and redirect.
+
+## Section 6 — Q9 first-lemma disproof: pairwise chain-locality fails
+
+The Q9 approach (DFS depth-chain discharging) opened with the **pairwise
+chain-locality** claim: for any connected min-degree-3 graph $G$ and any
+DFS tree $T$, some power-of-2 cycle of $G$ is a fundamental cycle of $T$
+or a symmetric difference of exactly two fundamental cycles of $T$.
+
+This lemma is **false** (see `proof_lemmas/lemma_chain_locality.md`).
+
+**Counterexample** (machine-found by the CHECK probe on the first round):
+the 3-regular graph $G$ on 10 vertices with edges
+$$\{0{-}4, 0{-}5, 0{-}8, 1{-}3, 1{-}6, 1{-}7, 2{-}4, 2{-}7, 2{-}9,
+3{-}6, 3{-}9, 4{-}7, 5{-}6, 5{-}8, 8{-}9\}$$
+has 12 simple 8-cycles and no shorter power-of-2 cycle.  For the DFS tree
+rooted at vertex 7, the six fundamental cycles have lengths $[3,3,3,5,6,10]$,
+and the 15 pairwise symmetric differences achieve lengths $\{0,5,6,7,9\}$ —
+no power of 2 in either set.
+
+The obstruction is structural: every 8-cycle in $G$ contains exactly **three**
+back edges in this DFS tree, so it requires a three-way combination of
+fundamental cycles.  The DFS rooted at vertex 7 is "bad" because it places
+all three sides of the 8-cycle structure as back edges simultaneously.
+(For roots $\{0,3,4,5,6,8,9\}$, some 8-cycle IS a fundamental cycle of length
+8, so the property holds for those roots.  The "for any DFS tree" requirement
+is what the counterexample kills.)
+
+**Consequence for Q9.** The discharging plan as formulated requires revising
+one of the following assumptions:
+1. **Weaken to order-3 sym_diff**: "some power-of-2 cycle is a sym_diff of
+   at most 3 fundamental cycles in SOME DFS tree." Trivially achievable for
+   any simple cycle (expand the spanning tree to include the cycle's path
+   minus one edge; that edge becomes the sole back edge, making the cycle a
+   fundamental cycle of length $2^k$). But "for any DFS tree" and "at most 2"
+   were the claims with discharging content; weakening both simultaneously
+   collapses to a tautology.
+2. **Target a fixed "good" DFS root**: prove that for any min-degree-3 $G$,
+   there exists a DFS root such that the depth-gap constraints at every leaf
+   interact via AT MOST 2-cycle combinations.  This is an existence claim that
+   requires knowing the graph has a power-of-2 cycle (i.e., requires the
+   conjecture for that $G$) — circular.
+3. **Abandon the DFS fundamental-cycle frame entirely**: the depth-gap
+   forbidden sets $\{3,7,15,\ldots\}$ are a real constraint, but the route
+   through "pairwise chain-locality" is not the right vehicle.  A direct
+   counting argument on the DFS ancestor chain (how many leaves, how many
+   back edges, how many valid depth assignments) might not need cycle
+   combinatorics at all.
+4. **Redirect to Q10 (Frankl) or Q11 (transitive screen)**: the Frankl
+   approach (KL union deficiency) and the transitive-symmetry counterexample
+   screen are independent arms queued in the ideation phase; one of them may
+   be cheaper than repairing the DFS approach.
+
+**Verdict**: close Q9 as a dead end at the pairwise-lemma stage.  Queue the
+"order-3 sym_diff" as a new qid only if a direct ancestor-chain count
+approach also fails.  Recommend redirecting to Q10 (frankl\_union\_closed
+entropy gap) in the next session.
