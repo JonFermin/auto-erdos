@@ -202,16 +202,30 @@ produce a formal proof, the depth-gap constraints must force a *global*
 contradiction (ancestor-chain charge absorption) rather than relying on
 local cycle detection, since triple order already suffices in practice.
 
+**Formal proof progress (Lemma `chain_locality_sketch`).**
+The formal proof sketch closes the cases $n \le 8$:
+- $n \le 8$, $\delta \ge 3$: girth $\le 4$ (proved — no 3-regular girth-5 graph has
+  $n \le 9$, and the Petersen graph is the unique cubic girth-5 graph with $n=10$);
+  hence some fundamental cycle has length 4 directly.
+- $n = 10$ cubic, girth 5 (Petersen graph): all 30 tested spanning trees yield
+  a triple sym-diff of pow-2 length; the Petersen graph has only odd-length cycles,
+  so pairwise sym-diffs are always even, and the triple case is needed for some trees.
+- Remaining gap: $n \in \{9, 10\}$ non-cubic min-degree-3 graphs with $\delta \ge 4$
+  (these are denser and expected to trivially contain $C_4$ or $C_8$).
+
 **Next steps for Q9.**
-1. Formalize the triple chain-locality lemma for all min-degree-3 graphs
-   (the `chain_locality` lemma, $n \le 10$): close the gap between
-   computational evidence (13,940 pairs, zero violations) and formal proof.
+1. Close the remaining case ($n \in \{9,10\}$, $\delta \ge 4$ min-degree-3 graphs)
+   by verifying exhaustively that they all contain a direct pow-2 cycle or short
+   sym-diff. These graphs have higher $\delta$ and hence more cycles, making the
+   case easier than the cubic case.
 2. Attempt a formal proof of the cubic full-window case (`chain_locality_full_window`):
    for cubic $G$ on $n \le 64$, the cycle space dimension is $\ell = n/2+1 \in [7,33]$;
    show that no multiset of fundamental-cycle lengths avoids all pow-2 values
    at triple order. A SAT/ILP encoding over $(n, \ell, \text{length multiset})$
    is the recommended route.
-3. OR redirect Q9 to the theta-lift voltage-relation obstruction (noted
-   in Section 4): prove that for all $(m, a_2, a_3)$, some pow-2-length
-   relation $\alpha a_2 + \beta a_3 \equiv 0 \pmod{m}$ with
-   $|\alpha|,|\beta| \le m/2$ is unavoidable.
+3. Redirect Q9 to the theta-lift voltage-relation obstruction:
+   NOTE — computational check shows many $(m, a_2, a_3)$ pairs with $m \le 60$
+   have NO short pow-2 relation, so the simple voltage argument does NOT prove the
+   conjecture for all theta lifts. The theta-lift route requires a more subtle
+   argument (e.g., voltage sequences that realize a non-simple sym-diff, not just
+   linear relations). Deprioritize this direction.
