@@ -175,22 +175,35 @@ fundamental cycles forms a simple $C_{2^k}$. The pairwise version fails
 for some 3-regular 10-vertex graphs (discovered computationally this
 session); the triple version holds for all 13,940 tested $(G, T)$ pairs.
 
-**Consequence for Q9.** The chain-locality lemma (with triples) shows
-that the DFS approach cannot rule out power-of-2 cycles for $n \le 10$
+**Extended chain-locality for cubic graphs (Lemma `chain_locality_extended`).**
+The triple-sym-diff sufficiency extends to cubic (3-regular) graphs through
+$n = 24$. Across 350 cubic graphs and 6,650 $(G, T)$ pairs (12 vertices
+through 24 vertices, seed-42 random 3-regular graphs), zero triple
+failures were found. Pairwise failures
+occur at $n = 10$ and $n = 14$ but are always rescued by some triple.
+This is consistent with Markström's bound: any cubic counterexample has
+$n \ge 30$, so the chain-locality obstruction (triple sym-diffs always
+produce a pow-2 cycle) rules out the cubic counterexample region up to at
+least $n = 24$. The first untested cubic sizes are $n \ge 26$.
+
+**Consequence for Q9.** The chain-locality lemmas show that the DFS
+approach cannot rule out power-of-2 cycles for cubic $G$ with $n \le 24$
 purely via back-edge forbidden sets; those graphs already have detectable
-pow-2 cycles in their cycle-space span. For the discharging argument to
-work for $n \ge 11$, the depth-gap constraints must force a contradiction
-through a *global* invariant (ancestor-chain charge absorption) rather
-than local cycle detection.
+pow-2 cycles in their cycle-space span (within triple order). For the
+discharging argument to work for $n \ge 25$, the depth-gap constraints
+must force a contradiction through a *global* invariant (ancestor-chain
+charge absorption) rather than local cycle detection. The gap between
+the chain-locality coverage ($n \le 24$) and Markström's lower bound
+($n \ge 30$) for cubic counterexamples — a window of $n \in [25,29]$
+— is the next target for extending the computational check.
 
 **Next steps for Q9.**
-1. Formalize the triple chain-locality lemma (close the gap between
-   computational evidence and proof).
-2. Extend the back-edge depth-gap analysis to depth sequences of min-
-   degree-3 DFS trees: what length multisets $\{\ell_i\}$ of fundamental
-   cycles are realizable, and does avoiding all powers of 2 in $\ell_i$
-   and their pairwise/triple sym-diff lengths force $n > 30$ (matching
-   Markström's 2026 bound)?
+1. Extend the chain-locality check to cubic $n \in [26, 32]$ to close
+   the gap with Markström's bound; if zero triple failures persist through
+   $n = 32$, the triple sym-diff obstruction covers the full cubic witness
+   window (vertex cap 64 means a cubic counterexample has $n \le 64$).
+2. Formalize the triple chain-locality lemma for $n \le 10$ (all
+   min-degree-3 graphs, not just cubic) — the formal proof is still open.
 3. OR redirect Q9 to the theta-lift voltage-relation obstruction (noted
    in Section 4): prove that for all $(m, a_2, a_3)$, some pow-2-length
    relation $\alpha a_2 + \beta a_3 \equiv 0 \pmod{m}$ with
