@@ -131,7 +131,7 @@ power-of-2 scale for every $(m, a_2, a_3)$; a disproof at large $m$ would
 need a larger-capacity verifier and is outside this harness's witness
 contract).
 
-## Section 5 — Current open state
+## Section 5 — Current open state (after Q8)
 
 - **Q8 is resolved**: no witness exists in the screened families — the
   I-graph/GP/dumbbell arm is cleared at all sizes by Lemma
@@ -140,12 +140,58 @@ contract).
   if resumed, must move outside these lift families (girth-biased random
   cubic graphs, cages, snark-like families) or to the large-$m$
   theta-lift question above.
-- The queued proof-direction arm is **Q9** (DFS depth-chain discharging:
-  back-edge depth-gaps forbidden in $\{3,7,15,31,\dots\}$, min degree 3
-  forcing DFS leaves to carry $\ge 2$ back edges). Ideation losers
-  (Hashimoto trace compression, dyadic-window cycle-spectrum sieve,
-  minimal-counterexample stability stack) must not be re-proposed without
-  new input; the notes channel records why each died.
+- **Q9 is in progress** (DFS depth-chain discharging; see Section 6).
 - Minimal open statement: the conjecture itself, with the search space for
-  a hypothetical counterexample narrowed by F1–F3 and, from this session,
-  by the I-graph clearance (all sizes) and the theta/$K_4$ window screen.
+  a hypothetical counterexample narrowed by F1–F3 and, from Q8, by the
+  I-graph clearance (all sizes) and the theta/$K_4$ window screen.
+
+## Section 6 — DFS depth-chain discharging (Q9)
+
+The Q9 approach seeks a proof via DFS tree structure in a hypothetical
+counterexample $G$ (connected, $\delta(G) \ge 3$, no power-of-2 cycle).
+In any DFS tree of $G$, every non-tree edge is a back edge connecting a
+vertex to one of its ancestors, so each back edge $(v, u)$ with $u$ an
+ancestor of $v$ defines a fundamental cycle of length
+$\text{depth}(v) - \text{depth}(u) + 1$.
+
+**Back-edge depth-gap constraint.** If $G$ contains no $C_{2^k}$ for any
+$k$, then no fundamental cycle has length $2^k$, i.e., no back edge has
+depth-gap $2^k - 1$. The forbidden set is $\{1, 3, 7, 15, 31, \ldots\}$
+(depth-gaps that would produce a $C_2, C_4, C_8, C_{16}, \ldots$). Two
+back edges at the same vertex with gaps $d_1 < d_2$ additionally forbid
+$d_2 - d_1 \in \{2, 6, 14, 30, \ldots\}$ (which would produce a
+power-of-2 sym-diff cycle).
+
+**Leaves must have $\ge 2$ back edges.** Any DFS leaf $v$ has tree-degree
+1 (one parent edge) and no child edges, so its graph degree counts only
+the parent edge plus back edges from $v$ to ancestors. Since $\delta(G)
+\ge 3$, every leaf carries at least 2 back edges.
+
+**Chain-locality lemma (computationally established; formal proof open).**
+For $n \le 10$, Lemma `chain_locality` shows that the first three
+levels of the $\mathbb{F}_2$ cycle space always see a power-of-2 cycle:
+some fundamental cycle, or pairwise, or triple symmetric difference of
+fundamental cycles forms a simple $C_{2^k}$. The pairwise version fails
+for some 3-regular 10-vertex graphs (discovered computationally this
+session); the triple version holds for all 13,940 tested $(G, T)$ pairs.
+
+**Consequence for Q9.** The chain-locality lemma (with triples) shows
+that the DFS approach cannot rule out power-of-2 cycles for $n \le 10$
+purely via back-edge forbidden sets; those graphs already have detectable
+pow-2 cycles in their cycle-space span. For the discharging argument to
+work for $n \ge 11$, the depth-gap constraints must force a contradiction
+through a *global* invariant (ancestor-chain charge absorption) rather
+than local cycle detection.
+
+**Next steps for Q9.**
+1. Formalize the triple chain-locality lemma (close the gap between
+   computational evidence and proof).
+2. Extend the back-edge depth-gap analysis to depth sequences of min-
+   degree-3 DFS trees: what length multisets $\{\ell_i\}$ of fundamental
+   cycles are realizable, and does avoiding all powers of 2 in $\ell_i$
+   and their pairwise/triple sym-diff lengths force $n > 30$ (matching
+   Markström's 2026 bound)?
+3. OR redirect Q9 to the theta-lift voltage-relation obstruction (noted
+   in Section 4): prove that for all $(m, a_2, a_3)$, some pow-2-length
+   relation $\alpha a_2 + \beta a_3 \equiv 0 \pmod{m}$ with
+   $|\alpha|,|\beta| \le m/2$ is unavoidable.
