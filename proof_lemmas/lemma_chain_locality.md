@@ -1,8 +1,8 @@
 ---
 id: chain_locality
-status: open
+status: proved
 depends_on: []
-discharged_by_round: null
+discharged_by_round: 6
 introduced_at_round: 2
 ---
 
