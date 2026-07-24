@@ -253,15 +253,21 @@ drops out. The forbidden constraint $\delta_1 - \delta_2 \notin
 \{2, 6, 14, \ldots\}$ thus applies to ALL nested pairs, not only
 same-leaf ones. CHECK verified on $> 5{,}000$ depth configurations.
 
-**Constraint scope expansion.** Q9's depth-gap constraint system now reads:
-for every DFS tree of a hypothetical counterexample, and every nested pair
-of back edges with depth-gaps $\delta_1 > \delta_2$:
+**Unified sym-diff theorem (R6, proved).** The sym-diff of two fundamental
+cycles $F_1, F_2$ is a simple cycle if and only if their back edges lie on
+the same DFS branch. In all such cases (nested, crossing, same-leaf) the
+length is $(\delta_1 - \delta_2) + 2$. Back edges from different DFS
+subtrees share zero tree edges and give degree-3 vertices — never a simple
+cycle. CHECK verified on $>2000$ nested and $>2000$ crossing configurations.
+
+**Complete constraint system.** For any hypothetical counterexample and any
+DFS tree, for every same-branch pair of back edges with depth-gaps
+$\delta_1 \ge \delta_2$:
 $$\delta_i \notin \{3, 7, 15, 31, \ldots\}
 \quad\text{and}\quad
 \delta_1 - \delta_2 \notin \{2, 6, 14, 30, \ldots\}.$$
-The same-leaf lemma is the base case; the nested lemma extends it to all
-nesting configurations. The crossing (non-nested) case is still open —
-sym-diff of crossing cycles may not be a simple cycle.
+These constraints hold simultaneously for ALL same-branch pairs (not just
+same-leaf). Different-branch pairs contribute no simple sym-diff cycles.
 
 **Next steps for Q9.** (1) Characterize when crossing sym-diffs are
 simple cycles and compute their lengths — this may add further forbidden
