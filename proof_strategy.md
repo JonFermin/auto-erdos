@@ -291,3 +291,11 @@ Erdős–Gyárfás would need to close Part C of
   to derive a lower bound on $n$ for a counterexample, contradicting the
   witness window.
 The approach is promising but not yet closed; marking Q9 as ongoing.
+
+**Gap-pair density (R8, quantified).** The valid gap pair density (pairs
+satisfying all three constraints) is $68.8\%$ for $\delta \le 40$ (510 of
+741 pairs). This confirms that the forbidden system eliminates only about
+$31\%$ of pairs — far too sparse for arithmetic alone to rule out
+counterexamples. Any proof via depth-gap constraints must exploit structural
+properties of DFS trees (min-degree-3 forces specific gap distributions)
+rather than universal gap-pair sparsity.
