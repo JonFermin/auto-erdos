@@ -158,21 +158,66 @@ assert checked >= 10, f"Too few graphs checked: {checked}"
 print(f"OK: back-edge count >= floor(n/2)+1 holds on {checked} graphs (exhaustive n<=6)")
 CHECK -->
 
-## Part D (open): gap-pair enumeration
+## Part D: gap-pair density enumeration
 
 **Observation.** For a DFS leaf $v$ with back-edge gaps $\delta_1 > \delta_2
 \ge 2$, the pair must satisfy:
-1. $\delta_1 \notin \{3, 7, 15\}$ (fundamental cycle length not power of 2),
-2. $\delta_2 \notin \{3, 7, 15\}$,
-3. $\delta_1 - \delta_2 \notin \{2, 6, 14\}$.
-
-The valid pairs $(\delta_2, \delta_1)$ with both $\ge 2$ and $\le 31$ are
-(enumerated): $(2,5), (2,6), (2,9), (2,10), (2,11), (2,12), (2,13), (4,5),
-(4,6), (4,9), (4,10), (5,6), (5,9), (5,10), (5,11), (5,12), (5,13), \ldots$
-(and other pairs not triggering constraints 1–3).
+1. $\delta_1 \notin \{3, 7, 15, 31\}$ (fundamental cycle length not power of 2),
+2. $\delta_2 \notin \{3, 7, 15, 31\}$,
+3. $\delta_1 - \delta_2 \notin \{2, 6, 14, 30\}$.
 
 The conjecture would follow if one could show that in every min-degree-3
 graph the DFS structure forces every leaf to have a pair in the FORBIDDEN
-region — but the above valid pairs show this is false for individual leaves.
-The argument would need to use multiple leaves or a global DFS structure
-argument.
+region — but valid pairs exist, so the argument must use multiple leaves or
+global DFS structure.
+
+<!-- CHECK
+# Enumerate valid gap pairs (delta2, delta1) with 2 <= delta2 < delta1 <= 40
+# satisfying the three constraints. Compute density (fraction valid).
+
+def is_pow2_minus_1(n):
+    # n is forbidden as a depth-gap if n+1 is a power of 2 >= 4
+    return n >= 3 and (n + 1) & n == 0  # n+1 is a power of 2 iff n+1 > 0 and (n+1)&n==0
+
+MAX = 40
+forbidden_gap = set()
+for k in range(2, 7):
+    g = (1 << k) - 1  # 3, 7, 15, 31, 63
+    if g <= MAX:
+        forbidden_gap.add(g)
+
+forbidden_diff = set()
+for k in range(2, 7):
+    d = (1 << k) - 2  # 2, 6, 14, 30, 62
+    if d <= MAX:
+        forbidden_diff.add(d)
+
+valid_pairs = []
+total_pairs = 0
+for d2 in range(2, MAX + 1):
+    for d1 in range(d2 + 1, MAX + 1):
+        total_pairs += 1
+        if d2 in forbidden_gap:
+            continue
+        if d1 in forbidden_gap:
+            continue
+        if (d1 - d2) in forbidden_diff:
+            continue
+        valid_pairs.append((d2, d1))
+
+density = len(valid_pairs) / total_pairs if total_pairs > 0 else 0
+
+# Report first 20 valid pairs
+first20 = valid_pairs[:20]
+
+# Count valid pairs with delta2 <= 10
+small_valid = [(d2, d1) for d2, d1 in valid_pairs if d2 <= 10]
+
+print(f"Total pairs (2<=d2<d1<={MAX}): {total_pairs}")
+print(f"Valid pairs: {len(valid_pairs)} ({100*density:.1f}%)")
+print(f"First 20 valid: {first20}")
+print(f"Valid with d2<=10: {len(small_valid)}")
+assert len(valid_pairs) > 0, "No valid pairs found"
+assert density > 0.3, f"Density too low: {density:.3f}"  # valid pairs are not vanishing
+print(f"OK: valid pair density {100*density:.1f}% (not vanishing — structural argument needed)")
+CHECK -->
