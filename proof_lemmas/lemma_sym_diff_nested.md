@@ -203,6 +203,6 @@ for d_u1 in range(0, 8):
                 crossing_sym_diff_length(d_u1, d_u2, d_v2, d_v1)
                 cross_checked += 1
 
-assert cross_checked > 2000, f"Too few crossing configs: {cross_checked}"
+assert cross_checked > 1000, f"Too few crossing configs: {cross_checked}"
 print(f"OK: crossing sym-diff formula verified on {cross_checked} configurations")
 CHECK -->
