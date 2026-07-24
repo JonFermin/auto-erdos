@@ -269,9 +269,25 @@ $$\delta_i \notin \{3, 7, 15, 31, \ldots\}
 These constraints hold simultaneously for ALL same-branch pairs (not just
 same-leaf). Different-branch pairs contribute no simple sym-diff cycles.
 
-**Next steps for Q9.** (1) Characterize when crossing sym-diffs are
-simple cycles and compute their lengths — this may add further forbidden
-constraints. (2) Seek a counting argument: min-degree-3 forces $\ge 2n/3$
-back edges in DFS; can all such back edges simultaneously satisfy the
-forbidden system? (3) Exhaustive $n=7$ in a dedicated offline run
-(236,926 graphs).
+**Back-edge density sub-lemma (R7, partially proved; see
+`proof_lemmas/lemma_backedge_density.md`).** Parts A (back-edge count
+$\ge \lfloor n/2\rfloor + 1$) and B (DFS leaves forced same-branch pairs)
+are proved. Part C (forcing a constraint-system violation) is OPEN. The
+key obstacle: valid gap pairs with both gaps $\ge 2$ exist (e.g.\ $(2,5)$,
+$(4,5)$), so arithmetic alone does not rule out all leaf configurations.
+A structural argument beyond counting is needed. Part D documents the valid
+pair enumeration. CHECK (Part A) verified on all min-degree-$3$ simple graphs
+$n \le 6$.
+
+**Open question refinement (Q9).** The DFS depth-chain argument for
+Erdős–Gyárfás would need to close Part C of
+`lemma_backedge_density.md`. Approaches:
+- **DFS tree shape**: min-degree-3 forces many DFS leaves; each leaf requires
+  a valid pair; multiple leaves may create contradictory constraints globally.
+- **Gap-density forcing**: show that in a min-degree-3 graph on $n$ vertices,
+  the back-edge depth-gaps cannot all simultaneously avoid the forbidden set
+  for the required number of leaves.
+- **Vertex-count lower bound**: use Part A + the forbidden valid-pair density
+  to derive a lower bound on $n$ for a counterexample, contradicting the
+  witness window.
+The approach is promising but not yet closed; marking Q9 as ongoing.
