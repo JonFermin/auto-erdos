@@ -217,11 +217,33 @@ sample of all valid (connected, min-degree-$\ge 3$) simple graphs on 7
 vertices: 4,738 graphs, 0 failures, consistent with the lemma holding
 at $n = 7$.
 
-**Next steps for Q9.** (1) Extend to a denser $n=7$ sample or exhaustive
-$n \le 7$ (236,926 graphs, $\sim 10$ minutes), then add named graphs at
-$n=9$ (Pappus, Paley(9)) and $n=10$ beyond Petersen
-(complete bipartite $K_{3,4}$, Sylvester). (2) The Petersen result
-establishes that fundamental $C_8$ is the mechanism for girth-5 cases; the
-combinatorial argument must explain why depth-gap 7 is always achievable
-under some DFS tree when girth forbids depth-gap 3. (3) Seek a structural
-argument tying min-degree-$3$ to DFS gap-pair forced inclusions.
+**Named-graph coverage (R4).** Added to the CHECK in
+`lemma_dfs_chain_locality.md`: Franklin graph ($n=12$, girth~6),
+Heawood graph ($n=14$, the unique $(3,6)$-cage, girth~6), and
+$GP(5,1)$ ($n=10$, prism over $C_5$, girth~3). All PASS. Girth-6 cases
+(Franklin, Heawood) rely on sym-diff: no $C_4$ or $C_8$ fundamental cycle
+exists under any DFS tree, but sym-diffs yield $C_8$ or $C_{16}$. This
+is the converse mechanism to Petersen (which has fundamental $C_8$) and
+confirms that sym-diff is load-bearing for the high-girth cubic family.
+
+**$n = 7$ denser sample (R4, stride-5, $\approx 47{,}000$ graphs, 0 failures).**
+A stride-5 walk of the $n=7$ search space ($\approx 10\times$ the prior
+stride-50 sample): zero failures. Confidence in the lemma at $n=7$ is now
+very high.
+
+**Girth-6 mechanism.** The Franklin and Heawood results reveal the
+mechanism for high-girth cases: no fundamental cycle achieves a
+power-of-2 length (girth forces $\delta + 1 \ge 6$, so fundamental
+lengths avoid 4 and 8); instead, two fundamental cycles whose shared
+tree path has even length $\ell$ produce a sym-diff of length
+$(\delta_1+1) + (\delta_2+1) - 2\ell$ — which hits 8 or 16 for
+appropriate gap pairs. The proof would need to show such a pair always
+exists when girth $\ge 5$.
+
+**Next steps for Q9.** (1) Exhaustive $n=7$ (236,926 graphs) in a
+dedicated offline run — the stride-5 coverage is very strong evidence but
+not a proof. (2) Prove the girth-6 sym-diff mechanism: show that for every
+cubic girth-$\ge 5$ graph there exist two back edges in some DFS tree whose
+gap-difference or sum lands on a power-of-2 minus 2. (3) Bridge to
+min-degree-3 (not just cubic): extend the DFS leaf argument to
+non-regular graphs.
