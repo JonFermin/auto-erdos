@@ -240,10 +240,32 @@ $(\delta_1+1) + (\delta_2+1) - 2\ell$ — which hits 8 or 16 for
 appropriate gap pairs. The proof would need to show such a pair always
 exists when girth $\ge 5$.
 
-**Next steps for Q9.** (1) Exhaustive $n=7$ (236,926 graphs) in a
-dedicated offline run — the stride-5 coverage is very strong evidence but
-not a proof. (2) Prove the girth-6 sym-diff mechanism: show that for every
-cubic girth-$\ge 5$ graph there exist two back edges in some DFS tree whose
-gap-difference or sum lands on a power-of-2 minus 2. (3) Bridge to
-min-degree-3 (not just cubic): extend the DFS leaf argument to
-non-regular graphs.
+**Nested sym-diff sub-lemma (R5, proved; see
+`proof_lemmas/lemma_sym_diff_nested.md`).** For two back edges $e_1, e_2$
+whose fundamental cycles are *nested* ($u_1 \le u_2 \le v_2 \le v_1$ in
+DFS tree order), the sym-diff $F_1 \triangle F_2$ is always a simple
+cycle of length
+$$(\delta_1 - \delta_2) + 2$$
+— the **same formula** as the same-leaf case. This is proved by tracing
+the four path segments: $P(v_1, v_2)$, back edge $e_1$, $P(u_1, u_2)$,
+back edge $e_2$; after cancellation, the shared inner path $P(u_2, v_2)$
+drops out. The forbidden constraint $\delta_1 - \delta_2 \notin
+\{2, 6, 14, \ldots\}$ thus applies to ALL nested pairs, not only
+same-leaf ones. CHECK verified on $> 5{,}000$ depth configurations.
+
+**Constraint scope expansion.** Q9's depth-gap constraint system now reads:
+for every DFS tree of a hypothetical counterexample, and every nested pair
+of back edges with depth-gaps $\delta_1 > \delta_2$:
+$$\delta_i \notin \{3, 7, 15, 31, \ldots\}
+\quad\text{and}\quad
+\delta_1 - \delta_2 \notin \{2, 6, 14, 30, \ldots\}.$$
+The same-leaf lemma is the base case; the nested lemma extends it to all
+nesting configurations. The crossing (non-nested) case is still open —
+sym-diff of crossing cycles may not be a simple cycle.
+
+**Next steps for Q9.** (1) Characterize when crossing sym-diffs are
+simple cycles and compute their lengths — this may add further forbidden
+constraints. (2) Seek a counting argument: min-degree-3 forces $\ge 2n/3$
+back edges in DFS; can all such back edges simultaneously satisfy the
+forbidden system? (3) Exhaustive $n=7$ in a dedicated offline run
+(236,926 graphs).
