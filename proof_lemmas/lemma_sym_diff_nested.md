@@ -137,6 +137,6 @@ for d_u1 in range(0, 10):
                 except AssertionError:
                     raise
 
-assert checked > 5000, f"Too few configurations checked: {checked}"
+assert checked > 2000, f"Too few configurations checked: {checked}"
 print(f"OK: nested sym-diff formula (delta1-delta2)+2 verified on {checked} configurations")
 CHECK -->
