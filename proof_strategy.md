@@ -176,9 +176,30 @@ length $4$. The PASS means some pairwise symmetric difference achieves
 length $8$ under every DFS tree, which is evidence that the depth-chain
 arithmetic constraint binds even for the most girth-biased graphs.
 
-**Next steps for Q9.** The lemma needs to be extended to $n \le 10$
-exhaustively (n=7,8,9,10 require either a smarter generator or random
-sampling beyond named graphs). If it holds uniformly, the proof direction
-is: show that for any min-degree-$3$ graph and any DFS tree, the
-depth-gap arithmetic forces a power-of-2 fundamental-cycle or sym-diff
-length — the "sub-invariance inequality" in the Q9 description.
+**Same-leaf sym-diff sub-lemma** (see
+`proof_lemmas/lemma_same_leaf_sym_diff.md`, status: proved). For a DFS
+leaf $v$ with two back edges to proper non-parent ancestors at depths
+$d_1 < d_2$ (depth-gaps $\delta_1 > \delta_2 \ge 2$), the symmetric
+difference of their fundamental cycles is a simple cycle of length
+$(d_2 - d_1) + 2 = (\delta_1 - \delta_2) + 2$. CHECK verified on 1,329
+configurations.
+
+**Depth-gap constraint system.** A counterexample (no power-of-2 cycles)
+forces, at every DFS leaf $v$ with back edges at gaps $\delta_1 > \delta_2$:
+$$\delta_i \notin \{3, 7, 15, 31, \ldots\}$$
+(from individual fundamental cycles) and
+$$\delta_1 - \delta_2 \notin \{2, 6, 14, 30, \ldots\}$$
+(from same-leaf sym-diffs). Valid pairs $(\delta_2, \delta_1)$ satisfying
+both constraints do exist (e.g.\ $(1,4), (1,5), (2,4), \ldots$), so the
+arithmetic alone does not close the argument. The proof would need to show
+that min-degree-$3$ forces DFS-tree structure inconsistent with ALL valid
+pairs — the "charge redistribution along ancestor chains" that Q9's
+ideation describes.
+
+**Next steps for Q9.** (1) Extend the pairwise chain-locality CHECK to
+$n = 8, 9, 10$ via a degree-sequence generator or exhaustive up to $n=7$
+(min edges $\ge 14$ for $n = 7$). (2) Investigate whether the Petersen
+CHECK pass is via a fundamental $C_8$ (depth-gap 7 in some DFS tree) or
+via a non-same-leaf sym-diff, to understand which mechanism the proof
+must capture. (3) If the lemma holds for all $n \le 10$, seek a
+combinatorial argument on DFS leaf counts and gap-pair exclusions.
