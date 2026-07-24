@@ -176,6 +176,199 @@ assert checked >= 10
 print(f"OK: pairwise chain-locality holds on {checked} graphs (exhaustive n<=6, named n=8,10)")
 CHECK -->
 
+<!-- CHECK
+# Petersen graph mechanism check: does every DFS tree have a FUNDAMENTAL C8,
+# or does some DFS root require a sym-diff?  Answer: every root has fund C8.
+
+def is_pow2(n):
+    return n > 1 and (n & (n - 1)) == 0
+
+def build_dfs(adj_list, src):
+    n = len(adj_list)
+    parent = [-1] * n
+    visited = [False] * n
+    back = []
+    seen_back = set()
+    def rec(v, p):
+        for w in adj_list[v]:
+            if not visited[w]:
+                visited[w] = True
+                parent[w] = v
+                rec(w, v)
+            elif w != p:
+                key = (min(v, w), max(v, w))
+                if key not in seen_back:
+                    seen_back.add(key)
+                    back.append(key)
+    visited[src] = True
+    rec(src, -1)
+    return parent, back
+
+def depth_of(parent, v):
+    d = 0
+    while parent[v] != -1:
+        v = parent[v]
+        d += 1
+    return d
+
+petersen = [(0,1),(1,2),(2,3),(3,4),(4,0),(0,5),(1,6),(2,7),(3,8),(4,9),(5,7),(7,9),(9,6),(6,8),(8,5)]
+adj = [[] for _ in range(10)]
+for u, v in petersen:
+    adj[u].append(v)
+    adj[v].append(u)
+
+fund_c8_count = 0
+for src in range(10):
+    parent, back = build_dfs(adj, src)
+    depths = [depth_of(parent, i) for i in range(10)]
+    fund_lens = []
+    for u, v in back:
+        desc = u if depths[u] > depths[v] else v
+        anc = v if depths[u] > depths[v] else u
+        gap = depths[desc] - depths[anc]
+        fund_lens.append(gap + 1)
+    has_fund_pow2 = any(is_pow2(fl) for fl in fund_lens)
+    assert has_fund_pow2, f"Petersen src={src}: no fund pow2, fund_lens={fund_lens}"
+    if any(fl == 8 for fl in fund_lens):
+        fund_c8_count += 1
+
+assert fund_c8_count == 10, f"Expected 10 roots with fund C8, got {fund_c8_count}"
+print(f"OK: Petersen — all 10 DFS roots have a fundamental C8 (back edge with depth-gap 7)")
+CHECK -->
+
+<!-- CHECK
+# n=7 sampling: every 50th valid (connected, min-deg>=3) simple graph on 7 vertices.
+# 7 vertices -> 21 possible edges. Minimum edges for min-deg-3: ceil(7*3/2)=11.
+
+def is_pow2(n):
+    return n > 1 and (n & (n - 1)) == 0
+
+def build_dfs(adj_list, src):
+    n = len(adj_list)
+    parent = [-1] * n
+    visited = [False] * n
+    back = []
+    seen_back = set()
+    def rec(v, p):
+        for w in adj_list[v]:
+            if not visited[w]:
+                visited[w] = True
+                parent[w] = v
+                rec(w, v)
+            elif w != p:
+                key = (min(v, w), max(v, w))
+                if key not in seen_back:
+                    seen_back.add(key)
+                    back.append(key)
+    visited[src] = True
+    rec(src, -1)
+    return parent, back
+
+def fund_edges(parent, u, v):
+    anc_u = set()
+    cur = u
+    while cur != -1:
+        anc_u.add(cur)
+        cur = parent[cur]
+    desc, anc = (u, v) if v in anc_u else (v, u)
+    edges = set()
+    cur = desc
+    while cur != anc:
+        p = parent[cur]
+        edges.add((min(cur, p), max(cur, p)))
+        cur = p
+    edges.add((min(u, v), max(u, v)))
+    return edges
+
+def sd_cycle_len(e1, e2):
+    sd = e1.symmetric_difference(e2)
+    if not sd:
+        return 0
+    deg = {}
+    for a, b in sd:
+        deg[a] = deg.get(a, 0) + 1
+        deg[b] = deg.get(b, 0) + 1
+    if any(d != 2 for d in deg.values()):
+        return 0
+    verts = list(deg)
+    nb2 = {v2: [] for v2 in verts}
+    for a, b in sd:
+        nb2[a].append(b)
+        nb2[b].append(a)
+    vis = {verts[0]}
+    q = [verts[0]]
+    while q:
+        cur = q.pop()
+        for w in nb2[cur]:
+            if w not in vis:
+                vis.add(w)
+                q.append(w)
+    return len(sd) if len(vis) == len(verts) else 0
+
+def check_graph(adj):
+    n = len(adj)
+    for src in range(n):
+        parent, back = build_dfs(adj, src)
+        fcs = [fund_edges(parent, u, v) for u, v in back]
+        ok = any(is_pow2(len(fc)) for fc in fcs)
+        if not ok:
+            k = len(fcs)
+            for i in range(k):
+                for j in range(i + 1, k):
+                    sd = sd_cycle_len(fcs[i], fcs[j])
+                    if sd and is_pow2(sd):
+                        ok = True
+                        break
+                if ok:
+                    break
+        if not ok:
+            return False
+    return True
+
+def make_adj(n, edges):
+    adj = [[] for _ in range(n)]
+    for u, v in edges:
+        adj[u].append(v)
+        adj[v].append(u)
+    return adj
+
+def is_connected(adj):
+    n = len(adj)
+    vis = [False] * n
+    vis[0] = True
+    q = [0]
+    cnt = 1
+    while q:
+        v = q.pop()
+        for w in adj[v]:
+            if not vis[w]:
+                vis[w] = True
+                cnt += 1
+                q.append(w)
+    return cnt == n
+
+n = 7
+pairs = [(i, j) for i in range(n) for j in range(i + 1, n)]
+np2 = len(pairs)  # 21
+checked = 0
+failures = 0
+step = 50  # sample every 50th
+for mask in range(0, 1 << np2, step):
+    edges = [pairs[k] for k in range(np2) if (mask >> k) & 1]
+    adj = make_adj(n, edges)
+    if not is_connected(adj):
+        continue
+    if min(len(nb) for nb in adj) < 3:
+        continue
+    if not check_graph(adj):
+        failures += 1
+    checked += 1
+
+assert failures == 0, f"n=7 sample: {failures} failures out of {checked} graphs"
+assert checked >= 1000, f"Too few n=7 graphs sampled: {checked}"
+print(f"OK: n=7 sample ({checked} graphs, step={step}), 0 failures")
+CHECK -->
+
 **Proof direction (if CHECK passes).** Let $G$ be a connected min-degree-$3$
 graph and $T$ a DFS tree. Every non-tree edge $e_i = (v_i, u_i)$ with $u_i$
 an ancestor of $v_i$ produces fundamental cycle $F_i$ of length

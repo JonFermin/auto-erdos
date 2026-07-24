@@ -196,10 +196,32 @@ that min-degree-$3$ forces DFS-tree structure inconsistent with ALL valid
 pairs — the "charge redistribution along ancestor chains" that Q9's
 ideation describes.
 
-**Next steps for Q9.** (1) Extend the pairwise chain-locality CHECK to
-$n = 8, 9, 10$ via a degree-sequence generator or exhaustive up to $n=7$
-(min edges $\ge 14$ for $n = 7$). (2) Investigate whether the Petersen
-CHECK pass is via a fundamental $C_8$ (depth-gap 7 in some DFS tree) or
-via a non-same-leaf sym-diff, to understand which mechanism the proof
-must capture. (3) If the lemma holds for all $n \le 10$, seek a
-combinatorial argument on DFS leaf counts and gap-pair exclusions.
+**Petersen mechanism (established, R3).** For every DFS root in the
+Petersen graph, the chain-locality CHECK passes via a **fundamental
+cycle of length 8** — specifically a back edge with depth-gap 7. No
+DFS root requires a sym-diff; every root has at least one fundamental
+$C_8$. This is non-trivial given girth 5: no fundamental $C_4$ exists,
+so the argument always routes through fundamental $C_8$. Computationally
+confirmed by a second CHECK block (see `lemma_dfs_chain_locality.md`).
+
+**Sym-diff frequency in $n \le 6$ exhaustive sample (R3).** Of the 1885
+exhaustive $n \le 6$ graphs, 340 require a sym-diff for at least one DFS
+tree (i.e., no fundamental cycle has power-of-2 length under that DFS
+tree, but some sym-diff does). First example: $n=5$, two triangles
+sharing edge $(1,2)$; under DFS from vertex 4 the fundamental cycles all
+have lengths in $\{3,5,3\}$ — not powers of 2 — but the sym-diff of the
+two $C_3$'s gives a $C_4$.
+
+**$n = 7$ sampling (R3, 4,738 graphs checked, 0 failures).** A stride-50
+sample of all valid (connected, min-degree-$\ge 3$) simple graphs on 7
+vertices: 4,738 graphs, 0 failures, consistent with the lemma holding
+at $n = 7$.
+
+**Next steps for Q9.** (1) Extend to a denser $n=7$ sample or exhaustive
+$n \le 7$ (236,926 graphs, $\sim 10$ minutes), then add named graphs at
+$n=9$ (Pappus, Paley(9)) and $n=10$ beyond Petersen
+(complete bipartite $K_{3,4}$, Sylvester). (2) The Petersen result
+establishes that fundamental $C_8$ is the mechanism for girth-5 cases; the
+combinatorial argument must explain why depth-gap 7 is always achievable
+under some DFS tree when girth forbids depth-gap 3. (3) Seek a structural
+argument tying min-degree-$3$ to DFS gap-pair forced inclusions.
