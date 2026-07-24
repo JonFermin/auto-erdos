@@ -131,21 +131,54 @@ power-of-2 scale for every $(m, a_2, a_3)$; a disproof at large $m$ would
 need a larger-capacity verifier and is outside this harness's witness
 contract).
 
-## Section 5 — Current open state
+## Section 5 — Q8 resolution summary
 
-- **Q8 is resolved**: no witness exists in the screened families — the
-  I-graph/GP/dumbbell arm is cleared at all sizes by Lemma
-  `igraph_c4_or_c8`, and the theta/$K_4$ arm is cleared throughout the
-  witness window by Lemma `lift_screen_window`. The counterexample hunt,
-  if resumed, must move outside these lift families (girth-biased random
-  cubic graphs, cages, snark-like families) or to the large-$m$
-  theta-lift question above.
-- The queued proof-direction arm is **Q9** (DFS depth-chain discharging:
-  back-edge depth-gaps forbidden in $\{3,7,15,31,\dots\}$, min degree 3
-  forcing DFS leaves to carry $\ge 2$ back edges). Ideation losers
-  (Hashimoto trace compression, dyadic-window cycle-spectrum sieve,
-  minimal-counterexample stability stack) must not be re-proposed without
-  new input; the notes channel records why each died.
-- Minimal open statement: the conjecture itself, with the search space for
-  a hypothetical counterexample narrowed by F1–F3 and, from this session,
-  by the I-graph clearance (all sizes) and the theta/$K_4$ window screen.
+**Q8 is resolved**: no witness exists in the screened families — the
+I-graph/GP/dumbbell arm is cleared at all sizes by Lemma
+`igraph_c4_or_c8`, and the theta/$K_4$ arm is cleared throughout the
+witness window by Lemma `lift_screen_window`. The counterexample hunt,
+if resumed, must move outside these lift families (girth-biased random
+cubic graphs, cages, snark-like families) or to the large-$m$
+theta-lift question above. Ideation losers (Hashimoto trace compression,
+dyadic-window cycle-spectrum sieve, minimal-counterexample stability
+stack) must not be re-proposed without new input.
+
+## Section 6 — Q9: DFS depth-chain discharging
+
+**Approach.** Fix a DFS tree $T$ of a hypothetical counterexample $G$
+(min degree $\ge 3$, no power-of-2 cycle). Every back edge $(v, u)$ with
+$u$ an ancestor of $v$ spans a depth-gap
+$\delta = \operatorname{depth}(v) - \operatorname{depth}(u)$; the
+fundamental cycle has length $\delta + 1$. Forbidding power-of-2 cycle
+lengths means $\delta \notin \{3, 7, 15, 31, \dots\}$ (i.e.
+$\delta + 1 \notin \{4, 8, 16, 32, \dots\}$). Min degree $3$ forces
+every DFS leaf to carry $\ge 2$ back edges.
+
+**First lemma (Q9, under investigation).** See
+`proof_lemmas/lemma_dfs_chain_locality.md`. Statement: for every
+connected min-degree-$3$ graph on $\le 10$ vertices and every DFS tree,
+some power-of-2 cycle is a fundamental cycle or a simple-cycle
+symmetric difference of two fundamental cycles.
+
+**CHECK status.** The CHECK block in `lemma_dfs_chain_locality.md`
+verified this on:
+
+- **1885 graphs exhaustively** (all connected min-degree-$\ge 3$ simple
+  graphs on 4, 5, 6 vertices) — all DFS starting vertices, zero failures.
+- **Cube/Q3, Wagner** ($n = 8$, $3$-regular) — all DFS trees, PASS.
+- **Petersen graph** ($n = 10$, $3$-regular, girth $5$, the most
+  adversarial case since no $C_4$ and no $C_8$ appear as fundamental
+  cycles in some DFS trees) — all DFS starting vertices, PASS.
+
+The Petersen graph result is non-trivial: the girth-$5$ property forces
+every back edge to have depth-gap $\ge 4$, so no fundamental cycle has
+length $4$. The PASS means some pairwise symmetric difference achieves
+length $8$ under every DFS tree, which is evidence that the depth-chain
+arithmetic constraint binds even for the most girth-biased graphs.
+
+**Next steps for Q9.** The lemma needs to be extended to $n \le 10$
+exhaustively (n=7,8,9,10 require either a smarter generator or random
+sampling beyond named graphs). If it holds uniformly, the proof direction
+is: show that for any min-degree-$3$ graph and any DFS tree, the
+depth-gap arithmetic forces a power-of-2 fundamental-cycle or sym-diff
+length — the "sub-invariance inequality" in the Q9 description.
