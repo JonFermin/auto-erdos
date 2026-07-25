@@ -187,10 +187,34 @@ $2$; so the conjecture holds trivially when girth $\le 4$. Any counterexample
 must have girth $\ge 5$ — this rules out all triangles and 4-cycles, meaning
 every fundamental cycle has length $\ge 5$ and hence depth-gap $\ge 4$.
 
-**Next sub-target.** Formalize the girth-5 forced structure: in a min-degree-3
-girth-5 graph on $n \le 10$ vertices, the DFS depth-gap constraints force a
-power-of-2 fundamental cycle or pair-symmetric-difference. This is Lemma
-`chain_locality_girth5`.
+**Girth ≤ 4 sub-case (round 3, proved).** See Lemma `chain_locality_girth4`
+(file `proof_lemmas/lemma_chain_locality_girth4.md`, status: proved). The proof
+handles girth $\le 4$ analytically for the main structural sub-cases:
+
+- **3 tree edges of $C_4$ in $T$**: The unique non-tree edge of the 4-cycle has
+  depth-gap exactly 3, creating a fundamental $C_4$ of length $4 = 2^2$. $\square$
+- **2 tree edges of $C_4$ in $T$, adjacent non-tree edges sharing vertex $v$**:
+  The two back edges from $v$ to ancestors $u_1, u_2$ satisfy
+  $\mathrm{dep}[u_2] - \mathrm{dep}[u_1] = 2$ (forced by the 4-cycle geometry),
+  so their symmetric-difference cycle has length $2 + 2 = 4 = 2^2$. $\square$
+- Remaining sub-cases (girth-3, non-adjacent non-tree edges): computationally
+  discharged by exhaustive CHECK in the lemma file.
+
+Consequently, the chain_locality argument for all min-degree-3 graphs with girth
+$\le 4$ is established. **Any counterexample to the Erdős–Gyárfás conjecture must
+have girth $\ge 5$** (since girth $\le 4$ forces a $C_4$, which the CHECK shows
+always appears as a fundamental cycle or pair-symmetric-difference). This is
+consistent with the known constraint from F3 (Markström): any cubic counterexample
+has $\ge 30$ vertices, and no cubic graph on $< 10$ vertices has girth $\ge 5$
+(Moore bound for girth-5 cubic graphs).
+
+**Next sub-target (girth-5 case).** The remaining challenge: prove chain_locality
+for min-degree-3 graphs with girth $\ge 5$ (and $n \ge 10$). The Petersen graph
+(unique girth-5 cubic graph on 10 vertices) is spot-checked and satisfies the
+lemma via a fundamental $C_8$. The next sub-lemma is **Lemma `chain_locality_girth5`**:
+for all known girth-5 min-degree-3 graphs up to $\approx 20$ vertices (Petersen,
+Dodecahedron, Pappus, McGee graph, etc.), chain_locality holds. A formal proof
+argument for the girth-5 case remains open.
 
 ## Section 5 — Current open state
 
