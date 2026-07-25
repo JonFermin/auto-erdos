@@ -1,50 +1,54 @@
-# Session handoff (session s_0718-205004-c44a)
+# Session handoff (session s_0724-213346-43a1)
 
-**Stop reason**: logical milestone â€” Q8 fully resolved, keep_progress record committed.
+**Stop reason**: token budget low at a clean milestone. 3 rounds, all
+keep_progress (commits 913362b, d5ca596, daa64a1; records
+proof_erdos_gyarfas_{e51ebe6809ea_913362b, c53dc33ba6df_d5ca596,
+417c85291b74_daa64a1}.json). Branch erdos-proof/0724-213326-f003;
+worktree left in place for resume.
 
-**Outcome**: 1 keep_progress round (commit d770634, record
-records/proof_erdos_gyarfas_38c18775bf2f_d770634.json). First session on
-`erdos_gyarfas` (prior sessions were the now-concluded primitive_set_erdos).
+**What was established (Q9, DFS depth-chain discharging)**:
+- Radius-2 chain-locality (Q9's first lemma) is **DISPROVED**:
+  23 verified (graph, DFS tree, root) instances with no power-of-2
+  cycle on <= 2 back edges â€” 3 cubic n=10 graphs (CL-A/B/C, found by
+  exhaustively tree-checking ALL 19 cubic 10-vertex classes) + 1 at
+  n=12. Independently re-verified (networkx cycles + DFS simulation).
+  See proof_lemmas/lemma_chain_locality.md (status: disproved).
+- Clean reformulation (proved, in that file): a simple cycle is a
+  symdiff of <= k fundamental cycles iff it carries <= k back edges â€”
+  kills the ideation judge's symdiff-simplicity caveat.
+- KEY SIGNAL: min locality radius is EXACTLY 3 in every known radius-2
+  failure (23 in scope + 10 at n=14/16 from an independent boundary
+  probe). Radius-3 revision installed as lemma chain_locality_r3
+  (open) with falsifier-focused CHECK (exhaustive Tremaux coverage of
+  CL-A/B/C, the n=12 instance, Petersen, fresh cubic randoms; ~1.3s).
+- Round-3 falsify-first hunt: 54,429 edge-swap local-search states
+  (n <= 18, 120 DFS tries each) never pushed min radius to 4.
+  Radius-3 is tight but unexceeded.
 
-**What was established**:
-- Lemma `igraph_c4_or_c8` (proved, all sizes): every simple I-graph
-  I(m,a,b) â€” hence every GP(n,k) â€” has a C4 (b â‰¡ Â±a) or the explicit C8
-  u0,ua,va,v(a+b),u(a+b),ub,vb,v0. No I-graph witness exists at ANY size.
-- Lemma `lift_screen_window` (proved, machine-checked): all 23,556
-  theta/I-graph/K4 Z_m-lifts in the â‰¤64-vertex witness cap contain a
-  power-of-2 cycle of length â‰¤ 16; searches complete; no survivors.
-- Old primitive_set lemmas: 3 open ones marked abandoned (claim proved in
-  literature May 2026); all annotated as non-load-bearing audit trail.
+**qid state**: Q9 released with progress (see queue row). Q10/Q11
+(frankl_union_closed) still open.
 
-**HARNESS BUG (blocking the full critic panel â€” needs a human fix)**:
-prompts/critic_falsify.md promises "math and Python builtins" but
-proof_prepare._sandboxed_eval allowlists only ~20 names (no frozenset,
-sorted, bin, dict, str), and _evaluate_numerical_findings escalates ANY
-crashed check to BLOCKING even on OK-flagged findings. 5 full-panel runs
-(commits e5de13e, 412c4bd, 97077a4, de4a370, d770634 in
-proof_verifier_results.tsv) each produced exactly such spurious blockers
-(sorted, `__`, bin, frozenset, then a critic typo â€” unmatched paren);
-every falsify/internal/openness/strategy finding's PROSE was positive
-("lemma survives", "Airtight", "C4 valid"). All substantive WARNs were
-fixed in rounds 2â€“5. The kept round was therefore logged in critics-off
-mode (deterministic gates: CHECK blocks incl. a 2,785-graph re-screen,
-witness verifier, resolution-string scan â€” all clean; TSV reason
-critics_off). Fix candidates: add frozenset/sorted/bin to safe_builtins,
-align prompt text with the real allowlist, or stop escalating OK-flagged
-findings whose check crashed (vs. evaluated False). After the fix,
-re-run the full panel on d770634 to upgrade the record's provenance.
+**HARNESS BUG (still unfixed, carried from prior handoff)**: the
+critic sandbox allowlist (proof_prepare._sandboxed_eval) lacks
+frozenset/sorted/bin/dict/str and OK-flagged crashed checks escalate
+to BLOCKING. All 3 rounds this session were logged critics-off
+(deterministic gates all clean each round). After the human fix,
+re-run the full panel on daa64a1 to upgrade provenance.
 
-**qid state**: Q8 resolved. Q9 (DFS depth-chain discharging), Q10/Q11
-(frankl_union_closed) open. Notes channel has a new structural lead:
-large-m theta lifts and the voltage-relation obstruction (candidate new
-qid; proof-direction only â€” the 64-vertex witness cap blocks the
-disproof direction).
+**Harness lesson for next agent**: proof_hash covers proof_strategy.md
+ONLY. A round that edits just a lemma file exits 3 (duplicate); every
+round needs a substantive proof_strategy.md change.
 
-**Suggested next move**:
-1. Human: fix the sandbox allowlist bug, then optionally re-run
-   `PROOF_TAG=erdos_gyarfas uv run proof_prepare.py` at d770634 for a
-   clean full-panel row.
-2. Next agent session: take Q9 (depth-chain discharging) â€” write the
-   pairwise chain-locality CHECK on all min-degree-3 graphs â‰¤10 vertices
-   BEFORE any proof text (judge's expansion condition), or ideate a qid
-   from the theta-lift voltage-relation lead.
+**Suggested next moves**:
+1. CHECK-first probe of the alternation obstruction: "no C8 in a DFS
+   tree of a min-deg-3 graph alternates tree/back edges" (or the
+   weaker version the data support). It is the candidate mechanism
+   behind the radius-3 ceiling â€” see lemma_chain_locality_r3 "Proof
+   direction".
+2. Cubic case of chain_locality_r3: DFS trees of cubic graphs have
+   sharply budgeted back-edge endpoints (leaves exactly 2, internal
+   non-root <= 1 extra). Try to prove radius-3 there first.
+3. Escalate the radius-4 hunt: n=19..24, joint (graph, tree) simulated
+   annealing, girth-5+ seeds. A hit would redirect Q9 fundamentally.
+4. Or ideate from the theta-lift voltage-relation lead (notes channel,
+   Q8 entry) if the discharging arm stalls.
