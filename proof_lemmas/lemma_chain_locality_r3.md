@@ -271,6 +271,21 @@ for nn in (10, 11, 12):
     assert got >= 5, "sampler starved at n=" + str(nn)
 CHECK -->
 
+## Adversarial evidence (round 3, seed 20260725)
+
+Falsify-first hunt executed: degree-preserving double-edge-swap local
+search seeded from CL-B/CL-C and random cubics at $n = 12, 14, 16, 18$,
+scoring each graph state by the max over 120 sampled DFS (tree, root)
+pairs of the min back-edge count over its power-of-2 cycles (lengths 4,
+8, 16 where realizable). **54,429 graph states scored; the objective
+never reached 4** — histogram of per-graph best-tree min-radius:
+$\{1: 1816,\ 2: 50235,\ 3: 2378\}$. The radius-3 ceiling held under
+directed adversarial pressure, not just uniform sampling, and radius-3-
+tight trees (min radius exactly 3) remain reachable — so the bound is
+tight but never exceeded. Out-of-scope for the lemma's $n \le 12$
+statement, but the strongest evidence yet that 3 is the true locality
+radius for this family.
+
 ## Proof direction (open)
 
 Why radius 3 might be where locality lives, structurally: in the

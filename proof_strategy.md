@@ -223,7 +223,13 @@ randoms). Three concrete work items, in dual-attack order:
    and with it this incarnation of the discharging shape; the boundary
    probes so far (10 radius-2 failures at $n = 14, 16$, all at min
    radius exactly 3) say the hunt must try harder than uniform
-   sampling.
+   sampling. *Round-3 status: executed (54,429 swap-search graph
+   states, $n \le 18$, 120 DFS tries each) — objective never reached
+   4; radius-3 ceiling held under adversarial pressure. Details in
+   lemma `chain_locality_r3`, "Adversarial evidence". Not exhaustive;
+   a future session should extend to $n = 19..24$ and to
+   simulated-annealing over (graph, tree) jointly before treating
+   radius-3 as safe.*
 2. **(Candidate local obstruction, CHECKable)** Why does no probed DFS
    tree spread EVERY po2 cycle across $\ge 4$ back edges? For an
    8-cycle carrying 4 back edges, the 4 remaining tree edges form 4
