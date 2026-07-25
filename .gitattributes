@@ -1,0 +1,6 @@
+# Append-only Track 2 loop state: union-merge so parallel session branches
+# never conflict on these files (both sides' added lines are kept).
+proof_journal.jsonl merge=union
+proof_open_questions.jsonl merge=union
+proof_critic_log.jsonl merge=union
+proof_lemmas/ledger.jsonl merge=union

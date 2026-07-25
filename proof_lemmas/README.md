@@ -8,6 +8,16 @@ the agent picks one lemma per round, focuses on closing it, then commits.
 
 Filename: `lemma_<id>.md` where `<id>` is a short slug, e.g.
 `lemma_strat_omega_k_bound.md`. Numeric IDs are fine too (`lemma_001.md`).
+NEW lemma files created inside a session append the session tag —
+`lemma_<slug>__<MMDD-HHMMSS-rnd>.md` — so parallel session branches never
+collide on filenames at merge time. The frontmatter `id:` stays semantic
+and session-free.
+
+Statuses are tracked cross-branch in `ledger.jsonl` (append-only,
+union-merged; latest entry per id wins — see `uv run proof_ledger.py`).
+An id the ledger marks `disproved` is dead everywhere: re-opening it is
+rejected by `proof_log_result.py` (exit 8). A revised claim takes a NEW
+id (e.g. `chain_locality` → `chain_locality_r3`).
 
 Each file MUST start with YAML frontmatter:
 
