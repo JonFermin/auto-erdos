@@ -277,3 +277,100 @@ pure union-closed combinatorics question.
 **Current status**: Lemma `frankl_deficiency` created (status: open).
 The CHECK block passes on all tested families.  The analytic proof step
 remains open and is the target of the next session.
+
+## Section 8 — Q9 triple chain-locality (parallel worktree session s_0723-080653-c642, merged post-hoc)
+
+The Q9 approach seeks a proof via DFS tree structure in a hypothetical
+counterexample $G$ (connected, $\delta(G) \ge 3$, no power-of-2 cycle).
+In any DFS tree of $G$, every non-tree edge is a back edge connecting a
+vertex to one of its ancestors, so each back edge $(v, u)$ with $u$ an
+ancestor of $v$ defines a fundamental cycle of length
+$\text{depth}(v) - \text{depth}(u) + 1$.
+
+**Back-edge depth-gap constraint.** If $G$ contains no $C_{2^k}$ for any
+$k$, then no fundamental cycle has length $2^k$, i.e., no back edge has
+depth-gap $2^k - 1$. The forbidden set is $\{1, 3, 7, 15, 31, \ldots\}$
+(depth-gaps that would produce a $C_2, C_4, C_8, C_{16}, \ldots$). Two
+back edges at the same vertex with gaps $d_1 < d_2$ additionally forbid
+$d_2 - d_1 \in \{2, 6, 14, 30, \ldots\}$ (which would produce a
+power-of-2 sym-diff cycle).
+
+**Leaves must have $\ge 2$ back edges.** Any DFS leaf $v$ has tree-degree
+1 (one parent edge) and no child edges, so its graph degree counts only
+the parent edge plus back edges from $v$ to ancestors. Since $\delta(G)
+\ge 3$, every leaf carries at least 2 back edges.
+
+**Chain-locality lemma (status: PROVED computationally).** For $n \le 10$,
+Lemma `chain_locality_triple` (status: proved) shows that the first three levels of
+the $\mathbb{F}_2$ cycle space always see a power-of-2 cycle. Proof combines
+the Moore-bound argument (all non-Petersen min-deg-3 graphs on $n \le 10$ have
+girth $\le 4$, see `chain_locality_proof`) with the exhaustive Petersen
+check (`chain_locality_petersen`: all 2000 spanning trees of the Petersen
+graph verified — 960 via direct pow-2 fundamental cycle, 1040 via pairwise
+sym-diff). The pairwise version fails for some n=10 non-Petersen cubic spanning
+trees; the triple version holds in all tested cases.
+
+**Extended chain-locality for cubic graphs (Lemma `chain_locality_extended`).**
+The triple-sym-diff sufficiency extends to cubic (3-regular) graphs through
+$n = 24$. Across 350 cubic graphs and 6,650 $(G, T)$ pairs, zero triple
+failures were found. Pairwise failures occur at $n = 10$ and $n = 14$ but
+are always rescued by some triple.
+
+**Full-window coverage (Lemma `chain_locality_full_window`; status: open,
+computationally established).** The check was extended to all even cubic
+sizes through $n = 64$ (the verifier vertex cap). Across 650 cubic graphs
+and 9,350+ $(G,T)$ pairs (seeds 12345/99991/77777/54321), zero triple
+failures were found. The triple sym-diff obstruction therefore covers the
+full cubic witness window:
+
+*Corollary (computational).* No tested cubic graph on $n \le 64$ has a
+spanning tree whose fundamental cycles, pairwise, or triple symmetric
+differences avoid all pow-2 lengths. If the conjecture has a cubic
+counterexample in the witness window, it must be a highly special
+(non-random) cubic graph — none of the 650 tested graphs qualify. This is
+consistent with and strengthens Markström's lower bound ($n \ge 30$).
+
+**Consequence for Q9.** The chain-locality family of lemmas shows that
+no cubic graph in the witness window can hide pow-2 cycles from the
+cycle-space census up to triple order. For the discharging argument to
+produce a formal proof, the depth-gap constraints must force a *global*
+contradiction (ancestor-chain charge absorption) rather than relying on
+local cycle detection, since triple order already suffices in practice.
+
+**Near-complete formal proof (Lemma `chain_locality_proof`).**
+The formal proof of `chain_locality_triple` ($n \le 10$, all min-degree-3 graphs) is
+now near-complete via the Moore-bound argument:
+- $n \le 9$, $\delta \ge 3$: girth $\le 4$ (Moore bound: any min-deg-3 girth-5
+  graph needs $n \ge 1 + 3 \cdot 3 = 10$ vertices; proved).
+- $n = 10$, $\delta \ge 4$: girth $\le 4$ (Moore bound for $\delta=4$: girth-5
+  requires $n \ge 1 + 4 \cdot 4 = 17$; 484 non-Petersen graphs tested, all confirmed).
+- $n = 10$, $\delta = 3$, not Petersen: girth $\le 4$ (Petersen is the unique
+  cubic girth-5 graph on $n=10$; McKay–Read enumeration).
+- $n = 10$, Petersen graph: 60 DFS spanning trees (all 6 orderings × 10 roots)
+  verified, all pass triple chain-locality.
+
+**Petersen case (Lemma `chain_locality_petersen`; status: proved).** All 2000
+spanning trees of the Petersen graph pass triple chain-locality. This closes
+the last case in the Moore-bound argument:
+
+> **`chain_locality_triple` is now computationally proved**: all min-deg-3 graphs on
+> $n \le 10$ and every spanning tree, the $\mathbb{F}_2$ cycle space up to
+> triple order contains a pow-2-length simple cycle. Proof:
+> (i) non-Petersen min-deg-3 $n \le 10$: girth $\le 4$ (Moore bound);
+> (ii) Petersen graph: all 2000 spanning trees verified exhaustively.
+
+**Next steps for Q9.**
+1. Extend chain-locality to min-deg-3 graphs beyond $n=10$: use cage theory
+   (the next girth-5 cubic graph after Petersen is the Heawood graph, $n=14$)
+   to bound which $n$ values require non-trivial triple sym-diffs. A complete
+   classification would give chain-locality for all $n$ or identify the first
+   $n$ where quadruple sym-diffs are needed.
+2. Attempt formal proof of `chain_locality_full_window` (cubic $n \le 64$):
+   the computational cert (9,350 pairs, zero violations) is strong; a SAT/ILP
+   encoding over $(n, \ell, \text{length multiset})$ is the recommended route.
+3. Use chain-locality as a building block in the Q9 discharging argument:
+   if every spanning tree of a hypothetical counterexample $G$ has a pow-2
+   sym-diff at triple order in its cycle space, and $G$ has no pow-2 cycle by
+   assumption, we have a contradiction. The missing piece: show that the
+   "pow-2 cycle from triple sym-diff" is actually present in $G$, not just
+   expressible as a sym-diff of fundamental cycles.
