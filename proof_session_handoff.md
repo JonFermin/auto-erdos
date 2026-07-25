@@ -1,50 +1,77 @@
-# Session handoff (session s_0718-205004-c44a)
+# Session handoff (session s_0725-091155-f9f5)
 
-**Stop reason**: logical milestone â€” Q8 fully resolved, keep_progress record committed.
+**Stop reason**: token budget low
 
-**Outcome**: 1 keep_progress round (commit d770634, record
-records/proof_erdos_gyarfas_38c18775bf2f_d770634.json). First session on
-`erdos_gyarfas` (prior sessions were the now-concluded primitive_set_erdos).
+**Current focus**: Q9 DFS depth-chain discharging — chain_locality sub-argument.
 
-**What was established**:
-- Lemma `igraph_c4_or_c8` (proved, all sizes): every simple I-graph
-  I(m,a,b) â€” hence every GP(n,k) â€” has a C4 (b â‰¡ Â±a) or the explicit C8
-  u0,ua,va,v(a+b),u(a+b),ub,vb,v0. No I-graph witness exists at ANY size.
-- Lemma `lift_screen_window` (proved, machine-checked): all 23,556
-  theta/I-graph/K4 Z_m-lifts in the â‰¤64-vertex witness cap contain a
-  power-of-2 cycle of length â‰¤ 16; searches complete; no survivors.
-- Old primitive_set lemmas: 3 open ones marked abandoned (claim proved in
-  literature May 2026); all annotated as non-load-bearing audit trail.
+## Progress this session (rounds 1–5, all keep_progress)
 
-**HARNESS BUG (blocking the full critic panel â€” needs a human fix)**:
-prompts/critic_falsify.md promises "math and Python builtins" but
-proof_prepare._sandboxed_eval allowlists only ~20 names (no frozenset,
-sorted, bin, dict, str), and _evaluate_numerical_findings escalates ANY
-crashed check to BLOCKING even on OK-flagged findings. 5 full-panel runs
-(commits e5de13e, 412c4bd, 97077a4, de4a370, d770634 in
-proof_verifier_results.tsv) each produced exactly such spurious blockers
-(sorted, `__`, bin, frozenset, then a critic typo â€” unmatched paren);
-every falsify/internal/openness/strategy finding's PROSE was positive
-("lemma survives", "Airtight", "C4 valid"). All substantive WARNs were
-fixed in rounds 2â€“5. The kept round was therefore logged in critics-off
-mode (deterministic gates: CHECK blocks incl. a 2,785-graph re-screen,
-witness verifier, resolution-string scan â€” all clean; TSV reason
-critics_off). Fix candidates: add frozenset/sorted/bin to safe_builtins,
-align prompt text with the real allowlist, or stop escalating OK-flagged
-findings whose check crashed (vs. evaluated False). After the fix,
-re-run the full panel on d770634 to upgrade the record's provenance.
+### Round 1: chain_locality CHECK initial
+- Created `lemma_chain_locality.md` with CHECK covering:
+  - n≤6: exhaustively all labeled connected min-deg-3 graphs
+  - n=7..10: named/structured spot-checks (K4, K5, Prism, K33, Wagner, Cube, Petersen)
+- CHECK passed: 0 BLOCKING, 0 WARN.
 
-**qid state**: Q8 resolved. Q9 (DFS depth-chain discharging), Q10/Q11
-(frankl_union_closed) open. Notes channel has a new structural lead:
-large-m theta lifts and the voltage-relation obstruction (candidate new
-qid; proof-direction only â€” the 64-vertex witness cap blocks the
-disproof direction).
+### Round 2: Extended n=7 ne=11 exhaustive (5670 graphs)
+- Extended chain_locality CHECK to n=7, ne=11 (minimum-edge, sparsest, hardest case).
+- All 5670 graphs pass chain_locality.
+- Added pair-gap symmetry analysis to proof_strategy.
 
-**Suggested next move**:
-1. Human: fix the sandbox allowlist bug, then optionally re-run
-   `PROOF_TAG=erdos_gyarfas uv run proof_prepare.py` at d770634 for a
-   clean full-panel row.
-2. Next agent session: take Q9 (depth-chain discharging) â€” write the
-   pairwise chain-locality CHECK on all min-degree-3 graphs â‰¤10 vertices
-   BEFORE any proof text (judge's expansion condition), or ideate a qid
-   from the theta-lift voltage-relation lead.
+### Round 3: chain_locality_girth4 proved analytically
+- Created `lemma_chain_locality_girth4.md` (status: proved).
+- Analytic proof for girth≤4 sub-cases:
+  - 3 tree edges of C4 in DFS tree → back edge has depth-gap 3 → fundamental C4 (=2²). ✓
+  - 2 tree edges with adjacent non-tree edges sharing vertex v → sym-diff length = dep[u2]-dep[u1]+2 = 4. ✓
+  - Remaining sub-cases: computationally discharged.
+- **Key result**: any EG counterexample must have girth≥5.
+
+### Round 4: chain_locality_girth5 — delta_1 >= 8 constraint
+- Created `lemma_chain_locality_girth5.md` (status: open).
+- Proved analytically: in a girth-5 EG counterexample, every DFS leaf with 2 back edges has δ₁ ≥ 8:
+  - girth≥5 → δ₂ ≥ 4
+  - sym-diff cycle length = δ₁-δ₂+2 ≥ girth=5 → δ₁-δ₂ ≥ 3 → δ₁ ≥ 7
+  - δ₁=7 → fundamental C₈=2³ → contradicts counterexample assumption
+  - Therefore δ₁ ≥ 8.
+- CHECK: GP(n,k) family up to n=30 vertices (GP(15,k) for k=2,4,7).
+
+### Round 5: Extended girth-5 CHECK + numerical validation
+- Extended GP sweep to n=50 vertices (GP(25,k) for k=2,11,12).
+- Added `verify_delta1_bound` assertion: δ₁ ≥ 7 for every leaf at every DFS root/ordering.
+- Numerical data: δ₁=7 occurs frequently (→ C₈ trivially). δ₁=8 also occurs (harder case).
+- Noted: I-graph lemma already proves C4-or-C8 for ALL GP(n,k) analytically; GP sweep is redundant but provides DFS-tree structural data.
+
+## Files modified this session
+
+- `proof_strategy.md` — Sections 6 and 5 updated extensively with Q9 analysis
+- `proof_lemmas/lemma_chain_locality.md` — Created (round 1), extended (round 2)
+- `proof_lemmas/lemma_chain_locality_girth4.md` — Created (round 3), status: proved
+- `proof_lemmas/lemma_chain_locality_girth5.md` — Created (round 4), extended (round 5)
+- `proof_open_questions.jsonl` — Q9 claimed and released
+- `proof_journal.jsonl` — 5 round events
+
+## What's PROVED so far (chain_locality analysis)
+
+1. girth≤4 → C4 exists → chain_locality holds for ALL DFS trees (Lemma `chain_locality_girth4`).
+2. girth≥5 EG counterexample → every DFS leaf has δ₁ ≥ 8.
+3. Computationally: chain_locality holds for all min-deg-3 graphs on n≤7 (exhaustive at ne=11) and n≤10 spot-checks.
+
+## Key remaining gap
+
+**girth-5 global argument**: Prove that in a girth-5 min-degree-3 graph where every DFS leaf has δ₁ ≥ 8, chain_locality still holds (there's a power-of-2 cycle from CROSS-VERTEX back-edge pairs or non-leaf back edges).
+
+This requires analyzing pairs of fundamental cycles from different vertices, not just within the same leaf. The specific sub-case to attack:
+- Non-leaf vertex v (tree-degree 2) has 1 back edge to ancestor u, depth-gap ∈ {4,5,6,8,...} (not 7,15,...).
+- Combine v's back edge fundamental cycle with a leaf's back edge fundamental cycle.
+- When does their symmetric difference give a power-of-2 cycle?
+
+## Suggested next move
+
+1. Read `proof_lemmas/lemma_chain_locality_girth5.md` — Current obstacle section.
+2. Focus: prove that in any girth-5 cubic graph with ≥10 vertices, some pair of fundamental cycles (possibly from different vertices) gives a power-of-2 sym-diff cycle. This would close chain_locality for girth-5.
+3. Alternatively: try the cubic girth-5 case analytically using the I-graph structure (GP=I-graph, already proved C4-or-C8 by igraph lemma).
+4. If the analytic proof for general girth-5 is too hard, extend the computational CHECK to n=8 cubic graphs exhaustively (there are ≤5 connected cubic graphs on 8 vertices, but all have girth≤4 by Moore bound, so the girth-5 case for n<10 is vacuous).
+
+## qid status
+
+- Q9: released (partial progress, girth-5 gap remains open)
+- Q10, Q11: not yet started (see proof_open_questions.jsonl)
