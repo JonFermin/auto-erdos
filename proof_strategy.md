@@ -131,6 +131,43 @@ power-of-2 scale for every $(m, a_2, a_3)$; a disproof at large $m$ would
 need a larger-capacity verifier and is outside this harness's witness
 contract).
 
+## Section 6 — Q9: DFS depth-chain discharging (current session)
+
+The next proof-direction attack is **Q9: DFS depth-chain discharging**. Assume for
+contradiction that $G$ is a connected min-degree-3 graph with no cycle of
+power-of-$2$ length. Fix any DFS spanning tree $T$ of $G$.
+
+**Depth-gap constraint.** A back edge $(v, u)$ (with $u$ a proper ancestor of $v$)
+creates a fundamental cycle of length $\ell = \mathrm{dep}[v] - \mathrm{dep}[u] + 1$.
+If $\ell$ were a power of $2$, that cycle contradicts our assumption. So in a
+counterexample, every back edge has $\ell \notin \{4, 8, 16, 32, \ldots\}$,
+i.e.\ the depth-gap $\delta = \mathrm{dep}[v] - \mathrm{dep}[u] \notin \{3, 7, 15, 31, \ldots\}$.
+
+**Pair-gap constraint.** Two back edges at the same vertex $v$ with depth-gaps $\delta_1 <
+\delta_2$ create a pair of fundamental cycles whose symmetric difference (when it
+is a simple cycle) has length related to the difference $\delta_2 - \delta_1$.
+If $\delta_2 - \delta_1 + 1$ is a power of $2$, we again get a power-of-2 cycle.
+So a second constraint in a counterexample: for any two back edges at a vertex
+with gaps $\delta_1 < \delta_2$, we need $\delta_2 - \delta_1 + 1 \notin \{4,8,16,\ldots\}$,
+i.e.\ $\delta_2 - \delta_1 \notin \{3, 7, 15, 31, \ldots\}$.
+
+**Min-degree forcing.** Since every vertex has degree $\ge 3$ and tree edges account
+for exactly $\mathrm{deg}_T(v)$ (tree degree) edges at $v$, every DFS leaf (tree
+degree $= 1$) must have at least $3 - 1 = 2$ back edges. A non-leaf with tree
+degree $k$ must have at least $3 - k$ back edges (but always $\ge 0$). In
+particular, leaves carry $\ge 2$ back edges, making them primary "charge sources"
+in a discharging argument.
+
+**Chain-locality (first target, Q9 round 1).** See Lemma `chain_locality`
+(file `proof_lemmas/lemma_chain_locality.md`). The lemma asserts that for every
+min-degree-3 graph $G$ on $n \le 10$ vertices and every DFS spanning tree $T$,
+some power-of-$2$ cycle is a fundamental cycle of $T$ or a symmetric difference
+of two fundamental cycles of $T$. The CHECK block in that lemma file exhaustively
+verifies the claim for all labeled min-degree-3 graphs on $n = 4, 5, 6$ and
+a structured sample for $n = 7, 8, 9, 10$. The result of the CHECK determines
+whether the lemma is provable (proceed with Q9) or falsified (set
+`status: disproved`, abandon Q9, pick a different angle).
+
 ## Section 5 — Current open state
 
 - **Q8 is resolved**: no witness exists in the screened families — the
