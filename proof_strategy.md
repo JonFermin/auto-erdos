@@ -149,3 +149,63 @@ contract).
 - Minimal open statement: the conjecture itself, with the search space for
   a hypothetical counterexample narrowed by F1–F3 and, from this session,
   by the I-graph clearance (all sizes) and the theta/$K_4$ window screen.
+
+## Section 6 — Q9: DFS depth-chain discharging (in progress)
+
+Fix a hypothetical counterexample $G$ (min degree $\ge 3$, no simple
+cycle of power-of-2 length) and any DFS tree $T$ of $G$ rooted at $r$.
+All non-tree edges are back edges (ancestor–descendant); write the
+depth-gap of a back edge $e = (u, a)$, $a$ an ancestor of $u$, as
+$d(e) = \operatorname{depth}(u) - \operatorname{depth}(a) \ge 2$
+(gap 1 would duplicate a tree edge in a simple graph).
+
+**Fact 6.1 (fundamental cycles).** $F(e)$ has length $d(e) + 1$. In a
+counterexample, therefore, NO back edge has $d(e) \in \{3, 7, 15, 31,
+\dots\} = \{2^k - 1\}$.
+
+**Fact 6.2 (same-vertex pairs).** If $e_1 = (u, a_1)$, $e_2 = (u, a_2)$
+are back edges from the same vertex $u$ with gaps $d_1 < d_2$, then
+$F(e_1) \bigtriangleup F(e_2)$ is the simple cycle
+$a_2 \to^{T} a_1 \to^{e_1} u \to^{e_2} a_2$ of length $d_2 - d_1 + 2$.
+In a counterexample, no such pair has $d_2 - d_1 \in \{2, 6, 14, 30,
+\dots\} = \{2^k - 2\}$.
+
+**Fact 6.3 (leaves are back-edge sources).** A DFS leaf (no tree
+children) of a min-degree-3 graph has $\ge 2$ back edges (all its
+non-parent incidences), whose gaps are constrained by 6.1 and whose
+pairwise differences are constrained by 6.2.
+
+General two-back-edge cycles (back edges on comparable or overlapping
+tree paths beyond the same-vertex case) give further forbidden
+configurations; the exact case analysis is deferred to a future lemma —
+by the reformulation proved in Lemma file `chain_locality`, the complete
+radius-2 constraint set is exactly: *no simple power-of-2 cycle carries
+$\le 2$ back edges*.
+
+**Program status after round 1.** The radius-2 first lemma is
+**disproved**: lemma file `chain_locality` records 23 machine-verified
+(graph, DFS tree, root) instances — three cubic 10-vertex graphs and
+one 12-vertex graph — where NO power-of-2 cycle carries $\le 2$ back
+edges (independently re-verified with networkx cycle enumeration plus
+explicit DFS simulation). The ideation risk fired early: radius-2
+locality already fails at $n = 10$, so a discharging argument
+accounting only for fundamental cycles (6.1) and pairwise interactions
+(6.2) cannot close Q9 at ANY scale. Two facts survive intact and
+sharpen the program:
+
+1. In every falsifying instance the minimum back-edge count over
+   power-of-2 cycles is EXACTLY 3 — never more. The revised first
+   lemma `chain_locality_r3` (radius 3: some po2 cycle carries $\le 3$
+   back edges, $n \le 12$) survives every probe so far, including
+   exhaustive Trémaux coverage of the falsifiers themselves.
+2. The falsifier profile is specific: girth-3, C4-free-or-poor,
+   C8-rich cubic graphs, where deep DFS trees spread every C8 across
+   $\ge 3$ back edges. Whatever charge argument emerges must pay for
+   exactly this configuration.
+
+The discharging goal is updated accordingly: leaves get initial charge
+from Fact 6.3, charge flows up ancestor chains, and the sub-invariance
+inequality must now account for TRIPLE back-edge interactions (cycles
+$F(e_1) \bigtriangleup F(e_2) \bigtriangleup F(e_3)$), not just pairs
+— strictly harder, but the universal min-radius-3 signal says radius 3
+may be where locality actually lives.
