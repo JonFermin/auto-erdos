@@ -147,5 +147,133 @@ contract).
   minimal-counterexample stability stack) must not be re-proposed without
   new input; the notes channel records why each died.
 - Minimal open statement: the conjecture itself, with the search space for
-  a hypothetical counterexample narrowed by F1–F3 and, from this session,
-  by the I-graph clearance (all sizes) and the theta/$K_4$ window screen.
+  a hypothetical counterexample narrowed by F1–F3 and, from Q8, by the
+  I-graph clearance (all sizes) and the theta/$K_4$ window screen.
+- Q9 has begun (session s\_0722-080706-a3ea) — see Section 6 for the
+  first-lemma disproof and redirect.
+
+## Section 6 — Q9 first-lemma disproof: pairwise chain-locality fails
+
+The Q9 approach (DFS depth-chain discharging) opened with the **pairwise
+chain-locality** claim: for any connected min-degree-3 graph $G$ and any
+DFS tree $T$, some power-of-2 cycle of $G$ is a fundamental cycle of $T$
+or a symmetric difference of exactly two fundamental cycles of $T$.
+
+This lemma is **false** (see `proof_lemmas/lemma_chain_locality.md`).
+
+**Counterexample** (machine-found by the CHECK probe on the first round):
+the 3-regular graph $G$ on 10 vertices with edges
+$$\{0{-}4, 0{-}5, 0{-}8, 1{-}3, 1{-}6, 1{-}7, 2{-}4, 2{-}7, 2{-}9,
+3{-}6, 3{-}9, 4{-}7, 5{-}6, 5{-}8, 8{-}9\}$$
+has 12 simple 8-cycles and no shorter power-of-2 cycle.  For the DFS tree
+rooted at vertex 7, the six fundamental cycles have lengths $[3,3,3,5,6,10]$,
+and the 15 pairwise symmetric differences achieve lengths $\{0,5,6,7,9\}$ —
+no power of 2 in either set.
+
+The obstruction is structural: every 8-cycle in $G$ contains exactly **three**
+back edges in this DFS tree, so it requires a three-way combination of
+fundamental cycles.  The DFS rooted at vertex 7 is "bad" because it places
+all three sides of the 8-cycle structure as back edges simultaneously.
+(For roots $\{0,3,4,5,6,8,9\}$, some 8-cycle IS a fundamental cycle of length
+8, so the property holds for those roots.  The "for any DFS tree" requirement
+is what the counterexample kills.)
+
+**Consequence for Q9.** The discharging plan as formulated requires revising
+one of the following assumptions:
+1. **Weaken to order-3 sym_diff**: "some power-of-2 cycle is a sym_diff of
+   at most 3 fundamental cycles in SOME DFS tree." Trivially achievable for
+   any simple cycle (expand the spanning tree to include the cycle's path
+   minus one edge; that edge becomes the sole back edge, making the cycle a
+   fundamental cycle of length $2^k$). But "for any DFS tree" and "at most 2"
+   were the claims with discharging content; weakening both simultaneously
+   collapses to a tautology.
+2. **Target a fixed "good" DFS root**: prove that for any min-degree-3 $G$,
+   there exists a DFS root such that the depth-gap constraints at every leaf
+   interact via AT MOST 2-cycle combinations.  This is an existence claim that
+   requires knowing the graph has a power-of-2 cycle (i.e., requires the
+   conjecture for that $G$) — circular.
+3. **Abandon the DFS fundamental-cycle frame entirely**: the depth-gap
+   forbidden sets $\{3,7,15,\ldots\}$ are a real constraint, but the route
+   through "pairwise chain-locality" is not the right vehicle.  A direct
+   counting argument on the DFS ancestor chain (how many leaves, how many
+   back edges, how many valid depth assignments) might not need cycle
+   combinatorics at all.
+4. **Redirect to Q10 (Frankl) or Q11 (transitive screen)**: the Frankl
+   approach (KL union deficiency) and the transitive-symmetry counterexample
+   screen are independent arms queued in the ideation phase; one of them may
+   be cheaper than repairing the DFS approach.
+
+**Verdict**: close Q9 as a dead end at the pairwise-lemma stage.  Queue the
+"order-3 sym_diff" as a new qid only if a direct ancestor-chain count
+approach also fails.  Recommend redirecting to Q10 (frankl\_union\_closed
+entropy gap) in the next session.
+
+## Section 7 — Q10: KL union-deficiency approach (Frankl conjecture)
+
+Note: Q10 is a *separate* open conjecture (`proofs/frankl_union_closed.json`),
+not a sub-claim of Erdős–Gyárfás. It is queued here because the ideation
+phase listed it as the next cheapest approach after Q9's failure. The strategy
+file is shared across open qids in this session; Frankl work is tracked under
+its own lemma files (prefix `lemma_frankl_*`).
+
+**Conjecture (Frankl 1979)**: In every finite union-closed family
+$\mathcal{F}$ with $|\mathcal{F}| \ge 2$, some element appears in at least
+half the sets.
+
+**Given facts** (from `proofs/frankl_union_closed.json`):
+- **G1** (Gilmer 2022): holds with constant $p \ge 0.01$ for all union-closed
+  families; a dramatic improvement over $p \ge 1/|\mathcal{F}|$.
+- **G2** (Alweiss–Huang–Sellke 2022): holds with $p \ge 0.382$ via a sum-of-logs
+  entropy argument.
+- **G3** (Chase–Lovett 2020 barrier): the AHS functional linearisation cannot
+  exceed $p \ge 0.382$ without new structural input — any approach going beyond
+  must leave the linearised entropy cone.
+
+**Q10 first-lemma: KL deficiency lower bound.**
+
+The approach: for $A, B$ drawn iid uniform from $\mathcal{F}$, let
+$p = \max_x \Pr[x \in A]$ be the maximum element frequency.  Claim:
+$$\log_2 |\mathcal{F}| - H(A \cup B) \;\ge\; \frac{(1-p)^2}{4}.$$
+
+This is a *quantitative* statement: the distribution of $A \cup B$ has at
+least $(1-p)^2/4$ bits of KL divergence from the uniform distribution on
+$\mathcal{F}$.  If $p < 1/2$, the right side is $> 1/16$, giving a fixed
+positive gap.  The conjecture would follow if one can show that this
+deficiency forces the maximum frequency above $1/2$ (i.e., derive
+$p \ge 1/2$ from the deficiency bound and the union-closure structure).
+
+**Why this potentially bypasses G3.** The AHS/Chase–Lovett approach uses
+$H(A \cup B) \le H(A) = \log_2 |\mathcal{F}|$ and optimises the linearised
+form; the barrier is that equality nearly holds for product families.  A KL
+deficiency bound is *exact*, not linearised, so it escapes the G3 barrier —
+but it must be proved from scratch.
+
+**Numerical validation** (see `proof_lemmas/lemma_frankl_deficiency.md`):
+0 violations across:
+- All union-closed families on ground set $\{0,1,2,3\}$ (exhaustive, 2+ sets).
+- Power sets $2^U$ for $|U| = 1, \ldots, 7$ (boundary case $p = 1/2$).
+- 500 random union-closed families for ground-set size $2$--$7$.
+
+Minimum observed LHS $-$ RHS margin: $\approx 0.189$ (achieved near $p = 0.5$
+in the boundary cases).
+
+**Limitation**: For small $n$, Frankl's conjecture is known (verified for
+$|U| \le 11$), so every tested family automatically satisfies $p \ge 1/2$.
+The adversarial zone $p \in [0.382, 0.5)$ — where the bound $(1-p)^2/4
+\in (1/16, (0.618)^2/4]$ would be most constraining — is computationally
+unreachable for small ground sets.  A proof must be analytic, not just
+computational.
+
+**Proof direction** (open): show that for any union-closed $\mathcal{F}$
+with $p < 1/2$ and $|\mathcal{F}| \ge 2$, the KL deficiency
+$\log_2|\mathcal{F}| - H(A \cup B)$ is at least $(1-p)^2/4$, and that this
+combined with the union-closure structure forces a contradiction (or directly
+forces $p \ge 1/2$).  Candidate route: expand $H(A \cup B)$ via the chain
+rule $H(A \cup B) = H(A) + H(B | A \cup B) - H(B | A)$ and estimate each
+conditional entropy using the element-frequency vector.  The $P_{10}$-free
+restriction in the Erdős–Gyárfás witness box is unrelated here; this is a
+pure union-closed combinatorics question.
+
+**Current status**: Lemma `frankl_deficiency` created (status: open).
+The CHECK block passes on all tested families.  The analytic proof step
+remains open and is the target of the next session.
