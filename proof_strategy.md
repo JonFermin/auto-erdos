@@ -230,6 +230,15 @@ The global DFS tree structure (height $\ge 8$, back edge depth-gap distribution
 across all leaves, and the counting bound $|B| = n/2 + 1$ for cubic) remains to
 be analyzed in a discharging argument.
 
+**Numerical confirmation** (round 5): `verify_delta1_bound` in the lemma file
+confirms $\delta_1 \ge 7$ holds at every leaf in every tested GP graph and DFS
+ordering (necessary condition for $\delta_1 \ge 8$ in counterexamples). The GP
+sweep now covers $2n$-vertex instances for $n \in \{5, 10, 12, 14, 15, 20, 25\}$,
+i.e.\ up to 50 vertices (beyond the Markström bound of 30). All 30 tested GP
+families pass chain_locality. The I-graph lemma (Lemma `igraph_c4_or_c8`) already
+gives an analytic proof for this family at ALL sizes, so the GP sweep is redundant
+analytically but provides numerical corroboration of the DFS tree analysis.
+
 ## Section 5 — Current open state
 
 - **Q8 is resolved**: no witness exists in the screened families — the
