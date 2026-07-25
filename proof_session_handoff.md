@@ -1,49 +1,54 @@
-# Session handoff (session s_0722-080706-a3ea)
+# Session handoff (session s_0724-213346-43a1)
 
-**Stop reason**: logical milestone — two rounds completed (Q9 disproof + Q10 first-lemma)
+**Stop reason**: token budget low at a clean milestone. 3 rounds, all
+keep_progress (commits 913362b, d5ca596, daa64a1; records
+proof_erdos_gyarfas_{e51ebe6809ea_913362b, c53dc33ba6df_d5ca596,
+417c85291b74_daa64a1}.json). Branch erdos-proof/0724-213326-f003;
+worktree left in place for resume.
 
-**Current focus**: Q10 KL union-deficiency approach for Frankl union-closed conjecture.
-Lemma `frankl_deficiency` is status: open — CHECK passes, analytic proof not yet done.
+**What was established (Q9, DFS depth-chain discharging)**:
+- Radius-2 chain-locality (Q9's first lemma) is **DISPROVED**:
+  23 verified (graph, DFS tree, root) instances with no power-of-2
+  cycle on <= 2 back edges â€” 3 cubic n=10 graphs (CL-A/B/C, found by
+  exhaustively tree-checking ALL 19 cubic 10-vertex classes) + 1 at
+  n=12. Independently re-verified (networkx cycles + DFS simulation).
+  See proof_lemmas/lemma_chain_locality.md (status: disproved).
+- Clean reformulation (proved, in that file): a simple cycle is a
+  symdiff of <= k fundamental cycles iff it carries <= k back edges â€”
+  kills the ideation judge's symdiff-simplicity caveat.
+- KEY SIGNAL: min locality radius is EXACTLY 3 in every known radius-2
+  failure (23 in scope + 10 at n=14/16 from an independent boundary
+  probe). Radius-3 revision installed as lemma chain_locality_r3
+  (open) with falsifier-focused CHECK (exhaustive Tremaux coverage of
+  CL-A/B/C, the n=12 instance, Petersen, fresh cubic randoms; ~1.3s).
+- Round-3 falsify-first hunt: 54,429 edge-swap local-search states
+  (n <= 18, 120 DFS tries each) never pushed min radius to 4.
+  Radius-3 is tight but unexceeded.
 
-**Rounds this session**: 2 (rounds 2 and 3 on this branch; round 1 was Q9)
-- Round 2: Q9 pairwise chain-locality DISPROVED, keep_progress
-- Round 3: Q10 KL-deficiency first-lemma CHECK passes, keep_progress
+**qid state**: Q9 released with progress (see queue row). Q10/Q11
+(frankl_union_closed) still open.
 
-**qids resolved this session**:
-- Q9: CLOSED (dead end — pairwise chain-locality false at n=10 root=7)
-- Q10: PARTIAL — first-lemma CHECK passed; analytic proof step open
+**HARNESS BUG (still unfixed, carried from prior handoff)**: the
+critic sandbox allowlist (proof_prepare._sandboxed_eval) lacks
+frozenset/sorted/bin/dict/str and OK-flagged crashed checks escalate
+to BLOCKING. All 3 rounds this session were logged critics-off
+(deterministic gates all clean each round). After the human fix,
+re-run the full panel on daa64a1 to upgrade provenance.
 
-**Key result (Round 2)**: n=10 cubic graph `nx.random_regular_graph(3,10,seed=12)`,
-DFS root=7: fund cycle lengths [3,3,3,5,6,10], pairwise sym_diff lengths {0,5,6,7,9}
-— no power of 2. Every C8 needs 3-way sym_diff. Q9 DFS discharging approach CLOSED.
+**Harness lesson for next agent**: proof_hash covers proof_strategy.md
+ONLY. A round that edits just a lemma file exits 3 (duplicate); every
+round needs a substantive proof_strategy.md change.
 
-**Key result (Round 3)**: The inequality log2|F| - H(A∪B) ≥ (1-p)^2/4 holds on:
-- all union-closed families on {0,1,2,3} (exhaustive)
-- power sets 2^U for |U|=1..7 (boundary p=1/2)  
-- 500 random union-closed families n=2..7
-Min margin ≈ 0.189 near p=0.5. Adversarial zone p∈[0.382,0.5) unreachable for small n
-(Frankl known there), so the CHECK cannot witness a failure in the critical regime.
-
-**Files modified this session**:
-- proof_strategy.md (Section 5 updated: Q9 link; Section 6: Q9 disproof; Section 7: Q10 approach)
-- proof_lemmas/lemma_chain_locality.md (created, status: disproved)
-- proof_lemmas/lemma_frankl_deficiency.md (created, status: open)
-- proof_open_questions.jsonl (Q9 claimed+resolved, Q10 claimed+resolved-partial)
-- proof_journal.jsonl (2 round events)
-
-**Records committed**:
-- records/proof_erdos_gyarfas_7f11251e804c_b28657d.json (round 2, Q9 disproof)
-- records/proof_erdos_gyarfas_80b054df11bb_c510d57.json (round 3, Q10 partial)
-
-**Obstacle for next session**: The analytic proof of log2|F|-H(A∪B)≥(1-p)^2/4 is
-the blocking step. The CHECK shows it holds in the safe regime (p≥0.5) but the
-conjecture's interest is at p∈[0.382,0.5). Need an analytic bound.
-
-**Suggested next move**:
-1. Read proof_lemmas/lemma_frankl_deficiency.md and proof_strategy.md Section 7.
-2. Attempt the analytic proof via chain rule: H(A∪B) = H(A) + H(B|A∪B) − H(B|A),
-   bounding each conditional entropy using the element-frequency vector.
-3. If analytic proof is too hard, try a direct SAT/ILP search for a family with
-   p∈[0.382, 0.5) violating the bound — if found, the lemma is false and Q10 dies.
-4. Alternative: Q11 (transitive symmetry counterexample screen) or Q12 (order-3
-   sym_diff first-lemma for the remaining DFS approach).
+**Suggested next moves**:
+1. CHECK-first probe of the alternation obstruction: "no C8 in a DFS
+   tree of a min-deg-3 graph alternates tree/back edges" (or the
+   weaker version the data support). It is the candidate mechanism
+   behind the radius-3 ceiling â€” see lemma_chain_locality_r3 "Proof
+   direction".
+2. Cubic case of chain_locality_r3: DFS trees of cubic graphs have
+   sharply budgeted back-edge endpoints (leaves exactly 2, internal
+   non-root <= 1 extra). Try to prove radius-3 there first.
+3. Escalate the radius-4 hunt: n=19..24, joint (graph, tree) simulated
+   annealing, girth-5+ seeds. A hit would redirect Q9 fundamentally.
+4. Or ideate from the theta-lift voltage-relation lead (notes channel,
+   Q8 entry) if the discharging arm stalls.
