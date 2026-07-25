@@ -208,13 +208,27 @@ consistent with the known constraint from F3 (Markström): any cubic counterexam
 has $\ge 30$ vertices, and no cubic graph on $< 10$ vertices has girth $\ge 5$
 (Moore bound for girth-5 cubic graphs).
 
-**Next sub-target (girth-5 case).** The remaining challenge: prove chain_locality
-for min-degree-3 graphs with girth $\ge 5$ (and $n \ge 10$). The Petersen graph
-(unique girth-5 cubic graph on 10 vertices) is spot-checked and satisfies the
-lemma via a fundamental $C_8$. The next sub-lemma is **Lemma `chain_locality_girth5`**:
-for all known girth-5 min-degree-3 graphs up to $\approx 20$ vertices (Petersen,
-Dodecahedron, Pappus, McGee graph, etc.), chain_locality holds. A formal proof
-argument for the girth-5 case remains open.
+**Girth-5 sub-case (round 4, open; Lemma `chain_locality_girth5`).** Key structural
+result proved analytically (round 4): in a girth-$5$ min-degree-$3$ hypothetical
+counterexample, every DFS leaf $v$ with its two shallowest back edges (to ancestors
+$u_1, u_2$ with $\mathrm{dep}[u_1] < \mathrm{dep}[u_2]$) satisfies:
+
+$$\delta_1 = \mathrm{dep}[v] - \mathrm{dep}[u_1] \ge 8.$$
+
+*Proof*: girth $\ge 5$ forces $\delta_2 \ge 4$ and $\delta_1 - \delta_2 \ge 3$
+(the sym-diff cycle has length $\delta_1 - \delta_2 + 2 \ge 5$), so $\delta_1 \ge 7$.
+If $\delta_1 = 7$, the fundamental cycle $C_1$ has length $8 = 2^3$ — contradicting
+the assumption that $G$ is a counterexample. Hence $\delta_1 \ge 8$.
+
+Computationally: CHECK in `lemma_chain_locality_girth5.md` verifies chain_locality
+for the GP family up to $n = 30$ (including GP(15,2) and GP(15,4)) and
+Pappus-like graphs. No counterexample found.
+
+**Open.** A formal proof that no girth-5 min-degree-3 graph can simultaneously have
+$\delta_1 \ge 8$ at all leaves AND have no power-of-2 sym-diff cycle globally.
+The global DFS tree structure (height $\ge 8$, back edge depth-gap distribution
+across all leaves, and the counting bound $|B| = n/2 + 1$ for cubic) remains to
+be analyzed in a discharging argument.
 
 ## Section 5 — Current open state
 
