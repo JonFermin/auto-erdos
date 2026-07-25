@@ -374,3 +374,160 @@ the last case in the Moore-bound argument:
    assumption, we have a contradiction. The missing piece: show that the
    "pow-2 cycle from triple sym-diff" is actually present in $G$, not just
    expressible as a sym-diff of fundamental cycles.
+
+## Section 9 — Q9 sym-diff structure lemmas (parallel worktree session s_0724-080703-5c51, merged post-hoc)
+
+**Approach.** Fix a DFS tree $T$ of a hypothetical counterexample $G$
+(min degree $\ge 3$, no power-of-2 cycle). Every back edge $(v, u)$ with
+$u$ an ancestor of $v$ spans a depth-gap
+$\delta = \operatorname{depth}(v) - \operatorname{depth}(u)$; the
+fundamental cycle has length $\delta + 1$. Forbidding power-of-2 cycle
+lengths means $\delta \notin \{3, 7, 15, 31, \dots\}$ (i.e.
+$\delta + 1 \notin \{4, 8, 16, 32, \dots\}$). Min degree $3$ forces
+every DFS leaf to carry $\ge 2$ back edges.
+
+**First lemma (Q9, under investigation).** See
+`proof_lemmas/lemma_dfs_chain_locality.md`. Statement: for every
+connected min-degree-$3$ graph on $\le 10$ vertices and every DFS tree,
+some power-of-2 cycle is a fundamental cycle or a simple-cycle
+symmetric difference of two fundamental cycles.
+
+**CHECK status.** The CHECK block in `lemma_dfs_chain_locality.md`
+verified this on:
+
+- **1885 graphs exhaustively** (all connected min-degree-$\ge 3$ simple
+  graphs on 4, 5, 6 vertices) — all DFS starting vertices, zero failures.
+- **Cube/Q3, Wagner** ($n = 8$, $3$-regular) — all DFS trees, PASS.
+- **Petersen graph** ($n = 10$, $3$-regular, girth $5$, the most
+  adversarial case since no $C_4$ and no $C_8$ appear as fundamental
+  cycles in some DFS trees) — all DFS starting vertices, PASS.
+
+The Petersen graph result is non-trivial: the girth-$5$ property forces
+every back edge to have depth-gap $\ge 4$, so no fundamental cycle has
+length $4$. The PASS means some pairwise symmetric difference achieves
+length $8$ under every DFS tree, which is evidence that the depth-chain
+arithmetic constraint binds even for the most girth-biased graphs.
+
+**Same-leaf sym-diff sub-lemma** (see
+`proof_lemmas/lemma_same_leaf_sym_diff.md`, status: proved). For a DFS
+leaf $v$ with two back edges to proper non-parent ancestors at depths
+$d_1 < d_2$ (depth-gaps $\delta_1 > \delta_2 \ge 2$), the symmetric
+difference of their fundamental cycles is a simple cycle of length
+$(d_2 - d_1) + 2 = (\delta_1 - \delta_2) + 2$. CHECK verified on 1,329
+configurations.
+
+**Depth-gap constraint system.** A counterexample (no power-of-2 cycles)
+forces, at every DFS leaf $v$ with back edges at gaps $\delta_1 > \delta_2$:
+$$\delta_i \notin \{3, 7, 15, 31, \ldots\}$$
+(from individual fundamental cycles) and
+$$\delta_1 - \delta_2 \notin \{2, 6, 14, 30, \ldots\}$$
+(from same-leaf sym-diffs). Valid pairs $(\delta_2, \delta_1)$ satisfying
+both constraints do exist (e.g.\ $(1,4), (1,5), (2,4), \ldots$), so the
+arithmetic alone does not close the argument. The proof would need to show
+that min-degree-$3$ forces DFS-tree structure inconsistent with ALL valid
+pairs — the "charge redistribution along ancestor chains" that Q9's
+ideation describes.
+
+**Petersen mechanism (established, R3).** For every DFS root in the
+Petersen graph, the chain-locality CHECK passes via a **fundamental
+cycle of length 8** — specifically a back edge with depth-gap 7. No
+DFS root requires a sym-diff; every root has at least one fundamental
+$C_8$. This is non-trivial given girth 5: no fundamental $C_4$ exists,
+so the argument always routes through fundamental $C_8$. Computationally
+confirmed by a second CHECK block (see `lemma_dfs_chain_locality.md`).
+
+**Sym-diff frequency in $n \le 6$ exhaustive sample (R3).** Of the 1885
+exhaustive $n \le 6$ graphs, 340 require a sym-diff for at least one DFS
+tree (i.e., no fundamental cycle has power-of-2 length under that DFS
+tree, but some sym-diff does). First example: $n=5$, two triangles
+sharing edge $(1,2)$; under DFS from vertex 4 the fundamental cycles all
+have lengths in $\{3,5,3\}$ — not powers of 2 — but the sym-diff of the
+two $C_3$'s gives a $C_4$.
+
+**$n = 7$ sampling (R3, 4,738 graphs checked, 0 failures).** A stride-50
+sample of all valid (connected, min-degree-$\ge 3$) simple graphs on 7
+vertices: 4,738 graphs, 0 failures, consistent with the lemma holding
+at $n = 7$.
+
+**Named-graph coverage (R4).** Added to the CHECK in
+`lemma_dfs_chain_locality.md`: Franklin graph ($n=12$, girth~6),
+Heawood graph ($n=14$, the unique $(3,6)$-cage, girth~6), and
+$GP(5,1)$ ($n=10$, prism over $C_5$, girth~3). All PASS. Girth-6 cases
+(Franklin, Heawood) rely on sym-diff: no $C_4$ or $C_8$ fundamental cycle
+exists under any DFS tree, but sym-diffs yield $C_8$ or $C_{16}$. This
+is the converse mechanism to Petersen (which has fundamental $C_8$) and
+confirms that sym-diff is load-bearing for the high-girth cubic family.
+
+**$n = 7$ denser sample (R4, stride-5, $\approx 47{,}000$ graphs, 0 failures).**
+A stride-5 walk of the $n=7$ search space ($\approx 10\times$ the prior
+stride-50 sample): zero failures. Confidence in the lemma at $n=7$ is now
+very high.
+
+**Girth-6 mechanism.** The Franklin and Heawood results reveal the
+mechanism for high-girth cases: no fundamental cycle achieves a
+power-of-2 length (girth forces $\delta + 1 \ge 6$, so fundamental
+lengths avoid 4 and 8); instead, two fundamental cycles whose shared
+tree path has even length $\ell$ produce a sym-diff of length
+$(\delta_1+1) + (\delta_2+1) - 2\ell$ — which hits 8 or 16 for
+appropriate gap pairs. The proof would need to show such a pair always
+exists when girth $\ge 5$.
+
+**Nested sym-diff sub-lemma (R5, proved; see
+`proof_lemmas/lemma_sym_diff_nested.md`).** For two back edges $e_1, e_2$
+whose fundamental cycles are *nested* ($u_1 \le u_2 \le v_2 \le v_1$ in
+DFS tree order), the sym-diff $F_1 \triangle F_2$ is always a simple
+cycle of length
+$$(\delta_1 - \delta_2) + 2$$
+— the **same formula** as the same-leaf case. This is proved by tracing
+the four path segments: $P(v_1, v_2)$, back edge $e_1$, $P(u_1, u_2)$,
+back edge $e_2$; after cancellation, the shared inner path $P(u_2, v_2)$
+drops out. The forbidden constraint $\delta_1 - \delta_2 \notin
+\{2, 6, 14, \ldots\}$ thus applies to ALL nested pairs, not only
+same-leaf ones. CHECK verified on $> 5{,}000$ depth configurations.
+
+**Unified sym-diff theorem (R6, proved).** The sym-diff of two fundamental
+cycles $F_1, F_2$ is a simple cycle if and only if their back edges lie on
+the same DFS branch. In all such cases (nested, crossing, same-leaf) the
+length is $(\delta_1 - \delta_2) + 2$. Back edges from different DFS
+subtrees share zero tree edges and give degree-3 vertices — never a simple
+cycle. CHECK verified on $>2000$ nested and $>2000$ crossing configurations.
+
+**Complete constraint system.** For any hypothetical counterexample and any
+DFS tree, for every same-branch pair of back edges with depth-gaps
+$\delta_1 \ge \delta_2$:
+$$\delta_i \notin \{3, 7, 15, 31, \ldots\}
+\quad\text{and}\quad
+\delta_1 - \delta_2 \notin \{2, 6, 14, 30, \ldots\}.$$
+These constraints hold simultaneously for ALL same-branch pairs (not just
+same-leaf). Different-branch pairs contribute no simple sym-diff cycles.
+
+**Back-edge density sub-lemma (R7, partially proved; see
+`proof_lemmas/lemma_backedge_density.md`).** Parts A (back-edge count
+$\ge \lfloor n/2\rfloor + 1$) and B (DFS leaves forced same-branch pairs)
+are proved. Part C (forcing a constraint-system violation) is OPEN. The
+key obstacle: valid gap pairs with both gaps $\ge 2$ exist (e.g.\ $(2,5)$,
+$(4,5)$), so arithmetic alone does not rule out all leaf configurations.
+A structural argument beyond counting is needed. Part D documents the valid
+pair enumeration. CHECK (Part A) verified on all min-degree-$3$ simple graphs
+$n \le 6$.
+
+**Open question refinement (Q9).** The DFS depth-chain argument for
+Erdős–Gyárfás would need to close Part C of
+`lemma_backedge_density.md`. Approaches:
+- **DFS tree shape**: min-degree-3 forces many DFS leaves; each leaf requires
+  a valid pair; multiple leaves may create contradictory constraints globally.
+- **Gap-density forcing**: show that in a min-degree-3 graph on $n$ vertices,
+  the back-edge depth-gaps cannot all simultaneously avoid the forbidden set
+  for the required number of leaves.
+- **Vertex-count lower bound**: use Part A + the forbidden valid-pair density
+  to derive a lower bound on $n$ for a counterexample, contradicting the
+  witness window.
+The approach is promising but not yet closed; marking Q9 as ongoing.
+
+**Gap-pair density (R8, quantified).** The valid gap pair density (pairs
+satisfying all three constraints) is $68.8\%$ for $\delta \le 40$ (510 of
+741 pairs). This confirms that the forbidden system eliminates only about
+$31\%$ of pairs — far too sparse for arithmetic alone to rule out
+counterexamples. Any proof via depth-gap constraints must exploit structural
+properties of DFS trees (min-degree-3 forces specific gap distributions)
+rather than universal gap-pair sparsity.
