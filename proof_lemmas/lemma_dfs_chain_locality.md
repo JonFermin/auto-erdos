@@ -8,6 +8,13 @@ introduced_at_round: 1
 
 # Lemma: pairwise chain-locality for DFS fundamental cycles
 
+> **Post-merge note (2026-07-25).** The pairwise form of this statement was
+> falsified at n=10 (cubic) by parallel sessions s_0722-080706-a3ea and
+> s_0724-213346-43a1 — see `lemma_chain_locality.md` (status: disproved,
+> 23 verified counterexamples). This file is retained for the proved
+> sym-diff structure lemmas it builds on (`lemma_same_leaf_sym_diff.md`,
+> `lemma_sym_diff_nested.md`), which remain valid.
+
 **Statement.** For every connected simple graph $G$ with minimum degree $\ge 3$
 and at most $10$ vertices, and for every DFS tree $T$ of $G$ (enumerated by
 starting vertex), there exists a simple cycle $C$ in $G$ whose length is a

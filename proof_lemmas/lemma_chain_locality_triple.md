@@ -8,6 +8,13 @@ introduced_at_round: 2
 
 # Lemma: triple chain-locality for min-degree-3 graphs
 
+> **Post-merge note (2026-07-25).** Originally committed as
+> `lemma_chain_locality.md` (id `chain_locality`) on parallel worktree
+> branch erdos-proof/0723-080649-f55c; renamed at merge time because
+> `lemma_chain_locality.md` on master documents the pairwise disproof.
+> The independently derived radius-3 formulation of the same revision is
+> `lemma_chain_locality_r3.md` (session s_0724-213346-43a1).
+
 **Statement (revised after computational falsification).** For every
 connected graph $G$ with $\delta(G) \ge 3$ on $n \le 10$ vertices, and
 for every spanning tree $T$ of $G$, there exists a simple cycle of length
