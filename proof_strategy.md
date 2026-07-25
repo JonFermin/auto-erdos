@@ -158,15 +158,39 @@ degree $k$ must have at least $3 - k$ back edges (but always $\ge 0$). In
 particular, leaves carry $\ge 2$ back edges, making them primary "charge sources"
 in a discharging argument.
 
-**Chain-locality (first target, Q9 round 1).** See Lemma `chain_locality`
+**Chain-locality (first target, Q9 round 2).** See Lemma `chain_locality`
 (file `proof_lemmas/lemma_chain_locality.md`). The lemma asserts that for every
 min-degree-3 graph $G$ on $n \le 10$ vertices and every DFS spanning tree $T$,
 some power-of-$2$ cycle is a fundamental cycle of $T$ or a symmetric difference
-of two fundamental cycles of $T$. The CHECK block in that lemma file exhaustively
-verifies the claim for all labeled min-degree-3 graphs on $n = 4, 5, 6$ and
-a structured sample for $n = 7, 8, 9, 10$. The result of the CHECK determines
-whether the lemma is provable (proceed with Q9) or falsified (set
-`status: disproved`, abandon Q9, pick a different angle).
+of two fundamental cycles of $T$. The CHECK block (round 2) exhaustively verifies
+the claim for all labeled min-degree-3 graphs on $n = 4, 5, 6$ (all edge counts)
+and for all labeled min-degree-3 graphs on $n = 7$ with exactly $11$ edges (the
+sparsest / hardest case; 5670 graphs, verified in $<2$s) plus spot-checks for
+$n = 7$--$10$ denser and named graphs. No counterexample was found; the CHECK
+passed with 0 BLOCKING, 0 WARN. This strongly confirms the lemma for small $n$
+and licenses proceeding with the Q9 proof-direction.
+
+**Pair-gap symmetry observation.** When two back edges both issue from the
+same vertex $v$ with anchor depths $d_1 < d_2$ (i.e.\ their tree-path tops are
+at depths $\mathrm{dep}[v] - \delta_1$ and $\mathrm{dep}[v] - \delta_2$), the
+symmetric difference of their fundamental cycles traverses the path from the
+shallow anchor up through the deep anchor, then back down through $v$, giving a
+cycle of length $\delta_2 - \delta_1 + 1$. The pair-gap constraint is therefore
+$\delta_2 - \delta_1 \notin \{3, 7, 15, 31, \ldots\}$.
+
+**Proof sketch for girth $\le 3$.** If $G$ has a triangle (3-cycle), the DFS
+tree $T$ must include some edge closing a triangle via a back edge of depth-gap
+$2$ (fundamental cycle length $3$), or two triangles sharing an edge give depth-
+gap $1$ (length $2$). Neither $3$ nor $2$ is a power of $2$ in our set, but
+for girth $\le 4$: any graph with girth $4$ has a 4-cycle, which IS a power of
+$2$; so the conjecture holds trivially when girth $\le 4$. Any counterexample
+must have girth $\ge 5$ — this rules out all triangles and 4-cycles, meaning
+every fundamental cycle has length $\ge 5$ and hence depth-gap $\ge 4$.
+
+**Next sub-target.** Formalize the girth-5 forced structure: in a min-degree-3
+girth-5 graph on $n \le 10$ vertices, the DFS depth-gap constraints force a
+power-of-2 fundamental cycle or pair-symmetric-difference. This is Lemma
+`chain_locality_girth5`.
 
 ## Section 5 — Current open state
 
