@@ -209,3 +209,34 @@ inequality must now account for TRIPLE back-edge interactions (cycles
 $F(e_1) \bigtriangleup F(e_2) \bigtriangleup F(e_3)$), not just pairs
 — strictly harder, but the universal min-radius-3 signal says radius 3
 may be where locality actually lives.
+
+**Round 2 — the radius-3 program.** Lemma `chain_locality_r3` (open)
+is installed as the revised first lemma: same statement at radius 3,
+$n \le 12$, with a falsifier-focused CHECK (exhaustive Trémaux coverage
+of CL-A/B/C and the $n=12$ instance, Petersen anchor, fresh cubic-biased
+randoms). Three concrete work items, in dual-attack order:
+
+1. **(Falsify first)** Adversarial hunt for a radius-4 instance at
+   $n = 12..20$ — random cubic-biased sweeps plus local search seeded
+   from CL-B/CL-C (edge swaps preserving min degree, maximizing the
+   min back-edge count over po2 cycles). A hit kills radius-3 locality
+   and with it this incarnation of the discharging shape; the boundary
+   probes so far (10 radius-2 failures at $n = 14, 16$, all at min
+   radius exactly 3) say the hunt must try harder than uniform
+   sampling.
+2. **(Candidate local obstruction, CHECKable)** Why does no probed DFS
+   tree spread EVERY po2 cycle across $\ge 4$ back edges? For an
+   8-cycle carrying 4 back edges, the 4 remaining tree edges form 4
+   single-edge ancestor–descendant segments whose corners the Trémaux
+   comparability order must serialize — a candidate finite case
+   analysis. Formulate and probe the sharpest true version (e.g. "no
+   C8 alternates tree/back edges in a DFS tree of a min-deg-3 graph")
+   BEFORE proving anything with it; if the alternating-C8 probe fails,
+   weaken toward what the data support (some po2 cycle in the WHOLE
+   graph stays at $\le 3$, a global not per-cycle statement).
+3. **(Cubic case first)** In a DFS tree of a connected cubic graph:
+   every leaf carries exactly 2 back edges, the root carries at most 3
+   tree children, and every internal non-root vertex carries at most 1
+   back-edge endpoint besides its tree incidences — so back-edge
+   endpoints are sharply budgeted. The falsifiers are cubic; if
+   radius-3 locality is provable anywhere, it is here.
