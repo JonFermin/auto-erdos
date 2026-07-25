@@ -1,55 +1,54 @@
-# Session handoff (session s_0724-080703-5c51)
+# Session handoff (session s_0724-213346-43a1)
 
-**Stop reason**: token budget low (approaching limit after 8 productive rounds)
+**Stop reason**: token budget low at a clean milestone. 3 rounds, all
+keep_progress (commits 913362b, d5ca596, daa64a1; records
+proof_erdos_gyarfas_{e51ebe6809ea_913362b, c53dc33ba6df_d5ca596,
+417c85291b74_daa64a1}.json). Branch erdos-proof/0724-213326-f003;
+worktree left in place for resume.
 
-**PROOF_TAG**: erdos_gyarfas  
-**Branch**: erdos-proof/0724-080701-4f9d  
-**Critics mode**: AUTOERDOS_PROOF_CRITICS=0 (sandbox bug still unfixed — always run critics-off)
+**What was established (Q9, DFS depth-chain discharging)**:
+- Radius-2 chain-locality (Q9's first lemma) is **DISPROVED**:
+  23 verified (graph, DFS tree, root) instances with no power-of-2
+  cycle on <= 2 back edges â€” 3 cubic n=10 graphs (CL-A/B/C, found by
+  exhaustively tree-checking ALL 19 cubic 10-vertex classes) + 1 at
+  n=12. Independently re-verified (networkx cycles + DFS simulation).
+  See proof_lemmas/lemma_chain_locality.md (status: disproved).
+- Clean reformulation (proved, in that file): a simple cycle is a
+  symdiff of <= k fundamental cycles iff it carries <= k back edges â€”
+  kills the ideation judge's symdiff-simplicity caveat.
+- KEY SIGNAL: min locality radius is EXACTLY 3 in every known radius-2
+  failure (23 in scope + 10 at n=14/16 from an independent boundary
+  probe). Radius-3 revision installed as lemma chain_locality_r3
+  (open) with falsifier-focused CHECK (exhaustive Tremaux coverage of
+  CL-A/B/C, the n=12 instance, Petersen, fresh cubic randoms; ~1.3s).
+- Round-3 falsify-first hunt: 54,429 edge-swap local-search states
+  (n <= 18, 120 DFS tries each) never pushed min radius to 4.
+  Radius-3 is tight but unexceeded.
 
-## What was accomplished this session (R1–R8)
+**qid state**: Q9 released with progress (see queue row). Q10/Q11
+(frankl_union_closed) still open.
 
-### Proved lemmas (new this session)
-- **`lemma_same_leaf_sym_diff`** (R2): same-leaf sym-diff length = (d2-d1)+2. Status: proved.
-- **`lemma_sym_diff_nested`** (R5-R6): unified sym-diff theorem — for any two same-branch back edges (nested or crossing), sym-diff length = (δ1-δ2)+2. Different-branch = never simple cycle. Status: proved. CHECK: 2865 nested + 1246 crossing configs.
-- **`lemma_backedge_density` Parts A+B** (R7): back-edge count ≥ floor(n/2)+1 (proved); DFS leaves forced ≥2 back edges → same-branch pairs (proved). CHECK: exhaustive n≤6 min-deg-3 graphs.
+**HARNESS BUG (still unfixed, carried from prior handoff)**: the
+critic sandbox allowlist (proof_prepare._sandboxed_eval) lacks
+frozenset/sorted/bin/dict/str and OK-flagged crashed checks escalate
+to BLOCKING. All 3 rounds this session were logged critics-off
+(deterministic gates all clean each round). After the human fix,
+re-run the full panel on daa64a1 to upgrade provenance.
 
-### Empirical/check coverage (new this session)
-- **`lemma_dfs_chain_locality`**: 1885 exhaustive n≤6 + Cube/Wagner/Petersen/Franklin(n=12)/Heawood(n=14)/GP(5,1)(n=10) all PASS.
-- **Petersen mechanism** (R3): all 10 DFS roots have fundamental C8. No sym-diff needed.
-- **n=7 stride-5 sample** (R4): ~47,000 graphs, 0 failures.
-- **Girth-6 mechanism** (R4): Franklin/Heawood pass via sym-diff (no fundamental C4/C8).
-- **Gap-pair density** (R8): 510/741 = 68.8% of pairs (δ≤40) are valid. Arithmetic alone insufficient.
+**Harness lesson for next agent**: proof_hash covers proof_strategy.md
+ONLY. A round that edits just a lemma file exits 3 (duplicate); every
+round needs a substantive proof_strategy.md change.
 
-### Open
-- **`lemma_dfs_chain_locality`**: still status:open (only small-n verified; no proof for all n).
-- **`lemma_backedge_density` Part C**: the structural forcing argument — showing min-degree-3 DFS structure forces a violation of the gap-pair constraint system — is the key gap.
-
-## Current open questions queue (Q9 is the focus)
-
-**Q9** is CLAIMED by this session. Key sub-problems:
-1. **Part C** of `lemma_backedge_density`: structural forcing. This is the essential next step.
-2. **Exhaustive n=7**: 236,926 graphs. Doable in ~5-10 minutes (stride-5 took ~6s for 47k; exhaustive ≈ 5×).
-3. **n≥8 exhaustive or dense sample**: named graphs at n=8 (all 5 cubic graphs) and n=9 could increase confidence.
-
-## Files modified this session
-- `proof_strategy.md`: Sections 5-6 substantially extended (Q8 resolution, Q9 approach, all R1-R8 findings)
-- `proof_lemmas/lemma_dfs_chain_locality.md`: major CHECK extension (Petersen mechanism, Franklin, Heawood, GP(5,1), n=7 stride-5)
-- `proof_lemmas/lemma_same_leaf_sym_diff.md`: created (R2)
-- `proof_lemmas/lemma_sym_diff_nested.md`: created (R5-R6, unified theorem)
-- `proof_lemmas/lemma_backedge_density.md`: created (R7-R8, Parts A+B+D)
-
-## Suggested next move
-
-1. Read `proof_lemmas/lemma_backedge_density.md` Parts A-D carefully.
-2. For Part C: attempt to show that for a DFS tree of a min-degree-3 graph, the set of depth-gaps at all leaves cannot ALL be from valid pairs. Key tools:
-   - Min-degree-3 means every vertex has ≥3 neighbors; every DFS leaf has ≥2 back edges.
-   - In a path-structured DFS tree (worst case for counterexample), back edges must "skip" forbidden depths.
-   - The forbidden set at depth-gaps {3,7,15,31} and differences {2,6,14,30} creates a 2D constraint.
-   - If two leaves are at different depths, their gap constraints interact — maybe forcing overlap.
-3. Alternative: try an ILP/enumeration to find a DFS tree configuration consistent with Part C's constraints on ≤20 vertices. If no configuration exists → Part C might be provable.
-4. If Part C proves too hard for the current approach, consider abandoning Q9 in favor of:
-   - The "girth-biased random cubic graph" counterexample search (next Q10 if opened).
-   - Structural arguments for specific subclasses (e.g., planar min-degree-3 graphs).
-
-## Known bugs
-- `proof_prepare._sandboxed_eval` allowlist is broken (frozenset, sorted, etc. not in namespace). Workaround: `AUTOERDOS_PROOF_CRITICS=0` always.
+**Suggested next moves**:
+1. CHECK-first probe of the alternation obstruction: "no C8 in a DFS
+   tree of a min-deg-3 graph alternates tree/back edges" (or the
+   weaker version the data support). It is the candidate mechanism
+   behind the radius-3 ceiling â€” see lemma_chain_locality_r3 "Proof
+   direction".
+2. Cubic case of chain_locality_r3: DFS trees of cubic graphs have
+   sharply budgeted back-edge endpoints (leaves exactly 2, internal
+   non-root <= 1 extra). Try to prove radius-3 there first.
+3. Escalate the radius-4 hunt: n=19..24, joint (graph, tree) simulated
+   annealing, girth-5+ seeds. A hit would redirect Q9 fundamentally.
+4. Or ideate from the theta-lift voltage-relation lead (notes channel,
+   Q8 entry) if the discharging arm stalls.

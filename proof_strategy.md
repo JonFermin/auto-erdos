@@ -531,3 +531,100 @@ $31\%$ of pairs — far too sparse for arithmetic alone to rule out
 counterexamples. Any proof via depth-gap constraints must exploit structural
 properties of DFS trees (min-degree-3 forces specific gap distributions)
 rather than universal gap-pair sparsity.
+
+## Section 10 — Q9 radius-2 disproof and radius-3 program (session s_0724-213346-43a1, merged post-hoc)
+
+Fix a hypothetical counterexample $G$ (min degree $\ge 3$, no simple
+cycle of power-of-2 length) and any DFS tree $T$ of $G$ rooted at $r$.
+All non-tree edges are back edges (ancestor–descendant); write the
+depth-gap of a back edge $e = (u, a)$, $a$ an ancestor of $u$, as
+$d(e) = \operatorname{depth}(u) - \operatorname{depth}(a) \ge 2$
+(gap 1 would duplicate a tree edge in a simple graph).
+
+**Fact 6.1 (fundamental cycles).** $F(e)$ has length $d(e) + 1$. In a
+counterexample, therefore, NO back edge has $d(e) \in \{3, 7, 15, 31,
+\dots\} = \{2^k - 1\}$.
+
+**Fact 6.2 (same-vertex pairs).** If $e_1 = (u, a_1)$, $e_2 = (u, a_2)$
+are back edges from the same vertex $u$ with gaps $d_1 < d_2$, then
+$F(e_1) \bigtriangleup F(e_2)$ is the simple cycle
+$a_2 \to^{T} a_1 \to^{e_1} u \to^{e_2} a_2$ of length $d_2 - d_1 + 2$.
+In a counterexample, no such pair has $d_2 - d_1 \in \{2, 6, 14, 30,
+\dots\} = \{2^k - 2\}$.
+
+**Fact 6.3 (leaves are back-edge sources).** A DFS leaf (no tree
+children) of a min-degree-3 graph has $\ge 2$ back edges (all its
+non-parent incidences), whose gaps are constrained by 6.1 and whose
+pairwise differences are constrained by 6.2.
+
+General two-back-edge cycles (back edges on comparable or overlapping
+tree paths beyond the same-vertex case) give further forbidden
+configurations; the exact case analysis is deferred to a future lemma —
+by the reformulation proved in Lemma file `chain_locality`, the complete
+radius-2 constraint set is exactly: *no simple power-of-2 cycle carries
+$\le 2$ back edges*.
+
+**Program status after round 1.** The radius-2 first lemma is
+**disproved**: lemma file `chain_locality` records 23 machine-verified
+(graph, DFS tree, root) instances — three cubic 10-vertex graphs and
+one 12-vertex graph — where NO power-of-2 cycle carries $\le 2$ back
+edges (independently re-verified with networkx cycle enumeration plus
+explicit DFS simulation). The ideation risk fired early: radius-2
+locality already fails at $n = 10$, so a discharging argument
+accounting only for fundamental cycles (6.1) and pairwise interactions
+(6.2) cannot close Q9 at ANY scale. Two facts survive intact and
+sharpen the program:
+
+1. In every falsifying instance the minimum back-edge count over
+   power-of-2 cycles is EXACTLY 3 — never more. The revised first
+   lemma `chain_locality_r3` (radius 3: some po2 cycle carries $\le 3$
+   back edges, $n \le 12$) survives every probe so far, including
+   exhaustive Trémaux coverage of the falsifiers themselves.
+2. The falsifier profile is specific: girth-3, C4-free-or-poor,
+   C8-rich cubic graphs, where deep DFS trees spread every C8 across
+   $\ge 3$ back edges. Whatever charge argument emerges must pay for
+   exactly this configuration.
+
+The discharging goal is updated accordingly: leaves get initial charge
+from Fact 6.3, charge flows up ancestor chains, and the sub-invariance
+inequality must now account for TRIPLE back-edge interactions (cycles
+$F(e_1) \bigtriangleup F(e_2) \bigtriangleup F(e_3)$), not just pairs
+— strictly harder, but the universal min-radius-3 signal says radius 3
+may be where locality actually lives.
+
+**Round 2 — the radius-3 program.** Lemma `chain_locality_r3` (open)
+is installed as the revised first lemma: same statement at radius 3,
+$n \le 12$, with a falsifier-focused CHECK (exhaustive Trémaux coverage
+of CL-A/B/C and the $n=12$ instance, Petersen anchor, fresh cubic-biased
+randoms). Three concrete work items, in dual-attack order:
+
+1. **(Falsify first)** Adversarial hunt for a radius-4 instance at
+   $n = 12..20$ — random cubic-biased sweeps plus local search seeded
+   from CL-B/CL-C (edge swaps preserving min degree, maximizing the
+   min back-edge count over po2 cycles). A hit kills radius-3 locality
+   and with it this incarnation of the discharging shape; the boundary
+   probes so far (10 radius-2 failures at $n = 14, 16$, all at min
+   radius exactly 3) say the hunt must try harder than uniform
+   sampling. *Round-3 status: executed (54,429 swap-search graph
+   states, $n \le 18$, 120 DFS tries each) — objective never reached
+   4; radius-3 ceiling held under adversarial pressure. Details in
+   lemma `chain_locality_r3`, "Adversarial evidence". Not exhaustive;
+   a future session should extend to $n = 19..24$ and to
+   simulated-annealing over (graph, tree) jointly before treating
+   radius-3 as safe.*
+2. **(Candidate local obstruction, CHECKable)** Why does no probed DFS
+   tree spread EVERY po2 cycle across $\ge 4$ back edges? For an
+   8-cycle carrying 4 back edges, the 4 remaining tree edges form 4
+   single-edge ancestor–descendant segments whose corners the Trémaux
+   comparability order must serialize — a candidate finite case
+   analysis. Formulate and probe the sharpest true version (e.g. "no
+   C8 alternates tree/back edges in a DFS tree of a min-deg-3 graph")
+   BEFORE proving anything with it; if the alternating-C8 probe fails,
+   weaken toward what the data support (some po2 cycle in the WHOLE
+   graph stays at $\le 3$, a global not per-cycle statement).
+3. **(Cubic case first)** In a DFS tree of a connected cubic graph:
+   every leaf carries exactly 2 back edges, the root carries at most 3
+   tree children, and every internal non-root vertex carries at most 1
+   back-edge endpoint besides its tree incidences — so back-edge
+   endpoints are sharply budgeted. The falsifiers are cubic; if
+   radius-3 locality is provable anywhere, it is here.
