@@ -782,3 +782,24 @@ chain_locality_r3 explicitly for every hard-path instance.
 | Hard-path pair violates chain_locality_r3 | chain_locality_r3 falsified at $n > 12$ |
 
 Full details and results in `proof_lemmas/lemma_cubic_depth_gap.md`.
+
+## Section 14 — Q9 girth-5 cubic depth-gap probe (session s_0726-080718-bd1c)
+
+Girth-5 cubic graphs are the hardest sub-case for the easy-path argument:
+girth $\ge 5$ forces all back-edge depth-gaps to be $\ge 4$ (no C4
+fundamental cycles). The easy path must rely on depth-gap $\in \{7,15,31\}$
+(C8/C16/C32 fundamental cycles).
+
+This sub-case is relevant to the Markström bound (F3): any cubic
+counterexample to Erdős–Gyárfás has $n \ge 30$ and is likely high-girth.
+
+The **Petersen graph** (n=10, girth=5, unique cubic girth-5 graph) anchors
+the probe. The CHECK in `proof_lemmas/lemma_girth5_depth_gap.md` runs on:
+
+- Petersen graph (all accessible DFS trees).
+- Sampled girth-5 cubic graphs at $n \in \{10, 12, 16, 20\}$ (rare; each
+  sampling attempt may fail → fewer than 4 graphs per class).
+
+For every hard-path (G, T) pair (no depth-gap 7 or 15 back edge), the
+C8/C16 minimum radius is verified explicitly. The assert fires if
+chain_locality_r3 is violated.
