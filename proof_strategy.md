@@ -801,7 +801,18 @@ The CHECK in `proof_lemmas/lemma_cyclic_orbit_avg_size.md` exhaustively
 tests all generators $A$ of size 2–4 for $n = 4..10$. A failure would be a
 Frankl counterexample for a transitive cyclic family.
 
-## Section 15 — Q11 dihedral orbit Frankl lemma (session s_0726-080718-bd1c)
+## Section 15 — Q11 cyclic orbit lemma partial proof + extended CHECK (session s_0726-080718-bd1c)
+
+**Proved** (Case 1): for generators $|A| \ge n/2$, every element of
+$\mathcal{F}$ has size $\ge n/2$, so avg\_size $\ge n/2$ trivially.
+
+**Open** (Case 2): for $|A| < n/2$, the cyclic shift pairing fails
+(example: $n=4$, $j=0$: $S_1 = \{1\}$ and $S_2 = \{3\}$ both map to
+$\{0\}$ under the shift pairing). Analytic proof needed.
+
+Extended CHECK: sampled n=11..15, still no violation found.
+
+## Section 16 — Q11 dihedral orbit Frankl lemma (session s_0726-080718-bd1c)
 
 Following the cyclic orbit lemma (Section 14), the dihedral group $D_n$
 (rotations + reflections) provides the next Frankl test case. The $D_n$-orbit
@@ -815,7 +826,7 @@ tests generators of size 2–4 for $n = 4..10$. If no failure, the transitive
 counterexample screen prunes both cyclic and dihedral generators from the
 Frankl search space.
 
-## Section 16 — Q9 girth-5 cubic depth-gap probe (session s_0726-080718-bd1c)
+## Section 17 — Q9 girth-5 cubic depth-gap probe (session s_0726-080718-bd1c)
 
 Girth-5 cubic graphs are the hardest sub-case for the easy-path argument:
 girth $\ge 5$ forces all back-edge depth-gaps to be $\ge 4$ (no C4

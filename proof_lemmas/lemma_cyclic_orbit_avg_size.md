@@ -24,30 +24,93 @@ frequency–size duality: $\sum_e \text{freq}(e) = |\mathcal{F}| \cdot
 The cyclic orbit generates a transitive family, so this lemma is the Frankl
 conjecture restricted to transitive union-closures of cyclic orbits.
 
-## Proof sketch (analytic direction, not yet complete)
+## Proof (partial)
 
-Let $A \subset \mathbb{Z}_n$, $|A| = k$. The cyclic orbit $\{A+j : j \in
-\mathbb{Z}_n\}$ has exactly $n/\gcd_A$ distinct members (where $\gcd_A$ is
-the "period" of $A$, i.e., the smallest positive $d$ such that $A = A+d$).
-Its union-closure $\mathcal{F}$ is union-closed and transitive under cyclic
-shift.
+Let $A \subset \mathbb{Z}_n$, $|A| = k$. The union-closure $\mathcal{F}$
+of the cyclic orbit is closed under cyclic shift (since the orbit is, and
+union-closure preserves this) and under union.
 
-**Lower bound on avg size**: every set in $\mathcal{F}$ is a union of
-cyclic shifts of $A$, hence a subset of $\mathbb{Z}_n$ with size $\ge k$.
-The avg size in the orbit is $k$ (all orbit members have size $k$). As we
-take unions, sizes increase; $\mathbb{Z}_n$ (size $n$) is always in
-$\mathcal{F}$ (union of all shifts). A simple argument:
+**Frequency–size duality**: by transitivity, all elements $j \in \mathbb{Z}_n$
+have the same frequency $f = |\{S \in \mathcal{F} : j \in S\}|$. Then:
 
-$$\text{avg\_size} = \frac{1}{|\mathcal{F}|} \sum_{S \in \mathcal{F}} |S|
-= \frac{1}{|\mathcal{F}|} \sum_{j \in \mathbb{Z}_n} |\{S \in \mathcal{F}
-: j \in S\}| = \text{freq}(j)$$
+$$\text{avg\_size} = \frac{1}{|\mathcal{F}|}\sum_{S \in \mathcal{F}} |S|
+= \frac{1}{|\mathcal{F}|}\sum_{j} |\{S : j \in S\}| = f.$$
 
-where the last equality uses transitivity (all frequencies equal). So
-avg\_size $\ge n/2$ iff freq$(j) \ge |\mathcal{F}|/2$ for any fixed $j$.
+So avg\_size $= f$, and the claim is $f \ge |\mathcal{F}|/2$.
 
-The claim reduces to: in the union-closure of any cyclic orbit, every
-element is in at least half the sets. This is a non-trivial claim; the
-CHECK establishes it for small $n$ and generators of moderate size.
+**Case 1: $|A| \ge n/2$.** Every set in $\mathcal{F}$ is a union of orbit
+elements, each of size $\ge n/2$. Hence every set in $\mathcal{F}$ has size
+$\ge n/2$, so avg\_size $\ge n/2$. ∎ (This case is proved.)
+
+**Case 2: $|A| < n/2$.** Taking unions of cyclic shifts increases sizes
+beyond $k = |A|$. The set $\mathbb{Z}_n \in \mathcal{F}$ (union of all
+shifts) has size $n$. In the tested range ($n \le 10$), all generators of
+size $2 \le k < n/2$ satisfy avg\_size $\ge n/2$ (CHECK evidence). The
+analytic proof for this case is open; the cyclic shift pairing argument
+(for each $S \notin F_j$, map $S \mapsto S + d$ for the smallest $d$ with
+$j \in S+d$) fails to be injective in general (example: $n=4$, $j=0$,
+$S_1=\{1\}$ and $S_2=\{3\}$ both map to $\{0\}$), requiring a different
+approach.
+
+**Extended CHECK** (larger $n$):
+
+<!-- CHECK
+# cyclic_orbit_avg_size extended: n=4..15, generators of size 2..min(4,n//2).
+# Exit 0 = no Frankl violation found. (Quick scan, not exhaustive for n>10.)
+from itertools import combinations
+import random
+
+rng = random.Random(20260726_7)
+
+def cyclic_orbit(A_tuple, n):
+    A = frozenset(A_tuple)
+    return frozenset(frozenset((a+k)%n for a in A) for k in range(n))
+
+def union_closure(orbit, size_limit=5000):
+    sets = set(orbit)
+    changed = True
+    while changed:
+        changed = False
+        new_sets = set()
+        sl = list(sets)
+        if len(sl) > size_limit: break  # skip huge closures
+        for i in range(len(sl)):
+            for j in range(i, len(sl)):
+                u = sl[i] | sl[j]
+                if u not in sets:
+                    new_sets.add(u); changed = True
+        sets |= new_sets
+    return sets
+
+failures = []
+
+# Exhaustive for n=4..10, size 2..min(4,n-1)
+for n in range(4, 11):
+    for sz in range(2, min(5, n)):
+        for A_tuple in combinations(range(n), sz):
+            orbit = cyclic_orbit(A_tuple, n)
+            F = union_closure(orbit)
+            avg = sum(len(s) for s in F) / len(F) if F else 0
+            if avg < n/2 - 1e-9:
+                failures.append(('exhaustive', n, A_tuple, round(avg,3), n/2))
+
+# Sampled for n=11..15, size 2..4
+for n in range(11, 16):
+    for sz in range(2, min(5, n)):
+        sample = list(combinations(range(n), sz))
+        if len(sample) > 40:
+            sample = [sample[i] for i in sorted(rng.sample(range(len(sample)), 40))]
+        for A_tuple in sample:
+            orbit = cyclic_orbit(A_tuple, n)
+            F = union_closure(orbit, size_limit=2000)
+            if len(F) < 2: continue  # skipped due to size limit
+            avg = sum(len(s) for s in F) / len(F)
+            if avg < n/2 - 1e-9:
+                failures.append(('sampled', n, A_tuple, round(avg,3), n/2))
+
+assert not failures, (
+    "cyclic_orbit_avg_size EXTENDED: Frankl VIOLATED: " + repr(failures[:3]))
+CHECK -->
 
 ## CHECK — exhaustive probe at small n
 
