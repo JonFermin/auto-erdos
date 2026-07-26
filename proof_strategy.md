@@ -628,3 +628,238 @@ randoms). Three concrete work items, in dual-attack order:
    back-edge endpoint besides its tree incidences — so back-edge
    endpoints are sharply budgeted. The falsifiers are cubic; if
    radius-3 locality is provable anywhere, it is here.
+
+## Section 11 — Q9 alternation obstruction: both versions disproved (session s_0726-080718-bd1c)
+
+Both candidate alternation obstructions for C8s in DFS trees were probed
+and found false. The dead-end is recorded to prevent rediscovery; the
+structural consequence is significant.
+
+### 11.1 — Count=4 obstruction: FALSE
+
+CL-A (cubic, $n=10$) with DFS tree `tree_mask=2975` (root 0) has a C8
+with cycle $1\text{-}8\text{-}3\text{-}7\text{-}9\text{-}2\text{-}4\text{-}6\text{-}1$
+and back edges $\{(3,7),(1,8),(2,9),(1,6)\}$ (4 back edges, pattern
+B-T-B-T-B-T-T-B). Full falsifier in
+`proof_lemmas/lemma_alternation_obstruction.md`.
+
+In that same (graph, tree) pair, all 10 C8s have counts $\{1{:}1,\
+3{:}4,\ 4{:}3,\ 5{:}2\}$; the minimum is 1, so chain_locality_r3 holds.
+
+### 11.2 — Strict alternating obstruction: FALSE
+
+A refined claim — no C8 has the perfect T-B-T-B-T-B-T-B pattern — is
+also false. CL-A (different tree) has the C8
+
+$$[0,2,9,7,3,8,1,5] \quad \text{back edges } \{(2,9),(3,7),(1,8),(0,5)\}$$
+
+whose back edges land at positions 1,3,5,7 in the cycle order,
+forming a perfect matching of $C_8$ — the exact strict alternating
+pattern. See `proof_lemmas/lemma_alternation_obstruction.md` (status:
+disproved).
+
+### 11.3 — Structural consequence
+
+**chain_locality_r3 is not threatened.** In both falsifying (graph, tree)
+pairs, C8s with 4 back edges coexist with C8s of back-edge count $\le 3$.
+Lemma `chain_locality_r3` claims only that SOME po2 cycle has $\le 3$
+back edges — not that all do.
+
+**Key insight.** The alternation frame sought a PER-CYCLE mechanism
+("no individual C8 can have $\ge 4$ back edges"). Both versions are false.
+The true mechanism must be a **global EXISTENCE** argument: the minimum
+over all po2 cycles in any (graph, tree) pair is $\le 3$, because of
+structural constraints on the FULL back-edge configuration, not on any
+single cycle.
+
+This sharpens the proof target: proving chain_locality_r3 requires
+showing that, in any min-deg-3 graph with any DFS tree, there always
+exists at least one po2 cycle with few back edges — a global minimum
+guarantee, not a per-cycle bound.
+
+### 11.4 — Updated next steps for Q9
+
+1. **Radius-4 escalation** (priority 1): extend the adversarial search
+   from $n \le 18$ (prior: 54,429 graph states, zero radius-4 hits) to
+   $n = 19..24$ with joint (graph, tree) simulated annealing seeded from
+   radius-3-tight instances. A hit at radius 4 falsifies chain_locality_r3.
+2. **Cubic case existence proof**: leverage the sharp back-edge budget of
+   cubic DFS trees (each leaf has exactly 2 back edges, each non-leaf
+   non-root has at most 1) to attempt a pigeonhole/existence argument for
+   the minimum-radius guarantee.
+3. **Q11 (frankl_union_closed)**: transitive-symmetry counterexample
+   screen remains open and is independent of the DFS approach.
+
+## Section 12 — Q9 radius-4 escalation at n=20..24 (session s_0726-080718-bd1c)
+
+Following the alternation disproof (Section 11), the adversarial hunt was
+extended from $n \le 18$ to $n \in \{20, 22, 24\}$ to probe whether
+chain_locality_r3 holds beyond the exhaustively-checked range.
+
+### 12.1 — Search parameters
+
+- **Scope**: cubic (3-regular) graphs, $n \in \{20, 22, 24\}$.
+- **Cycle filter**: C4 and C8 only (C16 omitted for speed; a C16 with $\le
+  3$ back edges satisfies chain_locality_r3 vacuously without any C4/C8
+  constraint).
+- **Scale** (full search, session s_0726-080718-bd1c): 15 random starts ×
+  50 greedy local-search steps × 20 DFS trials per size class = 750 graph
+  states tested per $n$.
+- **CHECK block** (quick re-check in `lemma_radius4_hunt_n24.md`): 4 starts
+  × 10 swaps × 10 DFS trials, runs in ≤15 seconds.
+
+### 12.2 — Results
+
+| $n$ | Max radius found | Radius-4 hit? |
+|-----|-----------------|---------------|
+| 20  | 3               | No            |
+| 22  | 2               | No            |
+| 24  | 2               | No            |
+
+**No radius-4 instance found** across 750 graph states (C4/C8 check only).
+The radius-3 ceiling holds throughout the tested range. Absence of a hit is
+weak evidence (this search is much smaller than the prior $n \le 18$
+exhaustive scan of 54,429 states with 120 DFS tries each); it neither proves
+chain_locality_r3 at $n > 12$ nor rules out a harder-to-find radius-4 graph.
+
+### 12.3 — Remaining search work
+
+The search at $n = 19..24$ is far from exhaustive. Directions for a stronger
+search:
+
+1. **Simulated annealing with girth-5 seeds**: no C4 in the graph → C4
+   cycles cannot contribute low-radius paths; forces the checker to rely on
+   C8s and C16s, which are harder to cover.
+2. **Joint (G, T) optimization**: simultaneously optimize over graphs AND
+   spanning trees rather than fixing a random DFS tree.
+3. **C16 inclusion**: any graph where every C4 and C8 has radius ≥ 4 but
+   some C16 has radius ≤ 3 satisfies chain_locality_r3 vacuously — the
+   current search does not check this and would falsely report a radius-4
+   hit on such a graph. Full verification requires scoring C16 as well.
+4. **Markström bound** (F3): any cubic counterexample to Erdős–Gyárfás has
+   $n \ge 30$. This suggests the interesting radius-4 candidates, if they
+   exist, are at larger $n$ — the current search stops at $n = 24$.
+
+Full details in `proof_lemmas/lemma_radius4_hunt_n24.md` (status: open).
+
+## Section 13 — Q9 cubic depth-gap mechanism probe (session s_0726-080718-bd1c)
+
+A specific candidate mechanism for chain_locality_r3 in cubic graphs: every
+DFS tree of a cubic graph has a back edge whose depth-gap lies in
+$\{3, 7, 15, 31\}$, providing a fundamental cycle of length exactly $4, 8,
+16, 32$ with only 1 back edge. If this "easy-path" hypothesis holds
+universally, chain_locality_r3 for cubic graphs is trivial.
+
+### 13.1 — Cubic back-edge budget
+
+In a cubic DFS tree:
+- Back-edge count $= n/2 + 1$ (total edges $3n/2$ minus $n-1$ tree edges).
+- Each DFS-tree **leaf** carries exactly **2 back edges** (parent occupies 1
+  of its 3 degree slots; zero children; remaining 2 slots are back edges).
+- Each internal non-root has $\le 1$ back edge (parent takes 1 slot;
+  $k \in \{1,2\}$ children take the rest).
+- This "sharp budget" is the key structural fact exploited by the easy-path
+  argument: leaves are the densest source of back edges.
+
+### 13.2 — Easy-path vs hard-path classification
+
+For each (G, T) pair:
+- **Easy**: some back edge $(u,v)$ has depth-gap $\in \{3,7,15\}$ → that
+  back edge immediately witnesses a C4/C8/C16 with 1 back edge.
+- **Hard**: no back edge has a po2 depth-gap → chain_locality_r3 must hold
+  via a non-fundamental cycle (2 or 3 back edges).
+
+The CHECK in `proof_lemmas/lemma_cubic_depth_gap.md` tests this on 90
+sampled (G, T) pairs at $n \in \{8, 10, 12, 14, 16\}$, verifying
+chain_locality_r3 explicitly for every hard-path instance.
+
+### 13.3 — Implications
+
+| Result | Consequence |
+|--------|-------------|
+| All pairs easy-path | Easy-path is universal ≥ for $n \le 16$; aim to prove for all cubic $n$ |
+| Some pairs hard-path | Identify their tree structure; prove chain_locality_r3 separately for them |
+| Hard-path pair violates chain_locality_r3 | chain_locality_r3 falsified at $n > 12$ |
+
+Full details and results in `proof_lemmas/lemma_cubic_depth_gap.md`.
+
+## Section 14 — Q11 Frankl cyclic orbit lemma (session s_0726-080718-bd1c)
+
+Switching to `frankl_union_closed` / Q11 (transitive counterexample screen)
+for an independent proof direction. The first lemma is:
+
+**Claim (cyclic_orbit_avg_size).** For any nonempty $A \subset \mathbb{Z}_n$,
+the union-closure $\mathcal{F}$ of the cyclic orbit $\{A+k : k \in
+\mathbb{Z}_n\}$ satisfies avg member size $\ge n/2$.
+
+For transitive families (where cyclic shift acts), Frankl's conjecture
+(every element in $\ge |\mathcal{F}|/2$ sets) is equivalent to avg member
+size $\ge n/2$ via the frequency–size duality: $\text{avg\_size} = \text{freq}(j)$
+(uniform frequency by transitivity).
+
+The CHECK in `proof_lemmas/lemma_cyclic_orbit_avg_size.md` exhaustively
+tests all generators $A$ of size 2–4 for $n = 4..10$. A failure would be a
+Frankl counterexample for a transitive cyclic family.
+
+## Section 15 — Q11 cyclic orbit lemma partial proof + extended CHECK (session s_0726-080718-bd1c)
+
+**Proved** (Case 1): for generators $|A| \ge n/2$, every element of
+$\mathcal{F}$ has size $\ge n/2$, so avg\_size $\ge n/2$ trivially.
+
+**Open** (Case 2): for $|A| < n/2$, the cyclic shift pairing fails
+(example: $n=4$, $j=0$: $S_1 = \{1\}$ and $S_2 = \{3\}$ both map to
+$\{0\}$ under the shift pairing). Analytic proof needed.
+
+Extended CHECK: sampled n=11..15, still no violation found.
+
+## Section 16 — Q11 dihedral orbit Frankl lemma (session s_0726-080718-bd1c)
+
+Following the cyclic orbit lemma (Section 14), the dihedral group $D_n$
+(rotations + reflections) provides the next Frankl test case. The $D_n$-orbit
+of $A \subset \mathbb{Z}_n$ is the union of two cyclic orbits (orbit of $A$
+and orbit of $\text{Reflect}(A)$). The union-closure of the $D_n$-orbit is
+weakly larger than either cyclic union-closure (monotonicity of union-closure),
+so avg member size is weakly larger than for the cyclic case.
+
+The CHECK in `proof_lemmas/lemma_dihedral_orbit_avg_size.md` exhaustively
+tests generators of size 2–4 for $n = 4..10$. If no failure, the transitive
+counterexample screen prunes both cyclic and dihedral generators from the
+Frankl search space.
+
+## Section 17 — Q9 Hamiltonian-path DFS tree case (session s_0726-080718-bd1c)
+
+Special case: DFS tree is a Hamiltonian path $0 \to 1 \to \cdots \to n-1$.
+This is the "widest" tree (max depth $n-1$), with each internal vertex
+having exactly 1 back edge and the root/leaf each having 2 back edges.
+
+**Back-edge structure** (cubic path tree):
+- Root 0: 2 back edges received from deeper vertices.
+- Vertex $k$ ($1 \le k \le n-2$): sends 1 back edge to some $j < k$.
+- Leaf $n-1$: sends 2 back edges to $j_1, j_2 < n-1$.
+
+**Easy-path**: any back edge with depth-gap $\delta \in \{3, 7, 15, 31\}$
+gives a fundamental C4/C8/C16/C32 (1 back edge). The CHECK in
+`proof_lemmas/lemma_ham_path_tree_r3.md` adversarially samples back-edge
+configurations and verifies chain_locality_r3 (C4/C8/C16, radius $\le 3$)
+on all instances.
+
+## Section 18 — Q9 girth-5 cubic depth-gap probe (session s_0726-080718-bd1c)
+
+Girth-5 cubic graphs are the hardest sub-case for the easy-path argument:
+girth $\ge 5$ forces all back-edge depth-gaps to be $\ge 4$ (no C4
+fundamental cycles). The easy path must rely on depth-gap $\in \{7,15,31\}$
+(C8/C16/C32 fundamental cycles).
+
+This sub-case is relevant to the Markström bound (F3): any cubic
+counterexample to Erdős–Gyárfás has $n \ge 30$ and is likely high-girth.
+
+The **Petersen graph** (n=10, girth=5, unique cubic girth-5 graph) anchors
+the probe. The CHECK in `proof_lemmas/lemma_girth5_depth_gap.md` runs on:
+
+- Petersen graph (all accessible DFS trees).
+- Sampled girth-5 cubic graphs at $n \in \{10, 12, 16, 20\}$ (rare; each
+  sampling attempt may fail → fewer than 4 graphs per class).
+
+For every hard-path (G, T) pair (no depth-gap 7 or 15 back edge), the
+C8/C16 minimum radius is verified explicitly. The assert fires if
+chain_locality_r3 is violated.
