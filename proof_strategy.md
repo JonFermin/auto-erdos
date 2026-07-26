@@ -689,3 +689,55 @@ guarantee, not a per-cycle bound.
    the minimum-radius guarantee.
 3. **Q11 (frankl_union_closed)**: transitive-symmetry counterexample
    screen remains open and is independent of the DFS approach.
+
+## Section 12 — Q9 radius-4 escalation at n=20..24 (session s_0726-080718-bd1c)
+
+Following the alternation disproof (Section 11), the adversarial hunt was
+extended from $n \le 18$ to $n \in \{20, 22, 24\}$ to probe whether
+chain_locality_r3 holds beyond the exhaustively-checked range.
+
+### 12.1 — Search parameters
+
+- **Scope**: cubic (3-regular) graphs, $n \in \{20, 22, 24\}$.
+- **Cycle filter**: C4 and C8 only (C16 omitted for speed; a C16 with $\le
+  3$ back edges satisfies chain_locality_r3 vacuously without any C4/C8
+  constraint).
+- **Scale** (full search, session s_0726-080718-bd1c): 15 random starts ×
+  50 greedy local-search steps × 20 DFS trials per size class = 750 graph
+  states tested per $n$.
+- **CHECK block** (quick re-check in `lemma_radius4_hunt_n24.md`): 4 starts
+  × 10 swaps × 10 DFS trials, runs in ≤15 seconds.
+
+### 12.2 — Results
+
+| $n$ | Max radius found | Radius-4 hit? |
+|-----|-----------------|---------------|
+| 20  | 3               | No            |
+| 22  | 2               | No            |
+| 24  | 2               | No            |
+
+**No radius-4 instance found** across 750 graph states (C4/C8 check only).
+The radius-3 ceiling holds throughout the tested range. Absence of a hit is
+weak evidence (this search is much smaller than the prior $n \le 18$
+exhaustive scan of 54,429 states with 120 DFS tries each); it neither proves
+chain_locality_r3 at $n > 12$ nor rules out a harder-to-find radius-4 graph.
+
+### 12.3 — Remaining search work
+
+The search at $n = 19..24$ is far from exhaustive. Directions for a stronger
+search:
+
+1. **Simulated annealing with girth-5 seeds**: no C4 in the graph → C4
+   cycles cannot contribute low-radius paths; forces the checker to rely on
+   C8s and C16s, which are harder to cover.
+2. **Joint (G, T) optimization**: simultaneously optimize over graphs AND
+   spanning trees rather than fixing a random DFS tree.
+3. **C16 inclusion**: any graph where every C4 and C8 has radius ≥ 4 but
+   some C16 has radius ≤ 3 satisfies chain_locality_r3 vacuously — the
+   current search does not check this and would falsely report a radius-4
+   hit on such a graph. Full verification requires scoring C16 as well.
+4. **Markström bound** (F3): any cubic counterexample to Erdős–Gyárfás has
+   $n \ge 30$. This suggests the interesting radius-4 candidates, if they
+   exist, are at larger $n$ — the current search stops at $n = 24$.
+
+Full details in `proof_lemmas/lemma_radius4_hunt_n24.md` (status: open).
