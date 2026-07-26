@@ -801,7 +801,21 @@ The CHECK in `proof_lemmas/lemma_cyclic_orbit_avg_size.md` exhaustively
 tests all generators $A$ of size 2–4 for $n = 4..10$. A failure would be a
 Frankl counterexample for a transitive cyclic family.
 
-## Section 15 — Q9 girth-5 cubic depth-gap probe (session s_0726-080718-bd1c)
+## Section 15 — Q11 dihedral orbit Frankl lemma (session s_0726-080718-bd1c)
+
+Following the cyclic orbit lemma (Section 14), the dihedral group $D_n$
+(rotations + reflections) provides the next Frankl test case. The $D_n$-orbit
+of $A \subset \mathbb{Z}_n$ is the union of two cyclic orbits (orbit of $A$
+and orbit of $\text{Reflect}(A)$). The union-closure of the $D_n$-orbit is
+weakly larger than either cyclic union-closure (monotonicity of union-closure),
+so avg member size is weakly larger than for the cyclic case.
+
+The CHECK in `proof_lemmas/lemma_dihedral_orbit_avg_size.md` exhaustively
+tests generators of size 2–4 for $n = 4..10$. If no failure, the transitive
+counterexample screen prunes both cyclic and dihedral generators from the
+Frankl search space.
+
+## Section 16 — Q9 girth-5 cubic depth-gap probe (session s_0726-080718-bd1c)
 
 Girth-5 cubic graphs are the hardest sub-case for the easy-path argument:
 girth $\ge 5$ forces all back-edge depth-gaps to be $\ge 4$ (no C4
