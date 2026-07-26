@@ -826,7 +826,24 @@ tests generators of size 2–4 for $n = 4..10$. If no failure, the transitive
 counterexample screen prunes both cyclic and dihedral generators from the
 Frankl search space.
 
-## Section 17 — Q9 girth-5 cubic depth-gap probe (session s_0726-080718-bd1c)
+## Section 17 — Q9 Hamiltonian-path DFS tree case (session s_0726-080718-bd1c)
+
+Special case: DFS tree is a Hamiltonian path $0 \to 1 \to \cdots \to n-1$.
+This is the "widest" tree (max depth $n-1$), with each internal vertex
+having exactly 1 back edge and the root/leaf each having 2 back edges.
+
+**Back-edge structure** (cubic path tree):
+- Root 0: 2 back edges received from deeper vertices.
+- Vertex $k$ ($1 \le k \le n-2$): sends 1 back edge to some $j < k$.
+- Leaf $n-1$: sends 2 back edges to $j_1, j_2 < n-1$.
+
+**Easy-path**: any back edge with depth-gap $\delta \in \{3, 7, 15, 31\}$
+gives a fundamental C4/C8/C16/C32 (1 back edge). The CHECK in
+`proof_lemmas/lemma_ham_path_tree_r3.md` adversarially samples back-edge
+configurations and verifies chain_locality_r3 (C4/C8/C16, radius $\le 3$)
+on all instances.
+
+## Section 18 — Q9 girth-5 cubic depth-gap probe (session s_0726-080718-bd1c)
 
 Girth-5 cubic graphs are the hardest sub-case for the easy-path argument:
 girth $\ge 5$ forces all back-edge depth-gaps to be $\ge 4$ (no C4
