@@ -628,3 +628,64 @@ randoms). Three concrete work items, in dual-attack order:
    back-edge endpoint besides its tree incidences — so back-edge
    endpoints are sharply budgeted. The falsifiers are cubic; if
    radius-3 locality is provable anywhere, it is here.
+
+## Section 11 — Q9 alternation obstruction: both versions disproved (session s_0726-080718-bd1c)
+
+Both candidate alternation obstructions for C8s in DFS trees were probed
+and found false. The dead-end is recorded to prevent rediscovery; the
+structural consequence is significant.
+
+### 11.1 — Count=4 obstruction: FALSE
+
+CL-A (cubic, $n=10$) with DFS tree `tree_mask=2975` (root 0) has a C8
+with cycle $1\text{-}8\text{-}3\text{-}7\text{-}9\text{-}2\text{-}4\text{-}6\text{-}1$
+and back edges $\{(3,7),(1,8),(2,9),(1,6)\}$ (4 back edges, pattern
+B-T-B-T-B-T-T-B). Full falsifier in
+`proof_lemmas/lemma_alternation_obstruction.md`.
+
+In that same (graph, tree) pair, all 10 C8s have counts $\{1{:}1,\
+3{:}4,\ 4{:}3,\ 5{:}2\}$; the minimum is 1, so chain_locality_r3 holds.
+
+### 11.2 — Strict alternating obstruction: FALSE
+
+A refined claim — no C8 has the perfect T-B-T-B-T-B-T-B pattern — is
+also false. CL-A (different tree) has the C8
+
+$$[0,2,9,7,3,8,1,5] \quad \text{back edges } \{(2,9),(3,7),(1,8),(0,5)\}$$
+
+whose back edges land at positions 1,3,5,7 in the cycle order,
+forming a perfect matching of $C_8$ — the exact strict alternating
+pattern. See `proof_lemmas/lemma_alternation_obstruction.md` (status:
+disproved).
+
+### 11.3 — Structural consequence
+
+**chain_locality_r3 is not threatened.** In both falsifying (graph, tree)
+pairs, C8s with 4 back edges coexist with C8s of back-edge count $\le 3$.
+Lemma `chain_locality_r3` claims only that SOME po2 cycle has $\le 3$
+back edges — not that all do.
+
+**Key insight.** The alternation frame sought a PER-CYCLE mechanism
+("no individual C8 can have $\ge 4$ back edges"). Both versions are false.
+The true mechanism must be a **global EXISTENCE** argument: the minimum
+over all po2 cycles in any (graph, tree) pair is $\le 3$, because of
+structural constraints on the FULL back-edge configuration, not on any
+single cycle.
+
+This sharpens the proof target: proving chain_locality_r3 requires
+showing that, in any min-deg-3 graph with any DFS tree, there always
+exists at least one po2 cycle with few back edges — a global minimum
+guarantee, not a per-cycle bound.
+
+### 11.4 — Updated next steps for Q9
+
+1. **Radius-4 escalation** (priority 1): extend the adversarial search
+   from $n \le 18$ (prior: 54,429 graph states, zero radius-4 hits) to
+   $n = 19..24$ with joint (graph, tree) simulated annealing seeded from
+   radius-3-tight instances. A hit at radius 4 falsifies chain_locality_r3.
+2. **Cubic case existence proof**: leverage the sharp back-edge budget of
+   cubic DFS trees (each leaf has exactly 2 back edges, each non-leaf
+   non-root has at most 1) to attempt a pigeonhole/existence argument for
+   the minimum-radius guarantee.
+3. **Q11 (frankl_union_closed)**: transitive-symmetry counterexample
+   screen remains open and is independent of the DFS approach.
