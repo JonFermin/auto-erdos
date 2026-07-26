@@ -783,7 +783,25 @@ chain_locality_r3 explicitly for every hard-path instance.
 
 Full details and results in `proof_lemmas/lemma_cubic_depth_gap.md`.
 
-## Section 14 — Q9 girth-5 cubic depth-gap probe (session s_0726-080718-bd1c)
+## Section 14 — Q11 Frankl cyclic orbit lemma (session s_0726-080718-bd1c)
+
+Switching to `frankl_union_closed` / Q11 (transitive counterexample screen)
+for an independent proof direction. The first lemma is:
+
+**Claim (cyclic_orbit_avg_size).** For any nonempty $A \subset \mathbb{Z}_n$,
+the union-closure $\mathcal{F}$ of the cyclic orbit $\{A+k : k \in
+\mathbb{Z}_n\}$ satisfies avg member size $\ge n/2$.
+
+For transitive families (where cyclic shift acts), Frankl's conjecture
+(every element in $\ge |\mathcal{F}|/2$ sets) is equivalent to avg member
+size $\ge n/2$ via the frequency–size duality: $\text{avg\_size} = \text{freq}(j)$
+(uniform frequency by transitivity).
+
+The CHECK in `proof_lemmas/lemma_cyclic_orbit_avg_size.md` exhaustively
+tests all generators $A$ of size 2–4 for $n = 4..10$. A failure would be a
+Frankl counterexample for a transitive cyclic family.
+
+## Section 15 — Q9 girth-5 cubic depth-gap probe (session s_0726-080718-bd1c)
 
 Girth-5 cubic graphs are the hardest sub-case for the easy-path argument:
 girth $\ge 5$ forces all back-edge depth-gaps to be $\ge 4$ (no C4
