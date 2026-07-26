@@ -35,6 +35,9 @@ Exit codes:
   5 — verifier crash (no proof_verifier_results.tsv row for this commit)
   6 — converged: clean critics + stable content + no open qids — done
   7 — counterexample proven: keep_disproof — stop the loop and re-verify
+  8 — lemma ledger violation: a lemma file re-opens an id the ledger
+      has as disproved (see proof_ledger.py) — rename the revised claim
+      to a new id; nothing logged
 """
 from __future__ import annotations
 
@@ -513,6 +516,32 @@ def main() -> int:
         )
         return 3
 
+    # Lemma-ledger enforcement: a round may not re-open a lemma id the
+    # ledger has as disproved. Revised claims take NEW ids (see
+    # proof_ledger.py). AUTOERDOS_LEDGER_ENFORCE=0 disables (debug only).
+    if os.environ.get("AUTOERDOS_LEDGER_ENFORCE", "1").lower() not in ("0", "off", "false"):
+        try:
+            from proof_ledger import find_reopened_disproved
+            _violations = find_reopened_disproved()
+        except Exception:  # noqa: BLE001 — ledger is best-effort infra
+            _violations = []
+        if _violations:
+            for _v in _violations:
+                print(
+                    f"ERROR: {_v['file']} declares id '{_v['lemma_id']}' with status "
+                    f"'{_v['file_status']}', but the ledger has it DISPROVED "
+                    f"(session {_v.get('ledger_session') or '?'}, {_v.get('ledger_ts') or '?'}"
+                    f"{'; ' + _v['ledger_evidence'] if _v.get('ledger_evidence') else ''}).",
+                    file=sys.stderr,
+                )
+            print(
+                "ERROR: round rejected by the lemma ledger (exit 8). A revised claim "
+                "must take a NEW lemma id — do not resurrect a disproved statement. "
+                "See proof_lemmas/ledger.jsonl / `uv run proof_ledger.py`.",
+                file=sys.stderr,
+            )
+            return 8
+
     witness_valid = int(v_row.get("witness_valid", 0) or 0)
     critic_blocking = int(v_row.get("critic_blocking", 0) or 0)
     critic_warn = int(v_row.get("critic_warn", 0) or 0)
@@ -543,6 +572,20 @@ def main() -> int:
     }
     _append_results_row(row)
     _append_cache(proof_hash, branch_tag, commit, verdict_hint, status)
+
+    # Record any new/changed lemma statuses in the cross-branch ledger.
+    # Appended lines ride along with the next commit (state file, never
+    # stashed — see proof_session_start._STATE_FILES).
+    try:
+        from proof_ledger import sync_ledger
+        _synced = sync_ledger(
+            session_id=f"round-{commit}",
+            evidence=f"status change observed at round {commit} (branch {branch_tag})",
+        )
+        for _e in _synced:
+            print(f"ledger: {_e['lemma_id']} -> {_e['status']}", file=sys.stderr)
+    except Exception:  # noqa: BLE001 — ledger is best-effort infra
+        pass
 
     if status in ("keep_disproof", "keep_progress"):
         record_kind = "disproof" if status == "keep_disproof" else "partial"

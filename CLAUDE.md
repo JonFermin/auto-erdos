@@ -233,13 +233,34 @@ Problem specs live in `proofs/*.json` with `claim_status`:
 Track 2 commands:
 
 ```bash
-uv run proof_session_start.py      # ALWAYS first — prints handoff, notes, queue
+uv run proof_session_start.py      # ALWAYS first — fetches origin, warns if the
+                                   # branch base is behind origin/master, prints
+                                   # handoff, FULL notes, ledger pointer, queue
+uv run proof_ledger.py             # cross-branch lemma statuses (ledger.jsonl)
 uv run proof_notes.py "<insight>"  # cumulative cross-branch notes channel
 uv run proof_notes.py              # read the notes
 uv run expert_brief.py             # one-page standalone brief of the open core
 uv run formalize_lemma.py proof_lemmas/lemma_<id>.md   # Lean 4 skeleton (post-loop)
-uv run proof_session_end.py "reason: ..."              # ALWAYS last
+uv run proof_session_end.py "reason: ..."              # ALWAYS last — archives the
+                                   # strategy to strategies/<problem>/, commits,
+                                   # pushes the branch, opens a draft PR
 ```
+
+Branch hygiene (the anti-progress-loss contract, 2026-07-25):
+- Session branches fork from **origin/master** after `git fetch origin` —
+  never from the stale local `master` ref.
+- `proof_lemmas/ledger.jsonl` is the machine-readable lemma-status ledger
+  (append-only, union-merged). `proof_log_result.py` exits 8 if a lemma
+  file re-opens an id the ledger marks `disproved` — revised claims take
+  a NEW id. It also auto-records status changes on every logged round.
+- `proof_journal.jsonl`, `proof_open_questions.jsonl`,
+  `proof_critic_log.jsonl`, and the ledger are `merge=union`
+  (`.gitattributes`) so parallel session branches never conflict on them.
+- New lemma files carry a session suffix (`lemma_<slug>__<session>.md`)
+  so parallel sessions never collide on filenames; on a
+  `proof_strategy.md` merge conflict, keep the newest session_close's
+  version — each session's full narrative is archived under
+  `strategies/<problem>/`.
 
 Skills: `erdos-proof-attempt` drives rounds; `erdos-proof-ideation` fans
 out N parallel proposer agents with distinct mathematical lenses + a

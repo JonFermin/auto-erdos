@@ -31,14 +31,26 @@ To start a new proof attempt:
      reconstructing the known argument to calibrate harness changes; a
      `witness_valid == 1` outcome is a verifier BUG by definition, never a
      result. See each spec's `literature_resolution` and `benchmark_mode`.
-2. **Create a worktree on a fresh branch** off master, named
-   `erdos-proof/<MMDD-HHMMSS-rnd>`. Use a worktree (`worktrees/<tag>/`) so
-   parallel attempts on the same problem don't clash.
+2. **Create a worktree on a fresh branch** off **`origin/master`** —
+   ALWAYS `git fetch origin` first, then
+   `git worktree add worktrees/<tag> -b erdos-proof/<tag> origin/master`.
+   Never fork from the local `master` ref: it goes stale (nothing in the
+   loop updates it), and a stale base means merged sibling-session results
+   (disproofs, lemma statuses, strategy sections) are invisible to you.
+   `proof_session_start.py` fetches origin and WARNS when the branch base
+   is behind `origin/master` — treat that warning as "abandon this branch
+   and re-fork" unless work is already committed here. Name the branch
+   `erdos-proof/<MMDD-HHMMSS-rnd>`; the worktree keeps parallel attempts
+   on the same problem from clashing.
 3. **Read the in-scope files** end-to-end before editing:
    - `proofs/<PROOF_TAG>.json` — claim, claim_status, given_facts ledger,
      witness contract.
    - `proof_strategy.md` — the editable artifact (currently a stub).
    - `proof_lemmas/README.md` — lemma file format.
+   - `uv run proof_ledger.py` — cross-branch lemma statuses. Ids the
+     ledger marks `disproved` are DEAD: a revised claim takes a NEW id
+     (e.g. `chain_locality` → `chain_locality_r3`); resurrecting a
+     disproved id is rejected at log time (exit 8).
    - This file (`proof_program.md`).
 4. **Run `proof_session_start.py` FIRST**. Always. It prints the prior
    handoff, the cumulative cross-branch notes, the live open-questions
@@ -127,6 +139,10 @@ echo '{"qid":"Q3","status":"claimed","session_id":"<sid>","summary":"taking Q3",
 $EDITOR proof_strategy.md proof_lemmas/lemma_<id>.md
 
 # 3. Commit (the round is one commit).
+#    NEW lemma files are named lemma_<slug>__<MMDD-HHMMSS-rnd>.md (session
+#    suffix from your session_id) so parallel sessions never collide on
+#    filenames at merge time. The lemma's `id:` stays semantic and
+#    session-free — the ledger tracks status by id.
 git add proof_strategy.md proof_lemmas/ proof_open_questions.jsonl
 git commit -m "<short imperative summary of the change>"
 
@@ -151,6 +167,9 @@ echo "exit=$rc"
 #        partial-result record is your kept artifact. Run session_end.
 #    7 → COUNTEREXAMPLE PROVEN. Stop. Have a human re-run the witness
 #        verifier independently before claiming a real result.
+#    8 → LEDGER VIOLATION. A lemma file re-opens an id the ledger has as
+#        disproved. Nothing logged. Rename the revised claim to a NEW id
+#        (and read the disproof it collided with before re-deriving it).
 
 # 7. Append progress to the journal (round summary).
 echo '{"event":"round","session_id":"<sid>","round_n":<n>,"ts":"<iso>","summary":"...","files_touched":[...]}' \
@@ -177,9 +196,18 @@ uv run proof_session_end.py "reason: <one-line stop reason>" < /path/to/handoff_
 `proof_session_end.py`:
 1. Reads handoff from stdin (or writes a default template).
 2. Overwrites `proof_session_handoff.md` with the new handoff.
-3. Appends a `session_close` event to `proof_journal.jsonl`.
-4. `git add -A && git commit` of all dirty journal/handoff/lemma files.
-5. Removes `.proof_session_active`.
+3. Archives `proof_strategy.md` to `strategies/<problem>/<session>.md`
+   and regenerates that folder's `INDEX.md`. This is the parallel-merge
+   insurance: on a `proof_strategy.md` merge conflict, keep the version
+   whose session_close is newest — every session's full narrative is
+   already preserved under `strategies/`.
+4. Appends a `session_close` event to `proof_journal.jsonl`.
+5. `git add -A && git commit` of all dirty journal/handoff/lemma files.
+6. Removes `.proof_session_active`.
+7. Pushes the session branch to origin and opens a draft PR when none
+   exists (best-effort; `--no-push` / `AUTOERDOS_NO_PUSH=1` skips).
+   An unpushed branch is an invisible branch — never rely on a human
+   remembering to publish it.
 
 ## Keep rule (computed by `proof_log_result.py`)
 
@@ -218,13 +246,30 @@ should run session_end and archive the branch.
 cross-session knowledge channel (Track 2's analogue of Track 1's
 `notes_<TAG>.md`). Session handoffs are per-branch and one page; parallel
 worktrees can't see each other's handoffs at all. The notes file is where
-insight compounds instead of being re-derived. Read: printed by
-`proof_session_start.py` (tail-bounded), or `uv run proof_notes.py`.
+insight compounds instead of being re-derived. Read: printed IN FULL by
+`proof_session_start.py` (100k-char pathology guard only), or
+`uv run proof_notes.py`.
 Write: `uv run proof_notes.py "<insight>"` or
 `proof_prepare.append_proof_notes(...)`. Required content discipline:
 approach → why it failed → what would revive it; the current minimal open
 lemma, stated formally; literature findings with citations; numerical
 constants future sessions will need.
+
+## Lemma ledger (machine-readable statuses)
+
+`proof_lemmas/ledger.jsonl` is the cross-branch source of truth for lemma
+statuses — append-only JSONL, union-merged by git (`.gitattributes`), so
+parallel branches never conflict on it. The latest entry per `lemma_id`
+wins. `proof_log_result.py` appends entries automatically whenever a
+logged round changes a lemma's frontmatter status, and REJECTS a round
+(exit 8) whose lemma files re-open an id the ledger has as `disproved`.
+
+Rules:
+- Lemma ids are one global namespace (one shared `proof_lemmas/` dir).
+- A revised claim takes a NEW id; never resurrect a disproved one.
+- `uv run proof_ledger.py` lists statuses; `--check` dry-runs the gate;
+  `--sync` records manual frontmatter edits made outside a logged round.
+- `AUTOERDOS_LEDGER_ENFORCE=0` disables the gate (debug only — journal why).
 
 ## Formalization ladder (Lean)
 

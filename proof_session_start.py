@@ -90,6 +90,7 @@ _STATE_FILES = {
     "proof_journal.jsonl",
     "proof_open_questions.jsonl",
     "proof_critic_log.jsonl",
+    "proof_lemmas/ledger.jsonl",
     ".proof_session_active",
 }
 
@@ -140,6 +141,42 @@ def _git_short_sha() -> str:
         return out.decode().strip()
     except subprocess.CalledProcessError:
         return "unknown"
+
+
+def _git_fetch_origin() -> bool:
+    """Best-effort `git fetch origin` so the behind-check below sees the
+    real remote state. Silently a no-op when there is no origin remote or
+    no network (offline sessions must still boot)."""
+    try:
+        subprocess.check_call(
+            ["git", "-C", str(REPO_ROOT), "remote", "get-url", "origin"],
+            stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+        )
+    except (subprocess.CalledProcessError, OSError):
+        return False
+    try:
+        subprocess.check_call(
+            ["git", "-C", str(REPO_ROOT), "fetch", "--quiet", "origin"],
+            stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, timeout=45,
+        )
+        return True
+    except (subprocess.CalledProcessError, subprocess.TimeoutExpired, OSError):
+        return False
+
+
+def _behind_origin_master() -> int | None:
+    """Commits on origin/master not reachable from HEAD, or None when
+    origin/master is unknown. >0 means this branch forked from a stale
+    master: results merged from sibling sessions are invisible here."""
+    try:
+        out = subprocess.check_output(
+            ["git", "-C", str(REPO_ROOT), "rev-list", "--count",
+             "HEAD..origin/master"],
+            stderr=subprocess.DEVNULL,
+        )
+        return int(out.decode().strip())
+    except (subprocess.CalledProcessError, ValueError, OSError):
+        return None
 
 
 def _stash_dirty(label: str) -> str | None:
@@ -262,6 +299,12 @@ def main() -> int:
     now = _now_iso()
     short_sha = _git_short_sha()
 
+    # 0. Sync the remote view and measure staleness of this branch's base.
+    # Sessions MUST fork from origin/master (see proof_program.md); this
+    # warning is the tripwire when one didn't.
+    fetched = _git_fetch_origin()
+    behind = _behind_origin_master()
+
     # 1. Read journal + open_questions BEFORE stashing. The append-only state
     # files might be dirty (a SIGTERM'd prior session left them uncommitted),
     # and stashing them would hide the orphan-evidence we need.
@@ -301,7 +344,7 @@ def main() -> int:
 
     # 4. Write the active marker (gitignored).
     try:
-        ACTIVE_MARKER.write_text(f"{new_sid}\t{now}\n", encoding="utf-8")
+        ACTIVE_MARKER.write_text(f"{new_sid}\t{now}\t{PROOF_TAG}\n", encoding="utf-8")
     except OSError:
         pass
 
@@ -314,8 +357,10 @@ def main() -> int:
         else "(no handoff yet — this is a cold first start)\n"
     )
     # Cumulative cross-branch notes (the compounding knowledge channel).
-    # Tail-bounded so a long-lived problem doesn't flood session stdout.
-    notes_tail_chars = 6000
+    # Printed IN FULL — this file is the loop's only memory and truncating
+    # it is how disproved lemmas get re-attacked. The cap below is a
+    # pathology guard (~25k tokens), not a budget.
+    notes_tail_chars = 100_000
     try:
         from proof_prepare import load_proof_notes
         notes_text = load_proof_notes()
@@ -335,6 +380,8 @@ def main() -> int:
             "stashed_ref": stashed_ref,
             "detected_orphan": orphan_sid,
             "released_orphan_qids": released_qids,
+            "origin_fetched": fetched,
+            "behind_origin_master": behind,
             "last_session_close_reason": last_close,
             "handoff": handoff_text,
             "proof_notes_tail": notes_text,
@@ -356,6 +403,15 @@ def main() -> int:
     if orphan_sid:
         print(f"WARNING: previous session {orphan_sid} ended without session_close")
         print(f"         auto-released {len(released_qids)} orphan-claimed qids: {released_qids}")
+    if behind:
+        print(f"WARNING: this branch is {behind} commit(s) BEHIND origin/master —")
+        print("         merged sibling-session results (lemma statuses, disproofs,")
+        print("         strategy sections) are INVISIBLE here. Unless work is already")
+        print("         committed on this branch, abandon it and fork a fresh branch")
+        print("         from origin/master (proof_program.md step 2).")
+    elif not fetched:
+        print("NOTE: could not fetch origin (offline or no remote) — staleness of")
+        print("      this branch's base vs origin/master is unknown.")
     print()
     print("=== proof_session_handoff.md ===")
     print(handoff_text)
@@ -365,7 +421,7 @@ def main() -> int:
     print("=== cumulative proof notes (cross-branch, cross-session) ===")
     if notes_text:
         if notes_truncated:
-            print(f"(... older notes truncated; run `uv run proof_notes.py` for the full file ...)")
+            print("(... notes exceed the 100k safety cap; run `uv run proof_notes.py` for the full file ...)")
         print(notes_text)
     else:
         print("(none yet — append with `uv run proof_notes.py \"<insight>\"`;")
@@ -382,7 +438,11 @@ def main() -> int:
     print("=== next steps ===")
     print("1. Pick a qid above (lowest qid first unless the handoff suggests otherwise).")
     print("2. Append a 'claimed' row to proof_open_questions.jsonl for that qid with this session_id.")
-    print("3. Edit proof_strategy.md and/or proof_lemmas/lemma_*.md.")
+    print("3. Check `uv run proof_ledger.py` BEFORE proposing a lemma — ids the")
+    print("   ledger marks disproved are rejected at log time (exit 8); a revised")
+    print("   claim takes a NEW id. Edit proof_strategy.md and/or proof_lemmas/.")
+    print(f"   Name NEW lemma files lemma_<slug>__{new_sid[2:]}.md so parallel")
+    print("   sessions never collide on filenames.")
     print("4. git commit per round. Run proof_prepare.py at logical milestones.")
     print("5. When token budget is low or a logical chunk is done:")
     print("   uv run proof_session_end.py 'reason: <one-line summary>'")
