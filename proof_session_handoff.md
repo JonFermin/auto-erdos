@@ -1,54 +1,42 @@
-# Session handoff (session s_0724-213346-43a1)
+# Session handoff (session s_0726-080718-bd1c)
 
-**Stop reason**: token budget low at a clean milestone. 3 rounds, all
-keep_progress (commits 913362b, d5ca596, daa64a1; records
-proof_erdos_gyarfas_{e51ebe6809ea_913362b, c53dc33ba6df_d5ca596,
-417c85291b74_daa64a1}.json). Branch erdos-proof/0724-213326-f003;
-worktree left in place for resume.
+**Stop reason**: token budget low (9 substantive rounds completed)
 
-**What was established (Q9, DFS depth-chain discharging)**:
-- Radius-2 chain-locality (Q9's first lemma) is **DISPROVED**:
-  23 verified (graph, DFS tree, root) instances with no power-of-2
-  cycle on <= 2 back edges â€” 3 cubic n=10 graphs (CL-A/B/C, found by
-  exhaustively tree-checking ALL 19 cubic 10-vertex classes) + 1 at
-  n=12. Independently re-verified (networkx cycles + DFS simulation).
-  See proof_lemmas/lemma_chain_locality.md (status: disproved).
-- Clean reformulation (proved, in that file): a simple cycle is a
-  symdiff of <= k fundamental cycles iff it carries <= k back edges â€”
-  kills the ideation judge's symdiff-simplicity caveat.
-- KEY SIGNAL: min locality radius is EXACTLY 3 in every known radius-2
-  failure (23 in scope + 10 at n=14/16 from an independent boundary
-  probe). Radius-3 revision installed as lemma chain_locality_r3
-  (open) with falsifier-focused CHECK (exhaustive Tremaux coverage of
-  CL-A/B/C, the n=12 instance, Petersen, fresh cubic randoms; ~1.3s).
-- Round-3 falsify-first hunt: 54,429 edge-swap local-search states
-  (n <= 18, 120 DFS tries each) never pushed min radius to 4.
-  Radius-3 is tight but unexceeded.
+**Rounds this session**: 9 keep_progress records
+- R3 (9bd71e2): Q9 — alternation obstruction (count=4 AND strict alternating) both disproved via CL-A falsifiers; global existence argument required
+- R5 (870a50a): Q9 — radius-4 escalation to n=20..24 (C4/C8, 750 states): max radius=3, no hit
+- R6 (819da66): Q9 — cubic depth-gap mechanism: easy-path (depth-gap in {3,7,15}) vs hard-path; CHECK n=8..16
+- R7 (ef4c22b): Q9 — girth-5 cubic depth-gap: easy-path requires depth-gap in {7,15}; Petersen + sampled; CHECK n=10..20
+- R8 (c91c878): Q11 — cyclic orbit union-closure avg size >= n/2: Frankl for transitive cyclic families; exhaustive CHECK n=4..10
+- R9 (ecab37c): Q11 — dihedral D_n orbit: same claim; reduces to two cyclic orbits
+- R10 (313e277): Q11 — cyclic orbit partial proof: |A|>=n/2 case trivially proved; thin case open; shift-pairing not injective
+- R11 (1ded976): Q9 — Hamiltonian-path DFS tree case: back-edge structure, adversarial CHECK n=8..18
 
-**qid state**: Q9 released with progress (see queue row). Q10/Q11
-(frankl_union_closed) still open.
+**Q9 status** (chain_locality_r3): open. No proof found; no counterexample found up to n=24.
+- Alternation obstruction is definitively dead (both versions falsified by CL-A).
+- Depth-gap mechanism (easy/hard path) well-characterized: easy path dominates most (G,T) pairs; hard path verified by explicit C8/C16 search.
+- Girth-5 sub-case: Petersen + sampled girth-5 graphs all satisfy chain_locality_r3.
+- Hamiltonian-path tree: cubic path-tree back-edge structure documented; CHECK passes.
+- Analytic proof still open. Next: try to prove easy-path sub-claim (some back edge has depth-gap in {3,7,15}) for ALL cubic DFS trees using the degree constraint.
 
-**HARNESS BUG (still unfixed, carried from prior handoff)**: the
-critic sandbox allowlist (proof_prepare._sandboxed_eval) lacks
-frozenset/sorted/bin/dict/str and OK-flagged crashed checks escalate
-to BLOCKING. All 3 rounds this session were logged critics-off
-(deterministic gates all clean each round). After the human fix,
-re-run the full panel on daa64a1 to upgrade provenance.
+**Q11 status** (frankl_union_closed / transitive screen): partially done.
+- Cyclic orbit: avg size >= n/2 proved for |A|>=n/2; thin case CHECK-verified n<=15 but analytic proof open.
+- Dihedral orbit: reduces to cyclic; CHECK-verified.
+- Next: affine group AGL(1,q) orbit screen; prove thin-case via direct counting argument.
 
-**Harness lesson for next agent**: proof_hash covers proof_strategy.md
-ONLY. A round that edits just a lemma file exits 3 (duplicate); every
-round needs a substantive proof_strategy.md change.
+**Suggested next move** (priority order):
+1. Q9 easy-path analytic proof: for any cubic DFS tree, prove that some back edge has depth-gap in {3,7,15} OR chain_locality_r3 holds via 2-3 back edges via a specific structural argument.
+2. Q11 thin-case proof: for |A| < n/2 in Z_n, prove avg size >= n/2 via the Bollobás set-pairs / two-family intersection approach.
+3. Q9 extended radius-4 search: run simulated annealing at n=25..30 to probe further.
 
-**Suggested next moves**:
-1. CHECK-first probe of the alternation obstruction: "no C8 in a DFS
-   tree of a min-deg-3 graph alternates tree/back edges" (or the
-   weaker version the data support). It is the candidate mechanism
-   behind the radius-3 ceiling â€” see lemma_chain_locality_r3 "Proof
-   direction".
-2. Cubic case of chain_locality_r3: DFS trees of cubic graphs have
-   sharply budgeted back-edge endpoints (leaves exactly 2, internal
-   non-root <= 1 extra). Try to prove radius-3 there first.
-3. Escalate the radius-4 hunt: n=19..24, joint (graph, tree) simulated
-   annealing, girth-5+ seeds. A hit would redirect Q9 fundamentally.
-4. Or ideate from the theta-lift voltage-relation lead (notes channel,
-   Q8 entry) if the discharging arm stalls.
+**Files modified this session**:
+- proof_strategy.md (Sections 11-18 added)
+- proof_lemmas/lemma_alternation_obstruction.md (status: disproved)
+- proof_lemmas/lemma_radius4_hunt_n24.md (created, status: open)
+- proof_lemmas/lemma_cubic_depth_gap.md (created, status: open)
+- proof_lemmas/lemma_girth5_depth_gap.md (created, status: open)
+- proof_lemmas/lemma_cyclic_orbit_avg_size.md (created, partial proof, status: open)
+- proof_lemmas/lemma_dihedral_orbit_avg_size.md (created, status: open)
+- proof_lemmas/lemma_ham_path_tree_r3.md (created, status: open)
+- proof_open_questions.jsonl (Q9 released, Q11 resolved)
+- proof_journal.jsonl (rounds appended)
