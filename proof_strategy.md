@@ -741,3 +741,44 @@ search:
    exist, are at larger $n$ — the current search stops at $n = 24$.
 
 Full details in `proof_lemmas/lemma_radius4_hunt_n24.md` (status: open).
+
+## Section 13 — Q9 cubic depth-gap mechanism probe (session s_0726-080718-bd1c)
+
+A specific candidate mechanism for chain_locality_r3 in cubic graphs: every
+DFS tree of a cubic graph has a back edge whose depth-gap lies in
+$\{3, 7, 15, 31\}$, providing a fundamental cycle of length exactly $4, 8,
+16, 32$ with only 1 back edge. If this "easy-path" hypothesis holds
+universally, chain_locality_r3 for cubic graphs is trivial.
+
+### 13.1 — Cubic back-edge budget
+
+In a cubic DFS tree:
+- Back-edge count $= n/2 + 1$ (total edges $3n/2$ minus $n-1$ tree edges).
+- Each DFS-tree **leaf** carries exactly **2 back edges** (parent occupies 1
+  of its 3 degree slots; zero children; remaining 2 slots are back edges).
+- Each internal non-root has $\le 1$ back edge (parent takes 1 slot;
+  $k \in \{1,2\}$ children take the rest).
+- This "sharp budget" is the key structural fact exploited by the easy-path
+  argument: leaves are the densest source of back edges.
+
+### 13.2 — Easy-path vs hard-path classification
+
+For each (G, T) pair:
+- **Easy**: some back edge $(u,v)$ has depth-gap $\in \{3,7,15\}$ → that
+  back edge immediately witnesses a C4/C8/C16 with 1 back edge.
+- **Hard**: no back edge has a po2 depth-gap → chain_locality_r3 must hold
+  via a non-fundamental cycle (2 or 3 back edges).
+
+The CHECK in `proof_lemmas/lemma_cubic_depth_gap.md` tests this on 90
+sampled (G, T) pairs at $n \in \{8, 10, 12, 14, 16\}$, verifying
+chain_locality_r3 explicitly for every hard-path instance.
+
+### 13.3 — Implications
+
+| Result | Consequence |
+|--------|-------------|
+| All pairs easy-path | Easy-path is universal ≥ for $n \le 16$; aim to prove for all cubic $n$ |
+| Some pairs hard-path | Identify their tree structure; prove chain_locality_r3 separately for them |
+| Hard-path pair violates chain_locality_r3 | chain_locality_r3 falsified at $n > 12$ |
+
+Full details and results in `proof_lemmas/lemma_cubic_depth_gap.md`.
