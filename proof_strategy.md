@@ -88,11 +88,10 @@ screen permanently.
 
 Computational corroboration (ranges match the CHECK blocks in the lemma
 file): the explicit-cycle construction is arithmetically validated on
-every simple $I(m,a,b)$ with $3 \le m \le 60$; it is cross-checked
-against independent exhaustive per-length cycle search on every simple
-$I(m,a,b)$ with $3 \le m \le 12$; and the window screen found a first
-power-of-2 hit at length 4 or 8 on every simple I-graph with
-$m \in [15,32]$ (1,248 lifts).
+small and medium $m$ values; it is cross-checked against independent
+exhaustive per-length cycle search for small $m$; and the window screen
+confirmed a power-of-2 hit at length 4 or 8 on every simple I-graph in
+the witness window. See `proof_lemmas/lemma_igraph_c4_or_c8.md` for exact counts.
 
 ## Section 4 — Theta and $K_4$ lifts: window screened clean, no witness
 
@@ -102,8 +101,9 @@ $\mathbb{Z}_m$-voltage lift of the theta multigraph ($m \in [15,32]$,
 voltages wlog $0, a_2, a_3$ pairwise distinct so the lift is simple) and
 of $K_4$ ($m \in [8,16]$, spanning-tree voltages wlog $0$, co-tree
 voltages arbitrary) contains a cycle of length $4$, $8$, or $16$. The
-full screen covered 23,556 lifts (including the I-graph/dumbbell family);
-every per-length exhaustive search completed within its node-expansion
+full screen covered all lifts in the specified parameter ranges (see
+`proof_lemmas/lemma_lift_screen_window.md` for exact counts); every
+per-length exhaustive search completed within its node-expansion
 budget; there were no survivors. In particular no graph in these families
 within the $\le 64$-vertex witness cap is an Erdős–Gyárfás witness.
 
