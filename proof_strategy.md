@@ -690,9 +690,10 @@ chain_locality_r3 holds beyond the exhaustively-checked range.
 ### 12.1 — Search parameters
 
 - **Scope**: cubic (3-regular) graphs, $n \in \{20, 22, 24\}$.
-- **Cycle filter**: C4 and C8 only (C16 omitted for speed; a C16 with $\le
-  3$ back edges satisfies chain_locality_r3 vacuously without any C4/C8
-  constraint).
+- **Cycle filter**: C4 and C8 only (C16 omitted for speed; any graph with
+  a C16 carrying $\le 3$ back edges already satisfies chain_locality_r3
+  via that C16, so it is not an adversarial candidate — we need the
+  adversarial search to find graphs that resist po2 cycles at all radii).
 - **Scale** (full search, session s_0726-080718-bd1c): 15 random starts ×
   50 greedy local-search steps × 20 DFS trials per size class = 750 graph
   states tested per $n$.
@@ -724,9 +725,10 @@ search:
 2. **Joint (G, T) optimization**: simultaneously optimize over graphs AND
    spanning trees rather than fixing a random DFS tree.
 3. **C16 inclusion**: any graph where every C4 and C8 has radius ≥ 4 but
-   some C16 has radius ≤ 3 satisfies chain_locality_r3 vacuously — the
-   current search does not check this and would falsely report a radius-4
-   hit on such a graph. Full verification requires scoring C16 as well.
+   some C16 has radius ≤ 3 genuinely satisfies chain_locality_r3 (via the
+   C16 = 2^4-cycle). The current search does not check C16, so it would
+   MISS such a graph (report false "radius-4" when in fact chain_locality_r3
+   is satisfied via C16). Full verification requires scoring C16 as well.
 4. **Markström bound** (F3): any cubic counterexample to Erdős–Gyárfás has
    $n \ge 30$. This suggests the interesting radius-4 candidates, if they
    exist, are at larger $n$ — the current search stops at $n = 24$.
