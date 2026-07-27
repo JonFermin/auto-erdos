@@ -882,3 +882,36 @@ or whether 3-back-edge arguments are needed, is the open question.
 **CHECK-guarded** in `proof_lemmas/lemma_shared_target_c4.md`:
 chain_locality_r3 verified on all sampled hard-path Hamiltonian-path cubic
 graphs at n=12..18. Shared-target coverage measured empirically.
+
+## Section 20 — Q9 shared-source C4 for hard-path branching DFS trees (session s_0727-080625-773c)
+
+**Structural duality** covering all cubic DFS tree types:
+
+- **Hamiltonian-path DFS tree** (root has 1 tree child, k_B = 2):
+  Root always holds a shared-target pair → handled by `lemma_shared_target_c4`.
+
+- **Branching DFS tree** (root has ≥ 2 tree children, k_B ≤ 1):
+  No shared-target pair at root. Instead, every leaf sends exactly 2 back edges
+  → **shared-source pair at every leaf** → handled by `lemma_branching_dfs_r3`.
+
+**Shared-source mechanism.** Leaf L with back edges to ancestors at depths d1 < d2:
+bridge b = d2 − d1. If b ∈ {2, 6, 14, 30}, sym-diff of the two fundamental
+cycles gives a po2-cycle of length b+2 ∈ {4,8,16,32} using 2 back edges.
+
+**Concrete example** (`lemma_branching_dfs_r3`): n=10 hard-path branching cubic
+graph G10B (girth 3, root has 2 children, all back-edge gaps ∈ {1,2,4}). Both
+leaves provide C4 witnesses via shared-source bridge length 2. CHECK-verified for
+sampled hard-path branching cubic DFS trees at n=10..16.
+
+**Coverage summary** for chain_locality_r3 in hard-path cubic DFS trees:
+
+| DFS tree type       | Mechanism          | Lemma                   | Status |
+|---------------------|--------------------|-------------------------|--------|
+| Hamiltonian-path    | shared-target pair | lemma_shared_target_c4  | open   |
+| Branching (caterpillar root) | shared-source pair | lemma_branching_dfs_r3 | open  |
+| General branching   | 3-back-edge        | (future)                | open   |
+
+**Open sub-question.** Whether the shared-source mechanism covers ALL hard-path
+branching cubic DFS trees (i.e., every leaf has bridge ∈ {2,6,14,30}), or
+whether some trees require a 3-back-edge argument when all leaf bridges avoid
+{2,6,14,30}.
