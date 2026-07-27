@@ -250,8 +250,8 @@ but it must be proved from scratch (see `proofs/frankl_union_closed.json` for co
 Minimum observed LHS $-$ RHS margin: $\approx 0.189$ (achieved near $p = 0.5$
 in the boundary cases).
 
-**Limitation**: For small $n$, Frankl's conjecture is known (verified for
-$|U| \le 11$), so every tested family automatically satisfies $p \ge 1/2$.
+**Limitation**: For small $n$, all tested families automatically satisfy $p \ge 1/2$
+(no counterexample found in the range tested).
 The adversarial zone $p \in (0, 0.5)$ — where the bound $(1-p)^2/4$ would be
 most constraining — is computationally unreachable for small ground sets.  A proof must be analytic, not just
 computational.
@@ -841,7 +841,7 @@ fundamental cycles). The easy path must rely on depth-gap $\in \{7,15,31\}$
 (C8/C16/C32 fundamental cycles).
 
 This sub-case is relevant to the Markström bound (F3): any cubic
-counterexample to Erdős–Gyárfás has $n \ge 30$ and is likely high-girth.
+counterexample has $n \ge 30$ (see given fact F3).
 
 The **Petersen graph** (n=10, girth=5, unique cubic girth-5 graph) anchors
 the probe. The CHECK in `proof_lemmas/lemma_girth5_depth_gap.md` runs on:
