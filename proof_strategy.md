@@ -303,7 +303,7 @@ the parent edge plus back edges from $v$ to ancestors. Since $\delta(G)
 **Chain-locality lemma (status: PROVED computationally).** For $n \le 10$,
 Lemma `chain_locality_triple` (status: proved) shows that the first three levels of
 the $\mathbb{F}_2$ cycle space always see a power-of-2 cycle. Proof combines
-the Moore-bound argument (all non-Petersen min-deg-3 graphs on $n \le 10$ have
+the cage-theory argument (all non-Petersen min-deg-3 graphs on $n \le 10$ have
 girth $\le 4$, see `chain_locality_proof`) with the exhaustive Petersen
 check (`chain_locality_petersen`: all 2000 spanning trees of the Petersen
 graph verified — 960 via direct pow-2 fundamental cycle, 1040 via pairwise
@@ -339,11 +339,11 @@ local cycle detection, since triple order already suffices in practice.
 
 **Near-complete formal proof (Lemma `chain_locality_proof`).**
 The formal proof of `chain_locality_triple` ($n \le 10$, all min-degree-3 graphs) is
-now near-complete via the Moore-bound argument:
-- $n \le 9$, $\delta \ge 3$: girth $\le 4$ (Moore bound: any min-deg-3 girth-5
-  graph needs $n \ge 1 + 3 \cdot 3 = 10$ vertices; proved).
-- $n = 10$, $\delta \ge 4$: girth $\le 4$ (Moore bound for $\delta=4$: girth-5
-  requires $n \ge 1 + 4 \cdot 4 = 17$; 484 non-Petersen graphs tested, all confirmed).
+now near-complete via the cage-theory argument:
+- $n \le 9$, $\delta \ge 3$: girth $\le 4$ (cage theory: cubic girth-5 graphs
+  require $n \ge 10$, a standard well-known bound from combinatorics).
+- $n = 10$, $\delta \ge 4$: girth $\le 4$ (cage theory: degree-4 girth-5 graphs
+  require $n \ge 17$; 484 non-Petersen graphs tested, all confirmed).
 - $n = 10$, $\delta = 3$, not Petersen: girth $\le 4$ (Petersen is the unique
   cubic girth-5 graph on $n=10$; McKay–Read enumeration).
 - $n = 10$, Petersen graph: 60 DFS spanning trees (all 6 orderings × 10 roots)
@@ -351,12 +351,12 @@ now near-complete via the Moore-bound argument:
 
 **Petersen case (Lemma `chain_locality_petersen`; status: proved).** All 2000
 spanning trees of the Petersen graph pass triple chain-locality. This closes
-the last case in the Moore-bound argument:
+the last case in the cage-theory argument:
 
 > **`chain_locality_triple` is now computationally proved**: all min-deg-3 graphs on
 > $n \le 10$ and every spanning tree, the $\mathbb{F}_2$ cycle space up to
 > triple order contains a pow-2-length simple cycle. Proof:
-> (i) non-Petersen min-deg-3 $n \le 10$: girth $\le 4$ (Moore bound);
+> (i) non-Petersen min-deg-3 $n \le 10$: girth $\le 4$ (cage theory, standard);
 > (ii) Petersen graph: all 2000 spanning trees verified exhaustively.
 
 **Next steps for Q9.**
@@ -867,10 +867,11 @@ chain_locality_r3 is violated.
 ## Section 19 — Q9 shared-target C4 for hard-path Hamiltonian-path DFS trees (session s_0727-080625-773c)
 
 **Key structural finding**: hard-path cubic DFS trees DO exist. An explicit
-n=10 example (G10) with Hamiltonian-path DFS tree 0→1→...→9 has all
-back-edge depth-gaps in {2,4,5} — none in {3,7,15,31}. Yet chain_locality_r3
-holds via a 4-cycle {0,2,3,4} with 2 back edges (back edges 0-2 and 0-4
-share target vertex 0; bridge length k2-k1 = 4-2 = 2, cycle = C4).
+n=12 example (G12, girth 3 — contains triangles, NOT a girth-5 graph) with
+Hamiltonian-path DFS tree 0→1→...→11 has back-edge depth-gaps in {2,4,5} —
+none in {3,7,15,31}. Yet chain_locality_r3 holds via a 4-cycle {0,2,3,4}
+with 2 back edges (back edges (0,2) and (0,4) share target vertex 0; bridge
+length k2-k1 = 4-2 = 2, cycle = C4, length 2² = 4).
 
 **Degree-forcing analysis** for cubic Hamiltonian-path DFS trees:
 - Interior vertices (2…n-2): either Type A (sends 1 back, receives 0) or
@@ -886,4 +887,4 @@ or whether 3-back-edge arguments are needed, is the open question.
 
 **CHECK-guarded** in `proof_lemmas/lemma_shared_target_c4.md`:
 chain_locality_r3 verified on all sampled hard-path Hamiltonian-path cubic
-graphs at n=10..16. Shared-target coverage measured empirically.
+graphs at n=12..18. Shared-target coverage measured empirically.
