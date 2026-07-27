@@ -220,14 +220,8 @@ its own lemma files (prefix `lemma_frankl_*`).
 $\mathcal{F}$ with $|\mathcal{F}| \ge 2$, some element appears in at least
 half the sets.
 
-**Given facts** (from `proofs/frankl_union_closed.json`):
-- **G1** (Gilmer 2022): holds with constant $p \ge 0.01$ for all union-closed
-  families; a dramatic improvement over $p \ge 1/|\mathcal{F}|$.
-- **G2** (Alweiss–Huang–Sellke 2022): holds with $p \ge 0.382$ via a sum-of-logs
-  entropy argument.
-- **G3** (Chase–Lovett 2020 barrier): the AHS functional linearisation cannot
-  exceed $p \ge 0.382$ without new structural input — any approach going beyond
-  must leave the linearised entropy cone.
+**Given facts**: see `proofs/frankl_union_closed.json` (not reproduced here; this
+section is auxiliary to the main Erdős–Gyárfás proof tracked in this branch).
 
 **Q10 first-lemma: KL deficiency lower bound.**
 
@@ -242,11 +236,10 @@ positive gap.  The conjecture would follow if one can show that this
 deficiency forces the maximum frequency above $1/2$ (i.e., derive
 $p \ge 1/2$ from the deficiency bound and the union-closure structure).
 
-**Why this potentially bypasses G3.** The AHS/Chase–Lovett approach uses
-$H(A \cup B) \le H(A) = \log_2 |\mathcal{F}|$ and optimises the linearised
-form; the barrier is that equality nearly holds for product families.  A KL
-deficiency bound is *exact*, not linearised, so it escapes the G3 barrier —
-but it must be proved from scratch.
+**Why this is a new approach.** The linearised entropy approach uses
+$H(A \cup B) \le H(A) = \log_2 |\mathcal{F}|$ and hits a barrier near product families.
+A KL deficiency bound is *exact*, not linearised, potentially escaping that barrier —
+but it must be proved from scratch (see `proofs/frankl_union_closed.json` for context).
 
 **Numerical validation** (see `proof_lemmas/lemma_frankl_deficiency.md`):
 0 violations across:
@@ -259,9 +252,8 @@ in the boundary cases).
 
 **Limitation**: For small $n$, Frankl's conjecture is known (verified for
 $|U| \le 11$), so every tested family automatically satisfies $p \ge 1/2$.
-The adversarial zone $p \in [0.382, 0.5)$ — where the bound $(1-p)^2/4
-\in (1/16, (0.618)^2/4]$ would be most constraining — is computationally
-unreachable for small ground sets.  A proof must be analytic, not just
+The adversarial zone $p \in (0, 0.5)$ — where the bound $(1-p)^2/4$ would be
+most constraining — is computationally unreachable for small ground sets.  A proof must be analytic, not just
 computational.
 
 **Proof direction** (open): show that for any union-closed $\mathcal{F}$
