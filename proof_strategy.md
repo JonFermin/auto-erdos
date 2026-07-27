@@ -339,32 +339,30 @@ local cycle detection, since triple order already suffices in practice.
 
 **Near-complete formal proof (Lemma `chain_locality_proof`).**
 The formal proof of `chain_locality_triple` ($n \le 10$, all min-degree-3 graphs) is
-now near-complete via the cage-theory argument:
-- $n \le 9$, $\delta \ge 3$: girth $\le 4$ (cage theory: cubic girth-5 graphs
-  require $n \ge 10$, a standard well-known bound from combinatorics).
-- $n = 10$, $\delta \ge 4$: girth $\le 4$ (cage theory: degree-4 girth-5 graphs
-  require $n \ge 17$; 484 non-Petersen graphs tested, all confirmed).
-- $n = 10$, $\delta = 3$, not Petersen: girth $\le 4$ (Petersen is the unique
-  cubic girth-5 graph on $n=10$; McKay–Read enumeration).
+now near-complete. Cases are:
+- $n \le 9$, $\delta \ge 3$: girth $\le 4$ (shown in `chain_locality_proof`).
+- $n = 10$, $\delta \ge 4$: girth $\le 4$ (484 non-Petersen graphs verified;
+  see `chain_locality_proof`).
+- $n = 10$, $\delta = 3$, not Petersen: girth $\le 4$ (see `chain_locality_proof`).
 - $n = 10$, Petersen graph: 60 DFS spanning trees (all 6 orderings × 10 roots)
   verified, all pass triple chain-locality.
 
 **Petersen case (Lemma `chain_locality_petersen`; status: proved).** All 2000
 spanning trees of the Petersen graph pass triple chain-locality. This closes
-the last case in the cage-theory argument:
+the final case:
 
 > **`chain_locality_triple` is now computationally proved**: all min-deg-3 graphs on
 > $n \le 10$ and every spanning tree, the $\mathbb{F}_2$ cycle space up to
 > triple order contains a pow-2-length simple cycle. Proof:
-> (i) non-Petersen min-deg-3 $n \le 10$: girth $\le 4$ (cage theory, standard);
+> (i) non-Petersen min-deg-3 $n \le 10$: girth $\le 4$ (see `chain_locality_proof`);
 > (ii) Petersen graph: all 2000 spanning trees verified exhaustively.
 
 **Next steps for Q9.**
-1. Extend chain-locality to min-deg-3 graphs beyond $n=10$: use cage theory
-   (the next girth-5 cubic graph after Petersen is the Heawood graph, $n=14$)
-   to bound which $n$ values require non-trivial triple sym-diffs. A complete
-   classification would give chain-locality for all $n$ or identify the first
-   $n$ where quadruple sym-diffs are needed.
+1. Extend chain-locality to min-deg-3 graphs beyond $n=10$: identify the next
+   high-girth cubic graphs (e.g. Heawood graph, $n=14$) to bound which $n$ values
+   require non-trivial triple sym-diffs. A complete classification would give
+   chain-locality for all $n$ or identify the first $n$ where quadruple sym-diffs
+   are needed.
 2. Attempt formal proof of `chain_locality_full_window` (cubic $n \le 64$):
    the computational cert (9,350 pairs, zero violations) is strong; a SAT/ILP
    encoding over $(n, \ell, \text{length multiset})$ is the recommended route.
