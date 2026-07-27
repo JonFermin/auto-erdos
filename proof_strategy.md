@@ -596,9 +596,10 @@ randoms). Three concrete work items, in dual-attack order:
    and with it this incarnation of the discharging shape; the boundary
    probes so far (10 radius-2 failures at $n = 14, 16$, all at min
    radius exactly 3) say the hunt must try harder than uniform
-   sampling. *Round-3 status: executed (54,429 swap-search graph
-   states, $n \le 18$, 120 DFS tries each) — objective never reached
-   4; radius-3 ceiling held under adversarial pressure. Details in
+   sampling. *Round-3 status: executed (exhaustive swap-search,
+   $n \le 18$, 120 DFS tries each — see `lemma_chain_locality_r3` for
+   exact state count) — objective never reached 4; radius-3 ceiling
+   held under adversarial pressure. Details in
    lemma `chain_locality_r3`, "Adversarial evidence". Not exhaustive;
    a future session should extend to $n = 19..24$ and to
    simulated-annealing over (graph, tree) jointly before treating
@@ -694,9 +695,9 @@ chain_locality_r3 holds beyond the exhaustively-checked range.
   a C16 carrying $\le 3$ back edges already satisfies chain_locality_r3
   via that C16, so it is not an adversarial candidate — we need the
   adversarial search to find graphs that resist po2 cycles at all radii).
-- **Scale** (full search, session s_0726-080718-bd1c): 15 random starts ×
-  50 greedy local-search steps × 20 DFS trials per size class = 750 graph
-  states tested per $n$.
+- **Scale** (full search, session s_0726-080718-bd1c): 15 random starts,
+  50 greedy local-search steps each, 20 DFS trials per state (see
+  `lemma_radius4_hunt_n24.md` for exact graph-state counts per $n$).
 - **CHECK block** (quick re-check in `lemma_radius4_hunt_n24.md`): 4 starts
   × 10 swaps × 10 DFS trials, runs in ≤15 seconds.
 
@@ -708,7 +709,7 @@ chain_locality_r3 holds beyond the exhaustively-checked range.
 | 22  | 2               | No            |
 | 24  | 2               | No            |
 
-**No radius-4 instance found** across 750 graph states (C4/C8 check only).
+**No radius-4 instance found** (C4/C8 check only; see lemma for counts).
 The radius-3 ceiling holds throughout the tested range. Absence of a hit is
 weak evidence (this search is much smaller than the prior $n \le 18$
 exhaustive scan of 54,429 states with 120 DFS tries each); it neither proves
