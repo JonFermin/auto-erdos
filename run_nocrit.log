@@ -1,0 +1,11 @@
+---
+problem:           erdos_gyarfas
+family:            cycle_powers_of_two
+claim_status:      open
+witness_valid:     0
+witness_score:     nan
+critic_blocking_count: 0
+critic_warn_count: 1
+verdict_hint:      partial_result
+verifier_seconds:  51.5212
+reason:            critics_off: no WITNESS block found
