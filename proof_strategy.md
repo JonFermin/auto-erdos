@@ -863,3 +863,27 @@ the probe. The CHECK in `proof_lemmas/lemma_girth5_depth_gap.md` runs on:
 For every hard-path (G, T) pair (no depth-gap 7 or 15 back edge), the
 C8/C16 minimum radius is verified explicitly. The assert fires if
 chain_locality_r3 is violated.
+
+## Section 19 — Q9 shared-target C4 for hard-path Hamiltonian-path DFS trees (session s_0727-080625-773c)
+
+**Key structural finding**: hard-path cubic DFS trees DO exist. An explicit
+n=10 example (G10) with Hamiltonian-path DFS tree 0→1→...→9 has all
+back-edge depth-gaps in {2,4,5} — none in {3,7,15,31}. Yet chain_locality_r3
+holds via a 4-cycle {0,2,3,4} with 2 back edges (back edges 0-2 and 0-4
+share target vertex 0; bridge length k2-k1 = 4-2 = 2, cycle = C4).
+
+**Degree-forcing analysis** for cubic Hamiltonian-path DFS trees:
+- Interior vertices (2…n-2): either Type A (sends 1 back, receives 0) or
+  Type B (sends 0 backs, receives 1). |A|=n/2-1, |B|=n/2-2.
+- Root: always receives exactly 2 back edges (forms a shared-target pair).
+- Vertex 1: receives 1 back edge.
+- Leaf: sends 2 back edges.
+
+**Consequence**: root always has a shared-target pair with some bridge
+length k2-k1. If k2-k1 ∈ {2,6,14,30}, a po2-cycle C4/C8/C16/C32 with 2
+back edges is immediate. Whether this is forced for hard-path instances,
+or whether 3-back-edge arguments are needed, is the open question.
+
+**CHECK-guarded** in `proof_lemmas/lemma_shared_target_c4.md`:
+chain_locality_r3 verified on all sampled hard-path Hamiltonian-path cubic
+graphs at n=10..16. Shared-target coverage measured empirically.
