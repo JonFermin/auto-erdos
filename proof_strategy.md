@@ -915,3 +915,196 @@ sampled hard-path branching cubic DFS trees at n=10..16.
 branching cubic DFS trees (i.e., every leaf has bridge ∈ {2,6,14,30}), or
 whether some trees require a 3-back-edge argument when all leaf bridges avoid
 {2,6,14,30}.
+
+## Section 21 — Q9 general interval-overlap mechanism and the two-bridge conjecture (session s_0728-080614-23cb)
+
+**Generalising beyond shared-target and shared-source.** The two lemmas
+`lemma_shared_target_c4` and `lemma_branching_dfs_r3` cover only the
+"same-endpoint" pairs (root: 2 edges share target; leaf: 2 edges share
+source). A GENERAL 2-back-edge po2 cycle can arise from ANY overlapping
+or nested pair of back-edge intervals.
+
+**Interval sym-diff formula.** In a Hamiltonian-path DFS tree with depth
+$\operatorname{depth}(v) = v$, back edge $(u, v)$ (with $u > v$) spans
+interval $I = [v, u]$ of tree vertices (gap $= u - v$). For two back edges
+$e_1 = (u_1, v_1)$, $e_2 = (u_2, v_2)$ whose intervals $I_1 = [v_1, u_1]$
+and $I_2 = [v_2, u_2]$ have overlap $o = \min(u_1,u_2) - \max(v_1,v_2) \ge 0$
+(non-negative means they overlap), the symmetric difference $F_1 \triangle F_2$
+is a simple cycle of length:
+
+$$L = (u_1 - v_1) + (u_2 - v_2) - 2o + 2 = g_1 + g_2 - 2o + 2,$$
+
+where $g_i = u_i - v_i$ is the gap of edge $i$. Disjoint intervals ($o < 0$)
+give no simple cycle (two disconnected components).
+
+**Po2-cycle condition.** $L \in \{4, 8, 16, 32\}$ iff $g_1 + g_2 - 2o \in
+\{2, 6, 14, 30\}$.
+
+**Special cases** (recovering shared-target/source):
+- Shared-target (root, $v_1 = v_2 = 0$, $u_1 < u_2$): $o = u_1 - 0 = g_1$,
+  $L = g_1 + g_2 - 2g_1 + 2 = g_2 - g_1 + 2 = b_{\text{root}} + 2$. ✓
+- Shared-source (leaf, $u_1 = u_2 = n-1$, $v_1 < v_2$): $o = n-1-v_2 = g_2$,
+  $L = g_1 + g_2 - 2g_2 + 2 = g_1 - g_2 + 2 = b_{\text{leaf}} + 2$. ✓
+
+**Interior pairs.** Any pair of back edges $(u_1, v_1)$ and $(u_2, v_2)$
+whose intervals overlap but share neither endpoint is an *interior pair*.
+Example: $e_1 = [0, 4]$ (gap 4, root's edge) and $e_2 = [1, 5]$ (gap 4,
+interior Type-A edge). Overlap $o = \min(4,5) - \max(0,1) = 4 - 1 = 3$.
+$L = 4 + 4 - 2 \cdot 3 + 2 = 4$. C4 via 2 back edges — even though the
+root bridge $k_2 - k_1$ and the leaf bridge both avoid $\{2,6,14,30\}$!
+
+**Parity constraint.** $L = g_1 + g_2 - 2o + 2$. Since $-2o + 2$ is even,
+$L \equiv g_1 + g_2 \pmod{2}$. Po2 lengths $\ge 4$ are all even, so a
+necessary condition for a po2 sym-diff cycle is $g_1 \equiv g_2 \pmod{2}$
+(same parity). Mixed-parity pairs can NEVER give a po2 sym-diff cycle.
+Only same-parity overlapping pairs matter.
+
+**Two-bridge conjecture (C1).** In any hard-path cubic Hamiltonian-path DFS
+tree, some same-parity overlapping pair of back edges yields a po2 sym-diff
+cycle. Equivalently, the hard-path + cubicity constraints prevent the
+case "all same-parity overlapping pairs have $g_1 + g_2 - 2o \notin \{2,6,14,30\}$."
+
+**Evidence (CHECK below).** The CHECK in `lemma_shared_target_c4` measured
+shared-target coverage (root bridge) for sampled hard-path instances at
+$n = 12..18$. The extended CHECK here samples all back-edge pairs for each
+instance and asks: is there ALWAYS some pair giving po2? If the assert fires,
+C1 is false and 3-back-edge arguments are indispensable. If it passes on
+all tested instances, C1 gains empirical support.
+
+**Branching DFS tree parallel.** In a branching cubic DFS tree, every leaf
+has 2 back edges (shared-source). Same interval analysis applies to each
+leaf's pair. Multiple leaves → multiple candidates. An analogous conjecture
+(C2): in any hard-path branching cubic DFS tree with $\ge 1$ leaf, some leaf's
+shared-source bridge lies in $\{2,6,14,30\}$, OR some interior pair gives po2.
+
+**Revised coverage table:**
+
+| DFS tree type    | Primary mechanism          | Fallback (C1/C2 holds) | Status     |
+|------------------|----------------------------|------------------------|------------|
+| Hamiltonian-path | shared-target (root)       | interior pair          | C1 open    |
+| Branching        | shared-source (any leaf)   | interior pair          | C2 open    |
+
+<!-- CHECK
+# Section 21: general 2-back-edge po2 analysis for hard-path cubic Hamiltonian-path DFS trees.
+# Tests: (a) root bridge, (b) leaf bridge, (c) any same-parity overlapping pair.
+# If some pair gives po2 for every instance, C1 is empirically supported.
+import random
+
+PO2_GAPS = {3, 7, 15, 31}
+PO2_BRIDGES = {2, 6, 14, 30}
+
+rng = random.Random(20260728_1)
+
+def sym_diff_len(v1, u1, v2, u2):
+    """Length of sym-diff cycle for overlapping intervals [v1,u1],[v2,u2]."""
+    overlap = min(u1, u2) - max(v1, v2)
+    if overlap < 0:
+        return None  # disjoint: no simple cycle
+    return (u1 - v1) + (u2 - v2) - 2 * overlap + 2
+
+def has_po2_pair(back_edges):
+    """Return True if some overlapping pair gives a po2 sym-diff cycle."""
+    for i in range(len(back_edges)):
+        for j in range(i + 1, len(back_edges)):
+            u1, v1 = back_edges[i]  # u1 > v1 (gap = u1-v1)
+            u2, v2 = back_edges[j]
+            g1, g2 = u1 - v1, u2 - v2
+            if (g1 % 2) != (g2 % 2):
+                continue  # mixed parity: never po2
+            L = sym_diff_len(v1, u1, v2, u2)
+            if L is not None and L in {4, 8, 16, 32}:
+                return True
+    return False
+
+def sample_hard_path_ham_full(nn, rng, max_trials=3000):
+    n_A = nn // 2 - 1
+    interior = list(range(2, nn - 1))
+    for _ in range(max_trials):
+        type_A = sorted(rng.sample(interior, n_A))
+        type_B = [v for v in interior if v not in set(type_A)]
+        avail = {0: 2, 1: 1}
+        for b in type_B:
+            avail[b] = 1
+        back = []
+        ok = True
+        leaf_tgts = [t for t in avail if t < nn - 2 and (nn - 1 - t) not in PO2_GAPS]
+        if len(leaf_tgts) < 2:
+            continue
+        leaf_chosen = sorted(rng.sample(leaf_tgts, 2))
+        for t in leaf_chosen:
+            back.append((nn - 1, t))
+            avail[t] -= 1
+            if avail[t] == 0:
+                del avail[t]
+        rng.shuffle(type_A)
+        for k in type_A:
+            cands = [t for t in avail if t < k - 1 and (k - t) not in PO2_GAPS]
+            if not cands:
+                ok = False
+                break
+            t = rng.choice(cands)
+            back.append((k, t))
+            avail[t] -= 1
+            if avail[t] == 0:
+                del avail[t]
+        if not ok or avail:
+            continue
+        if any(abs(u - v) in PO2_GAPS for u, v in back):
+            continue
+        return back, leaf_chosen
+    return None
+
+total = 0
+root_only = 0   # only root bridge works
+leaf_only = 0   # only leaf bridge works
+both_root_leaf = 0
+interior_rescue = 0  # neither root nor leaf bridge, but interior pair works
+no_po2_pair = 0  # no 2-back-edge po2 found (should never happen if C1 holds)
+
+for nn in [12, 14, 16, 18, 20, 22, 24, 26, 28, 30]:
+    for _ in range(60):
+        result = sample_hard_path_ham_full(nn, rng)
+        if result is None:
+            continue
+        back, leaf_chosen = result
+        total += 1
+
+        # Root's back edges (both go to vertex 0)
+        root_backs = [(u, v) for u, v in back if v == 0]
+        b_root = None
+        if len(root_backs) == 2:
+            k1 = min(u for u, v in root_backs)
+            k2 = max(u for u, v in root_backs)
+            b_root = k2 - k1
+
+        # Leaf's back edges
+        j1, j2 = leaf_chosen[0], leaf_chosen[1]
+        b_leaf = j2 - j1
+
+        r_good = b_root in PO2_BRIDGES if b_root is not None else False
+        l_good = b_leaf in PO2_BRIDGES
+
+        if r_good and l_good:
+            both_root_leaf += 1
+        elif r_good:
+            root_only += 1
+        elif l_good:
+            leaf_only += 1
+        else:
+            # Neither root nor leaf bridge works; check ALL back-edge pairs
+            if has_po2_pair(back):
+                interior_rescue += 1
+            else:
+                no_po2_pair += 1
+
+assert total > 0, "No hard-path instances found"
+assert no_po2_pair == 0, (
+    f"C1 VIOLATED: {no_po2_pair} hard-path cubic Hamiltonian-path DFS trees "
+    f"with NO 2-back-edge po2 cycle! total={total}"
+)
+CHECK -->
+
+**CHECK outcome (expected):** The assert `no_po2_pair == 0` tests conjecture C1.
+If it fires, C1 is false and a 3-back-edge argument is essential. If it passes,
+C1 holds for all sampled instances at $n = 12..30$, strongly suggesting 2 back
+edges always suffice in the Hamiltonian-path case.
