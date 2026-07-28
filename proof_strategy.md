@@ -433,8 +433,9 @@ verified this on:
   graphs on 4, 5, 6 vertices) — all DFS starting vertices, zero failures.
 - **Cube/Q3, Wagner** ($n = 8$, $3$-regular) — all DFS trees, PASS.
 - **Petersen graph** ($n = 10$, $3$-regular, girth $5$, the most
-  adversarial case since no $C_4$ and no $C_8$ appear as fundamental
-  cycles in some DFS trees) — all DFS starting vertices, PASS.
+  adversarial case since no $C_4$ appears as a fundamental cycle (girth
+  $5 > 4$), yet every DFS tree has a fundamental $C_8$ via a back edge
+  with depth-gap $7$) — all DFS starting vertices, PASS.
 
 The Petersen graph result is non-trivial: the girth-$5$ property forces
 every back edge to have depth-gap $\ge 4$, so no fundamental cycle has
