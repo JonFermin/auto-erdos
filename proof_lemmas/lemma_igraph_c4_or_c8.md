@@ -8,9 +8,17 @@ introduced_at_round: 1
 
 # Lemma: every simple I-graph contains a $C_4$ or a $C_8$
 
+**Scope restriction.** The conditions $2a \not\equiv 0$ and $2b \not\equiv 0
+\pmod m$ are necessary: if $2b \equiv 0$ (e.g., $I(6,1,3)$ where $2 \cdot 3
+\equiv 0 \pmod 6$) the inner polygon degenerates with multi-edges, and the
+graph is not 3-regular in the simple sense. This lemma applies only to simple
+cubic I-graphs satisfying both conditions.
+
 **Statement.** Let $m \ge 3$ and $a, b \in \mathbb{Z}_m$ be such that the
 I-graph $I(m,a,b)$ is simple and cubic; that is, $a \not\equiv 0$,
-$2a \not\equiv 0$, $b \not\equiv 0$, $2b \not\equiv 0 \pmod m$. (Vertices
+$2a \not\equiv 0$, $b \not\equiv 0$, $2b \not\equiv 0 \pmod m$.
+(The conditions $2a \not\equiv 0$ and $2b \not\equiv 0$ exclude multi-edges
+in the outer and inner polygons respectively.) (Vertices
 $u_0,\dots,u_{m-1}, v_0,\dots,v_{m-1}$; edges $u_j u_{j+a}$ ("outer"),
 $v_j v_{j+b}$ ("inner"), $u_j v_j$ ("spokes"), indices mod $m$.) Then
 $I(m,a,b)$ contains a simple cycle of length $4$ or a simple cycle of
@@ -45,8 +53,14 @@ $a \ne b$ (case assumption), $a \ne a+b$ and $b \ne a+b$ (simplicity).
 The eight edges are pairwise distinct: the four spokes sit at four
 distinct indices; the two outer edges $\{u_0,u_a\}$ and
 $\{u_b, u_{a+b}\}$ are distinct because $\{0,a\} \cap \{b, a+b\} =
-\emptyset$; likewise the two inner edges. Hence the walk is a simple
-$8$-cycle. $\square$
+\emptyset$; likewise the two inner edges. (The conditions $2a \not\equiv 0$
+and $2b \not\equiv 0$ ensure no outer/inner edge is a loop or multi-edge.)
+Hence the walk is a simple $8$-cycle. $\square$
+
+**Excluded case ($2a \equiv 0$ or $2b \equiv 0$).** If $2a \equiv 0 \pmod m$,
+the outer polygon has multi-edges; $I(m,a,b)$ is not simple. Analogously for
+$2b \equiv 0$. The statement does not apply to such I-graphs; they are
+excluded by the simplicity hypothesis stated in the scope restriction above.
 
 **Sandbox-checkable core.** The entire content of the proof beyond
 edge-by-edge membership inspection is (i) the residue-distinctness claim
