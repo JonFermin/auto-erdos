@@ -31,15 +31,21 @@ Erdős–Gyárfás witness.
 
 **Proof.**
 
-*Case 1: $b \equiv a$ or $b \equiv -a \pmod m$.* If $b \equiv a$, then
-$v_a v_0$ is an inner edge (difference $-b \equiv -a$), so
-$u_0, u_a, v_a, v_0$ is a closed walk using the outer edge $u_0 u_a$, the
-spoke $u_a v_a$, the inner edge $v_a v_0$, and the spoke $v_0 u_0$. Its
-four vertices are distinct because $a \not\equiv 0$, and its four edges
-are pairwise distinct (two spokes at distinct indices, one outer, one
-inner edge), so it is a $C_4$. If $b \equiv -a$, the inner edge
-$v_a v_{a+b} = v_a v_0$ exists for the same reason and the same 4-cycle
-works.
+*Case 1: $b \equiv a$ or $b \equiv -a \pmod m$.* Inner polygon edges are
+unordered pairs $\{v_j, v_{j+b \bmod m}\}$ for $j \in \mathbb{Z}_m$.
+- **Sub-case $b \equiv a$:** Taking $j = 0$ gives inner edge $\{v_0, v_b\} = \{v_0, v_a\}$.
+- **Sub-case $b \equiv -a$:** Taking $j = a$ gives inner edge $\{v_a, v_{a+b}\} = \{v_a, v_0\}$.
+
+In both sub-cases $\{v_0, v_a\}$ is an inner edge. The walk
+$u_0 \to u_a \to v_a \to v_0 \to u_0$ uses: outer edge $u_0 u_a$; spoke
+$u_a v_a$ (NOT outer edge $u_a u_{2a}$); inner edge $\{v_a, v_0\}$; spoke
+$v_0 u_0$. Its four vertices are distinct (since $a \not\equiv 0$), its
+four edges are pairwise distinct (two spokes at different indices, one outer,
+one inner), so it is a $C_4$.
+(Concreteness: $I(6,2,2)$ has inner edges $\{v_j, v_{j+2}\}$, so
+$\{v_0,v_2\}=\{v_0,v_a\}$ is present for $a=b=2$ via $j=0$; and
+$I(4,1,3)$ has inner edge $\{v_1,v_0\}$ for $j=1, b=3, j+b=4\equiv 0$,
+giving $\{v_1,v_{a}\}=\{v_1,v_0\}$ via the $b\equiv -a$ sub-case.)
 
 *Case 2: $b \not\equiv \pm a \pmod m$.* Consider the closed walk
 $$u_0 \to u_a \to v_a \to v_{a+b} \to u_{a+b} \to u_b \to v_b \to v_0 \to u_0 .$$
