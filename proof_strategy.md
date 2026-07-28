@@ -439,12 +439,16 @@ verified this on:
 
 The Petersen graph result is non-trivial: the girth-$5$ property forces
 every back edge to have depth-gap $\ge 4$, so no fundamental cycle has
-length $4$. The PASS means some pairwise symmetric difference achieves
-length $8$ under every DFS tree. **Consistency with Section 6:** Section 6's
-pairwise counterexample is a non-Petersen cubic 10-vertex graph (one of
-CL-A/B/C); the Petersen specifically passes pairwise. These are not
-contradictory: Section 6 shows pairwise fails for SOME min-deg-3 $n=10$
-graphs (namely CL-A/B/C), while Section 9 shows it passes for the Petersen.
+length $4$. The PASS is achieved via a **fundamental $C_8$**: every DFS
+tree of the Petersen has a back edge with depth-gap exactly $7$, giving a
+fundamental cycle of length $8$. No pairwise sym-diff is required — the
+1-cycle solution (fundamental $C_8$) already satisfies the chain-locality
+check. **Consistency with Section 6:** Section 6's pairwise counterexample
+is a non-Petersen cubic 10-vertex graph (one of CL-A/B/C); the Petersen
+passes the pairwise ($\le 2$-cycle) chain-locality check via this 1-cycle
+mechanism. These are not contradictory: Section 6 shows pairwise fails for
+SOME min-deg-3 $n=10$ graphs (CL-A/B/C need triple sym-diff), while
+Section 9 shows pairwise passes for the Petersen (fundamental $C_8$ exists).
 The two findings concern different graphs.
 
 **Same-leaf sym-diff sub-lemma** (see
@@ -936,9 +940,12 @@ length k2-k1 = 4-2 = 2, cycle = C4, length 2² = 4).
 - Leaf: sends 2 back edges.
 
 **Consequence**: root always has a shared-target pair with some bridge
-length k2-k1. If k2-k1 ∈ {2,6,14,30}, a po2-cycle C4/C8/C16/C32 with 2
-back edges is immediate. Whether this is forced for hard-path instances,
-or whether 3-back-edge arguments are needed, is the open question.
+length $k_2 - k_1$.  In a hypothetical counterexample (no po2 cycles), this
+bridge must satisfy $k_2 - k_1 \notin \{2, 6, 14, 30\}$; otherwise the
+sym-diff of the two root back-edges would be a simple cycle of po2 length,
+contradicting the assumption.  Whether the depth-gap constraints FORCE some
+root pair to have $k_2 - k_1 \in \{2,6,14,30\}$ (which would complete the
+proof for this DFS-tree type) is the open question.
 
 **CHECK-guarded** in `proof_lemmas/lemma_shared_target_c4.md`:
 chain_locality_r3 verified on all sampled hard-path Hamiltonian-path cubic
@@ -955,9 +962,15 @@ graphs at n=12..18. Shared-target coverage measured empirically.
   No shared-target pair at root. Instead, every leaf sends exactly 2 back edges
   → **shared-source pair at every leaf** → handled by `lemma_branching_dfs_r3`.
 
-**Shared-source mechanism.** Leaf L with back edges to ancestors at depths d1 < d2:
-bridge b = d2 − d1. If b ∈ {2, 6, 14, 30}, sym-diff of the two fundamental
-cycles gives a po2-cycle of length b+2 ∈ {4,8,16,32} using 2 back edges.
+**Shared-source constraint** (proof-by-contradiction). Leaf L with back edges
+to ancestors at depths $d_1 < d_2$: bridge $b = d_2 - d_1$.  In a
+hypothetical counterexample $G$ (no po2 cycles), every shared-source leaf
+pair must satisfy $b \notin \{2, 6, 14, 30\}$.  Proof: otherwise the sym-diff
+of the two fundamental cycles would be a simple cycle of length $b+2$; since
+$b \in \{2,6,14,30\} \Rightarrow b+2 \in \{4,8,16,32\}$, this contradicts
+the counterexample assumption.  The constraint $b \notin \{2,6,14,30\}$ is
+the shared-source analogue of the fundamental-cycle gap constraint
+$\delta \notin \{3,7,15,31\}$.
 
 **Concrete example** (`lemma_branching_dfs_r3`): n=10 hard-path branching cubic
 graph G10B (girth 3, root has 2 tree children; back-edge gaps all $\in \{2,4\}$
