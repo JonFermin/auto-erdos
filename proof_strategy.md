@@ -311,26 +311,28 @@ $n = 24$. Across 350 cubic graphs and 6,650 $(G, T)$ pairs, zero triple
 failures were found. Pairwise failures occur at $n = 10$ and $n = 14$ but
 are always rescued by some triple.
 
-**Full-window coverage (Lemma `chain_locality_full_window`; status: open,
-computationally established).** The check was extended to all even cubic
+**Full-window sample (Lemma `chain_locality_full_window`; status: open,
+computationally supported).** The check was extended to all even cubic
 sizes through $n = 64$ (the verifier vertex cap). Across 650 cubic graphs
 and 9,350+ $(G,T)$ pairs (seeds 12345/99991/77777/54321), zero triple
-failures were found. The triple sym-diff obstruction therefore covers the
-full cubic witness window:
+failures were found (sample-based; this is not a proof of universal coverage):
 
-*Corollary (computational).* No tested cubic graph on $n \le 64$ has a
-spanning tree whose fundamental cycles, pairwise, or triple symmetric
-differences avoid all pow-2 lengths. If the conjecture has a cubic
-counterexample in the witness window, it must be a highly special
-(non-random) cubic graph — none of the 650 tested graphs qualify. This is
-consistent with and strengthens Markström's lower bound ($n \ge 30$).
+*Corollary (computational, sample-scoped).* In no tested cubic graph on
+$n \le 64$ does any spanning tree have fundamental cycles whose pairwise
+and triple symmetric differences all avoid pow-2 lengths. Absence of a
+counterexample in 9,350+ tested pairs is evidence but not proof.
+If the conjecture has a cubic counterexample in the witness window, it
+must be a highly special (non-random) cubic graph — none of the 650 tested
+graphs qualify. This is consistent with and strengthens Markström's lower
+bound ($n \ge 30$).
 
 **Consequence for Q9.** The chain-locality family of lemmas shows that
-no cubic graph in the witness window can hide pow-2 cycles from the
-cycle-space census up to triple order. For the discharging argument to
-produce a formal proof, the depth-gap constraints must force a *global*
+in every tested cubic graph in the witness window, triple order suffices
+to find a po2 cycle in the cycle-space census. For the discharging argument
+to produce a formal proof, the depth-gap constraints must force a *global*
 contradiction (ancestor-chain charge absorption) rather than relying on
-local cycle detection, since triple order already suffices in practice.
+local cycle detection, since triple order already suffices in all tested
+cases.
 
 **Near-complete formal proof (Lemma `chain_locality_proof`).**
 The formal proof of `chain_locality_triple` ($n \le 10$, all min-degree-3 graphs) is
@@ -342,14 +344,25 @@ now near-complete. Cases are:
 - $n = 10$, Petersen graph: 60 DFS spanning trees (all 6 orderings × 10 roots)
   verified, all pass triple chain-locality.
 
+**CL-A/B/C consistency note.** Section 10 reports three cubic 10-vertex graphs
+(CL-A, CL-B, CL-C) that DISPROVE the pairwise version (order-2): those graphs
+have some DFS tree where NO pair of fundamental cycles gives a po2 sym-diff.
+CL-A/B/C are non-Petersen, so they fall under the non-Petersen girth-$\le 4$
+case above. The pairwise disproof is fully consistent with the triple result:
+girth $\le 4$ means the graph has a $C_4$ (or $C_3$), but some DFS trees make
+that cycle expressible only at triple order, not pairwise — the triple
+sym-diff then finds it. CL-A/B/C are examples of this phenomenon.
+
 **Petersen case (Lemma `chain_locality_petersen`; status: proved).** All 2000
 spanning trees of the Petersen graph pass triple chain-locality. This closes
 the final case:
 
-> **`chain_locality_triple` is now computationally proved**: all min-deg-3 graphs on
-> $n \le 10$ and every spanning tree, the $\mathbb{F}_2$ cycle space up to
-> triple order contains a pow-2-length simple cycle. Proof:
-> (i) non-Petersen min-deg-3 $n \le 10$: girth $\le 4$ (see `chain_locality_proof`);
+> **`chain_locality_triple` is computationally proved for all $n \le 10$**:
+> for every min-deg-3 graph on $n \le 10$ and every spanning tree, the
+> $\mathbb{F}_2$ cycle space up to triple order contains a pow-2-length simple
+> cycle. Proof: (i) non-Petersen min-deg-3 $n \le 10$: girth $\le 4$ (see
+> `chain_locality_proof`; CL-A/B/C are in this case, consistent with their
+> pairwise disproof since girth-$\le4$ only guarantees triple-level coverage);
 > (ii) Petersen graph: all 2000 spanning trees verified exhaustively.
 
 **Next steps for Q9.**
@@ -980,8 +993,11 @@ Example: $e_1 = (u_1{=}4,\, v_1{=}0)$ (interval $[0,4]$, gap $g_1=4$,
 back edge from depth-4 vertex to root at depth 0) and
 $e_2 = (u_2{=}5,\, v_2{=}1)$ (interval $[1,5]$, gap $g_2=4$, interior edge).
 Overlap $o = \min(4,5) - \max(0,1) = 4 - 1 = 3 \ge 1$.
-$L = 4 + 4 - 2 \cdot 3 + 2 = 4$. C4 via 2 back edges — even though the
-root bridge $k_2 - k_1$ and the leaf bridge both avoid $\{2,6,14,30\}$!
+$L = 4 + 4 - 2 \cdot 3 + 2 = 4$. C4 via 2 back edges — even though neither
+individual gap ($g_1=4$, $g_2=4$) is in $\mathrm{PO2\_GAPS} = \{3,7,15,31\}$!
+(Note: this example has only $e_1$ reaching the root; "root bridge" and
+"leaf bridge" are not applicable here — the po2 cycle arises purely from
+the interior-pair overlap.)
 
 **Parity constraint.** $L = g_1 + g_2 - 2o + 2$. Since $-2o + 2$ is even,
 $L \equiv g_1 + g_2 \pmod{2}$. Po2 lengths $\ge 4$ are all even, so a
