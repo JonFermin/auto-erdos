@@ -33,3 +33,4 @@
 {"qid":"Q11","status":"resolved","session_id":"s_0726-080718-bd1c","summary":"Q11 partially done: cyclic and dihedral orbit lemmas (avg size >= n/2) proved trivially for |A|>=n/2, CHECK-verified for n<=15; thin-case analytic proof open; affine group screen pending","ts":"2026-07-26T08:51:29+00:00"}
 {"qid":"Q9","status":"claimed","session_id":"s_0728-080614-23cb","summary":"R16: generalizing 2-back-edge po2 analysis beyond root/leaf bridges","ts":"2026-07-28T08:15:59+00:00"}
 {"qid":"Q9","status":"claimed","session_id":"s_0728-105022-a8e5","summary":"R30: fix G10B gaps, Section 9 unified formula, o<=0 guard, Section 22 two-sample, igraph scope, sym_diff_nested containment rename, triple rescue lemma","ts":"2026-07-28T13:13:35+00:00"}
+{"qid":"Q38","status":"claimed","session_id":"s_0728-150558-f7d9","summary":"Section 23: mod-8 gap periodicity and density analysis for depth-gap counterexample constraints","ts":"2026-07-28T15:09:51+00:00"}

@@ -1337,3 +1337,108 @@ CHECK -->
 Section 21's 0.67\% due to different seed; both are valid independent samples),
 no\_triple=0. The assert `no_triple2 == 0` confirms 100\% triple rescue on
 all residuals from this second sample.
+
+## Section 23 — Q38: mod-8 gap-density analysis and constraint feasibility (session s_0728-150558-f7d9)
+
+**Motivation.** The depth-gap constraint system for a hypothetical counterexample
+($G$ has no po2 cycle) forbids:
+- Fundamental cycle gaps in $\mathcal{F}_1 = \{3,7,15,31,\ldots\} = \{2^k-1: k \ge 2\}$
+- Bridge gaps (sym-diff of same-parity adjacent pairs) in $\mathcal{F}_2 = \{2,6,14,30,\ldots\} = \{2(2^k-1): k \ge 1\}$
+
+**Mod-8 reduction.** For $n \le 32$, the relevant forbidden gaps are:
+- $\mathcal{F}_1 \cap [1,31] = \{3,7,15,31\}$, i.e., depths $\equiv 3$ or $7 \pmod{8}$ (for depths $\le 31$; exactly $\{3,7\}$ mod 8 for depths up to $n \le 16$)
+- $\mathcal{F}_2 \cap [1,31] = \{2,6,14,30\}$, i.e., bridges $\equiv 2$ or $6 \pmod{8}$ (for bridges up to 30)
+
+**Allowed depth residues mod 8** (for $n \le 16$): $\{0,1,2,4,5,6\}$ (all residues except $\{3,7\}$).
+
+**Allowed bridge residues mod 8** (for bridges up to 14): $\{0,1,3,4,5,7\}$ (all except $\{2,6\}$).
+
+**Parity observation.** All forbidden bridges in $\mathcal{F}_2$ are EVEN. Therefore:
+if $k_1$ and $k_2$ have DIFFERENT parities (one odd, one even), their bridge $k_2 - k_1$
+is ODD, hence $\notin \mathcal{F}_2$.  The sym-diff constraint is automatically
+satisfied for mixed-parity pairs.  Only SAME-parity pairs face additional restrictions.
+
+**Consequence for the root shared-target pair.** In a Hamiltonian-path DFS tree, root
+receives back edges from depths $k_1 < k_2$.  A mixed-parity pair $(k_1, k_2)$ with
+$k_1, k_2 \notin \mathcal{F}_1$ satisfies all counterexample constraints on its own.
+This shows the constraint system is satisfiable in isolation: there exist valid root
+pairs for any $n$, so the argument cannot close at the root level alone.  The
+contradiction (if it exists) must come from GLOBAL interactions among all back edges.
+
+**Gap-density argument (heuristic direction).** For a cubic $n$-vertex graph:
+- Number of back edges: $m - (n-1) = \tfrac{3n}{2} - n + 1 = \tfrac{n}{2} + 1$
+- Number of fundamental cycles: $\tfrac{n}{2} + 1$
+- Number of pairwise sym-diffs: $\binom{n/2+1}{2} \approx \tfrac{n^2}{8}$
+- Forbidden fraction of all pairwise lengths (among lengths $1$ to $n$): $|\mathcal{F}_2 \cap [1,n]| / n \approx \log_2 n / n \to 0$
+
+As $n \to \infty$, the fraction of lengths in $\mathcal{F}_2$ goes to 0, while the
+number of pairwise sym-diffs grows as $\Theta(n^2)$.  For the conjecture to fail
+at large $n$, ALL $\Theta(n^2)$ sym-diff lengths must avoid $O(\log n)$ forbidden
+values — an increasingly difficult condition.  This is a heuristic density argument,
+not a proof; formalizing it requires controlling correlations among sym-diff lengths.
+
+**Numerical feasibility CHECK (mod-8 valid-pair density):**
+
+<!-- CHECK
+# Section 23: compute density of valid (k1,k2) pairs for a counterexample root
+# in a Hamiltonian-path DFS tree as n varies.
+# Valid pair: k1 < k2, both not in F1 = {3,7,15,31,...}, bridge k2-k1 not in F2 = {2,6,14,30,...}
+
+F1 = set()
+tmp = 2
+while tmp <= 128:
+    F1.add(tmp - 1)
+    tmp *= 2
+
+F2 = set()
+tmp = 2
+while tmp <= 64:
+    F2.add(2 * (tmp - 1))
+    tmp *= 2
+
+results = []
+for n in [10, 12, 14, 16, 18, 20, 24, 28, 32]:
+    depths = [k for k in range(1, n) if k not in F1]
+    total_pairs = 0
+    valid_pairs = 0
+    for i in range(len(depths)):
+        for j in range(i + 1, len(depths)):
+            k1, k2 = depths[i], depths[j]
+            total_pairs += 1
+            bridge = k2 - k1
+            if bridge not in F2:
+                valid_pairs += 1
+    if total_pairs > 0:
+        density = valid_pairs / total_pairs
+        results.append((n, valid_pairs, total_pairs, density))
+
+assert len(results) == 9, "Expected 9 data points"
+# density should be between 0 and 1 for all n
+for n, vp, tp, d in results:
+    assert 0 < d <= 1, f"density out of range for n={n}: {d}"
+# valid pair count should grow with n (more possible depths)
+vp_list = [r[1] for r in results]
+for i in range(len(vp_list) - 1):
+    assert vp_list[i] < vp_list[i+1], f"valid pairs did not grow: {vp_list[i]} >= {vp_list[i+1]} at n={results[i][0]}"
+print("OK: mod-8 density analysis complete")
+for n, vp, tp, d in results:
+    print(f"  n={n:2d}: valid_pairs={vp:4d}/{tp:4d} = {d:.3f}")
+CHECK -->
+
+**Expected pattern:** valid\_pair density remains close to (but below) 1 for all $n$,
+confirming that valid (k1,k2) pairs always exist in isolation.  The constraint system
+is NOT self-contradictory at the root level for any $n$ — the contradiction (if it
+exists) requires global interactions among all back edges in the DFS tree.
+
+**Implication for Q9 proof strategy.** The mod-8 analysis confirms:
+1. The root-level constraints alone never force a contradiction — valid root pairs
+   exist for every $n$.
+2. A proof must use GLOBAL structure: either an ancestor-chain discharging argument
+   showing the COMBINED depth-gap constraints at all leaves are unsatisfiable, or
+   a density/counting argument showing the $\Theta(n^2)$ sym-diff lengths cannot
+   all avoid $O(\log n)$ po2 values while also satisfying back-edge structure.
+3. For small $n$ ($\le 10$), the proof is computational (triple order closes).
+   For general $n$, the open gap is this global-interaction step.
+
+The next analytical priority is to find a global interaction argument that can replace
+the computational exhaustion at $n = 10$ with an infinite-$n$ argument.
