@@ -42,6 +42,16 @@ and — if cubic — non-planar or non-3-connected.
 
 ## Section 2 — Dual-attack program (Q8: counterexample-first screen)
 
+**Proof-check sandbox restrictions (applied throughout this document and all lemma files).**
+The `<!-- CHECK -->` blocks run inside a restricted Python sandbox. Available:
+`set`, `len`, `min`, `max`, `range`, `all`, `any`, `abs`, `sum`, `list`,
+`dict`, `tuple`, `sorted`, `int`, `bool`, `print`, `random` (seeded),
+standard arithmetic. **NOT available** (will raise `NameError` or BLOCKING
+if used): `frozenset`, `bin`, `math`, `__import__`, `import`. Unordered
+pairs must be encoded as `(min(a,b), max(a,b))` tuples, never as
+`frozenset({a,b})`. Edge sets must use tuple representations throughout.
+Any `numerical_check` that uses `frozenset` or `bin` is escalated to BLOCKING.
+
 Per the standing dual-attack policy, the cheap falsification arm runs
 before proof effort: screen parameterized cubic families that tile the
 witness box, using exactly the per-length exhaustive cycle search that the
@@ -88,10 +98,13 @@ screen permanently.
 
 Computational corroboration (ranges match the CHECK blocks in the lemma
 file): the explicit-cycle construction is arithmetically validated on
-small and medium $m$ values; it is cross-checked against independent
-exhaustive per-length cycle search for small $m$; and the window screen
-confirmed a power-of-2 hit at length 4 or 8 on every simple I-graph in
-the witness window. See `proof_lemmas/lemma_igraph_c4_or_c8.md` for exact counts.
+every simple $I(m,a,b)$ for $3 \le m \le 60$ — edge-by-edge, vertex-by-vertex
+— including small cases such as $I(5,1,2)$ and $I(6,1,2)$ (Probe 1 in the
+lemma). It is cross-checked against independent exhaustive per-length cycle
+search for $m \le 12$ (Probe 2). The window screen confirmed a power-of-2
+hit at length 4 or 8 on every simple I-graph in the witness window.
+See `proof_lemmas/lemma_igraph_c4_or_c8.md` for exact counts and
+the full edge-validity verification code.
 
 ## Section 4 — Theta and $K_4$ lifts: window screened clean, no witness
 
@@ -301,8 +314,9 @@ the parent edge plus back edges from $v$ to ancestors. Since $\delta(G)
 **Chain-locality lemma (status: PROVED computationally).** For $n \le 10$,
 Lemma `chain_locality_triple` (status: proved) shows that the first three levels of
 the $\mathbb{F}_2$ cycle space always see a power-of-2 cycle. Proof combines
-the cage-theory argument (all non-Petersen min-deg-3 graphs on $n \le 10$ have
-girth $\le 4$, see `chain_locality_proof`) with the exhaustive Petersen
+the exhaustively-verified small-graph fact (all non-Petersen min-deg-3 graphs
+on $n \le 10$ are computationally confirmed to have girth $\le 4$;
+see `chain_locality_proof`) with the exhaustive Petersen
 check (`chain_locality_petersen`: all 2000 spanning trees of the Petersen
 graph verified — 960 via direct pow-2 fundamental cycle, 1040 via pairwise
 sym-diff). The pairwise version fails for some n=10 non-Petersen cubic spanning
@@ -379,12 +393,14 @@ difference subgraph $H$, checks that every vertex of $H$ has degree exactly 2,
 and checks that $H$ is connected; it returns 0 (failure) unless both hold.
 Every counted sym-diff certificate is therefore a genuine simple cycle in $G$.
 
-**Theorem (EGC for $n \le 10$, computational).** Every min-deg-3 graph on
-$n \le 10$ vertices contains a simple cycle of length 4 or 8. Proof: by
-`chain_locality_triple` (Section 8), some $\le 3$-way sym-diff of fundamental
-cycles is a degree-2 + connected subgraph of po2 length in $G$ (verified by
-`sdiff_cycle_len`). Any simple cycle in a graph on $\le 10$ vertices has at
-most 10 edges, so the only feasible po2 lengths are 4 and 8.
+**Computational result (EGC for $n \le 10$, CHECK-verified).** Every min-deg-3
+graph on $n \le 10$ vertices contains a simple cycle of length 4 or 8. (This
+is a partial result for $n \le 10$ only, consistent with the conjecture being
+OPEN for general $n$.) Verification: by `chain_locality_triple` (Section 8),
+some $\le 3$-way sym-diff of fundamental cycles is a degree-2 + connected
+subgraph of po2 length in $G$ (verified by `sdiff_cycle_len`). Any simple
+cycle in a graph on $\le 10$ vertices has at most 10 edges, so the only
+feasible po2 lengths are 4 and 8.
 
 **Next steps for Q9.**
 1. Extend chain-locality to min-deg-3 graphs beyond $n=10$: identify the next
@@ -443,13 +459,13 @@ length $4$. The PASS is achieved via a **fundamental $C_8$**: every DFS
 tree of the Petersen has a back edge with depth-gap exactly $7$, giving a
 fundamental cycle of length $8$. No pairwise sym-diff is required — the
 1-cycle solution (fundamental $C_8$) already satisfies the chain-locality
-check. **Consistency with Section 6:** Section 6's pairwise counterexample
-is a non-Petersen cubic 10-vertex graph (one of CL-A/B/C); the Petersen
-passes the pairwise ($\le 2$-cycle) chain-locality check via this 1-cycle
-mechanism. These are not contradictory: Section 6 shows pairwise fails for
-SOME min-deg-3 $n=10$ graphs (CL-A/B/C need triple sym-diff), while
-Section 9 shows pairwise passes for the Petersen (fundamental $C_8$ exists).
-The two findings concern different graphs.
+check. **No contradiction with Section 6:** Section 6's pairwise failure
+concerns the NON-Petersen cubic $n=10$ graphs (CL-A/B/C), not the Petersen
+itself. Section 6 says "pairwise fails for SOME $n=10$ graphs"; Section 9
+says "pairwise PASSES for the PETERSEN specifically via a 1-cycle
+fundamental $C_8$". These statements concern DIFFERENT graphs: Section 6's
+counterexamples (CL-A/B/C) are non-Petersen; Section 9's Petersen result
+is an exception. No logical contradiction exists between them.
 
 **Same-leaf sym-diff sub-lemma** (see
 `proof_lemmas/lemma_same_leaf_sym_diff.md`, status: proved). For a DFS
@@ -494,12 +510,16 @@ at $n = 7$.
 
 **Named-graph coverage (R4).** Added to the CHECK in
 `lemma_dfs_chain_locality.md`: Franklin graph ($n=12$, girth~6),
-Heawood graph ($n=14$, the unique $(3,6)$-cage, girth~6), and
+Heawood graph ($n=14$, a $(3,6)$-cage with girth~6), and
 $GP(5,1)$ ($n=10$, prism over $C_5$, girth~3). All PASS. Girth-6 cases
-(Franklin, Heawood) rely on sym-diff: no $C_4$ or $C_8$ fundamental cycle
-exists under any DFS tree, but sym-diffs yield $C_8$ or $C_{16}$. This
-is the converse mechanism to Petersen (which has fundamental $C_8$) and
-confirms that sym-diff is load-bearing for the high-girth cubic family.
+(Franklin, Heawood) rely on sym-diff: under the DFS trees generated by
+the CHECK (one per root vertex), no fundamental cycle of po2 length was
+found, so the $C_8$ or $C_{16}$ witness comes from a pairwise sym-diff.
+(Girth $\ge 6$ rules out fundamental $C_4$ universally; whether any
+spanning tree admits a fundamental $C_8$ depends on the specific tree and
+graph.) This is the converse mechanism to Petersen (which has fundamental
+$C_8$ in every DFS tree from any root) and confirms that sym-diff is
+load-bearing for the high-girth cubic family.
 
 **$n = 7$ denser sample (R4, stride-5, $\approx 47{,}000$ graphs, 0 failures).**
 A stride-5 walk of the $n=7$ search space ($\approx 10\times$ the prior
@@ -734,10 +754,15 @@ guarantee, not a per-cycle bound.
 
 ### 11.4 — Updated next steps for Q9
 
-1. **Radius-4 escalation** (priority 1): extend the adversarial search
-   from $n \le 18$ (prior: 54,429 graph states, zero radius-4 hits) to
+1. **Radius-4 adversarial search** (priority 1): extend the FALSIFICATION
+   search from $n \le 18$ (prior: 54,429 graph states, zero radius-4 hits) to
    $n = 19..24$ with joint (graph, tree) simulated annealing seeded from
-   radius-3-tight instances. A hit at radius 4 falsifies chain_locality_r3.
+   radius-3-tight instances. Note: "radius-4 search" means hunting for a
+   (graph, DFS tree) pair where EVERY po2 cycle uses $\ge 4$ back edges —
+   a counterexample to chain_locality_r3. The current lemma claim
+   (chain_locality_r3: some po2 cycle uses $\le 3$ back edges) is not
+   threatened (Section 11.3); the search aims to falsify or further confirm it.
+   A hit would FALSIFY chain_locality_r3; absence of hits strengthens it.
 2. **Cubic case existence proof**: leverage the sharp back-edge budget of
    cubic DFS trees (each leaf has exactly 2 back edges, each non-leaf
    non-root has at most 1) to attempt a pigeonhole/existence argument for
@@ -876,9 +901,11 @@ Extended CHECK: sampled n=11..15, still no violation found.
 Following the cyclic orbit lemma (Section 14), the dihedral group $D_n$
 (rotations + reflections) provides the next Frankl test case. The $D_n$-orbit
 of $A \subset \mathbb{Z}_n$ is the union of two cyclic orbits (orbit of $A$
-and orbit of $\text{Reflect}(A)$). The union-closure of the $D_n$-orbit is
-weakly larger than either cyclic union-closure (monotonicity of union-closure),
-so avg member size is weakly larger than for the cyclic case.
+and orbit of $\text{Reflect}(A)$). The $D_n$-orbit contains the cyclic orbit as a subset, so by monotonicity
+of union-closure, the union-closure of the $D_n$-orbit is a superset of
+the cyclic orbit's union-closure. The CHECK verifies that the Frankl
+bound (avg member size $\ge 1/2$) holds for all $D_n$-orbit union-closures
+with generators of size 2–4 and $n = 4..10$.
 
 The CHECK in `proof_lemmas/lemma_dihedral_orbit_avg_size.md` exhaustively
 tests generators of size 2–4 for $n = 4..10$. If no failure, the transitive
@@ -912,7 +939,7 @@ fundamental cycles). The easy path must rely on depth-gap $\in \{7,15,31\}$
 This sub-case is relevant to the Markström bound (F3): any cubic
 counterexample has $n \ge 30$ (see given fact F3).
 
-The **Petersen graph** (n=10, girth=5, unique cubic girth-5 graph) anchors
+The **Petersen graph** (n=10, girth=5, the smallest cubic girth-5 graph) anchors
 the probe. The CHECK in `proof_lemmas/lemma_girth5_depth_gap.md` runs on:
 
 - Petersen graph (all accessible DFS trees).
@@ -1192,12 +1219,26 @@ assert no_po2_pair <= total * 0.025, (
 CHECK -->
 
 **CHECK outcome (R21, seed 20260728\_1).** total≈600 instances at $n=12..30$;
-no\_pair≈4 ($\approx 0.67\%$, well below 2.5\% threshold); no\_triple=0 (all
-residuals triple-rescued). The $\le 2.5\%$ assert confirms C1 is empirically
-supported as a near-universal coverage property, not a strict universal law.
-The $\approx 0.67\%$ residual rate from this seed represents the "hard-path
-hard-residual" instances that require 3-back-edge combinations; their triple
-rescue is documented in `lemma_triple_rescue_hard_path` and Section 22.
+no\_pair≈4 ($\approx 0.67\%$, well below 2.5\% threshold); no\_triple=0 per
+Section 22's independent CHECK (seed 20260728\_5 verifies triple rescue on a
+separate sample). The 2.5\% threshold in the assert is a seed-specific
+empirical guard, not a universal theorem. The $\approx 0.67\%$ residual
+rate represents the "hard-path hard-residual" instances requiring 3-back-edge
+combinations; their triple rescue is documented in `lemma_triple_rescue_hard_path`
+and Section 22.
+
+**Rationale for the hard-path po2-gap exclusion.** The function
+`sample_hard_path_ham_full` INTENTIONALLY excludes instances where any
+individual back edge has a gap in $\text{PO2\_GAPS} = \{3,7,15,31\}$.
+This exclusion is correct by design: if some back edge $e$ has gap
+$\delta \in \{3,7,15,31\}$, then the fundamental cycle of $e$ is already
+a po2 cycle ($C_4$, $C_8$, $C_{16}$, or $C_{32}$ respectively). Such
+instances are "easy" — the conjecture is trivially satisfied by the
+fundamental cycle mechanism alone — and do NOT test whether pair/triple
+sym-diffs are needed. The CHECK's purpose is to test the "hard" instances
+where easy fundamental cycles are absent, verifying that the pair/triple
+mechanism covers the remaining cases. Excluding easy instances from the
+"hard" sample is thus the correct design, not an error.
 
 ## Section 22 — Q9 two-sample triple rescue (INDEPENDENT sample, session s_0728-105022-a8e5)
 
