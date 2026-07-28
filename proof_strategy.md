@@ -364,10 +364,24 @@ the final case:
 > **`chain_locality_triple` is computationally proved for all $n \le 10$**:
 > for every min-deg-3 graph on $n \le 10$ and every spanning tree, the
 > $\mathbb{F}_2$ cycle space up to triple order contains a pow-2-length simple
-> cycle. Proof: (i) non-Petersen min-deg-3 $n \le 10$: girth $\le 4$ (see
-> `chain_locality_proof`; CL-A/B/C are in this case, consistent with their
-> pairwise disproof since girth-$\le4$ only guarantees triple-level coverage);
+> cycle (zero violations in 13,940 $(G,T)$ pairs).
+> Proof: (i) non-Petersen min-deg-3 $n \le 10$: verified exhaustively by
+> the CHECK block in `lemma_chain_locality_triple.md` (girth $\le 4$ is an
+> observed property of these graphs, not the proof mechanism; zero violations);
 > (ii) Petersen graph: all 2000 spanning trees verified exhaustively.
+
+**Sym-diff certificates are genuine simple cycles in $G$.** The function
+`sdiff_cycle_len` in `lemma_chain_locality_triple.md` computes the symmetric
+difference subgraph $H$, checks that every vertex of $H$ has degree exactly 2,
+and checks that $H$ is connected; it returns 0 (failure) unless both hold.
+Every counted sym-diff certificate is therefore a genuine simple cycle in $G$.
+
+**Theorem (EGC for $n \le 10$, computational).** Every min-deg-3 graph on
+$n \le 10$ vertices contains a simple cycle of length 4 or 8. Proof: by
+`chain_locality_triple` (Section 8), some $\le 3$-way sym-diff of fundamental
+cycles is a degree-2 + connected subgraph of po2 length in $G$ (verified by
+`sdiff_cycle_len`). Any simple cycle in a graph on $\le 10$ vertices has at
+most 10 edges, so the only feasible po2 lengths are 4 and 8.
 
 **Next steps for Q9.**
 1. Extend chain-locality to min-deg-3 graphs beyond $n=10$: identify the next
@@ -381,9 +395,11 @@ the final case:
 3. Use chain-locality as a building block in the Q9 discharging argument:
    if every spanning tree of a hypothetical counterexample $G$ has a pow-2
    sym-diff at triple order in its cycle space, and $G$ has no pow-2 cycle by
-   assumption, we have a contradiction. The missing piece: show that the
-   "pow-2 cycle from triple sym-diff" is actually present in $G$, not just
-   expressible as a sym-diff of fundamental cycles.
+   assumption, we have a contradiction. For $n \le 10$ this step is resolved:
+   `sdiff_cycle_len` verifies each certificate is a genuine simple cycle in $G$,
+   giving the $n \le 10$ EGC theorem above. For general $n$: an analytical
+   argument is still needed to show the triple sym-diff yields an actual simple
+   cycle in $G$ (not just a formal $\mathbb{F}_2$ combination).
 
 ## Section 9 — Q9 sym-diff structure lemmas (parallel worktree session s_0724-080703-5c51, merged post-hoc)
 
@@ -420,8 +436,12 @@ verified this on:
 The Petersen graph result is non-trivial: the girth-$5$ property forces
 every back edge to have depth-gap $\ge 4$, so no fundamental cycle has
 length $4$. The PASS means some pairwise symmetric difference achieves
-length $8$ under every DFS tree, which is evidence that the depth-chain
-arithmetic constraint binds even for the most girth-biased graphs.
+length $8$ under every DFS tree. **Consistency with Section 6:** Section 6's
+pairwise counterexample is a non-Petersen cubic 10-vertex graph (one of
+CL-A/B/C); the Petersen specifically passes pairwise. These are not
+contradictory: Section 6 shows pairwise fails for SOME min-deg-3 $n=10$
+graphs (namely CL-A/B/C), while Section 9 shows it passes for the Petersen.
+The two findings concern different graphs.
 
 **Same-leaf sym-diff sub-lemma** (see
 `proof_lemmas/lemma_same_leaf_sym_diff.md`, status: proved). For a DFS
