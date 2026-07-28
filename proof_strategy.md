@@ -165,18 +165,21 @@ This lemma is **false** (see `proof_lemmas/lemma_chain_locality.md`).
 the 3-regular graph $G$ on 10 vertices with edges
 $$\{0{-}4, 0{-}5, 0{-}8, 1{-}3, 1{-}6, 1{-}7, 2{-}4, 2{-}7, 2{-}9,
 3{-}6, 3{-}9, 4{-}7, 5{-}6, 5{-}8, 8{-}9\}$$
-has 12 simple 8-cycles and no shorter power-of-2 cycle.  For the DFS tree
-rooted at vertex 7, the six fundamental cycles have lengths $[3,3,3,5,6,10]$,
-and the 15 pairwise symmetric differences achieve lengths $\{0,5,6,7,9\}$ —
-no power of 2 in either set.
+has 12 simple 8-cycles and no shorter power-of-2 cycle.  For the spanning
+tree $T$ with edges $\{0{-}4, 0{-}5, 1{-}6, 2{-}4, 2{-}7, 3{-}6, 3{-}9,
+5{-}8, 8{-}9\}$ (a DFS tree of $G$ from root 7 following DFS order
+$7{\to}2{\to}4{\to}0{\to}5{\to}8{\to}9{\to}3{\to}6{\to}1$), the six
+fundamental cycles have lengths $[3,3,3,5,6,10]$, and the 15 pairwise
+symmetric differences achieve lengths in $\{0,5,6,7,9\}$ — no power of 2
+in either set (verified computationally; see `lemma_chain_locality.md`).
 
 The obstruction is structural: every 8-cycle in $G$ contains exactly **three**
-back edges in this DFS tree, so it requires a three-way combination of
-fundamental cycles.  The DFS rooted at vertex 7 is "bad" because it places
+back edges in this spanning tree $T$, so it requires a three-way combination
+of fundamental cycles.  The spanning tree $T$ is "bad" because it places
 all three sides of the 8-cycle structure as back edges simultaneously.
-(For roots $\{0,3,4,5,6,8,9\}$, some 8-cycle IS a fundamental cycle of length
-8, so the property holds for those roots.  The "for any DFS tree" requirement
-is what the counterexample kills.)
+(Under other spanning trees of $G$, some 8-cycle IS a fundamental cycle of
+length 8, so the property holds for those spanning trees.  The "for every
+spanning tree" requirement is what the counterexample kills.)
 
 **Consequence for Q9.** The discharging plan as formulated requires revising
 one of the following assumptions:
