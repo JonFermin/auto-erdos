@@ -1386,13 +1386,13 @@ all residuals from this second sample.
 - Fundamental cycle gaps in $\mathcal{F}_1 = \{3,7,15,31,\ldots\} = \{2^k-1: k \ge 2\}$
 - Bridge gaps (sym-diff of same-parity adjacent pairs) in $\mathcal{F}_2 = \{2,6,14,30,\ldots\} = \{2(2^k-1): k \ge 1\}$
 
-**Forbidden-gap enumeration.** For $n \le 32$, the relevant forbidden gaps are:
-- $\mathcal{F}_1 \cap [1,31] = \{3,7,15,31\}$ — the four integers of the form $2^k - 1$ for $k \in \{2,3,4,5\}$ that lie in $[1,31]$. Every element of this set has all-1s binary representation and satisfies $\equiv 3$ or $7 \pmod 8$; however, the converse does not hold — not every integer $\le 31$ with residue $3$ or $7 \pmod 8$ is in $\mathcal{F}_1$ (e.g.\ $11 \equiv 3$, $23 \equiv 7 \pmod 8$ are in neither set).
-- $\mathcal{F}_2 \cap [1,31] = \{2,6,14,30\}$ — the four integers of the form $2(2^k - 1)$ for $k \in \{1,2,3,4\}$. Similarly these satisfy $\equiv 2$ or $6 \pmod 8$ but $10 \equiv 2$ and $22 \equiv 6 \pmod 8$ are not in $\mathcal{F}_2$.
+**Mod-8 reduction.** For $n \le 32$, the relevant forbidden gaps are:
+- $\mathcal{F}_1 \cap [1,31] = \{3,7,15,31\}$, i.e., depths $\equiv 3$ or $7 \pmod{8}$ (for depths $\le 31$; exactly $\{3,7\}$ mod 8 for depths up to $n \le 16$)
+- $\mathcal{F}_2 \cap [1,31] = \{2,6,14,30\}$, i.e., bridges $\equiv 2$ or $6 \pmod{8}$ (for bridges up to 30)
 
-**Allowed depth residues (for $n \le 16$, so $\mathcal{F}_1 \cap [1,n-1] \subseteq \{3,7\}$):** depths in $[1,15] \setminus \{3,7\} = \{1,2,4,5,6,8,9,10,11,12,13,14,15\}$ (13 values). For $n > 16$ the next forbidden depth is 15, reducing this set by one; for $n \le 8$ only $3$ is forbidden.
+**Allowed depth residues mod 8** (for $n \le 16$): $\{0,1,2,4,5,6\}$ (all residues except $\{3,7\}$).
 
-**Allowed bridge residues (for bridges up to 14, so $\mathcal{F}_2 \cap [1,14] = \{2,6,14\}$):** bridges in $\{1,3,4,5,7,8,9,10,11,12,13\}$.
+**Allowed bridge residues mod 8** (for bridges up to 14): $\{0,1,3,4,5,7\}$ (all except $\{2,6\}$).
 
 **Parity observation.** All forbidden bridges in $\mathcal{F}_2$ are EVEN. Therefore:
 if $k_1$ and $k_2$ have DIFFERENT parities (one odd, one even), their bridge $k_2 - k_1$
