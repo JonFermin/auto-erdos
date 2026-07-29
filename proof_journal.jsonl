@@ -47,3 +47,4 @@
 {"event":"session_close","session_id":"s_0728-163207-1707","ts":"2026-07-28T17:29:22+00:00","commit":"94f33cf","reason":"reason: session complete \u2014 R51 achieved keep_progress (0 blocking critics); 16 rounds remain"}
 {"event":"session_abandoned","session_id":"s_0724-080545-c3ba","ts":"2026-07-29T08:33:06+00:00","detected_by":"s_0729-083306-d861","reason":"no session_close found in journal \u2014 assumed crashed/interrupted"}
 {"event":"session_open","session_id":"s_0729-083306-d861","ts":"2026-07-29T08:33:06+00:00","commit":"762de4d","proof_tag":"erdos_gyarfas","stashed_ref":"stash@{0}","detected_orphan":"s_0724-080545-c3ba","released_orphan_qids":[]}
+{"event":"round","session_id":"s_0729-083306-d861","ts":"2026-07-29T08:58:36+00:00","summary":"R52: Section 24 adversarial search n=28..32 with C16/C32; fix gap examples, density 68.8%, n(n+2)/8 formula, Petersen counts. 0 blockings, keep_progress.","qid":"Q52","status":"keep_progress","commit":"eabe0c7"}
