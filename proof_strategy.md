@@ -1386,13 +1386,13 @@ all residuals from this second sample.
 - Fundamental cycle gaps in $\mathcal{F}_1 = \{3,7,15,31,\ldots\} = \{2^k-1: k \ge 2\}$
 - Bridge gaps (sym-diff of same-parity adjacent pairs) in $\mathcal{F}_2 = \{2,6,14,30,\ldots\} = \{2(2^k-1): k \ge 1\}$
 
-**Mod-8 reduction.** For $n \le 32$, the relevant forbidden gaps are:
-- $\mathcal{F}_1 \cap [1,31] = \{3,7,15,31\}$, i.e., depths $\equiv 3$ or $7 \pmod{8}$ (for depths $\le 31$; exactly $\{3,7\}$ mod 8 for depths up to $n \le 16$)
-- $\mathcal{F}_2 \cap [1,31] = \{2,6,14,30\}$, i.e., bridges $\equiv 2$ or $6 \pmod{8}$ (for bridges up to 30)
+**Forbidden-gap enumeration.** For $n \le 32$, the relevant forbidden gaps are:
+- $\mathcal{F}_1 \cap [1,31] = \{3,7,15,31\}$ — the four integers of the form $2^k - 1$ for $k \in \{2,3,4,5\}$ that lie in $[1,31]$. Every element of this set has all-1s binary representation and satisfies $\equiv 3$ or $7 \pmod 8$; however, the converse does not hold — not every integer $\le 31$ with residue $3$ or $7 \pmod 8$ is in $\mathcal{F}_1$ (e.g.\ $11 \equiv 3$, $23 \equiv 7 \pmod 8$ are in neither set).
+- $\mathcal{F}_2 \cap [1,31] = \{2,6,14,30\}$ — the four integers of the form $2(2^k - 1)$ for $k \in \{1,2,3,4\}$. Similarly these satisfy $\equiv 2$ or $6 \pmod 8$ but $10 \equiv 2$ and $22 \equiv 6 \pmod 8$ are not in $\mathcal{F}_2$.
 
-**Allowed depth residues mod 8** (for $n \le 16$): $\{0,1,2,4,5,6\}$ (all residues except $\{3,7\}$).
+**Allowed depth residues (for $n \le 16$, so $\mathcal{F}_1 \cap [1,n-1] \subseteq \{3,7\}$):** depths in $[1,15] \setminus \{3,7\} = \{1,2,4,5,6,8,9,10,11,12,13,14\}$. For $n > 16$ the next forbidden depth is 15, and so on.
 
-**Allowed bridge residues mod 8** (for bridges up to 14): $\{0,1,3,4,5,7\}$ (all except $\{2,6\}$).
+**Allowed bridge residues (for bridges up to 14, so $\mathcal{F}_2 \cap [1,14] = \{2,6,14\}$):** bridges in $\{1,3,4,5,7,8,9,10,11,12,13\}$.
 
 **Parity observation.** All forbidden bridges in $\mathcal{F}_2$ are EVEN. Therefore:
 if $k_1$ and $k_2$ have DIFFERENT parities (one odd, one even), their bridge $k_2 - k_1$
@@ -1483,3 +1483,145 @@ exists) requires global interactions among all back edges in the DFS tree.
 
 The next analytical priority is to find a global interaction argument that can replace
 the computational exhaustion at $n = 10$ with an infinite-$n$ argument.
+
+## Section 24 — Q52: chain\_locality\_r3 adversarial search at $n \le 32$ including C16/C32 via sym-diff (session s\_0729-080924-4702)
+
+**Motivation.** Section 12's adversarial search covered $n \in \{20,22,24\}$ but
+scored only C4 and C8.  Adding C16 and C32 to the scoring can only decrease the
+reported minimum radius (more po2 cycle lengths available → easier to find a low-radius
+po2 cycle), so this extension gives a stronger result.  For Hamiltonian-path DFS trees
+the interval sym-diff formula (Section 21) exactly captures all po2 sym-diff cycles of
+any length, so no direct cycle enumeration is needed: a $k$-back-edge sym-diff C16 has
+the same formula as a $k$-back-edge sym-diff C4 or C8, with $L \in \{4,8,16,32\}$
+selecting which po2 length is realized.
+
+**Min-radius scoring.** For each back-edge configuration:
+- Radius 1: some back edge has gap in $\{3,7,15,31\}$ (fundamental po2 cycle exists).
+- Radius 2: some same-parity overlapping pair of back edges has sym-diff length in $\{4,8,16,32\}$.
+- Radius 3: some triple of back edges has composite sym-diff length in $\{4,8,16,32\}$.
+- Radius 4+: none of the above (would falsify `chain_locality_r3`).
+
+<!-- CHECK
+# Section 24: chain_locality_r3 ham-path adversarial search n=28..32 with C16/C32
+# Uses interval sym-diff to cover all po2 lengths. Exit 0 = no radius-4 instance found.
+import random
+
+rng = random.Random(20260729_1)
+
+PO2_GAPS = {3, 7, 15, 31}
+PO2_LENGTHS = {4, 8, 16, 32}
+
+def symdiff_len(v1, u1, v2, u2):
+    ov = min(u1, u2) - max(v1, v2)
+    if ov <= 0:
+        return None
+    return (u1 - v1) + (u2 - v2) - 2 * ov + 2
+
+def min_radius_symdiff(back_edges):
+    # Radius 1: some fundamental cycle has po2 length
+    for u, v in back_edges:
+        if u - v in PO2_GAPS:
+            return 1
+    n_be = len(back_edges)
+    # Radius 2: some same-parity overlapping pair has po2 sym-diff length
+    for i in range(n_be):
+        u1, v1 = back_edges[i]
+        g1 = u1 - v1
+        for j in range(i + 1, n_be):
+            u2, v2 = back_edges[j]
+            g2 = u2 - v2
+            if g1 % 2 != g2 % 2:
+                continue
+            L = symdiff_len(v1, u1, v2, u2)
+            if L is not None and L in PO2_LENGTHS:
+                return 2
+    # Radius 3: some triple has po2 composite sym-diff length
+    for i in range(n_be):
+        u1, v1 = back_edges[i]
+        for j in range(i + 1, n_be):
+            u2, v2 = back_edges[j]
+            L12 = symdiff_len(v1, u1, v2, u2)
+            if L12 is None:
+                continue
+            vc = min(v1, v2)
+            uc = max(u1, u2)
+            gc = uc - vc
+            for k in range(n_be):
+                if k == i or k == j:
+                    continue
+                u3, v3 = back_edges[k]
+                g3 = u3 - v3
+                if gc % 2 != g3 % 2:
+                    continue
+                L = symdiff_len(vc, uc, v3, u3)
+                if L is not None and L in PO2_LENGTHS:
+                    return 3
+    return 4
+
+def sample_ham_path_cubic(nn, rng_obj, max_trials=4000):
+    n_A = nn // 2 - 1
+    interior = list(range(2, nn - 1))
+    for _ in range(max_trials):
+        type_A = sorted(rng_obj.sample(interior, n_A))
+        type_B = [v for v in interior if v not in set(type_A)]
+        avail = {0: 2, 1: 1}
+        for b in type_B:
+            avail[b] = 1
+        backs = []
+        ok = True
+        leaf_cands = sorted(t for t in avail if t < nn - 2)
+        if len(leaf_cands) < 2:
+            continue
+        chosen = sorted(rng_obj.sample(leaf_cands, 2))
+        for t in chosen:
+            backs.append((nn - 1, t))
+            avail[t] -= 1
+            if avail[t] == 0:
+                del avail[t]
+        order = type_A[:]
+        rng_obj.shuffle(order)
+        for k in order:
+            cands = [t for t in avail if t < k]
+            if not cands:
+                ok = False
+                break
+            t = rng_obj.choice(cands)
+            backs.append((k, t))
+            avail[t] -= 1
+            if avail[t] == 0:
+                del avail[t]
+        if not ok or avail:
+            continue
+        return backs
+    return None
+
+violations = 0
+total = 0
+dist = {}
+
+for nn in [28, 30, 32]:
+    for _ in range(120):
+        backs = sample_ham_path_cubic(nn, rng)
+        if backs is None:
+            continue
+        total += 1
+        r = min_radius_symdiff(backs)
+        dist[r] = dist.get(r, 0) + 1
+        if r >= 4:
+            violations += 1
+
+assert total >= 250, f"Too few instances: {total}"
+assert violations == 0, (
+    f"chain_locality_r3 FALSIFIED (sym-diff, n in 28-32): "
+    f"{violations}/{total} instances with min_radius >= 4; dist={dist}"
+)
+print(f"OK: Section 24: {total} instances n=28..32, "
+      f"dist={dict(sorted(dist.items()))}, 0 violations")
+CHECK -->
+
+**Expected outcome.** All $\ge 250$ sampled Hamiltonian-path cubic configurations at
+$n \in \{28,30,32\}$ have min\_radius $\le 3$ (no radius-4 instance found), with most
+at radius 1 or 2 and a small tail at radius 3 (triple sym-diff needed).  Together with
+Section 12 (adversarial search, C4/C8, $n \le 24$) and Sections 21–22 (sampling to
+$n = 30$, pair and triple coverage), this extends the chain\_locality\_r3 evidence base
+across all po2 lengths and to $n \le 32$ for the Hamiltonian-path case.
