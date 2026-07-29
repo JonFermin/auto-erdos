@@ -1002,8 +1002,10 @@ to ancestors at depths $d_1 < d_2$: bridge $b = d_2 - d_1$.  In a
 hypothetical counterexample $G$ (no po2 cycles), every shared-source leaf
 pair must satisfy $b \notin \{2, 6, 14, 30\}$.  Proof: otherwise the sym-diff
 of the two fundamental cycles would be a simple cycle of length $b+2$; since
-$b \in \{2,6,14,30\} \Rightarrow b+2 \in \{4,8,16,32\}$, this contradicts
-the counterexample assumption.  The constraint $b \notin \{2,6,14,30\}$ is
+$b = 2(2^k-1) \in \mathcal{F}_2 \Rightarrow b+2 = 2^{k+1}$ is a power of $2$
+(since $2(2^k-1)+2 = 2 \cdot 2^k = 2^{k+1}$), contradicting the counterexample
+assumption.  For $n \le 50$, the relevant values are $b \in \{2,6,14,30\}$
+(giving $b+2 \in \{4,8,16,32\}$).  The constraint $b \notin \mathcal{F}_2$ is
 the shared-source analogue of the fundamental-cycle gap constraint
 $\delta \notin \{3,7,15,31\}$.
 
