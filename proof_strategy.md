@@ -4704,3 +4704,183 @@ for n in [12,14]:
 print('OK: Section 48 — Q64-f verified for n=12,14; int-int-X covers 100% of Case A depth-3')
 CHECK -->
 
+## Section 49: Structural Lemmas for Int-Int-X (Q64-g)
+
+### Two key structural lemmas
+
+Let A1=[t1,k1), A2=[t2,k2), A3=[t3,k3) be back-edge intervals (g_i = k_i-t_i).
+
+**Lemma C (Containment-by-third)**: If A3 ⊇ (A1△A2), then |A1△A2△A3| = g3 - |A1△A2|.
+
+*Proof*: Since A3 ⊇ (A1△A2), every element of A1△A2 is in A3. So:
+(A1△A2)△A3 = A3\(A1△A2). Size = |A3|-|A1△A2| = g3-|A1△A2|. ∎
+
+**Corollary C1**: If A3=[0,a2) (root edge, gap=a2) contains all of A1,A2 (and A1,A2 lie in [0,a2)):
+Then A3 ⊇ A1 ∪ A2 ⊇ A1△A2, so |A1△A2△A3| = a2-|A1△A2|.
+C8 condition: a2-|A1△A2| = 5, i.e., |A1△A2| = a2-5.
+
+**Corollary C2 (Depth-2 constraint on |A1△A2|)**:
+For a pair of interior edges inside [0,a2): xor2(A1,A2) = |A1△A2|+2. 
+Depth-2 failure means |A1△A2|+2 ∉ PO2, i.e., |A1△A2| ∉ PO2-2 = {2,6,14,...}.
+But a2-5 is always ODD (since a2 is an integer, a2-5 has parity a2+1). 
+If a2 is even: a2-5 is odd. Odd ∉ {2,6,14,...} (all even). So depth-2 failure does NOT preclude |A1△A2|=a2-5 when a2 is even.
+If a2 is odd: a2-5 is even. Must check a2-5 ∉ {2,6,14,...}, i.e., a2 ∉ {7,11,19,...}. Since depth-1 requires a2 ∉ {3,7,15,...}, a2=7 is already excluded. a2=11 would give a2-5=6 (forbidden by depth-2). So a2=11 cannot use Corollary C1.
+
+**Lemma D (Sub-edge containment)**: If A3 ⊂ A2, A1 ∩ A2 = ∅, and A1 ∩ A3 = ∅, then |A1△A2△A3| = g1+g2-g3.
+
+*Proof*: Since A3⊂A2: A2△A3=A2\A3. Since A1∩A2=∅ and A3⊂A2: A1∩(A2\A3)=∅.
+Therefore: A1△A2△A3 = A1△(A2\A3) = A1 ∪ (A2\A3) (since they're disjoint).
+|A1△A2△A3| = g1 + (g2-g3). ∎
+
+**Corollary D1**: C8 condition from Lemma D: g1+g2-g3=5, i.e., g3=g1+g2-5.
+C4 condition: g1+g2-g3=1, i.e., g3=g1+g2-1.
+
+Note: C4 requires g3=g1+g2-1, but depth-1 failure says g3≠3 (no C4 gap), and depth-2 failure means the pair (A1,A3) and pair (A2,A3) don't give po2. Since A3⊂A2 and A1∩A2=∅: xor2(A2,A3)=g2-g3+2 (contained formula). For depth-2: g2-g3+2∉PO2. If C4 occurs (g3=g1+g2-1): xor2(A2,A3)=g2-(g1+g2-1)+2=1-g1+2=3-g1. For this to be po2: 3-g1 ∈ PO2 → g1∈{3-4,3-8,...} → g1<0 (impossible). So depth-2 never catches the (A2,A3) pair for C4 sub-edge triples.
+
+And xor2(A1,A3) where A1∩A3=∅: gives None (disjoint). So that pair doesn't interfere.
+Thus C4 via Lemma D is possible at depth-3! (Not blocked by depth-2.)
+
+**Key** (combined): For C8 from Lemma D: g3=g1+g2-5 must satisfy g3≥2 (valid gap): g1+g2≥7.
+
+### Application to n=12 Case A depth-3 cases
+
+For n=12, nm1=11, there are exactly 4 Case A depth-3 assignments:
+
+**Case n12-a**: a1=4,a2=9,s1=1,s2=6, M=[(7,2),(5,3),(10,8)]
+- int_gaps=[5,2,2]; interior edges inside [0,a2=9): (7,2)g=5,(5,3)g=2. Edge (10,8) is outside.
+- A1=[2,7),A2=[3,5): disjoint? No: [2,7)∩[3,5)=[3,5). ov=2. |A1△A2|=5+2-4=3. ≠a2-5=4.
+- Applying Lemma C with A3=(4,0)=[0,4):
+  A3=[0,4)⊃? A1△A2. A1△A2={1,2,5,6} [A1\A2={2,5,6},A2\A1={}; wait A1=[2,7),A2=[3,5): A1\A2={2,5,6},A2\A1={}. A1△A2={2,5,6},size=3]. 
+  Does [0,4)⊃{2,5,6}? 5∉[0,4). NO. So Lemma C with A3=[0,4) doesn't apply.
+- The triple uses (7,2)+(5,3)+(4,0): A1=[2,7),A2=[3,5),A3=[0,4).
+  These have A2⊂A3? [3,5)⊂[0,4)? 4∉[0,4). No.
+  Partial overlaps: ov13=max(0,min(7,4)-max(2,0))=2. ov23=max(0,min(5,4)-max(3,0))=1. ov12=2. T=max(0,min(7,5,4)-max(2,3,0))=max(0,4-3)=1.
+  Formula: 5+2+4-2*(2+2+1)+4*1=11-10+4=5→C8. ✓ (Partial-overlap case, not a simple lemma.)
+
+**Case n12-b**: a1=4,a2=9,s1=2,s2=6, M=[(7,1),(5,3),(10,8)]
+- Interior edges inside [0,9): (7,1)g=6,(5,3)g=2. Edge (10,8) outside.
+- A1=[1,7),A2=[3,5): ov=2. |A1△A2|={1,2,5,6}=4=a2-5=9-5=4. ✓
+- A3=[0,9) contains both A1 and A2, hence contains A1△A2={1,2,5,6}. ✓
+- **Lemma C**: |A1△A2△A3|=9-4=5→C8. ✓
+
+**Case n12-c**: a1=5,a2=9,s1=2,s2=7, M=[(3,1),(10,4),(8,6)]
+- Interior edges inside [0,9): (3,1)g=2,(8,6)g=2. Edge (10,4) extends beyond a2=9 (k=10).
+- A1=[1,3),A2=[6,8): disjoint (ov=0). |A1△A2|={1,2,6,7}=4=a2-5=4. ✓
+- A3=[0,9) contains A1=[1,3) and A2=[6,8), hence contains A1△A2. ✓
+- **Lemma C**: |A1△A2△A3|=9-4=5→C8. ✓
+
+**Case n12-d**: a1=5,a2=10,s1=2,s2=7, M=[(3,1),(9,4),(8,6)]
+- Interior edges: (3,1)g=2,(9,4)g=5,(8,6)g=2.
+- A1=(3,1)=[1,3), A2=(9,4)=[4,9), A3=(8,6)=[6,8).
+- A1∩A2=∅, A3⊂A2 (since [6,8)⊂[4,9)). A1∩A3=∅ (since [1,3)∩[6,8)=∅).
+- **Lemma D**: |A1△A2△A3|=g1+g2-g3=2+5-2=5→C8. ✓
+
+### Summary of structural patterns for n=12
+
+| Case | Structure | Lemma | Result |
+|---|---|---|---|
+| n12-a | Partial overlap with small root | General XOR formula | sym_diff=5→C8 |
+| n12-b | Interior pair |XOR|=a2-5, root (a2,0) contains both | Lemma C | sym_diff=5→C8 |
+| n12-c | Two disjoint g=2 edges, |XOR|=4=a2-5, root contains both | Lemma C | sym_diff=5→C8 |
+| n12-d | A3 contained in A2, A1 disjoint; g1+g2-g3=5 | Lemma D | sym_diff=5→C8 |
+
+Cases n12-b and n12-c are proved by Lemma C. Case n12-d by Lemma D. Case n12-a uses partial-overlap structure.
+
+### Q64-g: structural dichotomy for the general proof
+
+**Conjecture Q64-g**: For every Case A depth-3 assignment with n≥12, one of the following holds:
+1. (Lemma C case): There exist two interior edges A1,A2 (both inside [0,max(a1,a2))) with |A1△A2|=a2-5 (or a1-5), and the corresponding root edge contains both.
+2. (Lemma D case): The interior matching has two edges A1,A2 (g1+g2≥7) and an edge A3⊂A2 (interior or other) with g3=g1+g2-5, and A1∩A2=∅.
+3. (General partial-overlap case): Some triple using a mix of interior and non-interior edges has partial-overlap structure giving sym_diff=5 or 13.
+
+Proving Q64-g would yield Q64-f analytically, and hence Case A depth-3 is always resolvable.
+
+<!-- CHECK
+# Verify Lemma C and Lemma D on concrete examples
+def sym3_direct(k1,t1,k2,t2,k3,t3):
+    A1=set(range(t1,k1)); A2=set(range(t2,k2)); A3=set(range(t3,k3))
+    return len(A1.symmetric_difference(A2).symmetric_difference(A3))
+
+PO2={4,8,16,32}
+
+# Lemma C verification: |A1△A2△A3|=g3-|A1△A2| when A3⊇A1△A2
+def lemma_C_check():
+    errors=[]
+    for t1 in range(0,10):
+        for g1 in range(2,8):
+            k1=t1+g1
+            for t2 in range(0,10):
+                for g2 in range(2,8):
+                    k2=t2+g2
+                    A1=set(range(t1,k1)); A2=set(range(t2,k2))
+                    xor12=A1.symmetric_difference(A2)
+                    if not xor12: continue
+                    min_xor=min(xor12); max_xor=max(xor12)
+                    # A3 = [0, max_xor+1) which contains xor12 iff all elements ≤ max_xor
+                    t3=0; k3=max_xor+1; g3=k3-t3
+                    if min_xor<t3: continue  # A3 doesn't contain all of xor12
+                    A3=set(range(t3,k3))
+                    assert xor12.issubset(A3), "A3 should contain xor12"
+                    sd_actual=sym3_direct(k1,t1,k2,t2,k3,t3)
+                    sd_lemma=g3-len(xor12)
+                    if sd_actual!=sd_lemma:
+                        errors.append((k1,t1,k2,t2,k3,t3,sd_actual,sd_lemma))
+    assert not errors, f'Lemma C errors: {errors[:2]}'
+    print('Lemma C verified: |A1△A2△A3|=g3-|A1△A2| when A3⊇A1△A2 ✓')
+
+lemma_C_check()
+
+# Lemma D verification: |A1△A2△A3|=g1+g2-g3 when A3⊂A2, A1∩A2=∅
+def lemma_D_check():
+    errors=[]
+    for t1 in range(0,8):
+        for g1 in range(2,6):
+            k1=t1+g1
+            for t2 in range(k1+1,10):  # A1 and A2 disjoint: t2>=k1
+                for g2 in range(g1+2,8):  # g2>g1 for A3 to fit inside
+                    k2=t2+g2
+                    # A3⊂A2: pick t3 in [t2, k2-g3] for various g3
+                    for g3 in range(2,g2):
+                        for t3 in range(t2,k2-g3+1):
+                            k3=t3+g3
+                            if k3>k2: continue
+                            A1=set(range(t1,k1)); A2=set(range(t2,k2)); A3=set(range(t3,k3))
+                            if not A3.issubset(A2): continue
+                            if A1.intersection(A2) or A1.intersection(A3): continue
+                            sd_actual=sym3_direct(k1,t1,k2,t2,k3,t3)
+                            sd_lemma=g1+g2-g3
+                            if sd_actual!=sd_lemma:
+                                errors.append((k1,t1,k2,t2,k3,t3,sd_actual,sd_lemma))
+    assert not errors, f'Lemma D errors: {errors[:2]}'
+    print('Lemma D verified: |A1△A2△A3|=g1+g2-g3 when A3⊂A2, A1∩A2=∅, A1∩A3=∅ ✓')
+
+lemma_D_check()
+
+# Verify n=12-b and n=12-c via Lemma C, n=12-d via Lemma D
+# n12-b: (7,1)g=6, (5,3)g=2, root (9,0)g=9
+A1=set(range(1,7)); A2=set(range(3,5)); A3=set(range(0,9))
+xor12=A1.symmetric_difference(A2)
+assert xor12.issubset(A3), "n12-b: A3 should contain A1△A2"
+sd=sym3_direct(7,1,5,3,9,0)
+assert sd==9-len(xor12)==5, f"n12-b: sd={sd}"
+assert sd+3 in PO2, f"n12-b: {sd+3} not po2"
+print(f'n12-b: |A1△A2|={len(xor12)}, |A1△A2△A3|={sd}→C{sd+3} via Lemma C ✓')
+
+# n12-c: (3,1)g=2, (8,6)g=2, root (9,0)g=9
+A1=set(range(1,3)); A2=set(range(6,8)); A3=set(range(0,9))
+xor12=A1.symmetric_difference(A2)
+assert xor12.issubset(A3)
+sd=sym3_direct(3,1,8,6,9,0)
+assert sd==9-len(xor12)==5
+print(f'n12-c: |A1△A2|={len(xor12)}, |A1△A2△A3|={sd}→C{sd+3} via Lemma C ✓')
+
+# n12-d: (3,1)g=2, (9,4)g=5, (8,6)g=2 — A3=[6,8)⊂A2=[4,9), A1=[1,3) disjoint
+A1=set(range(1,3)); A2=set(range(4,9)); A3=set(range(6,8))
+assert A3.issubset(A2) and not A1.intersection(A2) and not A1.intersection(A3)
+sd=sym3_direct(3,1,9,4,8,6)
+assert sd==2+5-2==5
+print(f'n12-d: g1+g2-g3={2+5-2}={sd}→C{sd+3} via Lemma D ✓')
+
+print('OK: Section 49 — Lemma C (containment) and Lemma D (sub-edge) proved and verified; n=12 cases explained')
+CHECK -->
+
