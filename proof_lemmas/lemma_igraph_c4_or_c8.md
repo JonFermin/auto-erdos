@@ -45,7 +45,14 @@ one inner), so it is a $C_4$.
 (Concreteness: $I(6,2,2)$ has inner edges $\{v_j, v_{j+2}\}$, so
 $\{v_0,v_2\}=\{v_0,v_a\}$ is present for $a=b=2$ via $j=0$; and
 $I(4,1,3)$ has inner edge $\{v_1,v_0\}$ for $j=1, b=3, j+b=4\equiv 0$,
-giving $\{v_1,v_{a}\}=\{v_1,v_0\}$ via the $b\equiv -a$ sub-case.)
+giving $\{v_1,v_{a}\}=\{v_1,v_0\}$ via the $b\equiv -a$ sub-case.
+Smallest case: $I(3,1,2)$ has $b=2\equiv -1\equiv -a \pmod{3}$ so Case~1
+applies with $j=1$: inner edge $\{v_1,v_{1+2 \bmod 3}\}=\{v_1,v_0\}$.
+$C_4$: $u_0\to u_1\to v_1\to v_0\to u_0$ (outer stride~1, spoke, inner
+stride~$-1\equiv 2$, spoke) — all 4 vertices and all 4 edges distinct.
+Note: $a+b=3\equiv 0\pmod{3}$, so the Case~2 walk would have
+$u_{a+b}=u_0$ appearing twice — NOT simple; Case~2 correctly does
+\emph{not} apply here.)
 
 *Case 2: $b \not\equiv \pm a \pmod m$.* Consider the closed walk
 $$u_0 \to u_a \to v_a \to v_{a+b} \to u_{a+b} \to u_b \to v_b \to v_0 \to u_0 .$$
