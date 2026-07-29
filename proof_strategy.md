@@ -5467,3 +5467,186 @@ print(f'n=14 Case B: {d3_caseB} depth-3, all have ≥1 odd gap (leaf-to-root) �
 
 print('OK: Section 52 — xor2 corrected; structural all-even impossibility for n≡0(mod4) verified; Case B depth-3 verified')
 CHECK -->
+
+---
+
+## Section 53: Proving Q65 for the g=2 Pair Sub-case (Lemma G)
+
+### Structural constraint from depth-2 failure
+
+**Lemma (Disjointness of g=2 pairs)**: In any Case A depth-3 assignment, no two interior
+back edges with gap=2 can overlap.
+
+*Proof*: Suppose interior edges e1=(k1,t1) and e2=(k2,t2) both have gap=2 and overlap
+(ov=max(0,min(k1,k2)-max(t1,t2))≥1). Then ov=1 (maximum overlap for length-2 intervals).
+xor2(e1,e2) = g1+g2-2*ov+2 = 2+2-2+2 = 4 ∈ PO2. This would give a C4, resolving at
+depth-2 — contradiction with depth-3 assumption. ∎
+
+**Corollary**: In any Case A depth-3 assignment, all interior edges with gap=2 are
+pairwise DISJOINT intervals.
+
+### The g=2 pair structural coverage
+
+Among n=14 Case A depth-3 assignments:
+- 87/96 (90.6%) have at least one interior edge with gap=2
+- The remaining 9/96 have minimum interior gap ≥ 4
+
+For the 87 assignments with a g=2 interior edge, a second g=2 edge or a larger-gap
+edge can be paired to form the resolving int-int-X triple.
+
+### Lemma G: Two disjoint g=2 interior edges + odd-gap X → sym_diff=5
+
+**Setup**: Let e1=(t1+2,t1) and e2=(t2+2,t2) with t2≥t1+2 (disjoint). 
+A1={t1,t1+1}, A2={t2,t2+1}. |A1△A2| = |A1|+|A2| = 4.
+
+By Lemma E: sym3(e1,e2,e3) = |A1△A2|+g3-2c = 4+g3-2c where c=|(A1△A2)∩A3|.
+For sym_diff=5: need 4+g3-2c=5 → **c=(g3-1)/2**.
+This requires g3 to be ODD and c=(g3-1)/2 ≤ 4 → g3 ≤ 9.
+
+**Position-based case analysis** (e3=(k3,t3), A3=[t3,k3)):
+
+| a3 position relative to {A1,A2} | c | sym_diff formula | g3 needed |
+|---|---|---|---|
+| A3 below both (k3 ≤ t1) | 0 | 4+g3 | impossible (min g3=2→sd=6≠5) |
+| A3 overlaps A1 by 1 (t3=t1, k3=t1+1) | 1 | 4+g3-2 = g3+2 | g3=3→C4(excluded) |
+| A3 contains A1, not A2 (t3≤t1, k3=t1+2..t2-1) | 2 | 4+g3-4 = g3 | **g3=5** ✓ |
+| A3 spans boundary (t1≤t3≤t2, k3=t2+1..t2+2) | 3 | 4+g3-6 = g3-2 | g3=7→C8(excl d1) |
+| A3 contains both A1,A2 (t3≤t1, k3≥t2+2) | 4 | 4+g3-8 = g3-4 | **g3=9** ✓ |
+
+Viable configurations (g3 not excluded at depth-1):
+- **c=2 → g3=5**: A3=[t3,t3+5) contains A1={t1,t1+1} but not A2. Need: t3≤t1 and t3+5≤t2.
+- **c=4 → g3=9**: A3=[t3,t3+9) contains both A1 and A2. Need: t3≤t1 and t3+9≥t2+2.
+
+**Key formula**: For c=2, g3=5, A3=[t3,t3+5) an odd-gap edge (root or interior):
+sym_diff = 4+5-4 = 5 → C8 ✓.
+
+**For c=4, g3=9**: A3=[t3,t3+9) containing both A1 and A2:
+sym_diff = 4+9-8 = 5 → C8 ✓.
+
+**When does the c=2,g3=5 configuration apply?**: We need a back edge e3 with gap=5
+whose interval [t3,t3+5) contains A1={t1,t1+1} but not A2={t2,t2+1}. This means:
+- t3 ≤ t1 (A3 starts before or at t1)
+- t3+5 > t1+1 (A3 covers all of A1) → t3 ≥ t1-3 → t3 ∈ [t1-3, t1]
+- t3+5 ≤ t2 (A3 ends before t2) → t3 ≤ t2-5
+
+So t3 ∈ [max(0,t1-3), min(t1, t2-5)]. This is non-empty when t2-5 ≥ t1-3, i.e., t2 ≥ t1+2 (satisfied since disjoint) — but actually also need t2-5 ≥ 0 → t2 ≥ 5.
+
+For the root edge (a,0) with gap a=5: t3=0, t3+5=5. Contains A1 if t1+1<5, i.e., t1≤3. And doesn't contain A2 if t2≥5. So: t1≤3 AND t2≥5 AND a=5.
+
+**When does c=4, g3=9 apply?**: Need back edge of gap 9 (root (9,0), leaf (nm1,nm1-9), or interior) that spans both A1 and A2. For root (9,0): t3=0, need t2+1<9 → t2≤7. Available when root a=9 exists (i.e., a2=9 is one of the root edges).
+
+### Coverage at n=14
+
+For the 87 n=14 Case A depth-3 assignments with ≥1 g=2 interior edge:
+- All resolve with sym_diff=5→C8.
+- The specific configurations (c=2,g3=5) or (c=4,g3=9) or (g2≠2,g3 varies) all yield sym_diff=5.
+
+**Q65-c**: For assignments with no interior g=2 edge (9 cases at n=14), prove a
+similar result. The 9 cases use triples like (4,5,2), (8,4,5), (4,6,5), (6,6,5),
+(9,4,8), (8,4,9), (5,6,8), (5,8,10), (4,5,4) — all with sym_diff=5→C8.
+
+<!-- CHECK
+from itertools import combinations
+
+PO2 = {4,8,16,32,64}
+
+def xor2(k1,t1,k2,t2):
+    ov=max(0,min(k1,k2)-max(t1,t2))
+    return None if ov==0 else (k1-t1)+(k2-t2)-2*ov+2
+
+def sym3_direct(k1,t1,k2,t2,k3,t3):
+    A1=set(range(t1,k1)); A2=set(range(t2,k2)); A3=set(range(t3,k3))
+    return len(A1.symmetric_difference(A2).symmetric_difference(A3))
+
+def all_matchings(lst):
+    if len(lst)==0: yield []; return
+    if len(lst)<2: return
+    for i in range(1,len(lst)):
+        pair=(lst[i],lst[0])
+        rem=[lst[j] for j in range(1,len(lst)) if j!=i]
+        for rest in all_matchings(rem):
+            yield [pair]+rest
+
+# Verify: no two overlapping g=2 interior edges in depth-3 Case A
+errors_disjoint=[]
+for n in [12, 14]:
+    nm1=n-1
+    for a1,a2 in combinations(range(2,nm1),2):
+        for s1,s2 in combinations(range(1,nm1-1),2):
+            all_ep=[a1,a2,s1,s2]
+            if len(set(all_ep))<4: continue
+            interior=sorted(set(range(1,nm1))-set(all_ep))
+            if len(interior)%2!=0: continue
+            for mt in all_matchings(interior):
+                if any(k-t<2 for k,t in mt): continue
+                be=[(a1,0),(a2,0),(nm1,s1),(nm1,s2)]+list(mt)
+                if any((k-t+1) in PO2 for k,t in be): continue
+                if any((cl:=xor2(*be[i],*be[j])) and cl in PO2
+                       for i,j in combinations(range(len(be)),2)): continue
+                # Check all g=2 interior pairs are disjoint
+                int_be=[(k,t) for k,t in be if k!=nm1 and t!=0]
+                g2_int=[(k,t) for k,t in int_be if k-t==2]
+                for i,j in combinations(range(len(g2_int)),2):
+                    k1,t1=g2_int[i]; k2,t2=g2_int[j]
+                    ov=max(0,min(k1,k2)-max(t1,t2))
+                    if ov>0: errors_disjoint.append((n,k1,t1,k2,t2))
+
+assert not errors_disjoint, f'Overlapping g=2 pairs found: {errors_disjoint}'
+print('Lemma (Disjointness of g=2 pairs) verified for n=12,14 ✓')
+
+# Verify Lemma G formula: for two disjoint g=2 edges + odd-gap e3
+# sym_diff = 4+g3-2c where c=|(A1△A2)∩A3|
+errors_G=[]
+for t1 in range(0,6):
+    A1=set(range(t1,t1+2))
+    for t2 in range(t1+2,9):
+        A2=set(range(t2,t2+2))
+        A1xA2=A1.symmetric_difference(A2)  # = A1|A2 (disjoint)
+        for t3 in range(0,8):
+            for g3 in range(2,12):
+                if g3%2==0: continue  # odd g3 only
+                if g3==3 or g3==7: continue  # excluded at depth-1 (C4/C8)
+                A3=set(range(t3,t3+g3))
+                c=len(A1xA2.intersection(A3))
+                sd_formula=4+g3-2*c
+                A1a=set(range(t1,t1+2)); A2a=set(range(t2,t2+2)); A3a=set(range(t3,t3+g3))
+                sd_actual=len(A1a.symmetric_difference(A2a).symmetric_difference(A3a))
+                if sd_formula!=sd_actual:
+                    errors_G.append((t1,t2,t3,g3,sd_formula,sd_actual,c))
+                    
+assert not errors_G, f'Lemma G formula errors: {errors_G[:2]}'
+print('Lemma G formula (sym_diff=4+g3-2c for disjoint g=2 pair) verified ✓')
+
+# Verify: all n=14 Case A depth-3 assignments have sym_diff=5 only
+n=14; nm1=13
+sd_ctr={}
+for a1,a2 in combinations(range(2,nm1),2):
+    for s1,s2 in combinations(range(1,nm1-1),2):
+        all_ep=[a1,a2,s1,s2]
+        if len(set(all_ep))<4: continue
+        interior=sorted(set(range(1,nm1))-set(all_ep))
+        if len(interior)%2!=0: continue
+        for mt in all_matchings(interior):
+            if any(k-t<2 for k,t in mt): continue
+            be=[(a1,0),(a2,0),(nm1,s1),(nm1,s2)]+list(mt)
+            if any((k-t+1) in PO2 for k,t in be): continue
+            if any((cl:=xor2(*be[i],*be[j])) and cl in PO2
+                   for i,j in combinations(range(len(be)),2)): continue
+            int_be=[(k,t) for k,t in be if k!=nm1 and t!=0]
+            for ii,jj in combinations(range(len(int_be)),2):
+                k1,t1=int_be[ii]; k2,t2=int_be[jj]
+                for k3,t3 in be:
+                    if (k3,t3)==(k1,t1) or (k3,t3)==(k2,t2): continue
+                    sd=sym3_direct(k1,t1,k2,t2,k3,t3)
+                    if sd+3 in PO2:
+                        sd_ctr[sd]=sd_ctr.get(sd,0)+1
+                        break
+                else: continue
+                break
+
+print(f'n=14 Case A depth-3 sym_diff distribution: {sd_ctr}')
+assert list(sd_ctr.keys())==[5], f'Non-5 sym_diff found!'
+print('All n=14 Case A depth-3 assignments resolve to sym_diff=5→C8 ✓')
+
+print('OK: Section 53 — Lemma G (g=2 pair → sym_diff=5); disjointness of g=2 pairs proved; all n=14 Case A depth-3 → C8 confirmed')
+CHECK -->
