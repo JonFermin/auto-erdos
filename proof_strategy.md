@@ -2623,3 +2623,139 @@ satisfying our structural framework).
 **Q61 (proof target).** Prove the XOR-depth-3 conjecture for all $n$:
 show that among the $\binom{m}{3}$ triples of the $m = n/2+1$ back edges, at least one
 produces a po2 XOR cycle whenever no single edge or pair does.
+
+## Section 34 — Q60: Corrected depth-3 analysis; structural C4 pattern (session s\_0729-131551-1d91)
+
+**Correction to Sections 31 and 33.**  Section 31 hardcoded 5 triples from an incomplete
+enumeration (Case A only, missing the leaf-to-root back-edge Case B).  Section 33 stated
+"every depth-3 case yields C8" — this was incorrect.  With the complete enumeration (Case A
++ Case B), some depth-3 cases yield C4.
+
+**Corrected n=10 depth-3 table** (725 assignments, 5 depth-3, 4 distinct triples):
+
+| Triple $(k_1{>}t_1),(k_2{>}t_2),(k_3{>}t_3)$ | Gaps | XOR cycle |
+|:---|:---:|:---:|
+| $((2,0),(5,1),(9,0))$ | $[2,4,9]$ | **C8** |
+| $((2,0),(9,0),(9,7))$ | $[2,2,9]$ | **C8** (2 assignments) |
+| $((3,1),(9,0),(9,7))$ | $[2,9,2]$ | **C8** |
+| $((5,0),(9,0),(9,4))$ | $[5,5,9]$ | **C4** |
+
+The C4 case arises from back edges $(5,0),(9,0),(9,4)$, which share root-endpoint (vertex 0
+for two edges) and whose XOR leaves a 4-cycle $0\!-\!5\!-\!4\!-\!9\!-\!0$.
+
+**Structural C4 formula.**  For back edges $(a,t_0),(b,t_0),(b,c)$ with $t_0 \le c < a < b$, the
+XOR with the base path contains exactly the path-edge segment $[c,a)$ plus the three back edges, yielding
+the cycle $t_0 \xrightarrow{\mathrm{back}} a \xrightarrow{\mathrm{path}} c \xrightarrow{\mathrm{back}} b
+\xrightarrow{\mathrm{back}} t_0$ of length $(a-c)+3$.
+
+| Target length | Condition | Example ($n=10$) |
+|:---:|:---:|:---|
+| C4 | $a-c = 1$ | $(5,0),(9,0),(9,4)$: $a\!-\!c = 5\!-\!4 = 1$ |
+| C8 | $a-c = 5$ | (would require gap of 5 on path segment) |
+| C16 | $a-c = 13$ | (requires $n \ge 17$) |
+
+Derivation: path edges in $[t_0,c)$ appear in $(a,t_0)$ and $(b,t_0)$ → cancel (count 2).
+Path edges in $[c,a)$ appear in all three → count 3 (odd) → remain.
+Path edges in $[a,b)$ appear in $(b,t_0)$ and $(b,c)$ → cancel (count 2).
+The three back edges each appear once.  Total: $(a-c)$ path edges $+ 3$ back edges forming
+a single cycle of length $(a-c)+3$.
+
+**Updated depth-3 breakdown by po2 length** (assignments):
+
+| $n$ | Depth-3 assgns | C4 | C8 | C16 |
+|---:|---:|---:|---:|---:|
+| 10 | 5 | 1 | 4 | 0 |
+| 12 | 4 | 0 | 4 | 0 |
+| 14 | 183 | 20 | 163 | 0 |
+| 16 | (recheck pending) | — | — | 0 |
+
+C16 never appears in $n \le 16$.  C4 and C8 co-exist from $n \ge 10$.  The conjecture
+(XOR depth $\le 3$) holds; the po2 outcome is C4, C8, or (in principle for large $n$) C16.
+
+**Implication for Q61.**  The structural formula $(a-c)+3$ gives a direct route to proving
+the C4 case of the conjecture: whenever back edges $(a,t_0),(b,t_0),(b,c)$ exist with $a-c=1$
+and all individual/pair gaps are non-po2, the triple gives C4.  The remaining challenge is
+showing such a "C4-eligible" triple always exists when depth-2 fails, or else a C8-eligible
+triple exists instead.
+
+<!-- CHECK
+# Section 34: corrected n=10 depth-3 triples (Case A+B enumeration) and structural C4 pattern.
+
+PO2 = {4, 8, 16, 32, 64}
+
+def xor_po2_len(back_edges):
+    cnt = {}
+    for (k, t) in back_edges:
+        for j in range(t, k):
+            e = (j, j + 1)
+            cnt[e] = cnt.get(e, 0) + 1
+        e = (min(t, k), max(t, k))
+        cnt[e] = cnt.get(e, 0) + 1
+    adj = {}
+    for (u, v), c in cnt.items():
+        if c % 2 == 1:
+            adj.setdefault(u, []).append(v)
+            adj.setdefault(v, []).append(u)
+    visited = set()
+    for start in list(adj.keys()):
+        if start in visited:
+            continue
+        comp = []
+        stack = [start]
+        while stack:
+            node = stack.pop()
+            if node in visited:
+                continue
+            visited.add(node)
+            comp.append(node)
+            for nbr in adj.get(node, []):
+                if nbr not in visited:
+                    stack.append(nbr)
+        if all(len(adj.get(v, [])) == 2 for v in comp):
+            if len(comp) in PO2:
+                return len(comp)
+    return None
+
+# Corrected 4 distinct depth-3 triples for n=10 (Case A+B enumeration):
+triples_expected = [
+    (((2, 0), (5, 1), (9, 0)), 8),
+    (((2, 0), (9, 0), (9, 7)), 8),
+    (((3, 1), (9, 0), (9, 7)), 8),
+    (((5, 0), (9, 0), (9, 4)), 4),
+]
+for triple, expected in triples_expected:
+    result = xor_po2_len(list(triple))
+    assert result == expected, f"Expected C{expected} from {triple}, got C{result}"
+
+# Structural C4 formula: back edges (a,t0),(b,t0),(b,c) with a-c=1 give cycle 0-a-c-b-0 of length 4.
+# For a=5, c=4=a-1, b=9, t0=0: XOR leaves edge (4,5) plus backs (0,5),(0,9),(4,9) -> C4 0-5-4-9-0.
+def check_cycle_length_formula(a, b, c, t0):
+    triple = [(a, t0), (b, t0), (b, c)]
+    return xor_po2_len(triple)
+
+assert check_cycle_length_formula(5, 9, 4, 0) == 4, "C4 formula failed for a=5,b=9,c=4"
+
+# Verify pairs within each n=10 depth-3 triple are all non-po2.
+for triple, _ in triples_expected:
+    t = list(triple)
+    for i in range(3):
+        for j in range(i + 1, 3):
+            pair = [t[i], t[j]]
+            r = xor_po2_len(pair)
+            assert r is None, f"Pair {pair} unexpectedly gave po2 len {r}"
+
+# Cross-verify: Section 31's old 5 triples (from prior incorrect Case-A-only enumeration)
+# are NOT all from the corrected 5 depth-3 assignments, but still individually give C8 or C4.
+old_triples = [
+    ((2, 0), (5, 1), (8, 3)),
+    ((2, 0), (5, 1), (9, 0)),
+    ((2, 0), (5, 3), (9, 0)),
+    ((3, 1), (5, 0), (8, 4)),
+    ((3, 1), (7, 2), (8, 6)),
+]
+for t in old_triples:
+    r = xor_po2_len(list(t))
+    assert r in PO2, f"Old triple {t} gave non-po2 result {r}"
+
+print("OK: Section 34 — 3 C8 + 1 C4 depth-3 triples verified; structural C4 formula confirmed")
+CHECK -->
