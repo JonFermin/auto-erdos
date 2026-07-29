@@ -255,10 +255,11 @@ positive gap.  The conjecture would follow if one can show that this
 deficiency forces the maximum frequency above $1/2$ (i.e., derive
 $p \ge 1/2$ from the deficiency bound and the union-closure structure).
 
-**Why this is a new approach.** The linearised entropy approach uses
-$H(A \cup B) \le H(A) = \log_2 |\mathcal{F}|$ and hits a barrier near product families.
-A KL deficiency bound is *exact*, not linearised, potentially escaping that barrier —
-but it must be proved from scratch (see `proofs/frankl_union_closed.json` for context).
+**Why this is a new approach.** The Chase-Lovett linearised entropy approach (Gilmer 2022,
+Sawin 2023) yields $p \ge 0.382$ but hits a barrier near product families, where the
+entropy deficiency $\log_2 |\mathcal{F}| - H(A \cup B)$ becomes small. A KL deficiency
+bound is *exact* rather than linearised and potentially escapes that barrier — but it
+must be proved from scratch (see `proofs/frankl_union_closed.json` for context).
 
 **Numerical validation** (see `proof_lemmas/lemma_frankl_deficiency.md`):
 0 violations across:
@@ -277,13 +278,11 @@ computational.
 
 **Proof direction** (open): show that for any union-closed $\mathcal{F}$
 with $p < 1/2$ and $|\mathcal{F}| \ge 2$, the KL deficiency
-$\log_2|\mathcal{F}| - H(A \cup B)$ is at least $(1-p)^2/4$, and that this
-combined with the union-closure structure forces a contradiction (or directly
-forces $p \ge 1/2$).  Candidate route: expand $H(A \cup B)$ via the chain
-rule $H(A \cup B) = H(A) + H(B | A \cup B) - H(B | A)$ and estimate each
-conditional entropy using the element-frequency vector.  The $P_{10}$-free
-restriction in the Erdős–Gyárfás witness box is unrelated here; this is a
-pure union-closed combinatorics question.
+$\log_2|\mathcal{F}| - H(A \cup B) \ge (1-p)^2/4$.  Candidate route:
+bound $H(A \cup B)$ from above using the union-closure structure and the
+element-frequency vector, then show the resulting gap is at least $(1-p)^2/4$.
+This is a pure union-closed combinatorics question (unrelated to the
+Erd\H{o}s--Gy\'arf\'as witness box).
 
 **Current status**: Lemma `frankl_deficiency` created (status: open).
 The CHECK block passes on all tested families.  The analytic proof step
