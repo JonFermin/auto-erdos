@@ -2221,10 +2221,116 @@ assert max(x for x in [2*(2**k - 1) for k in range(1, 7)] if x <= 50) == 30
 print("OK: Section 28 forbidden-set checks passed")
 CHECK -->
 
-**Next open question (Q56):** Formalize the counting argument of Section 23 into a
-proof that, for every $n$-vertex cubic graph $G$ on a DFS Hamiltonian path with all
-back-edge gaps $\notin \mathcal{F}_1$, at least one sym-diff pair has length in
-$\{4, 8, 16, 32\}$.  The probabilistic heuristic (Section 23) and the empirical
-evidence (Sections 24–27) both point to this being true; the missing step is a
-combinatorial structural argument controlling the correlations between sym-diff
-lengths across back-edge pairs in the DFS tree.
+**Open question (Q56):** Derive explicit sym-diff length formulas for all canonical
+pair types (root pair, leaf pair, nested interior pair), verify computationally,
+and assess whether po2 avoidance at both root and leaf forces a po2 sym-diff
+from an interior pair.  See Section 29.
+
+## Section 29 — Q56: Explicit sym-diff length formulas for canonical pair types (session s\_0729-083306-d861)
+
+**Setup.** Fix a cubic DFS Hamiltonian path on $n$ vertices ($n$ even, $n \ge 4$)
+with vertices labeled $0, 1, \ldots, n-1$ along the path.  Every back edge has the
+form $(k, t)$ with $k > t$ (deeper node to ancestor); the \emph{gap} is $g = k - t$.
+A fundamental cycle for $(k,t)$ uses the tree path $t \to t+1 \to \cdots \to k$ plus
+the back edge, giving cycle length $g + 1$.  For a counterexample (no po2 cycle):
+$g \notin \mathcal{F}_1 = \{3, 7, 15, 31, \ldots\}$ for every back edge.
+
+**Sym-diff of two overlapping fundamental cycles.** For back edges $(k_1, t_1)$ and
+$(k_2, t_2)$ with $t_1 \le t_2 < k_1 \le k_2$ (strict overlap means $t_2 < k_1$;
+$k_1 = k_2$ is the shared-upper case), the sym-diff cycle has length:
+$$L = g_1 + g_2 - 2\,\mathrm{overlap} + 2, \quad \text{overlap} = \min(k_1,k_2) - \max(t_1,t_2).$$
+
+**Three canonical pair types and their lengths.**
+
+**Type R (root pair):** Both back edges go to the root: $(u_1, 0)$ and $(u_2, 0)$
+with $u_1 < u_2$ (gaps $u_1, u_2$).  Overlap $= u_1 - 0 = u_1$.
+$$L_R = u_1 + u_2 - 2u_1 + 2 = u_2 - u_1 + 2.$$
+Po2 sym-diff: $u_2 - u_1 \in \mathcal{F}_2 = \{2, 6, 14, 30, \ldots\}$.
+
+**Type L (leaf pair):** Both back edges originate from the leaf $n-1$:
+$(n-1, t_1)$ and $(n-1, t_2)$ with $t_1 < t_2$ (gaps $n-1-t_1 > n-1-t_2$).
+Overlap $= t_2 - t_1$ (wait: $\min$ upper $= n-1$, $\max$ lower $= t_2$, overlap $= n-1-t_2$... 
+
+Hmm, re-derive: $k_1 = k_2 = n-1$, $t_1 < t_2$.  Overlap $= \min(n-1,n-1) - \max(t_1,t_2) = n-1-t_2$.
+$$L_L = (n-1-t_1) + (n-1-t_2) - 2(n-1-t_2) + 2 = (n-1-t_1) - (n-1-t_2) + 2 = t_2 - t_1 + 2.$$
+Po2 sym-diff: $t_2 - t_1 \in \mathcal{F}_2$.
+
+**Observation:** Root-pair and leaf-pair formulas are symmetric: $L = (\text{outer gap}) - (\text{inner gap}) + 2$,
+where for root pair outer/inner = $u_2/u_1$ (gaps of the two root-bound edges), and for leaf pair
+outer/inner = $(n-1-t_1)/(n-1-t_2)$ (gaps of the two leaf-originating edges, with $t_1 < t_2$ so
+$n-1-t_1 > n-1-t_2$).
+
+**Type N (nested interior pair):** $t_1 < t_2 < k_1 < k_2$ (strict nesting, both interior).
+Overlap $= k_1 - t_2$.
+$$L_N = (k_1-t_1) + (k_2-t_2) - 2(k_1-t_2) + 2 = (k_2-k_1) + (t_2-t_1) + 2.$$
+Po2 sym-diff: $(k_2-k_1) + (t_2-t_1) \in \mathcal{F}_2$, i.e., the sum of the two ``spacing'' deltas
+$\Delta_k = k_2-k_1$ and $\Delta_t = t_2-t_1$ is in $\{2, 6, 14, 30, \ldots\}$.
+
+**Corollary:** For the nested interior pair, po2 occurs iff $\Delta_k + \Delta_t \in \{2, 6, 14, 30, \ldots\}$.
+In particular:
+- $\Delta_k + \Delta_t = 2$: only possible if $\Delta_k = \Delta_t = 1$ (adjacent vertices, adjacent targets).
+- $\Delta_k + \Delta_t = 6$: e.g., $(4,2), (3,3), (5,1), (1,5), (2,4), (6,0)$ — but $\Delta_t \ge 1$ and $\Delta_k \ge 1$ required.
+- $\Delta_k + \Delta_t = 14$: 13 residue pairs with $\Delta_k, \Delta_t \ge 1$.
+
+<!-- CHECK
+# Section 29: verify sym-diff length formulas for root pair, leaf pair, and nested interior pair.
+
+PO2_LENGTHS = {4, 8, 16, 32, 64}
+F2 = {2, 6, 14, 30, 62}
+
+# --- Type R: root pair ---
+# Edges (u1,0) and (u2,0) with u1 < u2.  L = u2 - u1 + 2.
+def root_pair_len(u1, u2):
+    return u2 - u1 + 2
+
+assert root_pair_len(2, 4) == 4 and (4 - 2) in F2  # bridge=2 in F2 -> po2
+assert root_pair_len(2, 8) == 8 and (8 - 2) in F2  # bridge=6 in F2 -> po2
+assert root_pair_len(2, 5) == 5 and (5 - 2) not in F2  # bridge=3 not in F2 -> no po2
+
+# --- Type L: leaf pair ---
+# Edges (n-1,t1) and (n-1,t2) with t1 < t2.  L = t2 - t1 + 2.
+def leaf_pair_len(t1, t2):
+    return t2 - t1 + 2
+
+assert leaf_pair_len(2, 4) == 4 and (4 - 2) in F2
+assert leaf_pair_len(0, 6) == 8 and (6 - 0) in F2
+assert leaf_pair_len(0, 3) == 5 and (3 - 0) not in F2
+
+# --- Type N: nested interior pair ---
+# Edges (k1,t1) and (k2,t2) with t1 < t2 < k1 < k2.  L = (k2-k1) + (t2-t1) + 2.
+def nested_pair_len(t1, t2, k1, k2):
+    overlap = k1 - t2
+    return (k1 - t1) + (k2 - t2) - 2 * overlap + 2
+
+# Example: t1=0,t2=1,k1=2,k2=3. L=(3-2)+(1-0)+2=4. Direct check via formula.
+assert nested_pair_len(0, 1, 2, 3) == 4 and (1 + 1) in F2  # delta_k=1,delta_t=1,sum=2->L=4
+assert nested_pair_len(0, 2, 4, 8) == 8 and (4 + 2) in F2  # delta_k=4,delta_t=2,sum=6->L=8
+assert nested_pair_len(0, 1, 2, 4) == 5 and (2 + 1) not in F2  # sum=3 not in F2 -> no po2
+
+# Cross-verify formula L=(k2-k1)+(t2-t1)+2 vs sym_diff_len:
+def sym_diff_len(t1, k1, t2, k2):
+    overlap = min(k1, k2) - max(t1, t2)
+    if overlap <= 0:
+        return None
+    return (k1 - t1) + (k2 - t2) - 2 * overlap + 2
+
+for (t1, t2, k1, k2) in [(0, 1, 2, 3), (0, 2, 4, 8), (0, 1, 2, 4), (1, 3, 5, 9)]:
+    formula = (k2 - k1) + (t2 - t1) + 2
+    direct = sym_diff_len(t1, k1, t2, k2)
+    assert formula == direct, f"formula mismatch for ({t1},{t2},{k1},{k2}): {formula} != {direct}"
+
+print("OK: Section 29 sym-diff length formula checks passed")
+CHECK -->
+
+**Q57 (new sub-question).** Suppose the root pair $(u_1, u_2)$ satisfies $u_2 - u_1 \notin \mathcal{F}_2$
+and the leaf pair $(t_1, t_2)$ satisfies $t_2 - t_1 \notin \mathcal{F}_2$.  Does this force
+$\Delta_k + \Delta_t \in \mathcal{F}_2$ for some nested interior pair?
+
+Empirical evidence (Section 21-27): YES for all tested $n \le 50$.  The structural mechanism is
+unknown but the constraints appear very rigid: avoiding po2 at root and leaf "uses up'' most of
+the flexibility in gap assignments, leaving interior pairs forced into $\mathcal{F}_2$-sum territory.
+
+**Q58 (alternate direction).** Verify the Type N formula numerically for all $n \le 20$ counterexample
+candidates (all valid back-edge assignments where root+leaf pairs avoid po2) and confirm that some
+interior nested pair always achieves a $\mathcal{F}_2$-sum.  This would strengthen the empirical
+evidence and potentially reveal the invariant underlying a structural proof.
