@@ -1000,14 +1000,15 @@ graphs at n=12..18. Shared-target coverage measured empirically.
 **Shared-source constraint** (proof-by-contradiction). Leaf L with back edges
 to ancestors at depths $d_1 < d_2$: bridge $b = d_2 - d_1$.  In a
 hypothetical counterexample $G$ (no po2 cycles), every shared-source leaf
-pair must satisfy $b \notin \{2, 6, 14, 30\}$.  Proof: otherwise the sym-diff
-of the two fundamental cycles would be a simple cycle of length $b+2$; since
-$b = 2(2^k-1) \in \mathcal{F}_2 \Rightarrow b+2 = 2^{k+1}$ is a power of $2$
-(since $2(2^k-1)+2 = 2 \cdot 2^k = 2^{k+1}$), contradicting the counterexample
-assumption.  For $n \le 50$, the relevant values are $b \in \{2,6,14,30\}$
-(giving $b+2 \in \{4,8,16,32\}$).  The constraint $b \notin \mathcal{F}_2$ is
-the shared-source analogue of the fundamental-cycle gap constraint
-$\delta \notin \{3,7,15,31\}$.
+pair must satisfy $b \notin \mathcal{F}_2$.  Proof: if $b = 2(2^k-1)$, the
+sym-diff of the two fundamental cycles is a simple cycle of length $b+2 =
+2(2^k-1)+2 = 2 \cdot 2^k = 2^{k+1}$, which is a power of $2$ for any
+$k \ge 1$ — contradicting the counterexample assumption.  (The identity
+holds for the infinite family $\mathcal{F}_2 = \{2,6,14,30,62,\ldots\}$;
+for $n \le 50$, only $b \in \{2,6,14,30\}$ can appear since $b < n$ is
+required for a back edge and $C_{64}$ does not arise in an $n \le 50$
+graph.)  The constraint $b \notin \mathcal{F}_2$ is the shared-source
+analogue of the fundamental-cycle gap constraint $\delta \notin \{3,7,15,31\}$.
 
 **Concrete example** (`lemma_branching_dfs_r3`): n=10 hard-path branching cubic
 graph G10B (girth 3, root has 2 tree children; back-edge gaps all $\in \{2,4\}$
