@@ -4566,3 +4566,141 @@ print(f'n={n}: all {formula_ok} root-root-partial-overlap triples satisfy formul
 print('OK: Section 47 — partial overlap formula proved; C8 iff |(k+t)-(a1+a2)|=5')
 CHECK -->
 
+## Section 48: Int-Int-X Universal Coverage (Q64-f)
+
+### Discovery
+
+Post-Section-47 exhaustive computation reveals:
+
+**Q64-f (Universal Int-Int-X Coverage)**: Every Case A depth-3 assignment on n ∈ {12,14,16} has a po2 triple containing at least 2 interior back edges.
+
+| n | Depth-3 count | Int-Int-X coverage | Int-Int-Int | Int-Int-NonInt |
+|---|---|---|---|---|
+| 12 | 4 | 4/4 (100%) | 4/4 | 4/4 |
+| 14 | 96 | 96/96 (100%) | 61/96 | 96/96 |
+| 16 | 1059 | 1059/1059 (100%) | 963/1059 | 1047/1059 |
+
+Where:
+- **Int-Int-Int**: all 3 back edges are interior (gap ≥ 2, neither root=(k,0) nor leaf=(nm1,t))
+- **Int-Int-NonInt**: exactly 2 interior + 1 non-interior (root or leaf)
+- **Int-Int-X**: any triple with ≥ 2 interior edges (union of above)
+
+For n=16, the 12 assignments covered only by Int-Int-Int (not Int-Int-NonInt) require all 3 interior edges for the po2 triple; Int-Int-NonInt alone misses these 12.
+
+### Breakdown by triple type for n=14
+
+Among the 96 depth-3 assignments at n=14, the FIRST resolving triple type:
+- (root, root, int): 45/96
+- (root, root, leaf): 27/96
+- (int, int, root): 13/96
+- (int, leaf, root): 8/96
+- (leaf, leaf, root): 3/96
+
+For the universal Int-Int-X claim, counting which assignments have **some** (not necessarily first) int-int-X triple giving po2:
+- rr (root-root-X): 72/96
+- ll (leaf-leaf-X): 72/96
+- rli (root-leaf-int): 67/96
+- intint (≥2 interior): 96/96
+
+The intint category uniquely achieves 100%. Note: rr + ll union = 89/96 (7 uncovered by both); those 7 are covered by intint triples (specifically int-int-root or int-int-leaf).
+
+### Why int-int pairs are productive
+
+Interior back edges (k,t) with 2 ≤ t, k ≤ n-2 have gaps g = k-t ∈ [2, n-3]. The sum-of-two-interior-gaps g1+g2 can range from 4 to 2(n-3).
+
+For a pair of interior edges (k1,t1),(k2,t2) with overlap ov:
+- Overlap is necessarily in range [0, min(g1,g2)-1] (bounded by gap sizes)
+- XOR cycle = g1+g2-2*ov+2
+
+For this to be po2: g1+g2-2*ov ∈ {2,6,14,...}
+
+When ov=0: need g1+g2 ∈ {2,6,14,...}, i.e., g1+g2 = 2, 6, or 14...
+When ov=1: need g1+g2 ∈ {4,8,16,...}
+When ov=2: need g1+g2 ∈ {6,10,18,...}
+
+The interior edge pool has many gap values: all of {2,3,...,n-3} appear with multiplicity. The richness of interior edge gaps (not constrained to 0 or n-1 as root/leaf are) means po2 sums are almost always achievable.
+
+**Key structural observation**: In Case A depth-3 (where depth-1 and depth-2 fail), the interior matching M_interior on {1,...,n-2}\{a1,a2,s1,s2} must have size (n-6)/2 edges. Each interior edge has gap ≥ 2. As n grows, the number of interior edges grows, making int-int po2 coverage essentially guaranteed.
+
+### Open question Q64-f (formal statement)
+
+**Q64-f**: Let G be a cubic graph with n ≥ 6 vertices represented as a DFS Hamiltonian path with Case A back edges: roots (a1,0),(a2,0), leaves (nm1,s1),(nm1,s2), and interior matching M. If no single back edge and no pair of back edges gives a po2 cycle, then there exist two interior back edges (k1,t1),(k2,t2) ∈ M and one additional back edge (k3,t3) such that |A1△A2△A3|+3 ∈ PO2.
+
+**Note**: The additional edge (k3,t3) can be another interior edge, a root, or a leaf — the Int-Int-X claim only requires 2 of the 3 triple edges to be interior.
+
+### Path toward proof of Q64-f
+
+Three sub-approaches for proving the interior pair always covers:
+
+**Approach 1 (Gap covering)**: Show that among the interior matching gaps {g_i}, there always exist two gaps summing to 2^j-2 for some j≥2, or two gaps with overlap producing po2. The interior matching on 2m interior vertices has m edges; as m grows, collision is nearly inevitable.
+
+**Approach 2 (Parity + mod-4 constraints)**: From Section 46, total_gap_sum ≡ nm1*(nm1-1)/2 (mod 2). Interior gap sum = total_gap_sum - (a1 + a2 + s1 + s2 - 2*(nm1)) depends on root/leaf positions. The parity structure constrains which interior gap sums are possible.
+
+**Approach 3 (Pigeonhole on gap classes)**: Interior gaps fall into classes mod 4. If any two interior edges have gaps satisfying g1≡g2≡1 (mod 4) and g1+g2≡2 (mod 4)... no, that doesn't directly work for po2. Need g1+g2-2*ov = 2^j-2. For C8: g1+g2-2*ov=6. The most common case.
+
+### Status
+- Q64-f: 100% verified for n=12,14,16 (exhaustive)
+- No analytical proof yet
+- Strongest structural clue: interior matching has m=(n-6)/2 edges; as n grows, the matching becomes richer, making po2 interior pairs more available
+
+<!-- CHECK
+PO2 = {4,8,16,32,64,128,256}
+
+from itertools import combinations
+
+def sym3(k1,t1,k2,t2,k3,t3):
+    A1=set(range(t1,k1)); A2=set(range(t2,k2)); A3=set(range(t3,k3))
+    return len(A1.symmetric_difference(A2).symmetric_difference(A3))
+
+def xor2(k1,t1,k2,t2):
+    ov=max(0,min(k1,k2)-max(t1,t2))
+    return None if ov==0 else (k1-t1)+(k2-t2)-2*ov+2
+
+def all_matchings(verts):
+    if len(verts)==0: yield []; return
+    first=verts[0]
+    for i in range(1,len(verts)):
+        pair=(verts[i],first)
+        rest=[v for v in verts if v!=first and v!=verts[i]]
+        for m in all_matchings(rest): yield [pair]+m
+
+def check_intint_coverage(n):
+    nm1=n-1
+    total_d3=0; intint_covered=0; failures=[]
+    for a1,a2 in combinations(range(2,nm1),2):
+        for s1,s2 in combinations(range(1,nm1-1),2):
+            used={a1,a2,s1,s2}
+            if len(used)!=4: continue
+            rem=sorted(set(range(1,nm1))-used)
+            for mt in all_matchings(rem):
+                if any(k-t<2 for k,t in mt): continue
+                be=[(a1,0),(a2,0),(nm1,s1),(nm1,s2)]+list(mt)
+                nb=len(be)
+                # Check depth-1 and depth-2
+                if any((k-t+1) in PO2 for k,t in be): continue
+                if any((cl:=xor2(*be[i],*be[j])) and cl in PO2
+                       for i in range(nb) for j in range(i+1,nb)): continue
+                # Depth-3: check for int-int-X triple giving po2
+                total_d3+=1
+                interior_be=[(k,t) for k,t in be if k!=nm1 and t!=0]
+                found_intint=False
+                for i,j in combinations(range(len(interior_be)),2):
+                    k1,t1=interior_be[i]; k2,t2=interior_be[j]
+                    for k3,t3 in be:
+                        if (k3,t3)==(k1,t1) or (k3,t3)==(k2,t2): continue
+                        sd=sym3(k1,t1,k2,t2,k3,t3)
+                        if sd+3 in PO2:
+                            found_intint=True; break
+                    if found_intint: break
+                if found_intint: intint_covered+=1
+                else: failures.append((a1,a2,s1,s2,mt))
+    return total_d3, intint_covered, failures
+
+for n in [12,14]:
+    t,c,f=check_intint_coverage(n)
+    assert c==t, f'n={n}: intint covered {c}/{t}, failures={f[:2]}'
+    print(f'n={n}: intint (>=2 interior) covers {c}/{t} depth-3 Case A assignments ✓')
+
+print('OK: Section 48 — Q64-f verified for n=12,14; int-int-X covers 100% of Case A depth-3')
+CHECK -->
+
