@@ -529,7 +529,7 @@ very high.
 **Girth-6 mechanism.** The Franklin and Heawood results reveal the
 mechanism for high-girth cases: no fundamental cycle achieves a
 power-of-2 length (girth forces $\delta + 1 \ge 6$, so fundamental
-lengths avoid 4 and 8); instead, two fundamental cycles whose shared
+lengths are $\ge 6$, avoiding $C_4$); instead, two fundamental cycles whose shared
 tree path has even length $\ell$ produce a sym-diff of length
 $(\delta_1+1) + (\delta_2+1) - 2\ell$ — which hits 8 or 16 for
 appropriate gap pairs. The proof would need to show such a pair always
