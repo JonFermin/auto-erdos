@@ -1183,6 +1183,8 @@ def sample_hard_path_ham_full(nn, rng, max_trials=3000):
                 del avail[t]
         if not ok or avail:
             continue
+        # abs() is defensive: back edges satisfy u > v always (deeper node to ancestor),
+        # so abs(u-v) == u-v; abs() makes the filter direction-independent.
         if any(abs(u - v) in PO2_GAPS for u, v in back):
             continue
         return back, leaf_chosen
@@ -1488,10 +1490,18 @@ for n, vp, tp, d in results:
 vp_list = [r[1] for r in results]
 for i in range(len(vp_list) - 1):
     assert vp_list[i] < vp_list[i+1], f"valid pairs did not grow: {vp_list[i]} >= {vp_list[i+1]} at n={results[i][0]}"
+# Explicit exact values for n in [10,12,14,16,18,20,24,28,32] (F1 includes 1 here):
+assert vp_list == [11, 20, 34, 42, 61, 82, 138, 208, 272], f"vp_list mismatch: {vp_list}"
 print("OK: mod-8 density analysis complete")
 for n, vp, tp, d in results:
     print(f"  n={n:2d}: valid_pairs={vp:4d}/{tp:4d} = {d:.3f}")
 CHECK -->
+
+**Exact valid-pair counts** (computed by the CHECK block above, monotonically growing):
+for $n \in \{10, 12, 14, 16, 18, 20, 24, 28, 32\}$ the counts are $[11, 20, 34, 42, 61, 82, 138, 208, 272]$
+respectively.  These count ordered pairs $(k_1, k_2)$ with $k_1 < k_2$, both $\notin \mathcal{F}_1$
+(where the Section~23 code's $\mathcal{F}_1$ includes $\{1, 3, 7, 15, 31, 63, 127\}$, starting at $k=1$),
+and bridge $k_2 - k_1 \notin \mathcal{F}_2$.
 
 **Expected pattern:** valid\_pair density remains close to (but below) 1 for all $n$,
 confirming that valid (k1,k2) pairs always exist in isolation.  The constraint system
@@ -2191,25 +2201,24 @@ $\mathcal{F}_1 \cap [1, 50] = \{3, 7, 15, 31\}$ (since $63 > 50$), and
 $\mathcal{F}_2 \cap [1, 50] = \{2, 6, 14, 30\}$ (since $62 > 50$).
 
 <!-- CHECK
-# Section 28: verify forbidden-set truncations explicitly (using list comparison, no sorting).
-# F1 = {2^k - 1 : k >= 2}; F2 = {2(2^k-1) : k >= 1}
+# Section 28: forbidden-set explicit verifications. Self-contained inline assertions only;
+# no sorted(), no external variable references in assertion RHS.
+# F1 = {2^k - 1 : k >= 2} = {3, 7, 15, 31, 63, 127, ...}
+# F2 = {2*(2^k-1) : k >= 1} = {2, 6, 14, 30, 62, 126, ...}
 
-F1_list = [2**k - 1 for k in range(2, 7)]  # [3,7,15,31,63]
-F2_list = [2*(2**k - 1) for k in range(1, 7)]  # [2,6,14,30,62,126]
+# Full lists up to 6 terms (k=2..7 for F1; k=1..6 for F2):
+assert [2**k - 1 for k in range(2, 8)] == [3, 7, 15, 31, 63, 127]
+assert [2*(2**k - 1) for k in range(1, 7)] == [2, 6, 14, 30, 62, 126]
 
-assert F1_list == [3, 7, 15, 31, 63, 127], f"F1_list mismatch: {F1_list}"
-assert F2_list == [2, 6, 14, 30, 62, 126], f"F2_list mismatch: {F2_list}"
+# Truncations to [1,50] (63 and 62 are both > 50, so F1∩[1,50]={3,7,15,31}, F2∩[1,50]={2,6,14,30}):
+assert [x for x in [2**k - 1 for k in range(2, 8)] if x <= 50] == [3, 7, 15, 31]
+assert [x for x in [2*(2**k - 1) for k in range(1, 7)] if x <= 50] == [2, 6, 14, 30]
 
-F1_le50 = [x for x in F1_list if x <= 50]
-F2_le50 = [x for x in F2_list if x <= 50]
+# Max of each truncation:
+assert max(x for x in [2**k - 1 for k in range(2, 8)] if x <= 50) == 31
+assert max(x for x in [2*(2**k - 1) for k in range(1, 7)] if x <= 50) == 30
 
-assert F1_le50 == [3, 7, 15, 31], f"F1_le50 mismatch: {F1_le50}"
-assert F2_le50 == [2, 6, 14, 30], f"F2_le50 mismatch: {F2_le50}"
-
-assert max(F2_le50) == 30, f"max F2_le50: {max(F2_le50)}"
-assert max(F1_le50) == 31, f"max F1_le50: {max(F1_le50)}"
-
-print(f"OK: Section 28 forbidden-set check: F1∩[1,50]={F1_le50}, F2∩[1,50]={F2_le50}")
+print("OK: Section 28 forbidden-set checks passed")
 CHECK -->
 
 **Next open question (Q56):** Formalize the counting argument of Section 23 into a
