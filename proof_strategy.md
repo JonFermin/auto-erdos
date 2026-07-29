@@ -1421,13 +1421,20 @@ contradiction (if it exists) must come from GLOBAL interactions among all back e
 - Number of back edges: $m - (n-1) = \tfrac{3n}{2} - n + 1 = \tfrac{n}{2} + 1$
 - Number of fundamental cycles: $\tfrac{n}{2} + 1$
 - Number of pairwise sym-diffs: $\binom{n/2+1}{2} = \tfrac{n(n+2)}{8} \sim \tfrac{n^2}{8}$
-- Forbidden fraction of all pairwise lengths (among lengths $1$ to $n$): $|\mathcal{F}_2 \cap [1,n]| / n \approx \log_2 n / n \to 0$
+- ``Po2-bridge'' fraction (bridge values $b$ in $\mathcal{F}_2$ among $[1,n]$):
+  $|\mathcal{F}_2 \cap [1,n]| / n \approx \log_2 n / n \to 0$
 
-As $n \to \infty$, the fraction of lengths in $\mathcal{F}_2$ goes to 0, while the
-number of pairwise sym-diffs grows as $\Theta(n^2)$.  For the conjecture to fail
-at large $n$, ALL $\Theta(n^2)$ sym-diff lengths must avoid $O(\log n)$ forbidden
-values — an increasingly difficult condition.  This is a heuristic density argument,
-not a proof; formalizing it requires controlling correlations among sym-diff lengths.
+The po2-bridge fraction shrinks to 0 as $n \to \infty$, but the number of
+pairwise sym-diffs grows as $\Theta(n^2)$.  A random same-parity pair has
+probability $\approx \log_2 n / n$ of giving a po2 sym-diff cycle.
+Multiplied by $\Theta(n^2)$ pairs, the expected po2 sym-diff count is
+$\Theta(n \log n) \to \infty$.  For a \emph{counterexample} (no po2 cycles),
+ALL $\Theta(n^2)$ sym-diff lengths must simultaneously avoid the $O(\log n)$
+po2 bridge values — a condition whose probability decays as
+$\exp(-\Theta(n \log n))$ under independence, making counterexamples
+vanishingly unlikely at large $n$.  This is a heuristic density argument,
+not a proof; formalizing it requires controlling correlations among sym-diff
+lengths.
 
 **Numerical feasibility CHECK (mod-8 valid-pair density):**
 
