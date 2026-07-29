@@ -555,6 +555,11 @@ tree edge). The general length formula is:
 $$|F_1 \triangle F_2| = g_1 + g_2 - 2o + 2,$$
 where $g_i = \delta_i$ is the depth-gap of edge $i$ and
 $o = \min(u_1,u_2) - \max(v_1,v_2)$ is the overlap of the depth intervals.
+\emph{Worked examples.}
+Containment: $[v_1,u_1]=[0,10]$, $[v_2,u_2]=[3,7]$: $g_1=10$, $g_2=4$,
+$o=\min(10,7)-\max(0,3)=7-3=4$, $L=10+4-8+2=\mathbf{8}$.
+Crossing: $[v_1,u_1]=[0,5]$, $[v_2,u_2]=[2,8]$: $g_1=5$, $g_2=6$,
+$o=\min(5,8)-\max(0,2)=5-2=3$, $L=5+6-6+2=\mathbf{7}$.
 The containment sub-case ($o = g_2$, i.e., interval $[v_2,u_2] \subseteq
 [v_1,u_1]$) simplifies to $(\delta_1 - \delta_2) + 2$ (same as same-leaf
 formula). Genuinely crossing pairs ($0 < o < \min(g_1,g_2)$) use the full
