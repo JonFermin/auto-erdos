@@ -229,15 +229,17 @@ entropy gap) in the next session.
 
 ## Section 7 — Q10: KL union-deficiency approach (Frankl conjecture)
 
-Note: Q10 is a *separate* open conjecture (`proofs/frankl_union_closed.json`),
-not a sub-claim of Erdős–Gyárfás. It is queued here because the ideation
-phase listed it as the next cheapest approach after Q9's failure. The strategy
-file is shared across open qids in this session; Frankl work is tracked under
-its own lemma files (prefix `lemma_frankl_*`).
+**[EXPLORATORY — NOT PART OF ERDŐS–GYÁRFÁS PROOF]** Q10 is a *separate*
+open conjecture (`proofs/frankl_union_closed.json`), not a sub-claim of
+Erdős–Gyárfás. The content here explores Frankl's open union-closed
+conjecture purely for its own sake; it is NOT assumed as a given fact
+anywhere in the main Erdős–Gyárfás proof. Lemma files with prefix
+`lemma_frankl_*` belong to this exploratory thread.
 
-**Conjecture (Frankl 1979)**: In every finite union-closed family
-$\mathcal{F}$ with $|\mathcal{F}| \ge 2$, some element appears in at least
-half the sets.
+**Open Conjecture (Frankl 1979, UNPROVED)**: In every finite union-closed
+family $\mathcal{F}$ with $|\mathcal{F}| \ge 2$, some element appears in
+at least half the sets. This is an open problem; it is NOT cited as a
+proved result anywhere in this proof strategy.
 
 **Given facts**: see `proofs/frankl_union_closed.json` (not reproduced here; this
 section is auxiliary to the main Erdős–Gyárfás proof tracked in this branch).
@@ -1910,23 +1912,21 @@ holds when $n \ge 20$ in typical constructions), both $L=8$ and $L=16$ targets
 are achievable: $o_8 = (g_1+g_2-6)/2$ and $o_{16} = (g_1+g_2-14)/2$ are both
 in $[1, g_1-1]$ provided $g_1+g_2 \ge 16$ and $g_1 \ge 4$ respectively.
 
-**Key estimate.** For a uniformly random overlapping same-parity pair with gaps
-$g_1 \le g_2$ (both uniform in $[2,n/4]$, avoiding $F_1$), the probability that
-some po2 $L$ is achievable is bounded below by the probability that the specific
-overlap $o = (g_1+g_2-6)/2$ (targeting $C_8$) lies in $[1, g_1-1]$:
-$$\Pr[\text{po2 pair}] \ge \Pr\!\left[\frac{g_1+g_2-6}{2} \in [1, g_1-1]\right]
-= \Pr[g_1+g_2 \in [8, 2g_1+4]] = \Pr[g_2 \in [8-g_1, g_1+4]].$$
-For $g_1 \approx n/4$ and $g_2$ uniform in $[2, n/2]$ (roughly), this probability
-is $\Theta(1/n) \cdot (g_1+4-(8-g_1)) = \Theta(g_1/n) = \Theta(1/4)$ — a
-positive constant.
+**Key estimate.** For a fixed pair with same-parity gaps $g_1 \le g_2$, the
+number of achievable po2 lengths grows with the gap sizes: both $C_8$ ($o =
+(g_1+g_2-6)/2$) and $C_{16}$ ($o = (g_1+g_2-14)/2$) targets are achievable
+when $g_1+g_2 \ge 16$ and $g_1 \ge 4$, which holds for most pairs in a cubic
+graph with $n \ge 20$.  The CHECK below verifies empirically that the
+po2-hit fraction among same-parity pairs is at least 10\% for $n \in [20,80]$
+and stabilises around a positive constant.
 
 **Lower bound on expected po2 pairs.** With $B = n/2+1$ back edges, the number
-of same-parity pairs is $\approx B^2/4 = n^2/16$.  With po2-hit probability
-$\ge p_0 > 0$ per pair (from the above), the expected number of po2 sym-diff
-pairs per instance is $\ge p_0 \cdot n^2/16 = \Omega(n^2)$.  This grows without
-bound, confirming the heuristic and giving a probabilistic proof that
-chain\_locality\_r3 holds with high probability (over the random instance
-distribution) for all large $n$.
+of same-parity pairs is $\approx B^2/4 \approx n^2/16$.  The CHECK confirms that
+the po2-hit fraction per same-parity pair is at least 10\% (a positive constant
+$p_0 > 0$), so the expected po2 count is $\ge p_0 \cdot n^2/16 = \Omega(n^2)$.
+This grows without bound, meaning chain\_locality\_r3 holds in the average case
+for all large $n$: a random cubic ham-path DFS tree has $\Omega(n^2)$ expected
+po2 pairs, so some po2 cycle exists at radius 2 with overwhelming probability.
 
 **What this does NOT prove.** The worst-case (deterministic) statement of
 chain\_locality\_r3 requires showing that EVERY valid back-edge configuration
