@@ -77,15 +77,22 @@ witness window:
 
 **Lemma `igraph_c4_or_c8`** (status: proved, see
 `proof_lemmas/lemma_igraph_c4_or_c8.md`): every simple I-graph $I(m,a,b)$
-contains a cycle of length $4$ or a cycle of length $8$. Concretely: if
-$b \equiv \pm a \pmod m$ then $u_0, u_a, v_a, v_0$ is a 4-cycle;
-otherwise
-$$u_0,\; u_a,\; v_a,\; v_{a+b},\; u_{a+b},\; u_b,\; v_b,\; v_0$$
-is an 8-cycle. The four residues $\{0, a, b, a+b\}$ are pairwise
-distinct mod $m$: $0 \ne a$ and $0 \ne b$ by simplicity; $0 \ne a+b$
-because $b \not\equiv -a$ is part of the case assumption; $a \ne b$ is
-the other half of the case assumption; and $a \ne a+b$, $b \ne a+b$
-again by simplicity.
+contains a cycle of length $4$ or a cycle of length $8$. The proof is a
+complete, exhaustive case split:
+
+- **Case 1 ($a+b \equiv 0 \pmod m$, i.e., $b \equiv -a$; or $a = b$):**
+  The inner edge $\{v_0, v_a\}$ (or $\{v_a, v_0\}$) exists, so
+  $u_0, u_a, v_a, v_0$ is a $C_4$.  Example: $I(3,1,2)$ has
+  $a=1,b=2$, $(a+b)\bmod 3=(1+2)\bmod 3=0$, so Case~1 gives $C_4$:
+  $u_0,u_1,v_1,v_0,u_0$. (No 4-residue distinctness check is performed
+  in Case~1 — the $C_4$ exists independently.)
+
+- **Case 2 ($a+b \not\equiv 0 \pmod m$ AND $a \ne b \pmod m$, i.e.,
+  $b \not\equiv \pm a$):** All four residues $\{0,a,b,a+b\}$ are pairwise
+  distinct mod $m$ (follows from simplicity and Case~2 conditions alone —
+  see the distinctness proof in the lemma file), so
+  $$u_0,\; u_a,\; v_a,\; v_{a+b},\; u_{a+b},\; u_b,\; v_b,\; v_0$$
+  is a simple $C_8$.
 
 Consequently the conjecture restricted to the I-graph family (hence to the
 entire generalized Petersen family) holds, with cycle length 4 or 8 always
