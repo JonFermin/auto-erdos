@@ -1390,7 +1390,7 @@ all residuals from this second sample.
 - $\mathcal{F}_1 \cap [1,31] = \{3,7,15,31\}$ — the four integers of the form $2^k - 1$ for $k \in \{2,3,4,5\}$ that lie in $[1,31]$. Every element of this set has all-1s binary representation and satisfies $\equiv 3$ or $7 \pmod 8$; however, the converse does not hold — not every integer $\le 31$ with residue $3$ or $7 \pmod 8$ is in $\mathcal{F}_1$ (e.g.\ $11 \equiv 3$, $23 \equiv 7 \pmod 8$ are in neither set).
 - $\mathcal{F}_2 \cap [1,31] = \{2,6,14,30\}$ — the four integers of the form $2(2^k - 1)$ for $k \in \{1,2,3,4\}$. Similarly these satisfy $\equiv 2$ or $6 \pmod 8$ but $10 \equiv 2$ and $22 \equiv 6 \pmod 8$ are not in $\mathcal{F}_2$.
 
-**Allowed depth residues (for $n \le 16$, so $\mathcal{F}_1 \cap [1,n-1] \subseteq \{3,7\}$):** depths in $[1,15] \setminus \{3,7\} = \{1,2,4,5,6,8,9,10,11,12,13,14\}$. For $n > 16$ the next forbidden depth is 15, and so on.
+**Allowed depth residues (for $n \le 16$, so $\mathcal{F}_1 \cap [1,n-1] \subseteq \{3,7\}$):** depths in $[1,15] \setminus \{3,7\} = \{1,2,4,5,6,8,9,10,11,12,13,14,15\}$ (13 values). For $n > 16$ the next forbidden depth is 15, reducing this set by one; for $n \le 8$ only $3$ is forbidden.
 
 **Allowed bridge residues (for bridges up to 14, so $\mathcal{F}_2 \cap [1,14] = \{2,6,14\}$):** bridges in $\{1,3,4,5,7,8,9,10,11,12,13\}$.
 
