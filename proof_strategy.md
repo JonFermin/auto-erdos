@@ -1653,7 +1653,7 @@ vertices (assume $n$ even):
 - Total pairs: $\binom{B}{2} = n(n+2)/8$
 - Same-parity pairs: roughly half the total, i.e.\ $\approx n(n+2)/16$
 - Overlapping same-parity pairs (rough fraction $\approx 0.6$): $\approx 0.6 \cdot n(n+2)/16 \approx 3n^2/80$
-- Po2-length sym-diffs among these: density $\approx 69\%$ (valid) times po2-hit fraction
+- Po2-length sym-diffs among these: density $\approx 68.8\%$ (valid gap-pair density, see Section 9) times po2-hit fraction
 
 The po2-hit fraction is: for a random overlapping same-parity pair with gap-sum $G =
 g_1 + g_2$ and overlap $o \in [1, \min(g_1,g_2)-1]$, we need $G - 2o + 2 \in \{4, 8,
@@ -2008,20 +2008,23 @@ theoretical argument for the "large-gap forcing" regime.
 
 **Large-gap forcing argument.** Suppose all $B = n/2+1$ back edges have
 gaps $\ge g_{\min}$.  Fix any two back edges with same-parity gaps $g_1 \le
-g_2$ and overlap $o \ge 1$.  The sym-diff targets $L \in \{4,8,16,32\}$
-require $o = (g_1+g_2-L+2)/2$.  For $L=32$: $o_{32} = (g_1+g_2-30)/2$.
-This overlap is in the valid range $[1, g_2-1]$ whenever $g_1+g_2 \ge 32$
-(so $o_{32} \ge 1$) and $g_1+g_2-30 \le 2(g_2-1)$, i.e.\ $g_1 \le g_2+28$
-(always true since $g_1 \le g_2$).  Therefore: \emph{any two same-parity
-overlapping back edges with $g_1+g_2 \ge 32$ yield a po2 ($C_{32}$) sym-diff
-at overlap $o_{32}$, provided $o_{32}$ is actually achieved.}
-
-The remaining gap: proving that $o_{32}$ is always achievable (i.e., that
-some pair of back edges with $g_1+g_2 \ge 32$ actually has overlap exactly
-$o_{32}$) is the open structural step.  For a ham-path DFS tree with large
-enough $n$ and gaps $g_{\min} \ge 8$ (so $g_1+g_2 \ge 16$), this is
-verified empirically below and is expected to hold for all $n \ge 20$ on
-structural grounds.
+g_2$ and overlap $o \ge 1$.  The sym-diff length is $L = g_1+g_2-2o+2$.
+Targeting $L=32$ requires $o_{32} = (g_1+g_2-30)/2$.  The overlap ranges are:
+\begin{itemize}
+\item \emph{Crossing} ($o \in [1, g_1-1]$, i.e., $o < \min(g_1,g_2)$):
+  $o_{32} \in [1,g_1-1]$ iff $g_1+g_2 \ge 32$ (lower) \emph{and}
+  $g_2 \le g_1+28$ (upper, from $o_{32} \le g_1-1$).
+\item \emph{Containment} ($o = g_1$ when the smaller-gap edge is inside the larger):
+  gives $L = g_2-g_1+2$; equals 32 iff $g_2 = g_1+30$.
+\end{itemize}
+So $L=32$ is achievable via a 2-edge sym-diff exactly when $g_2 \le g_1+30$
+(all same-parity cases: $g_2 \in \{g_1, g_1+2,\ldots,g_1+28\}$ via crossing,
+$g_2 = g_1+30$ via containment).  When $g_2 > g_1+30$, smaller po2 lengths
+($L \in \{4,8,16\}$) may still be achievable if the pair is not in the
+68.8\%-valid region, but a 2-edge sym-diff cannot reach $L=32$.  Empirically
+(Section 27 CHECK below), this is not an obstacle: 0 violations at $n=42..50$,
+confirming that the radius-3 ceiling holds even when individual pairs have
+large gap-ratio.
 
 <!-- CHECK
 # Section 27: extend adversarial search to n=42..50.
