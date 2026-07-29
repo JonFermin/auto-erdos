@@ -106,6 +106,22 @@ fit a sandbox expression; that part is covered by the CHECK blocks below
 $m \le 60$; probe 2 cross-checks against exhaustive search for
 $m \le 12$).
 
+**Boundary verification: $I(3,1,2)$.**
+The smallest simple I-graph is $I(3,1,2)$: $m=3$, $a=1$, $b=2$.
+$\textbf{No}$ $\textbf{C}_8$ $\textbf{exists}$: a simple $C_8$ is a cycle with
+8 DISTINCT vertices, but $I(3,1,2)$ has only $2m = 6$ vertices, making $C_8$
+impossible by vertex count alone.
+$\textbf{C}_4$ $\textbf{exists}$ (Case~1 applies): $b=2 \equiv -1 \equiv -a \pmod{3}$,
+so $b \equiv -a$ and Case~1 applies.  Taking $j=a=1$: inner edge
+$\{v_1, v_0\}$ (since $v_{j+b \bmod m} = v_{1+2 \bmod 3} = v_0$).
+Simple $C_4$: $u_0 \to u_1 \to v_1 \to v_0 \to u_0$ — all 4 vertices distinct,
+all 4 edges (outer stride~1, spoke, inner stride~$-1$, spoke) confirmed present.
+\emph{The Case~2 formula does NOT apply}: $a+b = 3 \equiv 0 \pmod{3}$,
+so the 8-step walk $u_0, u_1, v_1, v_0, u_0, u_2, v_2, v_0, u_0$ that Case~2
+would produce is \textbf{NOT simple} — $u_0$ appears at positions 0 and 4, and
+$v_0$ at positions 3 and 7.  An 8-step closed walk is NOT a $C_8$.
+$I(3,1,2)$ has $C_4$ (not $C_8$); the lemma requires $C_4$ OR $C_8$, so it holds.
+
 **Remarks.**
 
 - The lemma is insensitive to connectivity: if $\gcd(m,a,b) > 1$ the
