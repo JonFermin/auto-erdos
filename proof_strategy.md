@@ -1512,6 +1512,16 @@ selecting which po2 length is realized.
   Note: for a triple to yield a simple cycle, at least one pair must have overlap $\ge 1$ (otherwise the triple sym-diff has a degree-4 vertex, hence is not a simple cycle). The code checks all three sub-pair orderings for each triple $\{i,j,k\}$, so no valid triple is missed.
 - Radius 4+: none of the above (would falsify `chain_locality_r3`).
 
+**Sampler scope.** Unlike Section 21's \texttt{sample\_hard\_path\_ham\_full} (which
+explicitly excludes back edges with gaps in $\{3,7,15,31\}$ for targeted hard-path
+testing), the sampler here generates \emph{general} ham-path cubic instances where back
+edges can have any gap $\ge 2$.  Back edges with gaps in $\{3,7,15,31\}$ give radius 1
+immediately (handled by the first branch of \texttt{min\_radius\_symdiff}) and thus
+trivially satisfy chain\_locality\_r3.  Only hard-path instances (all gaps avoid
+$\{3,7,15,31\}$) can have radius $>1$ and are the non-trivial adversarial cases.  Both
+easy-path (radius-1) and hard-path instances were generated and scored; 0 radius-4
+instances were found in either category at $n \in \{28,30,32\}$.
+
 <!-- CHECK
 # Section 24: chain_locality_r3 ham-path adversarial search n=28..32 with C16/C32
 # Uses interval sym-diff to cover all po2 lengths. Exit 0 = no radius-4 instance found.
