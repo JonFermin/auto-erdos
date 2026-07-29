@@ -1,38 +1,67 @@
-# Session handoff (session s_0728-163207-1707)
+# Session handoff (session s_0729-131551-1d91)
 
-**Stop reason**: session boundary (keep_progress achieved, 16 rounds remain before cap)
+**Stop reason**: logical milestone — Theorem C proved, n=18 census complete
 
-**Outcome**: R51 keep_progress — 0 blocking critics (down from 7 in R49/R50).
-Record: `records/proof_erdos_gyarfas_86dc7da25ad0_80727f9.json`
+**Rounds this session**: R29–R33 (5 rounds, all keep_progress)
 
-**Round history this session**:
-- R44-R48: Logged as discards (blocker chasing; various critic blockings)
-- R49 (discard): 7 blockings — all from falsify+internal+ledger fresh runs
-- R50 (discard): 1 remaining blocking — falsify self-retracted blocking on hard-path def
-- R51 (keep_progress): 0 blockings — complete fix package including hard-path rationale
+**Current focus**: Depth-4 resolution for Case A cubic graphs.
 
-**Changes in R51** (proof_strategy.md):
-1. Section 2: Added sandbox restriction note (frozenset/bin/math not available)
-2. Section 3: Added CHECK cross-reference for I(5,1,2) and I(6,1,2) edge-validity
-3. Section 8: Replaced "cage-theory argument" with "exhaustively-verified small-graph fact"
-4. Section 9 girth-6: Clarified scope (DFS-tree-specific, not "any DFS tree")
-5. Section 9 Heawood: Removed "unique" qualifier (→ "a (3,6)-cage")
-6. Section 9 Petersen consistency: Explicit "No contradiction with Section 6" block
-7. Section 10 Theorem label: "Theorem" → "Computational result (CHECK-verified)"
-8. Section 11.4: "Radius-4 escalation" clarified as FALSIFICATION search
-9. Section 12 Petersen: "unique cubic girth-5 graph" → "smallest cubic girth-5 graph"
-10. Section 16 D_n orbit: Removed "weakly larger avg member size" (unjustified); replaced with CHECK-verified Frankl bound statement
-11. Section 21: Softened 2.5% threshold as seed-specific; added explicit "hard-path exclusion rationale" explaining that excluding individual po2-gap back edges is intentional (not an error)
+## What was proved this session
 
-**Branch**: erdos-proof/0726-080714-6bac
-**PR**: #37 (already open, draft)
+**Theorem A (Section 55)**: sd=1 (C4 at depth-3) is IMPOSSIBLE in Case A.
+Proof: matching constraint forces A3=[t1,k2) making e3 share vertex t1 with e1.
 
-**Next session priorities**:
-1. Continue proof rounds targeting the remaining open questions. Key open areas:
-   - `chain_locality_r3` (radius-3 claim, status: open) — Section 12 adversarial search was executed, no radius-4 hits, but lemma is not proved
-   - `lemma_triple_rescue_hard_path` (status: open) — two samples confirm, no formal proof
-   - `frankl_deficiency` (status: open) — analytic proof step outstanding
-2. The proof is in a good state: 0 blockings at R51, 25 warns only.
-3. Watch for: falsify critic tends to get `critic_unavailable` transiently — run verifier twice if first result is `critic_unavailable`.
+**Cycle Bound (Section 55)**: sd=13 (C16) requires n≥16; for n≤15 sd=5 is unique.
 
-**Important note**: Critics run in parallel; if a single critic returns BLOCKING from LLM non-determinism on an objection that appears elsewhere to be self-refuted (like the hard-path exclusion in R50), add explicit rationale text rather than re-running.
+**Connectivity Theorem (Section 54)**: XOR of 3 back edges is single cycle iff c≥1
+(c = |(A1△A2)∩A3| ≥ 1).
+
+**Theorem C (Section 57)**: The 4 special back edges (r1,r2,l1,l2) form a
+single depth-4 cycle iff ov = max(0, min(a2,s2)-max(a1,s1)) ≥ 1.
+When ov≥1: L4 = (a2-a1)+(s2-s1)-2·ov+4.
+When ov=0: two disjoint cycles of lengths (a2-a1+2) and (s2-s1+2).
+
+## n=18 findings (Section 56)
+
+Census (a1+a2≤24): 4985 sd=5 (C8), 1491 sd=13 (C16), **18 depth-3 failures**.
+The 18 failures have NO depth-1/2/3 resolution. Both verified examples resolve
+at depth-4:
+- ex1 [(2,0),(6,0),(17,5),(17,15),...]: ov=1 → Theorem C gives C16 ✓
+- ex2 [(2,0),(6,0),(17,11),(17,15),...]: ov=0 → interior quadruple gives C8 ✓
+
+## Key open questions (what to do next)
+
+**Q71** (PRIORITY): For Case A assignments with ov=0, prove that some depth-4
+quadruple involving interior edges always gives a po2 cycle. This is the
+remaining gap for the depth-4 universality argument.
+
+Approach: When ov=0, the root gap [a1,a2) and leaf gap [s1,s2) are disjoint.
+Consider triples of interior edges {e_i} with one root edge:
+  (a1,0)+e_i+e_j+e_k: analyze the XOR interval and find po2 length.
+
+**Q72** (after Q71): Verify depth≤4 universality for n=14,16,18 (all Case A).
+Run full enumeration (not just a1+a2≤24) and check:
+  failures = [a for a in all_case_A_assignments(n) if not any_depth4_po2(a)]
+
+**Q73**: For larger n (n=20,22), does depth-4 still suffice, or do depth-5+ cases
+appear? This will reveal whether the depth bound is truly uniform.
+
+## Files modified this session
+
+- proof_strategy.md: Sections 53–57 added (Lemma G, connectivity, Theorem A,
+  Section 55 sd=1 impossible, Section 56 n=18 census, Section 57 Theorem C)
+- proof_open_questions.jsonl: Q67 claimed and resolved this session
+
+## Status of lemma files
+
+No new lemma files created; all results in proof_strategy.md.
+
+## Suggested first move for next session
+
+1. Read proof_session_handoff.md (this file).
+2. Read Section 57 in proof_strategy.md (last ~150 lines).
+3. Work on Q71: prove depth-4 universality for ov=0 Case A.
+   Try: pick one interior edge e_i, combine with r1=(a1,0), r2=(a2,0), e_j:
+   need (a2-a1)+(g_i)+g_j - 2*intersections ∈ {0,4,12,28}. Show always achievable.
+4. Run depth-4 universality check: python code enumerating all n=14 Case A and
+   checking if any quadruple gives single-cycle po2.

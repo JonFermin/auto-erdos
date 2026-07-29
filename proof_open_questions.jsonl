@@ -71,3 +71,5 @@
 {"qid":"Q62","status":"claimed","session_id":"s_0729-131551-1d91","summary":"Section 38: pigeonhole for overlap existence, single-cycle lemma, po2 parity condition","ts":"2026-07-29T13:50:58+00:00"}
 {"qid":"Q63","status":"open","session_id":"s_0729-131551-1d91","summary":"Prove some root-pair triple satisfies D+g3-2ov=5 (giving C8) when depth>2 (Case O: at least one odd gap)","ts":"2026-07-29T13:50:58+00:00"}
 {"qid":"Q63","status":"claimed","session_id":"s_0729-131551-1d91","summary":"working Q63-b n=12,14","ts":"2026-07-29T14:31:53+00:00"}
+{"qid":"Q67","status":"claimed","session_id":"s_0729-131551-1d91","summary":"investigating depth-4 resolution for 18 n=18 failures","ts":"2026-07-29T16:50:00+00:00"}
+{"qid":"Q67","status":"resolved","session_id":"s_0729-131551-1d91","summary":"both n=18 depth-3 failure examples resolve at depth-4: ex1 via 4-special (C16, ov=1), ex2 via interior quadruple (C8/C16)","ts":"2026-07-29T16:55:13+00:00"}
