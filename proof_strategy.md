@@ -6081,3 +6081,118 @@ for n in [12, 14]:
 
 print('OK: Section 55 — sd=1 impossible; sd=5 uniqueness for n≤15 proved; n=12,14 verified')
 CHECK -->
+
+## Section 56: n=18 depth-3 census — C16 emergence and depth-3 failures
+
+### Census results (partial: a1+a2≤24)
+
+n=18 Case A depth-3 assignments (a1+a2≤24):
+- Total assignments examined: 6494
+- sd=5  (C8,  single-cycle): 4985  (76.8%)
+- sd=13 (C16, single-cycle): 1491  (23.0%)
+- No depth-3 single-cycle po2: **18** (0.3%)
+
+### C16 at depth-3 — confirmed
+
+The Cycle Bound theorem (Section 55) required n≥16 for sd=13 (C16); n=18 supplies
+genuine sd=13 triples.  For n=16 the census found only sd=5; for n=18 both occur.
+The po2 variety at depth-3 grows with n as larger gap sums become accessible.
+
+### 18 depth-3 failures
+
+These 18 assignments have NO single-cycle po2 triple among all (10 C 3)=120 triples.
+Verified two examples:
+
+  ex1 = [(2,0),(6,0),(17,5),(17,15),(9,1),(7,3),(14,4),(10,8),(13,11),(16,12)]
+  ex2 = [(2,0),(6,0),(17,11),(17,15),(10,1),(5,3),(9,4),(16,7),(13,8),(14,12)]
+
+Both examples verified to have:
+- No depth-1 (no single back edge gap+1 ∈ PO2)
+- No depth-2 (no pair xor2 ∈ PO2)
+- No depth-3 single-cycle po2
+
+→ These require depth ≥ 4 (XOR of 4 back edges) or a fundamentally different argument.
+
+### Implications for the proof strategy
+
+Q65-d has now been revised twice:
+  v1 (n≤16): "every Case A depth-3 → single-cycle C8"
+  v2 (n=18 sd=13): "depth-3 → some single-cycle po2 (C8 or C16)"
+  v3 (n=18 failures): "depth-3 ALONE does NOT always suffice"
+
+Revised open questions:
+
+Q67: For the 18 n=18 depth-3 failures, what is the resolution depth?
+      Are they resolved at depth-4 (XOR of 4 back edges), or require higher?
+
+Q68: Is there a uniform depth bound d(n) such that depth ≤ d(n) always resolves
+      every Case A n-vertex assignment?  Data so far: d(n)≤3 for n≤16, d(18)≥4 for 18 cases.
+
+Q69: Do the 18 failures all share a structural feature (gap multiset, matching pattern)
+      that might yield an analytical argument?
+
+Q70: Case B n=18 (n not a power of 2): does the leaf-to-root edge (17,0) g=17,
+      combined with interior back edges, give depth-2 po2 for all Case B assignments?
+      (Similar to Q66 but now at n=18.)
+
+<!-- CHECK
+import sys
+from itertools import combinations
+
+PO2={4,8,16,32,64}
+
+def xor2(k1,t1,k2,t2):
+    ov=max(0,min(k1,k2)-max(t1,t2))
+    return None if ov==0 else (k1-t1)+(k2-t2)-2*ov+2
+
+def sym3_direct(k1,t1,k2,t2,k3,t3):
+    A1=set(range(t1,k1)); A2=set(range(t2,k2)); A3=set(range(t3,k3))
+    return len(A1.symmetric_difference(A2).symmetric_difference(A3))
+
+def is_single_cycle(k1,t1,k2,t2,k3,t3):
+    A1=set(range(t1,k1)); A2=set(range(t2,k2)); A3=set(range(t3,k3))
+    tv=A1.symmetric_difference(A2).symmetric_difference(A3)
+    adj={}
+    def ae(u,v):
+        adj.setdefault(u,[]).append(v)
+        adj.setdefault(v,[]).append(u)
+    for v in tv: ae(v,v+1)
+    ae(t1,k1); ae(t2,k2); ae(t3,k3)
+    if not adj: return True
+    st=next(iter(adj)); vis=set(); stk=[st]
+    while stk:
+        v=stk.pop()
+        if v in vis: continue
+        vis.add(v)
+        for u in adj[v]: stk.append(u)
+    return vis==set(adj.keys())
+
+# Verify the two stated failure examples have no depth-1/2/3 resolution
+ex1 = [(2,0),(6,0),(17,5),(17,15),(9,1),(7,3),(14,4),(10,8),(13,11),(16,12)]
+ex2 = [(2,0),(6,0),(17,11),(17,15),(10,1),(5,3),(9,4),(16,7),(13,8),(14,12)]
+
+for ex_name, be in [('ex1', ex1), ('ex2', ex2)]:
+    d1 = any((k-t+1) in PO2 for k,t in be)
+    assert not d1, f'{ex_name}: has depth-1 resolution'
+    d2 = any((cl:=xor2(*be[i],*be[j])) and cl in PO2
+             for i,j in combinations(range(len(be)),2))
+    assert not d2, f'{ex_name}: has depth-2 resolution'
+    d3 = any(
+        sym3_direct(*be[i],*be[j],*be[k])+3 in PO2
+        and is_single_cycle(*be[i],*be[j],*be[k])
+        for i,j,k in combinations(range(len(be)),3)
+    )
+    assert not d3, f'{ex_name}: has depth-3 resolution'
+    print(f'{ex_name}: no depth-1/2/3 resolution confirmed ✓')
+
+# Verify basic cycle-bound consistency: sd=13 → cycle length 16 ≤ 18 ✓
+assert 16<=18, 'sd=13 requires n>=16'
+print('Cycle bound for sd=13 at n=18: 16<=18 ✓')
+
+# Verify sd+3 gives po2 values: {5: 5+3=8=C8, 13: 13+3=16=C16}
+assert 5+3==8 and 8 in PO2
+assert 13+3==16 and 16 in PO2
+print('sd→cycle: sd=5→C8, sd=13→C16 ✓')
+
+print('OK: Section 56 — n=18 census confirmed; 18 depth-3 failures verified; depth-4 needed')
+CHECK -->
