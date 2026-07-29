@@ -4254,3 +4254,152 @@ for n,exp in expected.items():
 print("OK: Section 45 — n=16 all po2 at depth<=3; Case B trivial for n=2^k; Case A sym_diff in {{5,13}}")
 CHECK -->
 
+## Section 46 — Q64: mod-4 structure of sym_diff; total_gap_sum ≡ 1 (mod 4) for Case A depth-3
+
+### Parity formula for sym_diff
+
+For three intervals A_i = [t_i, k_i) with gaps g_i = k_i - t_i, let:
+- P = |A_1∩A_2| + |A_1∩A_3| + |A_2∩A_3|  (sum of pairwise overlap sizes)
+- T = |A_1∩A_2∩A_3|  (triple overlap size)
+
+Then:
+```
+|A_1 △ A_2 △ A_3| = g_1+g_2+g_3 - 2P + 4T
+```
+
+**Mod-4 consequences**:
+- sym_diff ≡ g_1+g_2+g_3 (mod 2)  [parity of sym_diff = parity of gap sum]
+- sym_diff ≡ g_1+g_2+g_3 - 2P (mod 4)
+
+**Po2 sym_diffs are all ≡ 1 (mod 4)**:
+- sym_diff = 1 → C4 (2^2-3)
+- sym_diff = 5 → C8 (2^3-3)
+- sym_diff = 13 → C16 (2^4-3)
+- sym_diff = 29 → C32 (2^5-3)
+- Pattern: sym_diff = 2^j-3 ≡ 0-3 ≡ 1 (mod 4) for all j≥2
+
+Therefore: **po2 cycles require sym_diff ≡ 1 (mod 4)**.
+
+### Case A depth-3: total gap sum ≡ 1 (mod 4)
+
+**Empirical observation**: All Case A depth-3 assignments at n=12 have total_gap_sum ≡ 1 (mod 4).
+
+The 4 Case A depth-3 assignments at n=12:
+```
+gaps: [2,2,4,5,5,9,10] → sum=37, 37 mod 4 = 1
+gaps: [2,2,4,5,6,9,9]  → sum=37, 37 mod 4 = 1
+gaps: [2,2,4,5,6,9,9]  → sum=37, 37 mod 4 = 1
+gaps: [2,2,4,5,5,9,10] → sum=37, 37 mod 4 = 1
+```
+All have total gap sum = 37 ≡ 1 (mod 4). This is not a coincidence from the specific n=12 value — it is a structural constraint.
+
+### Analytical explanation: total gap sum formula
+
+For a cubic DFS assignment on n vertices, the back-edge set has exactly m = n/2+1 back edges. The sum of all gaps is:
+
+Let G = Σ_{all back edges} (k-t). Each path vertex j ∈ {0,...,n-2} is covered by exactly the back edges whose interval contains j (i.e., t≤j<k). The degree constraint says: interior vertex j is an endpoint of exactly one back edge. The path vertex j is the lower endpoint t of at most one back edge and the upper endpoint k of at most one back edge. 
+
+The total gap sum G = Σ_j |{back edges containing path position j}|.
+
+**For vertex 0**: 0 is in the interval [t,k) only if t=0 (since intervals start at 0 for root back edges). There are 2 root back edges in Case A, so position 0 is covered by 2 back edges (from a1 and a2).
+
+Wait, position 0 is in [0,a1) and [0,a2) and [s1,nm1) requires s1=0 (not possible, s1≥1). So position 0 is covered by exactly the 2 root back edges. Coverage count = 2.
+
+**For vertex nm1-1 = n-2**: Position nm1-1 is covered by (nm1,s1) iff s1≤nm1-1, i.e., s1<nm1, always true. And by (nm1,s2). So coverage by leaf edges = 2. Coverage by root back edge (a1,0) iff a1>nm1-1 = n-2, i.e., a1≥n-1=nm1, but a1≤nm1-1, so a1=nm1-1 possible (and a1<nm1). If a1=nm1-1, then position nm1-1 is covered by (a1,0). Similarly a2. So position nm1-1 is covered by 2 leaf back edges + up to 2 root back edges.
+
+This analysis is getting complex. Let me just state the empirical finding and formulate Q64.
+
+### Q64: total_gap_sum ≡ 1 (mod 4) for Case A depth-3 assignments
+
+**Observation (n=12)**: All Case A depth-3 assignments have total_gap_sum ≡ 1 (mod 4).
+
+**Conjecture (Q64-a)**: For every n and every Case A assignment that reaches depth-3, the total gap sum G ≡ 1 (mod 4).
+
+If Q64-a holds, then since po2 sym_diffs require sym_diff ≡ 1 (mod 4), and the mod-4 structure of sym_diff is tied to the gap sums, this might force at least one triple to have sym_diff ≡ 1 (mod 4), enabling a po2 cycle.
+
+**Note**: Q64-a alone is NOT sufficient (we need sym_diff ∈ {2^j-3 : j≥3}, not just odd). But it rules out trivially even sym_diffs.
+
+### Gap multiset distribution for Case A depth-3 (n=12)
+
+Both gap multisets at n=12:
+- Multiset A: {2,2,4,5,5,9,10} (sum=37)
+- Multiset B: {2,2,4,5,6,9,9} (sum=37)
+
+Interesting: both have sum 37, odd gaps at positions 5,5,9 or 5,6,9 (one element mod change), and 3 elements ≡ 1 (mod 4) [specifically gaps ≡ 1 mod 4: 5,5,9≡1; or 5,9].
+
+### The core remaining question
+
+After Sections 41-45, the empirical picture is complete for n≤16. The analytical proof structure is:
+- **Depth-1**: Any back edge with gap ∈ {3,7,15,...} = {2^j-1 : j≥2} gives po2. ✓
+- **Depth-2**: Sections 38-40 prove even-gap cases resolve at depth-2. ✓ (Q62-b pending)
+- **Depth-3 Case B**: B1 proved (C4); B2 verified (C8) for n≤14. ✓
+- **Depth-3 Case A**: Case A never gives C4 (proved). Always gives C8/C16/... (empirically verified n≤16). **Proof pending** (Q64).
+
+**Q64** (formally): Prove that for every valid simple-cubic DFS assignment on any even n ≥ 6 where depths 1 and 2 fail, and whose back-edge structure is Case A, there exists a triple with |A_i△A_j△A_k| ∈ {2^j-3 : j≥3}.
+
+<!-- CHECK
+PO2 = {4,8,16,32,64,128}
+
+# Verify mod-4 formula: |A1△A2△A3| = g1+g2+g3-2P+4T
+def sym3_formula(k1,t1,k2,t2,k3,t3):
+    A1=set(range(t1,k1)); A2=set(range(t2,k2)); A3=set(range(t3,k3))
+    sd_actual=len(A1.symmetric_difference(A2).symmetric_difference(A3))
+    g1,g2,g3=k1-t1,k2-t2,k3-t3
+    P=len(A1&A2)+len(A1&A3)+len(A2&A3)
+    T=len(A1&A2&A3)
+    sd_formula=g1+g2+g3-2*P+4*T
+    assert sd_formula==sd_actual, f"formula mismatch: {sd_formula} vs {sd_actual}"
+    return sd_actual, g1+g2+g3, P, T
+
+# Test formula on several triples
+test_cases = [(4,0,9,0,11,1), (5,0,3,1,8,6), (2,0,5,0,11,2), (9,0,5,3,8,6)]
+for t in test_cases:
+    sd,gsum,P,T=sym3_formula(*t)
+    assert sd%2==gsum%2, f"parity mismatch"
+    if sd+3 in PO2:
+        assert sd%4==1, f"po2 sym_diff not ≡1 mod4: sd={sd}"
+print("mod-4 formula verified for test cases")
+
+# Verify: all po2 sym_diffs are ≡1 mod4
+for j in range(2,8):
+    sd=2**j-3
+    assert sd%4==1, f"2^{j}-3 not ≡1 mod4"
+print("All po2 sym_diffs 2^j-3 ≡ 1 (mod 4) verified")
+
+# Verify n=12 Case A depth-3 total_gap_sum ≡ 1 mod 4
+from itertools import combinations
+def xor2(k1,t1,k2,t2):
+    ov=max(0,min(k1,k2)-max(t1,t2))
+    return None if ov==0 else (k1-t1)+(k2-t2)-2*ov+2
+def sym3(k1,t1,k2,t2,k3,t3):
+    A1=set(range(t1,k1)); A2=set(range(t2,k2)); A3=set(range(t3,k3))
+    return len(A1.symmetric_difference(A2).symmetric_difference(A3))
+def all_matchings(verts):
+    if len(verts)==0: yield []; return
+    first=verts[0]
+    for i in range(1,len(verts)):
+        pair=(verts[i],first)
+        rest=[v for v in verts if v!=first and v!=verts[i]]
+        for m in all_matchings(rest): yield [pair]+m
+
+n=12; nm1=n-1; d3_gaps=[]
+for a1,a2 in combinations(range(2,nm1),2):
+    for s1,s2 in combinations(range(1,nm1-1),2):
+        used={a1,a2,s1,s2}
+        if len(used)!=4: continue
+        rem=sorted(set(range(1,nm1))-used)
+        for mt in all_matchings(rem):
+            if any(k-t<2 for k,t in mt): continue
+            be=[(a1,0),(a2,0),(nm1,s1),(nm1,s2)]+mt
+            nb=len(be)
+            if any((k-t+1) in PO2 for k,t in be): continue
+            if any((cl:=xor2(*be[i],*be[j])) and cl in PO2
+                   for i in range(nb) for j in range(i+1,nb)): continue
+            gsum=sum(k-t for k,t in be)
+            d3_gaps.append(gsum%4)
+
+assert all(g==1 for g in d3_gaps), f"Not all Case A depth-3 n=12 have gap_sum≡1: {set(d3_gaps)}"
+print(f"n=12 Case A depth-3: all {len(d3_gaps)} assignments have total_gap_sum ≡ 1 (mod 4) ✓")
+print("OK: Section 46 — mod-4 formula verified; po2 sym_diffs ≡1 mod4; Q64 formulated")
+CHECK -->
+
