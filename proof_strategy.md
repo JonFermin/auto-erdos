@@ -1409,7 +1409,7 @@ contradiction (if it exists) must come from GLOBAL interactions among all back e
 **Gap-density argument (heuristic direction).** For a cubic $n$-vertex graph:
 - Number of back edges: $m - (n-1) = \tfrac{3n}{2} - n + 1 = \tfrac{n}{2} + 1$
 - Number of fundamental cycles: $\tfrac{n}{2} + 1$
-- Number of pairwise sym-diffs: $\binom{n/2+1}{2} \approx \tfrac{n^2}{8}$
+- Number of pairwise sym-diffs: $\binom{n/2+1}{2} = \tfrac{n(n+2)}{8} \sim \tfrac{n^2}{8}$
 - Forbidden fraction of all pairwise lengths (among lengths $1$ to $n$): $|\mathcal{F}_2 \cap [1,n]| / n \approx \log_2 n / n \to 0$
 
 As $n \to \infty$, the fraction of lengths in $\mathcal{F}_2$ goes to 0, while the
