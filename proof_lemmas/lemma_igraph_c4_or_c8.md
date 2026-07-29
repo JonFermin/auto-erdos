@@ -125,6 +125,47 @@ $m \le 12$).
   above.
 
 <!-- CHECK
+# Boundary probe: I(3,1,2) — the smallest case, m=3 so only 6 vertices.
+# (a) Verify it IS simple (no loops/multi-edges).
+# (b) Show C4 = u0-u1-v1-v0-u0 is a valid simple 4-cycle (Case 1 applies).
+# (c) Confirm NO C8 exists (a C8 needs 8 distinct vertices; this graph has 6).
+
+m, a, b = 3, 1, 2
+# Simple checks: 2a%m != 0, 2b%m != 0
+assert (2*a)%m != 0, "outer multi-edge"
+assert (2*b)%m != 0, "inner multi-edge"
+assert b%m == (m-a)%m, "I(3,1,2): b=2 equiv -a=-1 equiv 2 mod 3 (Case 1)"
+
+# Build adjacency: vertices 0..2 are u, 3..5 are v
+adj312 = [set() for _ in range(2*m)]
+for j in range(m):
+    u, v = j, (j+a)%m;    adj312[u].add(v); adj312[v].add(u)     # outer
+    u, v = m+j, m+(j+b)%m; adj312[u].add(v); adj312[v].add(u)   # inner
+    adj312[j].add(m+j); adj312[m+j].add(j)                        # spoke
+
+# C4: 0-1-4-3-0 (u0-u1-v1-v0-u0)
+c4 = [0, 1, 4, 3]
+assert len(set(c4)) == 4, "C4 vertices not distinct"
+assert all(c4[(i+1)%4] in adj312[c4[i]] for i in range(4)), "C4 edge missing"
+print("OK: I(3,1,2) has C4 =", c4)
+
+# No C8: a simple C8 needs 8 distinct vertices but graph has only 6
+# Exhaustive search: no path of length 8 back to start through 8 distinct nodes
+def dfs_cycle(adj, start, curr, depth, vis):
+    if depth == 8:
+        return start in adj[curr]
+    for w in adj[curr]:
+        if w >= start and not (vis >> w) & 1:
+            if dfs_cycle(adj, start, w, depth+1, vis | (1 << w)):
+                return True
+    return False
+
+found_c8 = any(dfs_cycle(adj312, s, s, 1, 1 << s) for s in range(2*m))
+assert not found_c8, "I(3,1,2) unexpectedly contains C8!"
+print("OK: I(3,1,2) has NO C8 (only 6 vertices, confirmed by exhaustive DFS)")
+CHECK -->
+
+<!-- CHECK
 # Falsification probe 1: verify the explicit C4/C8 construction on every
 # simple I-graph I(m,a,b) with 3 <= m <= 60 (pure arithmetic: the claimed
 # cycle must consist of distinct vertices joined by actual edges).
