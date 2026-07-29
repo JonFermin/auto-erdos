@@ -1416,10 +1416,12 @@ all residuals from this second sample.
 
 **Allowed bridge residues mod 8** (for bridges up to 14): $\{0,1,3,4,5,7\}$ (all except $\{2,6\}$).
 
-**Parity observation.** All forbidden bridges in $\mathcal{F}_2$ are EVEN. Therefore:
-if $k_1$ and $k_2$ have DIFFERENT parities (one odd, one even), their bridge $k_2 - k_1$
-is ODD, hence $\notin \mathcal{F}_2$.  The sym-diff constraint is automatically
-satisfied for mixed-parity pairs.  Only SAME-parity pairs face additional restrictions.
+**Parity observation.** All elements of $\mathcal{F}_2 = \{2, 6, 14, 30, 62, \ldots\}$ are even.
+If $k_1$ and $k_2$ have different parities, the bridge $k_2 - k_1$ is odd and hence
+$\notin \mathcal{F}_2$.  Mixed-parity pairs automatically satisfy the bridge constraint.
+Only pairs of the same parity face the bridge restriction.
+(For $n=10$: depths $\{1,\ldots,9\}$ split as even $\{2,4,6,8\}$ and odd $\{1,3,5,7,9\}$,
+giving $\binom{4}{2}+\binom{5}{2} = 6+10 = 16$ same-parity pairs out of $\binom{9}{2}=36$ total.)
 
 **Consequence for the root shared-target pair.** In a Hamiltonian-path DFS tree, root
 receives back edges from depths $k_1 < k_2$.  A mixed-parity pair $(k_1, k_2)$ with
@@ -1429,23 +1431,9 @@ pairs for any $n$, so the argument cannot close at the root level alone.  The
 contradiction (if it exists) must come from GLOBAL interactions among all back edges.
 
 **Gap-density argument (heuristic direction).** For a cubic $n$-vertex graph:
-- Number of back edges: $m - (n-1) = \tfrac{3n}{2} - n + 1 = \tfrac{n}{2} + 1$
-- Number of fundamental cycles: $\tfrac{n}{2} + 1$
-- Number of pairwise sym-diffs: $\binom{n/2+1}{2} = \tfrac{n(n+2)}{8} \sim \tfrac{n^2}{8}$
-- ``Po2-bridge'' fraction (bridge values $b$ in $\mathcal{F}_2$ among $[1,n]$):
-  $|\mathcal{F}_2 \cap [1,n]| / n \approx \log_2 n / n \to 0$
-
-The po2-bridge fraction shrinks to 0 as $n \to \infty$, but the number of
-pairwise sym-diffs grows as $\Theta(n^2)$.  A random same-parity pair has
-probability $\approx \log_2 n / n$ of giving a po2 sym-diff cycle.
-Multiplied by $\Theta(n^2)$ pairs, the expected po2 sym-diff count is
-$\Theta(n \log n) \to \infty$.  For a \emph{counterexample} (no po2 cycles),
-ALL $\Theta(n^2)$ sym-diff lengths must simultaneously avoid the $O(\log n)$
-po2 bridge values — a condition whose probability decays as
-$\exp(-\Theta(n \log n))$ under independence, making counterexamples
-vanishingly unlikely at large $n$.  This is a heuristic density argument,
-not a proof; formalizing it requires controlling correlations among sym-diff
-lengths.
+- Number of back edges: $\tfrac{n}{2} + 1$; number of pairwise sym-diff pairs: $\binom{n/2+1}{2}$.
+- Po2 bridge values in $\mathcal{F}_2 \cap [1,n]$: for $n=32$ there are exactly 4 such values $\{2,6,14,30\}$; for $n=64$ exactly 5 values $\{2,6,14,30,62\}$; for $n=128$ exactly 6 values.  The count grows slowly compared to $n$.
+- A counterexample requires ALL pairwise sym-diff lengths to simultaneously avoid the few po2 bridge values — a highly constrained condition that becomes increasingly implausible as $n$ grows.  This is a heuristic argument, not a proof; formalizing it requires controlling correlations among sym-diff lengths.
 
 **Numerical feasibility CHECK (mod-8 valid-pair density):**
 
