@@ -1638,8 +1638,9 @@ satisfy as $n$ increases — matching the empirical evidence.
 **Expected pair-coverage at large $n$.** For a cubic Hamiltonian-path graph on $n$
 vertices (assume $n$ even):
 - Back edges: $B = n/2 + 1$
-- Same-parity pairs: roughly $B^2/4 = n^2/16$ (half of all pairs)
-- Overlapping same-parity pairs (rough fraction $\approx 0.6$ of same-parity pairs): roughly $0.6 \cdot n^2/16 = 3n^2/80$
+- Total pairs: $\binom{B}{2} = n(n+2)/8$
+- Same-parity pairs: roughly half the total, i.e.\ $\approx n(n+2)/16$
+- Overlapping same-parity pairs (rough fraction $\approx 0.6$): $\approx 0.6 \cdot n(n+2)/16 \approx 3n^2/80$
 - Po2-length sym-diffs among these: density $\approx 69\%$ (valid) times po2-hit fraction
 
 The po2-hit fraction is: for a random overlapping same-parity pair with gap-sum $G =
