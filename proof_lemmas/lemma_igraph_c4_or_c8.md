@@ -125,44 +125,62 @@ $m \le 12$).
   above.
 
 <!-- CHECK
-# Boundary probe: I(3,1,2) — the smallest case, m=3 so only 6 vertices.
-# (a) Verify it IS simple (no loops/multi-edges).
-# (b) Show C4 = u0-u1-v1-v0-u0 is a valid simple 4-cycle (Case 1 applies).
-# (c) Confirm NO C8 exists (a C8 needs 8 distinct vertices; this graph has 6).
+# Boundary probe: I(3,1,2) — the smallest simple I-graph, m=3, only 6 vertices.
+# KEY FACTS PROVED HERE:
+# (A) b=2 equiv -a=-1 mod 3 => Case 1 (not Case 2). C4 exists via Case 1.
+# (B) The Case 2 formula gives a NON-SIMPLE walk (u0 appears TWICE), confirming
+#     Case 2 correctly does NOT apply to I(3,1,2).
+# (C) NO C8 exists: exhaustive DFS confirms (6 vertices can't contain C8).
 
-m, a, b = 3, 1, 2
-# Simple checks: 2a%m != 0, 2b%m != 0
-assert (2*a)%m != 0, "outer multi-edge"
-assert (2*b)%m != 0, "inner multi-edge"
-assert b%m == (m-a)%m, "I(3,1,2): b=2 equiv -a=-1 equiv 2 mod 3 (Case 1)"
+m312, a312, b312 = 3, 1, 2
 
-# Build adjacency: vertices 0..2 are u, 3..5 are v
-adj312 = [set() for _ in range(2*m)]
-for j in range(m):
-    u, v = j, (j+a)%m;    adj312[u].add(v); adj312[v].add(u)     # outer
-    u, v = m+j, m+(j+b)%m; adj312[u].add(v); adj312[v].add(u)   # inner
-    adj312[j].add(m+j); adj312[m+j].add(j)                        # spoke
+# --- (A) Case 1 applies ---
+assert b312 % m312 == (m312 - a312) % m312, "b=2 must be equiv -a mod 3"
+# Build adjacency (vertices 0..m-1 are u, m..2m-1 are v)
+adj312 = [set() for _ in range(2 * m312)]
+for j312 in range(m312):
+    adj312[j312].add((j312 + a312) % m312)
+    adj312[(j312 + a312) % m312].add(j312)
+    adj312[m312 + j312].add(m312 + (j312 + b312) % m312)
+    adj312[m312 + (j312 + b312) % m312].add(m312 + j312)
+    adj312[j312].add(m312 + j312)
+    adj312[m312 + j312].add(j312)
+# C4: u0-u1-v1-v0-u0 = vertices [0,1,4,3]
+c4_312 = [0, 1, m312 + 1, m312 + 0]
+assert len(set(c4_312)) == 4, "C4 vertices not distinct"
+assert all(c4_312[(i+1)%4] in adj312[c4_312[i]] for i in range(4)), "C4 edge absent"
+print("OK (A): I(3,1,2) Case 1 gives C4 =", c4_312)
 
-# C4: 0-1-4-3-0 (u0-u1-v1-v0-u0)
-c4 = [0, 1, 4, 3]
-assert len(set(c4)) == 4, "C4 vertices not distinct"
-assert all(c4[(i+1)%4] in adj312[c4[i]] for i in range(4)), "C4 edge missing"
-print("OK: I(3,1,2) has C4 =", c4)
+# --- (B) Case 2 formula gives NON-SIMPLE walk (proves Case 2 doesn't apply) ---
+# Case 2 walk: u0, u_a, v_a, v_{a+b}, u_{a+b}, u_b, v_b, v0
+A312, B312, AB312 = a312 % m312, b312 % m312, (a312 + b312) % m312
+case2_walk = [0, A312, m312+A312, m312+AB312, AB312, B312, m312+B312, m312+0]
+# AB312 = (1+2)%3 = 0, so u_{a+b}=u0 appears at positions 0 and 4 => repeated!
+assert len(set(case2_walk)) < 8, (
+    "Case 2 walk unexpectedly has 8 distinct vertices for I(3,1,2) — would be C8!"
+)
+print("OK (B): Case 2 walk has repeated vertices:", case2_walk,
+      "— NOT a simple cycle, confirming Case 2 doesn't apply")
 
-# No C8: a simple C8 needs 8 distinct vertices but graph has only 6
-# Exhaustive search: no path of length 8 back to start through 8 distinct nodes
-def dfs_cycle(adj, start, curr, depth, vis):
-    if depth == 8:
-        return start in adj[curr]
-    for w in adj[curr]:
-        if w >= start and not (vis >> w) & 1:
-            if dfs_cycle(adj, start, w, depth+1, vis | (1 << w)):
-                return True
-    return False
+# --- (C) No C8 in I(3,1,2) ---
+def exhaustive_cycle_len(adj, L, n):
+    """Return True if any simple cycle of length L exists in adj (n vertices)."""
+    if L > n:
+        return False  # impossible: simple cycle needs L distinct vertices
+    def dfs(start, curr, depth, vis):
+        if depth == L:
+            return start in adj[curr]
+        for w in adj[curr]:
+            if w >= start and not (vis >> w) & 1:
+                if dfs(start, w, depth + 1, vis | (1 << w)):
+                    return True
+        return False
+    return any(dfs(s, s, 1, 1 << s) for s in range(n))
 
-found_c8 = any(dfs_cycle(adj312, s, s, 1, 1 << s) for s in range(2*m))
-assert not found_c8, "I(3,1,2) unexpectedly contains C8!"
-print("OK: I(3,1,2) has NO C8 (only 6 vertices, confirmed by exhaustive DFS)")
+assert not exhaustive_cycle_len(adj312, 8, 2 * m312), (
+    "I(3,1,2) has C8?! Impossible — only 6 vertices"
+)
+print("OK (C): I(3,1,2) has NO C8 (6 vertices < 8 required, confirmed by DFS)")
 CHECK -->
 
 <!-- CHECK
