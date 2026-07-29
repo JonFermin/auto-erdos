@@ -481,7 +481,7 @@ $$\delta_i \notin \{3, 7, 15, 31, \ldots\}$$
 (from individual fundamental cycles) and
 $$\delta_1 - \delta_2 \notin \{2, 6, 14, 30, \ldots\}$$
 (from same-leaf sym-diffs). Valid pairs $(\delta_2, \delta_1)$ satisfying
-both constraints do exist (e.g.\ $(1,4), (1,5), (2,4), \ldots$), so the
+both constraints do exist (e.g.\ $(2,5), (4,5), (4,9), \ldots$; note $(2,4)$ is FORBIDDEN since $4-2=2 \in \mathcal{F}_2$), so the
 arithmetic alone does not close the argument. The proof would need to show
 that min-degree-$3$ forces DFS-tree structure inconsistent with ALL valid
 pairs — the "charge redistribution along ancestor chains" that Q9's
