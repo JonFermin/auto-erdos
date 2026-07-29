@@ -2889,3 +2889,134 @@ print("OK: Section 35 formula verified — cycle_len = interval_XOR_size + 3 for
 print(f"  n=10 interval XOR sizes: {n10_xor_sizes} (C4=1, C8=5)")
 print(f"  n=12 interval XOR sizes: {n12_xor_sizes} (all C8=5)")
 CHECK -->
+
+## Section 36 — Q61: Parity theorem and even-gap lemma (session s\_0729-131551-1d91)
+
+**Parity theorem (exact).** For any triple of back edges $(k_1,t_1),(k_2,t_2),(k_3,t_3)$:
+
+$$\text{cycle\_length} = |A_1 \triangle A_2 \triangle A_3| + 3$$
+
+Since $|A_1 \triangle A_2 \triangle A_3| \equiv g_1 + g_2 + g_3 \pmod{2}$:
+
+$$\text{cycle\_length} \equiv g_1 + g_2 + g_3 + 1 \pmod{2}$$
+
+**Proof.** The XOR of three intervals has $|A_1 \triangle A_2 \triangle A_3| = g_1 + g_2 + g_3 - 2P + 4T$
+where $P$ is the sum of pairwise intersection sizes and $T$ is the triple intersection size.
+Since $-2P + 4T \equiv 0 \pmod{2}$, the parity is $g_1+g_2+g_3 \pmod{2}$.  The $+3$ contributes 1.
+$\square$
+
+**Corollary.** A po2 XOR triple (cycle length in $\{4, 8, 16, \ldots\}$, all even) requires
+$g_1 + g_2 + g_3 \equiv 1 \pmod{2}$, i.e., an ODD number of odd-gap back edges in the triple.
+
+**Empirical verification.** All depth-3 winning triples across n=10,12,14 have odd total gap
+sum (183 triples checked for n=14; 0 exceptions).
+
+**Even-gap lemma (key structural theorem).** *If all back-edge gaps in a valid DFS
+Hamiltonian-path assignment are even, then some pair XOR gives po2 (depth $\le 2$).*
+
+Implication: all-even-gap assignments are settled at depth $\le 2$, never requiring depth 3.
+
+**Proof.** (Sketch.) With all-even gaps:
+- No single back edge gives po2 (cycle = $g+1$ = odd $\notin$ PO2).
+- A triple XOR cycle has length $|A_1\triangle A_2\triangle A_3|+3$ = even$+3$ = odd $\notin$ PO2.
+- Therefore IF depth $>2$ is needed, no triple can rescue it — contradiction with verified
+  exhaustive depth $\le 3$ universality (the assignment would have no po2 XOR at any depth).
+  
+The formal proof that depth $\le 2$ always holds for all-even-gap assignments requires a
+combinatorial argument on the interval structure; this remains an open sub-question
+($Q62$, see below).
+
+**Empirical evidence for the Even-gap lemma:**
+
+| $n$ | Total assignments | All-even-gap | Of those, needing depth $\ge 3$ |
+|---:|---:|---:|---:|
+| 10 | 725 | 36 | **0** |
+| 12 | 9{,}906 | 0 | **0** |
+| 14 | 153{,}839 | 2{,}025 | **0** |
+
+**Corollary (proof of Q61 split into two cases).** The universality of XOR depth $\le 3$ follows from:
+- **Case E** (all gaps even): Even-gap lemma gives depth $\le 2$. ✓ (Proved empirically; open formally.)
+- **Case O** (some gap odd): Need to show some triple with odd-sum gaps gives XOR size in $\{1,5,13,\ldots\}$.
+
+**Q62 (new).** Formally prove the Even-gap lemma: in every valid back-edge assignment with all-even
+gaps, some pair $(k_i,t_i),(k_j,t_j)$ satisfies $|A_i \triangle A_j| \in \{2, 6, 14, \ldots\}$.
+
+The structure: all-even gaps mean root-pair $(a_1,0),(a_2,0)$ with $a_1, a_2$ even, leaf-pair
+$(n-1,t_1),(n-1,t_2)$ with $n-1-t_1, n-1-t_2$ even (so $t_1, t_2 \equiv n-1 \pmod{2}$),
+and interior pairs $(k,t)$ with $k \equiv t \pmod{2}$.  The po2-pair condition becomes:
+$|a_1-a_2|$, $(n-1-t_1)+(a_i)- 2 \min(\ldots)$, etc.\ needs some element in $\{2,6,14,\ldots\}$.
+
+<!-- CHECK
+# Section 36: parity theorem (cycle_len = total_gap + 1 mod 2) and even-gap lemma.
+
+PO2 = {4, 8, 16, 32, 64}
+
+def interval_xor_size(back_edges):
+    cnt = {}
+    for (k, t) in back_edges:
+        for j in range(t, k):
+            cnt[j] = cnt.get(j, 0) + 1
+    return sum(1 for c in cnt.values() if c % 2 == 1)
+
+def xor_po2_len(back_edges):
+    cnt = {}
+    for (k, t) in back_edges:
+        for j in range(t, k):
+            e = (j, j + 1); cnt[e] = cnt.get(e, 0) + 1
+        e = (min(t, k), max(t, k)); cnt[e] = cnt.get(e, 0) + 1
+    adj = {}
+    for (u, v), c in cnt.items():
+        if c % 2 == 1:
+            adj.setdefault(u, []).append(v); adj.setdefault(v, []).append(u)
+    visited = set()
+    for start in list(adj.keys()):
+        if start in visited: continue
+        comp = []; stack = [start]
+        while stack:
+            node = stack.pop()
+            if node in visited: continue
+            visited.add(node); comp.append(node)
+            for nbr in adj.get(node, []):
+                if nbr not in visited: stack.append(nbr)
+        if all(len(adj.get(v, [])) == 2 for v in comp):
+            if len(comp) in PO2: return len(comp)
+    return None
+
+# Parity theorem: cycle_len = xor_size + 3; xor_size ≡ total_gap (mod 2).
+# So cycle_len ≡ total_gap + 1 (mod 2). For po2 (even) cycle: total_gap must be odd.
+all_depth3_triples = [
+    ((2, 0), (5, 1), (9, 0)),
+    ((2, 0), (9, 0), (9, 7)),
+    ((3, 1), (9, 0), (9, 7)),
+    ((5, 0), (9, 0), (9, 4)),
+    ((4, 0), (9, 0), (11, 1)),
+    ((4, 0), (9, 0), (7, 1)),
+    ((5, 0), (9, 0), (11, 2)),
+    ((5, 0), (11, 2), (9, 4)),
+]
+for triple in all_depth3_triples:
+    total_gap = sum(k - t for (k, t) in triple)
+    xor_size = interval_xor_size(list(triple))
+    cycle = xor_po2_len(list(triple))
+    assert cycle is not None, f"Triple {triple} gave no po2 cycle"
+    assert cycle == xor_size + 3, f"Formula: {xor_size}+3 != {cycle}"
+    assert total_gap % 2 == 1, f"Even total gap {total_gap} in depth-3 winning triple"
+    assert cycle % 2 == 0, f"Odd po2 cycle length {cycle}"
+
+# Even-gap lemma: xor of 3 even-gap intervals has even xor_size -> odd cycle -> never po2.
+even_gap_examples = [
+    [(4, 0), (6, 2), (8, 4)],
+    [(2, 0), (4, 0), (6, 2)],
+    [(4, 2), (8, 0), (10, 4)],
+]
+for triple in even_gap_examples:
+    gaps = [k - t for (k, t) in triple]
+    assert all(g % 2 == 0 for g in gaps), f"Not all-even gaps: {gaps}"
+    xor_size = interval_xor_size(triple)
+    assert xor_size % 2 == 0, f"Odd xor_size {xor_size} for all-even-gap triple"
+    assert (xor_size + 3) % 2 == 1, f"Triple XOR cycle length should be odd"
+    result = xor_po2_len(triple)
+    assert result is None, f"All-even-gap triple unexpectedly gave po2: {result}"
+
+print("OK: Section 36 — parity theorem verified for 8 depth-3 triples; even-gap ↦ odd cycle (never po2)")
+CHECK -->
