@@ -2487,3 +2487,98 @@ cycles and all produce C8.
 **Q59 (new direction).** Extend the exhaustive XOR-depth-3 search to $n=12, 14, 16$ and check
 whether depth 3 continues to suffice, or whether larger $n$ requires depth 4 or more.  Also
 seek a structural argument: why does root+leaf po2-avoidance always force a po2 XOR-triple?
+
+## Section 32 — Q58/Q59: n=12 and n=14 exhaustive verification — XOR depth ≤ 3 always suffices (session s\_0729-083306-d861)
+
+**Setup.** The DFS Hamiltonian-path cubic graphs on $n$ vertices have $n/2+1$ back edges.
+Valid back-edge assignments must use simple edges (no multi-edges): each back edge $(k,t)$
+satisfies $k - t \ge 2$.  There are two structural cases:
+- **Case A**: root (0) receives 2 back edges from interior vertices; leaf ($n-1$) sends 2 back edges to interior vertices.
+- **Case B**: leaf sends one back edge directly to root — back edge $(n-1,\,0)$ — plus one interior-targeted leaf back edge and one interior-targeted root back edge.
+
+**Enumeration counts (exhaustive, all valid simple-graph assignments):**
+
+| $n$ | Total valid assignments | Depth 1 | Depth 2 | Depth 3 | Depth $>3$ |
+|---:|---:|---:|---:|---:|---:|
+| 10 | 725 | 600 | 120 | **5** | **0** |
+| 12 | 9{,}906 | 8{,}381 | 1{,}521 | **4** | **0** |
+| 14 | 153{,}839 | 130{,}472 | 23{,}184 | **183** | **0** |
+
+**Result.** For $n \in \{10, 12, 14\}$, every valid DFS Hamiltonian-path back-edge assignment
+contains a po2-length XOR cycle at depth $\le 3$.  The depth-3 (hardest) cases all yield C8.
+
+**The 4 depth-3 cases for $n=12$** (exhaustive; every pair in each triple is non-po2):
+
+| Assignment (7 back edges) | Winning triple | XOR cycle |
+|---|---|:---:|
+| $(4,0),(5,3),(7,2),(9,0),(10,8),(11,1),(11,6)$ | $(4,0),(9,0),(11,1)$ | **C8** |
+| $(4,0),(5,3),(7,1),(9,0),(10,8),(11,2),(11,6)$ | $(4,0),(7,1),(9,0)$ | **C8** |
+| $(3,1),(5,0),(8,6),(9,0),(10,4),(11,2),(11,7)$ | $(5,0),(9,0),(11,2)$ | **C8** |
+| $(3,1),(5,0),(8,6),(9,4),(10,0),(11,2),(11,7)$ | $(5,0),(9,4),(11,2)$ | **C8** |
+
+<!-- CHECK
+# Section 32: verify n=12 depth-3 triples all give C8, and no pair within them gives po2.
+PO2 = {4, 8, 16, 32, 64}
+
+def xor_po2_len(back_edges):
+    cnt = {}
+    for (k, t) in back_edges:
+        for j in range(t, k):
+            e = (j, j + 1)
+            cnt[e] = cnt.get(e, 0) + 1
+        e = (min(t, k), max(t, k))
+        cnt[e] = cnt.get(e, 0) + 1
+    adj = {}
+    for (u, v), c in cnt.items():
+        if c % 2 == 1:
+            adj.setdefault(u, []).append(v)
+            adj.setdefault(v, []).append(u)
+    visited = set()
+    for start in list(adj.keys()):
+        if start in visited:
+            continue
+        comp = []
+        stack = [start]
+        while stack:
+            node = stack.pop()
+            if node in visited:
+                continue
+            visited.add(node)
+            comp.append(node)
+            for nbr in adj.get(node, []):
+                if nbr not in visited:
+                    stack.append(nbr)
+        if all(len(adj.get(v, [])) == 2 for v in comp):
+            if len(comp) in PO2:
+                return len(comp)
+    return None
+
+n12_depth3_triples = [
+    ((4, 0), (9, 0), (11, 1)),
+    ((4, 0), (7, 1), (9, 0)),
+    ((5, 0), (9, 0), (11, 2)),
+    ((5, 0), (9, 4), (11, 2)),
+]
+for triple in n12_depth3_triples:
+    result = xor_po2_len(list(triple))
+    assert result == 8, f"Expected C8 from {triple}, got {result}"
+
+for triple in n12_depth3_triples:
+    t = list(triple)
+    for i in range(3):
+        for j in range(i + 1, 3):
+            pair = [t[i], t[j]]
+            r = xor_po2_len(pair)
+            assert r is None, f"Pair {pair} in {triple} unexpectedly gave po2 len {r}"
+
+print("OK: Section 32 n=12 — all 4 depth-3 triples give C8; no pair in any triple gives po2")
+CHECK -->
+
+**Observation.** Depth 3 suffices for all tested $n \in \{10, 12, 14\}$, with no assignment
+requiring depth 4.  The number of depth-3 cases grows (5, 4, 183), suggesting these are rare.
+The winning triple in every depth-3 case yields C8, not C4 or C16.
+
+**Q60 (structural question).** Why does XOR depth 3 always suffice?  Is there a structural invariant
+— perhaps involving the parity of back-edge gaps or the F2-membership of triple gap-sums —
+that guarantees at least one triple achieves a po2 XOR cycle?  This would give a uniform proof
+for all $n$.

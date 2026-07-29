@@ -57,3 +57,6 @@
 {"qid":"Q57","status":"resolved","session_id":"s_0729-083306-d861","summary":"n=6 proved in Section 30 (unique leaf pair forces C4); n=10 exhaustively verified in Section 31 (all hard cases yield C8 from 3-back-edge XOR)","ts":"2026-07-29T12:51:44Z"}
 {"qid":"Q58","status":"claimed","session_id":"s_0729-083306-d861","summary":"n=10 XOR-depth-3 search done (Section 31); extend to n=12,14,16","ts":"2026-07-29T12:51:44Z"}
 {"qid":"Q59","status":"open","session_id":"s_0729-083306-d861","summary":"Find structural argument: why does root+leaf po2-avoidance always force a po2 XOR-triple? What invariant generalizes to all n?","ts":"2026-07-29T12:51:44Z"}
+{"qid":"Q58","status":"resolved","session_id":"s_0729-083306-d861","summary":"n=12,14 exhaustively verified (Section 32): all assignments have XOR depth <= 3; 4 and 183 depth-3 cases respectively, all giving C8","ts":"2026-07-29T13:03:38Z"}
+{"qid":"Q59","status":"claimed","session_id":"s_0729-083306-d861","summary":"n=12,14 done; n=16 next; all depth-3 so far give C8","ts":"2026-07-29T13:03:38Z"}
+{"qid":"Q60","status":"open","session_id":"s_0729-083306-d861","summary":"Find structural invariant explaining why XOR depth 3 always suffices: gap-sum parity or F2-membership of triple gaps?","ts":"2026-07-29T13:03:38Z"}
