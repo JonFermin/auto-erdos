@@ -67,3 +67,6 @@
 {"qid":"Q60","status":"claimed","session_id":"s_0729-131551-1d91","summary":"structural gap analysis for XOR-depth-3 universality: correct Section 33 C4 case, formulate invariant","ts":"2026-07-29T13:17:38+00:00"}
 {"qid":"Q60","status":"resolved","session_id":"s_0729-131551-1d91","summary":"Section 34: corrected depth-3 analysis; structural C4 formula (a-c)+3; n=10 has 1 C4 + 3 C8 distinct triples; n=14 has 20 C4 + 163 C8 assignments","ts":"2026-07-29T13:26:29+00:00"}
 {"qid":"Q61","status":"claimed","session_id":"s_0729-131551-1d91","summary":"working toward structural proof of XOR-depth-3 universality via root-pair C4 condition and C8 fallback","ts":"2026-07-29T13:26:29+00:00"}
+{"qid":"Q62","status":"open","session_id":"s_0729-131551-1d91","summary":"Prove Even-gap lemma: all gaps even implies some overlapping pair with XOR cycle of po2 length","ts":"2026-07-29T13:50:58+00:00"}
+{"qid":"Q62","status":"claimed","session_id":"s_0729-131551-1d91","summary":"Section 38: pigeonhole for overlap existence, single-cycle lemma, po2 parity condition","ts":"2026-07-29T13:50:58+00:00"}
+{"qid":"Q63","status":"open","session_id":"s_0729-131551-1d91","summary":"Prove some root-pair triple satisfies D+g3-2ov=5 (giving C8) when depth>2 (Case O: at least one odd gap)","ts":"2026-07-29T13:50:58+00:00"}
