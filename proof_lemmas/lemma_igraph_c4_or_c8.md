@@ -46,26 +46,35 @@ one inner), so it is a $C_4$.
 $\{v_0,v_2\}=\{v_0,v_a\}$ is present for $a=b=2$ via $j=0$; and
 $I(4,1,3)$ has inner edge $\{v_1,v_0\}$ for $j=1, b=3, j+b=4\equiv 0$,
 giving $\{v_1,v_{a}\}=\{v_1,v_0\}$ via the $b\equiv -a$ sub-case.
-Smallest case: $I(3,1,2)$ ($m=3$, only 6 vertices) has $b=2\equiv -1\equiv -a
-\pmod{3}$, so Case~1 applies.  With $j=1$: inner edge
-$\{v_1,v_{1+2 \bmod 3}\}=\{v_1,v_0\}$ exists.  The $C_4$ is
-$u_0\to u_1\to v_1\to v_0\to u_0$ (outer stride~1, spoke, inner stride~2,
-spoke) — all 4 vertices distinct, all 4 edges distinct.  \emph{No $C_8$
-exists in $I(3,1,2)$}: a simple $C_8$ requires 8 distinct vertices, but
-$I(3,1,2)$ has only 6.  $I(3,1,2)$ has a $C_4$ (not $C_8$), satisfying the
-``$C_4$ or $C_8$'' claim.  Also: $a+b=3\equiv 0\pmod{3}$ makes the Case~2
-8-walk degenerate ($u_{a+b}=u_0$ repeated) — consistent with Case~2 not
-applying.)
+Smallest case: $I(3,1,2)$ ($m=3$, 6 vertices) has $b=2\equiv -a\pmod{3}$,
+so Case~1 applies; $C_4$: $u_0\to u_1\to v_1\to v_0\to u_0$.)
 
-*Case 2: $b \not\equiv \pm a \pmod m$.* Consider the closed walk
+*Case 2: $b \not\equiv \pm a \pmod m$ (equivalently, all four residues
+$0, a, b, a+b$ are pairwise distinct mod $m$; $I(3,1,2)$ has
+$b\equiv -a\pmod 3$ and is handled by Case~1 above, NOT here).*
+
+**4-residue distinctness for Case 2.** Under the Case 2 precondition
+$b \not\equiv \pm a \pmod m$, the four residues $\{0, a, b, a+b\}$ are
+pairwise distinct mod $m$. Proof of all six pair-inequalities:
+- $0 \ne a \pmod m$: simplicity ($a \not\equiv 0$).
+- $0 \ne b \pmod m$: simplicity ($b \not\equiv 0$).
+- $0 \ne a+b \pmod m$: if $a+b\equiv 0$ then $b\equiv -a$, contradicting
+  Case~2 precondition.
+- $a \ne b \pmod m$: Case~2 precondition ($b \not\equiv a$).
+- $a \ne a+b \pmod m$: would require $b\equiv 0$, contradicting simplicity.
+- $b \ne a+b \pmod m$: would require $a\equiv 0$, contradicting simplicity.
+
+Hence all four residues are pairwise distinct. (CHECK probe~1 below
+verifies the same fact exhaustively for all simple $I(m,a,b)$,
+$m \le 60$.)
+
+Now consider the closed walk
 $$u_0 \to u_a \to v_a \to v_{a+b} \to u_{a+b} \to u_b \to v_b \to v_0 \to u_0 .$$
 Each step uses an actual edge: $u_0 u_a$ outer; $u_a v_a$ spoke;
 $v_a v_{a+b}$ inner; $v_{a+b} u_{a+b}$ spoke; $u_{a+b} u_b$ outer
 (difference $a$); $u_b v_b$ spoke; $v_b v_0$ inner (difference $b$);
 $v_0 u_0$ spoke. The eight vertices are the $u$- and $v$-copies of the
-four residues $\{0, a, b, a+b\}$, which are pairwise distinct mod $m$:
-$0 \ne a$ and $0 \ne b$ (simplicity), $0 \ne a+b$ (else $b \equiv -a$),
-$a \ne b$ (case assumption), $a \ne a+b$ and $b \ne a+b$ (simplicity).
+four pairwise-distinct residues above, hence all eight are distinct.
 The eight edges are pairwise distinct: the four spokes sit at four
 distinct indices; the two outer edges $\{u_0,u_a\}$ and
 $\{u_b, u_{a+b}\}$ are distinct because $\{0,a\} \cap \{b, a+b\} =
@@ -105,22 +114,6 @@ fit a sandbox expression; that part is covered by the CHECK blocks below
 (probe 1 validates edges and distinctness on all simple $I(m,a,b)$,
 $m \le 60$; probe 2 cross-checks against exhaustive search for
 $m \le 12$).
-
-**Boundary verification: $I(3,1,2)$.**
-The smallest simple I-graph is $I(3,1,2)$: $m=3$, $a=1$, $b=2$.
-$\textbf{No}$ $\textbf{C}_8$ $\textbf{exists}$: a simple $C_8$ is a cycle with
-8 DISTINCT vertices, but $I(3,1,2)$ has only $2m = 6$ vertices, making $C_8$
-impossible by vertex count alone.
-$\textbf{C}_4$ $\textbf{exists}$ (Case~1 applies): $b=2 \equiv -1 \equiv -a \pmod{3}$,
-so $b \equiv -a$ and Case~1 applies.  Taking $j=a=1$: inner edge
-$\{v_1, v_0\}$ (since $v_{j+b \bmod m} = v_{1+2 \bmod 3} = v_0$).
-Simple $C_4$: $u_0 \to u_1 \to v_1 \to v_0 \to u_0$ — all 4 vertices distinct,
-all 4 edges (outer stride~1, spoke, inner stride~$-1$, spoke) confirmed present.
-\emph{The Case~2 formula does NOT apply}: $a+b = 3 \equiv 0 \pmod{3}$,
-so the 8-step walk $u_0, u_1, v_1, v_0, u_0, u_2, v_2, v_0, u_0$ that Case~2
-would produce is \textbf{NOT simple} — $u_0$ appears at positions 0 and 4, and
-$v_0$ at positions 3 and 7.  An 8-step closed walk is NOT a $C_8$.
-$I(3,1,2)$ has $C_4$ (not $C_8$); the lemma requires $C_4$ OR $C_8$, so it holds.
 
 **Remarks.**
 
