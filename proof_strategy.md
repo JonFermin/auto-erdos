@@ -3622,3 +3622,130 @@ print(f"n=14: all {count} all-even-gap assignments verified depth-2 po2 pair exi
 print("OK: Section 40 — cross-parity partial-overlap odd-ov theorem; Case E-III po2 verified n=10,14")
 CHECK -->
 
+## Section 41 — Q63: n=10 Exhaustive Depth-≤3 Verification under Simple-Graph Constraint (session s\_0729-131551-1d91)
+
+**Simple graph constraint.** In a simple cubic graph, any back edge (k, t) must satisfy
+gap g = k−t ≥ 2. A gap of 1 would make (k, t) parallel to the path edge (t, t+1), creating
+a multi-edge. This constraint is applied throughout.
+
+**Enumeration structure (n=10).** Two cases for the back-edge set:
+- **Case A**: two root edges (a1,0),(a2,0) with 2 ≤ a1 < a2 ≤ 8; two leaf edges (9,s1),(9,s2)
+  with 1 ≤ s1 < s2 ≤ 7; {a1,a2,s1,s2} distinct; remaining 4 interior vertices matched into 2
+  interior edges (each gap ≥ 2). Formula: 2 root + 2 leaf + 2 interior = 6 = m.
+- **Case B**: one leaf-to-root edge (9,0) with gap 9; one root (a1,0) with a1 ∈ {2..8}; one
+  leaf (9,s1) with s1 ∈ {1..7}, a1≠s1; remaining 6 interior vertices matched into 3 interior
+  edges (each gap ≥ 2). Formula: 1 + 1 + 1 + 3 = 6 = m.
+
+**Exhaustive result (n=10).** 725 valid assignments total:
+- Depth-1 (some gap+1 ∈ PO2): 600 assignments
+- Depth-2 (some pair XOR ∈ PO2): 120 assignments
+- Depth-3 (some triple XOR ∈ PO2, depth 1+2 fail): **5 assignments**
+- Fail (no po2 at depth ≤ 3): **0** ← All n=10 assignments have a po2 cycle
+
+The 5 depth-3 assignments span 3 gap multisets, all containing the Case B edge (9,0) with
+gap 9 ≡ 1 (mod 4):
+
+| gap multiset | # assignments | depth-3 po2 cycles |
+|---|---|---|
+| (2,2,2,4,5,9) | 2 | C8 |
+| (2,2,4,4,5,9) | 2 | C8 |
+| (2,2,5,5,5,9) | 1 | C4 and C8 |
+
+**C4 via depth 3 (gap multiset (2,2,5,5,5,9)).** Triple ((9,0),(5,0),(9,4)):
+- A1=[0,9), A2=[0,5), A3=[4,9)
+- A1△A2 = {5,6,7,8}; A1△A2△A3 = {4} (only edge 4→5 survives)
+- |sym_diff| = 1, cycle_len = 4 → C4
+- Explicit 4-cycle: 0→9→4→5→0 (back edges (9,0),(9,4),(5,0), path edge 4−5) ✓
+
+**C8 cases via depth 3.** All other triples give |sym_diff| = 5 → C8. Example triple
+((9,0),(2,0),(5,1)) from (2,2,4,4,5,9):
+- A1=[0,9), A2=[0,2), A3=[1,5)
+- A1△A2={2..8}, A1△A2△A3={1,5,6,7,8}, |...| = 5 → C8 ✓
+
+**Structural observation.** All 5 depth-3 assignments contain the (9,0) edge (gap 9).
+Gap 9 forces depth-1 failure (C10 not po2) and depth-2 failure for all pairs with it.
+The C4 triple requires two intervals [0,9) and [4,9) overlapping in [4,9) and one more
+[0,5) whose XOR cancels almost everything — a rare alignment enabled by the (9,0)+(5,0)+(9,4)
+structure where vertex 9 has two back edges to vertices 0 and 4 with 9−0=9, 9−4=5, 5−0=5.
+
+**Open Q63.** Prove: for all even n≥6, every valid simple-cubic DFS assignment has a po2 cycle
+at depth ≤ 3. Q63-b: extend this enumeration to n=12,14.
+
+<!-- CHECK
+from itertools import combinations
+PO2={4,8,16,32,64}
+
+def sym3(k1,t1,k2,t2,k3,t3):
+    A1=frozenset(range(t1,k1)); A2=frozenset(range(t2,k2)); A3=frozenset(range(t3,k3))
+    return len(A1.symmetric_difference(A2).symmetric_difference(A3))
+
+def xor2(k1,t1,k2,t2):
+    ov=max(0,min(k1,k2)-max(t1,t2))
+    return None if ov==0 else (k1-t1)+(k2-t2)-2*ov+2
+
+def all_matchings(verts):
+    if len(verts)==0: yield []; return
+    first=verts[0]
+    for i in range(1,len(verts)):
+        pair=(verts[i],first)
+        rest=[v for v in verts if v!=first and v!=verts[i]]
+        for m in all_matchings(rest): yield [pair]+m
+
+n=10; total=0; d1=0; d2=0; d3=0; fails=0
+d3_gap_cycles={}
+
+def process(be):
+    global total,d1,d2,d3,fails
+    total+=1
+    if any((k-t+1) in PO2 for k,t in be): d1+=1; return
+    if any((cl:=xor2(*be[i],*be[j])) and cl in PO2
+           for i in range(6) for j in range(i+1,6)): d2+=1; return
+    found_cls=set()
+    for i in range(6):
+        for j in range(i+1,6):
+            for kk in range(j+1,6):
+                clen=sym3(*be[i],*be[j],*be[kk])+3
+                if clen in PO2: found_cls.add(clen)
+    if found_cls:
+        d3+=1
+        gaps=tuple(sorted(k-t for k,t in be))
+        d3_gap_cycles.setdefault(gaps,set()).update(found_cls)
+    else:
+        fails+=1
+
+for a1,a2 in combinations(range(2,9),2):
+    for s1,s2 in combinations(range(1,8),2):
+        used={a1,a2,s1,s2}
+        if len(used)!=4: continue
+        rem=sorted(set(range(1,9))-used)
+        for m in all_matchings(rem):
+            if any(k-t<2 for k,t in m): continue
+            process([(a1,0),(a2,0),(9,s1),(9,s2)]+m)
+
+for a1 in range(2,9):
+    for s1 in range(1,8):
+        if a1==s1: continue
+        rem=sorted(set(range(1,9))-{a1,s1})
+        for m in all_matchings(rem):
+            if any(k-t<2 for k,t in m): continue
+            process([(9,0),(a1,0),(9,s1)]+m)
+
+assert total==725, f"total={total}"
+assert d1==600 and d2==120 and d3==5 and fails==0
+print(f"n=10: total={total}, depth1={d1}, depth2={d2}, depth3={d3}, fails={fails}")
+for gaps,cls in sorted(d3_gap_cycles.items()):
+    print(f"  {gaps}: po2 cycles={sorted(cls)}")
+
+# Verify C4 triple: (9,0),(5,0),(9,4) gives |sym_diff|=1
+assert sym3(9,0,5,0,9,4)==1
+assert sym3(9,0,5,0,9,4)+3==4
+print("C4 triple (9,0)(5,0)(9,4): |sym_diff|=1 -> C4 verified")
+
+# Verify C8 triple: (9,0),(2,0),(5,1) gives |sym_diff|=5
+assert sym3(9,0,2,0,5,1)==5
+assert sym3(9,0,2,0,5,1)+3==8
+print("C8 triple (9,0)(2,0)(5,1): |sym_diff|=5 -> C8 verified")
+
+print("OK: Section 41 — n=10 exhaustive depth-3: 725 total, 5 depth-3, 0 fails; po2 at depth<=3 universal")
+CHECK -->
+
