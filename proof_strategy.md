@@ -609,7 +609,7 @@ The approach is promising but not yet closed; marking Q9 as ongoing.
 satisfying all three constraints defined in `lemma_backedge_density.md`) is
 $68.8\%$ for $\delta \le 40$ (510 of 741 pairs; see `lemma_backedge_density.md`
 Part D CHECK for the exact enumeration). This confirms that the forbidden
-system eliminates only about $31\%$ of pairs — far too sparse for arithmetic
+system eliminates only $31.2\%$ of pairs ($= 100\% - 68.8\%$, i.e., 231 of 741) — far too sparse for arithmetic
 alone to rule out counterexamples. Any proof via depth-gap constraints must
 exploit structural properties of DFS trees (min-degree-3 forces specific gap
 distributions) rather than universal gap-pair sparsity.
