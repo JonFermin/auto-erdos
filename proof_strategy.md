@@ -1655,15 +1655,18 @@ vertices (assume $n$ even):
 - Overlapping same-parity pairs (rough fraction $\approx 0.6$): $\approx 0.6 \cdot n(n+2)/16 \approx 3n^2/80$
 - Po2-length sym-diffs among these: density $\approx 68.8\%$ (valid gap-pair density, see Section 9) times po2-hit fraction
 
-The po2-hit fraction is: for a random overlapping same-parity pair with gap-sum $G =
-g_1 + g_2$ and overlap $o \in [1, \min(g_1,g_2)-1]$, we need $G - 2o + 2 \in \{4, 8,
-16, 32\}$, i.e.\ $o = (G + 2 - L)/2$ for some po2 $L$.  For a given pair and $o$
-distributed roughly uniformly in $[1, \min(g_1,g_2)-1]$, the expected number of po2
-hits is the number of po2 $L \le G$ such that $(G+2-L)/2 \in [1, \min(g_1,g_2)-1]$.
-Each such $L$ hits with probability $1/(\min(g_1,g_2)-1)$.  For large gaps ($g_1,g_2
-\approx n/4$), this gives $O(\log n / n)$ po2-hit probability per pair, hence $O(n^2
-\cdot \log n / n) = O(n \log n)$ expected po2 pairs.  This grows with $n$, confirming
-the conjecture's expected behaviour.
+The po2-hit fraction (realized, assuming overlap $o$ is uniform): for a random overlapping
+same-parity pair with gap-sum $G = g_1 + g_2$ and overlap $o \in [1, \min(g_1,g_2)-1]$,
+we need $G - 2o + 2 \in \{4, 8, 16, 32\}$, i.e.\ $o = (G + 2 - L)/2$ for some po2
+$L$.  The number of achievable po2 lengths for any such $(g_1,g_2)$ pair is $O(\log n)$
+(at most 4); each has probability $\approx 1/(\min(g_1,g_2)-1)$ of being realized
+when $o$ is uniform.  For large gaps ($g_1,g_2 \approx n/4$), this gives
+$O(\log n / n)$ po2-hit probability per REALIZED pair, hence $O(n^2 \cdot \log n / n) =
+O(n \log n)$ expected realized po2 sym-diffs.  Note: this is an expected count of
+\emph{realized} po2 cycles (where overlap is exactly right); Section~26 separately
+establishes that $\Omega(n^2)$ gap-pairs are \emph{achievable} (some overlap exists
+that gives po2) — a strictly weaker but unconditional count.  Both grow with $n$,
+confirming the conjecture's expected behaviour.
 
 **Adversarial search at $n \in \{34, 36, 38, 40\}$.**
 
