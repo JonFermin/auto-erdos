@@ -360,12 +360,10 @@ now near-complete. Cases are:
 - $n = 10$, $\delta = 3$, not Petersen: girth $\le 4$ (see `chain_locality_proof`).
 - $n = 10$, Petersen graph: 60 DFS spanning trees (all 6 orderings $\times$ 10 roots)
   verified, all pass triple chain-locality. (The Petersen has 15 edges; a DFS
-  tree has 9 tree edges and $15-9=6$ back edges, giving 6 fundamental cycles,
-  $\binom{6}{2}=15$ pairwise sym-diffs, and $\binom{6}{3}=20$ triple sym-diffs.
-  Some pairwise sym-diffs have non-positive overlap $o \le 0$ and give no simple cycle;
-  others give non-po2 lengths. The triple CHECK (`chain_locality_petersen`) confirms
-  that for every one of the 60 DFS trees, at least one of the 20 triples achieves
-  a po2 cycle length.)
+  tree has $15-9=6$ back edges (9 = tree edges for 10 vertices). Some pairwise sym-diffs
+  have non-positive overlap and give no simple cycle; others give non-po2 lengths.
+  The triple CHECK (`chain_locality_petersen`) confirms that for every one of the 60
+  DFS trees, at least one triple of back edges yields a po2 cycle length.)
 
 **CL-A/B/C consistency note.** Section 10 reports three cubic 10-vertex graphs
 (CL-A, CL-B, CL-C) that DISPROVE the pairwise version (order-2): those graphs
