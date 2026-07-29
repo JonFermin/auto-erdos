@@ -599,12 +599,12 @@ The approach is promising but not yet closed; marking Q9 as ongoing.
 
 **Gap-pair density (R8, quantified).** The valid gap pair density (pairs
 satisfying all three constraints defined in `lemma_backedge_density.md`) is
-approximately $69\%$ for $\delta \le 40$ (see `lemma_backedge_density.md`
-for exact counts). This confirms that the forbidden system eliminates only
-about $31\%$ of pairs — far too sparse for arithmetic alone to rule out
-counterexamples. Any proof via depth-gap constraints must exploit structural
-properties of DFS trees (min-degree-3 forces specific gap distributions)
-rather than universal gap-pair sparsity.
+$68.8\%$ for $\delta \le 40$ (510 of 741 pairs; see `lemma_backedge_density.md`
+Part D CHECK for the exact enumeration). This confirms that the forbidden
+system eliminates only about $31\%$ of pairs — far too sparse for arithmetic
+alone to rule out counterexamples. Any proof via depth-gap constraints must
+exploit structural properties of DFS trees (min-degree-3 forces specific gap
+distributions) rather than universal gap-pair sparsity.
 
 ## Section 10 — Q9 radius-2 disproof and radius-3 program (session s_0724-213346-43a1, merged post-hoc)
 
