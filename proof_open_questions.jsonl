@@ -51,3 +51,6 @@
 {"qid":"Q55","status":"resolved","session_id":"s_0729-083306-d861","summary":"Section 28 CHECK fixed: range(2,8), self-contained assertions, no sorted(); 0 blocking critics on R55","ts":"2026-07-29T12:07:23+00:00"}
 {"qid":"Q56","status":"open","session_id":"s_0729-083306-d861","summary":"Sym-diff length formulas for canonical pair types: derive root-pair, leaf-pair, and nested-interior-pair explicit formulas; verify with CHECKs; assess whether root+leaf po2 avoidance forces interior nested po2","ts":"2026-07-29T12:10:16+00:00"}
 {"qid":"Q56","status":"claimed","session_id":"s_0729-083306-d861","summary":"starting Section 29","ts":"2026-07-29T12:10:16+00:00"}
+{"qid":"Q56","status":"resolved","session_id":"s_0729-083306-d861","summary":"Section 29 sym-diff formulas (root/leaf/nested) proved and verified; Section 23 log-language replaced with explicit counts","ts":"2026-07-29T12:36:45+00:00"}
+{"qid":"Q57","status":"open","session_id":"s_0729-083306-d861","summary":"Prove n=6 base case via leaf-pair argument; check whether root+leaf po2 avoidance forces interior po2 for n=8,10","ts":"2026-07-29T12:36:45+00:00"}
+{"qid":"Q57","status":"claimed","session_id":"s_0729-083306-d861","summary":"starting Section 30 n=6 proof","ts":"2026-07-29T12:36:45+00:00"}

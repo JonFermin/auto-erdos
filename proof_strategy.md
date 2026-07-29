@@ -2322,3 +2322,64 @@ the flexibility in gap assignments, leaving interior pairs forced into $\mathcal
 candidates (all valid back-edge assignments where root+leaf pairs avoid po2) and confirm that some
 interior nested pair always achieves a $\mathcal{F}_2$-sum.  This would strengthen the empirical
 evidence and potentially reveal the invariant underlying a structural proof.
+
+## Section 30 — Q57: n=6 base case and leaf-pair analysis for small n (session s\_0729-083306-d861)
+
+**Theorem (n=6 case).** Every cubic DFS Hamiltonian path graph on 6 vertices has a po2 sym-diff cycle.
+
+**Proof.** Let the path be $0\!-\!1\!-\!2\!-\!3\!-\!4\!-\!5$.  The leaf (vertex 5) sends 2 back edges
+to targets $t_1 < t_2$ with gaps $5-t_i \notin \mathcal{F}_1 = \{1,3,7,\ldots\}$.  For $n=6$ the
+constraint is $5-t_i \notin \{1,3\}$, i.e.\ $t_i \notin \{2,4\}$.  Target $t_i=0$ is also
+excluded: vertex 0 already receives 2 back edges from the root pair, so a third back edge from leaf
+to root would exceed the degree bound.  Hence the only valid targets are $t_1=1$ (gap 4) and $t_2=3$
+(gap 2) — the unique leaf pair.  By the Type-L formula (Section~29):
+$L_L = t_2 - t_1 + 2 = 3 - 1 + 2 = 4 = 2^2,$
+a po2 sym-diff cycle length.  The leaf pair alone guarantees a C4. $\square$
+
+**Leaf-pair analysis for $n = 6, 8, 10, 12, 14, 16$.**  The table below gives the valid leaf targets
+$t$ (gaps $n\!-\!1\!-\!t \notin \mathcal{F}_1$, $t \ge 1$) and pair counts:
+
+| $n$ | valid leaf targets $t$ (gap) | po2 pairs $(t_2-t_1 \in F_2)$ | non-po2 pairs |
+|---:|---|---:|---:|
+| 6 | 1(4), 3(2) | 1 | 0 |
+| 8 | 1(6), 2(5), 3(4), 5(2) | 2 | 4 |
+| 10 | 1(8), 3(6), 4(5), 5(4), 7(2) | 4 | 6 |
+| 12 | 1(10), 2(9), 3(8), 5(6), 6(5), 7(4), 9(2) | 6 | 15 |
+| 14 | 1(12), 2(11), 3(10), 4(9), 5(8), 7(6), 8(5), 9(4), 11(2) | 10 | 26 |
+| 16 | 1(14), 2(13), …, 7(8), 9(6), 10(5), 11(4), 13(2) | 13 | 42 |
+
+**Observation.** For $n=6$ the leaf pair is unique and always po2.  For $n \ge 8$, non-po2 leaf pairs
+exist, so the leaf-pair argument alone cannot close the case; a complementary argument involving root
+pair or interior nested pairs is needed.
+
+<!-- CHECK
+# Section 30: verify n=6 leaf pair uniqueness and forced po2.
+F1 = {1, 3, 7, 15, 31, 63, 127}
+F2 = {2, 6, 14, 30, 62, 126}
+
+# n=6: leaf is vertex 5.  Valid targets t: gaps 5-t not in F1, t >= 1.
+n6_valid_t = [t for t in range(1, 5) if (5 - t) not in F1]
+assert n6_valid_t == [1, 3], f"n=6 valid_t wrong: {n6_valid_t}"
+
+# Only leaf pair is (1,3).  Sym-diff length = t2-t1+2 = 4.
+assert (3 - 1 + 2) == 4 and 4 in {4, 8, 16, 32}
+
+# No non-po2 leaf pairs for n=6.
+n6_non_po2 = [(t1, t2) for i, t1 in enumerate(n6_valid_t) for t2 in n6_valid_t[i+1:] if (t2 - t1) not in F2]
+assert n6_non_po2 == [], f"n=6 non-po2 leaf pairs found: {n6_non_po2}"
+
+# For n=8: leaf is vertex 7.  Check counts.
+n8_valid_t = [t for t in range(1, 7) if (7 - t) not in F1]
+assert n8_valid_t == [1, 2, 3, 5], f"n=8 valid_t wrong: {n8_valid_t}"
+n8_po2 = [(t1, t2) for i, t1 in enumerate(n8_valid_t) for t2 in n8_valid_t[i+1:] if (t2 - t1) in F2]
+n8_no_po2 = [(t1, t2) for i, t1 in enumerate(n8_valid_t) for t2 in n8_valid_t[i+1:] if (t2 - t1) not in F2]
+assert len(n8_po2) == 2, f"n=8 po2 count wrong: {n8_po2}"
+assert len(n8_no_po2) == 4, f"n=8 no-po2 count wrong: {n8_no_po2}"
+
+print("OK: Section 30 leaf-pair analysis verified (n=6 unique forced po2; n=8 has 4 non-po2 leaf pairs)")
+CHECK -->
+
+**Next direction (Q58).** For $n \ge 8$, enumerate all cubic DFS Hamiltonian-path back-edge
+assignments with non-po2 leaf pair AND non-po2 root pair, and verify that some interior nested pair
+always gives a po2 sym-diff.  This would prove the conjecture for those $n$ values by case analysis
+on (root pair, leaf pair, interior pairs).
