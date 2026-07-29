@@ -300,8 +300,9 @@ $\text{depth}(v) - \text{depth}(u) + 1$.
 
 **Back-edge depth-gap constraint.** If $G$ contains no $C_{2^k}$ for any
 $k$, then no fundamental cycle has length $2^k$, i.e., no back edge has
-depth-gap $2^k - 1$. The forbidden set is $\{1, 3, 7, 15, 31, \ldots\}$
-(depth-gaps that would produce a $C_2, C_4, C_8, C_{16}, \ldots$). Two
+depth-gap $2^k - 1$. The forbidden set is $\{3, 7, 15, 31, \ldots\} = \{2^k-1 : k \ge 2\}$
+(depth-gaps producing $C_4, C_8, C_{16}, \ldots$; depth-gap 1 is impossible in a
+simple graph since a back edge must skip at least one tree edge). Two
 back edges at the same vertex with gaps $d_1 < d_2$ additionally forbid
 $d_2 - d_1 \in \{2, 6, 14, 30, \ldots\}$ (which would produce a
 power-of-2 sym-diff cycle).
