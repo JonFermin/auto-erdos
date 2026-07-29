@@ -70,3 +70,4 @@
 {"qid":"Q62","status":"open","session_id":"s_0729-131551-1d91","summary":"Prove Even-gap lemma: all gaps even implies some overlapping pair with XOR cycle of po2 length","ts":"2026-07-29T13:50:58+00:00"}
 {"qid":"Q62","status":"claimed","session_id":"s_0729-131551-1d91","summary":"Section 38: pigeonhole for overlap existence, single-cycle lemma, po2 parity condition","ts":"2026-07-29T13:50:58+00:00"}
 {"qid":"Q63","status":"open","session_id":"s_0729-131551-1d91","summary":"Prove some root-pair triple satisfies D+g3-2ov=5 (giving C8) when depth>2 (Case O: at least one odd gap)","ts":"2026-07-29T13:50:58+00:00"}
+{"qid":"Q63","status":"claimed","session_id":"s_0729-131551-1d91","summary":"working Q63-b n=12,14","ts":"2026-07-29T14:31:53+00:00"}

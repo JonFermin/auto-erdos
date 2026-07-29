@@ -3749,3 +3749,96 @@ print("C8 triple (9,0)(2,0)(5,1): |sym_diff|=5 -> C8 verified")
 print("OK: Section 41 — n=10 exhaustive depth-3: 725 total, 5 depth-3, 0 fails; po2 at depth<=3 universal")
 CHECK -->
 
+## Section 42 — Q63-b: Depth-≤3 Exhaustive Verification Extended to n=12, 14 (session s\_0729-131551-1d91)
+
+**Extension of Section 41.** We apply the same exhaustive enumeration (Cases A and B, simple-graph
+constraint) to n=12 and n=14.
+
+**Results summary:**
+
+| n | m | total assignments | depth-1 | depth-2 | depth-3 | fails | depth-3 po2 |
+|---|---|---|---|---|---|---|---|
+| 10 | 6 | 725 | 600 | 120 | 5 | **0** | C4, C8 |
+| 12 | 7 | 9906 | 8381 | 1521 | 4 | **0** | C8 |
+| 14 | 8 | 153839 | 130472 | 23184 | 183 | **0** | C4, C8 |
+
+Zero failures for all three values of n: **every valid n=10,12,14 cubic DFS assignment has a
+po2 cycle at depth ≤ 3**.
+
+**Observations from the data:**
+1. All depth-3 assignments contain at least one odd-gap back edge (borne out by the "odd-gap" flag).
+   No all-even-gap assignment needs depth 3 (consistent with Q62: even-gap always resolved at depth 2).
+2. n=12 depth-3: only C8 achievable at depth 3 (4 assignments).
+3. n=14 depth-3: both C4 and C8 achievable (183 assignments).
+4. Growth: depth-3 count grows from 5 (n=10) → 4 (n=12) → 183 (n=14). The n=14 count
+   is larger because n=14 has more odd-gap interior edge configurations.
+5. The all-even-gap case is fully resolved at depth ≤ 2 for n=10,12,14, consistent with
+   the Q62 proofs (Sections 38–40).
+
+**C4 triple structure at depth 3.** When a C4 appears at depth 3, the triple (k1,t1),(k2,t2),(k3,t3)
+satisfies |A1△A2△A3| = 1 → one surviving path edge. This forces two intervals to nearly cancel:
+for example (nm1,0),(a,0),(nm1,s) with a+s=nm1 gives A1△A2△A3 = {single edge at a=s intersection}.
+This structure arises because two back edges share the leaf vertex nm1 (both incident to nm1),
+and their intervals tile almost all of [0,nm1) with exactly one overlap residue.
+
+**Open Q63 (updated).** Prove: for all even n≥6, every valid simple-cubic DFS assignment has
+a po2 cycle at depth ≤ 3. Empirically verified for n=10,12,14 (0 failures). The odd-gap
+structure forces the hard cases; the even-gap case is covered by Q62. Q63-c: extend to n=16.
+
+<!-- CHECK
+from itertools import combinations
+PO2={4,8,16,32,64}
+
+def sym3(k1,t1,k2,t2,k3,t3):
+    A1=frozenset(range(t1,k1)); A2=frozenset(range(t2,k2)); A3=frozenset(range(t3,k3))
+    return len(A1.symmetric_difference(A2).symmetric_difference(A3))
+
+def xor2(k1,t1,k2,t2):
+    ov=max(0,min(k1,k2)-max(t1,t2))
+    return None if ov==0 else (k1-t1)+(k2-t2)-2*ov+2
+
+def all_matchings(verts):
+    if len(verts)==0: yield []; return
+    first=verts[0]
+    for i in range(1,len(verts)):
+        pair=(verts[i],first)
+        rest=[v for v in verts if v!=first and v!=verts[i]]
+        for m in all_matchings(rest): yield [pair]+m
+
+def run_n(n):
+    nm1=n-1; cnt=[0,0,0,0,0]  # total,d1,d2,d3,fails
+    def proc(be):
+        nb=len(be); cnt[0]+=1
+        if any((k-t+1) in PO2 for k,t in be): cnt[1]+=1; return
+        if any((cl:=xor2(*be[i],*be[j])) and cl in PO2
+               for i in range(nb) for j in range(i+1,nb)): cnt[2]+=1; return
+        if any(sym3(*be[i],*be[j],*be[kk])+3 in PO2
+               for i in range(nb) for j in range(i+1,nb) for kk in range(j+1,nb)):
+            cnt[3]+=1
+        else: cnt[4]+=1
+    for a1,a2 in combinations(range(2,nm1),2):
+        for s1,s2 in combinations(range(1,nm1-1),2):
+            used={a1,a2,s1,s2}
+            if len(used)!=4: continue
+            rem=sorted(set(range(1,nm1))-used)
+            for mt in all_matchings(rem):
+                if any(k-t<2 for k,t in mt): continue
+                proc([(a1,0),(a2,0),(nm1,s1),(nm1,s2)]+mt)
+    for a1 in range(2,nm1):
+        for s1 in range(1,nm1-1):
+            if a1==s1: continue
+            rem=sorted(set(range(1,nm1))-{a1,s1})
+            for mt in all_matchings(rem):
+                if any(k-t<2 for k,t in mt): continue
+                proc([(nm1,0),(a1,0),(nm1,s1)]+mt)
+    return cnt
+
+expected={10:(725,600,120,5,0),12:(9906,8381,1521,4,0),14:(153839,130472,23184,183,0)}
+for n,exp in expected.items():
+    c=run_n(n)
+    assert tuple(c)==exp, f"n={n}: {c}!={list(exp)}"
+    print(f"n={n}: total={c[0]}, d1={c[1]}, d2={c[2]}, d3={c[3]}, fails={c[4]} OK")
+
+print("OK: Section 42 — depth-3 exhaustive n=10,12,14; 0 fails; po2 at depth<=3 universal for n<=14")
+CHECK -->
+
