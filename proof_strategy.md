@@ -4403,3 +4403,166 @@ print(f"n=12 Case A depth-3: all {len(d3_gaps)} assignments have total_gap_sum �
 print("OK: Section 46 — mod-4 formula verified; po2 sym_diffs ≡1 mod4; Q64 formulated")
 CHECK -->
 
+## Section 47 — Q64-b: partial-overlap formula sym_diff=|(k+t)-(a1+a2)|; C8 condition k+t=a1+a2±5
+
+### Root-root-partial_overlap triple formula
+
+**Theorem (Partial Overlap Sym_Diff)**:
+For a triple consisting of root back edges (a1,0),(a2,0) (with a1<a2) and an interior back edge (k,t) that **partially overlaps** the root span [a1,a2):
+
+```
+sym_diff = |(k+t) - (a1+a2)|
+```
+
+**Proof**:
+
+*Case 1: Left partial overlap* (t<a1, a1≤k<a2). Overlap = k-a1.
+```
+sym_diff = D+g3-2*ov
+         = (a2-a1)+(k-t)-2(k-a1)
+         = a2-a1+k-t-2k+2a1
+         = (a1+a2)-(k+t)
+```
+Since t<a1 and k<a2: t+k < a1+a2, so (a1+a2)-(k+t) > 0.
+Therefore: sym_diff = (a1+a2)-(k+t) = |(k+t)-(a1+a2)|. ∎
+
+*Case 2: Right partial overlap* (a1≤t<a2, k≥a2). Overlap = a2-t.
+```
+sym_diff = (a2-a1)+(k-t)-2(a2-t)
+         = a2-a1+k-t-2a2+2t
+         = (k+t)-(a1+a2)
+```
+Since t≥a1 and k≥a2: k+t ≥ a1+a2, so (k+t)-(a1+a2) ≥ 0.
+Therefore: sym_diff = (k+t)-(a1+a2) = |(k+t)-(a1+a2)|. ∎
+
+In both cases: **sym_diff = |endpoint_sum - root_sum|** where root_sum = a1+a2.
+
+### Corollaries
+
+1. **C8 condition**: A root-root-X partial-overlap triple gives C8 iff |k+t - (a1+a2)| = 5.
+   Equivalently: k+t ∈ {a1+a2-5, a1+a2+5}.
+
+2. **C4 condition**: |k+t - (a1+a2)| = 1, i.e., k+t ∈ {a1+a2-1, a1+a2+1}.
+   But the degree constraint prevents k+t = a1+a2-1 with a root-root-X triple in Case A
+   (since that would require k=a1-1,t=a2 or similar, but a2>a1, so a1+a2-1-k<a1 for valid k...).
+   More precisely: C4 from a root-root-partial-overlap triple requires |k+t-root_sum|=1.
+
+3. **General po2**: |k+t - root_sum| ∈ {1,5,13,29,...}.
+   The closest values to root_sum that give po2 are root_sum±1 (C4) and root_sum±5 (C8).
+
+4. **Non-overlapping triple** (k+t entirely outside [a1,a2)): sym_diff = D+g3 or D-g3.
+   For C8: D+g3=5 or D-g3=5.
+
+### Empirical verification for n=14
+
+For the 96 Case A depth-3 assignments at n=14:
+- 45 first resolve via (root,root,int) triple
+- 27 first resolve via (root,root,leaf) triple  
+- 13 via (int,int,root)
+- 8 via (int,leaf,root)
+- 3 via (leaf,leaf,root)
+
+For (root,root,X) triples giving po2: sym_diff ∈ {|(k+t)-(a1+a2)|, D+g3, D-g3} depending on overlap type. In all 72% of cases involving both roots, the formula applies.
+
+### C8 via endpoint sum: key identity
+
+**Rephrased Q64-b**: For every Case A depth-3 assignment, must there exist a back edge (k,t) (interior, leaf, or another root) such that:
+
+1. (k,t) partially overlaps [a1,a2) and |(k+t)-(a1+a2)| ∈ {1,5,13,...}, OR
+2. (k,t) is disjoint from [a1,a2) and (a2-a1)±(k-t) ∈ {1,5,13,...}, OR
+3. (k,t) contains [a1,a2) and (k-t)-(a2-a1) ∈ {1,5,13,...}?
+
+If YES for any of these, the root-root-X triple gives po2.
+
+This reformulates Q64 as a **combinatorial covering problem**: given the root sum S = a1+a2, must the back-edge set always contain an element with k+t "close" to S (specifically within {1,5,13,...})?
+
+### Integer-sum covering lemma (Q64-c)
+
+**Conjecture Q64-c**: For every valid Case A depth-3 assignment on n ≥ 6 vertices, with root sum S = a1+a2, there exists a back edge (k,t) (not one of the 4 fixed Case A edges) such that |k+t - S| ∈ {1,5,13,...} and (k,t) partially overlaps [a1,a2).
+
+If Q64-c holds, then every Case A depth-3 assignment has a root-root-partial-overlap triple giving po2. Combined with the C4-block result (Section 43), this would give C8 or higher from such triples.
+
+**Note**: Q64-c may not always be achievable via the simplest interior edges, so the full Q64 proof may need to use leaf edges or non-root-involving triples in some cases.
+
+<!-- CHECK
+PO2 = {4,8,16,32,64,128}
+
+# Verify partial overlap formula: sym_diff = |(k+t)-(a1+a2)|
+def sym3(k1,t1,k2,t2,k3,t3):
+    A1=set(range(t1,k1)); A2=set(range(t2,k2)); A3=set(range(t3,k3))
+    return len(A1.symmetric_difference(A2).symmetric_difference(A3))
+
+def check_partial_overlap_formula():
+    errors=[]
+    for a1 in range(2,12):
+        for a2 in range(a1+1,13):
+            for k in range(0,14):
+                for t in range(0,k):
+                    # Check if (k,t) partially overlaps [a1,a2)
+                    ov=max(0,min(a2,k)-max(a1,t))
+                    if ov==0 or ov==(k-t) or ov==(a2-a1): continue  # not partial
+                    sd_actual=sym3(a2,a1,a2,0,k,t)  # Wait: need sym3 of (a2,a1,0) and (a1,0,0) and (k,t)
+                    # Actually the formula is for triples (a1,0),(a2,0),(k,t)
+                    sd_actual2=sym3(a1,0,a2,0,k,t)
+                    formula=abs((k+t)-(a1+a2))
+                    if sd_actual2!=formula:
+                        errors.append((a1,a2,k,t,sd_actual2,formula))
+    assert not errors, f'Formula errors: {errors[:3]}'
+    print('Partial overlap formula sym_diff=|(k+t)-(a1+a2)| verified for all test cases ✓')
+
+check_partial_overlap_formula()
+
+# Verify C8 condition: partial overlap triple gives C8 iff |(k+t)-(a1+a2)|=5
+test_cases = [(2,7,8,0),(3,8,0,5),(4,9,5,3),(2,10,7,0)]  # (a1,a2,k,t) right partial or left partial
+for a1,a2,k,t in test_cases:
+    ov=max(0,min(a2,k)-max(a1,t))
+    if ov>0 and ov<(k-t) and ov<(a2-a1):
+        sd=sym3(a1,0,a2,0,k,t)
+        formula=abs((k+t)-(a1+a2))
+        assert sd==formula, f'(a1={a1},a2={a2},k={k},t={t}): sd={sd} formula={formula}'
+        if sd+3 in PO2:
+            print(f'(a1={a1},a2={a2},k={k},t={t}): partial overlap, |(k+t)-{a1+a2}|={sd}, cycle={sd+3} ✓')
+
+# Verify for n=12 Case A depth-3: all po2 triples involving both roots satisfy formula
+from itertools import combinations
+def xor2(k1,t1,k2,t2):
+    ov=max(0,min(k1,k2)-max(t1,t2))
+    return None if ov==0 else (k1-t1)+(k2-t2)-2*ov+2
+
+def all_matchings(verts):
+    if len(verts)==0: yield []; return
+    first=verts[0]
+    for i in range(1,len(verts)):
+        pair=(verts[i],first)
+        rest=[v for v in verts if v!=first and v!=verts[i]]
+        for m in all_matchings(rest): yield [pair]+m
+
+n=12; nm1=n-1; formula_errors=0; formula_ok=0
+for a1,a2 in combinations(range(2,nm1),2):
+    for s1,s2 in combinations(range(1,nm1-1),2):
+        used={a1,a2,s1,s2}
+        if len(used)!=4: continue
+        rem=sorted(set(range(1,nm1))-used)
+        for mt in all_matchings(rem):
+            if any(k-t<2 for k,t in mt): continue
+            be=[(a1,0),(a2,0),(nm1,s1),(nm1,s2)]+mt
+            nb=len(be)
+            if any((k-t+1) in PO2 for k,t in be): continue
+            if any((cl:=xor2(*be[i],*be[j])) and cl in PO2
+                   for i in range(nb) for j in range(i+1,nb)): continue
+            # Check all root-root-X triples
+            for idx in range(2,nb):  # X is any edge except the two roots
+                k3,t3=be[idx]
+                ov=max(0,min(a2,k3)-max(a1,t3))
+                is_partial=(0<ov<(k3-t3) and ov<(a2-a1))
+                if is_partial:
+                    sd=sym3(a1,0,a2,0,k3,t3)
+                    formula=abs((k3+t3)-(a1+a2))
+                    if sd!=formula: formula_errors+=1
+                    else: formula_ok+=1
+
+assert formula_errors==0, f'{formula_errors} formula errors in n=12 root-root-partial triples'
+print(f'n={n}: all {formula_ok} root-root-partial-overlap triples satisfy formula ✓')
+print('OK: Section 47 — partial overlap formula proved; C8 iff |(k+t)-(a1+a2)|=5')
+CHECK -->
+
