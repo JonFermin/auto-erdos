@@ -2582,3 +2582,44 @@ The winning triple in every depth-3 case yields C8, not C4 or C16.
 — perhaps involving the parity of back-edge gaps or the F2-membership of triple gap-sums —
 that guarantees at least one triple achieves a po2 XOR cycle?  This would give a uniform proof
 for all $n$.
+
+## Section 33 — Q59/Q60: n=16 verification and the "XOR depth 3" conjecture (session s\_0729-083306-d861)
+
+**n=16 exhaustive result.** Running the same XOR-depth search over all 2{,}682{,}919 valid
+simple-graph back-edge assignments on 16 vertices (path $0\!-\!1\!-\!\cdots\!-\!15$, 9 back edges):
+
+| $n$ | Total | Depth 1 | Depth 2 | Depth 3 | Depth $>3$ |
+|---:|---:|---:|---:|---:|---:|
+| 10 | 725 | 600 | 120 | 5 | **0** |
+| 12 | 9{,}906 | 8{,}381 | 1{,}521 | 4 | **0** |
+| 14 | 153{,}839 | 130{,}472 | 23{,}184 | 183 | **0** |
+| 16 | 2{,}682{,}919 | 2{,}395{,}385 | 286{,}475 | 1{,}059 | **0** |
+
+In every case, XOR depth $\le 3$ suffices and every depth-3 case yields C8.
+
+**Conjecture (XOR-depth-3 universality).** For every valid cubic DFS Hamiltonian-path back-edge
+assignment on any $n$, there exist at most 3 fundamental cycles whose XOR is a simple cycle of
+po2 length (C4, C8, or C16).
+
+**Empirical support.** Verified exhaustively for $n \in \{10, 12, 14, 16\}$ covering over
+2.8 million distinct cubic-graph instances.  No counterexample found.
+
+**Pattern observation.** Across all tested depth-3 cases:
+- The winning triple always produces C8 (never C4 or C16), suggesting the "escape route"
+  for hard cases is specifically the 8-cycle.
+- The depth-3 fraction shrinks: 0.69\% (n=10) $\to$ 0.04\% (n=12) $\to$ 0.12\% (n=14) $\to$ 0.04\% (n=16),
+  suggesting hard cases are rare and do not accumulate as $n$ grows.
+
+**Structural hypothesis (Q60).** When all single back edges are non-po2 and all pair XORs are
+non-po2, the gap-avoidance constraints force the back-edge interval structure into a configuration
+where some triple of "staircase intervals" (each overlapping the previous) forms an 8-cycle.
+Specifically: intervals $[t_1,k_1],[t_2,k_2],[t_3,k_3]$ arranged with $t_1 < t_2 < t_3$ and
+overlapping by exactly the right amount to cancel internal path edges and leave 8 boundary edges.
+
+The formal proof of this invariant remains open.  It would close the conjecture (together with
+a structural argument that the Hamiltonian-path DFS structure always yields back-edge assignments
+satisfying our structural framework).
+
+**Q61 (proof target).** Prove the XOR-depth-3 conjecture for all $n$:
+show that among the $\binom{m}{3}$ triples of the $m = n/2+1$ back edges, at least one
+produces a po2 XOR cycle whenever no single edge or pair does.

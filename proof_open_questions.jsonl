@@ -60,3 +60,6 @@
 {"qid":"Q58","status":"resolved","session_id":"s_0729-083306-d861","summary":"n=12,14 exhaustively verified (Section 32): all assignments have XOR depth <= 3; 4 and 183 depth-3 cases respectively, all giving C8","ts":"2026-07-29T13:03:38Z"}
 {"qid":"Q59","status":"claimed","session_id":"s_0729-083306-d861","summary":"n=12,14 done; n=16 next; all depth-3 so far give C8","ts":"2026-07-29T13:03:38Z"}
 {"qid":"Q60","status":"open","session_id":"s_0729-083306-d861","summary":"Find structural invariant explaining why XOR depth 3 always suffices: gap-sum parity or F2-membership of triple gaps?","ts":"2026-07-29T13:03:38Z"}
+{"qid":"Q59","status":"resolved","session_id":"s_0729-083306-d861","summary":"n=16 verified (Section 33): 2682919 assignments, all depth<=3; 1059 depth-3 cases, all C8","ts":"2026-07-29T13:09:00Z"}
+{"qid":"Q60","status":"claimed","session_id":"s_0729-083306-d861","summary":"XOR-depth-3 conjecture formulated; structural hypothesis: staircase intervals; need formal proof","ts":"2026-07-29T13:09:00Z"}
+{"qid":"Q61","status":"open","session_id":"s_0729-083306-d861","summary":"Prove XOR-depth-3 universality: among C(m,3) triples of the m=n/2+1 back edges, at least one gives po2 XOR whenever no single or pair does","ts":"2026-07-29T13:09:00Z"}
