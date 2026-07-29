@@ -255,11 +255,12 @@ positive gap.  The conjecture would follow if one can show that this
 deficiency forces the maximum frequency above $1/2$ (i.e., derive
 $p \ge 1/2$ from the deficiency bound and the union-closure structure).
 
-**Why this is a new approach.** The Chase-Lovett linearised entropy approach (Gilmer 2022,
-Sawin 2023) yields $p \ge 0.382$ but hits a barrier near product families, where the
-entropy deficiency $\log_2 |\mathcal{F}| - H(A \cup B)$ becomes small. A KL deficiency
-bound is *exact* rather than linearised and potentially escapes that barrier — but it
-must be proved from scratch (see `proofs/frankl_union_closed.json` for context).
+**Why this is a new approach.** The entropy approach initiated by Gilmer (2022) and
+improved in subsequent work achieves a positive lower bound on $p$, but the linearised
+version of this approach hits a theoretical barrier near product families (where the
+deficiency $\log_2|\mathcal{F}| - H(A \cup B)$ is small). A KL deficiency bound is
+*exact* rather than linearised and potentially escapes that barrier — but it must be
+proved from scratch (see `proofs/frankl_union_closed.json` for context).
 
 **Numerical validation** (see `proof_lemmas/lemma_frankl_deficiency.md`):
 0 violations across:
