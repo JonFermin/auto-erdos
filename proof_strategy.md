@@ -1497,8 +1497,9 @@ selecting which po2 length is realized.
 
 **Min-radius scoring.** For each back-edge configuration:
 - Radius 1: some back edge has gap in $\{3,7,15,31\}$ (fundamental po2 cycle exists).
-- Radius 2: some same-parity overlapping pair of back edges has sym-diff length in $\{4,8,16,32\}$.
-- Radius 3: some triple of back edges has composite sym-diff length in $\{4,8,16,32\}$.
+- Radius 2: some same-parity OVERLAPPING pair of back edges (overlap $o \ge 1$) has sym-diff length in $\{4,8,16,32\}$.
+- Radius 3: some triple of back edges, where at least one of its three sub-pairs has overlap $\ge 1$, has composite sym-diff in $\{4,8,16,32\}$.
+  Note: for a triple to yield a simple cycle, at least one pair must have overlap $\ge 1$ (otherwise the triple sym-diff has a degree-4 vertex, hence is not a simple cycle). The code checks all three sub-pair orderings for each triple $\{i,j,k\}$, so no valid triple is missed.
 - Radius 4+: none of the above (would falsify `chain_locality_r3`).
 
 <!-- CHECK
