@@ -80,12 +80,14 @@ witness window:
 contains a cycle of length $4$ or a cycle of length $8$. The proof is a
 complete, exhaustive case split:
 
-- **Case 1 ($a+b \equiv 0 \pmod m$, i.e., $b \equiv -a$; or $a = b$):**
-  The inner edge $\{v_0, v_a\}$ (or $\{v_a, v_0\}$) exists, so
-  $u_0, u_a, v_a, v_0$ is a $C_4$.  Example: $I(3,1,2)$ has
-  $a=1,b=2$, $(a+b)\bmod 3=(1+2)\bmod 3=0$, so Case~1 gives $C_4$:
-  $u_0,u_1,v_1,v_0,u_0$. (No 4-residue distinctness check is performed
-  in Case~1 — the $C_4$ exists independently.)
+- **Case 1 ($b \equiv \pm a \pmod m$, i.e., $b \equiv a$ or $b \equiv -a \pmod m$):**
+  The inner edge $\{v_0, v_a\}$ exists — the inner polygon (step $b$) connects
+  $v_0$ to $v_b$; when $b \equiv a$ we have $v_b = v_a$; when $b \equiv -a$ the edge
+  $v_{a} \to v_{a+b} = v_{a+(-a)} = v_0$ (reversed: $v_0$-$v_a$) exists.
+  Either way, $u_0, u_a, v_a, v_0$ is a $C_4$ using the outer edge $u_0$-$u_a$,
+  spoke $u_a$-$v_a$, inner edge $v_a$-$v_0$, and spoke $v_0$-$u_0$.
+  Example: $I(3,1,2)$ has $b=2 \equiv -1 \equiv -a \pmod{3}$, so Case~1 applies
+  and $C_4 = u_0,u_1,v_1,v_0,u_0$.
 
 - **Case 2 ($a+b \not\equiv 0 \pmod m$ AND $a \ne b \pmod m$, i.e.,
   $b \not\equiv \pm a$):** All four residues $\{0,a,b,a+b\}$ are pairwise
@@ -2165,3 +2167,55 @@ CHECK -->
 have min\_radius $\le 3$, with the radius-3 fraction continuing to shrink as
 $n$ grows.  Together with Sections 21–25, this pushes the empirical
 confirmation boundary to $n = 50$.
+
+## Section 28 — Proof landscape summary and forbidden-set enumeration (session s\_0729-083306-d861)
+
+**Status after Sections 1–27.** The current proof has:
+- **Settled sub-families**: I-graphs (hence all generalized Petersen graphs),
+  theta lifts, $K_4$ lifts — every instance has a po2 cycle of length 4, 8, or 16.
+- **Empirical boundary**: every ham-path cubic DFS-tree instance up to $n=50$ has
+  chain-locality radius $\le 3$; 0 violations in $\ge 1200$ total instances across
+  Sections 24–27.
+- **Open gap**: a structural/analytical argument closing the infinite family. The
+  density argument (Section 23) shows the constraint system is exponentially
+  unlikely to be satisfied; formalizing into a proof requires controlling
+  correlations among sym-diff lengths across the DFS tree.
+
+**Forbidden-set enumeration (explicit, no sorting).** For reference throughout:
+
+$$\mathcal{F}_1 = \{2^k - 1 : k \ge 2\} = \{3, 7, 15, 31, 63, \ldots\}$$
+$$\mathcal{F}_2 = \{2(2^k - 1) : k \ge 1\} = \{2, 6, 14, 30, 62, \ldots\}$$
+
+The finite truncations relevant to our $n \le 50$ analysis are:
+$\mathcal{F}_1 \cap [1, 50] = \{3, 7, 15, 31\}$ (since $63 > 50$), and
+$\mathcal{F}_2 \cap [1, 50] = \{2, 6, 14, 30\}$ (since $62 > 50$).
+
+<!-- CHECK
+# Section 28: verify forbidden-set truncations explicitly (using list comparison, no sorting).
+# F1 = {2^k - 1 : k >= 2}; F2 = {2(2^k-1) : k >= 1}
+
+F1_list = [2**k - 1 for k in range(2, 7)]  # [3,7,15,31,63]
+F2_list = [2*(2**k - 1) for k in range(1, 7)]  # [2,6,14,30,62,126]
+
+assert F1_list == [3, 7, 15, 31, 63, 127], f"F1_list mismatch: {F1_list}"
+assert F2_list == [2, 6, 14, 30, 62, 126], f"F2_list mismatch: {F2_list}"
+
+F1_le50 = [x for x in F1_list if x <= 50]
+F2_le50 = [x for x in F2_list if x <= 50]
+
+assert F1_le50 == [3, 7, 15, 31], f"F1_le50 mismatch: {F1_le50}"
+assert F2_le50 == [2, 6, 14, 30], f"F2_le50 mismatch: {F2_le50}"
+
+assert max(F2_le50) == 30, f"max F2_le50: {max(F2_le50)}"
+assert max(F1_le50) == 31, f"max F1_le50: {max(F1_le50)}"
+
+print(f"OK: Section 28 forbidden-set check: F1∩[1,50]={F1_le50}, F2∩[1,50]={F2_le50}")
+CHECK -->
+
+**Next open question (Q56):** Formalize the counting argument of Section 23 into a
+proof that, for every $n$-vertex cubic graph $G$ on a DFS Hamiltonian path with all
+back-edge gaps $\notin \mathcal{F}_1$, at least one sym-diff pair has length in
+$\{4, 8, 16, 32\}$.  The probabilistic heuristic (Section 23) and the empirical
+evidence (Sections 24–27) both point to this being true; the missing step is a
+combinatorial structural argument controlling the correlations between sym-diff
+lengths across back-edge pairs in the DFS tree.
