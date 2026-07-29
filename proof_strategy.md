@@ -1630,7 +1630,7 @@ across all po2 lengths and to $n \le 32$ for the Hamiltonian-path case.
 **Motivation.** Sections 12, 21–24 confirm chain\_locality\_r3 up to $n = 32$. As $n$
 grows, the number of back edges in a cubic Hamiltonian-path graph is $B = n/2 + 1$,
 giving $\binom{B}{2} = n(n+2)/8$ pairwise sym-diff candidates and $\binom{B}{3} =
-n(n+2)(n+4)/48$ triple candidates. The "coverage" of po2-length opportunities grows
+n(n+2)(n-2)/48$ triple candidates. The "coverage" of po2-length opportunities grows
 quadratically in $n$, while the number of forbidden lengths grows only as $\log_2 n$.
 This scaling argument suggests chain\_locality\_r3 should become EASIER (not harder) to
 satisfy as $n$ increases — matching the empirical evidence.
