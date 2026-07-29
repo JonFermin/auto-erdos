@@ -1953,15 +1953,12 @@ def symdiff_len(v1, u1, v2, u2):
     return (u1 - v1) + (u2 - v2) - 2 * ov + 2
 
 def count_achievable_po2(g1, g2):
-    """Count po2 lengths achievable as sym-diff of a pair with gaps g1, g2.
-
-    Valid overlap range: o in [1, min(g1,g2)].
-    Upper bound is min(g1,g2) (containment case: o=g2 when g1>g2 gives L=g1-g2+2).
-    For equal gaps g1=g2=g: o=g gives L=2 (not in PO2_LENGTHS), so no false count.
-    """
+    # Count po2 lengths L where o=(g1+g2-L+2)/2 in [1, min(g1,g2)].
+    # Range [1, min(g1,g2)] covers both crossing (o < min) and containment
+    # (o = g2 = min when g1 > g2, giving L = g1-g2+2 >= 4).
+    # For equal gaps g1=g2=g: o=g would give L=2 (not po2), so no overcounting.
     count = 0
     for L in PO2_LENGTHS:
-        # Need o = (g1+g2-L+2)/2 in [1, min(g1,g2)]
         num = g1 + g2 - L + 2
         if num % 2 != 0:
             continue
