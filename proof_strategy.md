@@ -863,3 +863,41 @@ the probe. The CHECK in `proof_lemmas/lemma_girth5_depth_gap.md` runs on:
 For every hard-path (G, T) pair (no depth-gap 7 or 15 back edge), the
 C8/C16 minimum radius is verified explicitly. The assert fires if
 chain_locality_r3 is violated.
+
+## Section 19 — Q9 leaf-pair sym-diff mechanism (session s_0730-080837-b7c4)
+
+**New structural observation** (proved in
+`proof_lemmas/lemma_leaf_pair_witness__0730-080837-b7c4.md`):
+
+Every DFS-tree leaf $L$ contributes exactly 2 back edges to ancestors
+$a_1, a_2$ (with $d(a_1) < d(a_2)$, depth-gaps $\delta_1 > \delta_2$).
+Their fundamental-cycle symmetric difference equals
+
+$$C_{(L,a_1)} \oplus C_{(L,a_2)} = \text{TreePath}(a_1,a_2) \cup
+\{(L,a_1),(L,a_2)\},$$
+
+a simple cycle of length $\delta_1 - \delta_2 + 2$ using **exactly 2
+back edges**.
+
+**Corollary (leaf-pair po2 witness)**: if $\delta_1 - \delta_2 \in
+\{2, 6, 14, 30, \ldots\}$ (i.e.\ $= 2^k - 2$), this cycle has po2
+length $2^k$ and proves chain\_locality\_r3 via a 2-back-edge witness.
+
+**Coverage taxonomy** for chain\_locality\_r3 in cubic DFS trees:
+
+| Type | Condition | Radius |
+|------|-----------|--------|
+| Easy-path | Some back edge has depth-gap $\in \{3,7,15,\ldots\}$ | 1 |
+| Leaf-pair | Some leaf has $\delta_1 - \delta_2 \in \{2,6,14,\ldots\}$ | 2 |
+| Residual | Neither easy nor leaf-pair (chain\_locality\_r3 via 3 back edges) | 3 |
+
+The CHECK in `lemma_leaf_pair_witness__0730-080837-b7c4.md` measures this
+coverage on sampled cubic graphs at $n \in \{8,10,12\}$ and verifies
+chain\_locality\_r3 ($\text{radius} \le 3$) for all residual cases.
+
+**Significance**: the leaf-pair sym-diff is the first PROVED structural
+mechanism explaining WHY chain\_locality\_r3 holds in hard-path cases
+(those lacking easy-path back edges). Combined with the easy-path
+mechanism from Section 13, these two closed-form witnesses likely cover
+the vast majority of (G,T) pairs, leaving a small residual where
+3-back-edge witnesses arise from other cycle interactions.
