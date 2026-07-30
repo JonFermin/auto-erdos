@@ -301,12 +301,12 @@ def cycle_length_of_edgeset(edge_set, n):
         adj.setdefault(u, []).append(v)
         adj.setdefault(v, []).append(u)
     if not adj: return 0
-    # Check all degrees 2
     if any(len(vs) != 2 for vs in adj.values()): return None
-    # Trace cycle
+    # Trace cycle: seed with start→first_neighbor to avoid prev=None ambiguity.
     start = min(adj)
-    path = [start]
-    prev = None; cur = start
+    first = adj[start][0]
+    path = [start, first]
+    prev = start; cur = first
     while True:
         nxt = [w for w in adj[cur] if w != prev]
         if len(nxt) != 1: return None
@@ -399,10 +399,8 @@ def check_formula_and_existence(name, n, edges, all_trees=True, sample_roots=0):
                 alpha_distributions.setdefault(key, []).append(alpha)
 
                 if alpha in PO2_FORMULA:
-                    # Verify formula: compute actual sym-diff cycle length
-                    sd = sym_diff_3(edges, depth, par, b_v, L, b_v, L, x_v, child_w)
-                    # Wait, that's wrong. Let me recompute:
-                    # C_(L, a_v) XOR C_(L, b_v) XOR C_(child_w, x_v)
+                    # Verify formula: C_(L,a_v) XOR C_(L,b_v) XOR C_(child_w,x_v)
+                    # should be a cycle of length alpha+4.
                     E1 = set()
                     cur2 = L
                     while cur2 != a_v:
