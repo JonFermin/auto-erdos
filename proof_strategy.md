@@ -966,3 +966,69 @@ showing that for some leaf $v$ and ancestor pair $(a,b)$, the child $w$ of $a$
 has its back edge to $x$ with $|d_x-d_b| \in \{0,4,12,\ldots\}$. The CHECK
 in the lemma file verifies this for all CL-A/B/C residual DFS trees and
 sampled cubics up to $n=12$.
+
+## Section 22 — Q9 crossing-pair mechanism and corrected coverage taxonomy (session s_0730-080837-b7c4, R15)
+
+**Discovery (R15)**: The Section 20 taxonomy listed 8.3% of DFS trees as
+"triple residual" (requiring 3 back edges). After correcting the R6 unified
+sym-diff theorem, the true triple residual is only **1–3%** — the difference
+was misclassified *crossing pairs*.
+
+### Crossing-pair sym-diff (Lemma `crossing_pair_formula`)
+
+**Proved** (Lemma `crossing_pair_formula`, R15): Let $e_1=(s_1,a_1)$ and
+$e_2=(s_2,a_2)$ be two DFS back edges in *strict same-branch crossing* order:
+
+$$d_{a_1} < d_{a_2} < d_{s_1} < d_{s_2},$$
+$$a_2 \text{ ancestor of } s_1, \quad s_1 \text{ ancestor of } s_2.$$
+
+Then $C_{(s_1,a_1)} \oplus C_{(s_2,a_2)}$ is a **simple cycle of length**
+$(d_{a_2}-d_{a_1}) + (d_{s_2}-d_{s_1}) + 2$.
+
+**Po2 condition**: the cycle is a power of $2$ iff
+$(d_{a_2}-d_{a_1})+(d_{s_2}-d_{s_1}) \in \{2,6,14,30,\ldots\}$.
+
+**Proof idea**: the two fundamental cycles share tree edges on segment
+$\operatorname{TreePath}(a_2,s_1)$, which cancels. The surviving edge set is
+$\operatorname{TreePath}(a_1,a_2) \cup \operatorname{TreePath}(s_1,s_2) \cup \{e_1,e_2\}$,
+forming a single cycle (all degrees 2, explicit walk $a_1\to a_2 \to s_2 \to s_1 \to a_1$).
+
+### Correction of the R6 unified sym-diff theorem
+
+The R6 claim (Section 9) that *all same-branch pairs give $|\delta_1-\delta_2|+2$*
+is **wrong for crossing pairs**. The correct formula is $(d_{a_2}-d_{a_1})+(d_{s_2}-d_{s_1})+2$,
+which differs (and is generally larger) from $|\delta_1-\delta_2|+2$ when both
+depth-offsets are nonzero.
+
+The nested formula $|\delta_1-\delta_2|+2$ is correct only for:
+- Same-vertex pairs ($s_1=s_2$, or equivalently same-sender),
+- Proper nested pairs ($d_{a_1}\le d_{a_2}$ and $d_{s_2}\le d_{s_1}$).
+
+### Updated 4-mechanism coverage taxonomy
+
+| Mechanism | Condition | Cycle length | Back edges | Radius |
+|-----------|-----------|-------------|-----------|--------|
+| Easy-path | Some gap $\in\{3,7,15,\ldots\}$ | $\delta+1$ | 1 | 1 |
+| Nested/same-vertex | $|\delta_1-\delta_2| \in\{2,6,14,\ldots\}$ | $|\delta_1-\delta_2|+2$ | 2 | 2 |
+| Crossing | $(d_{a_2}-d_{a_1})+(d_{s_2}-d_{s_1}) \in\{2,6,14,\ldots\}$ | offset$+2$ | 2 | 2 |
+| Triple (double-sender) | $|d_x-d_b|\in\{0,4,12,\ldots\}$ | $|d_x-d_b|+4$ | 3 | 3 |
+
+**Exhaustive counts** for all valid Trémaux trees of CL-A/B/C and Petersen:
+
+| Graph | Trees | Easy | Nested | Crossing | Triple | None |
+|-------|-------|------|--------|----------|--------|------|
+| CL-A | 356 | 272 (76.4%) | 72 (20.2%) | 8 (2.2%) | 4 (1.1%) | **0** |
+| CL-B | 378 | 276 (73.0%) | 72 (19.0%) | 24 (6.3%) | 6 (1.6%) | **0** |
+| CL-C | 360 | 228 (63.3%) | 96 (26.7%) | 24 (6.7%) | 12 (3.3%) | **0** |
+
+All four mechanisms together cover 100% of tested cubic DFS trees.
+CHECK block in `lemma_crossing_pair_formula` verifies formula correctness and
+full coverage for CL-A/B/C, Petersen, and sampled random cubic graphs at
+$n \in \{10,12\}$.
+
+**Remaining open question for Q9**: Prove that the 4-mechanism taxonomy covers
+*all* cubic DFS trees — i.e., that for every cubic graph $G$ and every DFS tree
+$T$, at least one of the four conditions holds. Each condition is a diophantine
+constraint on the depth values of back edges; the hardest part is the triple
+residual, where the existence of a suitable double-sender vertex needs a structural
+argument.
