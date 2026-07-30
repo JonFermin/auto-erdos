@@ -937,3 +937,32 @@ exhaustively for CL-A/B/C and sampled cubics at $n \in \{10, 12\}$.
 **Coverage update**: Easy (85.4\%) + Leaf-pair (6.2\%) + Back-edge
 triangle (8.3\% residual, all radius $\le 3$) = 100\% empirical
 coverage for chain\_locality\_r3 in sampled cubic graphs up to $n=12$.
+
+## Section 21 — Q9 cycle-length formula for 3-way sym-diff (session s_0730-080837-b7c4)
+
+**Proved result** (Lemma `sym_diff_cycle_formula`, R14): The 3-way
+symmetric difference $C_{(v,a)} \oplus C_{(v,b)} \oplus C_{(w,x)}$
+from the double-sender construction is always a **simple cycle of length
+$|d_x - d_b| + 4$**, where:
+- $v$ is a DFS-tree leaf with back edges to ancestors $a$ (near, depth-gap
+  $\delta_a$) and $b$ (far, depth-gap $\delta_b > \delta_a$, $b$ above $a$).
+- $w$ is the direct child of $a$ on the DFS-tree path from $a$ to $v$.
+- $(w,x)$ is $w$'s unique back edge to some ancestor $x \ne a$.
+- $d_u = \text{depth}(u)$.
+
+**Proof**: Direct tree-edge tracking through the sym-diff shows that
+$\operatorname{TreePath}(b,x) \cup \{a\text{-}w\}$ survives (all other
+tree edges cancel), plus the 3 back edges. All degrees = 2, so it's a single
+cycle. Length $= |d_x - d_b| + 1 + 3 = |d_x - d_b| + 4$. $\square$
+
+**Po2 condition**: the cycle is a power of 2 iff $|d_x - d_b| \in \{0,4,12,28,\ldots\}$.
+The simplest case ($|d_x-d_b|=0$, i.e.\ $x=b$) gives a C4.
+
+**CL-A verification**: $d_b=0$ (root), $d_{x}=0$ ($x=b=$ root), $|d_x-d_b|=0$,
+cycle length 4. $\checkmark$
+
+**Existence reduction**: chain\_locality\_r3 for the residual now reduces to
+showing that for some leaf $v$ and ancestor pair $(a,b)$, the child $w$ of $a$
+has its back edge to $x$ with $|d_x-d_b| \in \{0,4,12,\ldots\}$. The CHECK
+in the lemma file verifies this for all CL-A/B/C residual DFS trees and
+sampled cubics up to $n=12$.
