@@ -901,3 +901,39 @@ mechanism explaining WHY chain\_locality\_r3 holds in hard-path cases
 mechanism from Section 13, these two closed-form witnesses likely cover
 the vast majority of (G,T) pairs, leaving a small residual where
 3-back-edge witnesses arise from other cycle interactions.
+
+## Section 20 — Q9 back-edge triangle: third coverage mechanism (session s_0730-080837-b7c4)
+
+**Residual analysis** (extending Section 19, documented in
+`proof_lemmas/lemma_back_edge_triangle__0730-080837-b7c4.md`):
+
+When both easy-path and leaf-pair fail (depth-gaps avoid $\{3,7,15,\ldots\}$
+and all leaf-pair differences avoid $\{2,6,14,\ldots\}$), the coverage is
+provided by a 3-back-edge sym-diff. Empirical analysis of the
+chain-locality-refuting cubic graphs CL-A/B/C (10 vertices, all DFS trees
+exhaustively enumerated) shows:
+
+**CL-A radius-3 mechanism** (representative): Out of 356 valid Trémaux
+trees of CL-A, exactly 4 are residual (neither easy nor leaf-pair). All 4
+share depth-gap multiset $\{2, 5, 9\}$ and yield C4 witness
+$(3,7,6,4)$ via:
+$$C_{(7,3)} \oplus C_{(7,6)} \oplus C_{(4,6)} = \text{C4}$$
+where vertex $7$ is a *double-sender* (back edges to ancestors $3$ and $6$)
+and vertex $4$ sends a back edge to ancestor $6$.
+
+**Why the sym-diff closes**: Tree edge $(3,4)$ appears in all 3
+fundamental cycles (odd count → survives), while all other tree edges
+appear in exactly 2 cycles (even count → cancel). The result is the
+4-cycle $3 \to 7 \to 6 \to 4 \to 3$ using back edges $(7,3), (7,6),
+(4,6)$ — exactly 3 back edges, radius 3.
+
+**Double-sender conjecture** (open analytically): When easy-path and
+leaf-pair both fail, there always exists a *double-sender* vertex $v$
+(two back edges to ancestors $a_1, a_2$) and a third vertex $u$ such
+that $C_{(v,a_1)} \oplus C_{(v,a_2)} \oplus C_{(u,w)}$ is a po2 cycle
+for some back edge $(u,w)$. The CHECK in the lemma file verifies this
+exhaustively for CL-A/B/C and sampled cubics at $n \in \{10, 12\}$.
+
+**Coverage update**: Easy (85.4\%) + Leaf-pair (6.2\%) + Back-edge
+triangle (8.3\% residual, all radius $\le 3$) = 100\% empirical
+coverage for chain\_locality\_r3 in sampled cubic graphs up to $n=12$.
