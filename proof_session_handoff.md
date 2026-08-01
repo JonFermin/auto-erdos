@@ -1,6 +1,6 @@
-# Session handoff (session s_0730-080837-b7c4)
+# Session handoff (session s_0801-080553-f19f)
 
-**Stop reason**: reason: R15 proved crossing-pair sym-diff formula and corrects R6 unified theorem; 4-mechanism taxonomy now covers all tested cubic DFS trees; triple residual is 1-3%, not 8.3%
+**Stop reason**: reason: R16 proved leaf_pair_witness and crossing_pair_formula; extended coverage CHECK to n=16 (NONE=0); documented analytic all-odd-gaps sub-case reducing to unit-step crossing pairs
 
 **Current focus**: (fill me in next session — what was being worked on)
 
