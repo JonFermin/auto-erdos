@@ -1032,3 +1032,42 @@ $T$, at least one of the four conditions holds. Each condition is a diophantine
 constraint on the depth values of back edges; the hardest part is the triple
 residual, where the existence of a suitable double-sender vertex needs a structural
 argument.
+
+## Section 23 — R16: Extended coverage (n≤16) and analytic sub-case (session s_0801-080553-f19f)
+
+**Two proved results this round** (Lemmas now marked `proved`):
+- `leaf_pair_witness` (R12): 2-back-edge C_{δ₁-δ₂+2} from DFS leaf, proved.
+- `crossing_pair_formula` (R15): crossing sym-diff length $(d_{a_2}-d_{a_1})+(d_{s_2}-d_{s_1})+2$, proved.
+
+**Computational extension** (Lemma `coverage_extended`, R16): The 4-mechanism taxonomy
+covers every sampled DFS tree of cubic graphs on $n \le 16$ vertices (1,200 trees per size,
+NONE=0 at all $n \in \{10,12,14,16\}$). Coverage fractions are stable:
+
+| $n$ | Easy | Nested | Crossing | Triple | NONE |
+|-----|------|--------|----------|--------|------|
+| 10 | 86.9% | 11.0% | 1.8% | 0.3% | **0** |
+| 12 | 86.9% | 10.9% | 1.8% | 0.4% | **0** |
+| 14 | 85.9% | 12.2% | 1.4% | 0.5% | **0** |
+| 16 | 86.2% | 12.5% | 1.2% | 0.2% | **0** |
+
+Easy dominates ($\approx 86\%$); nested covers $\approx 11\%$; crossing $\approx 1.5\%$; triple $\approx 0.3\%$.
+Combined coverage is 100% at all tested sizes, now up to 16 vertices.
+
+**Analytic sub-case (partial)**: When all back-edge gaps are odd:
+- If any gap is in $\{3,7,15,31,\ldots\}$: easy fires immediately.
+- Otherwise all gaps are odd and avoid the po2$-1$ set. DFS leaves
+  have 2 back edges with odd gaps $\delta_1 > \delta_2$; their difference
+  $\delta_1-\delta_2$ is then even, so it falls in $\{2,4,6,8,\ldots\}$.
+  If it hits $\{2,6,14,30,\ldots\}$, leaf-pair (nested) fires.
+- **Remaining sub-case**: all gaps odd, all leaf-pair differences even but
+  outside $\{2,6,14,\ldots\}$ (i.e., differences in $\{4,8,10,12,\ldots\}$).
+  In this case, any crossing pair with unit depth-steps
+  ($d_{a_2}-d_{a_1}=1$, $d_{s_2}-d_{s_1}=1$) yields crossing sum $= 2$,
+  giving a C4. Whether such unit-step crossing pairs always exist in a cubic
+  DFS tree when gaps are all odd is the remaining open point.
+
+**Open question for Q9**: Complete the analytic proof that the 4-mechanism
+taxonomy has no gap — i.e., that for every cubic $G$ and every DFS tree $T$,
+at least one of (easy, nested, crossing, triple) fires. The all-odd-gaps
+sub-case above shows a route via unit-step crossing pairs; the general case
+needs a structural argument about depth-gap arithmetic.

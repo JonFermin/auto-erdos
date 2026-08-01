@@ -1,8 +1,8 @@
 ---
 id: leaf_pair_witness
-status: open
-depends_on: [chain_locality_r3]
-discharged_by_round: null
+status: proved
+depends_on: []
+discharged_by_round: 16
 introduced_at_round: 12
 ---
 

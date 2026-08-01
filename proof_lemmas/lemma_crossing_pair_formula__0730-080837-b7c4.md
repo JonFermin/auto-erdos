@@ -1,8 +1,8 @@
 ---
 id: crossing_pair_formula
-status: open
+status: proved
 depends_on: [sym_diff_nested]
-discharged_by_round: null
+discharged_by_round: 16
 introduced_at_round: 15
 ---
 
