@@ -6,3 +6,4 @@ Merge policy for `proof_strategy.md` conflicts: keep the newer
 session_close's version — every session's narrative survives here.
 
 - s_0730-080837-b7c4.md
+- s_0801-082519-6641.md
