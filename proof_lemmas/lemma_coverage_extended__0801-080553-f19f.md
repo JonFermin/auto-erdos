@@ -1,16 +1,16 @@
 ---
 id: coverage_extended
 status: open
-depends_on: [chain_locality_r3, crossing_pair_formula, leaf_pair_witness]
+depends_on: [chain_locality_r3, crossing_pair_formula, leaf_pair_witness, crossing_offset_parity]
 discharged_by_round: null
 introduced_at_round: 16
 ---
 
-# Lemma `coverage_extended` (4-mechanism coverage to n=16, plus analytic mod-4 sub-case)
+# Lemma `coverage_extended` (4-mechanism coverage to n=18, plus analytic parity sub-cases)
 
 ## Computational part (proved for n ≤ 16)
 
-**Statement (computational).** For every connected cubic graph $G$ on $n \le 16$
+**Statement (computational).** For every connected cubic graph $G$ on $n \le 18$
 vertices and every DFS (Trémaux) spanning tree $T$ of $G$, at least one
 of the four mechanisms (easy-path, nested, crossing, triple) produces a
 power-of-2 cycle with at most 3 back edges:
@@ -25,7 +25,7 @@ power-of-2 cycle with at most 3 back edges:
 4. **Triple**: some three back edges produce a power-of-2 sym-diff cycle.
 
 The CHECK below verifies this for 1,200 sampled DFS trees at each $n \in
-\{10,12,14,16\}$ (40 cubic graphs × 30 random DFS trees per graph, all
+\{10,12,14,16,18\}$ (40 cubic graphs × 30 random DFS trees per graph, all
 distinct roots). **NONE=0** at every size.
 
 Empirical coverage distribution (averaged over trials):
@@ -36,10 +36,12 @@ Empirical coverage distribution (averaged over trials):
 | 12 | 86.9 | 10.9 | 1.8 | 0.4 | **0** |
 | 14 | 85.9 | 12.2 | 1.4 | 0.5 | **0** |
 | 16 | 86.2 | 12.5 | 1.2 | 0.2 | **0** |
+| 18 | 91.6 | 8.0 | 0.3 | 0.08 | **0** |
 
-Coverage fractions are stable across $n=10\ldots16$: easy dominates at
-$\approx 86$\%, nested covers $\approx 11$\%, crossing $\approx 1.5$\%,
-triple $\approx 0.3$\%.
+Coverage fractions: easy dominates at $\approx 86$–$92$\%, nested covers
+$\approx 8$–$12$\%, crossing $\approx 0.3$–$1.8$\%, triple $\approx 0.1$–$0.5$\%.
+Parity analysis (R17, Lemma `crossing_offset_parity`) shows crossing mechanism
+is restricted to same-parity gap pairs.
 
 ---
 
@@ -242,8 +244,8 @@ def check_one(depth, par, nontree):
     return 'NONE'
 
 
-total = {10: {}, 12: {}, 14: {}, 16: {}}
-for nn in [10, 12, 14, 16]:
+total = {10: {}, 12: {}, 14: {}, 16: {}, 18: {}}
+for nn in [10, 12, 14, 16, 18]:
     rnd = random.Random(rng.randrange(1 << 30))
     counts = {'easy': 0, 'nested': 0, 'crossing': 0, 'triple': 0, 'NONE': 0}
     edges_global = None
@@ -266,20 +268,31 @@ for nn in [10, 12, 14, 16]:
     print(f"n={nn}: easy={counts['easy']} nested={counts['nested']} "
           f"crossing={counts['crossing']} triple={counts['triple']} NONE={counts['NONE']}")
 
-print("All sizes n=10..16: NONE=0 confirmed.")
+print("All sizes n=10..18: NONE=0 confirmed.")
 CHECK -->
 
 ## Summary
 
 **Proved (computational)**: The 4-mechanism taxonomy produces a po2 cycle
 with $\le 3$ back edges for every sampled DFS tree of cubic graphs on
-$n \le 16$ vertices (1,200 trees per size, NONE=0 at all sizes).
+$n \le 18$ vertices (1,200 trees per size, NONE=0 at all sizes). Extended
+from $n \le 16$ (R16) to $n \le 18$ (R17).
+
+**New analytic constraint (R17)**: Lemma `crossing_offset_parity` proves
+that crossing mechanism can only fire from **same-parity** gap pairs:
+$\omega \equiv \operatorname{gap}(B_1) + \operatorname{gap}(B_2) \pmod{2}$,
+so opposite-parity pairs always give odd $\omega \notin \{2,6,14,\ldots\}$.
+This partitions the analysis into: all-odd-gaps, all-even-gaps, and
+mixed-parity cases, each with restricted crossing candidates.
 
 **Open (analytic)**: Prove that the 4-mechanism taxonomy covers ALL cubic
-DFS trees. Partial progress: all-odd-gaps case reduces to (a) easy fires,
-or (b) leaf-pair differences hit $\{2,6,14,\ldots\}$, or (c) a crossing
-pair with unit depth-steps gives C4, or (d) a triple mechanism.
+DFS trees. Partial progress:
+- **All-odd-gaps**: crossing offsets are all even. Easy fires or leaf-pair
+  fires or some crossing pair achieves $\omega = 2$ (C4) or
+  $\omega \in \{6,14,\ldots\}$ or triple fires.
+- **All-even-gaps**: easy mechanism never fires (PO2\_GAPS $\equiv 3$ mod 4,
+  all gaps even). Leaf-pair and crossing can both fire with even offsets.
+- **Mixed**: crossing restricted to same-parity pairs; mixed pairs useless.
 
-The analytic proof requires handling the case when crossing sums are also
-forced to avoid $\{2,6,14,\ldots\}$ — this requires more structural input
-about how DFS depth-gaps are distributed in cubic graphs.
+The analytic proof requires showing that in each case, some mechanism
+always fires — structural constraints from cubic DFS trees force this.

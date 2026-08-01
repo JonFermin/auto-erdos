@@ -1071,3 +1071,79 @@ taxonomy has no gap — i.e., that for every cubic $G$ and every DFS tree $T$,
 at least one of (easy, nested, crossing, triple) fires. The all-odd-gaps
 sub-case above shows a route via unit-step crossing pairs; the general case
 needs a structural argument about depth-gap arithmetic.
+
+## Section 24 — R17: Crossing parity lemma; coverage extended to n≤18 (session s_0801-082519-6641)
+
+### New proved lemma: `crossing_offset_parity`
+
+**Core result**: For any two crossing back edges $B_1=(s_1,a_1)$ and $B_2=(s_2,a_2)$
+(with $d(a_1)<d(a_2)<d(s_1)<d(s_2)$) in a DFS tree:
+$$\omega \;\equiv\; \operatorname{gap}(B_1) + \operatorname{gap}(B_2) \pmod{2},$$
+where $\omega = (d(a_2)-d(a_1))+(d(s_2)-d(s_1))$ is the crossing offset.
+
+**Proof**: Let $\alpha=d(a_2)-d(a_1)$, $\beta=d(s_2)-d(s_1)$, $\gamma=d(s_1)-d(a_2) \ge 1$.
+Then $\operatorname{gap}(B_1)=\alpha+\gamma$, $\operatorname{gap}(B_2)=\beta+\gamma$, and
+$\operatorname{gap}(B_1)+\operatorname{gap}(B_2)=\omega+2\gamma \equiv \omega \pmod 2$. $\square$
+
+**Immediate consequences**:
+1. **Opposite-parity crossing pairs are useless**: if $\operatorname{gap}(B_1)$ and
+   $\operatorname{gap}(B_2)$ have different parities, $\omega$ is odd, so
+   $\omega \notin \{2,6,14,30,\ldots\}$, and crossing cannot fire.
+2. **Parity partition**: the back-edge set $\mathcal{B} = E \cup O$ (even/odd gaps).
+   Crossing can only fire from $E$-$E$ or $O$-$O$ pairs.
+3. **All-odd-gaps case**: every crossing offset is even. Crossing fires iff some
+   $O$-$O$ pair achieves $\omega \in \{2,6,14,30,\ldots\}$.
+4. **All-even-gaps case**: crossing offsets can be odd or even (parity of $\omega$
+   is even iff $\alpha+\beta$ is even). Easy mechanism never fires (all even gaps,
+   PO2\_GAPS $\equiv 3$ mod 4).
+
+CHECK (in `lemma_crossing_offset_parity`) verifies:
+- Parity formula holds for 1,024 crossing pairs from cubic DFS trees $n \in \{10,12,14\}$.
+- No opposite-parity pair gives $\omega \in \{2,6,14,30,\ldots\}$.
+
+### Computational coverage extended to n≤18
+
+The `coverage_extended` lemma CHECK now runs for $n \in \{10,12,14,16,18\}$ (R17 added $n=18$).
+Results for $n=18$: **NONE=0** over 1,200 sampled DFS trees.
+
+| $n$ | Easy | Nested | Crossing | Triple | NONE |
+|-----|------|--------|----------|--------|------|
+| 10 | 86.9% | 11.0% | 1.8% | 0.3% | **0** |
+| 12 | 86.9% | 10.9% | 1.8% | 0.4% | **0** |
+| 14 | 85.9% | 12.2% | 1.4% | 0.5% | **0** |
+| 16 | 86.2% | 12.5% | 1.2% | 0.2% | **0** |
+| 18 | 91.6% | 8.0% | 0.3% | 0.08% | **0** |
+
+Coverage remains total (NONE=0) across all sizes. The trend toward higher
+easy-mechanism coverage at $n=18$ may reflect that larger graphs have longer
+tree paths, making po2-1 gaps ($\{3,7,15\}$) more likely.
+
+### Analysis of residual cases (after easy and nested fail)
+
+After applying the parity constraint:
+
+**Sub-case: all-odd-gaps (easy fails)**
+- Leaf-pair differences are even → may hit $\{2,6,14,\ldots\}$ (nested fires) or avoid it.
+- If nested fails: all crossing offsets are even. Minimum offset is $\omega=2$.
+  A C4 exists iff there is a crossing pair with $\alpha=\beta=1$ (anchor-adjacent,
+  sender-adjacent in the DFS tree).
+- **Structure of unit-crossing pair**: requires $a_2$ = child of $a_1$, $s_2$ = child of $s_1$,
+  and the back edges $(s_1 \to a_1)$ and $(s_2 \to a_2)$ to co-exist in the tree.
+
+**Sub-case: all-even-gaps (easy fails, easy mechanism vacuous)**
+- All gaps even → same parity, so crossing offsets can be odd or even.
+- Leaf-pair differences are even → same analysis as all-odd case modulo parity.
+- Nested fires when leaf-pair diff $\in \{2,6,14,\ldots\}$.
+
+**Open**: The analytic proof requires showing that in each sub-case, one of
+the mechanisms must fire. The unit-crossing-pair structure suggests a
+connectivity/depth argument, but it has not been formalized.
+
+### Summary of round R17
+
+| Item | Status |
+|------|--------|
+| `crossing_offset_parity` lemma | **proved** (R17) |
+| Coverage extended to $n=18$ | **verified** (R17) |
+| All-odd-gaps: crossing parity constraint | **proved** (R17) |
+| Analytic proof of 4-mechanism completeness | **open** (Q9 in progress) |
