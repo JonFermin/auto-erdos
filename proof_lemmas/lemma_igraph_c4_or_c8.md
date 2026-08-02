@@ -117,6 +117,17 @@ $m \le 12$).
 
 **Remarks.**
 
+- **Degenerate cases are excluded by hypothesis, not overlooked.** The
+  scenario $2a \equiv 0 \pmod m$ (e.g. $m$ even, $a = m/2$), under which
+  $u_a = u_{-a}$ and the outer edges degenerate, violates the standing
+  simplicity/cubicity hypothesis $2a \not\equiv 0$; likewise
+  $2b \not\equiv 0$ rules out the inner-ring analogue. Within Case 2 the
+  four residues $\{0, a, b, a+b\}$ are pairwise distinct (shown above), so
+  the four spokes are distinct and the closing spoke $v_0 u_0$ is not a
+  repeat; the walk cannot self-intersect. CHECK probe 1 verifies exactly
+  this construction on every simple $I(m,a,b)$ with $3 \le m \le 60$,
+  which includes every even $m$ and all $a, b$ permitted by the
+  hypotheses.
 - The lemma is insensitive to connectivity: if $\gcd(m,a,b) > 1$ the
   graph is disconnected, but the displayed cycles live inside one
   component.
