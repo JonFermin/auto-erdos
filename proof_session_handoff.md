@@ -1,54 +1,56 @@
-# Session handoff (session s_0801-082519-6641)
+# Session handoff (session s_0802-080649-85be)
 
-**Stop reason**: Logical milestone — R17 complete. Token budget approaching limit.
+**Stop reason**: Logical milestone — R18 complete (keep_progress). Token budget approaching limit.
 
 **Current focus**: Q9 — analytic proof that the 4-mechanism taxonomy covers ALL
-cubic DFS trees. The computational evidence now covers n≤18 (NONE=0 at all sizes).
+cubic DFS trees. R18 completed the parity accounting and redirected the
+analytic program to the mixed-parity triple mechanism.
 
-**What was proved this round (R17)**:
-1. `crossing_offset_parity` (new, proved): For any crossing pair B1=(s1,a1) and
-   B2=(s2,a2) in strict crossing order, the crossing offset omega satisfies
-   omega ≡ gap(B1)+gap(B2) (mod 2). Consequence: crossing mechanism can only
-   fire from same-parity gap pairs. Opposite-parity crossing pairs give odd omega
-   (never in PO2_DIFFS={2,6,14,...}). CHECK verified on 1024 crossing pairs.
-2. `coverage_extended` updated to n=18: NONE=0 confirmed for 1200 DFS trees
-   at n=18. Coverage: easy=91.6%, nested=8%, crossing=0.3%, triple=0.08%.
-3. Section 24 added to proof_strategy.md: parity partition, unit-crossing-pair
-   structure, sub-case analysis for all-odd vs all-even gap cases.
+**What was proved this round (R18)**:
+1. `triple_parity` (new, proved): for three distinct back edges, the 3-way
+   fundamental-cycle sym-diff S contains all three back edges (each lives in
+   exactly one fundamental cycle), and |S| ≡ gap1+gap2+gap3+1 (mod 2). Hence
+   the triple mechanism fires only on triples with an ODD number of odd gaps
+   (OOO or OEE), and NEVER fires in an all-even-gap tree. This completes the
+   parity accounting for all 4 mechanisms (easy: odd gap; nested/crossing:
+   same-parity pairs; triple: OOO/OEE).
+2. `residual_parity_census` (new, open/computational): falsification probe of
+   the R17-proposed unit-step claim over 48,000 trees. Verdict: unfalsified
+   but nearly vacuous — all-odd residuals are 7/48,000 (~0.015%), all at n=10,
+   all rescued by a unit-step omega=2 crossing. Residual mass is >=96%
+   mixed-parity. Every crossing-failed residual (122/122, all mixed) is
+   rescued by a triple; rescue lengths: C8 698x, C4 39x, C16 1x.
 
-**Ledger updates auto-detected by proof_log_result.py**:
-- `crossing_pair_formula`: open → proved (from R16 file update, now in ledger)
-- `leaf_pair_witness`: open → proved (from R16 file update, now in ledger)
-- `crossing_offset_parity`: new → proved (R17)
-- `coverage_extended`: still open (computational, not analytic)
-- `chain_locality_r3`: still open (the main target)
+**Also this round (critic-driven repairs to proof_strategy.md)**:
+- Section 9's superseded R6 "unified sym-diff theorem" and "complete
+  constraint system" now carry explicit supersession/scope-correction notes
+  (Section 22 formulas are canonical for crossing pairs).
+- Section 24's R17 error corrected: all-even gaps => crossing offsets are
+  ALWAYS even (the old text said "odd or even").
+- Moore-bound/Petersen girth claims recast as machine-verified enumeration
+  results (the CHECK is load-bearing, classical theorems are only intuition).
+- Frankl Sections 7/14-16 marked as cross-problem archive, not load-bearing
+  for Erdős–Gyárfás.
 
-**qid in flight**: Q9 released (partial progress). Next session should re-claim Q9.
+**qid in flight**: Q9 released with partial progress. Next session should
+re-claim Q9.
 
-**Obstacle**: The analytic proof of 4-mechanism completeness requires showing
-that in any cubic DFS tree, one of the 4 mechanisms fires. The parity constraint
-from `crossing_offset_parity` simplifies the case analysis:
-- All-odd-gaps: crossing offsets all even. Need omega=2 (unit-step crossing pair)
-  or omega in {6,14,...} or triple. The unit-step crossing pair condition requires
-  structural properties of cubic DFS trees that haven't been proved yet.
-- All-even-gaps: easy never fires. Leaf-pair and crossing handle most cases.
-- Mixed: crossing restricted to same-parity sub-pairs.
+**Obstacle**: The analytic completeness proof now needs the triple mechanism
+understood in the mixed-parity case. Parity says candidate triples are
+OOO/OEE; empirics say a firing one always exists when pair mechanisms fail,
+almost always giving a C8.
 
-**Files modified this session**:
-- proof_strategy.md (Section 24 added)
-- proof_lemmas/lemma_crossing_offset_parity__0801-082519-6641.md (new, proved)
-- proof_lemmas/lemma_coverage_extended__0801-080553-f19f.md (n=18 added to CHECK + summary)
-- proof_open_questions.jsonl (Q9 claimed + released)
-- proof_journal.jsonl (R17 round entry)
-
-**Suggested next move (R18)**:
+**Suggested next move (R19)**:
 1. Re-claim Q9.
-2. Focus on the all-odd-gaps sub-case: prove that unit-step crossing pairs
-   (alpha=beta=1, giving omega=2 = C4) must exist in cubic DFS trees when
-   easy + leaf-pair both fail.
-3. Alternatively: try the all-even-gaps sub-case: show that if all gaps are
-   even and no gap is in PO2_GAPS (which it can't be since PO2_GAPS are odd),
-   then leaf-pair or crossing always fires.
-4. Write a new CHECK-backed lemma for whichever sub-case you can prove.
-5. Run proof_prepare.py with PROOF_TAG=erdos_gyarfas (not the default!) and
-   proof_log_result.py to log the round.
+2. Prove a length formula for the 3-back-edge sym-diff cycle: |S| = 3 + t
+   where t = number of tree edges covered by an odd number of the three
+   sender->anchor tree paths. Then characterize when S is a SINGLE cycle
+   (vs disjoint union) — start from the R15 crossing-order case analysis.
+   Note the open ledger id `sym_diff_cycle_formula` covers a narrower
+   configuration; a general statement needs a NEW lemma id.
+3. Use the census data shape: rescued triples in the probe were plentiful
+   (4-8 per tree) — suggests an averaging/counting existence argument rather
+   than an explicit construction.
+4. Run proof_prepare.py with PROOF_TAG=erdos_gyarfas (not the default!).
+   Note: critics are stochastic; if a blocking finding targets pre-R18 text,
+   fix it in-place (that is in-scope round work) and re-run.
