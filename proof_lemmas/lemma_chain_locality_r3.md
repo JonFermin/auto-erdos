@@ -9,12 +9,17 @@ introduced_at_round: 2
 # Lemma `chain_locality_r3` (radius-3 chain-locality of power-of-2 cycles)
 
 **Statement.** Let $G$ be a connected graph with minimum degree $\ge 3$
-on $n \le 12$ vertices, and let $T$ be any DFS (Trémaux) tree of $G$
+on $n$ vertices, and let $T$ be any DFS (Trémaux) tree of $G$
 with any root. Then some simple cycle of $G$ whose length is a power of
 two contains at most **3** non-tree edges; equivalently (by the
 cycle-space reformulation proved in lemma file `chain_locality`), some
 power-of-2 cycle is the symmetric difference of at most three
 fundamental cycles of $T$.
+
+**Empirical scope (as of round 53).** Verified computationally for all
+$n \le 12$ (exhaustive) and for sampled cubic Hamiltonian-path DFS trees
+at $n \in \{12, 14, \ldots, 40\}$ (Sections 21–25 of `proof_strategy.md`,
+total $> 1400$ instances across independent seeds, 0 violations at any $n$).
 
 This is the round-2 revision of the disproved radius-2 lemma
 `chain_locality`: the radius bound is the ONLY change.

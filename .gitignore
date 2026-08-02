@@ -1,6 +1,7 @@
 # Per-branch state — gitignored on purpose. Each worktree has its own.
 results.tsv
 run.log
+run_nocrit.log
 verifier_results.tsv
 
 # Track 2 (proof loop) per-branch state — same gitignore rationale as Track 1.

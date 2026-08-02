@@ -65,19 +65,21 @@ case is a special case of perfect nesting where $v_1 = v_2$. The
 forbidden-gap constraint is identical: $\delta_1 - \delta_2 \notin
 \{2, 6, 14, 30, \ldots\}$.
 
-**Crossing case (same DFS branch).** Suppose $u_1, u_2, v_2, v_1$ all lie
-on the same root-to-leaf path in $T$, in depth order
-$d_{u_1} < d_{u_2} < d_{v_2} < d_{v_1}$. Here neither fundamental cycle
-contains the other (it is "crossing"). The shared tree edges of $F_1$ and
-$F_2$ are exactly $P(u_2, v_2)$, the entire tree path of $F_2$. The sym-diff
-$F_1 \triangle F_2$ removes $P(u_2, v_2)$ from $F_1$'s tree path, producing
-two disconnected segments $P(u_1, u_2)$ and $P(v_2, v_1)$, closed by the
-two back edges $(v_1, u_1)$ and $(v_2, u_2)$. Degree check: every vertex has
+**Interval-containment case (same DFS branch).** Suppose $u_1, u_2, v_2, v_1$
+all lie on the same root-to-leaf path in $T$, in depth order
+$d_{u_1} < d_{u_2} < d_{v_2} < d_{v_1}$ (strict). The outer interval
+$[d_{u_1}, d_{v_1}]$ strictly contains the inner interval $[d_{u_2}, d_{v_2}]$
+(overlap $o = \delta_2 = g_2$, the ENTIRE inner gap). The shared tree edges
+of $F_1$ and $F_2$ are exactly $P(u_2, v_2)$, the entire tree path of $F_2$.
+The sym-diff $F_1 \triangle F_2$ removes $P(u_2, v_2)$ from $F_1$'s tree
+path, producing two disconnected segments $P(u_1, u_2)$ and $P(v_2, v_1)$,
+closed by the two back edges $(v_1, u_1)$ and $(v_2, u_2)$. Every vertex has
 degree exactly 2. Length:
 $$(d_{u_2} - d_{u_1}) + (d_{v_1} - d_{v_2}) + 2.$$
 Expanding: $(d_{u_2} - d_{u_1}) + (d_{v_1} - d_{v_2}) =
-(d_{v_1} - d_{u_1}) - (d_{v_2} - d_{u_2}) = \delta_1 - \delta_2$.
-So the crossing sym-diff also has length $(\delta_1 - \delta_2) + 2$.
+(d_{v_1} - d_{u_1}) - (d_{v_2} - d_{u_2}) = \delta_1 - \delta_2$
+(with $\delta_1 > \delta_2$ since containment is strict).
+So the containment sym-diff also has length $(\delta_1 - \delta_2) + 2$.
 
 **Different-branch case.** If $v_1$ and $v_2$ lie in different DFS subtrees
 (neither is an ancestor of the other), then $F_1$ and $F_2$ share zero tree
@@ -85,18 +87,21 @@ edges. Their sym-diff contains all edges of both, giving $v_1$ and $v_2$
 degree 3 (two tree edges plus one back edge each) — not a simple cycle. So
 different-branch sym-diffs never yield simple cycles.
 
-**Unified theorem.** The sym-diff of two fundamental cycles $F_1, F_2$ is a
-simple cycle if and only if their respective back edges lie on the same DFS
-branch (i.e., there is a root-to-leaf path through $u_1, u_2, v_2, v_1$ in
-some order). In all such cases the sym-diff length is $(\delta_1 - \delta_2) + 2$
-where $\delta_1 \ge \delta_2$ are the depth-gaps. This unifies the same-leaf,
-nested, and crossing cases under a single formula.
+**Scope of this lemma.** This lemma covers (1) the nested/same-leaf case
+and (2) the interval-containment case, both having overlap $o = \delta_2 = g_2$
+(the entire inner gap), giving length $(\delta_1 - \delta_2) + 2$. Genuinely
+crossing pairs (partial overlap, $0 < o < \min(g_1, g_2)$, neither interval
+containing the other) use the full formula $g_1 + g_2 - 2o + 2$ from Section
+21 of `proof_strategy.md` and are NOT covered here. The simple-cycle condition
+requires strict overlap $o \ge 1$ in all cases.
 
 **Implication for Q9.** The depth-gap constraint $\delta_1 - \delta_2 \notin
-\{2, 6, 14, \ldots\}$ applies to ALL nested back-edge pairs (same leaf or
-not), not only same-leaf ones. This broadens the forbidden set: a
-counterexample must avoid the sym-diff constraint not only at DFS leaves
-but also for any two nested back edges in any DFS tree.
+\{2, 6, 14, \ldots\}$ applies to ALL nested and containment back-edge pairs
+(same leaf or not), not only same-leaf ones. For genuinely crossing pairs
+($0 < o < \min(\delta_1, \delta_2)$), the constraint is
+$\delta_1 + \delta_2 - 2o \notin \{2, 6, 14, \ldots\}$ (the full formula
+from Section 21 of `proof_strategy.md`). Both constraints must hold
+simultaneously in a counterexample.
 
 <!-- CHECK
 # Verify nested sym-diff formula: length = (delta1 - delta2) + 2
@@ -160,11 +165,15 @@ for d_u1 in range(0, 10):
 assert checked > 2000, f"Too few configurations checked: {checked}"
 print(f"OK: nested sym-diff formula (delta1-delta2)+2 verified on {checked} configurations")
 
-# Also verify the CROSSING case: d_u1 < d_u2 < d_v2 < d_v1 (same branch, neither nested)
-def crossing_sym_diff_length(d_u1, d_u2, d_v2, d_v1):
+# Also verify the INTERVAL-CONTAINMENT case: d_u1 < d_u2 < d_v2 < d_v1
+# ([d_u1,d_v1] strictly contains [d_u2,d_v2]; overlap o = delta2 = g2)
+def containment_sym_diff_length(d_u1, d_u2, d_v2, d_v1):
     assert d_u1 < d_u2 < d_v2 < d_v1
     assert d_v2 - d_u2 >= 2  # inner back edge proper ancestor
     assert d_v1 - d_u1 >= 2  # outer back edge proper ancestor
+    delta1 = d_v1 - d_u1
+    delta2 = d_v2 - d_u2
+    assert delta1 > delta2, "strict containment requires delta1 > delta2"
 
     def fund_path(u_d, v_d):
         edges = set()
@@ -184,25 +193,23 @@ def crossing_sym_diff_length(d_u1, d_u2, d_v2, d_v1):
         deg[a] = deg.get(a, 0) + 1
         deg[b] = deg.get(b, 0) + 1
     assert all(d == 2 for d in deg.values()), \
-        f"Non-2 degree in crossing sd: {d_u1},{d_u2},{d_v2},{d_v1}, deg={deg}"
+        f"Non-2 degree in containment sd: {d_u1},{d_u2},{d_v2},{d_v1}, deg={deg}"
 
-    delta1 = d_v1 - d_u1
-    delta2 = d_v2 - d_u2
     expected = (delta1 - delta2) + 2
     assert len(sd) == expected, \
-        f"Crossing mismatch: got {len(sd)}, expected {expected}"
+        f"Containment mismatch: got {len(sd)}, expected {expected}"
     return len(sd)
 
-cross_checked = 0
+contain_checked = 0
 for d_u1 in range(0, 8):
     for d_u2 in range(d_u1 + 1, 11):
         for d_v2 in range(d_u2 + 2, 14):
             for d_v1 in range(d_v2 + 1, 16):
                 if d_v1 - d_u1 < 2:
                     continue
-                crossing_sym_diff_length(d_u1, d_u2, d_v2, d_v1)
-                cross_checked += 1
+                containment_sym_diff_length(d_u1, d_u2, d_v2, d_v1)
+                contain_checked += 1
 
-assert cross_checked > 1000, f"Too few crossing configs: {cross_checked}"
-print(f"OK: crossing sym-diff formula verified on {cross_checked} configurations")
+assert contain_checked > 1000, f"Too few containment configs: {contain_checked}"
+print(f"OK: interval-containment sym-diff formula (delta1-delta2)+2 verified on {contain_checked} configurations")
 CHECK -->
