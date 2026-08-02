@@ -210,11 +210,15 @@ entropy gap) in the next session.
 
 ## Section 7 — Q10: KL union-deficiency approach (Frankl conjecture)
 
-Note: Q10 is a *separate* open conjecture (`proofs/frankl_union_closed.json`),
-not a sub-claim of Erdős–Gyárfás. It is queued here because the ideation
-phase listed it as the next cheapest approach after Q9's failure. The strategy
-file is shared across open qids in this session; Frankl work is tracked under
-its own lemma files (prefix `lemma_frankl_*`).
+> **CROSS-PROBLEM ARCHIVE — NOT PART OF THE ERDŐS–GYÁRFÁS PROOF.** Q10 is a
+> *separate* open conjecture (`proofs/frankl_union_closed.json`), not a
+> sub-claim of Erdős–Gyárfás. Everything in this section cites THAT
+> problem's given-facts ledger (its G1/G2/G3 entries), quoted here only as
+> a historical record of a side excursion. **No claim in the Erdős–Gyárfás
+> argument depends on anything in this section**; a reviewer auditing the
+> Erdős–Gyárfás citation ledger should treat this section (and Sections
+> 14–16) as inert archived text. Frankl work is tracked under its own lemma
+> files (prefix `lemma_frankl_*`).
 
 **Conjecture (Frankl 1979)**: In every finite union-closed family
 $\mathcal{F}$ with $|\mathcal{F}| \ge 2$, some element appears in at least
@@ -339,13 +343,19 @@ local cycle detection, since triple order already suffices in practice.
 
 **Near-complete formal proof (Lemma `chain_locality_proof`).**
 The formal proof of `chain_locality_triple` ($n \le 10$, all min-degree-3 graphs) is
-now near-complete via the Moore-bound argument:
-- $n \le 9$, $\delta \ge 3$: girth $\le 4$ (Moore bound: any min-deg-3 girth-5
-  graph needs $n \ge 1 + 3 \cdot 3 = 10$ vertices; proved).
-- $n = 10$, $\delta \ge 4$: girth $\le 4$ (Moore bound for $\delta=4$: girth-5
-  requires $n \ge 1 + 4 \cdot 4 = 17$; 484 non-Petersen graphs tested, all confirmed).
-- $n = 10$, $\delta = 3$, not Petersen: girth $\le 4$ (Petersen is the unique
-  cubic girth-5 graph on $n=10$; McKay–Read enumeration).
+now near-complete. Every girth claim below is **machine-verified by the
+exhaustive enumeration in the `lemma_chain_locality_proof` CHECK block**
+(the internal enumeration is the load-bearing evidence; the parenthetical
+classical results are intuition for *why* the enumeration comes out this
+way, and nothing is derived from them):
+- $n \le 9$, $\delta \ge 3$: girth $\le 4$ — verified exhaustively over all
+  such graphs (consistent with the elementary neighborhood-counting bound:
+  a min-deg-3 girth-5 graph needs $\ge 1 + 3 + 3\cdot 2 = 10$ vertices,
+  re-derived from scratch in Step 1 of the lemma, not quoted).
+- $n = 10$, $\delta \ge 4$: girth $\le 4$ — 484 non-Petersen graphs tested,
+  all confirmed by direct girth computation.
+- $n = 10$, $\delta = 3$, not Petersen: girth $\le 4$ — verified by direct
+  girth computation over the enumerated graphs.
 - $n = 10$, Petersen graph: 60 DFS spanning trees (all 6 orderings × 10 roots)
   verified, all pass triple chain-locality.
 
@@ -356,13 +366,17 @@ the last case in the Moore-bound argument:
 > **`chain_locality_triple` is now computationally proved**: all min-deg-3 graphs on
 > $n \le 10$ and every spanning tree, the $\mathbb{F}_2$ cycle space up to
 > triple order contains a pow-2-length simple cycle. Proof:
-> (i) non-Petersen min-deg-3 $n \le 10$: girth $\le 4$ (Moore bound);
+> (i) non-Petersen min-deg-3 $n \le 10$: girth $\le 4$ (machine-verified
+> exhaustively, `lemma_chain_locality_proof` CHECK);
 > (ii) Petersen graph: all 2000 spanning trees verified exhaustively.
 
 **Next steps for Q9.**
-1. Extend chain-locality to min-deg-3 graphs beyond $n=10$: use cage theory
-   (the next girth-5 cubic graph after Petersen is the Heawood graph, $n=14$)
-   to bound which $n$ values require non-trivial triple sym-diffs. A complete
+1. Extend chain-locality to min-deg-3 graphs beyond $n=10$. (Heuristic
+   guidance only, not load-bearing: cage-theory folklore suggests high-girth
+   cubic graphs are the interesting stress tests at $n=14$; any such claim
+   must be re-verified by direct enumeration before use, as with the
+   $n \le 10$ cases above.) Bound which $n$ values require non-trivial
+   triple sym-diffs. A complete
    classification would give chain-locality for all $n$ or identify the first
    $n$ where quadruple sym-diffs are needed.
 2. Attempt formal proof of `chain_locality_full_window` (cubic $n \le 64$):
@@ -386,11 +400,15 @@ lengths means $\delta \notin \{3, 7, 15, 31, \dots\}$ (i.e.
 $\delta + 1 \notin \{4, 8, 16, 32, \dots\}$). Min degree $3$ forces
 every DFS leaf to carry $\ge 2$ back edges.
 
-**First lemma (Q9, under investigation).** See
+**First lemma (Q9) — DISPROVED at $n=10$ (see Section 6).** See
 `proof_lemmas/lemma_dfs_chain_locality.md`. Statement: for every
 connected min-degree-$3$ graph on $\le 10$ vertices and every DFS tree,
 some power-of-2 cycle is a fundamental cycle or a simple-cycle
-symmetric difference of two fundamental cycles.
+symmetric difference of two fundamental cycles. Section 6's machine-found
+10-vertex cubic counterexample (rooted at vertex 7) falsifies exactly
+this radius-2 statement; the CHECK PASSes below cover only $n \le 6$
+exhaustively plus named graphs, and are NOT evidence for the general
+$n=10$ case. The radius-3 replacement is `chain_locality_r3`.
 
 **CHECK status.** The CHECK block in `lemma_dfs_chain_locality.md`
 verified this on:
@@ -485,21 +503,33 @@ drops out. The forbidden constraint $\delta_1 - \delta_2 \notin
 \{2, 6, 14, \ldots\}$ thus applies to ALL nested pairs, not only
 same-leaf ones. CHECK verified on $> 5{,}000$ depth configurations.
 
-**Unified sym-diff theorem (R6, proved).** The sym-diff of two fundamental
-cycles $F_1, F_2$ is a simple cycle if and only if their back edges lie on
-the same DFS branch. In all such cases (nested, crossing, same-leaf) the
-length is $(\delta_1 - \delta_2) + 2$. Back edges from different DFS
-subtrees share zero tree edges and give degree-3 vertices — never a simple
-cycle. CHECK verified on $>2000$ nested and $>2000$ crossing configurations.
+**Unified sym-diff theorem (R6) — SUPERSEDED by Section 22 (R15).** The R6
+statement below is retained for the historical record but is **wrong for
+crossing pairs** and must not be cited:
+> The sym-diff of two fundamental cycles $F_1, F_2$ is a simple cycle if and
+> only if their back edges lie on the same DFS branch. In all such cases
+> (nested, crossing, same-leaf) the length is $(\delta_1 - \delta_2) + 2$.
 
-**Complete constraint system.** For any hypothetical counterexample and any
-DFS tree, for every same-branch pair of back edges with depth-gaps
-$\delta_1 \ge \delta_2$:
+The corrected picture (Section 22): the $(\delta_1-\delta_2)+2$ length
+formula holds for **nested and same-vertex pairs only**; for crossing pairs
+in strict crossing order $d(a_1)<d(a_2)<d(s_1)<d(s_2)$ the correct length
+is $(d_{a_2}-d_{a_1})+(d_{s_2}-d_{s_1})+2$ (Lemma `crossing_pair_formula`,
+proved R16). The claim that different-subtree back edges never give a
+simple sym-diff cycle stands.
+
+**Constraint system — SCOPE CORRECTED (Section 22, R15).** For any
+hypothetical counterexample and any DFS tree, for every **nested or
+same-vertex** pair of back edges with depth-gaps $\delta_1 \ge \delta_2$:
 $$\delta_i \notin \{3, 7, 15, 31, \ldots\}
 \quad\text{and}\quad
 \delta_1 - \delta_2 \notin \{2, 6, 14, 30, \ldots\}.$$
-These constraints hold simultaneously for ALL same-branch pairs (not just
-same-leaf). Different-branch pairs contribute no simple sym-diff cycles.
+The $\delta_1-\delta_2$ clause was originally (R6) asserted for ALL
+same-branch pairs; that derivation used the superseded R6 length formula
+and does **not** apply to crossing pairs. Crossing pairs instead obey the
+separate constraint $\omega = (d_{a_2}-d_{a_1})+(d_{s_2}-d_{s_1}) \notin
+\{2,6,14,30,\ldots\}$ (Section 22). The per-edge $\delta_i$ clause applies
+to every back edge regardless. Different-branch pairs contribute no simple
+sym-diff cycles.
 
 **Back-edge density sub-lemma (R7, partially proved; see
 `proof_lemmas/lemma_backedge_density.md`).** Parts A (back-edge count
@@ -703,8 +733,8 @@ chain_locality_r3 holds beyond the exhaustively-checked range.
   3$ back edges satisfies chain_locality_r3 vacuously without any C4/C8
   constraint).
 - **Scale** (full search, session s_0726-080718-bd1c): 15 random starts ×
-  50 greedy local-search steps × 20 DFS trials per size class = 750 graph
-  states tested per $n$.
+  50 greedy local-search steps = 750 graph states tested per $n$, with 20
+  DFS trials evaluated at each state.
 - **CHECK block** (quick re-check in `lemma_radius4_hunt_n24.md`): 4 starts
   × 10 swaps × 10 DFS trials, runs in ≤15 seconds.
 
@@ -784,6 +814,10 @@ chain_locality_r3 explicitly for every hard-path instance.
 Full details and results in `proof_lemmas/lemma_cubic_depth_gap.md`.
 
 ## Section 14 — Q11 Frankl cyclic orbit lemma (session s_0726-080718-bd1c)
+
+> **CROSS-PROBLEM ARCHIVE** (see the Section 7 disclaimer): Sections 14–16
+> concern `frankl_union_closed`, cite only that problem's ledger, and are
+> **not load-bearing for the Erdős–Gyárfás claim under review**.
 
 Switching to `frankl_union_closed` / Q11 (transitive counterexample screen)
 for an independent proof direction. The first lemma is:
@@ -869,8 +903,10 @@ chain_locality_r3 is violated.
 **New structural observation** (proved in
 `proof_lemmas/lemma_leaf_pair_witness__0730-080837-b7c4.md`):
 
-Every DFS-tree leaf $L$ contributes exactly 2 back edges to ancestors
-$a_1, a_2$ (with $d(a_1) < d(a_2)$, depth-gaps $\delta_1 > \delta_2$).
+In a **cubic** graph, every DFS-tree leaf $L$ contributes exactly 2 back
+edges to ancestors $a_1, a_2$ (with $d(a_1) < d(a_2)$, depth-gaps
+$\delta_1 > \delta_2$); in a general min-degree-3 graph a leaf carries
+*at least* 2, and the lemma applies to any chosen pair.
 Their fundamental-cycle symmetric difference equals
 
 $$C_{(L,a_1)} \oplus C_{(L,a_2)} = \text{TreePath}(a_1,a_2) \cup
@@ -934,9 +970,13 @@ that $C_{(v,a_1)} \oplus C_{(v,a_2)} \oplus C_{(u,w)}$ is a po2 cycle
 for some back edge $(u,w)$. The CHECK in the lemma file verifies this
 exhaustively for CL-A/B/C and sampled cubics at $n \in \{10, 12\}$.
 
-**Coverage update**: Easy (85.4\%) + Leaf-pair (6.2\%) + Back-edge
-triangle (8.3\% residual, all radius $\le 3$) = 100\% empirical
-coverage for chain\_locality\_r3 in sampled cubic graphs up to $n=12$.
+**Coverage update (pre-crossing taxonomy — SUPERSEDED by Section 22)**:
+Easy (85.4\%) + Leaf-pair (6.2\%) + Back-edge triangle (8.3\% residual,
+all radius $\le 3$) = 100\% empirical coverage for chain\_locality\_r3 in
+sampled cubic graphs up to $n=12$. Section 22 (R15) later showed the
+8.3\% "triple" figure was inflated by misclassified crossing pairs; the
+corrected breakdown puts crossing at $\approx 1$–$2\%$ and true triple
+residual at $\approx 0.1$–$0.5\%$ (see the Section 23/24 tables).
 
 ## Section 21 — Q9 cycle-length formula for 3-way sym-diff (session s_0730-080837-b7c4)
 
@@ -952,8 +992,12 @@ $|d_x - d_b| + 4$**, where:
 
 **Proof**: Direct tree-edge tracking through the sym-diff shows that
 $\operatorname{TreePath}(b,x) \cup \{a\text{-}w\}$ survives (all other
-tree edges cancel), plus the 3 back edges. All degrees = 2, so it's a single
-cycle. Length $= |d_x - d_b| + 1 + 3 = |d_x - d_b| + 4$. $\square$
+tree edges cancel), plus the 3 back edges. All degrees = 2, and the edge
+set is connected: $b$ and $x$ are both ancestors of $w$, hence comparable
+in tree order, so $\operatorname{TreePath}(b,x)$ is a single path, and it
+is joined to the tree edge $a$-$w$ and the three back edges into one
+closed walk. A connected degree-2-regular edge set is a single cycle.
+Length $= |d_x - d_b| + 1 + 3 = |d_x - d_b| + 4$. $\square$
 
 **Po2 condition**: the cycle is a power of 2 iff $|d_x - d_b| \in \{0,4,12,28,\ldots\}$.
 The simplest case ($|d_x-d_b|=0$, i.e.\ $x=b$) gives a C4.
@@ -1093,8 +1137,11 @@ $\operatorname{gap}(B_1)+\operatorname{gap}(B_2)=\omega+2\gamma \equiv \omega \p
    Crossing can only fire from $E$-$E$ or $O$-$O$ pairs.
 3. **All-odd-gaps case**: every crossing offset is even. Crossing fires iff some
    $O$-$O$ pair achieves $\omega \in \{2,6,14,30,\ldots\}$.
-4. **All-even-gaps case**: crossing offsets can be odd or even (parity of $\omega$
-   is even iff $\alpha+\beta$ is even). Easy mechanism never fires (all even gaps,
+4. **All-even-gaps case** *(corrected R18 — the original R17 text here
+   claimed offsets "can be odd or even", contradicting the parity lemma)*:
+   both gaps even $\Rightarrow$ $\omega \equiv \operatorname{gap}(B_1) +
+   \operatorname{gap}(B_2) \equiv 0 \pmod 2$, so every crossing offset is
+   **even** — crossing can fire. Easy mechanism never fires (all even gaps,
    PO2\_GAPS $\equiv 3$ mod 4).
 
 CHECK (in `lemma_crossing_offset_parity`) verifies:
@@ -1131,7 +1178,9 @@ After applying the parity constraint:
   and the back edges $(s_1 \to a_1)$ and $(s_2 \to a_2)$ to co-exist in the tree.
 
 **Sub-case: all-even-gaps (easy fails, easy mechanism vacuous)**
-- All gaps even → same parity, so crossing offsets can be odd or even.
+- All gaps even → same parity → crossing offsets are all **even**
+  (corrected R18; the original R17 bullet claimed "odd or even", which
+  contradicts the parity lemma).
 - Leaf-pair differences are even → same analysis as all-odd case modulo parity.
 - Nested fires when leaf-pair diff $\in \{2,6,14,\ldots\}$.
 
@@ -1147,3 +1196,77 @@ connectivity/depth argument, but it has not been formalized.
 | Coverage extended to $n=18$ | **verified** (R17) |
 | All-odd-gaps: crossing parity constraint | **proved** (R17) |
 | Analytic proof of 4-mechanism completeness | **open** (Q9 in progress) |
+
+## Section 25 — R18: Triple parity lemma; residual census redirects Q9 (session s_0802-080649-85be)
+
+### Dual-attack probe first (standing policy)
+
+The R17 handoff proposed proving *"unit-step crossing pairs always exist in
+all-odd-gap residual trees."* Before spending proof effort, R18 ran a
+falsification probe over 48,000 sampled DFS trees ($n \in \{10,12,14,16\}$,
+12,000 each). Outcome (Lemma `residual_parity_census`):
+
+- **All-odd residuals are a measure-zero corner**: 7 of 48,000 trees
+  ($\approx 0.015\%$), all at $n=10$, none at $n \ge 12$. All 7 contained a
+  unit-step crossing pair and crossing fired with $\omega = 2$ — the claim
+  is unfalsified but strategically irrelevant. **Priority redirected.**
+- **The residual mass is mixed-parity** ($\ge 96\%$ of residual trees at
+  every size).
+- **Triple rescues every crossing-failed residual**: 122/122 such trees
+  (all mixed-parity) admit a firing triple; sym-diff lengths over all 738
+  firing triples: $C_8$ 698×, $C_4$ 39×, $C_{16}$ 1×. Rescued trees always
+  had 4–8 distinct firing triples (the mechanism is robust, not knife-edge).
+- **All-even residuals were rescued by crossing alone** — forced, per the
+  new parity lemma below.
+
+### New proved lemma: `triple_parity`
+
+For three distinct back edges with fundamental cycles $C_1, C_2, C_3$ and
+$S = C_1 \triangle C_2 \triangle C_3$:
+
+1. All three back edges lie in $S$ (each lives in exactly one $C_i$).
+2. $|S| \equiv \operatorname{gap}_1 + \operatorname{gap}_2 + \operatorname{gap}_3 + 1 \pmod 2$
+   (sym-diff preserves size parity; $|C_i| = \operatorname{gap}_i + 1$).
+3. **The triple mechanism fires only on triples with an odd number of
+   odd-gap back edges** ($OOO$ or $OEE$), since po2 cycle lengths are even.
+
+**Corollary — all-even-gap trees: triple is vacuous.** Combined with easy
+being vacuous there (PO2 gaps are odd), all-even trees must be covered by
+nested + crossing alone. The CHECK verifies the formula on 44,400 sampled
+triples (5,698 firing) with zero violations.
+
+### Full parity accounting (now complete for all 4 mechanisms)
+
+| Mechanism | fires only from | source |
+|---|---|---|
+| easy | odd gap $\in \{3,7,15,31\}$ | definition |
+| nested | same-parity pair | diff must be even |
+| crossing | same-parity pair | `crossing_offset_parity` (R17) |
+| triple | $OOO$ or $OEE$ triple | `triple_parity` (R18) |
+
+The triple mechanism is the ONLY one that can combine both parity classes
+($OEE$) — which explains structurally why the crossing-failed residual
+trees, which are all mixed-parity, are exactly the ones that need it.
+
+### Q9 program after R18
+
+1. **Dropped**: the all-odd unit-step sub-case (nearly vacuous).
+2. **New target**: length formula for the 3-back-edge sym-diff cycle
+   ($|S| = 3 + t$, $t$ = tree edges covered by an odd number of the three
+   sender-anchor tree paths), i.e. the triple analogue of
+   `crossing_pair_formula`, restricted first to the dominant $C_8$
+   configuration.
+3. **Then**: single-cycle criterion for triples (when is $S$ one cycle,
+   not a disjoint union), with parity pre-filter $OOO$/$OEE$.
+4. **Then**: existence — why does a mixed-parity residual tree where all
+   pair mechanisms fail always contain a firing $OOO$/$OEE$ triple?
+
+### Summary of round R18
+
+| Item | Status |
+|------|--------|
+| `triple_parity` lemma | **proved** (R18) |
+| Falsification probe of unit-step claim | **unfalsified but deprioritized** (R18) |
+| Residual census (mixed-parity dominance) | **verified** (R18) |
+| Triple-rescue completeness (122/122, NONE=0) | **verified** (R18) |
+| Analytic proof of 4-mechanism completeness | **open** (Q9, redirected) |
