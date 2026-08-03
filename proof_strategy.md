@@ -1270,3 +1270,79 @@ trees, which are all mixed-parity, are exactly the ones that need it.
 | Residual census (mixed-parity dominance) | **verified** (R18) |
 | Triple-rescue completeness (122/122, NONE=0) | **verified** (R18) |
 | Analytic proof of 4-mechanism completeness | **open** (Q9, redirected) |
+
+## Section 26 — R19: Triple sym-diff structure and the pasting mechanism (session s_0803-080758-2226)
+
+### New proved lemma: `triple_sym_diff_structure`
+
+The R18 handoff asked for the triple analogue of `crossing_pair_formula`.
+R19 proves it in the strongest natural generality (Lemma
+`triple_sym_diff_structure`, all parts elementary and unconditional):
+
+1. **Length formula**: $|S| = 3 + t$, where $t$ is the number of tree edges
+   covered by an odd number of the three sender→anchor tree paths.
+2. **Parity consistency**: $t \equiv \sum_i \operatorname{gap}_i \pmod 2$,
+   rederiving `triple_parity`(2).
+3. **Single-cycle criterion**: $S$ is always a nonempty even subgraph
+   ($\deg_S(v) = b(v) + \tau(v)$, always even); it is a single simple cycle
+   iff connected and 2-regular.
+4. **Pasting lemma**: two simple cycles $X, Y$ whose intersection
+   *subgraph* is a single path of length $k \ge 1$ have
+   $X \triangle Y$ = a single simple cycle of length $|X| + |Y| - 2k$.
+5. **Triple pasting criterion**: if a pair of the triple has single-cycle
+   sym-diff $D$ (nested or crossing — mixed-parity pairs allowed!) and
+   $D \cap C_3$ is a single path of length $k \ge 1$, then $S$ is a single
+   cycle of length $|D| + \operatorname{gap}_3 + 1 - 2k$.
+6. **Mixed-parity rescue shape**: a mixed pair has ODD $|D|$; pasting a
+   third back edge fires only when $\operatorname{gap}_3$ is even — the
+   $OEE$ class. A same-parity pair ($|D|$ even) pastes to fire only with
+   odd $\operatorname{gap}_3$ ($OOO$/$EEO$). This derives the
+   `triple_parity` classes *mechanistically*.
+
+### Key structural insight
+
+The pair taxonomy only asks whether nested/crossing sym-diffs have PO2
+*length*. But mixed nested/crossing pairs still produce single sym-diff
+cycles $D$ of odd length — invisible to the pair mechanisms, which can
+never fire on them. The pasting lemma shows these odd cycles are raw
+material: adding a third even-gap back edge whose fundamental cycle meets
+$D$ in a path of length $k$ yields an even cycle of length
+$|D| + \operatorname{gap}_3 + 1 - 2k$, with $k$ tunable over the overlap.
+This is the concrete route by which mixed-parity residual trees get their
+$C_8$s.
+
+### CHECK census (falsification probe, sampled cubic DFS trees n=10,12,14)
+
+- 19,980 triples checked: length formula, even-subgraph property, and both
+  pasting length formulas hold with **zero violations** (9,418 pair
+  pastings, 27,544 triple pasting decompositions).
+- **2,604/2,604 firing triples (100%) factor through the pasting
+  criterion** — every sampled firing triple has a pair decomposition with
+  single-cycle $D$ meeting the third fundamental cycle in a single path.
+  Pasting is stated as sufficient, but empirically it is exhaustive.
+- Firing lengths: $C_4$ 50×, $C_8$ 2554× — matching the R18 census shape.
+
+### Q9 program after R19
+
+1. ~~Length formula + single-cycle criterion~~ (**done**, R19).
+2. **New target (R20 — existence)**: prove that in a mixed-parity tree
+   where all pair mechanisms fail to fire, there EXISTS a mixed
+   nested/crossing pair with single-cycle sym-diff $D$ and a third
+   even-gap back edge with $D \cap C_3$ a path and
+   $|D| + \operatorname{gap}_3 + 1 - 2k \in \{4, 8, 16, 32\}$.
+   The 100% pasting census says this is the right formulation: no other
+   firing route needs to be handled. Sub-questions:
+   (a) why does a mixed pair with single-cycle $D$ always exist in a
+   mixed residual tree? (b) why can the length always be tuned to a PO2?
+   The R18 observation that rescued trees carry 4–8 distinct firing
+   triples suggests a counting argument over the free parameters
+   ($\operatorname{gap}_3$, $k$).
+
+### Summary of round R19
+
+| Item | Status |
+|------|--------|
+| `triple_sym_diff_structure` lemma (6 parts) | **proved** (R19) |
+| Pasting length formulas on 27.5k decompositions | **verified, 0 violations** (R19) |
+| Firing-via-pasting census | **100% (2604/2604)** (R19) |
+| Existence of firing pasting config in residual trees | **open** (Q9, R20 target) |
