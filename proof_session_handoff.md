@@ -1,56 +1,65 @@
-# Session handoff (session s_0802-080649-85be)
+# Session handoff (session s_0803-080758-2226)
 
-**Stop reason**: Logical milestone — R18 complete (keep_progress). Token budget approaching limit.
+**Stop reason**: Logical milestone — two keep_progress rounds (R19, R20).
 
-**Current focus**: Q9 — analytic proof that the 4-mechanism taxonomy covers ALL
-cubic DFS trees. R18 completed the parity accounting and redirected the
-analytic program to the mixed-parity triple mechanism.
+**Current focus**: Q9 — analytic proof that the 4-mechanism taxonomy covers
+all cubic DFS trees. The triple mechanism is now UNDERSTOOD structurally;
+what remains is an existence argument.
 
-**What was proved this round (R18)**:
-1. `triple_parity` (new, proved): for three distinct back edges, the 3-way
-   fundamental-cycle sym-diff S contains all three back edges (each lives in
-   exactly one fundamental cycle), and |S| ≡ gap1+gap2+gap3+1 (mod 2). Hence
-   the triple mechanism fires only on triples with an ODD number of odd gaps
-   (OOO or OEE), and NEVER fires in an all-even-gap tree. This completes the
-   parity accounting for all 4 mechanisms (easy: odd gap; nested/crossing:
-   same-parity pairs; triple: OOO/OEE).
-2. `residual_parity_census` (new, open/computational): falsification probe of
-   the R17-proposed unit-step claim over 48,000 trees. Verdict: unfalsified
-   but nearly vacuous — all-odd residuals are 7/48,000 (~0.015%), all at n=10,
-   all rescued by a unit-step omega=2 crossing. Residual mass is >=96%
-   mixed-parity. Every crossing-failed residual (122/122, all mixed) is
-   rescued by a triple; rescue lengths: C8 698x, C4 39x, C16 1x.
+**What was proved this session**:
 
-**Also this round (critic-driven repairs to proof_strategy.md)**:
-- Section 9's superseded R6 "unified sym-diff theorem" and "complete
-  constraint system" now carry explicit supersession/scope-correction notes
-  (Section 22 formulas are canonical for crossing pairs).
-- Section 24's R17 error corrected: all-even gaps => crossing offsets are
-  ALWAYS even (the old text said "odd or even").
-- Moore-bound/Petersen girth claims recast as machine-verified enumeration
-  results (the CHECK is load-bearing, classical theorems are only intuition).
-- Frankl Sections 7/14-16 marked as cross-problem archive, not load-bearing
-  for Erdős–Gyárfás.
+R19 — `triple_sym_diff_structure` (proved, 6 parts):
+1. |S| = 3 + t (t = tree edges covered by an odd number of the three
+   sender→anchor paths); rederives triple_parity(2).
+2. S is always a nonempty even subgraph; single simple cycle iff
+   connected and 2-regular; deg_S(v) = b(v) + τ(v).
+3. **Pasting lemma**: simple cycles X, Y whose intersection SUBGRAPH is a
+   single path of length k ≥ 1 sym-diff to a single cycle of length
+   |X| + |Y| − 2k. (The subgraph condition — shared vertices exactly the
+   path's vertices — is essential; shared off-path vertices give degree-4.)
+4. **Triple pasting criterion**: pair sym-diff D a single cycle (mixed
+   parity ALLOWED — this is the blind spot of the pair taxonomy, which
+   only asks for PO2 length) + third back edge with D ∩ C₃ a single
+   k-path ⇒ S single cycle of length |D| + gap₃ + 1 − 2k.
+5. Parity bookkeeping: mixed pair (odd |D|) fires only with even gap₃
+   (OEE); same-parity pair (even |D|) only with odd gap₃ (OOO/EEO).
 
-**qid in flight**: Q9 released with partial progress. Next session should
-re-claim Q9.
+R20 — `pasting_rescue_census` (open, probe unfalsified):
+- 120,000 DFS trees (n ∈ {12,14,16}); 54 pair-residual trees (no PO2
+  fundamental cycle, no single-PO2-cycle pair sym-diff in ANY pair
+  configuration, incl. branching pairs).
+- ALL 54 are mixed-parity; ALL 54 admit a firing triple factoring through
+  pasting. Shapes: mixed-pair+even-g3 → C8 36×, C16 1×;
+  same-pair+odd-g3 → C8 17×. k spread 1..7 (no concentration).
 
-**Obstacle**: The analytic completeness proof now needs the triple mechanism
-understood in the mixed-parity case. Parity says candidate triples are
-OOO/OEE; empirics say a firing one always exists when pair mechanisms fail,
-almost always giving a C8.
+**qid in flight**: Q9 released with partial progress. Next session
+re-claims Q9.
 
-**Suggested next move (R19)**:
-1. Re-claim Q9.
-2. Prove a length formula for the 3-back-edge sym-diff cycle: |S| = 3 + t
-   where t = number of tree edges covered by an odd number of the three
-   sender->anchor tree paths. Then characterize when S is a SINGLE cycle
-   (vs disjoint union) — start from the R15 crossing-order case analysis.
-   Note the open ledger id `sym_diff_cycle_formula` covers a narrower
-   configuration; a general statement needs a NEW lemma id.
-3. Use the census data shape: rescued triples in the probe were plentiful
-   (4-8 per tree) — suggests an averaging/counting existence argument rather
-   than an explicit construction.
-4. Run proof_prepare.py with PROOF_TAG=erdos_gyarfas (not the default!).
-   Note: critics are stochastic; if a blocking finding targets pre-R18 text,
-   fix it in-place (that is in-scope round work) and re-run.
+**Suggested next move (R21) — the analytic existence argument, split**:
+1. **Supply**: prove that a mixed-parity pair-residual tree contains a
+   pair of back edges with single-cycle sym-diff D in a parity class
+   with a legal third back edge. Candidate route: in a cubic DFS tree
+   every non-root internal vertex has exactly one back edge over it
+   (degree bookkeeping, cf. Sections 8–10 branch bounds); take an
+   odd-gap and an even-gap back edge whose paths overlap — the pasting
+   lemma applied to C₁, C₂ (X=C₁, Y=C₂!) says overlapping-in-a-path
+   pairs ALWAYS give single-cycle D.
+2. **Tuning**: show |D| + gap₃ + 1 − 2k hits {4,8,16,32} for some legal
+   (B₃, k). k is NOT free — it is determined by (D, B₃) — so the
+   quantifier is over third back edges; R18 saw 4–8 firing triples per
+   rescued tree, suggesting slack. Try: bound the range of
+   |D| + gap₃ + 1 − 2k over available B₃ and show it must cross a power
+   of 2 with the right parity (all candidate values have the SAME parity
+   — steps of 2 — so hitting is a range/pigeonhole question, not parity).
+3. If tuning at radius 3 stalls: consider whether pair-residual trees
+   have bounded |D| options (the census could be extended to record
+   min/max of the tunable value).
+4. Run everything with PROOF_TAG=erdos_gyarfas. Critics are stochastic;
+   an infra 'critic_unavailable: internal' blocking finding is transient —
+   re-run proof_prepare (happened this session, second run was clean).
+
+**Files modified this session**:
+- proof_lemmas/lemma_triple_sym_diff_structure__0803-080758-2226.md (new, proved)
+- proof_lemmas/lemma_pasting_rescue_census__0803-080758-2226.md (new, open probe)
+- proof_strategy.md (Sections 26, 27)
+- notes channel: pasting insight appended (proof_notes_erdos_gyarfas.md)
