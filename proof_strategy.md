@@ -1346,3 +1346,59 @@ $C_8$s.
 | Pasting length formulas on 27.5k decompositions | **verified, 0 violations** (R19) |
 | Firing-via-pasting census | **100% (2604/2604)** (R19) |
 | Existence of firing pasting config in residual trees | **open** (Q9, R20 target) |
+
+## Section 27 — R20: Pasting-rescue falsification probe survives at 120k trees (session s_0803-080758-2226)
+
+### Dual-attack probe first (standing policy)
+
+Before analytic effort on the R19-posed existence question, R20 ran the
+falsification probe (Lemma `pasting_rescue_census`, status open). The
+target claim: every **pair-residual** tree (no PO2 fundamental cycle AND
+no pair of back edges — in ANY configuration, including branching pairs —
+with single-PO2-cycle sym-diff) admits a firing triple that factors
+through the pasting criterion.
+
+### Probe outcome (120,000 DFS trees, n ∈ {12,14,16})
+
+- **54 pair-residual trees found; every single one is pasting-rescued.**
+  Zero falsifications of either sub-claim (firing triple exists; a firing
+  triple factors through pasting).
+- **All 54 residual trees are mixed-parity** — sharper than R18 (which
+  saw ≥96% mixed): at these sizes the pair-residual class appears to be
+  *entirely* mixed-parity. (All-even and all-odd residuals: zero.)
+- Rescue shape census:
+  | pair class | gap₃ parity | length | count |
+  |---|---|---|---|
+  | mixed pair (odd |D|) | even | C₈ | 36 |
+  | mixed pair (odd |D|) | even | C₁₆ | 1 |
+  | same-parity pair (even |D|) | odd | C₈ | 17 |
+- Overlap parameter k ranges over 1..7 with no concentration — the length
+  tuning genuinely uses the freedom in k, supporting a counting/averaging
+  existence argument over (gap₃, k) rather than a rigid construction.
+
+### Interpretation
+
+The two rescue routes are exactly the two parity-legal pasting shapes from
+`triple_sym_diff_structure`(6): OEE via mixed pair + even third, and
+OOO/EEO via same-parity pair + odd third. The mixed-pair route dominates
+(37/54). The R20+ analytic problem is now cleanly split:
+
+1. **(Supply of raw material.)** In a mixed-parity pair-residual tree,
+   show a pair with single-cycle sym-diff D exists whose parity class
+   admits a legal third back edge. Mixed pairs with overlapping paths are
+   natural candidates (both parity classes are nonempty by definition of
+   mixed; overlap needs a structural argument — cubic trees have few
+   branches, cf. the branch-count bounds in Sections 8–10).
+2. **(Length tuning.)** Show that over the available third back edges and
+   the induced overlaps k, the value |D| + gap₃ + 1 − 2k hits
+   {4, 8, 16, 32}. The census (k spread over 1..7, 4–8 firing triples per
+   rescued tree in R18) suggests a pigeonhole/averaging argument.
+
+### Summary of round R20
+
+| Item | Status |
+|------|--------|
+| `pasting_rescue_census` probe (120k trees) | **unfalsified, non-vacuous (54 residuals)** (R20) |
+| Pair-residual ⊆ mixed-parity (at n ≤ 16) | **observed, 54/54** (R20) |
+| Two-route rescue shape (OEE dominant) | **observed 37+17** (R20) |
+| Analytic supply + tuning arguments | **open** (Q9, R21 target) |
