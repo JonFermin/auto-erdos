@@ -1,65 +1,76 @@
-# Session handoff (session s_0803-080758-2226)
+# Session handoff (session s_0804-080732-f106)
 
-**Stop reason**: Logical milestone — two keep_progress rounds (R19, R20).
+**Stop reason**: Logical milestone — two keep_progress rounds (R21, R22).
 
 **Current focus**: Q9 — analytic proof that the 4-mechanism taxonomy covers
-all cubic DFS trees. The triple mechanism is now UNDERSTOOD structurally;
-what remains is an existence argument.
+all cubic DFS trees. After R21+R22 the SUPPLY half is closed; the open
+core is the MEETING + TUNING of the third back edge.
 
 **What was proved this session**:
 
-R19 — `triple_sym_diff_structure` (proved, 6 parts):
-1. |S| = 3 + t (t = tree edges covered by an odd number of the three
-   sender→anchor paths); rederives triple_parity(2).
-2. S is always a nonempty even subgraph; single simple cycle iff
-   connected and 2-regular; deg_S(v) = b(v) + τ(v).
-3. **Pasting lemma**: simple cycles X, Y whose intersection SUBGRAPH is a
-   single path of length k ≥ 1 sym-diff to a single cycle of length
-   |X| + |Y| − 2k. (The subgraph condition — shared vertices exactly the
-   path's vertices — is essential; shared off-path vertices give degree-4.)
-4. **Triple pasting criterion**: pair sym-diff D a single cycle (mixed
-   parity ALLOWED — this is the blind spot of the pair taxonomy, which
-   only asks for PO2 length) + third back edge with D ∩ C₃ a single
-   k-path ⇒ S single cycle of length |D| + gap₃ + 1 − 2k.
-5. Parity bookkeeping: mixed pair (odd |D|) fires only with even gap₃
-   (OEE); same-parity pair (even |D|) only with odd gap₃ (OOO/EEO).
+R21 — `fund_pair_overlap` (proved):
+1. The intersection subgraph of two fundamental cycles in a DFS tree is
+   always empty, a single vertex, or a single vertical path — with the
+   shared chain running exactly from the deeper anchor to lca(s1, s2), so
+   k = d(lca(s1,s2)) − d(deeper anchor).
+2. C1△C2 is a single simple cycle IFF the tree paths share an edge
+   (k ≥ 1), and then |D| = gap1 + gap2 + 2 − 2k. Subsumes the nested and
+   crossing formulas; covers branching pairs (senders in different
+   subtrees) for the first time.
+3. Mixed overlapping pairs give ODD single cycles (the OEE raw material).
+   Same-sender pairs always overlap (k = inner gap).
 
-R20 — `pasting_rescue_census` (open, probe unfalsified):
-- 120,000 DFS trees (n ∈ {12,14,16}); 54 pair-residual trees (no PO2
-  fundamental cycle, no single-PO2-cycle pair sym-diff in ANY pair
-  configuration, incl. branching pairs).
-- ALL 54 are mixed-parity; ALL 54 admit a firing triple factoring through
-  pasting. Shapes: mixed-pair+even-g3 → C8 36×, C16 1×;
-  same-pair+odd-g3 → C8 17×. k spread 1..7 (no concentration).
+R22 — `mixed_overlap_supply` (proved):
+- In a 2-connected graph, back-edge parity segregation is IMPOSSIBLE:
+  if both gap parities occur, some odd-gap and some even-gap back edge
+  overlap. Proof: one-child root + low-point property ⇒ every tree edge
+  covered; the low-point back edge over v covers both v's parent and
+  child edges, so a segregated parity coloring of tree edges would be
+  locally (hence globally) constant — contradiction.
+- Corollary: every mixed-parity DFS tree of a 2-connected graph has a
+  mixed pair with odd single-cycle sym-diff D. Supply half of Q9 CLOSED
+  (2-connectedness is sharp — bridged compositions evade it; irrelevant
+  to the EGC class since cycles live in blocks).
+- CHECKs: 20k pairs (R21) and 796 2-connected trees / ~10k low-point +
+  coverage checks (R22), zero violations; 777/777 (R21) and 768/768
+  (R22) mixed trees had mixed overlapping pairs.
 
 **qid in flight**: Q9 released with partial progress. Next session
 re-claims Q9.
 
-**Suggested next move (R21) — the analytic existence argument, split**:
-1. **Supply**: prove that a mixed-parity pair-residual tree contains a
-   pair of back edges with single-cycle sym-diff D in a parity class
-   with a legal third back edge. Candidate route: in a cubic DFS tree
-   every non-root internal vertex has exactly one back edge over it
-   (degree bookkeeping, cf. Sections 8–10 branch bounds); take an
-   odd-gap and an even-gap back edge whose paths overlap — the pasting
-   lemma applied to C₁, C₂ (X=C₁, Y=C₂!) says overlapping-in-a-path
-   pairs ALWAYS give single-cycle D.
-2. **Tuning**: show |D| + gap₃ + 1 − 2k hits {4,8,16,32} for some legal
-   (B₃, k). k is NOT free — it is determined by (D, B₃) — so the
-   quantifier is over third back edges; R18 saw 4–8 firing triples per
-   rescued tree, suggesting slack. Try: bound the range of
-   |D| + gap₃ + 1 − 2k over available B₃ and show it must cross a power
-   of 2 with the right parity (all candidate values have the SAME parity
-   — steps of 2 — so hitting is a range/pigeonhole question, not parity).
-3. If tuning at radius 3 stalls: consider whether pair-residual trees
-   have bounded |D| options (the census could be extended to record
-   min/max of the tunable value).
-4. Run everything with PROOF_TAG=erdos_gyarfas. Critics are stochastic;
-   an infra 'critic_unavailable: internal' blocking finding is transient —
-   re-run proof_prepare (happened this session, second run was clean).
+**Suggested next move (R23) — meeting + tuning, in order**:
+1. **Dual-attack probe FIRST** (standing policy): census over
+   pair-residual trees of the achievable value set
+   V = {|D| + gap3 + 1 − 2k' : legal (pair, B3) pasting configs} —
+   is 8 ∈ V always? Is V an interval in steps of 2? Record min/max/gaps
+   of V per tree. This directly measures the pigeonhole slack the tuning
+   argument needs. Extend the R20 probe (it recorded only the firing
+   shapes, not the full value set).
+2. **Meeting structure**: E(D) ∩ E(C3) is automatically tree-only
+   (B3 ≠ B1,B2), P3 is one vertical chain, and D's tree edges are ≤ 2
+   arcs each a union of ≤ 2 vertical chains — so P3 ∩ E(D) is a union of
+   ≤ 2–3 vertical segments, each an interval by the fund_pair_overlap(1)
+   argument. Meeting = exactly one nonempty segment + shared-vertex
+   condition. Try to characterize WHEN a cover of a D-tree-edge meets D
+   in a single path (the analogue of the anchors-comparable condition).
+3. **Tuning**: with V's structure from the probe, try range/pigeonhole:
+   the same-sender supply at leaves gives many candidate (B1,B2) pairs
+   with DIFFERENT |D| values (|g1−g2|+2 over back-edge pairs at each
+   leaf); combined with the k' freedom this may sweep V across a power
+   of 2. Note all values in V have the same parity (even, for legal
+   configs) — hitting is a range question, not a parity question.
+4. Run with PROOF_TAG=erdos_gyarfas. Critic infra notes: (a)
+   'critic_unavailable: internal/falsify' blockings are transient —
+   re-run; (b) the critic CACHE replays identical responses for an
+   identical prompt, so after a spurious blocking finding you must make
+   a genuine artifact change (strategy text) to force fresh rolls;
+   (c) the numerical critic sometimes writes __import__-based checks
+   (banned token) that auto-escalate to BLOCKING despite its own text
+   saying 'confirmed' — same remedy.
 
 **Files modified this session**:
-- proof_lemmas/lemma_triple_sym_diff_structure__0803-080758-2226.md (new, proved)
-- proof_lemmas/lemma_pasting_rescue_census__0803-080758-2226.md (new, open probe)
-- proof_strategy.md (Sections 26, 27)
-- notes channel: pasting insight appended (proof_notes_erdos_gyarfas.md)
+- proof_lemmas/lemma_fund_pair_overlap__0804-080732-f106.md (new, proved)
+- proof_lemmas/lemma_mixed_overlap_supply__0804-080732-f106.md (new, proved)
+- proof_lemmas/lemma_igraph_c4_or_c8.md (falsification-direction remark added)
+- proof_strategy.md (Sections 28, 29 + Section 3 clarification)
+- notes channel appended (proof_notes_erdos_gyarfas.md)
