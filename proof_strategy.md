@@ -80,7 +80,11 @@ again by simplicity.
 Consequently the conjecture restricted to the I-graph family (hence to the
 entire generalized Petersen family) holds, with cycle length 4 or 8 always
 realized — a stronger clearance than a search certificate, which only
-certifies SOME power-of-2 cycle per instance. No I-graph of any size can
+certifies SOME power-of-2 cycle per instance. (Falsification direction:
+the lemma asserts *existence* of a $C_4$ or $C_8$; exhibiting such a cycle
+in a particular $I(m,a,b)$ — e.g. the Case-1 4-cycle $u_0 u_a v_a v_0$
+when $b \equiv \pm a$ — **confirms** the lemma there. A counterexample
+would be a simple cubic I-graph with *neither* a $C_4$ *nor* a $C_8$.) No I-graph of any size can
 be an Erdős–Gyárfás witness. This settles the first-lemma target of Q8
 (the ideation formulation asked only for $GP(n,k)$, $5 \le n \le 12$; the
 proof needs no size restriction) and closes the GP/dumbbell arm of the
@@ -1468,3 +1472,80 @@ depth data:
 | Mixed-overlap supply at 100% (777/777 mixed trees) | **observed** (R21) |
 | Supply proof (parity-segregation contradiction) | **open** (R22 target) |
 | Length tuning to PO2 | **open** (Q9 core) |
+
+## Section 29 — R22: Supply half closed — no parity segregation in 2-connected graphs (session s_0804-080732-f106)
+
+### New proved lemma: `mixed_overlap_supply`
+
+The R21 program asked why every mixed-parity pair-residual tree has a
+mixed overlapping pair. Answer: **parity segregation is impossible in any
+2-connected graph**, pair-residual or not.
+
+**Statement.** $G$ 2-connected simple, $T$ a DFS tree. If both odd and
+even back-edge gaps occur, some odd-gap and some even-gap back edge have
+edge-overlapping vertical paths; hence (`fund_pair_overlap`) a mixed pair
+with **odd single-cycle** sym-diff $D$ exists — the $OEE$ raw material.
+
+**Proof shape** (all standard DFS facts, elementary):
+1. 2-connected ⇒ DFS root has exactly one child, and every child subtree
+   of every non-root vertex sends a back edge strictly above it
+   (low-point property). Hence every tree edge is covered.
+2. If no mixed pair overlaps, each tree edge is covered by one parity
+   only — a 2-coloring $\chi$ of tree edges. The low-point back edge over
+   $v$ covers both $v$'s parent edge and the child edge it climbs
+   through, so $\chi$ is equal on adjacent tree edges ⇒ constant on the
+   connected tree.
+3. Every back edge covers some tree edge ⇒ all gaps have the constant
+   color's parity ⇒ tree not mixed. Contrapositive: done.
+
+**Sharpness**: bridged compositions (all-odd-gap block + bridge +
+all-even-gap block) are mixed with no mixed overlap — 2-connectedness
+cannot be dropped. Irrelevant to the EGC target class (cycles live in
+blocks; random cubics are a.a.s. 3-connected — consistent with R21's
+777/777).
+
+### CHECK (796 2-connected cubic DFS trees, n=10–18)
+
+Zero violations: root-one-child, low-point (9,568 checks), full coverage
+(10,364 tree edges), and the conclusion itself (768/768 mixed trees have
+an overlapping mixed pair — verified directly, independent of the proof).
+
+### Q9 after R22 — the open core is tuning ONLY
+
+In a pair-residual (hence mixed-parity, per R20 census) tree of a
+2-connected graph we now HAVE: a mixed pair $(B_1, B_2)$ with single-cycle
+$D$, $|D| = \operatorname{gap}_1 + \operatorname{gap}_2 + 2 - 2k_{12}$ odd.
+Remaining: show some third back edge $B_3$ (even gap, for $OEE$) has
+$D \cap C_3$ a single path of length $k' \ge 1$ with
+$|D| + \operatorname{gap}_3 + 1 - 2k' \in \{4, 8, 16, 32\}$.
+Two sub-questions for R23+:
+1. **Meeting**: why does some even-gap $B_3$ meet $D$ in a single path at
+   all? (Candidate: the same low-point/coverage machinery applied to the
+   tree edges of $D$; note $D$ contains tree edges, and every tree edge
+   is covered — an even-gap cover of a $D$-edge is a candidate $B_3$, if
+   segregation-style arguments can control the intersection shape.)
+   Structural reduction: $E(D) \cap E(C_3)$ is automatically
+   tree-edges-only ($C_3$'s unique non-tree edge is $B_3 \ne B_1, B_2$),
+   and $P_3$ is a single vertical chain while the tree edges of $D$ form
+   at most two arcs, each a union of at most two vertical chains (the
+   complementary arcs of `fund_pair_overlap`(2)). The intersection of two
+   vertical chains is a contiguous depth interval (proof of
+   `fund_pair_overlap`(1)), so $P_3 \cap E(D)$ is a union of at most a
+   bounded number of vertical segments — the meeting condition is that
+   exactly one segment is nonempty (plus the shared-vertex condition),
+   i.e. an interval-combinatorics question on root chains, not a global
+   graph question.
+2. **Tuning**: why can the length be steered to a PO2? (R20: $k'$ spread
+   1..7, 4–8 firing triples per rescued tree — slack exists. Candidate:
+   quantify the achievable interval of $k'$ over admissible $B_3$ and
+   pigeonhole powers of 2 within the parity class.)
+
+### Summary of round R22
+
+| Item | Status |
+|------|--------|
+| `mixed_overlap_supply` lemma (no segregation, 2-conn) | **proved** (R22) |
+| Sharpness (bridged compositions) | **noted** (R22) |
+| CHECK: 796 trees, proof facts + conclusion, 0 violations | **verified** (R22) |
+| Supply half of Q9 existence | **CLOSED (2-connected)** (R22) |
+| Meeting + tuning of the third back edge | **open** (R23 target) |

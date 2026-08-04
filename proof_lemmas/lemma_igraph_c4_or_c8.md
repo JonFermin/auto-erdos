@@ -48,6 +48,14 @@ $\{u_b, u_{a+b}\}$ are distinct because $\{0,a\} \cap \{b, a+b\} =
 \emptyset$; likewise the two inner edges. Hence the walk is a simple
 $8$-cycle. $\square$
 
+**Falsification direction (for critics).** The lemma asserts the
+*existence* of a $C_4$ or $C_8$ in every simple cubic I-graph. Exhibiting
+a $C_4$ in some $I(m,a,b)$ (e.g. the Case 1 cycle $u_0 u_a v_a v_0$ when
+$b \equiv \pm a$) **confirms** the lemma for that graph — it is not a
+counterexample. A genuine falsification must exhibit $m, a, b$ satisfying
+the simplicity hypotheses such that $I(m,a,b)$ contains **no** simple
+cycle of length 4 **and no** simple cycle of length 8.
+
 **Sandbox-checkable core.** The entire content of the proof beyond
 edge-by-edge membership inspection is (i) the residue-distinctness claim
 of Case 2 and (ii) distinctness of the two outer edges and of the two
