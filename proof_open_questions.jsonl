@@ -40,3 +40,4 @@
 {"qid":"Q9","status":"claimed","session_id":"s_0803-080758-2226","summary":"R19: triple sym-diff length formula + pasting single-cycle criterion","ts":"2026-08-03T08:12:57+00:00"}
 {"qid":"Q9","status":"claimed","session_id":"s_0803-080758-2226","summary":"R19 done (triple_sym_diff_structure proved); R20 in same session: falsification probe of pasting-rescue existence in pair-residual trees","ts":"2026-08-03T08:26:27Z"}
 {"qid":"Q9","status":"released","session_id":"s_0803-080758-2226","summary":"R19+R20 done: triple_sym_diff_structure proved (pasting mechanism); rescue-existence probe unfalsified at 120k trees. Next: analytic supply+tuning arguments (see handoff)","ts":"2026-08-03T08:31:14Z"}
+{"qid":"Q9","status":"claimed","session_id":"s_0804-080732-f106","summary":"re-claiming Q9 for R21: unified pair-overlap lemma (supply side of pasting existence)","ts":"2026-08-04T08:11:07+00:00"}

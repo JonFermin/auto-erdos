@@ -1402,3 +1402,69 @@ OOO/EEO via same-parity pair + odd third. The mixed-pair route dominates
 | Pair-residual ⊆ mixed-parity (at n ≤ 16) | **observed, 54/54** (R20) |
 | Two-route rescue shape (OEE dominant) | **observed 37+17** (R20) |
 | Analytic supply + tuning arguments | **open** (Q9, R21 target) |
+
+## Section 28 — R21: Unified pair-overlap characterization; supply half made concrete (session s_0804-080732-f106)
+
+### New proved lemma: `fund_pair_overlap`
+
+The R20 handoff's supply route ("overlapping pairs always give single-cycle
+sym-diffs") is proved in complete generality, as an *iff*:
+
+1. **Intersection structure**: for any two back edges, the intersection
+   subgraph of their fundamental cycles is empty, a single vertex, or a
+   single vertical path — never anything else. The shared chain runs
+   exactly from the **deeper anchor** down to $\operatorname{lca}(s_1,s_2)$,
+   so $k = d(\operatorname{lca}(s_1,s_2)) - d(\text{deeper anchor})$.
+2. **Single-cycle iff overlap**: $C_1 \triangle C_2$ is a single simple
+   cycle **iff** the two tree paths share an edge ($k \ge 1$), and then
+   $|D| = \operatorname{gap}_1 + \operatorname{gap}_2 + 2 - 2k$. ($k=0$
+   with one shared vertex → degree-4 vertex; disjoint → disconnected.)
+3. **Subsumption**: nested ($m=s_2$, $k=\operatorname{gap}_2$) and crossing
+   ($m=s_1$, $k=d(s_1)-d(a_2)$) formulas drop out; **branching pairs**
+   (senders in different subtrees) are covered uniformly for the first time.
+4. **Parity**: $|D| \equiv \operatorname{gap}_1+\operatorname{gap}_2$; mixed
+   overlapping pairs give ODD single cycles — the $OEE$ raw material.
+5. **Same-sender supply**: any vertex sending two back edges gives an
+   overlapping pair automatically ($k = \operatorname{gap}_{\text{inner}}$,
+   $|D| = |\operatorname{gap}_1-\operatorname{gap}_2|+2$). In min-degree-3
+   graphs every DFS leaf sends $\ge 2$ back edges.
+
+### CHECK census (20,000 pairs, cubic DFS trees n=10–16)
+
+- Zero violations of the chain characterization, the iff, or the length
+  formula; $k$ observed up to 14; 1,476 same-sender pairs all conform.
+- **Supply is empirically universal: 777/777 mixed-parity trees contain a
+  mixed overlapping pair (100%).** Not restricted to pair-residual trees —
+  every mixed-parity tree sampled had odd single-cycle raw material.
+
+### Q9 program after R21
+
+The existence problem is now two fully explicit statements about tree
+depth data:
+
+1. **(Supply — nearly closed.)** Conjecture: every mixed-parity DFS tree
+   of a min-degree-3 graph contains an odd-gap and an even-gap back edge
+   with edge-overlapping paths. 100% empirical support (777/777). Candidate
+   proof: if NO mixed pair overlaps, the parity classes of back edges
+   partition the tree edge-disjointly ("parity segregation"); derive a
+   contradiction with min degree 3 (every leaf sends ≥ 2 back edges; a
+   segregated tree should force an all-one-parity corner somewhere).
+   R22 target: prove supply, or falsify the segregation-contradiction with
+   a targeted probe on larger n.
+2. **(Tuning — the remaining core.)** With everything explicit, a firing
+   triple needs $\operatorname{gap}_1+\operatorname{gap}_2+
+   \operatorname{gap}_3+3-2(k_{12}+k') \in \{4,8,16,32\}$. Question: do the
+   achievable $(k_{12}+k')$ values sweep enough of an interval? The R20
+   census (k' spread 1..7, 4–8 firing triples per rescued tree) suggests
+   yes; needs a range/pigeonhole argument over the choice of $B_3$.
+
+### Summary of round R21
+
+| Item | Status |
+|------|--------|
+| `fund_pair_overlap` lemma (iff + explicit k) | **proved** (R21) |
+| Branching pairs unified with nested/crossing | **proved** (R21) |
+| CHECK on 20k pairs, 0 violations | **verified** (R21) |
+| Mixed-overlap supply at 100% (777/777 mixed trees) | **observed** (R21) |
+| Supply proof (parity-segregation contradiction) | **open** (R22 target) |
+| Length tuning to PO2 | **open** (Q9 core) |
