@@ -1,76 +1,82 @@
-# Session handoff (session s_0804-080732-f106)
+# Session handoff (session s_0805-080844-5fb3)
 
-**Stop reason**: Logical milestone — two keep_progress rounds (R21, R22).
+**Stop reason**: Logical milestone — R23 + R24 both keep_progress; token
+budget spent on critic-infra recovery.
 
-**Current focus**: Q9 — analytic proof that the 4-mechanism taxonomy covers
-all cubic DFS trees. After R21+R22 the SUPPLY half is closed; the open
-core is the MEETING + TUNING of the third back edge.
+**Current focus**: Q9 — pasting-existence for pair-residual trees. After
+R23 (tuning skeleton) + R24 (meeting structure proved), the open core is:
+(1) vertex-automatic conjecture, (2) T1/T2/T3 tuning proofs, (3) the two
+standing hypotheses (2-connectedness reduction; no all-even/all-odd
+pair-residual trees).
 
-**What was proved this session**:
+**What was done this session**:
 
-R21 — `fund_pair_overlap` (proved):
-1. The intersection subgraph of two fundamental cycles in a DFS tree is
-   always empty, a single vertex, or a single vertical path — with the
-   shared chain running exactly from the deeper anchor to lca(s1, s2), so
-   k = d(lca(s1,s2)) − d(deeper anchor).
-2. C1△C2 is a single simple cycle IFF the tree paths share an edge
-   (k ≥ 1), and then |D| = gap1 + gap2 + 2 − 2k. Subsumes the nested and
-   crossing formulas; covers branching pairs (senders in different
-   subtrees) for the first time.
-3. Mixed overlapping pairs give ODD single cycles (the OEE raw material).
-   Same-sender pairs always overlap (k = inner gap).
+R23 — `pasting_value_interval` (open probe, unfalsified):
+- Census over 192k trees (n=12–22): every one of 50 pair-residual trees
+  has 8 in its pasting value set V(T) = {|D|+gap3+1-2k'}, and the even
+  part V_e is a gap-free step-2 interval; v_min ∈ {4,6,8}, v_max ∈
+  {10..18} growing with n. Tuning reduced to: (T1) interval-ness via ±2
+  local moves, (T2) some even L ≤ 8, (T3) some even L ≥ 8.
+- proof_strategy.md Sections 2–18 CONDENSED to a digest (full text at
+  commit 9e2eb14 and in strategies/erdos_gyarfas/). This was necessary:
+  the assembled critic prompt hit ~180k chars and the internal/falsify
+  critics exceeded the fixed 240s timeout.
+- Critic-flagged gaps now documented in-artifact: the 2-connectedness
+  REDUCTION GAP (blocks of min-deg-3 graphs need not be min-deg-3; the
+  minimal-counterexample-is-2-connected surgery is unproven), the
+  empirical-only "pair-residual ⊆ mixed-parity" assumption (an all-even
+  pair-residual tree would have NO rescue route — ruling those out is
+  load-bearing), and in-repo provenance for Moore/DFS facts.
 
-R22 — `mixed_overlap_supply` (proved):
-- In a 2-connected graph, back-edge parity segregation is IMPOSSIBLE:
-  if both gap parities occur, some odd-gap and some even-gap back edge
-  overlap. Proof: one-child root + low-point property ⇒ every tree edge
-  covered; the low-point back edge over v covers both v's parent and
-  child edges, so a segregated parity coloring of tree edges would be
-  locally (hence globally) constant — contradiction.
-- Corollary: every mixed-parity DFS tree of a 2-connected graph has a
-  mixed pair with odd single-cycle sym-diff D. Supply half of Q9 CLOSED
-  (2-connectedness is sharp — bridged compositions evade it; irrelevant
-  to the EGC class since cycles live in blocks).
-- CHECKs: 20k pairs (R21) and 796 2-connected trees / ~10k low-point +
-  coverage checks (R22), zero violations; 777/777 (R21) and 768/768
-  (R22) mixed trees had mixed overlapping pairs.
+R24 — `pasting_meeting_structure` (proved):
+- E(D) ∩ tree = A ⊔ L1 ⊔ L2 (anchor interval above lca(s1,s2) + two
+  legs below it); P3 meets each in a contiguous interval, at most 2 of 3
+  nonempty; D ∩ C3 is a single path (pasting hypothesis) IFF exactly one
+  is nonempty and carries all shared vertices. 167k triples, 0
+  violations.
+- BONUS: the stray-vertex condition held automatically in 92,894/92,894
+  single-nonempty configs → "vertex-automatic" conjecture: in cubic DFS
+  trees, one-nonempty-segment alone implies pasting. If proved, meeting
+  existence reduces to: some even-gap back edge covers a tree edge of
+  exactly one segment (coverage of every tree edge is guaranteed by
+  mixed_overlap_supply(1) in 2-connected graphs).
 
 **qid in flight**: Q9 released with partial progress. Next session
 re-claims Q9.
 
-**Suggested next move (R23) — meeting + tuning, in order**:
-1. **Dual-attack probe FIRST** (standing policy): census over
-   pair-residual trees of the achievable value set
-   V = {|D| + gap3 + 1 − 2k' : legal (pair, B3) pasting configs} —
-   is 8 ∈ V always? Is V an interval in steps of 2? Record min/max/gaps
-   of V per tree. This directly measures the pigeonhole slack the tuning
-   argument needs. Extend the R20 probe (it recorded only the firing
-   shapes, not the full value set).
-2. **Meeting structure**: E(D) ∩ E(C3) is automatically tree-only
-   (B3 ≠ B1,B2), P3 is one vertical chain, and D's tree edges are ≤ 2
-   arcs each a union of ≤ 2 vertical chains — so P3 ∩ E(D) is a union of
-   ≤ 2–3 vertical segments, each an interval by the fund_pair_overlap(1)
-   argument. Meeting = exactly one nonempty segment + shared-vertex
-   condition. Try to characterize WHEN a cover of a D-tree-edge meets D
-   in a single path (the analogue of the anchors-comparable condition).
-3. **Tuning**: with V's structure from the probe, try range/pigeonhole:
-   the same-sender supply at leaves gives many candidate (B1,B2) pairs
-   with DIFFERENT |D| values (|g1−g2|+2 over back-edge pairs at each
-   leaf); combined with the k' freedom this may sweep V across a power
-   of 2. Note all values in V have the same parity (even, for legal
-   configs) — hitting is a range question, not a parity question.
-4. Run with PROOF_TAG=erdos_gyarfas. Critic infra notes: (a)
-   'critic_unavailable: internal/falsify' blockings are transient —
-   re-run; (b) the critic CACHE replays identical responses for an
-   identical prompt, so after a spurious blocking finding you must make
-   a genuine artifact change (strategy text) to force fresh rolls;
-   (c) the numerical critic sometimes writes __import__-based checks
-   (banned token) that auto-escalate to BLOCKING despite its own text
-   saying 'confirmed' — same remedy.
+**Suggested next moves (R25+), in order**:
+1. Prove vertex-automatic (cubic): a stray shared vertex v of D and C3
+   off the meeting interval needs ≥ 2 of its ≤ 3 incidences on D and
+   ≥ 2 on C3-but-not-D-edges — count incidences at v; cubic should
+   forbid it. Write the CHECK census per stray-vertex type first.
+2. T3 (some even L ≥ 8): min-overlap config k'=1 with gap3 ≥ 5 (gaps
+   avoid {3,7,15,31} and |D| ≥ 3 odd ⇒ L = |D|+gap3-1 ≥ 8 unless
+   |D|+gap3 ≤ 8 — enumerate the few small cases).
+3. T2 (some even L ≤ 8): same-sender mixed pair at a leaf gives |D| =
+   |g1-g2|+2 with k' up to the inner gap; quantify.
+4. T1 (interval): define the config graph (slide meeting interval by one
+   edge / swap B3 to the covering back edge of the adjacent tree edge)
+   and show moves change L by ±2 and connect the config space.
+5. The 2-connectedness reduction lemma and the all-even/all-odd
+   exclusion (Section 30 standing hypotheses) are still open and
+   load-bearing for the final assembly.
+
+**CRITIC INFRA (important for next session)**: the internal and falsify
+critics time out at the hard-coded 240s when the assembled prompt is
+large; ledger/numerical/sign intermittently fail fast with 'claude -p
+exited 1 after ~3s' (transient; retry after ~60s). WORKING RECIPE: call
+library._critic_subprocess.call_critics_parallel directly with
+timeout_s=1200 and use_cache=True on the EXACT rendered prompts
+(proof_prepare._render_critic_prompt) to pre-warm the cache, retrying
+failures in a loop; then run proof_prepare.py, which replays everything
+from cache in ~80s. Also: the numerical_check sandbox has no frozenset
+(a harness note is now in proof_strategy.md Section 1 so critics write
+set()-based checks).
 
 **Files modified this session**:
-- proof_lemmas/lemma_fund_pair_overlap__0804-080732-f106.md (new, proved)
-- proof_lemmas/lemma_mixed_overlap_supply__0804-080732-f106.md (new, proved)
-- proof_lemmas/lemma_igraph_c4_or_c8.md (falsification-direction remark added)
-- proof_strategy.md (Sections 28, 29 + Section 3 clarification)
-- notes channel appended (proof_notes_erdos_gyarfas.md)
+- proof_lemmas/lemma_pasting_value_interval__0805-080844-5fb3.md (new, open probe)
+- proof_lemmas/lemma_pasting_meeting_structure__0805-080844-5fb3.md (new, proved)
+- proof_strategy.md (Sections 2–18 condensed; Sections 30, 31 added;
+  Section 21 caveat; Section 29 reduction-gap note + spelled-out
+  low-point step; Section 1 harness note)
+- notes channel appended
