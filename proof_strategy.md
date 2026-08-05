@@ -947,3 +947,58 @@ pair-residual tree.)
 | Proofs of (T1)–(T3); meeting-structure characterization | **open** (R24 target) |
 | 2-connectedness reduction lemma | **open** (R24+ target, Section 29) |
 | Rule out all-even / all-odd pair-residual trees | **open** (R24+ target) |
+
+## Section 31 — R24: Meeting reduced to interval combinatorics; stray-vertex condition empirically automatic (session s_0805-080844-5fb3)
+
+### New proved lemma: `pasting_meeting_structure`
+
+The R22/R23 "meeting" question — when does a third back edge $B_3$ meet
+$D = C_1 \triangle C_2$ in a single path, enabling the
+`triple_sym_diff_structure`(5) pasting — is now closed as a structure
+lemma (all parts proved, elementary):
+
+1. $E(D) \cap E(T) = A \sqcup L_1 \sqcup L_2$: the anchor interval
+   $A = [a_{\text{sh}} .. a_{\text{deep}}]$ (strictly above
+   $m = \operatorname{lca}(s_1,s_2)$) plus the two legs
+   $L_i = [m .. s_i]$ (below $m$, in different subtrees when the senders
+   branch; one leg empty when the senders are comparable).
+2. $P_3$ meets each segment in a single contiguous vertical interval,
+   and at most TWO of the three intersections can be nonempty ($P_3$
+   descends into only one child subtree of $m$).
+3. **Meeting criterion (iff):** $D \cap C_3$ is a single path of length
+   $k' \ge 1$ iff exactly one intersection is nonempty and every shared
+   vertex of $D, C_3$ lies on it; $k'$ = that interval's length.
+
+CHECK: 28,740 pairs / 167,403 triples across cubic $n \in \{10,..,16\}$,
+zero violations of (1), (2), or the iff (3).
+
+### Empirical bonus — the stray-vertex condition is free in cubic trees
+
+In every one of the 92,894 sampled configs with exactly one nonempty
+intersection, the stray-vertex condition held automatically
+(`vertex_auto=(92894, 92894)`; 167,724/167,724 in the larger calibration
+run). **Open conjecture (`vertex-automatic`, candidate R25):** in cubic
+DFS trees, "$P_3$ meets exactly one segment in $\ge 1$ edge" alone
+implies the pasting hypothesis. If proved, meeting-existence reduces to:
+some even-gap back edge covers a tree edge of exactly one segment of $D$
+— and coverage of every tree edge is already guaranteed by
+`mixed_overlap_supply`(1) in the 2-connected case.
+
+### Q9 state after R24
+
+| Piece | Status |
+|------|--------|
+| Supply (mixed pair with odd single-cycle $D$) | proved, 2-connected (R22; reduction gap open) |
+| Meeting (structure + iff criterion) | **proved** (R24) |
+| Meeting (existence of a pasting even-gap $B_3$) | open — vertex-automatic conjecture + one-segment covering argument |
+| Tuning (T1 interval / T2, T3 endpoints of $V_e$) | open (R23 reduction) |
+| Parity-class caveats (all-even/all-odd residuals, 2-conn) | open, tracked (Section 30) |
+
+### Summary of round R24
+
+| Item | Status |
+|------|--------|
+| `pasting_meeting_structure` (decomposition, contiguity, iff) | **proved** (R24) |
+| CHECK 28.7k pairs / 167k triples, 0 violations | **verified** (R24) |
+| Stray-vertex condition automatic in cubic samples | **observed 100% (92,894/92,894)** (R24) |
+| vertex-automatic proof; existence of pasting $B_3$ | **open** (R25 target) |
