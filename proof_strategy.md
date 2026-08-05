@@ -40,867 +40,126 @@ vertices, near-cubic, girth $\ge 5$ preferred (a $C_4$ is an instant
 failure), no $C_8/C_{16}/C_{32}/C_{64}$, containing an induced $P_{10}$,
 and — if cubic — non-planar or non-3-connected.
 
-## Section 2 — Dual-attack program (Q8: counterexample-first screen)
-
-Per the standing dual-attack policy, the cheap falsification arm runs
-before proof effort: screen parameterized cubic families that tile the
-witness box, using exactly the per-length exhaustive cycle search that the
-witness verifier itself uses (`library.erdos_gyarfas_witness`); any
-survivor goes straight to the witness gate. A screen in which every member
-of a family is cleared is simultaneously (i) a dead end for the disproof
-arm on that family and (ii) a positive partial result whenever the
-clearance can be proved for the whole family rather than only the finite
-window.
-
-Q8 named three lift families over the cubic base multigraphs: theta (two
-vertices joined by three parallel edges), dumbbell (two looped vertices
-joined by a bridge), and $K_4$ — plus the generalized Petersen graphs
-$GP(n,k)$ for $n \in [15,32]$.
-
-## Section 3 — I-graph clearance (proved; subsumes the GP arm)
-
-The dumbbell lifts are exactly the I-graphs $I(m,a,b)$ (outer edges
-$u_j u_{j+a}$, inner edges $v_j v_{j+b}$, spokes $u_j v_j$, indices mod
-$m$), and $GP(n,k) = I(n,1,k)$, so the GP arm and the dumbbell arm
-collapse into one statement, which holds at EVERY size, not just in the
-witness window:
-
-**Lemma `igraph_c4_or_c8`** (status: proved, see
-`proof_lemmas/lemma_igraph_c4_or_c8.md`): every simple I-graph $I(m,a,b)$
-contains a cycle of length $4$ or a cycle of length $8$. Concretely: if
-$b \equiv \pm a \pmod m$ then $u_0, u_a, v_a, v_0$ is a 4-cycle;
-otherwise
-$$u_0,\; u_a,\; v_a,\; v_{a+b},\; u_{a+b},\; u_b,\; v_b,\; v_0$$
-is an 8-cycle. The four residues $\{0, a, b, a+b\}$ are pairwise
-distinct mod $m$: $0 \ne a$ and $0 \ne b$ by simplicity; $0 \ne a+b$
-because $b \not\equiv -a$ is part of the case assumption; $a \ne b$ is
-the other half of the case assumption; and $a \ne a+b$, $b \ne a+b$
-again by simplicity.
-
-Consequently the conjecture restricted to the I-graph family (hence to the
-entire generalized Petersen family) holds, with cycle length 4 or 8 always
-realized — a stronger clearance than a search certificate, which only
-certifies SOME power-of-2 cycle per instance. (Falsification direction:
-the lemma asserts *existence* of a $C_4$ or $C_8$; exhibiting such a cycle
-in a particular $I(m,a,b)$ — e.g. the Case-1 4-cycle $u_0 u_a v_a v_0$
-when $b \equiv \pm a$ — **confirms** the lemma there. A counterexample
-would be a simple cubic I-graph with *neither* a $C_4$ *nor* a $C_8$.) No I-graph of any size can
-be an Erdős–Gyárfás witness. This settles the first-lemma target of Q8
-(the ideation formulation asked only for $GP(n,k)$, $5 \le n \le 12$; the
-proof needs no size restriction) and closes the GP/dumbbell arm of the
-screen permanently.
-
-Computational corroboration (ranges match the CHECK blocks in the lemma
-file): the explicit-cycle construction is arithmetically validated on
-every simple $I(m,a,b)$ with $3 \le m \le 60$; it is cross-checked
-against independent exhaustive per-length cycle search on every simple
-$I(m,a,b)$ with $3 \le m \le 12$; and the window screen found a first
-power-of-2 hit at length 4 or 8 on every simple I-graph with
-$m \in [15,32]$ (1,248 lifts).
-
-## Section 4 — Theta and $K_4$ lifts: window screened clean, no witness
-
-**Lemma `lift_screen_window`** (status: proved — a finite, machine-checked
-computational fact, see `proof_lemmas/lemma_lift_screen_window.md`): every
-$\mathbb{Z}_m$-voltage lift of the theta multigraph ($m \in [15,32]$,
-voltages wlog $0, a_2, a_3$ pairwise distinct so the lift is simple) and
-of $K_4$ ($m \in [8,16]$, spanning-tree voltages wlog $0$, co-tree
-voltages arbitrary) contains a cycle of length $4$, $8$, or $16$. The
-full screen covered 23,556 lifts (including the I-graph/dumbbell family);
-every per-length exhaustive search completed within its node-expansion
-budget; there were no survivors. In particular no graph in these families
-within the $\le 64$-vertex witness cap is an Erdős–Gyárfás witness.
-
-Structural observation (recorded for future sessions, not load-bearing):
-theta lifts are bipartite, and 8,166 of the screened ones contain no
-$C_4$ and no $C_8$, dying only at $C_{16}$. A cycle of length $2s$ in a
-theta lift projects to a closed base walk whose signed voltage sum
-vanishes mod $m$, with consecutive edge types forced distinct (each lift
-vertex carries exactly one edge of each type); for $C_{16}$ this forces a
-relation $\alpha a_2 + \beta a_3 \equiv 0 \pmod m$, where $\alpha$
-(resp. $\beta$) is the signed count of type-$a_2$ (resp. type-$a_3$)
-edges, so $|\alpha|, |\beta| \le 8$ because each type occupies at most 8
-of the 16 alternating slots; a realizability condition on the type
-sequence also applies. Within the window ($m \le 32$) such short
-relations always exist — which is why every theta lift that avoids $C_4$
-and $C_8$ still dies at $C_{16}$ — but for large modulus, generic
-voltage pairs admit no short relation at scale 16.
-A large-$m$ theta lift cannot enter this harness's witness gate (vertex
-cap 64), and defeating EVERY power-of-2 length up to its vertex count
-$2m$ requires avoiding relations at every scale up to $m$, which counting
-does not obviously permit; whether some modulus and voltage pair defeats
-every scale simultaneously is a genuine open question and a candidate
-future qid (proof-direction: show a short relation is unavoidable at SOME
-power-of-2 scale for every $(m, a_2, a_3)$; a disproof at large $m$ would
-need a larger-capacity verifier and is outside this harness's witness
-contract).
-
-## Section 5 — Current open state
-
-- **Q8 is resolved**: no witness exists in the screened families — the
-  I-graph/GP/dumbbell arm is cleared at all sizes by Lemma
-  `igraph_c4_or_c8`, and the theta/$K_4$ arm is cleared throughout the
-  witness window by Lemma `lift_screen_window`. The counterexample hunt,
-  if resumed, must move outside these lift families (girth-biased random
-  cubic graphs, cages, snark-like families) or to the large-$m$
-  theta-lift question above.
-- The queued proof-direction arm is **Q9** (DFS depth-chain discharging:
-  back-edge depth-gaps forbidden in $\{3,7,15,31,\dots\}$, min degree 3
-  forcing DFS leaves to carry $\ge 2$ back edges). Ideation losers
-  (Hashimoto trace compression, dyadic-window cycle-spectrum sieve,
-  minimal-counterexample stability stack) must not be re-proposed without
-  new input; the notes channel records why each died.
-- Minimal open statement: the conjecture itself, with the search space for
-  a hypothetical counterexample narrowed by F1–F3 and, from Q8, by the
-  I-graph clearance (all sizes) and the theta/$K_4$ window screen.
-- Q9 has begun (session s\_0722-080706-a3ea) — see Section 6 for the
-  first-lemma disproof and redirect.
-
-## Section 6 — Q9 first-lemma disproof: pairwise chain-locality fails
-
-The Q9 approach (DFS depth-chain discharging) opened with the **pairwise
-chain-locality** claim: for any connected min-degree-3 graph $G$ and any
-DFS tree $T$, some power-of-2 cycle of $G$ is a fundamental cycle of $T$
-or a symmetric difference of exactly two fundamental cycles of $T$.
-
-This lemma is **false** (see `proof_lemmas/lemma_chain_locality.md`).
-
-**Counterexample** (machine-found by the CHECK probe on the first round):
-the 3-regular graph $G$ on 10 vertices with edges
-$$\{0{-}4, 0{-}5, 0{-}8, 1{-}3, 1{-}6, 1{-}7, 2{-}4, 2{-}7, 2{-}9,
-3{-}6, 3{-}9, 4{-}7, 5{-}6, 5{-}8, 8{-}9\}$$
-has 12 simple 8-cycles and no shorter power-of-2 cycle.  For the DFS tree
-rooted at vertex 7, the six fundamental cycles have lengths $[3,3,3,5,6,10]$,
-and the 15 pairwise symmetric differences achieve lengths $\{0,5,6,7,9\}$ —
-no power of 2 in either set.
-
-The obstruction is structural: every 8-cycle in $G$ contains exactly **three**
-back edges in this DFS tree, so it requires a three-way combination of
-fundamental cycles.  The DFS rooted at vertex 7 is "bad" because it places
-all three sides of the 8-cycle structure as back edges simultaneously.
-(For roots $\{0,3,4,5,6,8,9\}$, some 8-cycle IS a fundamental cycle of length
-8, so the property holds for those roots.  The "for any DFS tree" requirement
-is what the counterexample kills.)
-
-**Consequence for Q9.** The discharging plan as formulated requires revising
-one of the following assumptions:
-1. **Weaken to order-3 sym_diff**: "some power-of-2 cycle is a sym_diff of
-   at most 3 fundamental cycles in SOME DFS tree." Trivially achievable for
-   any simple cycle (expand the spanning tree to include the cycle's path
-   minus one edge; that edge becomes the sole back edge, making the cycle a
-   fundamental cycle of length $2^k$). But "for any DFS tree" and "at most 2"
-   were the claims with discharging content; weakening both simultaneously
-   collapses to a tautology.
-2. **Target a fixed "good" DFS root**: prove that for any min-degree-3 $G$,
-   there exists a DFS root such that the depth-gap constraints at every leaf
-   interact via AT MOST 2-cycle combinations.  This is an existence claim that
-   requires knowing the graph has a power-of-2 cycle (i.e., requires the
-   conjecture for that $G$) — circular.
-3. **Abandon the DFS fundamental-cycle frame entirely**: the depth-gap
-   forbidden sets $\{3,7,15,\ldots\}$ are a real constraint, but the route
-   through "pairwise chain-locality" is not the right vehicle.  A direct
-   counting argument on the DFS ancestor chain (how many leaves, how many
-   back edges, how many valid depth assignments) might not need cycle
-   combinatorics at all.
-4. **Redirect to Q10 (Frankl) or Q11 (transitive screen)**: the Frankl
-   approach (KL union deficiency) and the transitive-symmetry counterexample
-   screen are independent arms queued in the ideation phase; one of them may
-   be cheaper than repairing the DFS approach.
-
-**Verdict**: close Q9 as a dead end at the pairwise-lemma stage.  Queue the
-"order-3 sym_diff" as a new qid only if a direct ancestor-chain count
-approach also fails.  Recommend redirecting to Q10 (frankl\_union\_closed
-entropy gap) in the next session.
-
-## Section 7 — Q10: KL union-deficiency approach (Frankl conjecture)
-
-> **CROSS-PROBLEM ARCHIVE — NOT PART OF THE ERDŐS–GYÁRFÁS PROOF.** Q10 is a
-> *separate* open conjecture (`proofs/frankl_union_closed.json`), not a
-> sub-claim of Erdős–Gyárfás. Everything in this section cites THAT
-> problem's given-facts ledger (its G1/G2/G3 entries), quoted here only as
-> a historical record of a side excursion. **No claim in the Erdős–Gyárfás
-> argument depends on anything in this section**; a reviewer auditing the
-> Erdős–Gyárfás citation ledger should treat this section (and Sections
-> 14–16) as inert archived text. Frankl work is tracked under its own lemma
-> files (prefix `lemma_frankl_*`).
-
-**Conjecture (Frankl 1979)**: In every finite union-closed family
-$\mathcal{F}$ with $|\mathcal{F}| \ge 2$, some element appears in at least
-half the sets.
-
-**Given facts** (from `proofs/frankl_union_closed.json`):
-- **G1** (Gilmer 2022): holds with constant $p \ge 0.01$ for all union-closed
-  families; a dramatic improvement over $p \ge 1/|\mathcal{F}|$.
-- **G2** (Alweiss–Huang–Sellke 2022): holds with $p \ge 0.382$ via a sum-of-logs
-  entropy argument.
-- **G3** (Chase–Lovett 2020 barrier): the AHS functional linearisation cannot
-  exceed $p \ge 0.382$ without new structural input — any approach going beyond
-  must leave the linearised entropy cone.
-
-**Q10 first-lemma: KL deficiency lower bound.**
-
-The approach: for $A, B$ drawn iid uniform from $\mathcal{F}$, let
-$p = \max_x \Pr[x \in A]$ be the maximum element frequency.  Claim:
-$$\log_2 |\mathcal{F}| - H(A \cup B) \;\ge\; \frac{(1-p)^2}{4}.$$
-
-This is a *quantitative* statement: the distribution of $A \cup B$ has at
-least $(1-p)^2/4$ bits of KL divergence from the uniform distribution on
-$\mathcal{F}$.  If $p < 1/2$, the right side is $> 1/16$, giving a fixed
-positive gap.  The conjecture would follow if one can show that this
-deficiency forces the maximum frequency above $1/2$ (i.e., derive
-$p \ge 1/2$ from the deficiency bound and the union-closure structure).
-
-**Why this potentially bypasses G3.** The AHS/Chase–Lovett approach uses
-$H(A \cup B) \le H(A) = \log_2 |\mathcal{F}|$ and optimises the linearised
-form; the barrier is that equality nearly holds for product families.  A KL
-deficiency bound is *exact*, not linearised, so it escapes the G3 barrier —
-but it must be proved from scratch.
-
-**Numerical validation** (see `proof_lemmas/lemma_frankl_deficiency.md`):
-0 violations across:
-- All union-closed families on ground set $\{0,1,2,3\}$ (exhaustive, 2+ sets).
-- Power sets $2^U$ for $|U| = 1, \ldots, 7$ (boundary case $p = 1/2$).
-- 500 random union-closed families for ground-set size $2$--$7$.
-
-Minimum observed LHS $-$ RHS margin: $\approx 0.189$ (achieved near $p = 0.5$
-in the boundary cases).
-
-**Limitation**: For small $n$, Frankl's conjecture is known (verified for
-$|U| \le 11$), so every tested family automatically satisfies $p \ge 1/2$.
-The adversarial zone $p \in [0.382, 0.5)$ — where the bound $(1-p)^2/4
-\in (1/16, (0.618)^2/4]$ would be most constraining — is computationally
-unreachable for small ground sets.  A proof must be analytic, not just
-computational.
-
-**Proof direction** (open): show that for any union-closed $\mathcal{F}$
-with $p < 1/2$ and $|\mathcal{F}| \ge 2$, the KL deficiency
-$\log_2|\mathcal{F}| - H(A \cup B)$ is at least $(1-p)^2/4$, and that this
-combined with the union-closure structure forces a contradiction (or directly
-forces $p \ge 1/2$).  Candidate route: expand $H(A \cup B)$ via the chain
-rule $H(A \cup B) = H(A) + H(B | A \cup B) - H(B | A)$ and estimate each
-conditional entropy using the element-frequency vector.  The $P_{10}$-free
-restriction in the Erdős–Gyárfás witness box is unrelated here; this is a
-pure union-closed combinatorics question.
-
-**Current status**: Lemma `frankl_deficiency` created (status: open).
-The CHECK block passes on all tested families.  The analytic proof step
-remains open and is the target of the next session.
-
-## Section 8 — Q9 triple chain-locality (parallel worktree session s_0723-080653-c642, merged post-hoc)
-
-The Q9 approach seeks a proof via DFS tree structure in a hypothetical
-counterexample $G$ (connected, $\delta(G) \ge 3$, no power-of-2 cycle).
-In any DFS tree of $G$, every non-tree edge is a back edge connecting a
-vertex to one of its ancestors, so each back edge $(v, u)$ with $u$ an
-ancestor of $v$ defines a fundamental cycle of length
-$\text{depth}(v) - \text{depth}(u) + 1$.
-
-**Back-edge depth-gap constraint.** If $G$ contains no $C_{2^k}$ for any
-$k$, then no fundamental cycle has length $2^k$, i.e., no back edge has
-depth-gap $2^k - 1$. The forbidden set is $\{1, 3, 7, 15, 31, \ldots\}$
-(depth-gaps that would produce a $C_2, C_4, C_8, C_{16}, \ldots$). Two
-back edges at the same vertex with gaps $d_1 < d_2$ additionally forbid
-$d_2 - d_1 \in \{2, 6, 14, 30, \ldots\}$ (which would produce a
-power-of-2 sym-diff cycle).
-
-**Leaves must have $\ge 2$ back edges.** Any DFS leaf $v$ has tree-degree
-1 (one parent edge) and no child edges, so its graph degree counts only
-the parent edge plus back edges from $v$ to ancestors. Since $\delta(G)
-\ge 3$, every leaf carries at least 2 back edges.
-
-**Chain-locality lemma (status: PROVED computationally).** For $n \le 10$,
-Lemma `chain_locality_triple` (status: proved) shows that the first three levels of
-the $\mathbb{F}_2$ cycle space always see a power-of-2 cycle. Proof combines
-the Moore-bound argument (all non-Petersen min-deg-3 graphs on $n \le 10$ have
-girth $\le 4$, see `chain_locality_proof`) with the exhaustive Petersen
-check (`chain_locality_petersen`: all 2000 spanning trees of the Petersen
-graph verified — 960 via direct pow-2 fundamental cycle, 1040 via pairwise
-sym-diff). The pairwise version fails for some n=10 non-Petersen cubic spanning
-trees; the triple version holds in all tested cases.
-
-**Extended chain-locality for cubic graphs (Lemma `chain_locality_extended`).**
-The triple-sym-diff sufficiency extends to cubic (3-regular) graphs through
-$n = 24$. Across 350 cubic graphs and 6,650 $(G, T)$ pairs, zero triple
-failures were found. Pairwise failures occur at $n = 10$ and $n = 14$ but
-are always rescued by some triple.
-
-**Full-window coverage (Lemma `chain_locality_full_window`; status: open,
-computationally established).** The check was extended to all even cubic
-sizes through $n = 64$ (the verifier vertex cap). Across 650 cubic graphs
-and 9,350+ $(G,T)$ pairs (seeds 12345/99991/77777/54321), zero triple
-failures were found. The triple sym-diff obstruction therefore covers the
-full cubic witness window:
-
-*Corollary (computational).* No tested cubic graph on $n \le 64$ has a
-spanning tree whose fundamental cycles, pairwise, or triple symmetric
-differences avoid all pow-2 lengths. If the conjecture has a cubic
-counterexample in the witness window, it must be a highly special
-(non-random) cubic graph — none of the 650 tested graphs qualify. This is
-consistent with and strengthens Markström's lower bound ($n \ge 30$).
-
-**Consequence for Q9.** The chain-locality family of lemmas shows that
-no cubic graph in the witness window can hide pow-2 cycles from the
-cycle-space census up to triple order. For the discharging argument to
-produce a formal proof, the depth-gap constraints must force a *global*
-contradiction (ancestor-chain charge absorption) rather than relying on
-local cycle detection, since triple order already suffices in practice.
-
-**Near-complete formal proof (Lemma `chain_locality_proof`).**
-The formal proof of `chain_locality_triple` ($n \le 10$, all min-degree-3 graphs) is
-now near-complete. Every girth claim below is **machine-verified by the
-exhaustive enumeration in the `lemma_chain_locality_proof` CHECK block**
-(the internal enumeration is the load-bearing evidence; the parenthetical
-classical results are intuition for *why* the enumeration comes out this
-way, and nothing is derived from them):
-- $n \le 9$, $\delta \ge 3$: girth $\le 4$ — verified exhaustively over all
-  such graphs (consistent with the elementary neighborhood-counting bound:
-  a min-deg-3 girth-5 graph needs $\ge 1 + 3 + 3\cdot 2 = 10$ vertices,
-  re-derived from scratch in Step 1 of the lemma, not quoted).
-- $n = 10$, $\delta \ge 4$: girth $\le 4$ — 484 non-Petersen graphs tested,
-  all confirmed by direct girth computation.
-- $n = 10$, $\delta = 3$, not Petersen: girth $\le 4$ — verified by direct
-  girth computation over the enumerated graphs.
-- $n = 10$, Petersen graph: 60 DFS spanning trees (all 6 orderings × 10 roots)
-  verified, all pass triple chain-locality.
-
-**Petersen case (Lemma `chain_locality_petersen`; status: proved).** All 2000
-spanning trees of the Petersen graph pass triple chain-locality. This closes
-the last case in the Moore-bound argument:
-
-> **`chain_locality_triple` is now computationally proved**: all min-deg-3 graphs on
-> $n \le 10$ and every spanning tree, the $\mathbb{F}_2$ cycle space up to
-> triple order contains a pow-2-length simple cycle. Proof:
-> (i) non-Petersen min-deg-3 $n \le 10$: girth $\le 4$ (machine-verified
-> exhaustively, `lemma_chain_locality_proof` CHECK);
-> (ii) Petersen graph: all 2000 spanning trees verified exhaustively.
-
-**Next steps for Q9.**
-1. Extend chain-locality to min-deg-3 graphs beyond $n=10$. (Heuristic
-   guidance only, not load-bearing: cage-theory folklore suggests high-girth
-   cubic graphs are the interesting stress tests at $n=14$; any such claim
-   must be re-verified by direct enumeration before use, as with the
-   $n \le 10$ cases above.) Bound which $n$ values require non-trivial
-   triple sym-diffs. A complete
-   classification would give chain-locality for all $n$ or identify the first
-   $n$ where quadruple sym-diffs are needed.
-2. Attempt formal proof of `chain_locality_full_window` (cubic $n \le 64$):
-   the computational cert (9,350 pairs, zero violations) is strong; a SAT/ILP
-   encoding over $(n, \ell, \text{length multiset})$ is the recommended route.
-3. Use chain-locality as a building block in the Q9 discharging argument:
-   if every spanning tree of a hypothetical counterexample $G$ has a pow-2
-   sym-diff at triple order in its cycle space, and $G$ has no pow-2 cycle by
-   assumption, we have a contradiction. The missing piece: show that the
-   "pow-2 cycle from triple sym-diff" is actually present in $G$, not just
-   expressible as a sym-diff of fundamental cycles.
-
-## Section 9 — Q9 sym-diff structure lemmas (parallel worktree session s_0724-080703-5c51, merged post-hoc)
-
-**Approach.** Fix a DFS tree $T$ of a hypothetical counterexample $G$
-(min degree $\ge 3$, no power-of-2 cycle). Every back edge $(v, u)$ with
-$u$ an ancestor of $v$ spans a depth-gap
-$\delta = \operatorname{depth}(v) - \operatorname{depth}(u)$; the
-fundamental cycle has length $\delta + 1$. Forbidding power-of-2 cycle
-lengths means $\delta \notin \{3, 7, 15, 31, \dots\}$ (i.e.
-$\delta + 1 \notin \{4, 8, 16, 32, \dots\}$). Min degree $3$ forces
-every DFS leaf to carry $\ge 2$ back edges.
-
-**First lemma (Q9) — DISPROVED at $n=10$ (see Section 6).** See
-`proof_lemmas/lemma_dfs_chain_locality.md`. Statement: for every
-connected min-degree-$3$ graph on $\le 10$ vertices and every DFS tree,
-some power-of-2 cycle is a fundamental cycle or a simple-cycle
-symmetric difference of two fundamental cycles. Section 6's machine-found
-10-vertex cubic counterexample (rooted at vertex 7) falsifies exactly
-this radius-2 statement; the CHECK PASSes below cover only $n \le 6$
-exhaustively plus named graphs, and are NOT evidence for the general
-$n=10$ case. The radius-3 replacement is `chain_locality_r3`.
-
-**CHECK status.** The CHECK block in `lemma_dfs_chain_locality.md`
-verified this on:
-
-- **1885 graphs exhaustively** (all connected min-degree-$\ge 3$ simple
-  graphs on 4, 5, 6 vertices) — all DFS starting vertices, zero failures.
-- **Cube/Q3, Wagner** ($n = 8$, $3$-regular) — all DFS trees, PASS.
-- **Petersen graph** ($n = 10$, $3$-regular, girth $5$, the most
-  adversarial case since no $C_4$ and no $C_8$ appear as fundamental
-  cycles in some DFS trees) — all DFS starting vertices, PASS.
-
-The Petersen graph result is non-trivial: the girth-$5$ property forces
-every back edge to have depth-gap $\ge 4$, so no fundamental cycle has
-length $4$. The PASS means some pairwise symmetric difference achieves
-length $8$ under every DFS tree, which is evidence that the depth-chain
-arithmetic constraint binds even for the most girth-biased graphs.
-
-**Same-leaf sym-diff sub-lemma** (see
-`proof_lemmas/lemma_same_leaf_sym_diff.md`, status: proved). For a DFS
-leaf $v$ with two back edges to proper non-parent ancestors at depths
-$d_1 < d_2$ (depth-gaps $\delta_1 > \delta_2 \ge 2$), the symmetric
-difference of their fundamental cycles is a simple cycle of length
-$(d_2 - d_1) + 2 = (\delta_1 - \delta_2) + 2$. CHECK verified on 1,329
-configurations.
-
-**Depth-gap constraint system.** A counterexample (no power-of-2 cycles)
-forces, at every DFS leaf $v$ with back edges at gaps $\delta_1 > \delta_2$:
-$$\delta_i \notin \{3, 7, 15, 31, \ldots\}$$
-(from individual fundamental cycles) and
-$$\delta_1 - \delta_2 \notin \{2, 6, 14, 30, \ldots\}$$
-(from same-leaf sym-diffs). Valid pairs $(\delta_2, \delta_1)$ satisfying
-both constraints do exist (e.g.\ $(1,4), (1,5), (2,4), \ldots$), so the
-arithmetic alone does not close the argument. The proof would need to show
-that min-degree-$3$ forces DFS-tree structure inconsistent with ALL valid
-pairs — the "charge redistribution along ancestor chains" that Q9's
-ideation describes.
-
-**Petersen mechanism (established, R3).** For every DFS root in the
-Petersen graph, the chain-locality CHECK passes via a **fundamental
-cycle of length 8** — specifically a back edge with depth-gap 7. No
-DFS root requires a sym-diff; every root has at least one fundamental
-$C_8$. This is non-trivial given girth 5: no fundamental $C_4$ exists,
-so the argument always routes through fundamental $C_8$. Computationally
-confirmed by a second CHECK block (see `lemma_dfs_chain_locality.md`).
-
-**Sym-diff frequency in $n \le 6$ exhaustive sample (R3).** Of the 1885
-exhaustive $n \le 6$ graphs, 340 require a sym-diff for at least one DFS
-tree (i.e., no fundamental cycle has power-of-2 length under that DFS
-tree, but some sym-diff does). First example: $n=5$, two triangles
-sharing edge $(1,2)$; under DFS from vertex 4 the fundamental cycles all
-have lengths in $\{3,5,3\}$ — not powers of 2 — but the sym-diff of the
-two $C_3$'s gives a $C_4$.
-
-**$n = 7$ sampling (R3, 4,738 graphs checked, 0 failures).** A stride-50
-sample of all valid (connected, min-degree-$\ge 3$) simple graphs on 7
-vertices: 4,738 graphs, 0 failures, consistent with the lemma holding
-at $n = 7$.
-
-**Named-graph coverage (R4).** Added to the CHECK in
-`lemma_dfs_chain_locality.md`: Franklin graph ($n=12$, girth~6),
-Heawood graph ($n=14$, the unique $(3,6)$-cage, girth~6), and
-$GP(5,1)$ ($n=10$, prism over $C_5$, girth~3). All PASS. Girth-6 cases
-(Franklin, Heawood) rely on sym-diff: no $C_4$ or $C_8$ fundamental cycle
-exists under any DFS tree, but sym-diffs yield $C_8$ or $C_{16}$. This
-is the converse mechanism to Petersen (which has fundamental $C_8$) and
-confirms that sym-diff is load-bearing for the high-girth cubic family.
-
-**$n = 7$ denser sample (R4, stride-5, $\approx 47{,}000$ graphs, 0 failures).**
-A stride-5 walk of the $n=7$ search space ($\approx 10\times$ the prior
-stride-50 sample): zero failures. Confidence in the lemma at $n=7$ is now
-very high.
-
-**Girth-6 mechanism.** The Franklin and Heawood results reveal the
-mechanism for high-girth cases: no fundamental cycle achieves a
-power-of-2 length (girth forces $\delta + 1 \ge 6$, so fundamental
-lengths avoid 4 and 8); instead, two fundamental cycles whose shared
-tree path has even length $\ell$ produce a sym-diff of length
-$(\delta_1+1) + (\delta_2+1) - 2\ell$ — which hits 8 or 16 for
-appropriate gap pairs. The proof would need to show such a pair always
-exists when girth $\ge 5$.
-
-**Nested sym-diff sub-lemma (R5, proved; see
-`proof_lemmas/lemma_sym_diff_nested.md`).** For two back edges $e_1, e_2$
-whose fundamental cycles are *nested* ($u_1 \le u_2 \le v_2 \le v_1$ in
-DFS tree order), the sym-diff $F_1 \triangle F_2$ is always a simple
-cycle of length
-$$(\delta_1 - \delta_2) + 2$$
-— the **same formula** as the same-leaf case. This is proved by tracing
-the four path segments: $P(v_1, v_2)$, back edge $e_1$, $P(u_1, u_2)$,
-back edge $e_2$; after cancellation, the shared inner path $P(u_2, v_2)$
-drops out. The forbidden constraint $\delta_1 - \delta_2 \notin
-\{2, 6, 14, \ldots\}$ thus applies to ALL nested pairs, not only
-same-leaf ones. CHECK verified on $> 5{,}000$ depth configurations.
-
-**Unified sym-diff theorem (R6) — SUPERSEDED by Section 22 (R15).** The R6
-statement below is retained for the historical record but is **wrong for
-crossing pairs** and must not be cited:
-> The sym-diff of two fundamental cycles $F_1, F_2$ is a simple cycle if and
-> only if their back edges lie on the same DFS branch. In all such cases
-> (nested, crossing, same-leaf) the length is $(\delta_1 - \delta_2) + 2$.
-
-The corrected picture (Section 22): the $(\delta_1-\delta_2)+2$ length
-formula holds for **nested and same-vertex pairs only**; for crossing pairs
-in strict crossing order $d(a_1)<d(a_2)<d(s_1)<d(s_2)$ the correct length
-is $(d_{a_2}-d_{a_1})+(d_{s_2}-d_{s_1})+2$ (Lemma `crossing_pair_formula`,
-proved R16). The claim that different-subtree back edges never give a
-simple sym-diff cycle stands.
-
-**Constraint system — SCOPE CORRECTED (Section 22, R15).** For any
-hypothetical counterexample and any DFS tree, for every **nested or
-same-vertex** pair of back edges with depth-gaps $\delta_1 \ge \delta_2$:
-$$\delta_i \notin \{3, 7, 15, 31, \ldots\}
-\quad\text{and}\quad
-\delta_1 - \delta_2 \notin \{2, 6, 14, 30, \ldots\}.$$
-The $\delta_1-\delta_2$ clause was originally (R6) asserted for ALL
-same-branch pairs; that derivation used the superseded R6 length formula
-and does **not** apply to crossing pairs. Crossing pairs instead obey the
-separate constraint $\omega = (d_{a_2}-d_{a_1})+(d_{s_2}-d_{s_1}) \notin
-\{2,6,14,30,\ldots\}$ (Section 22). The per-edge $\delta_i$ clause applies
-to every back edge regardless. Different-branch pairs contribute no simple
-sym-diff cycles.
-
-**Back-edge density sub-lemma (R7, partially proved; see
-`proof_lemmas/lemma_backedge_density.md`).** Parts A (back-edge count
-$\ge \lfloor n/2\rfloor + 1$) and B (DFS leaves forced same-branch pairs)
-are proved. Part C (forcing a constraint-system violation) is OPEN. The
-key obstacle: valid gap pairs with both gaps $\ge 2$ exist (e.g.\ $(2,5)$,
-$(4,5)$), so arithmetic alone does not rule out all leaf configurations.
-A structural argument beyond counting is needed. Part D documents the valid
-pair enumeration. CHECK (Part A) verified on all min-degree-$3$ simple graphs
-$n \le 6$.
-
-**Open question refinement (Q9).** The DFS depth-chain argument for
-Erdős–Gyárfás would need to close Part C of
-`lemma_backedge_density.md`. Approaches:
-- **DFS tree shape**: min-degree-3 forces many DFS leaves; each leaf requires
-  a valid pair; multiple leaves may create contradictory constraints globally.
-- **Gap-density forcing**: show that in a min-degree-3 graph on $n$ vertices,
-  the back-edge depth-gaps cannot all simultaneously avoid the forbidden set
-  for the required number of leaves.
-- **Vertex-count lower bound**: use Part A + the forbidden valid-pair density
-  to derive a lower bound on $n$ for a counterexample, contradicting the
-  witness window.
-The approach is promising but not yet closed; marking Q9 as ongoing.
-
-**Gap-pair density (R8, quantified).** The valid gap pair density (pairs
-satisfying all three constraints) is $68.8\%$ for $\delta \le 40$ (510 of
-741 pairs). This confirms that the forbidden system eliminates only about
-$31\%$ of pairs — far too sparse for arithmetic alone to rule out
-counterexamples. Any proof via depth-gap constraints must exploit structural
-properties of DFS trees (min-degree-3 forces specific gap distributions)
-rather than universal gap-pair sparsity.
-
-## Section 10 — Q9 radius-2 disproof and radius-3 program (session s_0724-213346-43a1, merged post-hoc)
-
-Fix a hypothetical counterexample $G$ (min degree $\ge 3$, no simple
-cycle of power-of-2 length) and any DFS tree $T$ of $G$ rooted at $r$.
-All non-tree edges are back edges (ancestor–descendant); write the
-depth-gap of a back edge $e = (u, a)$, $a$ an ancestor of $u$, as
-$d(e) = \operatorname{depth}(u) - \operatorname{depth}(a) \ge 2$
-(gap 1 would duplicate a tree edge in a simple graph).
-
-**Fact 6.1 (fundamental cycles).** $F(e)$ has length $d(e) + 1$. In a
-counterexample, therefore, NO back edge has $d(e) \in \{3, 7, 15, 31,
-\dots\} = \{2^k - 1\}$.
-
-**Fact 6.2 (same-vertex pairs).** If $e_1 = (u, a_1)$, $e_2 = (u, a_2)$
-are back edges from the same vertex $u$ with gaps $d_1 < d_2$, then
-$F(e_1) \bigtriangleup F(e_2)$ is the simple cycle
-$a_2 \to^{T} a_1 \to^{e_1} u \to^{e_2} a_2$ of length $d_2 - d_1 + 2$.
-In a counterexample, no such pair has $d_2 - d_1 \in \{2, 6, 14, 30,
-\dots\} = \{2^k - 2\}$.
-
-**Fact 6.3 (leaves are back-edge sources).** A DFS leaf (no tree
-children) of a min-degree-3 graph has $\ge 2$ back edges (all its
-non-parent incidences), whose gaps are constrained by 6.1 and whose
-pairwise differences are constrained by 6.2.
-
-General two-back-edge cycles (back edges on comparable or overlapping
-tree paths beyond the same-vertex case) give further forbidden
-configurations; the exact case analysis is deferred to a future lemma —
-by the reformulation proved in Lemma file `chain_locality`, the complete
-radius-2 constraint set is exactly: *no simple power-of-2 cycle carries
-$\le 2$ back edges*.
-
-**Program status after round 1.** The radius-2 first lemma is
-**disproved**: lemma file `chain_locality` records 23 machine-verified
-(graph, DFS tree, root) instances — three cubic 10-vertex graphs and
-one 12-vertex graph — where NO power-of-2 cycle carries $\le 2$ back
-edges (independently re-verified with networkx cycle enumeration plus
-explicit DFS simulation). The ideation risk fired early: radius-2
-locality already fails at $n = 10$, so a discharging argument
-accounting only for fundamental cycles (6.1) and pairwise interactions
-(6.2) cannot close Q9 at ANY scale. Two facts survive intact and
-sharpen the program:
-
-1. In every falsifying instance the minimum back-edge count over
-   power-of-2 cycles is EXACTLY 3 — never more. The revised first
-   lemma `chain_locality_r3` (radius 3: some po2 cycle carries $\le 3$
-   back edges, $n \le 12$) survives every probe so far, including
-   exhaustive Trémaux coverage of the falsifiers themselves.
-2. The falsifier profile is specific: girth-3, C4-free-or-poor,
-   C8-rich cubic graphs, where deep DFS trees spread every C8 across
-   $\ge 3$ back edges. Whatever charge argument emerges must pay for
-   exactly this configuration.
-
-The discharging goal is updated accordingly: leaves get initial charge
-from Fact 6.3, charge flows up ancestor chains, and the sub-invariance
-inequality must now account for TRIPLE back-edge interactions (cycles
-$F(e_1) \bigtriangleup F(e_2) \bigtriangleup F(e_3)$), not just pairs
-— strictly harder, but the universal min-radius-3 signal says radius 3
-may be where locality actually lives.
-
-**Round 2 — the radius-3 program.** Lemma `chain_locality_r3` (open)
-is installed as the revised first lemma: same statement at radius 3,
-$n \le 12$, with a falsifier-focused CHECK (exhaustive Trémaux coverage
-of CL-A/B/C and the $n=12$ instance, Petersen anchor, fresh cubic-biased
-randoms). Three concrete work items, in dual-attack order:
-
-1. **(Falsify first)** Adversarial hunt for a radius-4 instance at
-   $n = 12..20$ — random cubic-biased sweeps plus local search seeded
-   from CL-B/CL-C (edge swaps preserving min degree, maximizing the
-   min back-edge count over po2 cycles). A hit kills radius-3 locality
-   and with it this incarnation of the discharging shape; the boundary
-   probes so far (10 radius-2 failures at $n = 14, 16$, all at min
-   radius exactly 3) say the hunt must try harder than uniform
-   sampling. *Round-3 status: executed (54,429 swap-search graph
-   states, $n \le 18$, 120 DFS tries each) — objective never reached
-   4; radius-3 ceiling held under adversarial pressure. Details in
-   lemma `chain_locality_r3`, "Adversarial evidence". Not exhaustive;
-   a future session should extend to $n = 19..24$ and to
-   simulated-annealing over (graph, tree) jointly before treating
-   radius-3 as safe.*
-2. **(Candidate local obstruction, CHECKable)** Why does no probed DFS
-   tree spread EVERY po2 cycle across $\ge 4$ back edges? For an
-   8-cycle carrying 4 back edges, the 4 remaining tree edges form 4
-   single-edge ancestor–descendant segments whose corners the Trémaux
-   comparability order must serialize — a candidate finite case
-   analysis. Formulate and probe the sharpest true version (e.g. "no
-   C8 alternates tree/back edges in a DFS tree of a min-deg-3 graph")
-   BEFORE proving anything with it; if the alternating-C8 probe fails,
-   weaken toward what the data support (some po2 cycle in the WHOLE
-   graph stays at $\le 3$, a global not per-cycle statement).
-3. **(Cubic case first)** In a DFS tree of a connected cubic graph:
-   every leaf carries exactly 2 back edges, the root carries at most 3
-   tree children, and every internal non-root vertex carries at most 1
-   back-edge endpoint besides its tree incidences — so back-edge
-   endpoints are sharply budgeted. The falsifiers are cubic; if
-   radius-3 locality is provable anywhere, it is here.
-
-## Section 11 — Q9 alternation obstruction: both versions disproved (session s_0726-080718-bd1c)
-
-Both candidate alternation obstructions for C8s in DFS trees were probed
-and found false. The dead-end is recorded to prevent rediscovery; the
-structural consequence is significant.
-
-### 11.1 — Count=4 obstruction: FALSE
-
-CL-A (cubic, $n=10$) with DFS tree `tree_mask=2975` (root 0) has a C8
-with cycle $1\text{-}8\text{-}3\text{-}7\text{-}9\text{-}2\text{-}4\text{-}6\text{-}1$
-and back edges $\{(3,7),(1,8),(2,9),(1,6)\}$ (4 back edges, pattern
-B-T-B-T-B-T-T-B). Full falsifier in
-`proof_lemmas/lemma_alternation_obstruction.md`.
-
-In that same (graph, tree) pair, all 10 C8s have counts $\{1{:}1,\
-3{:}4,\ 4{:}3,\ 5{:}2\}$; the minimum is 1, so chain_locality_r3 holds.
-
-### 11.2 — Strict alternating obstruction: FALSE
-
-A refined claim — no C8 has the perfect T-B-T-B-T-B-T-B pattern — is
-also false. CL-A (different tree) has the C8
-
-$$[0,2,9,7,3,8,1,5] \quad \text{back edges } \{(2,9),(3,7),(1,8),(0,5)\}$$
-
-whose back edges land at positions 1,3,5,7 in the cycle order,
-forming a perfect matching of $C_8$ — the exact strict alternating
-pattern. See `proof_lemmas/lemma_alternation_obstruction.md` (status:
-disproved).
-
-### 11.3 — Structural consequence
-
-**chain_locality_r3 is not threatened.** In both falsifying (graph, tree)
-pairs, C8s with 4 back edges coexist with C8s of back-edge count $\le 3$.
-Lemma `chain_locality_r3` claims only that SOME po2 cycle has $\le 3$
-back edges — not that all do.
-
-**Key insight.** The alternation frame sought a PER-CYCLE mechanism
-("no individual C8 can have $\ge 4$ back edges"). Both versions are false.
-The true mechanism must be a **global EXISTENCE** argument: the minimum
-over all po2 cycles in any (graph, tree) pair is $\le 3$, because of
-structural constraints on the FULL back-edge configuration, not on any
-single cycle.
-
-This sharpens the proof target: proving chain_locality_r3 requires
-showing that, in any min-deg-3 graph with any DFS tree, there always
-exists at least one po2 cycle with few back edges — a global minimum
-guarantee, not a per-cycle bound.
-
-### 11.4 — Updated next steps for Q9
-
-1. **Radius-4 escalation** (priority 1): extend the adversarial search
-   from $n \le 18$ (prior: 54,429 graph states, zero radius-4 hits) to
-   $n = 19..24$ with joint (graph, tree) simulated annealing seeded from
-   radius-3-tight instances. A hit at radius 4 falsifies chain_locality_r3.
-2. **Cubic case existence proof**: leverage the sharp back-edge budget of
-   cubic DFS trees (each leaf has exactly 2 back edges, each non-leaf
-   non-root has at most 1) to attempt a pigeonhole/existence argument for
-   the minimum-radius guarantee.
-3. **Q11 (frankl_union_closed)**: transitive-symmetry counterexample
-   screen remains open and is independent of the DFS approach.
-
-## Section 12 — Q9 radius-4 escalation at n=20..24 (session s_0726-080718-bd1c)
-
-Following the alternation disproof (Section 11), the adversarial hunt was
-extended from $n \le 18$ to $n \in \{20, 22, 24\}$ to probe whether
-chain_locality_r3 holds beyond the exhaustively-checked range.
-
-### 12.1 — Search parameters
-
-- **Scope**: cubic (3-regular) graphs, $n \in \{20, 22, 24\}$.
-- **Cycle filter**: C4 and C8 only (C16 omitted for speed; a C16 with $\le
-  3$ back edges satisfies chain_locality_r3 vacuously without any C4/C8
-  constraint).
-- **Scale** (full search, session s_0726-080718-bd1c): 15 random starts ×
-  50 greedy local-search steps = 750 graph states tested per $n$, with 20
-  DFS trials evaluated at each state.
-- **CHECK block** (quick re-check in `lemma_radius4_hunt_n24.md`): 4 starts
-  × 10 swaps × 10 DFS trials, runs in ≤15 seconds.
-
-### 12.2 — Results
-
-| $n$ | Max radius found | Radius-4 hit? |
-|-----|-----------------|---------------|
-| 20  | 3               | No            |
-| 22  | 2               | No            |
-| 24  | 2               | No            |
-
-**No radius-4 instance found** across 750 graph states (C4/C8 check only).
-The radius-3 ceiling holds throughout the tested range. Absence of a hit is
-weak evidence (this search is much smaller than the prior $n \le 18$
-exhaustive scan of 54,429 states with 120 DFS tries each); it neither proves
-chain_locality_r3 at $n > 12$ nor rules out a harder-to-find radius-4 graph.
-
-### 12.3 — Remaining search work
-
-The search at $n = 19..24$ is far from exhaustive. Directions for a stronger
-search:
-
-1. **Simulated annealing with girth-5 seeds**: no C4 in the graph → C4
-   cycles cannot contribute low-radius paths; forces the checker to rely on
-   C8s and C16s, which are harder to cover.
-2. **Joint (G, T) optimization**: simultaneously optimize over graphs AND
-   spanning trees rather than fixing a random DFS tree.
-3. **C16 inclusion**: any graph where every C4 and C8 has radius ≥ 4 but
-   some C16 has radius ≤ 3 satisfies chain_locality_r3 vacuously — the
-   current search does not check this and would falsely report a radius-4
-   hit on such a graph. Full verification requires scoring C16 as well.
-4. **Markström bound** (F3): any cubic counterexample to Erdős–Gyárfás has
-   $n \ge 30$. This suggests the interesting radius-4 candidates, if they
-   exist, are at larger $n$ — the current search stops at $n = 24$.
-
-Full details in `proof_lemmas/lemma_radius4_hunt_n24.md` (status: open).
-
-## Section 13 — Q9 cubic depth-gap mechanism probe (session s_0726-080718-bd1c)
-
-A specific candidate mechanism for chain_locality_r3 in cubic graphs: every
-DFS tree of a cubic graph has a back edge whose depth-gap lies in
-$\{3, 7, 15, 31\}$, providing a fundamental cycle of length exactly $4, 8,
-16, 32$ with only 1 back edge. If this "easy-path" hypothesis holds
-universally, chain_locality_r3 for cubic graphs is trivial.
-
-### 13.1 — Cubic back-edge budget
-
-In a cubic DFS tree:
-- Back-edge count $= n/2 + 1$ (total edges $3n/2$ minus $n-1$ tree edges).
-- Each DFS-tree **leaf** carries exactly **2 back edges** (parent occupies 1
-  of its 3 degree slots; zero children; remaining 2 slots are back edges).
-- Each internal non-root has $\le 1$ back edge (parent takes 1 slot;
-  $k \in \{1,2\}$ children take the rest).
-- This "sharp budget" is the key structural fact exploited by the easy-path
-  argument: leaves are the densest source of back edges.
-
-### 13.2 — Easy-path vs hard-path classification
-
-For each (G, T) pair:
-- **Easy**: some back edge $(u,v)$ has depth-gap $\in \{3,7,15\}$ → that
-  back edge immediately witnesses a C4/C8/C16 with 1 back edge.
-- **Hard**: no back edge has a po2 depth-gap → chain_locality_r3 must hold
-  via a non-fundamental cycle (2 or 3 back edges).
-
-The CHECK in `proof_lemmas/lemma_cubic_depth_gap.md` tests this on 90
-sampled (G, T) pairs at $n \in \{8, 10, 12, 14, 16\}$, verifying
-chain_locality_r3 explicitly for every hard-path instance.
-
-### 13.3 — Implications
-
-| Result | Consequence |
-|--------|-------------|
-| All pairs easy-path | Easy-path is universal ≥ for $n \le 16$; aim to prove for all cubic $n$ |
-| Some pairs hard-path | Identify their tree structure; prove chain_locality_r3 separately for them |
-| Hard-path pair violates chain_locality_r3 | chain_locality_r3 falsified at $n > 12$ |
-
-Full details and results in `proof_lemmas/lemma_cubic_depth_gap.md`.
-
-## Section 14 — Q11 Frankl cyclic orbit lemma (session s_0726-080718-bd1c)
-
-> **CROSS-PROBLEM ARCHIVE** (see the Section 7 disclaimer): Sections 14–16
-> concern `frankl_union_closed`, cite only that problem's ledger, and are
-> **not load-bearing for the Erdős–Gyárfás claim under review**.
-
-Switching to `frankl_union_closed` / Q11 (transitive counterexample screen)
-for an independent proof direction. The first lemma is:
-
-**Claim (cyclic_orbit_avg_size).** For any nonempty $A \subset \mathbb{Z}_n$,
-the union-closure $\mathcal{F}$ of the cyclic orbit $\{A+k : k \in
-\mathbb{Z}_n\}$ satisfies avg member size $\ge n/2$.
-
-For transitive families (where cyclic shift acts), Frankl's conjecture
-(every element in $\ge |\mathcal{F}|/2$ sets) is equivalent to avg member
-size $\ge n/2$ via the frequency–size duality: $\text{avg\_size} = \text{freq}(j)$
-(uniform frequency by transitivity).
-
-The CHECK in `proof_lemmas/lemma_cyclic_orbit_avg_size.md` exhaustively
-tests all generators $A$ of size 2–4 for $n = 4..10$. A failure would be a
-Frankl counterexample for a transitive cyclic family.
-
-## Section 15 — Q11 cyclic orbit lemma partial proof + extended CHECK (session s_0726-080718-bd1c)
-
-**Proved** (Case 1): for generators $|A| \ge n/2$, every element of
-$\mathcal{F}$ has size $\ge n/2$, so avg\_size $\ge n/2$ trivially.
-
-**Open** (Case 2): for $|A| < n/2$, the cyclic shift pairing fails
-(example: $n=4$, $j=0$: $S_1 = \{1\}$ and $S_2 = \{3\}$ both map to
-$\{0\}$ under the shift pairing). Analytic proof needed.
-
-Extended CHECK: sampled n=11..15, still no violation found.
-
-## Section 16 — Q11 dihedral orbit Frankl lemma (session s_0726-080718-bd1c)
-
-Following the cyclic orbit lemma (Section 14), the dihedral group $D_n$
-(rotations + reflections) provides the next Frankl test case. The $D_n$-orbit
-of $A \subset \mathbb{Z}_n$ is the union of two cyclic orbits (orbit of $A$
-and orbit of $\text{Reflect}(A)$). The union-closure of the $D_n$-orbit is
-weakly larger than either cyclic union-closure (monotonicity of union-closure),
-so avg member size is weakly larger than for the cyclic case.
-
-The CHECK in `proof_lemmas/lemma_dihedral_orbit_avg_size.md` exhaustively
-tests generators of size 2–4 for $n = 4..10$. If no failure, the transitive
-counterexample screen prunes both cyclic and dihedral generators from the
-Frankl search space.
-
-## Section 17 — Q9 Hamiltonian-path DFS tree case (session s_0726-080718-bd1c)
-
-Special case: DFS tree is a Hamiltonian path $0 \to 1 \to \cdots \to n-1$.
-This is the "widest" tree (max depth $n-1$), with each internal vertex
-having exactly 1 back edge and the root/leaf each having 2 back edges.
-
-**Back-edge structure** (cubic path tree):
-- Root 0: 2 back edges received from deeper vertices.
-- Vertex $k$ ($1 \le k \le n-2$): sends 1 back edge to some $j < k$.
-- Leaf $n-1$: sends 2 back edges to $j_1, j_2 < n-1$.
-
-**Easy-path**: any back edge with depth-gap $\delta \in \{3, 7, 15, 31\}$
-gives a fundamental C4/C8/C16/C32 (1 back edge). The CHECK in
-`proof_lemmas/lemma_ham_path_tree_r3.md` adversarially samples back-edge
-configurations and verifies chain_locality_r3 (C4/C8/C16, radius $\le 3$)
-on all instances.
-
-## Section 18 — Q9 girth-5 cubic depth-gap probe (session s_0726-080718-bd1c)
-
-Girth-5 cubic graphs are the hardest sub-case for the easy-path argument:
-girth $\ge 5$ forces all back-edge depth-gaps to be $\ge 4$ (no C4
-fundamental cycles). The easy path must rely on depth-gap $\in \{7,15,31\}$
-(C8/C16/C32 fundamental cycles).
-
-This sub-case is relevant to the Markström bound (F3): any cubic
-counterexample to Erdős–Gyárfás has $n \ge 30$ and is likely high-girth.
-
-The **Petersen graph** (n=10, girth=5, unique cubic girth-5 graph) anchors
-the probe. The CHECK in `proof_lemmas/lemma_girth5_depth_gap.md` runs on:
-
-- Petersen graph (all accessible DFS trees).
-- Sampled girth-5 cubic graphs at $n \in \{10, 12, 16, 20\}$ (rare; each
-  sampling attempt may fail → fewer than 4 graphs per class).
-
-For every hard-path (G, T) pair (no depth-gap 7 or 15 back edge), the
-C8/C16 minimum radius is verified explicitly. The assert fires if
-chain_locality_r3 is violated.
+**Verification-harness note (for reviewers writing `numerical_check`
+expressions):** the sandbox that re-derives numerical claims exposes only
+basic builtins (`set`, `list`, `tuple`, `len`, `all`, `any`, `sum`,
+`range`, `math`, comprehensions) — `frozenset`, imports, and dunder
+access are unavailable and a check using them fails as unevaluable. Use
+`set(...) ^ set(...)` for symmetric differences.
+
+## Sections 2–18 — historical digest (condensed 2026-08-05, session s_0805-080844-5fb3)
+
+> The full narratives of Sections 2–18 are preserved verbatim in git
+> history (this file at commit `9e2eb14` and earlier) and in the
+> per-session archives under `strategies/erdos_gyarfas/`. They are
+> condensed here because the live argument is Sections 19–30; every lemma
+> file cited below still exists in `proof_lemmas/` with its full body and
+> CHECK blocks. Section numbers are retained as anchors for
+> cross-references from later sections.
+
+### Sections 2–5 — Q8: counterexample-first lift screens (RESOLVED, no witness)
+
+- **Lemma `igraph_c4_or_c8` (proved, all sizes):** every simple I-graph
+  $I(m,a,b)$ — which includes every generalized Petersen graph
+  $GP(n,k) = I(n,1,k)$ and all dumbbell lifts — contains a $C_4$ (when
+  $b \equiv \pm a \bmod m$: $u_0,u_a,v_a,v_0$) or an explicit $C_8$
+  ($u_0,u_a,v_a,v_{a+b},u_{a+b},u_b,v_b,v_0$, the four residues
+  $\{0,a,b,a+b\}$ pairwise distinct). No I-graph of ANY size is an EGC
+  witness. Machine-validated $3 \le m \le 60$; cross-checked by
+  exhaustive search $m \le 12$; window screen $m \in [15,32]$.
+- **Lemma `lift_screen_window` (proved, finite computational fact):**
+  every $\mathbb{Z}_m$-voltage theta lift ($m \in [15,32]$) and $K_4$
+  lift ($m \in [8,16]$) contains a $C_4$, $C_8$, or $C_{16}$; 23,556
+  lifts screened, no survivor. Structural note kept for a future qid:
+  theta lifts are bipartite; those avoiding $C_4/C_8$ die at $C_{16}$
+  via a short voltage relation $\alpha a_2 + \beta a_3 \equiv 0
+  \pmod m$ ($|\alpha|,|\beta| \le 8$); whether some large-$m$ voltage
+  pair defeats every power-of-2 scale simultaneously is genuinely open
+  but outside this harness's 64-vertex witness cap.
+- **Q8 verdict:** no witness in the screened families; a counterexample
+  hunt must move to girth-biased random cubics / cages / snark-like
+  families. Ideation losers (Hashimoto trace compression, dyadic-window
+  spectrum sieve, minimal-counterexample stability stack) are recorded
+  in the notes channel and must not be re-proposed without new input.
+
+### Sections 6, 9–10 — Q9 radius-2 disproof; pair formulas; radius-3 program
+
+- **Lemma `chain_locality` / `dfs_chain_locality` (DISPROVED, R1):** the
+  radius-2 claim (some PO2 cycle is a fundamental cycle or a 2-cycle
+  sym-diff, for EVERY DFS tree) fails at $n=10$: machine-found cubic
+  counterexamples CL-A/B/C (CL-A edge list in the lemma file; DFS root 7
+  gives fundamental lengths $[3,3,3,5,6,10]$, pair sym-diffs
+  $\{0,5,6,7,9\}$). Every 8-cycle there carries exactly 3 back edges.
+  23 falsifying (graph, tree, root) instances recorded.
+- **Lemma `chain_locality_r3` (open, radius-3 replacement):** some PO2
+  cycle carries $\le 3$ back edges. Survived exhaustive Trémaux coverage
+  of CL-A/B/C + the $n=12$ falsifier, and adversarial swap-search
+  (54,429 graph states, $n \le 18$, 120 DFS tries each; extended to
+  $n \in \{20,22,24\}$ with 750 states each, C4/C8 scoring): NO
+  radius-4 instance ever found; min radius over PO2 cycles is always
+  $\le 3$ in every probe. Not exhaustive at $n > 12$.
+- **Pair sym-diff formulas** (all later SUBSUMED by `fund_pair_overlap`,
+  Section 28): `same_leaf_sym_diff` (proved): leaf with back edges at
+  gaps $\delta_1 > \delta_2$ gives a simple cycle of length
+  $\delta_1 - \delta_2 + 2$. `sym_diff_nested` (proved): same formula
+  for nested pairs. The R6 "unified" claim that ALL same-branch pairs
+  obey $|\delta_1-\delta_2|+2$ was WRONG for crossing pairs — corrected
+  in Section 22 (`crossing_pair_formula`); do not cite R6.
+- **Depth-gap constraint system:** in a counterexample, every back-edge
+  gap avoids $\{3,7,15,31,\dots\}$ (fundamental cycles) and every
+  nested/same-vertex pair difference avoids $\{2,6,14,30,\dots\}$;
+  crossing pairs instead constrain the offset $\omega$ (Section 22).
+  Valid gap pairs exist in abundance (68.8% density for $\delta \le
+  40$), so arithmetic alone cannot close Q9 — structure must.
+- **Lemma `backedge_density`:** parts A (back-edge count
+  $\ge \lfloor n/2 \rfloor + 1$) and B (leaves force same-branch
+  pairs) proved; part C (forcing a violation) open — this is what the
+  mechanism taxonomy of Sections 19–30 replaces.
+
+### Section 8 — cubic back-edge budget + early triple evidence (kept: still cited)
+
+- **Cubic DFS budget** (used throughout, incl. Sections 27–29): back-edge
+  count $= n/2 + 1$; every DFS leaf carries exactly 2 back edges (in
+  min-degree-3 graphs: $\ge 2$); every internal non-root vertex carries
+  $\le 1$ back-edge lower endpoint; the root receives back edges only.
+- **Computational chain-locality at radius 3:** `chain_locality_triple`
+  (proved computationally, $n \le 10$, incl. all 2000 Petersen spanning
+  trees — 960 fire via fundamental $C_8$, 1040 via pair sym-diff);
+  `chain_locality_extended` (cubic through $n=24$, 6,650 pairs, zero
+  triple failures); `chain_locality_full_window` (open; cubic through
+  $n = 64$, 9,350+ pairs, zero triple failures). Moore-bound facts
+  (min-deg-3 girth-5 needs $\ge 10$ vertices; $n \le 9$ forces girth
+  $\le 4$) are NOT quoted from literature: both are re-derived from
+  scratch and machine-verified exhaustively in the
+  `lemma_chain_locality_proof` CHECK (neighborhood counting
+  $1 + 3 + 3\cdot 2 = 10$; exhaustive enumeration over all min-deg-3
+  graphs on $n \le 9$).
+
+### Sections 11–13, 17–18 — dead ends and probes (recorded to prevent rediscovery)
+
+- **Lemma `alternation_obstruction` (DISPROVED, both versions):** C8s
+  with 4 back edges exist (CL-A), including a perfect T-B-T-B-T-B-T-B
+  alternating C8. Consequence: no PER-CYCLE bound can work; the true
+  statement must be a global EXISTENCE claim (some PO2 cycle has $\le 3$
+  back edges) — this insight drove the mechanism taxonomy.
+- **Lemma `radius4_hunt_n24` (open):** adversarial radius-4 hunt through
+  $n=24$ found nothing; radius-3 ceiling holds under pressure.
+- **Lemma `cubic_depth_gap` (probe):** easy-path (some gap in
+  $\{3,7,15,31\}$) vs hard-path classification; every hard-path
+  instance verified at radius $\le 3$.
+- **Lemmas `ham_path_tree_r3`, `girth5_depth_gap` (probes):** Hamiltonian
+  path trees and girth-5 cubics (Petersen anchor) — chain_locality_r3
+  holds in every sampled instance.
+
+### Sections 7, 14–16 — CROSS-PROBLEM ARCHIVE (Frankl union-closed; inert here)
+
+Q10/Q11 excursions into `frankl_union_closed` (a separate open problem
+with its own spec and ledger): `frankl_deficiency` (KL deficiency
+$\ge (1-p)^2/4$, open, CHECK passes), `cyclic_orbit_avg_size` (Case
+$|A| \ge n/2$ proved, rest open), `dihedral_orbit_avg_size` (probe).
+**Nothing in the Erdős–Gyárfás argument depends on these**; they are
+retained solely as audit trail under their `lemma_frankl_*` /
+`lemma_*_orbit_*` files.
 
 ## Section 19 — Q9 leaf-pair sym-diff mechanism (session s_0730-080837-b7c4)
 
@@ -1013,7 +272,14 @@ cycle length 4. $\checkmark$
 showing that for some leaf $v$ and ancestor pair $(a,b)$, the child $w$ of $a$
 has its back edge to $x$ with $|d_x-d_b| \in \{0,4,12,\ldots\}$. The CHECK
 in the lemma file verifies this for all CL-A/B/C residual DFS trees and
-sampled cubics up to $n=12$.
+sampled cubics up to $n=12$. *Caveat (flagged 2026-08-05): the cubic
+budget (Section 8) gives an internal non-root vertex AT MOST one back
+edge as sender, not at least one — $w$ may send none (it may have a tree
+child instead). The double-sender route therefore needs an existence
+argument for $w$'s back edge that was never supplied; this reduction is
+one candidate mechanism, not a proof, and has been superseded as the
+main line by the pasting program (Sections 26–30), which quantifies over
+ALL third back edges rather than the specific $w$.*
 
 ## Section 22 — Q9 crossing-pair mechanism and corrected coverage taxonomy (session s_0730-080837-b7c4, R15)
 
@@ -1486,23 +752,51 @@ even back-edge gaps occur, some odd-gap and some even-gap back edge have
 edge-overlapping vertical paths; hence (`fund_pair_overlap`) a mixed pair
 with **odd single-cycle** sym-diff $D$ exists — the $OEE$ raw material.
 
-**Proof shape** (all standard DFS facts, elementary):
-1. 2-connected ⇒ DFS root has exactly one child, and every child subtree
-   of every non-root vertex sends a back edge strictly above it
-   (low-point property). Hence every tree edge is covered.
+**Proof shape** (elementary; every ingredient proved in-repo):
+1. In a 2-connected graph, the DFS root has exactly one child, and every
+   child subtree of every non-root vertex sends a back edge strictly
+   above it (low-point property). Both are proved from scratch as facts
+   (a) and (b) in `lemma_mixed_overlap_supply__0804-080732-f106.md`
+   (contradiction with 2-connectedness via the no-cross-edge property of
+   DFS), and machine-checked there on 796 trees / 9,568 instances. Hence
+   every tree edge is covered.
 2. If no mixed pair overlaps, each tree edge is covered by one parity
-   only — a 2-coloring $\chi$ of tree edges. The low-point back edge over
-   $v$ covers both $v$'s parent edge and the child edge it climbs
-   through, so $\chi$ is equal on adjacent tree edges ⇒ constant on the
+   only — a 2-coloring $\chi$ of tree edges. Spelled out: for every
+   non-root $v$ and every child $c$ of $v$, the low-point property (1)
+   gives a back edge from the subtree rooted at $c$ whose anchor is a
+   strict ancestor of $v$; its vertical path passes through both the
+   child edge $(v,c)$ and $v$'s parent edge, so
+   $\chi(v,c) = \chi(\text{parent edge of } v)$. Hence all tree edges
+   incident to one vertex share a color, and $\chi$ is constant on the
    connected tree.
 3. Every back edge covers some tree edge ⇒ all gaps have the constant
    color's parity ⇒ tree not mixed. Contrapositive: done.
 
 **Sharpness**: bridged compositions (all-odd-gap block + bridge +
 all-even-gap block) are mixed with no mixed overlap — 2-connectedness
-cannot be dropped. Irrelevant to the EGC target class (cycles live in
-blocks; random cubics are a.a.s. 3-connected — consistent with R21's
-777/777).
+cannot be dropped from the lemma. (Empirically the hypothesis was never
+binding in our samples: R21 saw 777/777 mixed trees with a mixed
+overlapping pair, with no 2-connectedness filter applied.)
+
+**Reduction gap (flagged 2026-08-05, open sub-item).** "Cycles live in
+blocks" does NOT by itself reduce EGC to the 2-connected case for this
+lemma's purposes: a block of a min-degree-3 graph need not have min
+degree 3 *within the block* (a cut vertex may keep only 2 of its
+incidences inside a given block), and `mixed_overlap_supply` is applied
+to a DFS tree of the whole graph, whose back-edge parity classes span
+blocks. The one fact we do use and prove nothing beyond: every simple
+cycle of $G$ lies inside one block (a cycle is 2-connected, so it cannot
+cross a cut vertex into two components), so a PO2 cycle found in any
+block settles $G$. A minimal-counterexample-is-2-connected reduction is
+PLAUSIBLE but unproven in this artifact: the natural cut-vertex surgery
+($G = G_1 \cup_v G_2$, repair the degree deficit at $v$ in each piece)
+has an unspecified degree-repair step that could itself create PO2
+cycles, and no lemma file contains it. Until such a reduction lemma is
+proved, the supply half (Section 29) is closed only for 2-connected $G$,
+and the pair-residual existence chain of Section 30 inherits that
+hypothesis. A future round should either (a) formulate and prove the
+reduction lemma (with a CHECK over small graphs with cut vertices), or
+(b) run the segregation argument per-block with a per-block DFS tree.
 
 ### CHECK (796 2-connected cubic DFS trees, n=10–18)
 
@@ -1549,3 +843,107 @@ Two sub-questions for R23+:
 | CHECK: 796 trees, proof facts + conclusion, 0 violations | **verified** (R22) |
 | Supply half of Q9 existence | **CLOSED (2-connected)** (R22) |
 | Meeting + tuning of the third back edge | **open** (R23 target) |
+
+## Section 30 — R23: The pasting value set is a step-2 interval containing 8 (session s_0805-080844-5fb3)
+
+### Dual-attack probe first (standing policy)
+
+The R22 handoff asked, before analytic effort on meeting + tuning: census
+the FULL achievable value set of each pair-residual tree,
+
+$$V(T) = \{\, |D| + \operatorname{gap}_3 + 1 - 2k' : \text{legal (pair, } B_3\text{) pasting configs} \,\},$$
+
+where legality means the pair's sym-diff $D$ is a single cycle
+(`fund_pair_overlap`: tree paths overlap, $k_{12} \ge 1$) and $C_3$ meets
+$D$ in a single path of $k' \ge 1$ edges
+(`triple_sym_diff_structure`(5)). Every $L \in V(T)$ is the length of an
+actual simple cycle of $G$ — so the tuning question is exactly "does
+$V(T)$ meet $\{4,8,16,32\}$?". The R20 probe recorded only the first
+firing shape per tree; this round records everything (new probe lemma
+`pasting_value_interval`).
+
+### Probe outcome (192k committed-CHECK trees over n = 12–22; 240k in calibration)
+
+| Quantity | Result |
+|---|---|
+| Pair-residual trees found | 50 (committed run); 53 (calibration, incl. n=22 band) |
+| $8 \in V(T)$ | **100%** (50/50, 53/53) |
+| $V_e(T)$ (even part) a gap-free step-2 interval | **100%** |
+| $v_{\min}(T)$ | $\in \{4, 6, 8\}$ — always $\le 8$ |
+| $v_{\max}(T)$ | $\in \{10,\dots,18\}$, growing with $n$ |
+| $k'$ observed | sweeps $1..12$, no concentration |
+
+Two structural surprises, both favorable:
+
+1. **The interval WIDENS with $n$.** At $n \in \{18,20,22\}$ the residual
+   trees have $V_e$ spanning $[4,16]$–$[6,18]$, versus $[6,10]$-ish at
+   $n=12$. Containment of 8 gets slacker at scale, not tighter — the
+   worry that large girth-like parameters push $v_{\min}$ past 8 is
+   empirically absent at these sizes (though $v_{\min} \le 8$ still needs
+   an argument valid for all $n \le 64$, per the witness cap).
+2. **$V(T)$ typically contains consecutive integers** (both parities),
+   because different configs change the parity of
+   $|D| + \operatorname{gap}_3$. The $\pm 1$-in-$k'$ freedom visible in
+   adjacent configs is the mechanism behind interval-ness.
+
+### The tuning argument, reduced to three statements
+
+The probe converts Q9's tuning half into:
+
+- **(T1) Interval-ness**: $V_e(T)$ has no gaps. Candidate proof: a local
+  move on configs — slide $B_3$'s meeting segment one edge along the
+  chain of $D$ it lives on (changing $k'$ by 1 changes $L$ by 2), or swap
+  $B_3$ to a back edge covering the adjacent tree edge (coverage:
+  low-point machinery of `mixed_overlap_supply`). Each move changes $L$
+  by exactly $\pm 2$ within the parity class; connectivity of the config
+  graph would give interval-ness.
+- **(T2) Low endpoint** $v_{\min} \le 8$: exhibit ONE config with EVEN
+  $L \le 8$ (here and in (T3), $v_{\min}/v_{\max}$ denote the endpoints
+  of the even part $V_e(T)$, so the witnessing config must have
+  $|D| + \operatorname{gap}_3$ odd). Max-overlap configs ($k'$ as large
+  as possible — deep chains meeting long segments of $D$) push $L$ down;
+  same-sender pairs at leaves give $|D| = |g_1 - g_2| + 2$ as small as 3
+  (mixed) with $k'$ up to the inner gap.
+- **(T3) High endpoint** $v_{\max} \ge 8$: exhibit ONE config with EVEN
+  $L \ge 8$. Min-overlap ($k' = 1$) with the longest available
+  $\operatorname{gap}_3$; a residual tree has no PO2 fundamental cycle,
+  so gaps avoid $\{3,7,15,31\}$, and cubic trees on $\ge 12$ vertices
+  have depth $\ge 5$-ish chains — the census $v_{\max} \ge 10$ suggests
+  slack here.
+
+(T2)+(T3)+(T1) $\Rightarrow 8 \in V_e(T) \Rightarrow$ a firing triple at
+$C_8$, closing Q9's tuning half. The reduction needs only 8, never 16 or
+32. (For calibration, the R18 census over crossing-failed residuals saw
+firing lengths $C_8$ 698×, $C_4$ 39×, $C_{16}$ 1× — $C_8$ dominates but
+is not literally the only firing length; the point is that targeting 8
+alone suffices for existence, since $8 \in V$ held on every R20/R23
+pair-residual tree.)
+
+### Standing hypotheses the chain still leans on (tracked, not yet discharged)
+
+1. **2-connectedness** — `mixed_overlap_supply` needs it; the reduction
+   from general min-degree-3 graphs is an open sub-item (Section 29
+   reduction-gap note).
+2. **Pair-residual ⊆ mixed-parity** — empirical only (54/54 at
+   $n \le 16$, R20; consistent at $n \le 22$, R23). An all-even
+   pair-residual tree would have easy vacuous (PO2 gaps are odd), pairs
+   failed by definition, and triple vacuous (`triple_parity` corollary)
+   — i.e. NO rescue route at all — so proving "all-even pair-residual
+   trees do not exist" (or handling them separately) is load-bearing,
+   not cosmetic. All-odd pair-residual trees would need an $OOO$ triple;
+   same status. Candidate route: all-even means every gap is even, and
+   nested/crossing on an even-gap pair have even offset — quantify how
+   much of $\{2,6,14,30\}$ the offsets must sweep in a tree with
+   $n/2 + 1$ even gaps avoiding failure everywhere.
+
+### Summary of round R23
+
+| Item | Status |
+|------|--------|
+| `pasting_value_interval` probe (192k trees, n ≤ 22) | **unfalsified, non-vacuous (50 residuals)** (R23) |
+| $8 \in V$ on every pair-residual tree | **observed 100%** (R23) |
+| $V_e$ gap-free step-2 interval | **observed 100%** (R23) |
+| Tuning reduced to (T1) interval + (T2)/(T3) endpoints | **formulated** (R23) |
+| Proofs of (T1)–(T3); meeting-structure characterization | **open** (R24 target) |
+| 2-connectedness reduction lemma | **open** (R24+ target, Section 29) |
+| Rule out all-even / all-odd pair-residual trees | **open** (R24+ target) |
