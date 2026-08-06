@@ -6378,4 +6378,46 @@ some even-gap back edge covers a tree edge of exactly one segment of $D$
 | `pasting_meeting_structure` (decomposition, contiguity, iff) | **proved** (R24) |
 | CHECK 28.7k pairs / 167k triples, 0 violations | **verified** (R24) |
 | Stray-vertex condition automatic in cubic samples | **observed 100% (92,894/92,894)** (R24) |
-| vertex-automatic proof; existence of pasting $B_3$ | **open** (R25 target) |
+| vertex-automatic proof; existence of pasting $B_3$ | vertex-automatic **proved** (R25, Section 65); existence open |
+
+## Section 65 — R25: Vertex-automatic proved — subcubic pasting is pure interval combinatorics (session s_0806-081011-9409)
+
+### New proved lemma: `pasting_vertex_automatic`
+
+The R24 open conjecture is a theorem, by a two-line degree count:
+
+1. **(Two-cycle vertex-meeting, $\Delta \le 3$.)** In any graph of
+   maximum degree $\le 3$, two cycles through a common vertex $v$ each
+   use exactly 2 of $v$'s $\le 3$ incident edges, so by pigeonhole they
+   share an edge at $v$. Two cycles of a subcubic graph can never cross
+   vertex-only.
+2. **(No strays.)** $E(D) \cap E(C_3) = P_3 \cap (A \sqcup L_1 \sqcup
+   L_2)$ is tree-only (`pasting_meeting_structure`(0)–(1)). If exactly
+   one segment intersection $P_3 \cap X$ is nonempty, every shared
+   vertex of the cycles $D$ and $C_3$ is, by (1), an endpoint of a
+   shared edge — i.e. lies on the subpath $P_3 \cap X$. The
+   stray-vertex condition is automatic.
+3. **(Collapsed criterion.)** For $\Delta(G) \le 3$: $D \cap C_3$ is a
+   single path (pasting hypothesis) **iff** exactly one of
+   $P_3 \cap A$, $P_3 \cap L_1$, $P_3 \cap L_2$ is edge-nonempty, and
+   $k'$ = that interval's length.
+
+CHECK: 100-trial cubic census $n \in \{10,..,16\}$, 3 roots each —
+every shared vertex of $D, C_3$ carries a shared incident edge, and the
+collapsed criterion matches brute-force single-path truth on every
+triple (assertions over >30k triples, >100k shared-vertex checks).
+
+**Scope.** Sharp at degree 3: at a degree-$\ge 4$ vertex two cycles can
+cross vertex-only. Min-degree-3 non-cubic graphs are NOT covered — the
+cubic/subcubic reduction stays on the Section 29 gap list.
+
+### Q9 state after R25
+
+| Piece | Status |
+|------|--------|
+| Supply (mixed pair with odd single-cycle $D$) | proved, 2-connected (R22; reduction gap open) |
+| Meeting (structure + iff criterion) | proved (R24) |
+| Meeting criterion collapse (vertex-automatic, subcubic) | **proved** (R25) |
+| Meeting (existence of a pasting even-gap $B_3$) | open — now purely: some even-gap back edge covers edges of exactly ONE segment |
+| Tuning (T1 interval / T2, T3 endpoints of $V_e$) | open (R23 reduction; R26+ targets) |
+| Parity-class caveats (all-even/all-odd residuals, 2-conn) | open, tracked (Sections 29, 30) |
