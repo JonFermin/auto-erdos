@@ -1134,3 +1134,49 @@ cubic/subcubic reduction stays on the Section 29 gap list.
 | Meeting (existence of a pasting even-gap $B_3$) | open — now purely: some even-gap back edge covers edges of exactly ONE segment |
 | Tuning (T1 interval / T2, T3 endpoints of $V_e$) | open (R23 reduction; R26+ targets) |
 | Parity-class caveats (all-even/all-odd residuals, 2-conn) | open, tracked (Sections 29, 30) |
+
+## Section 66 — R26: Cover dichotomy — paste or straddle the cancelled interval; per-pair existence is dead (session s_0806-081011-9409)
+
+### New proved lemma: `pasting_cover_dichotomy`
+
+Any back edge $B_3 \notin \{B_1,B_2\}$ covering a tree edge of $D$
+("cover") satisfies exactly one of:
+
+1. **Paste** — $P_3$ meets exactly one of $A, L_1, L_2$ in edges, and
+   (subcubic, `pasting_vertex_automatic`) $D \cap C_3$ is a single
+   path.
+2. **Straddle** — $P_3$ meets $A$ and exactly one leg $L_i$, and then
+   $I = [a_{\text{deep}}..m] \subseteq P_3$, the anchor is strictly
+   above $a_{\text{deep}}$, the sender strictly below $m$ in $c_i$'s
+   subtree, $P_3 \cap A \ni$ ($A$'s deepest edge),
+   $P_3 \cap L_i \ni (m, c_i)$, and $\operatorname{gap}_3 \ge k_{12}+2$.
+
+Existence criteria (contrapositives): a cover pastes whenever
+$\operatorname{gap}_3 \le k_{12}+1$, OR its anchor is at/below
+$a_{\text{deep}}$, OR its sender is at/above $m$.
+
+CHECK: 21,293 single-cycle pairs / 107,054 covers over 2-edge-connected
+cubic samples $n \in \{10,..,16\}$ — dichotomy and all straddle
+consequences hold with zero violations (69,362 pasting / 37,692
+straddling).
+
+### Census: per-pair meeting-existence FAILS — tuning must be per-tree
+
+With coverage guaranteed (2-edge-connected samples): ~3% of
+single-cycle pairs have NO pasting cover; ~16% have no EVEN-gap pasting
+cover (even $\operatorname{gap}_3$ ⇔ even $L$ when $|D|$ odd). So T2/T3
+cannot be proved pair-locally; the correct quantifier is per-tree
+("some pair admits an even-gap pasting cover"), matching
+`pasting_value_interval`'s per-tree censuses (8 ∈ V, 53/53 residuals).
+No future round should attempt per-pair existence.
+
+### Q9 state after R26
+
+| Piece | Status |
+|------|--------|
+| Meeting criterion (collapsed, subcubic) | proved (R24+R25) |
+| Cover dichotomy + paste criteria (gap ≤ k12+1 / anchor / sender) | **proved** (R26) |
+| Per-pair even-gap pasting existence | **dead** (census: ~16% failure) |
+| Per-tree meeting existence + T2/T3 endpoints | open (R27+ target) |
+| T1 interval-ness of $V_e$ | open |
+| 2-conn reduction; all-even/all-odd exclusion | open (Sections 29, 30) |
