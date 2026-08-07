@@ -1,89 +1,64 @@
-# Session handoff (session s_0806-081011-9409)
+# Session handoff (session s_0807-081112-b59a)
 
-**Stop reason**: Logical milestone — R25 + R26 both keep_progress; the
-meeting half of Q9 is now FULLY proved (structure + vertex-automatic +
-cover dichotomy). Token budget reserved for clean close.
-
-**Branch state note**: this session merged origin/master (commit
-18fc918) — the sibling depth-census line (PR #37) is now visible here —
-and re-condensed the strategy narrative (Sections 19–57 → digest) to
-keep the critic prompt inside its timeout budget. Live argument:
-Sections 58–65 + live Sections 26–31 (R19–R24) + Sections 65–66.
+**Stop reason**: Logical milestone — R27 + R28 both keep_progress; the
+R23 pigeonhole program (T1/T2/T3) is collapsed to a single existence
+statement, and the censuses that justify the collapse are committed as
+falsification probes.
 
 **What was done this session**:
 
-R25 — `pasting_vertex_automatic` (PROVED; was the R24 open conjecture):
-- Two cycles of a subcubic graph sharing a vertex share an edge at that
-  vertex (each uses 2 of the ≤3 incident edges; 2+2>3 pigeonhole).
-- Hence no stray shared vertices when exactly one segment is met, and
-  the pasting criterion collapses to: D ∩ C3 is a single path IFF P3
-  meets exactly one of A, L1, L2 in an edge (k' = interval length).
-- Sharp at degree 3; min-degree-3 non-cubic graphs NOT covered (the
-  cubic reduction stays on the Section 29 gap list).
+R27 — `t3_min_overlap_short_paste` (probe, open, unfalsified 62/62 at
+192k trees): every pair-residual tree admits a config with k'=1,
+gap3 <= k12+1, |D|+gap3 >= 9 odd — even L >= 8 inside the position-free
+provable class. V_e never empty, never subset of {6}. ONE tree needed
+the even-|D|/odd-gap3 family — the analytic argument must cover both
+parity families; mixed-parity supply alone is not enough.
 
-R26 — `pasting_cover_dichotomy` (PROVED) + census:
-- Every cover of a tree edge of D either PASTES (one segment met) or
-  STRADDLES: meets A + exactly one leg, P3 ⊇ I = [a_deep..m], anchor
-  strictly above a_deep, sender strictly below m in the met leg's child
-  subtree, P3∩A contains A's deepest edge, P3∩L_i contains (m, c_i),
-  and gap3 ≥ k12+2.
-- Paste criteria (contrapositives): gap3 ≤ k12+1, or anchor at/below
-  a_deep, or sender at/above m ⇒ the cover pastes.
-- CENSUS (important NEGATIVE): per-PAIR existence fails — over
-  2-edge-connected cubic samples, ~3% of single-cycle pairs have NO
-  pasting cover and ~16% no EVEN-gap pasting cover. T2/T3 and
-  meeting-existence MUST be quantified per-tree ("some pair admits an
-  even-gap pasting cover"), matching pasting_value_interval's per-tree
-  census. Do NOT burn a round on per-pair existence.
+R28 — `tune8_short_paste` (probe, open, unfalsified 51/51 at 192k
+trees, seed 20260807+28): every pair-residual tree admits a config with
+gap3 <= k12+1 and |D|+gap3+1-2k' = 8 EXACTLY — so 8 in V(T) directly,
+no interval-ness, no endpoints. k'=1-only variant FALSIFIED (3/51);
+same-sender-only supply FALSIFIED (1/51). T1/T2/T3 demoted to fallback.
 
-**qid in flight**: Q9 claimed by this session; released with partial
-progress at close. Next session re-claims Q9.
+**qid in flight**: Q9 released with partial progress. Next session
+re-claims Q9.
 
-**Open core after R26** (tuning program, in priority order):
-1. T3 (some even L ≥ 8 in V(T), per-tree): refined form — rule out
-   V_e ⊆ {6} (if 4 ∈ V the tree fires anyway). Use the paste criteria:
-   short covers (gap3 ≤ k12+1) paste with L = |D| + gap3 + 1 - 2k'.
-   Note L even ⟺ |D|+gap3 odd — BOTH (odd |D|, even gap3) and
-   (even |D|, odd gap3) contribute; the second family (same-parity
-   pairs with |D| even ∉ PO2, odd-gap third) is so far unexploited.
-2. T2 (some even L ≤ 8 per-tree): same-sender / leaf-pair mixed configs
-   give small |D|; quantify with the dichotomy.
-3. T1 (V_e interval-ness): config-graph ±2 moves. The k' freedom comes
-   from different B3 choices; R26's structure (straddle covers pin the
-   met interval to contain A's deepest edge / leg's top edge) may give
-   the slide moves.
-4. Standing hypotheses (load-bearing): 2-connectedness reduction
-   (Section 29); all-even/all-odd pair-residual exclusion (Section 30).
-   Note: bipartite G forces all gaps odd (depth-parity coloring), so
-   all-even needs non-bipartite G; a pure counting obstruction was
-   checked this session and does NOT exist (3|V0| = n-1+2b0 is
-   consistent) — the exclusion must use the residual property, not
-   counting alone.
+**Open core after R28** (in priority order):
+1. ANALYTIC target: prove tune8_short_paste — exists pair (single-cycle
+   D, overlap k12) + cover B3 with gap3 <= k12+1, D∩C3 a single path of
+   k' edges, |D|+gap3 = 7+2k'. Candidate route (Section 68): from any
+   single-cycle pair, enumerate covers of D's tree edges (guaranteed by
+   2-edge-connectedness), show the value map B3 -> |D|+gap3-2k' sweeps
+   wide enough to hit 7. A useful pre-census: per-tree, is the short-
+   paste value set S(T) = {|D|+gap3-2k'} an interval? Which pairs
+   contribute the 7? If stuck, run /erdos-proof-ideation.
+2. Standing hypotheses (unchanged): 2-connectedness reduction
+   (Section 29); all-even/all-odd pair-residual exclusion (Section 30);
+   cubic -> min-degree-3 reduction (vertex-automatic sharp at deg 3).
 
-**CRITIC INFRA (still true 2026-08-06)**: pre-warm the critic cache
-before proof_prepare.py: render prompts via
-proof_prepare._render_critic_prompt (witness_valid=0), call
+**CRITIC INFRA (still true 2026-08-07)**: pre-warm the critic cache
+before proof_prepare.py (script pattern: render via
+proof_prepare._render_critic_prompt with witness_valid=0, then
 library._critic_subprocess.call_critics_parallel(items, timeout_s=1200,
-use_cache=True) in a retry loop, THEN run proof_prepare.py (replays
-from cache). Keep proof_strategy.md near ~60k chars — the merge had
-re-inflated it to 300k which would have broken the 240s per-critic
-timeout again. numerical_check sandbox has no frozenset/bin (Section 1
-note).
+use_cache=True), retry loop; then proof_prepare.py replays from cache).
+Full critic pass ~7 min wall (falsify is slowest, ~5-7 min). Keep
+proof_strategy.md near ~60-70k chars. RUN FROM INSIDE THE WORKTREE —
+the shell cwd resets to the repo root between commands; a prewarm run
+from the root renders master's strategy and warms nothing.
 
 **Files modified this session**:
-- proof_lemmas/lemma_pasting_vertex_automatic__0806-081011-9409.md (new, proved)
-- proof_lemmas/lemma_pasting_cover_dichotomy__0806-081011-9409.md (new, proved)
-- proof_strategy.md (merged origin/master; Sections 19–57 condensed to
-  digest; Sections 65, 66 added; R24 table updated)
-- proof_open_questions.jsonl, proof_journal.jsonl, ledger (appends)
+- proof_lemmas/lemma_t3_min_overlap_short_paste__0807-081112-b59a.md (new probe)
+- proof_lemmas/lemma_tune8_short_paste__0807-081112-b59a.md (new probe)
+- proof_strategy.md (Sections 67, 68)
+- proof_open_questions.jsonl, proof_journal.jsonl, ledger, notes (appends)
+- records/proof_erdos_gyarfas_15eff97c58a0_8183d8c.json (R27 keep)
+- records/proof_erdos_gyarfas_998c92aff0e0_5ad3a55.json (R28 keep)
 
-**Suggested next moves (R27+), in order**:
-1. T3 refined (rule out V_e ⊆ {6} per-tree): write the CHECK census
-   first (dual attack) — over pair-residual trees, tabulate which pairs
-   realize even L ≥ 8 and via which paste criterion; then try: if some
-   mixed pair has |D| ≥ 5 or admits a paste cover with gap3 ≥ 4, L ≥ 8
-   arithmetic; enumerate |D|=3 & gap3=2 exhaustively.
-2. T2 via leaf-pair / same-sender configs (|D| = |g1-g2|+2 small).
-3. T1 config-graph moves.
-4. If stuck, run /erdos-proof-ideation for fresh lenses on the
-   standing hypotheses (Section 30).
+**Suggested next moves (R29+), in order**:
+1. Pre-census for the analytic route: per residual tree, tabulate
+   S(T) = {|D|+gap3-2k' : short-paste configs} — interval? which pair
+   shapes contribute 7? Then attempt the sweep argument.
+2. If the sweep argument stalls, /erdos-proof-ideation on the exact-
+   tuning statement with the two falsified variants as dead ends.
+3. Periodically re-run the tune8 census at n in {24..32} (verifier cap
+   is n <= 64) to stress the claim where the witness box lives.

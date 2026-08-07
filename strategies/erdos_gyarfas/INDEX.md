@@ -12,3 +12,4 @@ session_close's version — every session's narrative survives here.
 - s_0804-080732-f106.md
 - s_0805-080844-5fb3.md
 - s_0806-081011-9409.md
+- s_0807-081112-b59a.md
