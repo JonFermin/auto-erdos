@@ -1180,3 +1180,63 @@ No future round should attempt per-pair existence.
 | Per-tree meeting existence + T2/T3 endpoints | open (R27+ target) |
 | T1 interval-ness of $V_e$ | open |
 | 2-conn reduction; all-even/all-odd exclusion | open (Sections 29, 30) |
+
+## Section 67 — R27: T3 refined to a min-overlap short-paste config; per-tree meeting existence subsumed (session s_0807-081112-b59a)
+
+### New probe lemma: `t3_min_overlap_short_paste`
+
+The R26 handoff's first priority (rule out $V_e \subseteq \{6\}$
+per-tree) is subsumed by a sharper, still-falsifiable reduction. Census
+(standalone, 192k sampled DFS trees, $n \in \{12..22\}$, 62
+pair-residual trees):
+
+1. **Joint route available 62/62**: every pair-residual tree admits a
+   legal pasting config with $k' = 1$ (min overlap — $C_3$ meets $D$ in
+   a single edge, so $L = |D| + \operatorname{gap}_3 - 1$, no overlap
+   bookkeeping), $\operatorname{gap}_3 \le k_{12} + 1$ (the
+   position-free sufficient paste criterion from
+   `pasting_cover_dichotomy` — no anchor/sender analysis needed), and
+   $|D| + \operatorname{gap}_3 \ge 9$ odd, hence even $L \ge 8$.
+2. **$V_e$ never empty, never $\subseteq \{6\}$** (0/62 each): per-tree
+   meeting existence AND the refined T3 both hold on every sample, via
+   the same config.
+3. **Parity families**: the odd-$|D|$/even-gap family realizes the
+   config on 61/62 — but ONE tree required the even-$|D|$/odd-gap
+   family. The R26 suspicion is confirmed: the second family is
+   load-bearing; an analytic T3 proof must not assume $|D|$ odd (so
+   `mixed_overlap_supply` alone is not the whole supply story for T3).
+4. **Minimal realizations** concentrate on $(\lvert D\rvert,
+   \operatorname{gap}_3, k') = (\text{odd} \ge 7, 2, 1)$ — a
+   short back edge pasted on one edge of a long odd $D$; min-gap census
+   2:55, 4:5, 5:2. $\operatorname{gap}_3 = 2$ means $C_3$ is a
+   triangle; a counterexample graph may be triangle-free, so the
+   analytic target is the criterion class, not the triangle case.
+
+### What this changes in the tuning program
+
+T3 ($v_{\max} \ge 8$) is now: *find one (pair, cover) with $k'=1$,
+$\operatorname{gap}_3 \le k_{12}+1$, $|D| + \operatorname{gap}_3 \ge 9$
+odd*. All positional machinery (anchor/sender, straddle structure) is
+out of the T3 path; what remains is existence + arithmetic:
+
+- **Existence of a $k'=1$ cover**: among covers of $D$'s tree edges,
+  one meeting exactly one segment in exactly one edge. Candidate: the
+  cover of a segment's END edge (top of $A$ or bottom of a leg) with
+  smallest gap — its $P_3$ is anchored/sent near the segment boundary,
+  limiting the met interval. Needs an argument.
+- **Arithmetic $|D| + \operatorname{gap}_3 \ge 9$ odd**: on a
+  pair-residual tree $|D| \notin \{4, 8, 16, 32\}$; if $|D| \ge 9$ any
+  parity-correct short cover works; small cases $|D| \in \{3, 5, 6, 7\}$
+  need $\operatorname{gap}_3 \ge 9 - |D|$, i.e. interplay with $k_{12}$
+  via the short criterion ($\operatorname{gap}_3 \le k_{12}+1$ forces
+  $k_{12} \ge 8 - |D|$ — large overlap pairs).
+
+### Summary of round R27
+
+| Item | Status |
+|------|--------|
+| `t3_min_overlap_short_paste` probe (192k trees, 62 residuals) | **unfalsified, non-vacuous** (R27) |
+| $V_e = \emptyset$ or $V_e \subseteq \{6\}$ on some residual tree | **never observed** (0/62) (R27) |
+| T3 reduced to position-free existence + arithmetic | **formulated** (R27) |
+| Even-$|D|$ family load-bearing (1/62 trees need it) | **observed** (R27) |
+| Analytic proof of the joint-config existence | open (R28+ target) |
