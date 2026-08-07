@@ -1240,3 +1240,54 @@ out of the T3 path; what remains is existence + arithmetic:
 | T3 reduced to position-free existence + arithmetic | **formulated** (R27) |
 | Even-$|D|$ family load-bearing (1/62 trees need it) | **observed** (R27) |
 | Analytic proof of the joint-config existence | open (R28+ target) |
+
+## Section 68 — R28: Direct tuning to 8 inside the short-paste class; pigeonhole program collapsed (session s_0807-081112-b59a)
+
+### New probe lemma: `tune8_short_paste`
+
+The T2-side census (standalone, 192k sampled DFS trees, seed
+20260807+28, 51 pair-residual trees) produced a sharper reduction than
+the planned T2 endpoint bound:
+
+1. **Exact tuning available 51/51**: every pair-residual tree admits a
+   legal pasting config with $\operatorname{gap}_3 \le k_{12}+1$
+   (position-free short-paste criterion) and
+   $|D| + \operatorname{gap}_3 + 1 - 2k' = 8$ exactly. The pasted
+   triple cycle is a $C_8$ — so $8 \in V(T)$ **directly**.
+2. **The R23 pigeonhole program (T1 + T2 + T3) is now a fallback**:
+   direct containment needs no interval-ness and no endpoint bounds.
+   If `tune8_short_paste` is falsified at larger $n$, the T1/T2/T3
+   route (with R27's `t3_min_overlap_short_paste` as the T3 leg)
+   reactivates.
+3. **$k'$ freedom is load-bearing**: fixing $k' = 1$ fails on 3/51
+   trees (unlike the T3-side lemma where $k'=1$ always sufficed for
+   $L \ge 8$). Observed $k'$ in minimal $L=8$ realizations spans
+   $1..4$; min $\operatorname{gap}_3$ is 2 on 45/51, 4 on 6/51.
+4. **Same-sender pairs are NOT the universal supply** for small even
+   $L$: 1/51 trees has no same-sender realization with $L \le 8$ —
+   consistent with R27's parity-family finding that the supply story
+   must go beyond any single special pair shape.
+
+### Open core after R28 (Q9 tuning half)
+
+Prove: *every pair-residual tree admits a pair (single-cycle $D$,
+overlap $k_{12}$) and a cover $B_3$ with
+$\operatorname{gap}_3 \le k_{12}+1$, $D \cap C_3$ a single path of
+$k' \ge 1$ edges, and $|D| + \operatorname{gap}_3 = 7 + 2k'$.* The
+diophantine surface has three degrees of freedom (pair choice, cover
+choice, $k'$); the censuses say random cubic structure always supplies
+a solution. Candidate analytic route: start from any single-cycle pair
+(supply: R22), enumerate the covers of $D$'s tree edges guaranteed by
+2-edge-connectedness, and show the value map
+$(B_3) \mapsto |D| + \operatorname{gap}_3 - 2k'$ sweeps a residue class
+wide enough to hit 7.
+
+### Summary of round R28
+
+| Item | Status |
+|------|--------|
+| `tune8_short_paste` probe (192k trees, 51 residuals) | **unfalsified, non-vacuous** (R28) |
+| $8 \in V(T)$ via short-paste class only | **observed 100% (51/51)** (R28) |
+| T1/T2/T3 pigeonhole program | **demoted to fallback** (R28) |
+| $k'=1$-only variant | **falsified** (3/51 need $k' \ge 2$) (R28) |
+| Analytic proof of exact tuning | open (R29+ target) |
