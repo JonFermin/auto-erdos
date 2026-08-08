@@ -1291,3 +1291,69 @@ wide enough to hit 7.
 | T1/T2/T3 pigeonhole program | **demoted to fallback** (R28) |
 | $k'=1$-only variant | **falsified** (3/51 need $k' \ge 2$) (R28) |
 | Analytic proof of exact tuning | open (R29+ target) |
+
+## Section 69 — R29: Value-set pre-census — tree-level sweeps dead, per-pair sweep survives (session s_0808-080808-ce3d)
+
+### The census (192k sampled DFS trees, seed 20260808+29, 52 residuals)
+
+For each pair-residual tree, tabulate the short-paste value multiset
+$S(T) = \bigcup_p S_p(T)$ and each pair's own
+$S_p(T) = \{|D| + \operatorname{gap}_3 + 1 - 2k'\}$ over legal covers
+with $\operatorname{gap}_3 \le k_{12}+1$. Results:
+
+1. **Tree-level even-interval FALSIFIED (4/52)**: the even part of
+   $S(T)$ has gaps, e.g. $\{6,8,10,14\}$ (12 missing) and
+   $\{4,8,10,12,14\}$ (6 missing). The R28 candidate route ("show the
+   union value map sweeps a residue class") is dead as stated.
+2. **Descent FALSIFIED (3/52)**: some even $v \ge 10 \in S(T)$ has
+   $v - 2 \notin S(T)$ — no tree-level step-down induction.
+3. **Selection rules dead**: the max-$k_{12}$ pair hosts an $L=8$
+   config only 30/52; min-$|D|$ pair is a sweep pair 31/52; the pair
+   attaining the global minimum even value, 29/52.
+4. **Per-pair interval-ness NOT automatic**: 553/637 pairs with even
+   values have step-2-interval even sets. All observed failures are the
+   8-skipping pattern $E_p = \{6, 10\}$ at $|D| = 7$,
+   $k_{12} \in \{4,5\}$: covers realize $\operatorname{gap}_3 = 2k'-2$
+   and $2k'+2$ but never $2k'$.
+5. **SURVIVES 52/52 (new probe `sweep_pair_exists`)**: some single pair
+   has $E_p$ a step-2 interval containing 8. Endpoint structure: in the
+   widest such pair, 8 is an endpoint 41/52 — nearly always the MINIMUM
+   (confirmed by the probe's own tally: 8 is the interval min on 36/41
+   residuals at the committed scale).
+6. Global boundary facts (52/52): $\min(\text{even } S(T)) \in
+   \{4, 6, 8\}$ (never $> 8$, never empty) and
+   $\max(\text{even } S(T)) \ge 10$.
+
+### What the analytic program becomes
+
+The burden localizes to ONE pair (this round's probe), split three ways:
+
+- **(i) Selection**: identify the pair analytically. None of the greedy
+  rules work; the census suggests the witnessing pair is characterized
+  by its cover arithmetic (small $|D|$ odd with a $\operatorname{gap}_3
+  = 2k'$-class cover, or the $|D|$-even/odd-gap family), not by an
+  extremal statistic.
+- **(ii) Interval-ness of $E_p$**: the only observed failure mode is
+  the $\operatorname{gap}_3 \bmod 4$ class gap at $|D| = 7$. Analytic
+  sub-question: for which $(|D|, k_{12})$ does the cover family hit
+  every $\operatorname{gap}_3 - 2k'$ residue in an interval? The
+  $k'$-freedom (R28: $k' = 1$ insufficient 3/51) is exactly what fills
+  classes.
+- **(iii) Min-attainment**: prove $\min E_p = 8$ (not $\le 6$!) for the
+  selected pair — the census says the sweep interval usually STARTS at
+  8, so the lower endpoint is the theorem, not a bound to beat. A pair
+  whose every short cover satisfies $|D| + \operatorname{gap}_3 + 1 -
+  2k' \ge 8$ with equality attained is the target object; the parity
+  bookkeeping ($|D|$ odd $\Rightarrow \operatorname{gap}_3$ even for
+  even $L$) plus pair-residuality ($|D| \notin \{4,8,16,32\}$) are the
+  available constraints.
+
+### Summary of round R29
+
+| Item | Status |
+|------|--------|
+| `sweep_pair_exists` probe (152k trees, 41 residuals committed) | **unfalsified, non-vacuous** (R29) |
+| Tree-level even-interval / descent / greedy selection | **all falsified** (R29) |
+| Per-pair interval failure mode | **isolated**: $E_p=\{6,10\}$ gap-at-8, $|D|=7$ (R29) |
+| 8 as interval MINIMUM of the sweep pair | **dominant** (36/41) (R29) |
+| Analytic split: selection / interval-ness / min-attainment | **formulated** (R30+ target) |
