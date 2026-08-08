@@ -1357,3 +1357,70 @@ The burden localizes to ONE pair (this round's probe), split three ways:
 | Per-pair interval failure mode | **isolated**: $E_p=\{6,10\}$ gap-at-8, $|D|=7$ (R29) |
 | 8 as interval MINIMUM of the sweep pair | **dominant** (36/41) (R29) |
 | Analytic split: selection / interval-ness / min-attainment | **formulated** (R30+ target) |
+
+## Section 70 — R30: Floor/line lemma PROVED — the tuning program is now one supply statement (session s_0808-080808-ce3d)
+
+### New proved lemma: `shortpaste_floor_line`
+
+Elementary but load-bearing arithmetic for the short-paste class, all
+proved (not probed) in `lemma_shortpaste_floor_line__0808-080808-ce3d.md`,
+and machine-checked against the census extraction code (274k configs,
+consistency CHECK):
+
+1. **Parity**: even $L$ forces $g_3 \equiv |D| + 1 \pmod 2$.
+2. **Overlap**: $g_3 \ge \max(k', 2)$ (a cycle properly contains its
+   overlap path; simple graphs have no 2-cycles).
+3. **Floor**: every even-$L$ short-paste config with $k' \le |D| - 6$
+   has $L \ge 8$. The R29 undershoots ($L \in \{4, 6\}$) live entirely
+   in the near-maximal-overlap regime $k' \ge |D| - 5$.
+4. **Line**: $L = 8 \iff g_3 = 2k' + 7 - |D|$.
+
+### Two reductions purchased by the lemma
+
+**(A) T3's arithmetic half is gone.** Any pair with $|D| \ge 6$ and any
+$k' = 1$ short cover has even $L \ge 8$ (both parity families of R27,
+uniformly — the lone even-$|D|$ census tree stops being a special
+case). `t3_min_overlap_short_paste` reduces to pure supply:
+
+> **(SUP-1)** every pair-residual tree admits a pair with $|D| \ge 6$
+> and a short cover ($g_3 \le k_{12} + 1$) meeting $D$ in exactly one
+> edge.
+
+Only $|D| \in \{3, 5\}$ pairs escape; pair-residuality already excludes
+$|D| \in \{4, 8, 16, 32\}$.
+
+**(B) `tune8_short_paste` is equivalent to line-hitting.** The exact-8
+statement is: some pair and short cover satisfy
+$g_3 = 2k' + 7 - |D|$. Per-$|D|$ windows (parity automatic):
+$|D|=7$: $(k', g_3) \in \{(1,2), (2,4), (3,6), \dots\}$;
+$|D|=9$: $\{(2,2), (3,4), \dots\}$; $|D|=6$: $\{(1,3), (2,5), \dots\}$;
+$|D|=5$: $\{(1,4), \dots\}$; $|D|=3$: $\{(1,6), \dots\}$. The short
+criterion couples each window entry to a minimum pair overlap
+$k_{12} \ge g_3 - 1 = 2k' + 6 - |D|$: **large-$|D|$ pairs hit the line
+with ANY overlap; small-$|D|$ pairs need overlap at least
+$7 - |D|$-ish.** Triangle-free graphs remove only the $g_3 = 2$
+entries ($(7; 1, 2)$ and $(9; 2, 2)$).
+
+### The open core after R30 (Q9), sharpened
+
+1. **(SUP-1)** above — the $L \ge 8$ existence supply (T3 leg, now
+   arithmetic-free).
+2. **(SUP-8)** line-hitting supply: a pair + short cover on
+   $g_3 = 2k' + 7 - |D|$ (equivalent to `tune8_short_paste`; the
+   sweep-pair probe `sweep_pair_exists` says the witnessing pair's even
+   value set is moreover an interval with min 8 — consistent with the
+   floor: a pair whose covers all sit in $k' \le |D| - 6$ cannot go
+   below 8).
+3. Standing hypotheses (unchanged): 2-connectedness reduction
+   (Section 29); all-even/all-odd exclusion (Section 30); cubic →
+   min-degree-3 reduction.
+
+### Summary of round R30
+
+| Item | Status |
+|------|--------|
+| `shortpaste_floor_line` (parity/overlap/floor/line) | **PROVED** + consistency CHECK (R30) |
+| T3 arithmetic | **eliminated** — T3 = supply statement SUP-1 (R30) |
+| tune8 | **= line-hitting** $g_3 = 2k'+7-|D|$, overlap-coupled windows (R30) |
+| Undershoot regime | **confined** to $k' \ge |D|-5$ (R30) |
+| SUP-1 / SUP-8 analytic proof | open (R31+ target) |
