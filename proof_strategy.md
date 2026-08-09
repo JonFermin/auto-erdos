@@ -1491,3 +1491,65 @@ SUP-1 is now a two-step target, both localized to segment boundaries:
 | Leg-top-only / leg-bottom-only / A-end-only | **all falsified** (R31) |
 | Short leg-top covers anchor in $I$ | **proved-sketch + 60/60** (R31) |
 | SUP-1 analytic proof (steps i+ii) | open (R32+ target) |
+
+## Section 72 — R32: SUP-1 localizes to the cancelled interval's boundary; cover structure there PROVED (session s_0809-080835-54ee)
+
+### New lemma: `sup1_iadj` (proved Part 1 + open Part 2)
+
+Scoping censuses first (all standalone): the $\forall$-pair versions of
+R31's min-gap rule are DEAD — "every $|D| \ge 6$ pair admits the rule"
+and even "every $|D| \ge 6$ pair admits some SUP-1 witness" fail on
+EVERY sampled residual tree (0/37 each; per-pair rates 211/698 and
+245/698); max-$k_{12}$ pair selection reaches only 10/37. Working
+pairs usually expose exactly ONE working end edge (157/211). So pair
+selection is load-bearing and greedy statistics are dead — consistent
+with R29.
+
+The positive localization: restricting R31's rule to the (at most
+three) **$I$-adjacent boundary edges** — leg tops $(m, c_i)$ and the
+$A$-bottom edge at $a_{\mathrm{deep}}$ — still works on every tree
+(42/42 at seed 532, 50/50 at the committed probe's seed 632), and NO
+tree ever needs a far boundary edge (senders' ends, $a_{\mathrm{sh}}$'s
+end). The SUP-1 witness lives at the boundary of the cancelled
+interval.
+
+**Proved (Part 1, from `pasting_cover_dichotomy` + cubic geometry;
+consistency-checked on 1.03M short-cover configs):** short covers
+through $I$-adjacent edges are pinned to the $I$-window —
+
+- Leg-top $(m, c_i)$, $A \ne \emptyset$: the cover anchors INSIDE $I$
+  ($a_3 \in V(I)$ — else it would contain $I$ plus $A$'s bottom edge
+  and straddle, forcing $\operatorname{gap}_3 \ge k_{12}+2$), meets
+  only $L_i$, and $k' = 1 + (\text{common descent of } P_3, L_i
+  \text{ below } c_i)$. $k'=1$ iff divergence at $c_i$ (e.g.
+  $s_3 = c_i$, or $|L_i| = 1$).
+- $A$-bottom: meets only $A$,
+  $k' = d(a_{\mathrm{deep}}) - \max(d(a_3), d(a_{\mathrm{sh}}))$;
+  $k'=1$ iff $a_3 = \mathrm{par}(a_{\mathrm{deep}})$ or $|A|=1$; with
+  both legs nonempty $s_3$ is never strictly below $m$ (all children
+  of $m$ are leg children in a cubic graph).
+
+### The analytic burden after R32
+
+1. **(Selection)** Which pair: the witnessing pair is NOT extremal in
+   any tested statistic; candidate characterizations should come from
+   the cover side (which pairs have a short-with-right-parity min-gap
+   cover at an $I$-adjacent edge).
+2. **(Existence)** Why some $I$-adjacent edge's min-gap cover is short
+   with $\operatorname{gap}_3 \equiv |D|+1 \bmod 2$ and $k'=1$ — Part 1
+   reduces this to: the cover anchors in the $I$-window / meets one
+   segment, so shortness couples $\operatorname{gap}_3$ to $k_{12}$
+   through the window depth, and $k'=1$ is a local divergence
+   condition at $c_i$ resp. $a_{\mathrm{deep}}$.
+3. SUP-8 (line-hitting, $L = 8$ exactly) unchanged — the sweep-pair
+   census (R29) plus the floor (R30) still frame it.
+
+### Summary of round R32
+
+| Item | Status |
+|------|--------|
+| `sup1_iadj` Part 1 (cover structure at $I$-adjacent edges) | **PROVED** + 1.03M-config CHECK (R32) |
+| `sup1_iadj` Part 2 probe (I-adjacent min-gap rule) | **unfalsified**, 92/92 across 2 seeds (R32) |
+| Far-boundary-edge necessity | **never observed** (0 trees) (R32) |
+| $\forall$-pair rule / $\forall$-pair SUP-1 / max-$k_{12}$ | **all falsified** (0/37, 0/37, 10/37) (R32) |
+| SUP-1 analytic proof (selection + existence) | open (R33+ target) |
