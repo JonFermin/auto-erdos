@@ -127,13 +127,14 @@ access are unavailable and a check using them fails as unevaluable. Use
   trees — 960 fire via fundamental $C_8$, 1040 via pair sym-diff);
   `chain_locality_extended` (cubic through $n=24$, 6,650 pairs, zero
   triple failures); `chain_locality_full_window` (open; cubic through
-  $n = 64$, 9,350+ pairs, zero triple failures). Moore-bound facts
-  (min-deg-3 girth-5 needs $\ge 10$ vertices; $n \le 9$ forces girth
-  $\le 4$) are NOT quoted from literature: both are re-derived from
-  scratch and machine-verified exhaustively in the
-  `lemma_chain_locality_proof` CHECK (neighborhood counting
-  $1 + 3 + 3\cdot 2 = 10$; exhaustive enumeration over all min-deg-3
-  graphs on $n \le 9$).
+  $n = 64$, 9,350+ pairs, zero triple failures). The two Moore-bound
+  facts used here (min-deg-3 girth-5 needs $\ge 10$ vertices; $n \le 9$
+  forces girth $\le 4$) are INTERNAL lemmas, not external citations —
+  no given-facts ledger entry is required for them: both carry complete
+  self-contained proofs inside the `lemma_chain_locality_proof` CHECK
+  (neighborhood counting $1 + 3 + 3\cdot 2 = 10$ for the first;
+  exhaustive machine enumeration over all min-deg-3 graphs on $n \le 9$
+  for the second), so they rest on nothing outside this repository.
 
 ### Sections 11–13, 17–18 — dead ends and probes (recorded to prevent rediscovery)
 
