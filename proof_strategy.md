@@ -1424,3 +1424,69 @@ entries ($(7; 1, 2)$ and $(9; 2, 2)$).
 | tune8 | **= line-hitting** $g_3 = 2k'+7-|D|$, overlap-coupled windows (R30) |
 | Undershoot regime | **confined** to $k' \ge |D|-5$ (R30) |
 | SUP-1 / SUP-8 analytic proof | open (R31+ target) |
+
+## Section 71 — R31: SUP-1 census — end-edge witnesses universal, min-gap selection rule survives (session s_0809-080835-54ee)
+
+### New probe lemma: `sup1_end_edge`
+
+The R30 handoff's first priority (SUP-1 positional census) executed:
+three independent seeds, $n \in \{12..24\}$, 480k sampled DFS trees,
+152 pair-residual, plus a fourth seed (152k trees, 37 residuals) inside
+the committed CHECK. Results:
+
+1. **SUP-1 holds 189/189** (all four seeds): every pair-residual tree
+   admits a pair with $|D| \ge 6$ and a $k' = 1$ short cover
+   ($\operatorname{gap}_3 \le k_{12}+1$, $D \cap C_3$ a single edge)
+   with $|D| + \operatorname{gap}_3$ odd — hence an even short-paste
+   value $L \ge 8$ by `shortpaste_floor_line`. The odd-$L$-only
+   fallback was never needed (0 trees where $k'=1$ short covers exist
+   only with the wrong parity).
+2. **End-edge refinement 100% (126/126 checked)**: the witness's met
+   edge can always be taken to be an END edge of its $D$-segment
+   (incident to $a_{\mathrm{sh}}$, $a_{\mathrm{deep}}$, $m$, or a
+   sender $s_i$). Witness distribution: 318 end vs 41 interior
+   (seed 1) — end edges dominate but the refinement is about
+   existence, which never fails.
+3. **Min-gap selection rule 100% (126/126)**: for some pair
+   ($|D| \ge 6$) and some end edge $e$, the MINIMUM-GAP back edge
+   covering $e$ is itself a SUP-1 witness. This is the analytic
+   handle: 2-edge-connectedness supplies covers of every tree edge;
+   the rule says the cheapest cover of the right boundary edge works.
+4. **Falsified finer variants** (recorded so no session chases them):
+   leg-TOP-only fails 3/63 (seed 2); leg-BOTTOM-only 38/39; $A$-end-only
+   38/39 (seed 1). No single boundary vertex class suffices — the
+   disjunction over all six is the survivor.
+5. **Structural fact with proof sketch**: every SHORT cover of the
+   leg-top edge $(m, c_i)$ anchors inside the cancelled interval $I$
+   (else it contains $I$ plus $A$'s deepest edge — a straddle, forcing
+   $\operatorname{gap}_3 \ge k_{12}+2$ by `pasting_cover_dichotomy`).
+   Observed 60/60 (seed 2). Witness min-gaps concentrate at
+   $\operatorname{gap}_3 \in \{2, 4\}$ (54/60).
+
+### What the analytic program becomes
+
+SUP-1 is now a two-step target, both localized to segment boundaries:
+
+- **(i) Cover existence with shortness+parity at SOME end edge**: among
+  the six end edges of a $|D| \ge 6$ pair, one has a min-gap cover that
+  is short ($\le k_{12}+1$) with $\operatorname{gap}_3 \equiv |D|+1
+  \bmod 2$. Shortness is NOT automatic (90 non-short $k'=1$ even-$L$
+  end-edge covers observed on seed 3 alone), so the argument must
+  either pick the pair (maximize $k_{12}$?) or trade end edges off
+  against each other.
+- **(ii) $k' = 1$ at the boundary**: for an end-edge cover, $k'=1$
+  means the cover's tree path diverges from the segment immediately
+  past the met edge. At the leg top this is forced when $s_3 = c_i$ or
+  the chain of $s_3$ leaves $L_i$ right below $c_i$ (47/60 witnesses
+  have $s_3 = c_i$ exactly).
+
+### Summary of round R31
+
+| Item | Status |
+|------|--------|
+| `sup1_end_edge` probe (4 seeds, 632k trees, 189 residuals) | **unfalsified, non-vacuous** (R31) |
+| SUP-1 (T3 supply) | **holds 189/189**, parity fallback never needed (R31) |
+| End-edge witness + min-gap rule | **100% (126/126 each)** (R31) |
+| Leg-top-only / leg-bottom-only / A-end-only | **all falsified** (R31) |
+| Short leg-top covers anchor in $I$ | **proved-sketch + 60/60** (R31) |
+| SUP-1 analytic proof (steps i+ii) | open (R32+ target) |
