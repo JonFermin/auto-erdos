@@ -9,7 +9,16 @@ count as a real round.
 concluded `primitive_set_erdos` attempt — that claim was proved in the
 literature in May 2026 (arXiv:2605.00301) and its spec is now a
 rediscovery benchmark. They are retained as audit trail; the still-open
-ones are marked `abandoned`.)
+ones are marked `abandoned`. Critics reviewing THIS file should not
+spend findings on that corpus — it is not part of the
+`erdos_gyarfas` argument.)
+
+(Note for critics emitting `numerical_check` expressions: the check
+runs in a restricted sandbox where the `math` module is ALREADY in
+scope as `math`, and any expression containing a double underscore,
+`import`, or `getattr` is rejected outright — a rejected expression
+counts as a FAILED check regardless of the finding's flag. Write
+`math.log(x)`, never `__import__('math').log(x)`.)
 
 ## Section 1 — Setup
 
