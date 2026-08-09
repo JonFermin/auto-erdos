@@ -17,8 +17,16 @@ spend findings on that corpus — it is not part of the
 runs in a restricted sandbox where the `math` module is ALREADY in
 scope as `math`, and any expression containing a double underscore,
 `import`, or `getattr` is rejected outright — a rejected expression
-counts as a FAILED check regardless of the finding's flag. Write
-`math.log(x)`, never `__import__('math').log(x)`.)
+counts as a FAILED check regardless of the finding's flag, and a
+failed check ESCALATES the finding to BLOCKING even when you flagged
+it OK. So: (1) write `math.log(x)`, never `__import__(...)`;
+(2) attach a `numerical_check` ONLY if the expression evaluates to
+True over exactly the domain you quantify — restrict quantifiers to
+configurations realizable in a simple graph (e.g. two distinct
+fundamental cycles never share ALL edges of both, so $|D| \ge 3$;
+same-sender-same-anchor pairs are parallel edges and do not exist);
+(3) when unsure whether your expression is True as written, OMIT the
+field — omission is recorded as "skipped", never as a failure.)
 
 ## Section 1 — Setup
 
