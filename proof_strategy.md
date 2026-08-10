@@ -1675,3 +1675,55 @@ dual-attack target.
 | Conditional selection rule (alive trees) | 123/123, parked (R33) |
 | Triple-aliveness universal (fork branch 1) | open — R34 probe target |
 | Graph-level quantification (fork branch 2) | open — fallback |
+
+## Section 74 — R34: Triple-aliveness — the mechanism-complete supply universal (session s_0810-081024-1a40)
+
+### New lemma `triple_alive_universal` (open, probe committed)
+
+Q68's fork branch 1 gets its dual-attack probe. **Claim**: every
+pair-residual normal spanning tree of a cubic graph is triple-alive —
+some 3-subset of back edges has a single-cycle power-of-2 sym-diff,
+with NO restriction on the met size $k'' = |D \cap C_3|$. The fired
+length through any pairing is $L = |D| + \operatorname{gap}_3 + 1 -
+2k''$.
+
+**Census: 176/176 residual trees across four seeds (571k trees).**
+The channel split is the analytically decisive datum:
+
+- mixed ($k''=1$ and $k'' \ge 2$ both fire): 151;
+- only $k''=1$: 13 — a $k'' \ge 2$-only rule dies here;
+- only $k'' \ge 2$: 12 — the SUP-1 class dies here (this bucket
+  contains `sup1_dead_tree`'s pinned anchor).
+
+So neither sub-channel suffices alone; the honest universal is the
+disjunction. All observed firings hit $L = 8$ exactly (never 4/16/32
+on a residual tree) — worth asserting or refuting at scale, since
+"$L = 8$ always available" would collapse SUP-8 into this claim.
+
+CHECK 1 (deterministic): the pinned SUP-1-dead tree is triple-alive
+with exactly six firing triples, all $L = 8$. CHECK 2 (probe, ~10s):
+125k trees / 32 residuals, all triple-alive, fixed seed; an assert
+failure prints (graph, root, parent array) ready for pinning.
+
+### R35+ plan
+
+1. Joint $(|D|, \operatorname{gap}_3, k'', L)$ census of firing
+   triples on residual trees: which arithmetic identities pin $L = 8$;
+   how often the firing pairing straddles vs pastes
+   (`pasting_cover_dichotomy`'s two branches).
+2. Build the $k'' \ge 2$ value theory: for straddling covers, the met
+   set spans two segments — derive the analogue of the
+   `shortpaste_floor_line` interval for $k'' \ge 2$ and check whether
+   the two channels' value sets always jointly cover 8.
+3. If the probe survives R35's wider sweep, promote triple-aliveness
+   to the program's headline supply conjecture and retire SUP-8 as a
+   separate target.
+
+### Summary of round R34
+
+| Item | Status |
+|------|--------|
+| `triple_alive_universal` probe (4 seeds, 571k trees, 176 residuals) | **unfalsified, non-vacuous** (R34) |
+| Channel split (13 only-$k''{=}1$ / 12 only-$k''{\ge}2$ / 151 mixed) | measured (R34) |
+| All residual-tree firings at $L = 8$ | observed, unasserted (R35 target) |
+| $k'' \ge 2$ value theory | open (R35+ target) |
