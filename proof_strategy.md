@@ -26,7 +26,21 @@ configurations realizable in a simple graph (e.g. two distinct
 fundamental cycles never share ALL edges of both, so $|D| \ge 3$;
 same-sender-same-anchor pairs are parallel edges and do not exist);
 (3) when unsure whether your expression is True as written, OMIT the
-field — omission is recorded as "skipped", never as a failure.)
+field — omission is recorded as "skipped", never as a failure;
+(4) ASCII ONLY — a single non-ASCII math character (`≡`, `≤`, `×`,
+`△`) is a SyntaxError and fails the whole check, even inside a branch
+that never evaluates: write `%`, `<=`, `*`, `^`. Do not "quote" the
+paper's notation inside the expression — TRANSLATE it;
+(5) a numerical_check is for re-deriving one cited number or identity,
+NOT for stress-testing the lemma over a parameter box. Sweeping
+`for X in range(...) for k in range(...)` invariably includes
+configurations the lemma's hypotheses exclude (parity classes,
+$k' \le |D| - 6$ regimes, cycles sharing more than a path) and the
+False escalates to BLOCKING. Check the single instance the text
+states — e.g. `6 + 5 + 1 - 2*2 == 8` — or omit;
+(6) never flag BLOCKING when your own evidence concludes the text is
+fine ("no fix needed", "re-reading resolves") — that combination is a
+self-contradiction; use OK.)
 
 ## Section 1 — Setup
 
@@ -1570,3 +1584,94 @@ through $I$-adjacent edges are pinned to the $I$-window —
 | Far-boundary-edge necessity | **never observed** (0 trees) (R32) |
 | $\forall$-pair rule / $\forall$-pair SUP-1 / max-$k_{12}$ | **all falsified** (0/37, 0/37, 10/37) (R32) |
 | SUP-1 analytic proof (selection + existence) | open (R33+ target) |
+
+## Section 73 — R33: SUP-1 FALSIFIED — a pair-residual tree with no k'=1 supply at all; program forks (session s_0810-081024-1a40)
+
+### The counterexample (new lemma `sup1_dead_tree`, PROVED)
+
+The R32 handoff's census move (tabulate min-gap covers at $I$-adjacent
+edges) ran on fresh seeds and, at seed 77003, surfaced a residual tree
+whose (pair $\times$ $I$-adjacent edge) candidate set contains no
+$k'=1$-with-parity min-gap cover. Widening the scan on that graph found
+DFS trees with **no SUP-1 witness of any kind**: a 14-vertex cubic
+graph $G_0$ with a pinned normal spanning tree $T_0$ (depth-13,
+fundamental cycle lengths $[3,6,6,6,3,14,6,6]$) that is pair-residual
+and — exhaustively over all 16 eligible pairs and all third back edges
+— admits NO cover with $k' = 1$, $\operatorname{gap}_3 \le k_{12}+1$,
+and $\operatorname{gap}_3 \equiv |D|+1 \bmod 2$.
+`lemma_sup1_dead_tree__0810-081024-1a40.md` pins the object with a
+fully deterministic CHECK (no sampling).
+
+Dead as universals over pair-residual trees, all at once:
+
+- **SUP-1** (`sup1_end_edge` core, "189/189" R31) — status: disproved.
+- End-edge refinement + min-gap selection rule (R31) — dead a fortiori.
+- **`sup1_iadj` Part 2** ($I$-adjacent supply, "92/92" R32) — status:
+  disproved. (Part 1's cover-structure geometry is untouched and
+  remains proved.)
+
+Rarity: 0/167 residuals on three fresh seeds (564k trees), ~1/250
+overall across five seeds — rare enough that four independent R31/R32
+censuses missed it, common enough that the analytic program would have
+died at the first serious attack on "existence".
+
+### Why the tree still fires: the $k'' \in \{2,4\}$ channels
+
+$T_0$ is **triple-alive**: six triples give 3-way sym-diffs that are
+single 8-cycles. Every one works through met-path sizes
+$|D \cap C_3| \in \{2, 4\}$ (two shapes: $|D|=6$, $k_{12}=3$,
+$\operatorname{gap}_3=5$, non-short, $k''=2$, $L = 6+6-4 = 8$; and
+$|D|=10$, $k_{12}=5$, $\operatorname{gap}_3=5$, short, $k''=4$,
+$L = 10+6-8 = 8$). The $k'=1$ paste class the program tuned since R23
+is provably insufficient; the triple mechanism as a whole is not.
+
+Also recorded: no $k$-subset of back edges with $k \in \{5,\dots,8\}$
+fires on $T_0$ (quads do), and $G_0$ has cycles of every length
+$3,5..14$ — the graph is no E-G counterexample; 976/1000 sampled DFS
+trees of $G_0$ are non-residual.
+
+### Salvage: the conditional selection rule (recorded, not committed)
+
+Before the counterexample surfaced, the census confirmed a clean
+arithmetic selection rule on SUP-1-**alive** trees: among all
+candidates (pair $|D| \ge 6$, $I$-adjacent edge) whose min-gap cover
+has $k'=1$ and correct parity, the minimum-$\operatorname{gap}_3$
+candidate is itself short — hence a witness — **123/123 trees across
+four seeds** (and "every min-achiever short" 121/123). If SUP-1
+returns in a per-graph form, this closes its selection half; parked
+until then.
+
+### The fork (R34+ decision)
+
+Two ways forward, not exclusive:
+
+1. **Widen tree-level supply to all met sizes**: conjecture
+   "every pair-residual normal spanning tree is triple-alive" (some
+   triple's sym-diff is a single po2 cycle). This is the honest,
+   mechanism-complete universal — it subsumes SUP-8 and absorbs the
+   $k''\ge 2$ channels the counterexample exposed. Cost: the clean
+   interval/tuning arithmetic of R23–R30 covered only $k'=1$ pastes;
+   $k'' \ge 2$ pastes need their own value formula
+   ($L = |D| + \operatorname{gap}_3 + 1 - 2k''$, single-cycle
+   conditions from `triple_sym_diff_structure`).
+2. **Move the quantifier to the graph**: "every cubic graph has SOME
+   normal spanning tree where a single/pair/triple mechanism fires."
+   Empirically overwhelming (976/1000 on $G_0$); analytically a
+   different game (choose the DFS, e.g. leaf-count or depth extremal
+   trees), closer to how the literature attacks E-G.
+
+Q9 (the SUP-1 analytic program) is resolved as **falsified-framing**;
+Q68 opens the fork with the triple-aliveness probe as the immediate
+dual-attack target.
+
+### Summary of round R33
+
+| Item | Status |
+|------|--------|
+| `sup1_dead_tree` (pinned counterexample) | **PROVED**, deterministic CHECK (R33) |
+| SUP-1 universal / end-edge / min-gap (R31) | **DISPROVED** (R33) |
+| `sup1_iadj` Part 2 ($I$-adjacent supply) | **DISPROVED** (R33) |
+| `sup1_iadj` Part 1 (cover geometry) | proved, unaffected |
+| Conditional selection rule (alive trees) | 123/123, parked (R33) |
+| Triple-aliveness universal (fork branch 1) | open — R34 probe target |
+| Graph-level quantification (fork branch 2) | open — fallback |

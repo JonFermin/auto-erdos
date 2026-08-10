@@ -1,12 +1,23 @@
 ---
 id: sup1_iadj
-status: open
+status: disproved
 depends_on: [sup1_end_edge, shortpaste_floor_line, pasting_cover_dichotomy, pasting_vertex_automatic, pasting_meeting_structure]
-discharged_by_round: null
+discharged_by_round: 33
 introduced_at_round: 32
 ---
 
-# Lemma `sup1_iadj` (conjecture + probe: the SUP-1 witness lives at the cancelled interval's boundary; proved cover-structure at those edges)
+# Lemma `sup1_iadj` (Part 2 DISPROVED R33 — see `sup1_dead_tree`; Part 1's cover-structure geometry remains PROVED and reusable)
+
+**DISPROVED (R33).** The headline claim (Part 2, the $I$-adjacent
+supply conjecture) is false: `lemma_sup1_dead_tree__0810-081024-1a40.md`
+pins a pair-residual normal spanning tree with NO SUP-1 witness of any
+kind — in particular none at an $I$-adjacent edge. The R32 census
+(92/92) was sampling luck. **Part 1 below is unaffected**: it is an
+unconditional structure theorem about short covers through $I$-adjacent
+edges (proved from the dichotomy + cubic geometry, with its consistency
+CHECK retained). Any future use should cite it as "`sup1_iadj` Part 1";
+if a round needs it as a standalone ledger id, re-issue it under a new
+id (e.g. `iadj_cover_structure`) — do NOT re-open this id.
 
 **Setting.** As in `pasting_cover_dichotomy`: pair $(B_1, B_2)$,
 single-cycle $D$, overlap $k_{12} \ge 1$, segments
@@ -89,9 +100,9 @@ $I$-adjacent boundary edge with $k' = 1$ and
 $\operatorname{gap}_3 \equiv |D| + 1 \pmod 2$ on a pair with
 $|D| \ge 6$ yields an even short-paste value $L \ge 8$.
 
-## Part 2 — OPEN: the $I$-adjacent supply conjecture
+## Part 2 — DISPROVED (R33): the $I$-adjacent supply conjecture
 
-**Claim (open, universally quantified — sampling can only falsify).**
+**Claim (disproved — counterexample in `sup1_dead_tree`).**
 Every pair-residual tree admits a pair with $|D| \ge 6$ and an
 $I$-adjacent boundary edge $e$ such that the MINIMUM-GAP cover of $e$
 is a SUP-1 witness.
@@ -117,206 +128,17 @@ residuals — recorded so no session chases them).**
   load-bearing; no greedy statistic found so far survives.
 
 **Status.** Part 1 proved (elementary, from the dichotomy + cubic
-geometry). Part 2 open with the committed falsification probe below
-(CHECK 1). CHECK 2 is the formalization-consistency probe for Part 1
-against the extraction machinery.
+geometry) — CHECK 2 (retained below) is its formalization-consistency
+probe. Part 2 DISPROVED at R33 by `sup1_dead_tree`; its sampling probe
+(formerly CHECK 1) was removed.
 
 ---
 
-<!-- CHECK
-# sup1_iadj CHECK 1 (falsification probe, Part 2): every pair-residual
-# tree has a pair |D|>=6 and an I-adjacent boundary edge (leg-top or
-# A-bottom) whose MIN-GAP cover is a SUP-1 witness (k'=1, short,
-# gap3 == |D|+1 mod 2).
-import random
-
-PO2_LENS = {4, 8, 16, 32}
-
-
-def sample_cubic(nn, rnd, tries=3000):
-    for _ in range(tries):
-        stubs = [v for v in range(nn) for _ in range(3)]
-        rnd.shuffle(stubs)
-        edges = set(); ok = True
-        for i in range(0, len(stubs), 2):
-            a, b = stubs[i], stubs[i + 1]
-            if a == b or (min(a, b), max(a, b)) in edges:
-                ok = False; break
-            edges.add((min(a, b), max(a, b)))
-        if not ok: continue
-        el = list(edges)
-        deg = [0] * nn
-        for a, b in el: deg[a] += 1; deg[b] += 1
-        if min(deg) == 3 and max(deg) == 3:
-            adj = [[] for _ in range(nn)]
-            for a, b in el: adj[a].append(b); adj[b].append(a)
-            seen = {0}; stack = [0]
-            while stack:
-                u = stack.pop()
-                for w in adj[u]:
-                    if w not in seen: seen.add(w); stack.append(w)
-            if len(seen) == nn: return el
-    return None
-
-
-def is_ancestor(u, v, depth, par):
-    if depth[u] > depth[v]: return False
-    x = v
-    while depth[x] > depth[u]: x = par[x]
-    return x == u
-
-
-def dfs_tree(n, edges, r, shuffled_adj):
-    depth = [-1] * n; par = [-1] * n
-    depth[r] = 0; visited = [False] * n; visited[r] = True
-    stack = [(r, iter(shuffled_adj[r]))]
-    while stack:
-        u, it = stack[-1]; adv = False
-        for w in it:
-            if not visited[w]:
-                visited[w] = True; depth[w] = depth[u] + 1; par[w] = u
-                stack.append((w, iter(shuffled_adj[w]))); adv = True; break
-        if not adv: stack.pop()
-    tree_mask = 0
-    for i, (u, v) in enumerate(edges):
-        if depth[u] == depth[v] + 1 and par[u] == v: tree_mask |= 1 << i
-        elif depth[v] == depth[u] + 1 and par[v] == u: tree_mask |= 1 << i
-    nontree = []
-    for i, (u, v) in enumerate(edges):
-        if not (tree_mask >> i & 1):
-            a, b = (u, v) if depth[u] <= depth[v] else (v, u)
-            if not is_ancestor(a, b, depth, par): return None
-            nontree.append((b, a, depth[b] - depth[a]))
-    return depth, par, nontree
-
-
-def fund_cycle_edges(sender, ancestor, par):
-    path = set(); u = sender
-    while u != ancestor:
-        p = par[u]; path.add((min(u, p), max(u, p))); u = p
-    path.add((min(sender, ancestor), max(sender, ancestor)))
-    return path
-
-
-def single_cycle_len(sym):
-    if not sym: return None
-    deg = {}
-    for u, v in sym: deg[u] = deg.get(u, 0) + 1; deg[v] = deg.get(v, 0) + 1
-    if any(d != 2 for d in deg.values()): return None
-    adjS = {}
-    for u, v in sym:
-        adjS.setdefault(u, []).append(v); adjS.setdefault(v, []).append(u)
-    start = next(iter(deg)); seen = {start}; stk = [start]
-    while stk:
-        u = stk.pop()
-        for w in adjS[u]:
-            if w not in seen: seen.add(w); stk.append(w)
-    return len(sym) if len(seen) == len(deg) else None
-
-
-def path_len_of_intersection(cyc1, cyc2):
-    es = cyc1 & cyc2
-    if not es: return None
-    vs1 = {v for e in cyc1 for v in e}
-    vs2 = {v for e in cyc2 for v in e}
-    shared_v = vs1 & vs2
-    deg = {}
-    for u, v in es: deg[u] = deg.get(u, 0) + 1; deg[v] = deg.get(v, 0) + 1
-    if set(deg) != shared_v: return None
-    ends = [v for v, d in deg.items() if d == 1]
-    if len(ends) != 2 or any(d > 2 for d in deg.values()): return None
-    adjP = {}
-    for u, v in es:
-        adjP.setdefault(u, []).append(v); adjP.setdefault(v, []).append(u)
-    seen = {ends[0]}; stk = [ends[0]]
-    while stk:
-        u = stk.pop()
-        for w in adjP[u]:
-            if w not in seen: seen.add(w); stk.append(w)
-    if len(seen) != len(deg): return None
-    return len(es)
-
-
-def lca(u, v, depth, par):
-    while depth[u] > depth[v]: u = par[u]
-    while depth[v] > depth[u]: v = par[v]
-    while u != v: u = par[u]; v = par[v]
-    return u
-
-
-rng = random.Random(20260809 + 632)
-trees_seen = 0
-residual = 0
-
-for nn, trials in ((12, 4000), (14, 4000), (16, 4000),
-                   (18, 2500), (20, 2500), (22, 2000)):
-    rnd = random.Random(rng.randrange(1 << 30))
-    for trial in range(trials):
-        ed = sample_cubic(nn, rnd)
-        if not ed: continue
-        edges = [tuple(sorted(e)) for e in ed]
-        adj = [[] for _ in range(nn)]
-        for u, v in edges: adj[u].append(v); adj[v].append(u)
-        for _ in range(8):
-            r = rnd.randrange(nn)
-            shuffled = [list(adj[v]) for v in range(nn)]
-            for v in range(nn): rnd.shuffle(shuffled[v])
-            res = dfs_tree(nn, edges, r, shuffled)
-            if res is None: continue
-            trees_seen += 1
-            depth, par, be = res
-            m = len(be)
-            fc = [fund_cycle_edges(s, a, par) for s, a, _ in be]
-            if any(len(c) in PO2_LENS for c in fc): continue
-            pair_fires = False
-            for i in range(m):
-                for j in range(i + 1, m):
-                    if single_cycle_len(fc[i] ^ fc[j]) in PO2_LENS:
-                        pair_fires = True; break
-                if pair_fires: break
-            if pair_fires: continue
-            residual += 1
-
-            found = False
-            for x in range(m):
-                if found: break
-                for y in range(x + 1, m):
-                    if found: break
-                    D = fc[x] ^ fc[y]
-                    LD = single_cycle_len(D)
-                    if LD is None or LD < 6: continue
-                    k12 = (len(fc[x]) + len(fc[y]) - LD) // 2
-                    s1, a1, _ = be[x]; s2, a2, _ = be[y]
-                    mm = lca(s1, s2, depth, par)
-                    a_sh, a_deep = (a1, a2) if depth[a1] <= depth[a2] else (a2, a1)
-                    iadj = set()
-                    for snd in (s1, s2):
-                        if snd == mm: continue
-                        c = snd
-                        while par[c] != mm: c = par[c]
-                        iadj.add((min(mm, c), max(mm, c)))
-                    if a_deep != a_sh:
-                        p = par[a_deep]
-                        iadj.add((min(a_deep, p), max(a_deep, p)))
-                    for e in iadj:
-                        covers = [z for z in range(m)
-                                  if z not in (x, y) and e in fc[z]]
-                        if not covers: continue
-                        zc = min(covers, key=lambda z: len(fc[z]))
-                        kk = path_len_of_intersection(D, fc[zc])
-                        g3 = len(fc[zc]) - 1
-                        if kk == 1 and g3 <= k12 + 1 and (LD + g3) % 2 == 1:
-                            found = True; break
-            assert found, \
-                (f"FALSIFIED sup1_iadj: pair-residual tree where no |D|>=6 "
-                 f"pair has an I-adjacent boundary edge whose min-gap cover "
-                 f"is a SUP-1 witness (n={nn}, edges={edges}, root={r})")
-
-assert trees_seen > 10000, f"too few trees: {trees_seen}"
-assert residual >= 20, f"too few residual trees: {residual} — probe vacuous"
-print(f"trees={trees_seen} residual={residual} — every pair-residual tree "
-      f"has an I-adjacent boundary edge whose min-gap cover is a SUP-1 witness")
-CHECK -->
+<!-- R33: CHECK 1 (the fixed-seed sampling probe for Part 2) formerly
+here asserted the I-adjacent supply universal; it passed only by
+sampling luck and was removed when Part 2 was disproved (see
+lemma_sup1_dead_tree__0810-081024-1a40.md for the deterministic
+counterexample).  CHECK 2 below tests Part 1 (proved) and stays. -->
 
 <!-- CHECK
 # sup1_iadj CHECK 2 (consistency probe, Part 1): for EVERY short cover
@@ -537,12 +359,12 @@ $I$-adjacent boundary edge is geometrically pinned — leg-top covers
 anchor inside $I$ and meet only that leg with
 $k' = 1 + (\text{common descent below } c_i)$; $A$-bottom covers meet
 only $A$ with $k' = d(a_{\mathrm{deep}}) - \max(d(a_3),
-d(a_{\mathrm{sh}}))$; explicit $k' = 1$ criteria at both. OPEN
-(Part 2): every pair-residual tree admits a pair ($|D| \ge 6$) and an
-$I$-adjacent edge whose MIN-GAP cover is a SUP-1 witness — census
-42/42, and no tree ever required a far boundary edge. Quantifier
-negatives recorded: $\forall$-pair variants dead (0/37 both), max-$k_{12}$
-selection dead (10/37), working pairs typically expose exactly one
-working end edge. The analytic burden is now: (selection) which pair,
-(existence) why the min-gap cover of the right $I$-adjacent edge is
-short with the right parity — with Part 1 supplying the geometry.
+d(a_{\mathrm{sh}}))$; explicit $k' = 1$ criteria at both. DISPROVED
+(Part 2, R33): the $I$-adjacent min-gap supply conjecture — and every
+weaker SUP-1 universal above it — fails on the pinned counterexample in
+`sup1_dead_tree`. The R32 census (92/92, no far-edge tree observed) was
+sampling luck. Quantifier negatives remain valid dead ends:
+$\forall$-pair variants dead (0/37 both), max-$k_{12}$ selection dead
+(10/37). Part 1's geometry survives for reuse in whatever supply
+statement replaces SUP-1 (wider $k'$ channels or graph-level
+quantification).
