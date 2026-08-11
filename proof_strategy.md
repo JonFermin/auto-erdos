@@ -1428,6 +1428,15 @@ consistency CHECK):
    in the near-maximal-overlap regime $k' \ge |D| - 5$.
 4. **Line**: $L = 8 \iff g_3 = 2k' + 7 - |D|$.
 
+(Worked $L = 8$ boundary instances of $L = |D| + g_3 + 1 - 2k'$, for
+single-instance re-derivation — each satisfies the line
+$g_3 = 2k' + 7 - |D|$: $(|D|, k', g_3) = (6, 1, 3)$ gives
+$6 + 3 + 1 - 2 = 8$; $(7, 1, 2)$ gives $7 + 2 + 1 - 2 = 8$;
+$(7, 2, 4)$ gives $7 + 4 + 1 - 4 = 8$; $(9, 2, 2)$ gives
+$9 + 2 + 1 - 4 = 8$; $(10, 4, 5)$ gives $10 + 5 + 1 - 8 = 8$. NOT on
+the line: $(10, 1, 5)$ gives $10 + 5 + 1 - 2 = 14$, an even value
+above the floor, not 8.)
+
 ### Two reductions purchased by the lemma
 
 **(A) T3's arithmetic half is gone.** Any pair with $|D| \ge 6$ and any
