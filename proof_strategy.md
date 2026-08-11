@@ -1821,3 +1821,48 @@ residual pipeline).
 | Per-tree "8 always available" (295/295) | observed, probe at R36 |
 | Arc bound $\le 2$ / identity exact (8,307 pairings) | **verified** (R35) |
 | $k'' \ge 2$ straddle value theory | open (R36+ target) |
+
+## Section 76 — R36: per-tree SUP-8 split off as `sup8_tree_universal` (session s_0811-081051-a768)
+
+### New lemma `sup8_tree_universal` (open, probe committed)
+
+R35's fork is made precise. `l8_exactness_dead` killed the per-firing
+form of "the triple mechanism produces 8"; the strongest surviving
+8-specific statement is per-tree:
+
+**Claim**: every pair-residual normal spanning tree of a connected
+cubic graph has some firing triple at $L = 8$ **exactly**.
+
+Evidence: 295/295 tracked residual trees at R35 (length-set table in
+the lemma), 176/176 at R34 (all observed firings there were 8), and
+both deterministic pinned anchors (`sup1_dead_tree` 6/6 at 8;
+`l8_exactness_dead` 6/7 at 8, including the tree that also fires a 4).
+Cumulative: 471/471 across ten seeds.
+
+CHECK 1 anchors on the `l8_exactness_dead` pin — the tree that DOES
+fire at 4 still has six $L = 8$ triples, so the pin that killed
+exactness complies with the per-tree form. CHECK 2 is a fresh-seed
+(20260811) 125k-tree probe requiring an $L = 8$ firing on every
+residual tree (39 residuals, non-vacuous, ~10s), printing (graph,
+root, parent array) on any falsifier for immediate pinning.
+
+### Why this split matters for the value theory
+
+- If `sup8_tree_universal` holds, the $k'' \ge 2$ straddle value
+  theory only has to show 8 is attainable — one target length, and the
+  R23 tuning reduction (Section 48) becomes unconditional.
+- If it dies, the pinned falsifier will be a residual tree served ONLY
+  by $L \in \{4, 16, 32\}$ — the first hard evidence that the supply
+  argument must genuinely track all four lengths, and
+  `triple_alive_universal` (the disjunction) remains the honest
+  headline.
+- Either way `triple_alive_universal` is untouched: sup8 is strictly
+  stronger, and its failure does not propagate down.
+
+### Summary of round R36
+
+| Item | Status |
+|------|--------|
+| `sup8_tree_universal` lemma + 2 CHECKs (anchor + fresh-seed probe) | **committed, open** (R36) |
+| Per-tree SUP-8 evidence base | 471/471 across ten seeds (R34+R35) |
+| Next: $k'' \ge 2$ straddle value theory targeting 8 | open (R37+) |
