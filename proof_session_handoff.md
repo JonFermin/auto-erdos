@@ -1,95 +1,92 @@
-# Session handoff (session s_0810-081024-1a40)
+# Session handoff (session s_0811-081051-a768)
 
-**Stop reason**: Logical milestone — the SUP-1 program was falsified
-(R33) and replaced by the mechanism-complete triple-aliveness
-universal (R34); both rounds keep_progress with committed records.
+**Stop reason**: Logical milestone + token budget. R35 and R36 both
+keep_progress with committed records.
 
 **What was done this session**:
 
-R33 — **SUP-1 IS FALSE.** The R32-handoff census at I-adjacent edges
-surfaced (seed 77003) a pair-residual normal spanning tree of a
-14-vertex cubic graph with ZERO SUP-1 witnesses — no k'=1 short
-parity cover on any |D|>=6 pair, exhaustively verified. Pinned as
-`lemma_sup1_dead_tree__0810-081024-1a40.md` (status: proved,
-deterministic CHECK, no sampling). `sup1_end_edge` and `sup1_iadj`
-ledger-marked disproved (their lucky-seed sampling CHECKs removed;
-sup1_iadj Part 1's cover geometry remains proved and its CHECK 2
-stays). The R31/R32 censuses (189/189, 92/92) were sampling luck:
-dead-tree rate ~1 per few hundred residuals. The pinned tree still
-fires via six L=8 triples with |D∩C3| in {2,4} — the k'=1 channel is
-what died, not the triple mechanism. Salvage recorded in §73: on
-SUP-1-ALIVE trees the arithmetic selection rule "min gap3 over
-(k'=1 AND parity) candidates is short" held 123/123 (parked).
+R35 — **L=8 per-firing exactness is FALSE** (`l8_exactness_dead`,
+PROVED). A 12-vertex cubic graph with a pair-residual normal tree
+(root 10) fires one triple at L=4 — the fired 4-cycle is an ordinary
+C4 of the graph invisible to every fundamental cycle and pair
+sym-diff — alongside six L=8 triples. At scale (5 seeds + smoke,
+1,605,440 trees, 465 residuals): firings L=8 3017 / L=16 199 / L=4 52.
+R34's "all firings L=8" was census-window luck (and contradicted R18's
+old C4-39x datum). Census also verified: triple-aliveness 465/465
+(cumulative 641/641), every firing triple has a usable pairing
+(3268/3268), arc bound |components(D∩C3)| <= 2 on all 8307 pairings
+(k''=1 always 1-arc; k''>=2 split 4843 paste / 1771 straddle), length
+identity L=|D|+gap3+1-2k'' exact everywhere, max k''=16, max |D|=22.
 
-R34 — **triple_alive_universal** (new open lemma + probe): every
-pair-residual normal spanning tree is triple-alive (some 3-subset
-sym-diff is a single po2 cycle; L = |D| + gap3 + 1 - 2k'', k''
-unrestricted). Census 176/176 over 4 seeds / 571k trees. Channel
-split: 151 mixed, 13 only-k''=1, 12 only-k''>=2 — BOTH sub-channels
-individually insufficient, so the disjunction is the honest
-universal. All observed firings hit L=8 EXACTLY (never 4/16/32).
-CHECK 1 = deterministic sup1_dead_tree anchor; CHECK 2 = 125k-tree
-10s sweep, assert prints (graph, root, par) ready for pinning.
+R36 — **`sup8_tree_universal`** (new open lemma + probe): every
+pair-residual tree has SOME L=8 firing triple. Strictly stronger than
+triple_alive_universal; 8 was present in the firing-length set of
+295/295 tracked residuals (R35) + 176/176 (R34) = 471/471 across ten
+seeds. CHECK 1 anchors on the l8_exactness_dead pin (fires 4 AND 8);
+CHECK 2 = fresh-seed (20260811) 125k-tree probe, ~10s, 39 residuals,
+prints falsifier for pinning.
 
-**qid state**: Q9 resolved (falsified framing). Q68 opened, worked,
-released with progress; next session re-claims Q68.
+**qid state**: Q68 released with progress (R35+R36 done). Next session
+re-claims Q68 for the straddle value theory, or opens a new qid.
 
-**Open core after R34** (priority order):
-1. **L=8 exactness**: assert-or-refute at scale that every firing
-   triple on a residual tree has L=8 (never 4/16/32). If true, SUP-8
-   collapses into triple_alive_universal and the target sharpens to
-   "some triple with |D| + gap3 + 1 - 2k'' = 8".
-2. **Joint (|D|, gap3, k'', paste-vs-straddle) census** of firing
-   triples: which arithmetic pins L=8; expected k''>=2 producer is
-   the straddle branch of `pasting_cover_dichotomy` (the branch the
-   SUP-1 program treated as failure).
-3. **k''>=2 value theory**: the analogue of `shortpaste_floor_line`
-   for straddling covers; then whether the two channels' value sets
-   jointly always cover 8.
-4. Fallback (untouched): graph-level quantifier — 976/1000 DFS trees
-   of the dead graph are non-residual; "choose the DFS tree" is
-   empirically overwhelming but analytically a different game.
+**Open core after R36** (priority order):
+1. **k''>=2 straddle value theory** — the analogue of
+   shortpaste_floor_line for straddling covers (the 2-arc branch of
+   pasting_cover_dichotomy: I ⊆ P3, gap3 >= k12+2). What (|D|, gap3,
+   k'') values can straddle configs realize, and when do they hit
+   L=8? Straddle = 1771/8307 firing pairings; 24/465 trees fire ONLY
+   via k''>=2. The R35 joint census data (scratchpad, regenerate with
+   the sweep harness if needed) showed no channel is length-pure.
+2. **Prove sup8_tree_universal on a structured subclass** (e.g. trees
+   where some k''=1 witness exists — the parked R33 selection rule
+   held 123/123 there and shortpaste_floor_line pins the value side).
+3. Fallback (untouched): graph-level quantifier — choose the DFS tree.
+4. Caveat to keep in view (falsify critic, valid): all censuses are
+   n<=26; the witness box is n in [30,64] girth>=5. Sampling can only
+   falsify; the universal needs proof.
 
-**CRITIC INFRA (updated 2026-08-10 — READ BEFORE FIRST VERIFIER RUN)**:
-- Prewarm EXACTLY as main() renders or the cache misses:
-  `proof_md = pp.PROOF_STRATEGY_MD.read_text(encoding="utf-8")` — do
-  NOT append the lemma corpus to proof_md (falsify/strategy templates
-  pull $lemma_files_md separately; a wrong proof_md burned 3 R34
-  verifier runs at ~410s each on falsify live-call flake-outs).
-  call_critics_parallel(timeout_s=900), retry up to 3; falsify can
-  take 300s+.
-- Run proof_prepare with AUTOERDOS_LEMMA_CHECK_TIMEOUT_S=45
-  (sup1_iadj CHECK 2 ~21s; triple_alive_universal CHECK 2 ~10s).
-- Escalation-roulette mitigation EXPANDED in the strategy preamble
-  (items 4-6): ASCII-only numerical_check (a single ≡/≤/× is a
-  SyntaxError even in a dead branch), single-instance checks not
-  parameter-box sweeps, and no BLOCKING flags whose own evidence says
-  "no fix needed". The R33 blocked verdict (3 BLOCKING, all noise)
-  cleared to 0 after strengthening the note and re-rolling.
-- transient `critic_unavailable`: just re-run proof_prepare —
-  successes are cached per prompt-sha, so each pass only re-calls
-  failures.
-- proof_strategy.md is ~93k chars — condense before ~120k.
+**CRITIC INFRA (2026-08-11 session — READ BEFORE FIRST VERIFIER RUN)**:
+- The escalation-roulette mitigation WORKS: after 2 rolls of textual
+  fixes (superseded markers on stale summary tables, worked
+  single-instance arithmetic anchors near every formula the falsify
+  critic re-derives) both rounds cleared to 0 BLOCKING.
+- NEW TRAP: prewarming from the WRONG CWD silently caches prompts for
+  master's stale content (proof_prepare resolves files from its own
+  __file__). ALWAYS `cd worktrees/0730-080656-0fbf` INSIDE the same
+  shell command before `uv run python` prewarm scripts AND check the
+  printed strategy path.
+- NEW TRAP: an UNPARSEABLE critic response (prose instead of JSON) is
+  CACHED and re-runs replay it forever. Recovery: evict the corrupt
+  row from ~/.cache/auto-erdos/critic_cache.tsv (match critic name,
+  _parse_critic_response fails), then re-call with timeout_s=900.
+- NEW TRAP: `git commit --amend` after a bookkeeping commit rewrites
+  the WRONG commit (and if pushed, strands the branch). Check `git
+  log -1` before amending; prefer a new commit + normal push.
+- Worked-instance anchors added this session: shortpaste_floor_line
+  boundary tuples (§70 area), leaf-pair formula instances (§58),
+  v_min-vs-min-E_p reconciliation (§69), T2/T3/T1 parity note (§48
+  area). Do not remove them — they are what keeps the falsify/internal
+  critics at 0 BLOCKING.
+- proof_strategy.md is ~99k chars — condense before ~120k.
 - HARNESS TRAP (unchanged): shell cwd resets between turns; PREFIX
   EVERY COMMAND with `cd /home/user/auto-erdos/worktrees/0730-080656-0fbf`.
-- Ephemeral containers: proof_results.tsv + critic cache do not
-  survive; committed journal/ledger/records are the durable state.
 
 **Files modified this session**:
-- proof_lemmas/lemma_sup1_dead_tree__0810-081024-1a40.md (new, PROVED counterexample, R33)
-- proof_lemmas/lemma_triple_alive_universal__0810-081024-1a40.md (new open probe, R34)
-- proof_lemmas/lemma_sup1_end_edge__0809-080835-54ee.md (disproved; lucky CHECK removed)
-- proof_lemmas/lemma_sup1_iadj__0809-080835-54ee.md (Part 2 disproved; Part 1 + CHECK 2 kept)
-- proof_strategy.md (§73, §74 + expanded critic-discipline preamble)
+- proof_lemmas/lemma_l8_exactness_dead__0811-081051-a768.md (new, PROVED, R35)
+- proof_lemmas/lemma_sup8_tree_universal__0811-081051-a768.md (new open probe, R36)
+- proof_lemmas/lemma_triple_alive_universal__0810-081024-1a40.md (R35 census + refs)
+- proof_strategy.md (§75, §76, critic-anchor fixes in §48/§58/§69/§70, R31 table superseded markers, R25 step-2 gap closed)
 - proof_open_questions.jsonl, proof_journal.jsonl, ledger (appends)
-- records/proof_erdos_gyarfas_a5571d80f77f_5d9733f.json (R33 keep)
-- records/proof_erdos_gyarfas_5971886b14e3_31a45ce.json (R34 keep)
+- records/proof_erdos_gyarfas_9123b324ca28_ee6ea4e.json (R35 keep)
+- records/proof_erdos_gyarfas_921c2b27ca0d_2b21098.json (R36 keep)
+- cross-branch notes channel seeded (was empty): killed list + open core
 
-**Suggested next moves (R35+), in order**:
-1. Wide-scale L=8-exactness sweep (open-core item 1) — cheap, decisive
-   for the program's shape; pin any 4/16/32 firing immediately.
-2. Joint firing-census (item 2) with paste/straddle classification per
-   firing pairing; look for the k''>=2 analogue of the floor/line.
+**Suggested next moves (R37+), in order**:
+1. Straddle census: enumerate straddle firing pairings' (|D|, gap3,
+   k'', k12) jointly with the pasting_cover_dichotomy constraints
+   (I ⊆ P3 forces gap3 >= k12+2); look for the floor and the 8-line.
+2. If a clean straddle floor/line emerges, attempt the two-channel
+   cover: k''=1 line (proved) OR straddle line always solvable on a
+   residual tree => sup8_tree_universal.
 3. If the value theory stalls, /erdos-proof-ideation on
-   triple_alive_universal with §73's fork (tree-level vs graph-level
-   quantifier) as the framing question.
+   sup8_tree_universal with the 24 k''>=2-only trees as the framing.
