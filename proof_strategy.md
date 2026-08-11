@@ -303,6 +303,11 @@ back edges**.
 **Corollary (leaf-pair po2 witness)**: if $\delta_1 - \delta_2 \in
 \{2, 6, 14, 30, \ldots\}$ (i.e.\ $= 2^k - 2$), this cycle has po2
 length $2^k$ and proves chain\_locality\_r3 via a 2-back-edge witness.
+(Worked instances of the length formula $\delta_1 - \delta_2 + 2$, for
+single-instance re-derivation: $(\delta_1, \delta_2) = (6, 2)$ gives
+$6 - 2 + 2 = 6$; $(3, 1)$ gives $4$; $(8, 2)$ gives $8$; $(16, 2)$
+gives $16$. To land on po2 length $2^k$ the DIFFERENCE must be
+$2^k - 2$, e.g. $\delta_1 - \delta_2 = 14$ gives length 16.)
 
 **Coverage taxonomy** for chain\_locality\_r3 in cubic DFS trees:
 
@@ -1034,8 +1039,14 @@ The probe converts Q9's tuning half into:
   slack here.
 
 (T2)+(T3)+(T1) $\Rightarrow 8 \in V_e(T) \Rightarrow$ a firing triple at
-$C_8$, closing Q9's tuning half. The reduction needs only 8, never 16 or
-32. (For calibration, the R18 census over crossing-failed residuals saw
+$C_8$, closing Q9's tuning half ($V_e$ consists of even values by
+definition and 8 is even, so the two endpoint bounds plus T1's
+gap-freeness within the even class suffice). The reduction targets only 8, never 16
+or 32 — **conditional** on 8 being per-tree available
+($8 \in V_e(T)$ on every residual tree), which is NOT yet a theorem: it
+is exactly the per-tree SUP-8 statement that R35 splits off as the
+`sup8_tree_universal` probe (observed on every R20/R23 tree and 295/295
+at R35, but open). (For calibration, the R18 census over crossing-failed residuals saw
 firing lengths $C_8$ 698×, $C_4$ 39×, $C_{16}$ 1× — $C_8$ dominates but
 is not literally the only firing length; the point is that targeting 8
 alone suffices for existence, since $8 \in V$ held on every R20/R23
@@ -1140,8 +1151,12 @@ The R24 open conjecture is a theorem, by a two-line degree count:
    L_2)$ is tree-only (`pasting_meeting_structure`(0)–(1)). If exactly
    one segment intersection $P_3 \cap X$ is nonempty, every shared
    vertex of the cycles $D$ and $C_3$ is, by (1), an endpoint of a
-   shared edge — i.e. lies on the subpath $P_3 \cap X$. The
-   stray-vertex condition is automatic.
+   shared edge. That shared edge is necessarily a TREE edge: the only
+   non-tree edges of $D$ are its back edges $B_1, B_2$, the only
+   non-tree edge of $C_3$ is $B_3$, and $B_3 \notin \{B_1, B_2\}$, so
+   no back edge lies in both cycles. A shared tree edge lies in
+   $E(D) \cap E(C_3) = P_3 \cap X$ — i.e. every shared vertex lies on
+   the subpath $P_3 \cap X$. The stray-vertex condition is automatic.
 3. **(Collapsed criterion.)** For $\Delta(G) \le 3$: $D \cap C_3$ is a
    single path (pasting hypothesis) **iff** exactly one of
    $P_3 \cap A$, $P_3 \cap L_1$, $P_3 \cap L_2$ is edge-nonempty, and
@@ -1373,7 +1388,13 @@ The burden localizes to ONE pair (this round's probe), split three ways:
   classes.
 - **(iii) Min-attainment**: prove $\min E_p = 8$ (not $\le 6$!) for the
   selected pair — the census says the sweep interval usually STARTS at
-  8, so the lower endpoint is the theorem, not a bound to beat. A pair
+  8, so the lower endpoint is the theorem, not a bound to beat. (Not a
+  direction flip against T2's "$v_{\min} \le 8$": $E_p$ is the sweep
+  interval of ONE selected pair, while $v_{\min}$ is the endpoint of
+  the tree-level union $V_e(T)$ over all configs. $\min E_p = 8$ for
+  the selected pair puts $8 \in V_e(T)$ directly and is compatible with
+  other pairs/triples realizing smaller even values — R35's $L = 4$
+  firings show $v_{\min} = 4$ does occur on some trees.) A pair
   whose every short cover satisfies $|D| + \operatorname{gap}_3 + 1 -
   2k' \ge 8$ with equality attained is the target object; the parity
   bookkeeping ($|D|$ odd $\Rightarrow \operatorname{gap}_3$ even for
@@ -1516,9 +1537,9 @@ SUP-1 is now a two-step target, both localized to segment boundaries:
 
 | Item | Status |
 |------|--------|
-| `sup1_end_edge` probe (4 seeds, 632k trees, 189 residuals) | **unfalsified, non-vacuous** (R31) |
-| SUP-1 (T3 supply) | **holds 189/189**, parity fallback never needed (R31) |
-| End-edge witness + min-gap rule | **100% (126/126 each)** (R31) |
+| `sup1_end_edge` probe (4 seeds, 632k trees, 189 residuals) | ~~unfalsified~~ **SUPERSEDED — disproved at R33** (`sup1_dead_tree`) |
+| SUP-1 (T3 supply) | ~~holds 189/189~~ **SUPERSEDED — FALSE at R33**; the 189/189 was sampling luck |
+| End-edge witness + min-gap rule | ~~100% (126/126 each)~~ **SUPERSEDED — disproved at R33** (both refinements die with SUP-1) |
 | Leg-top-only / leg-bottom-only / A-end-only | **all falsified** (R31) |
 | Short leg-top covers anchor in $I$ | **proved-sketch + 60/60** (R31) |
 | SUP-1 analytic proof (steps i+ii) | open (R32+ target) |
@@ -1727,3 +1748,76 @@ failure prints (graph, root, parent array) ready for pinning.
 | Channel split (13 only-$k''{=}1$ / 12 only-$k''{\ge}2$ / 151 mixed) | measured (R34) |
 | All residual-tree firings at $L = 8$ | observed, unasserted (R35 target) |
 | $k'' \ge 2$ value theory | open (R35+ target) |
+
+## Section 75 — R35: L=8 exactness FALSIFIED; census confirms triple-aliveness at 641/641 and the arc bound (session s_0811-081051-a768)
+
+### New proved lemma: `l8_exactness_dead` (pinned counterexample)
+
+R34's open question 1 ("all residual-tree firings are $L = 8$
+exactly") is settled negatively, cheaply, and deterministically. A
+randomized sweep at $n = 12$ (seed 99001) surfaced, and the lemma's
+CHECK exhaustively verifies, a 12-vertex cubic graph with a
+pair-residual normal tree (root 10) whose 7 firing triples split
+$\{L{=}4: 1,\; L{=}8: 6\}$. The fired 4-cycle
+$(1,2),(2,10),(4,10),(1,4)$ is an ordinary $C_4$ of the graph that is
+invisible to every fundamental cycle and every pair sym-diff —
+detecting an *existing* power-of-2 cycle can genuinely require triple
+depth. The exactness observation was a census-window artifact (and in
+hindsight sat in tension with R18's older census, which had already
+recorded $C_4$ 39x / $C_{16}$ 1x among 738 firings under the earlier
+residual pipeline).
+
+### R35 census (five seeds + smoke, 1,605,440 trees, 465 residuals)
+
+- **Triple-aliveness: 465/465** (0 dead trees; cumulative with R34:
+  **641/641**). The universal survives a 2.8x larger sweep.
+- **Firing histogram** (3,268 firing triples): $L=8$ 3,017 (92.3%),
+  $L=16$ 199 (6.1%), $L=4$ 52 (1.6%).
+- **Per-tree firing-length sets** (295 tracked residuals): $\{8\}$
+  225x, $\{4,8\}$ 31x, $\{8,16\}$ 36x, $\{4,8,16\}$ 3x — **8 present
+  295/295**. The per-tree refinement "every pair-residual tree has
+  some $L = 8$ firing" (per-tree SUP-8) is unfalsified and becomes
+  R36's probe lemma.
+- **Pairing frame loses no generality**: every firing triple (3,268)
+  had $\ge 1$ pairing with $D$ a single cycle.
+- **Arc bound observed unconditionally**: over 8,307 usable pairings,
+  $D \cap C_3$ always had $\le 2$ arcs — the paste/straddle dichotomy
+  (`pasting_cover_dichotomy`, proved for overlapping pairs) held in
+  every observed configuration; $k''=1$ was always 1-arc (1,693/1,693,
+  consistent with `pasting_vertex_automatic`); $k'' \ge 2$ split 4,843
+  paste / 1,771 straddle.
+- **Identity exact**: $L = |D| + \operatorname{gap}_3 + 1 - 2k''$ held
+  in all 8,307 pairings ($k''$ up to 16, $|D|$ up to 22).
+- **No channel is length-pure**: $L=8$ arises via $k''=1$ (1,497) and
+  $k'' \ge 2$ (6,175); so do $L=4$ (13/112) and $L=16$ (183/327). A
+  value theory cannot pin length from the channel alone.
+- Caveat: per-tree channel classification (this sweep: 441 mixed, 24
+  only-$k'' \ge 2$, 0 only-$k''=1$) used ALL usable pairings per
+  firing triple; R34's 13/176 only-$k''=1$ bucket likely classified
+  per-triple minima — the definitions differ, so the two splits are
+  not directly comparable. Both agree on the load-bearing fact: each
+  channel alone is insufficient.
+
+### Program shape after R35
+
+1. `triple_alive_universal` stays the headline supply conjecture, with
+   the full power-of-2 disjunction (no L=8 collapse).
+2. **R36**: split off per-tree SUP-8 as its own probe lemma
+   (`sup8_tree_universal`): every pair-residual tree has some firing
+   triple at $L = 8$ exactly. If it survives, the value theory only
+   has to produce 8 (not any po2); if it dies, the pinned tree will
+   show which lengths must be produced instead.
+3. The $k'' \ge 2$ value theory (straddle analogue of
+   `shortpaste_floor_line`) remains the analytic core: straddle
+   produced 1,771/8,307 firing pairings, and 24 trees fire ONLY via
+   $k'' \ge 2$.
+
+### Summary of round R35
+
+| Item | Status |
+|------|--------|
+| `l8_exactness_dead` (pinned 12-vertex counterexample) | **proved** (R35) |
+| Triple-aliveness at scale (465/465; cumulative 641/641) | **unfalsified** (R35) |
+| Per-tree "8 always available" (295/295) | observed, probe at R36 |
+| Arc bound $\le 2$ / identity exact (8,307 pairings) | **verified** (R35) |
+| $k'' \ge 2$ straddle value theory | open (R36+ target) |

@@ -63,11 +63,28 @@ admits at least one pairing whose 2-subset sym-diff is a single cycle
    straddle alternative (which the SUP-1 program discarded as
    failure) is expected to be exactly the $k'' \ge 2$ producer:
    straddling covers meet two segments and have larger met sets.
-3. Census the joint distribution $(|D|, \operatorname{gap}_3, k'')$ of
-   firing triples on residual trees to find which identities pin
-   $L = 8$ (all observed firings at $L = 8$; no $L \in \{4, 16, 32\}$
-   firing has been recorded on a residual tree yet — worth asserting
-   or refuting at scale).
+3. ~~Census the joint distribution to find which identities pin
+   $L = 8$~~ — **REFUTED at R35** (`l8_exactness_dead`): a pinned
+   12-vertex pair-residual tree fires one triple at $L = 4$; at scale
+   (1.6M trees, 465 residuals, all triple-alive) the firing histogram
+   is $L=8$: 3,017, $L=16$: 199, $L=4$: 52. The universal keeps the
+   full power-of-2 disjunction. What survives per-tree: 8 was among
+   the firing lengths in 295/295 tracked residuals (R36 probe).
+
+**R35 census (five seeds + smoke, 1,605,440 trees, 465 residuals,
+465/465 triple-alive; cumulative with R34: 641/641).** Every one of
+the 3,268 firing triples had at least one pairing whose 2-subset
+sym-diff is a single cycle (0 exceptions), so the $(D, C_3)$ frame
+loses no generality. Over all 8,307 usable pairings the identity
+$L = |D| + \operatorname{gap}_3 + 1 - 2k''$ held with zero violations,
+and $D \cap C_3$ always had $\le 2$ arcs — exactly
+`pasting_cover_dichotomy`'s paste/straddle split, observed
+unconditionally: $k''=1$ pairings were 1-arc 1,693/1,693 (consistent
+with `pasting_vertex_automatic`), $k'' \ge 2$ split 4,843 paste (1 arc)
+vs 1,771 straddle (2 arcs). Extremes: $k''$ up to 16, $|D|$ up to 22.
+Per-pairing $L$-by-channel: $L=8$ came 1,497x via $k''=1$ and 6,175x
+via $k'' \ge 2$; both non-8 lengths also arise through both channels
+($L=4$: 13/112, $L=16$: 183/327), so no channel is length-pure.
 
 <!-- CHECK
 # triple_alive_universal CHECK 1 (deterministic anchor): the pinned
@@ -288,7 +305,11 @@ split shows both the $k''=1$ (old paste) and $k'' \ge 2$ (straddle)
 sub-channels are individually insufficient — 12 trees fire only
 through $k'' \ge 2$ (including `sup1_dead_tree`'s pinned anchor,
 verified deterministically in CHECK 1), 13 only through $k'' = 1$.
-Proving this claim subsumes SUP-8 and closes tree-level supply; the
-$k'' \ge 2$ side needs a value theory the program does not yet have
-(R35 target: joint $(|D|, \operatorname{gap}_3, k'')$ census; expected
-producer: the straddle branch of `pasting_cover_dichotomy`).
+Proving this claim closes tree-level supply. R35's census (1.6M trees,
+465 residuals, 641/641 cumulative alive) refuted the $L = 8$ exactness
+sharpening (`l8_exactness_dead`: pinned $L = 4$ firing) but confirmed
+the paste/straddle arc bound unconditionally (8,307 pairings, arcs
+$\le 2$, identity exact) and left the per-tree refinement "some
+$L = 8$ firing always exists" unfalsified at 295/295 (R36 probe). The
+$k'' \ge 2$ side still needs a value theory; the straddle branch of
+`pasting_cover_dichotomy` produced 1,771 of its firings.
