@@ -1940,3 +1940,63 @@ formula exact on ALL; 53,336 fired, $\tilde L$-histogram min 4
 | Arc bound $\le 2$ (R35: observed) | **upgraded to theorem** (R37) |
 | Value theory, both channels | **complete** (R30 + R37) |
 | Next: supply + firing for the two 8-lines on residual trees | open (R38+) |
+
+## Section 78 — R38: Channel census — the straddle channel is never necessary; `paste8_tree_universal` split off (session s_0812-081033-f881)
+
+### Census (seed 20260812+38, n ∈ {12..22}, 128,800 trees, 43 residual)
+
+With both value lines proved (R30 paste, R37 straddle), the supply
+question is WHICH channel serves each residual tree's $L = 8$ firings.
+Classifying every $L = 8$ firing triple of every residual tree by the
+arc count of its usable pairings:
+
+- **paste-8 available: 43/43 residual trees** (some $L = 8$ triple
+  admits a 1-arc pairing);
+- straddle-ONLY trees: **0**; trees with no 8 at all: **0** (consistent
+  with `sup8_tree_universal` at 471/471 + these 43 = 514/514);
+- straddle-8s coexist on many trees — per-tree $(k_{12}, |L_j|)$
+  occurrences dominated by $(1, 0)$ 38x, $(3, 0)$ 24x, $(2, 0)$ 17x —
+  but were never the only route;
+- both deterministic pins comply maximally: ALL $L = 8$ triples on the
+  `l8_exactness_dead` tree (6/6) and the `sup1_dead_tree` tree (6/6)
+  are paste-realizable.
+
+### New lemma `paste8_tree_universal` (open, probe committed)
+
+**Claim**: every pair-residual normal spanning tree of a connected
+cubic graph has an $L = 8$ firing triple realized through a 1-arc
+(paste) usable pairing.
+
+Strictly stronger than `sup8_tree_universal` (which allows any
+channel). If it holds, the supply program collapses to the paste
+8-line $g_3 = 2k' + 7 - |D|$ — the channel where
+`pasting_vertex_automatic`, the dichotomy paste-certificates
+(c1)–(c3), and `shortpaste_floor_line`(b) already live — and the
+straddle line becomes a proved-but-unneeded spare. If it dies, the
+pinned falsifier is the first residual tree that genuinely needs a
+straddle, and effort redirects to the straddle 8-line
+($k_{12} + |L_j| + \Sigma = 5$) with the weaker universals intact.
+
+CHECK 1 audits both pins deterministically (12/12 paste-realizable).
+CHECK 2 is a fresh-seed (20260812) 124k-tree probe (34 residuals,
+~10s) asserting a paste-8 on every residual tree, printing the tree on
+any falsifier.
+
+### The open ladder after R38 (strongest to weakest)
+
+1. `paste8_tree_universal` — paste-8 on every residual tree (R38);
+2. `sup8_tree_universal` — some-8 on every residual tree (R36);
+3. `triple_alive_universal` — some po2 firing on every residual tree
+   (R34; the honest headline).
+
+Each is a probe with a falsifier-printing CHECK; a kill at level $k$
+redirects to level $k+1$ with a pinned counterexample in hand.
+
+### Summary of round R38
+
+| Item | Status |
+|------|--------|
+| Channel census (43 residual trees, both pins) | paste-8 universal, 43/43 + 12/12 |
+| `paste8_tree_universal` lemma + 2 CHECKs | **committed, open** (R38) |
+| Supply target if it holds | paste 8-line only: $g_3 = 2k' + 7 - |D|$ |
+| Next: prove paste-8 supply on a structured subclass, or hunt bigger-n falsifiers | open (R39+) |
