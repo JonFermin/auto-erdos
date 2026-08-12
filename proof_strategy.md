@@ -1437,6 +1437,18 @@ $9 + 2 + 1 - 4 = 8$; $(10, 4, 5)$ gives $10 + 5 + 1 - 8 = 8$. NOT on
 the line: $(10, 1, 5)$ gives $10 + 5 + 1 - 2 = 14$, an even value
 above the floor, not 8.)
 
+(Worked ODD-$L$ boundary anchor — the floor's "even $L$" hypothesis is
+LOAD-BEARING; do not re-derive the floor without it. At the boundary
+$k' = |D| - 6$ with the raw overlap minimum $g_3 = \max(k', 2)$ one can
+get $L = 7$: $(|D|, k', g_3) = (8, 2, 2)$ gives $8 + 2 + 1 - 4 = 7$,
+which is ODD — outside the floor claim's hypothesis, NOT a
+counterexample. Parity (claim 1) is what closes the gap: $|D| = 8$
+even forces $g_3$ odd for even $L$, so the minimal admissible cover has
+$g_3 = 3$, giving $L = 8 + 3 + 1 - 4 = 8$ — exactly on the line
+$g_3 = 2k' + 7 - |D| = 3$. The floor claim quantifies ONLY over even
+$L$; odd values like 7 between the parity classes are expected and
+harmless.)
+
 ### Two reductions purchased by the lemma
 
 **(A) T3's arithmetic half is gone.** Any pair with $|D| \ge 6$ and any
