@@ -1875,3 +1875,68 @@ root, parent array) on any falsifier for immediate pinning.
 | `sup8_tree_universal` lemma + 2 CHECKs (anchor + fresh-seed probe) | **committed, open** (R36) |
 | Per-tree SUP-8 evidence base | 471/471 across ten seeds (R34+R35) |
 | Next: $k'' \ge 2$ straddle value theory targeting 8 | open (R37+) |
+
+## Section 77 — R37: Straddle value theory PROVED — both channels now exact lines (session s_0812-081033-f881)
+
+### New proved lemma: `straddle_floor_line`
+
+The $k'' \ge 2$ straddle analogue of `shortpaste_floor_line` (the open
+core item 1 from R36) is closed in one round, and it is *exact*, not
+just a floor. For a straddling cover of pair $(B_1, B_2)$ met on leg
+$L_i$ (unmet leg $L_j$), define $w = \operatorname{lca}(s_3, s_i)$,
+$y = d(a_{\mathrm{deep}}) - d(a_3)$, and four nonnegative **slacks**
+$\alpha_A = |A| - k_A$, $\beta_A = y - k_A$,
+$\alpha_L = |L_i| - k_L = d(s_i) - d(w)$,
+$\beta_L = d(s_3) - d(w)$. Then (all proved, elementary interval
+combinatorics on tree chains):
+
+1. **Arc dichotomy**: $D \cap C_3$ has exactly as many arcs as
+   segments met, $\le 2$ — R35's observed 8,307/8,307 arc bound is now
+   a THEOREM; $k'' = k_A + k_L$ in the straddle case.
+2. **Exact formula**:
+   $\tilde L = |D \oplus C_3| = k_{12} + 3 + |L_j| + \alpha_A +
+   \beta_A + \alpha_L + \beta_L$.
+3. **Coupling**: $\alpha_A \cdot \beta_A = 0$.
+4. **Floor**: $\tilde L \ge k_{12} + 3 + |L_j| \ge 4$; $\tilde L = 4$
+   forces the rigid zero-slack $(k_{12}, |L_j|) = (1, 0)$ config.
+5. **8-line**: $\tilde L = 8 \iff k_{12} + |L_j| + \Sigma = 5$; hence
+   straddle-8 needs $k_{12} \le 5$ and $|L_j| \le 4$.
+
+Worked anchor (n=10, root 1, $B_1 = (2,1)$, $B_2 = (0,3)$,
+$B_3 = (7,8)$; deterministically re-verified in the lemma's CHECK 1):
+$k_{12} = 1$, $|L_j| = |L_1| = 1$, slacks $(2, 0, 1, 0)$, so
+$\tilde L = 1 + 3 + 1 + 2 + 0 + 1 + 0 = 8$; identity cross-check
+$|D| = 10$, $g_3 = 5$, $k'' = 4$: $10 + 5 + 1 - 8 = 8$. The
+floor-tight anchor (n=10, root 4) has all slacks 0, $k_{12} = 1$,
+$|L_j| = 0$: $\tilde L = 4 = 10 + 9 + 1 - 16$.
+
+Scratch sweep (seed 20260812, $n \in \{10..18\}$): 94,940 straddles,
+formula exact on ALL; 53,336 fired, $\tilde L$-histogram min 4
+(105 rigid $L{=}4$s), 6,331 fired straddle-8s. CHECK 2 (seed
+20260812+37, ~1s) asserts claims 1–5 on every straddle config:
+23,514 straddles, 1,918 fired 8s, 29 floor-tight 4s, zero violations.
+
+### Program shape after R37
+
+- **The value side of the whole program is DONE.** Every usable
+  pairing is paste (1 arc: `shortpaste_floor_line`, exact line
+  $g_3 = 2k' + 7 - |D|$) or straddle (2 arcs: exact line
+  $k_{12} + |L_j| + \Sigma = 5$) — no third channel, by claim 1.
+- **`sup8_tree_universal` is now supply + firing only**: every
+  pair-residual tree needs SOME pair + cover ON one of the two
+  8-lines with $D \oplus C_3$ a single cycle. The remaining
+  difficulty is existential (supply) and topological (firing =
+  single-cycle-ness), not arithmetic.
+- Cheap screen for the supply hunt: straddle-8 hosts need
+  $k_{12} \le 5$, $|L_j| \le 4$; the observed straddle-8s are
+  dominated by $|L_j| = 0$ (ancestor-type pairs — one sender on the
+  other's root-chain).
+
+### Summary of round R37
+
+| Item | Status |
+|------|--------|
+| `straddle_floor_line` (formula + coupling + floor + 8-line) | **proved** (R37) |
+| Arc bound $\le 2$ (R35: observed) | **upgraded to theorem** (R37) |
+| Value theory, both channels | **complete** (R30 + R37) |
+| Next: supply + firing for the two 8-lines on residual trees | open (R38+) |
