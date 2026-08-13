@@ -1,12 +1,12 @@
 ---
 id: paste8_k2_universal
-status: open
+status: disproved
 depends_on: [paste8_tree_universal, shortpaste_floor_line]
-discharged_by_round: null
+discharged_by_round: 40
 introduced_at_round: 39
 ---
 
-# Lemma `paste8_k2_universal` (conjecture + probe: every pair-residual tree has a paste-8 witness with $k' \le 2$ — an $O(1)$-local supply certificate)
+# Lemma `paste8_k2_universal` (DISPROVED R40: the $k' \le 2$ / $O(1)$-local refinement fails at witness-box scale; three pinned counterexamples at $n = 30, 30, 40$)
 
 **Setting.** As in `paste8_tree_universal`: $T$ a pair-residual normal
 spanning tree of a connected cubic graph. A **paste-8 witness** is a
@@ -15,9 +15,33 @@ a single cycle, $D \cap C_k$ is a single arc of $k'$ edges, and
 $|D \oplus C_k| = 8$ — equivalently (`shortpaste_floor_line`(4)) the
 cell $(|D|, k')$ lies on the 8-line $g_3 = 2k' + 7 - |D|$.
 
-**Claim (open, universally quantified — sampling can only falsify).**
-Every pair-residual normal spanning tree of a connected cubic graph has
-a paste-8 witness with $k' \le 2$.
+**Claim (DISPROVED, R40).**
+~~Every pair-residual normal spanning tree of a connected cubic graph
+has a paste-8 witness with $k' \le 2$.~~
+
+**The disproof (R40).** Rejection sampling cannot reach the witness box
+(0 residuals in 3,160 sampled trees at $n \ge 28$, girth $\ge 5$), so
+R40 hunted adversarially: simulated annealing over (cubic graph, DFS
+tree) pairs minimizing the number of po2 firings (energy 0 = pair-
+residual), moves = cubic 2-opt rewires keeping girth $\ge 5$ +
+re-root/re-order. 20 pair-residual trees were constructed at
+$n \in \{30, 32, 36, 40\}$; **4 of the 20 have NO $k' \le 2$ paste-8**
+— min witness $k' = 3$ or $4$. Three are pinned in CHECK 2
+(deterministic, no sampling): `viol1_n30` (min $k' = 3$, 12 L=8
+triples), `viol2_n30` (min $k' = 4$), `viol3_n40` (min $k' = 4$). All
+in-sample evidence at $n \le 26$ (46/46) was below the falsification
+scale — exactly the gap the R39 falsify critic flagged.
+
+**What survives.** Every one of the 20 adversarial trees still has
+SOME paste-8 (min $k' \in \{1, \dots, 4\}$): `paste8_tree_universal`
+gains its first above-floor evidence (20/20 at $n \in [30, 40]$,
+adversarially constructed, on top of 43/43 sampled at $n \le 26$). The
+finite-menu arithmetic below remains a proved fact about $k' \le 2$
+witnesses; what died is only their universality. Consequence: there is
+NO $O(1)$-local certificate via bounded $k'$ — min witness $k'$ grows
+with $n$ (observed 3–4 at $n = 30..40$), so any supply proof must
+handle unbounded overlap arcs, or quantify over the graph (the R33
+fallback).
 
 **Proved sub-part (the $k' \le 2$ cell menu is finite).** On a
 pair-residual tree, any paste-8 witness with $k' \le 2$ lies in one of
@@ -51,7 +75,8 @@ a bounded-configuration analysis, with the value side already closed by
   $(6, 2)$ with $g_3 = 5 > k_{12} + 1 = 4$ — none short. The $k' \le 2$
   claim cannot be strengthened by the short-cover condition.
 
-**Evidence for the claim.**
+**Evidence below the falsification scale (R39 census, historical —
+this is why the claim looked safe).**
 
 - Census (seed 20260813, $n \in \{12..26\}$, 153,600 trees, 46
   pair-residual): **46/46 trees have a $k' \le 2$ paste-8** (43 with
@@ -202,94 +227,26 @@ print("pins OK: k'<=2 paste-8 on all five; k'=1 dead on hard1-3; "
 CHECK -->
 
 <!-- CHECK
-# paste8_k2_universal CHECK 2 (falsification probe): every sampled
-# pair-residual cubic DFS tree has a paste-8 witness with k' <= 2.
-# Fresh seed (20260814); an assert failure prints the tree for pinning.
-import random
-
-PO2_LENS = {4, 8, 16, 32}
-
-
-def sample_cubic(nn, rnd, tries=3000):
-    for _ in range(tries):
-        stubs = [v for v in range(nn) for _ in range(3)]
-        rnd.shuffle(stubs)
-        edges = set(); ok = True
-        for i in range(0, len(stubs), 2):
-            a, b = stubs[i], stubs[i + 1]
-            if a == b or (min(a, b), max(a, b)) in edges:
-                ok = False; break
-            edges.add((min(a, b), max(a, b)))
-        if not ok: continue
-        el = list(edges)
-        deg = [0] * nn
-        for a, b in el: deg[a] += 1; deg[b] += 1
-        if min(deg) == 3 and max(deg) == 3:
-            adj = [[] for _ in range(nn)]
-            for a, b in el: adj[a].append(b); adj[b].append(a)
-            seen = {0}; stack = [0]
-            while stack:
-                u = stack.pop()
-                for w in adj[u]:
-                    if w not in seen: seen.add(w); stack.append(w)
-            if len(seen) == nn: return el
-    return None
-
-
-def is_ancestor(u, v, depth, par):
-    if depth[u] > depth[v]: return False
-    x = v
-    while depth[x] > depth[u]: x = par[x]
-    return x == u
-
-
-def dfs_tree(n, edges, r, shuffled_adj):
-    depth = [-1] * n; par = [-1] * n
-    depth[r] = 0; visited = [False] * n; visited[r] = True
-    stack = [(r, iter(shuffled_adj[r]))]
-    while stack:
-        u, it = stack[-1]; adv = False
-        for w in it:
-            if not visited[w]:
-                visited[w] = True; depth[w] = depth[u] + 1; par[w] = u
-                stack.append((w, iter(shuffled_adj[w]))); adv = True; break
-        if not adv: stack.pop()
-    tree = set()
-    for v in range(n):
-        if v != r: tree.add((min(v, par[v]), max(v, par[v])))
-    nontree = []
-    for e in edges:
-        if e in tree: continue
-        u, v = e
-        a, b = (u, v) if depth[u] <= depth[v] else (v, u)
-        if not is_ancestor(a, b, depth, par): return None
-        nontree.append((b, a))
-    return depth, par, nontree
-
-
-def fund_cycle_edges(sender, ancestor, par):
-    path = set(); u = sender
-    while u != ancestor:
-        p = par[u]; path.add((min(u, p), max(u, p))); u = p
-    path.add((min(sender, ancestor), max(sender, ancestor)))
-    return path
-
-
+# paste8_k2_universal CHECK 2 (deterministic DISPROOF pins, R40): three
+# adversarially-constructed pair-residual trees at n=30/30/40 (girth>=5)
+# with NO k'<=2 paste-8 (min witness k' = 3/4/4) but WITH a paste-8 —
+# so paste8_k2_universal is disproved while paste8_tree_universal
+# survives on all three. Fully deterministic: rebuilds each tree from
+# its pinned (edges, root, par) and re-derives everything.
 def single_cycle_len(sym):
     if not sym: return None
     dg = {}
     for u, v in sym: dg[u] = dg.get(u, 0) + 1; dg[v] = dg.get(v, 0) + 1
-    if any(dg[x] != 2 for x in dg): return None
+    if any(d != 2 for d in dg.values()): return None
     adjS = {}
     for u, v in sym:
         adjS.setdefault(u, []).append(v); adjS.setdefault(v, []).append(u)
-    start = sorted(dg)[0]; sn = {start}; st = [start]
-    while st:
-        u = st.pop()
+    st = next(iter(dg)); seen = {st}; stk = [st]
+    while stk:
+        u = stk.pop()
         for w in adjS[u]:
-            if w not in sn: sn.add(w); st.append(w)
-    return len(sym) if len(sn) == len(dg) else None
-
+            if w not in seen: seen.add(w); stk.append(w)
+    return len(sym) if len(seen) == len(dg) else None
 
 def n_arcs(es):
     if not es: return 0
@@ -306,73 +263,134 @@ def n_arcs(es):
                 if w not in seen: seen.add(w); stk.append(w)
     return comps
 
+PO2 = {4, 8, 16, 32}
 
-rng = random.Random(20260814)
-trees_seen = 0
-residual = 0
+def audit(name, nn, edges, root, par, expect_min_kp):
+    edges = [tuple(sorted(e)) for e in edges]
+    assert len(edges) == 3 * nn // 2, "not cubic edge count"
+    deg = {}
+    for u, v in edges: deg[u] = deg.get(u, 0) + 1; deg[v] = deg.get(v, 0) + 1
+    assert all(deg.get(v) == 3 for v in range(nn)), "not cubic"
+    es = set(edges)
+    adjacency = [[] for _ in range(nn)]
+    for u, v in edges: adjacency[u].append(v); adjacency[v].append(u)
+    for u in range(nn):
+        for i in range(3):
+            for j in range(i + 1, 3):
+                a, b = adjacency[u][i], adjacency[u][j]
+                assert (min(a, b), max(a, b)) not in es, "triangle"
+                assert not any(x != u and x in adjacency[b]
+                               for x in adjacency[a]), "4-cycle"
+    depth = [-1] * nn; depth[root] = 0
+    pending = [v for v in range(nn) if v != root]
+    while pending:
+        nxt = []
+        for v in pending:
+            if depth[par[v]] >= 0: depth[v] = depth[par[v]] + 1
+            else: nxt.append(v)
+        assert len(nxt) < len(pending), "parent array not a tree"
+        pending = nxt
+    tre = set()
+    for v in range(nn):
+        if v != root:
+            e = (min(v, par[v]), max(v, par[v]))
+            assert e in es, "tree edge not in graph"
+            tre.add(e)
+    def fcyc(s, a):
+        p = set(); u = s
+        while u != a:
+            q = par[u]; p.add((min(u, q), max(u, q))); u = q
+        p.add((min(s, a), max(s, a)))
+        return p
+    be = []
+    for e in edges:
+        if e in tre: continue
+        u, v = e
+        a, b = (u, v) if depth[u] <= depth[v] else (v, u)
+        x = b
+        while depth[x] > depth[a]: x = par[x]
+        assert x == a, "non-ancestral non-tree edge (not a normal tree)"
+        be.append((b, a))
+    fc = [fcyc(s, a) for s, a in be]
+    assert not any(len(c) in PO2 for c in fc), "single fires"
+    m = len(fc)
+    for i in range(m):
+        for j in range(i + 1, m):
+            assert single_cycle_len(fc[i] ^ fc[j]) not in PO2, "pair fires"
+    n8 = 0; best = None
+    for x in range(m):
+        for y in range(x + 1, m):
+            for z in range(y + 1, m):
+                if single_cycle_len(fc[x] ^ fc[y] ^ fc[z]) != 8: continue
+                n8 += 1
+                for (i, j, k) in ((x, y, z), (x, z, y), (y, z, x)):
+                    D = fc[i] ^ fc[j]
+                    if single_cycle_len(D) is None: continue
+                    inter = D & fc[k]
+                    if n_arcs(inter) != 1: continue
+                    kp = len(inter)
+                    if best is None or kp < best: best = kp
+    assert n8 > 0, f"{name}: no L=8 triple (sup8 falsifier?! pin separately)"
+    assert best is not None, f"{name}: no paste-8 (paste8_tree falsifier?!)"
+    assert best == expect_min_kp, f"{name}: min k' {best} != {expect_min_kp}"
+    assert best > 2, f"{name}: has a k'<=2 witness -- NOT a counterexample"
+    print(f"{name}: n={nn} pair-residual, L8={n8}, min paste k'={best} "
+          f"(no k'<=2)")
 
-for nn, trials in ((12, 4000), (14, 4000), (16, 3000),
-                   (18, 2000), (20, 1500), (22, 1000)):
-    rnd = random.Random(rng.randrange(1 << 30))
-    for trial in range(trials):
-        ed = sample_cubic(nn, rnd)
-        if not ed: continue
-        edges = [tuple(sorted(e)) for e in ed]
-        adj = [[] for _ in range(nn)]
-        for u, v in edges: adj[u].append(v); adj[v].append(u)
-        for _ in range(8):
-            r = rnd.randrange(nn)
-            shuffled = [list(adj[v]) for v in range(nn)]
-            for v in range(nn): rnd.shuffle(shuffled[v])
-            res = dfs_tree(nn, edges, r, shuffled)
-            if res is None: continue
-            trees_seen += 1
-            depth, par, be = res
-            m = len(be)
-            fc = [fund_cycle_edges(s, a, par) for s, a in be]
-            if any(len(c) in PO2_LENS for c in fc): continue
-            pair_fire = False
-            for i in range(m):
-                for j in range(i + 1, m):
-                    if single_cycle_len(fc[i] ^ fc[j]) in PO2_LENS:
-                        pair_fire = True; break
-                if pair_fire: break
-            if pair_fire: continue
-            residual += 1
-            has_k2 = False
-            for x in range(m):
-                if has_k2: break
-                for y in range(x + 1, m):
-                    if has_k2: break
-                    for z in range(y + 1, m):
-                        if single_cycle_len(fc[x] ^ fc[y] ^ fc[z]) != 8:
-                            continue
-                        for (i, j, k) in ((x, y, z), (x, z, y), (y, z, x)):
-                            D = fc[i] ^ fc[j]
-                            if single_cycle_len(D) is None: continue
-                            inter = D & fc[k]
-                            if n_arcs(inter) == 1 and len(inter) <= 2:
-                                has_k2 = True; break
-                        if has_k2: break
-            assert has_k2, \
-                (f"FALSIFIED paste8_k2_universal: pair-residual tree with "
-                 f"no k'<=2 paste-8 (n={nn}, root={r}, par={par}, "
-                 f"edges={edges})")
+audit("viol1_n30", 30,
+  [(0, 18), (0, 22), (0, 27), (1, 9), (1, 18), (1, 29), (2, 4), (2, 5),
+   (2, 20), (3, 6), (3, 17), (3, 29), (4, 25), (4, 28), (5, 12), (5, 27),
+   (6, 8), (6, 11), (7, 9), (7, 14), (7, 27), (8, 19), (8, 20), (9, 12),
+   (10, 15), (10, 16), (10, 24), (11, 15), (11, 23), (12, 13), (13, 23),
+   (13, 26), (14, 21), (14, 26), (15, 21), (16, 17), (16, 22), (17, 20),
+   (18, 19), (19, 26), (21, 25), (22, 28), (23, 25), (24, 28), (24, 29)],
+  20,
+  [27, 9, 4, 29, 28, 2, 3, 14, 19, 12, 16, 6, 5, 23, 21, 10, 17, 20, 19,
+   26, -1, 15, 0, 11, 29, 23, 13, 7, 22, 1], 3)
 
-assert trees_seen > 100000, f"too few trees: {trees_seen}"
-assert residual >= 25, f"too few residual trees: {residual} -- probe vacuous"
-print(f"trees={trees_seen} residual={residual} -- every pair-residual tree "
-      f"has a k'<=2 paste-8 witness")
+audit("viol2_n30", 30,
+  [(0, 3), (0, 16), (0, 17), (1, 5), (1, 19), (1, 20), (2, 10), (2, 22),
+   (2, 28), (3, 12), (3, 19), (4, 20), (4, 21), (4, 23), (5, 11), (5, 28),
+   (6, 11), (6, 24), (6, 26), (7, 11), (7, 27), (7, 29), (8, 18), (8, 23),
+   (8, 29), (9, 12), (9, 20), (9, 24), (10, 13), (10, 23), (12, 25),
+   (13, 18), (13, 21), (14, 15), (14, 27), (14, 28), (15, 17), (15, 26),
+   (16, 21), (16, 25), (17, 22), (18, 24), (19, 26), (22, 29), (25, 27)],
+  25,
+  [17, 5, 10, 12, 21, 11, 26, 29, 23, 20, 13, 7, 9, 18, 28, 14, 25, 15,
+   24, 3, 1, 16, 17, 4, 6, -1, 19, 14, 2, 8], 4)
+
+audit("viol3_n40", 40,
+  [(0, 7), (0, 36), (0, 38), (1, 16), (1, 24), (1, 35), (2, 16), (2, 33),
+   (2, 34), (3, 5), (3, 12), (3, 20), (4, 13), (4, 29), (4, 34), (5, 18),
+   (5, 21), (6, 19), (6, 21), (6, 32), (7, 14), (7, 33), (8, 18), (8, 22),
+   (8, 26), (9, 17), (9, 21), (9, 28), (10, 14), (10, 15), (10, 36),
+   (11, 18), (11, 28), (11, 29), (12, 24), (12, 34), (13, 22), (13, 25),
+   (14, 23), (15, 19), (15, 35), (16, 23), (17, 26), (17, 35), (19, 20),
+   (20, 37), (22, 36), (23, 38), (24, 33), (25, 27), (25, 39), (26, 32),
+   (27, 30), (27, 32), (28, 37), (29, 31), (30, 31), (30, 37), (31, 39),
+   (38, 39)],
+  1,
+  [36, -1, 33, 5, 34, 21, 19, 0, 18, 17, 14, 29, 24, 4, 23, 10, 2, 35,
+   11, 20, 3, 9, 13, 16, 1, 39, 8, 32, 11, 31, 27, 30, 6, 7, 12, 15, 22,
+   28, 39, 31], 4)
+
+print("disproof pins OK: paste8_k2_universal is false; paste-8 itself "
+      "present on all three (paste8_tree_universal survives)")
 CHECK -->
 
 ## Summary
 
-The bounded-window refinement of `paste8_tree_universal`, motivated by
-the R39 cell census: every pair-residual tree has a paste-8 witness
-with overlap arc $k' \le 2$, hence (proved menu) with $|D| \le 9$ and
-cover length $\le 9$ — an $O(1)$-local certificate. The natural
-stronger forms are dead against pins: $k' = 1$ fails on three pinned
-$n = 14$ trees, and $k' \le 2 \wedge \text{short}$ fails on
-`sup1_dead_tree`. Unfalsified at 46/46 census trees plus all five pins;
-if proved, the supply argument reduces to a bounded-configuration
-analysis with the value side already closed by `shortpaste_floor_line`.
+DISPROVED at R40. The bounded-window refinement of
+`paste8_tree_universal` — every pair-residual tree has a paste-8 with
+$k' \le 2$ — held on all 46 sampled residual trees at $n \le 26$ and
+all five small pins, but fails at witness-box scale: adversarial
+simulated annealing constructed pair-residual trees at $n = 30$ and
+$n = 40$ (girth $\ge 5$) whose minimum paste-8 overlap is $k' = 3$ or
+$4$; three are pinned deterministically in CHECK 2. The finite
+$k' \le 2$ cell menu and the deaths of the $k' = 1$ and
+$k' \le 2 \wedge \text{short}$ variants (CHECK 1) remain proved facts.
+Takeaway: no $O(1)$-local certificate via bounded $k'$ exists; supply
+proofs must handle unbounded overlap arcs (the value line
+$g_3 = 2k' + 7 - |D|$ covers all $k'$, so the value side is unharmed),
+and `paste8_tree_universal` — now with 20/20 adversarial evidence at
+$n \in [30, 40]$ — is the correct supply target.

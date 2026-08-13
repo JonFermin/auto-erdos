@@ -48,6 +48,12 @@ universals.
 - Straddle-8s do coexist (the same census saw straddle-8 pairings on
   many of the 43 trees, dominated by $(k_{12}, |L_j|) = (1, 0)$ and
   $(3, 0)$) — the claim is about necessity, not absence.
+- **Above-floor adversarial evidence (R40)**: 20/20 pair-residual trees
+  constructed by simulated annealing at $n \in \{30, 32, 36, 40\}$,
+  girth $\ge 5$ (where rejection sampling finds nothing), all have a
+  paste-8 — including the three trees that DISPROVE the $k' \le 2$
+  refinement `paste8_k2_universal` (their min paste-8 $k'$ is 3–4).
+  First evidence above the $n \ge 30$ minimal-counterexample floor.
 
 <!-- CHECK
 # paste8_tree_universal CHECK 1 (deterministic pins): on both pinned

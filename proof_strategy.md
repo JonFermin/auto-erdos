@@ -2083,3 +2083,60 @@ $k' \le 2 \wedge$ short (`sup1_dead_tree`).
 | Finite $k' \le 2$ cell menu (8 cells) | **PROVED** (arithmetic, R39) |
 | `paste8_k2_universal` lemma + 2 CHECKs | **committed, open** (R39) |
 | Supply target if it holds | bounded-configuration analysis, windows ≤ 9 |
+
+## Section 80 — R40: `paste8_k2_universal` DISPROVED at witness-box scale — no $O(1)$-local certificate; adversarial SA reaches $n \ge 30$ residuals (session s_0813-080958-9732)
+
+### Rejection sampling dies above n=26; SA breaks through
+
+At $n \ge 28$ with girth $\ge 5$, rejection sampling produced **0
+residual trees in 3,160** (7s) — pair-residuality decays too fast for
+sampling to test anything in the witness box ($n \in [30, 64]$). R40
+switched to adversarial construction: simulated annealing over (cubic
+graph, DFS tree) pairs with energy = #po2 singles + #po2 pair
+sym-diffs, moves = cubic 2-opt rewires (girth $\ge 5$ preserved) and
+DFS re-root/re-order, 391 restarts / 420s → **20 pair-residual trees
+at $n \in \{30, 32, 36, 40\}$** (10/6/3/1). This is the harness's
+first residual population above the F3 minimal-counterexample floor.
+
+### The kill
+
+**4 of the 20 trees have NO $k' \le 2$ paste-8** — min witness
+$k' = 3$ or 4. Three are pinned deterministically (CHECK 2 of the
+lemma file): `viol1_n30` (min $k'=3$, 12 L=8 triples), `viol2_n30`
+(min $k'=4$), `viol3_n40` (min $k'=4$). `paste8_k2_universal`:
+open → **disproved** (introduced R39, killed R40 — the falsify
+critic's "all evidence below n=30" WARN was exactly right).
+
+Dead with it: any bounded-$k'$ / bounded-window ($O(1)$-local) supply
+certificate. Observed min witness $k'$ grows with $n$; witness cells
+at $n \ge 30$ run up the 8-line to $(25, 18)$. The $k' \le 2$ finite
+menu stays a proved arithmetic fact; only universality died.
+
+### What survives, strengthened
+
+Every one of the 20 adversarial trees HAS a paste-8:
+`paste8_tree_universal` now carries 20/20 adversarial evidence at
+$n \in [30, 40]$ on top of 43/43 sampled at $n \le 26$ (evidence
+bullet added to its lemma file). The $k' \le 2$ cells seen at
+$n \ge 30$ — $(5,1), (5,2), (6,2), (7,2)$ — still respect the menu.
+
+### The open ladder after R40 (strongest to weakest)
+
+1. ~~`paste8_k2_universal`~~ — DISPROVED (R40);
+2. `paste8_tree_universal` — any paste-8 (R38) — **the supply target**;
+3. `sup8_tree_universal` — any-channel 8 (R36);
+4. `triple_alive_universal` — any po2 firing (R34).
+
+### R41+ plan
+
+1. SA-harden `paste8_tree_universal` itself: bias the SA energy to
+   ALSO penalize paste-8 availability (search for a residual tree with
+   no paste-8 / no 8 at all) — the same technique that killed level 1
+   is the strongest available falsifier for levels 2–4.
+2. If level 2 survives adversarial attack: the analytic proof must
+   produce a paste-8 with UNBOUNDED $k'$ — the value line
+   $g_3 = 2k'+7-|D|$ covers all $k'$, so the burden is pure supply:
+   show SOME pair + cover meeting in one arc on the 8-line. Candidate
+   handle: the R30 dichotomy certificates (c1)–(c3) don't bound $k'$.
+3. Fallback (untouched): graph-level quantifier — choose the DFS tree.
+
