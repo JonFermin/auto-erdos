@@ -2012,3 +2012,74 @@ redirects to level $k+1$ with a pinned counterexample in hand.
 | `paste8_tree_universal` lemma + 2 CHECKs | **committed, open** (R38) |
 | Supply target if it holds | paste 8-line only: $g_3 = 2k' + 7 - |D|$ |
 | Next: prove paste-8 supply on a structured subclass, or hunt bigger-n falsifiers | open (R39+) |
+
+## Section 79 — R39: Cell census — the paste-8 certificate is $O(1)$-local; `paste8_k2_universal` split off (session s_0813-080958-9732)
+
+### Census (seed 20260813, n ∈ {12..26}, 153,600 trees, 46 residual)
+
+R38 said WHICH channel (paste); R39 asks WHERE on the paste 8-line
+$g_3 = 2k' + 7 - |D|$ the witnesses live. Enumerating ALL paste-8
+witnesses of every residual tree and tabulating their $(|D|, k')$
+cells:
+
+- **$k' \le 2$ witness: 46/46 residual trees** (min-$k'$ histogram:
+  $k'=1$ on 43, $k'=2$ on 3);
+- $k' = 1$ is NOT universal: three fresh $n = 14$ trees (hard1–hard3,
+  pinned) have no $k'=1$ paste-8 at all — their $k' \le 2$ cells are
+  $(6,2)$ and $(9,2)$. R33's `sup1_dead_tree` pin turns out to be a
+  fourth such tree (its six paste-8s are $(6,2)$/$(10,4)$ only);
+- $k' \le 2 \wedge$ short is NOT universal: `sup1_dead_tree`'s only
+  $k' \le 2$ witnesses are six non-short $(6,2)$'s
+  ($g_3 = 5 > k_{12}+1 = 4$). The short-cover condition CANNOT be
+  added to the $k' \le 2$ claim;
+- dominant cells by tree-coverage: $(6,2)$ 38x, $(5,1)$ 34x, $(7,1)$
+  30x, $(9,2)$ 27x, $(9,3)$ 32x, $(10,4)$ 28x; 38 distinct per-tree
+  cell profiles — no single cell is universal, but in-sample every
+  tree has a witness with $k'=1$ OR in cell $(6,2)$.
+
+### The finite-menu arithmetic (proved, in the new lemma)
+
+On a residual tree a $k' \le 2$ paste-8 witness can only occupy eight
+cells: $k'=1$: $|D| \in \{3,5,7\}$; $k'=2$: $|D| \in \{3,5,6,7,9\}$.
+Proof: $g_3 \ge 2$ bounds $|D| \le 2k'+5$; pair-residuality kills
+$|D| \in \{4,8\}$; cover-residuality kills $|C_3| = g_3+1 \in \{4,8\}$,
+which for $k'=1$ removes $|D|=6$. Seven of the eight cells are
+observed; $(3,2)$ (triangle $D$, 9-cycle cover overlapping 2 of its 3
+edges) is allowed but unseen in 46 trees.
+
+### New lemma `paste8_k2_universal` (open, probe committed)
+
+**Claim**: every pair-residual normal spanning tree of a connected
+cubic graph has a paste-8 witness with $k' \le 2$.
+
+Strictly stronger than `paste8_tree_universal`; strictly weaker than
+the dead $k'=1$ and $k'\le2\wedge$short forms, which CHECK 1 pins as
+false (4 resp. 1 pinned counterexamples). Its value: combined with the
+proved menu, EVERY quantified witness is a bounded configuration —
+$|D| \le 9$, cover length $\le 9$, overlap $\le 2$ edges — so if the
+claim holds, 8-supply is certified inside constant-size windows and
+the analytic burden becomes a bounded-configuration analysis (the
+value side is already closed by `shortpaste_floor_line`). CHECK 1
+audits the five pins deterministically; CHECK 2 is a fresh-seed
+(20260814) 124k-tree falsification probe (43 residuals, ~10s).
+
+### The open ladder after R39 (strongest to weakest)
+
+1. `paste8_k2_universal` — $k' \le 2$ paste-8 on every residual tree (R39);
+2. `paste8_tree_universal` — any paste-8 (R38);
+3. `sup8_tree_universal` — any-channel 8 (R36);
+4. `triple_alive_universal` — any po2 firing (R34).
+
+Dead strengthenings of level 1 (do NOT revisit): $k'=1$ (4 pins),
+$k' \le 2 \wedge$ short (`sup1_dead_tree`).
+
+### Summary of round R39
+
+| Item | Status |
+|------|--------|
+| Cell census (46 residual trees, all paste-8 witnesses) | $k' \le 2$ universal in-sample, 46/46 |
+| $k'=1$ universal | **DEAD** — hard1–3 + `sup1_dead_tree` pinned (R39) |
+| $k' \le 2 \wedge$ short universal | **DEAD** — `sup1_dead_tree` pinned (R39) |
+| Finite $k' \le 2$ cell menu (8 cells) | **PROVED** (arithmetic, R39) |
+| `paste8_k2_universal` lemma + 2 CHECKs | **committed, open** (R39) |
+| Supply target if it holds | bounded-configuration analysis, windows ≤ 9 |
