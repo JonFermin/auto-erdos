@@ -1454,7 +1454,14 @@ harmless.)
 **(A) T3's arithmetic half is gone.** Any pair with $|D| \ge 6$ and any
 $k' = 1$ short cover has even $L \ge 8$ (both parity families of R27,
 uniformly — the lone even-$|D|$ census tree stops being a special
-case). `t3_min_overlap_short_paste` reduces to pure supply:
+case). *Hypothesis anchor (R40): this is a FLOOR over whatever $k'=1$
+covers exist, not an exact-8 realizability claim. On a pair-residual
+tree the $|D| = 6$, $k' = 1$ case cannot hit 8 at all: even $L$ forces
+$g_3$ odd, and $g_3 = 3$ would make $C_3$ a $C_4$ — excluded by
+residuality — so $g_3 \ge 5$ and $L \ge 10$ there. Exact 8 at
+$|D| = 6$ requires $k' = 2$ (cell $(6,2)$ of §79's menu, which is why
+$(6,1)$ is not a menu cell). No contradiction with §79.*
+`t3_min_overlap_short_paste` reduces to pure supply:
 
 > **(SUP-1)** every pair-residual tree admits a pair with $|D| \ge 6$
 > and a short cover ($g_3 \le k_{12} + 1$) meeting $D$ in exactly one
@@ -1468,8 +1475,11 @@ statement is: some pair and short cover satisfy
 $g_3 = 2k' + 7 - |D|$. Per-$|D|$ windows (parity automatic):
 $|D|=7$: $(k', g_3) \in \{(1,2), (2,4), (3,6), \dots\}$;
 $|D|=9$: $\{(2,2), (3,4), \dots\}$; $|D|=6$: $\{(1,3), (2,5), \dots\}$;
-$|D|=5$: $\{(1,4), \dots\}$; $|D|=3$: $\{(1,6), \dots\}$. The short
-criterion couples each window entry to a minimum pair overlap
+$|D|=5$: $\{(1,4), \dots\}$; $|D|=3$: $\{(1,6), \dots\}$. *(R40 note:
+on pair-residual trees, entries with $|C_3| = g_3 + 1 \in \{4, 8\}$
+are unrealizable — cover-residuality kills e.g. $(6; 1, 3)$ and
+$(6; 3, 7)$; see §79's menu for the surviving $k' \le 2$ cells.)* The
+short criterion couples each window entry to a minimum pair overlap
 $k_{12} \ge g_3 - 1 = 2k' + 6 - |D|$: **large-$|D|$ pairs hit the line
 with ANY overlap; small-$|D|$ pairs need overlap at least
 $7 - |D|$-ish.** Triangle-free graphs remove only the $g_3 = 2$
