@@ -1,81 +1,89 @@
-# Session handoff (session s_0812-081033-f881)
+# Session handoff (session s_0813-080958-9732)
 
-**Stop reason**: Logical milestone + context budget. R37 and R38 both
+**Stop reason**: Logical milestone + context budget. R39 and R40 both
 keep_progress with committed records.
 
 **What was done this session**:
 
-R37 — **`straddle_floor_line` PROVED** (the R36 open core item 1). For
-a straddling cover met on leg $L_i$ (unmet $L_j$), with $w =
-\operatorname{lca}(s_3, s_i)$, $y = d(a_{deep}) - d(a_3)$ and slacks
-$\alpha_A = |A| - k_A$, $\beta_A = y - k_A$, $\alpha_L = d(s_i) - d(w)$,
-$\beta_L = d(s_3) - d(w)$:
-$\tilde L = |D \oplus C_3| = k_{12} + 3 + |L_j| + \alpha_A + \beta_A +
-\alpha_L + \beta_L$, all slacks $\ge 0$, coupling $\alpha_A \beta_A = 0$.
-Floor $\ge k_{12}+3+|L_j| \ge 4$ ($\tilde L = 4$ rigid: $(1,0)$, zero
-slack); 8-line $k_{12} + |L_j| + \Sigma = 5$ (so $k_{12} \le 5$,
-$|L_j| \le 4$). Arc bound $\le 2$ (R35 observed 8,307/8,307) upgraded
-to a THEOREM: arcs = segments met. Validated on 94,940 sampled
-straddles, zero violations. **Value theory now complete on both
-channels** (R30 paste + R37 straddle).
+R39 — **paste-8 cell census** (seed 20260813, 153,600 trees, 46
+residual): tabulated ALL paste-8 witnesses per residual tree on the
+8-line $g_3 = 2k'+7-|D|$. Findings: $k' \le 2$ witness on 46/46;
+$k'=1$ universal FALSE (3 fresh n=14 pins + sup1_dead_tree — its six
+paste-8s are (6,2)/(10,4) only); $k' \le 2 \wedge$ short FALSE
+(sup1_dead_tree's (6,2)s are non-short). Proved the finite $k' \le 2$
+cell menu (8 cells: k'=1: |D| in {3,5,7}; k'=2: |D| in {3,5,6,7,9})
+via po2 exclusions. Committed `paste8_k2_universal` (open).
 
-R38 — **channel census + `paste8_tree_universal`** (new open probe):
-43/43 fresh residual trees (128,800 trees, seed 20260812+38) have a
-PASTE-channel (1-arc) L=8 firing; 0 straddle-only trees; both pins
-have ALL L=8 triples paste-realizable (6/6 + 6/6). Claim: every
-pair-residual tree has a paste-channel L=8 firing. Strictly stronger
-than sup8_tree_universal. If it holds, supply collapses to the paste
-8-line $g_3 = 2k' + 7 - |D|$ alone.
+R40 — **paste8_k2_universal DISPROVED at witness-box scale.**
+Rejection sampling: 0 residuals in 3,160 trees at n>=28 girth>=5 —
+dead end. Adversarial SA over (cubic graph, DFS tree) pairs
+(energy = #po2 singles + #po2 pair sym-diffs, moves = 2-opt rewire
+keeping girth>=5 + DFS re-root/re-order, 391 restarts/420s) constructed
+**20 pair-residual trees at n in {30,32,36,40}** — the first residual
+population above the F3 floor. 4/20 have NO $k' \le 2$ paste-8 (min
+$k'$ = 3/4); three pinned deterministically in the lemma's CHECK 2
+(viol1_n30, viol2_n30, viol3_n40). Ledger: paste8_k2_universal ->
+disproved. **No O(1)-local / bounded-k' supply certificate exists.**
+All 20 trees DO have a paste-8: `paste8_tree_universal` now has 20/20
+adversarial above-floor evidence (bullet added to its lemma file).
 
-**qid state**: Q68 resolved (straddle value theory done). Q69 released
-with progress (census done; the analytic supply proof remains).
+Also: internal-critic BLOCKING (floor-vs-line misread of §70(A))
+fixed with hypothesis anchors at §70(A)/(B) — on residual trees the
+(6;1,3) window entry is unrealizable (C_4 cover), matching §79's menu.
 
-**Open core after R38** (priority order):
-1. **Prove paste-8 supply on a structured subclass** — e.g. trees with
-   a k'=1 witness (R33's parked selection rule held 123/123 there and
-   shortpaste_floor_line pins the value side); or the |Lj|=0
-   ancestor-pair route.
-2. Bigger-n falsifier hunt for paste8_tree_universal (censuses are
-   n<=26; witness box is n in [30,64] girth>=5).
+**qid state**: Q69 released (census + falsification done; analytic
+supply core remains). **Q70 opened**: SA-harden the surviving ladder —
+bias the R40 SA energy AGAINST paste-8 / any-8 / any-po2 availability
+and attack paste8_tree_universal, sup8_tree_universal,
+triple_alive_universal at n in [30,64]. A falsifier at any level
+redirects the program cheaply; survival is the strongest evidence
+obtainable before analytic effort.
+
+**Open core after R40** (priority order):
+1. **Q70** (SA-harden the ladder) — do this FIRST; the R40 harness
+   pattern is in the notes channel (and §80). Energy for level 2:
+   e.g. lexicographic (po2-firings, then #paste-8 triples) or a
+   penalty sum; keep girth>=5 and n in [30,64].
+2. If the ladder survives: analytic supply for paste8_tree_universal
+   with UNBOUNDED k' — value side closed by shortpaste_floor_line for
+   all k'; candidate handle: dichotomy paste certificates (c1)-(c3)
+   (they do not bound k').
 3. Fallback (untouched): graph-level quantifier — choose the DFS tree.
-4. The straddle 8-line ($k_{12}+|L_j|+\Sigma=5$) is proved and idle —
-   it becomes the target only if paste8 dies.
+4. Straddle 8-line proved and idle (target only if paste dies).
 
-**CRITIC INFRA (read BEFORE first verifier run)**:
-- BOTH falsify AND internal critics can exceed the 240s cap on ~300k
-  prompts. Prewarm the one that timed out:
-  `call_critic(prompt, critic_name=<name>, timeout_s=900)` with the
-  prompt rendered via `pp._render_critic_prompt(...)`, run from INSIDE
-  the worktree AND with `PROOF_TAG=erdos_gyarfas` exported.
-- **PROOF_TAG trap (new, worse than the cwd trap)**: rendering without
-  PROOF_TAG silently builds the DEFAULT problem's
-  (primitive_set_erdos) prompt — wrong-spec cache rows, misleading
-  sha comparisons. Assert `pp.PROOF_TAG == "erdos_gyarfas"` in every
-  prewarm script.
-- Falsify drops hypotheses when building numerical_check expressions
-  (it tested the shortpaste floor WITHOUT the even-L hypothesis; the
-  escalation to BLOCKING is mechanical). Fix: worked odd-L boundary
-  anchor now sits at §70; keep hypotheses explicit next to every
-  floor/line formula.
-- proof_strategy.md is ~106k chars — condense before ~120k.
+**CRITIC INFRA (unchanged + one new trap)**:
+- Prewarm internal AND falsify BEFORE proof_prepare on every round
+  that edits strategy/lemmas: render via pp._render_critic_prompt with
+  PROOF_TAG=erdos_gyarfas exported, call_critic(..., timeout_s=900),
+  from INSIDE the worktree. Assert pp.PROOF_TAG == "erdos_gyarfas".
+- PROOF_TAG trap hit AGAIN this session: a bare `uv run proof_notes.py`
+  wrote to proof_notes_primitive_set_erdos.md (deleted, rewritten with
+  the tag). EVERY helper needs the export, not just prepare/log.
+- Python sys.path trap: `uv run python /abs/script.py` puts the SCRIPT
+  dir on sys.path, not cwd — scripts importing proof_prepare need
+  sys.path.insert(0, worktree) or run via heredoc.
+- proof_strategy.md is ~114k chars — condense before ~120k.
 - HARNESS TRAP (unchanged): PREFIX EVERY COMMAND with
   `cd /home/user/auto-erdos/worktrees/0730-080656-0fbf`.
 
 **Files modified this session**:
-- proof_lemmas/lemma_straddle_floor_line__0812-081033-f881.md (new, PROVED, R37)
-- proof_lemmas/lemma_paste8_tree_universal__0812-081033-f881.md (new open probe, R38)
-- proof_strategy.md (§77, §78, odd-L boundary anchor at §70)
-- proof_open_questions.jsonl, proof_journal.jsonl, ledger (appends)
-- records/proof_erdos_gyarfas_82d9391373c5_9c7183c.json (R37 keep)
-- records/proof_erdos_gyarfas_0e1264753240_5f20ce7.json (R38 keep)
-- notes channel: R37 + R38 summaries + critic-infra learnings
+- proof_lemmas/lemma_paste8_k2_universal__0813-080958-9732.md (new R39,
+  DISPROVED R40 — CHECK 1 = 5 small pins, CHECK 2 = 3 disproof pins)
+- proof_lemmas/lemma_paste8_tree_universal__0812-081033-f881.md
+  (evidence bullet: 20/20 adversarial at n=30..40)
+- proof_strategy.md (§79, §80, hypothesis anchors at §70(A)/(B))
+- proof_open_questions.jsonl (Q69 released, Q70 opened), journal,
+  ledger (paste8_k2_universal disproved)
+- records/proof_erdos_gyarfas_40a2030ad255_9d5a50a.json (R39 keep)
+- records/proof_erdos_gyarfas_034a356205fa_402f073.json (R40 keep)
+- notes channel: R39+R40 summary + SA-harness lesson
 
-**Suggested next moves (R39+), in order**:
-1. Analyze the 43 census trees' paste-8 witnesses: which (|D|, k')
-   line cells realize them? If one cell dominates (e.g. k'=1,
-   |D| odd), attempt a constructive existence proof for that cell on
-   residual trees.
-2. If a selection rule emerges, prove it on the k'=1-witness subclass
-   first (R33's 123/123 regime).
-3. If stuck, /erdos-proof-ideation on paste8_tree_universal with the
-   census cell table as framing.
+**Suggested next moves (R41+), in order**:
+1. Claim Q70. Port the SA harness to penalize 8-availability; run
+   against paste8_tree_universal first (it is the strongest live
+   claim, so a falsifier there is cheapest to find if one exists).
+2. Any falsifier -> pin it deterministically, flip the lemma, drop to
+   the next ladder level (the R40 lemma-edit pattern is the template).
+3. If 50+ adversarial trees at multiple n all survive: switch to the
+   analytic unbounded-k' supply attack, or /erdos-proof-ideation with
+   the SA-survival data as framing.
