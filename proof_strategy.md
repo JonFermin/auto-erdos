@@ -2233,3 +2233,33 @@ Fallback unchanged: graph-level quantifier (choose the DFS tree).
 | Straddle-only $L=8$ triples observed | **0** across all 261 trees |
 | Min paste $k'$ observed | 5 (at $n = 32$, $40$, $56$) — unbounded-$k'$ burden confirmed |
 | Next | analytic unbounded-$k'$ supply (Q71) |
+
+## Section 82 — R42: top-of-box coverage — adversarial survival extends to $n = 60$; $n \in \{62, 64\}$ unreachable by cold SA (session s_0814-082720-9c93)
+
+The R41 falsify critic's WARN (ladder untested at $n \in \{60, 62, 64\}$,
+inside the $n \le 64$ witness box) prompted a third SA run: same
+lexicographic availability-penalizing energies, $n \in \{58, 60, 62, 64\}$
+only, restart budgets doubled (140s / 40k iterations). Result: **13 more
+pair-residual trees (3 at $n = 58$, 10 at $n = 60$), all keeping a
+paste-8** — anti-paste8 pressure bottomed at 5 paste-8 triples — and
+again **zero straddle-only $L = 8$ triples**. Adversarial survival now
+totals **274/274** across $n \in [30, 60]$.
+
+Honest limit: $n \in \{62, 64\}$ produced 0 pair-residual trees in
+~1.1M SA iterations — cold-start SA cannot reach residuality there
+(the po2-violation landscape at $n \ge 62$ has ~135+ pair terms to
+zero out). Closing the box's last two even values needs warm-starting
+from an $n = 60$ residual tree (e.g. 2-vertex expansion moves that
+preserve residuality) — recorded as a small open engineering question
+inside Q72's resolution; it does NOT gate the analytic attack (Q71),
+whose burden is $n$-uniform anyway.
+
+### Summary of round R42
+
+| Item | Status |
+|------|--------|
+| Q72 top-of-box SA ($n \in \{58..64\}$, doubled budgets) | DONE at 58/60 — **0 falsifiers, 13/13 survive** |
+| Adversarial survival total | **274/274**, $n \in [30, 60]$ |
+| Straddle-only $L=8$ observed | still **0** (274 trees) |
+| $n \in \{62, 64\}$ | unreachable cold — warm-start idea recorded, non-gating |
+| Next | Q71 analytic unbounded-$k'$ supply |

@@ -69,6 +69,16 @@ universals.
   **5** (at n=32 AND n=40, pinned): forced-large overlap arcs appear
   under adversarial pressure already at n=32, confirming the
   unbounded-k' burden is intrinsic, not a large-n artifact.
+- **Top-of-box extension (R42, Q72)**: a third SA run targeting
+  n in {58, 60, 62, 64} with doubled restart budgets constructed 13
+  more pair-residual trees (3 at n=58, 10 at n=60, independently
+  re-audited): all 13 keep a paste-8 (anti-paste8 pressure bottomed at
+  5 paste-8 triples), zero straddle-only L=8 triples again. Adversarial
+  coverage now reaches n=60; **274/274 total**. n in {62, 64} remains
+  unreached — pair-residual states are too sparse there even for 140s
+  restarts (0 residuals in ~1.1M SA iterations); closing the last two
+  even values needs a warm-started or structure-seeded search, noted
+  as residual risk rather than evidence.
 
 <!-- CHECK
 # paste8_tree_universal CHECK 1 (deterministic pins): on both pinned
