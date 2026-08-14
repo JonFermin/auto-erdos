@@ -429,6 +429,25 @@ $(d_{a_2}-d_{a_1}) + (d_{s_2}-d_{s_1}) + 2$.
 **Po2 condition**: the cycle is a power of $2$ iff
 $(d_{a_2}-d_{a_1})+(d_{s_2}-d_{s_1}) \in \{2,6,14,30,\ldots\}$.
 
+**Anchor table (deterministic, for re-derivation).** Worked instances of
+the length formula $L = (d_{a_2}-d_{a_1}) + (d_{s_2}-d_{s_1}) + 2$ on
+strict-crossing depth tuples $(d_{a_1}, d_{a_2}, d_{s_1}, d_{s_2})$ —
+any probe of this formula should reproduce EXACTLY these values:
+
+| $(d_{a_1}, d_{a_2}, d_{s_1}, d_{s_2})$ | $L$ | po2? |
+|---|---|---|
+| $(0,1,2,3)$ | $1+1+2 = 4$ | yes |
+| $(0,4,6,8)$ | $4+2+2 = 8$ | yes |
+| $(0,2,4,5)$ | $2+1+2 = 5$ | no |
+| $(0,3,4,6)$ | $3+2+2 = 7$ | no |
+| $(1,2,4,7)$ | $1+3+2 = 6$ | no |
+
+The parity identity (`crossing_offset_parity`, R17) on the same tuples:
+$\omega = (d_{a_2}-d_{a_1})+(d_{s_2}-d_{s_1}) \equiv
+(d_{s_1}-d_{a_1})+(d_{s_2}-d_{a_2}) \pmod 2$ — the two sides are
+rearrangements of the same four terms, so the congruence is exact on
+every tuple (e.g. $(0,3,4,6)$: $3+2 = 5 \equiv 7 = 4+3$).
+
 **Proof idea**: the two fundamental cycles share tree edges on segment
 $\operatorname{TreePath}(a_2,s_1)$, which cancels. The surviving edge set is
 $\operatorname{TreePath}(a_1,a_2) \cup \operatorname{TreePath}(s_1,s_2) \cup \{e_1,e_2\}$,
