@@ -2150,3 +2150,67 @@ $n \ge 30$ — $(5,1), (5,2), (6,2), (7,2)$ — still respect the menu.
    handle: the R30 dichotomy certificates (c1)–(c3) don't bound $k'$.
 3. Fallback (untouched): graph-level quantifier — choose the DFS tree.
 
+
+## Section 81 — R41: the ladder SURVIVES direct adversarial pressure — 261/261 hardened trees keep a paste-8; straddle never necessary; min paste $k'$ reaches 5 at $n = 32$ (session s_0814-082720-9c93)
+
+### The experiment (Q70)
+
+R40's SA falsifier only *reached* pair-residuality (energy = #po2
+firings). R41 turned the same harness against the surviving ladder
+itself: lexicographic energy — residuality violations first, then,
+on pair-residual trees, the **availability count the target claim
+asserts is positive** (three modes: #paste-8 triples / #$L=8$ triples
+/ #po2 firing triples), moves = cubic 2-opt keeping girth $\ge 5$ +
+DFS re-root/re-order, $n \in [30, 64]$. Two independent runs, ~2.9M
+SA iterations, ~32 min total.
+
+### Result: zero falsifiers at every ladder level
+
+**261 pair-residual trees constructed (run 1: 138 at
+$n \in \{30..56\}$; run 2: 123 at $n \in \{30..44\}$, all
+independently re-audited from pinned data). Not one lacks a paste-8,
+an $L=8$, or a po2 firing.** The pressure was real: the anti-paste8
+energy squeezed one $n=32$ tree down to exactly TWO $L=8$ triples
+(both paste-realizable — pinned as `surv_thin_n32` in the lemma's new
+CHECK 3); the anti-sup8 energy reached a single $L=8$ triple on an
+$n=44$ tree (run 1); the anti-po2 energy never got below 22 firing
+triples. Availability thins under attack but never empties.
+
+### Two sharper structural facts
+
+1. **The straddle channel was never necessary anywhere.** In all 261
+   trees, every $L=8$ firing triple admits a paste (1-arc) pairing —
+   0 straddle-only $L=8$ triples across the entire adversarial
+   population, extending the R38 pin observation (12/12) to
+   witness-box scale under pressure.
+2. **Forced-large $k'$ is not a large-$n$ artifact.** Min paste $k'$
+   reaches **5** already at $n = 32$ (pinned `surv_kp5_n32`) and again
+   at $n = 40$ (pinned `surv_kp5_n40`); run 1 saw min $k' = 5$ at
+   $n = 56$. The R40 conclusion (no bounded-$k'$ certificate) is
+   confirmed and sharpened: adversarial pressure finds high-forced-$k'$
+   trees at every scale, so the analytic supply argument must produce
+   paste-8s with unbounded overlap arcs from the start.
+
+### Program shape after R41
+
+The ladder is as hard as adversarial search can make it:
+`paste8_tree_universal` (and everything below it) now carries
+261/261 direct-attack survival on top of 43/43 + 20/20 prior
+evidence. Per the R41+ plan, the program switches to the **analytic
+unbounded-$k'$ supply attack**: prove that on the 8-line
+$g_3 = 2k' + 7 - |D|$ some pair + cover meeting in one arc always
+exists on a pair-residual tree — value side already closed by
+`shortpaste_floor_line` for all $k'$; candidate handle: the R30
+dichotomy paste certificates (c1)–(c3), which do not bound $k'$.
+Fallback unchanged: graph-level quantifier (choose the DFS tree).
+
+### Summary of round R41
+
+| Item | Status |
+|------|--------|
+| Q70 SA-hardening (3 energies, 2 runs, $n \in [30,64]$) | **DONE — 0 falsifiers** |
+| `paste8_tree_universal` | survives 261/261 direct attack; CHECK 3 pins added |
+| `sup8_tree_universal`, `triple_alive_universal` | survive 261/261; evidence bullets added |
+| Straddle-only $L=8$ triples observed | **0** across all 261 trees |
+| Min paste $k'$ observed | 5 (at $n = 32$, $40$, $56$) — unbounded-$k'$ burden confirmed |
+| Next | analytic unbounded-$k'$ supply (Q71) |

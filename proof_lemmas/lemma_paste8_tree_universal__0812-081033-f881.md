@@ -55,6 +55,21 @@ universals.
   refinement `paste8_k2_universal` (their min paste-8 $k'$ is 3–4).
   First evidence above the $n \ge 30$ minimal-counterexample floor.
 
+- **Direct adversarial attack survived (R41, Q70)**: two independent SA
+  runs whose energy PENALIZED availability itself (lexicographic:
+  residuality violations first, then #paste-8 / #L=8 / #po2-firing
+  triples), n in [30, 64], girth >= 5, ~2.9M SA iterations total:
+  **261 pair-residual trees constructed (138 + 123), zero without a
+  paste-8** — and zero without an L=8, zero without a po2 firing, so
+  the whole ladder survives. Anti-paste8 pressure squeezed availability
+  to as little as TWO L=8 triples on one n=32 tree (both paste,
+  pinned in CHECK 3) but never to zero. In ALL 261 trees, every L=8
+  firing triple admits a paste pairing — the straddle channel was
+  never necessary anywhere, even under pressure. Min paste k' reached
+  **5** (at n=32 AND n=40, pinned): forced-large overlap arcs appear
+  under adversarial pressure already at n=32, confirming the
+  unbounded-k' burden is intrinsic, not a large-n artifact.
+
 <!-- CHECK
 # paste8_tree_universal CHECK 1 (deterministic pins): on both pinned
 # residual trees, EVERY L=8 firing triple admits a 1-arc (paste)
@@ -313,14 +328,190 @@ print(f"trees={trees_seen} residual={residual} -- every pair-residual tree "
       f"has a paste-channel L=8 firing triple")
 CHECK -->
 
+<!-- CHECK
+# paste8_tree_universal CHECK 3 (R41 adversarial-survivor pins): three
+# pair-residual trees constructed by SA whose energy PENALIZED paste-8 /
+# any-8 / any-po2 availability (Q70 ladder-hardening).  All three keep a
+# paste-8 despite direct pressure: surv_thin_n32's availability was
+# squeezed to exactly TWO L=8 triples (both paste-realizable, min k'=2);
+# surv_kp5_n32 and surv_kp5_n40 have min paste k' = 5 -- the largest
+# observed, and already at n=32, so large forced k' is NOT a large-n
+# phenomenon.  On all three, EVERY L=8 triple admits a paste pairing.
+# Fully deterministic: rebuilds each tree from its pinned
+# (edges, root, par); asserts cubic + girth>=5 + normal + pair-residual.
+def single_cycle_len(sym):
+    if not sym: return None
+    dg = {}
+    for u, v in sym: dg[u] = dg.get(u, 0) + 1; dg[v] = dg.get(v, 0) + 1
+    if any(d != 2 for d in dg.values()): return None
+    adjS = {}
+    for u, v in sym:
+        adjS.setdefault(u, []).append(v); adjS.setdefault(v, []).append(u)
+    st = next(iter(dg)); seen = {st}; stk = [st]
+    while stk:
+        u = stk.pop()
+        for w in adjS[u]:
+            if w not in seen: seen.add(w); stk.append(w)
+    return len(sym) if len(seen) == len(dg) else None
+
+def n_arcs(es):
+    if not es: return 0
+    adjP = {}
+    for u, v in es:
+        adjP.setdefault(u, []).append(v); adjP.setdefault(v, []).append(u)
+    seen = set(); comps = 0
+    for s in list(adjP):
+        if s in seen: continue
+        comps += 1; seen.add(s); stk = [s]
+        while stk:
+            u = stk.pop()
+            for w in adjP[u]:
+                if w not in seen: seen.add(w); stk.append(w)
+    return comps
+
+PO2 = {4, 8, 16, 32}
+
+def audit(name, nn, edges, root, par, exp_po2, exp_l8, exp_min_kp):
+    edges = [tuple(sorted(e)) for e in edges]
+    assert len(edges) == 3 * nn // 2 and len(set(edges)) == len(edges)
+    deg = {}
+    for u, v in edges: deg[u] = deg.get(u, 0) + 1; deg[v] = deg.get(v, 0) + 1
+    assert all(deg.get(v) == 3 for v in range(nn)), "not cubic"
+    es = set(edges)
+    adjacency = [[] for _ in range(nn)]
+    for u, v in edges: adjacency[u].append(v); adjacency[v].append(u)
+    for u in range(nn):
+        for i in range(3):
+            for j in range(i + 1, 3):
+                a, b = adjacency[u][i], adjacency[u][j]
+                assert (min(a, b), max(a, b)) not in es, "triangle"
+                assert not any(x != u and x in adjacency[b]
+                               for x in adjacency[a]), "4-cycle"
+    depth = [-1] * nn; depth[root] = 0
+    pending = [v for v in range(nn) if v != root]
+    while pending:
+        nxt = []
+        for v in pending:
+            if depth[par[v]] >= 0: depth[v] = depth[par[v]] + 1
+            else: nxt.append(v)
+        assert len(nxt) < len(pending), "parent array not a tree"
+        pending = nxt
+    tre = set()
+    for v in range(nn):
+        if v != root:
+            e = (min(v, par[v]), max(v, par[v]))
+            assert e in es, "tree edge not in graph"
+            tre.add(e)
+    def fcyc(s, a):
+        p = set(); u = s
+        while u != a:
+            q = par[u]; p.add((min(u, q), max(u, q))); u = q
+        p.add((min(s, a), max(s, a)))
+        return p
+    be = []
+    for e in edges:
+        if e in tre: continue
+        u, v = e
+        a, b = (u, v) if depth[u] <= depth[v] else (v, u)
+        x = b
+        while depth[x] > depth[a]: x = par[x]
+        assert x == a, "non-ancestral non-tree edge (not a normal tree)"
+        be.append((b, a))
+    fc = [fcyc(s, a) for s, a in be]
+    assert not any(len(c) in PO2 for c in fc), "single fires"
+    m = len(fc)
+    for i in range(m):
+        for j in range(i + 1, m):
+            assert single_cycle_len(fc[i] ^ fc[j]) not in PO2, "pair fires"
+    po2 = l8 = p8 = 0; min_kp = None
+    for x in range(m):
+        for y in range(x + 1, m):
+            for z in range(y + 1, m):
+                L = single_cycle_len(fc[x] ^ fc[y] ^ fc[z])
+                if L not in PO2: continue
+                po2 += 1
+                if L != 8: continue
+                l8 += 1
+                pasted = False
+                for (i, j, k) in ((x, y, z), (x, z, y), (y, z, x)):
+                    D = fc[i] ^ fc[j]
+                    if single_cycle_len(D) is None: continue
+                    inter = D & fc[k]
+                    if inter and n_arcs(inter) == 1:
+                        pasted = True
+                        kp = len(inter)
+                        if min_kp is None or kp < min_kp: min_kp = kp
+                if pasted: p8 += 1
+    assert (po2, l8) == (exp_po2, exp_l8), \
+        f"{name}: (po2, l8) = ({po2}, {l8}) != ({exp_po2}, {exp_l8})"
+    assert p8 == l8, f"{name}: straddle-only L=8 triple present ({p8}/{l8})"
+    assert p8 > 0, f"{name}: NO paste-8 -- claim falsified, pin separately"
+    assert min_kp == exp_min_kp, f"{name}: min k' {min_kp} != {exp_min_kp}"
+    print(f"{name}: n={nn} pair-residual, po2={po2}, L8={l8} (all paste), "
+          f"min k'={min_kp}")
+
+PINS = [
+# surv_thin_n32: thin survivor: anti-paste8 SA pressed availability to TWO L=8 triples, both paste
+ ("surv_thin_n32", 32,
+  [(0, 17), (0, 21), (0, 23), (1, 20), (1, 23), (1, 28), (2, 17), (2,
+   19), (2, 27), (3, 9), (3, 25), (3, 28), (4, 16), (4, 22), (4, 26),
+   (5, 7), (5, 8), (5, 26), (6, 10), (6, 11), (6, 12), (7, 15), (7,
+   24), (8, 25), (8, 27), (9, 12), (9, 20), (10, 30), (10, 31), (11,
+   13), (11, 17), (12, 21), (13, 24), (13, 31), (14, 16), (14, 28),
+   (14, 30), (15, 18), (15, 25), (16, 18), (18, 20), (19, 23), (19,
+   24), (21, 29), (22, 27), (22, 29), (26, 31), (29, 30)],
+  18,
+  [17, 28, 27, 9, 22, 7, 11, 15, 5, 20, 31, 13, 6, 24, 16, 25, 18, 2,
+   -1, 23, 1, 12, 29, 0, 19, 3, 4, 8, 14, 21, 10, 26],
+  22, 2, 2),
+# surv_kp5_n32: min paste k' = 5 already at n=32
+ ("surv_kp5_n32", 32,
+  [(0, 1), (0, 9), (0, 25), (1, 7), (1, 15), (2, 3), (2, 18), (2, 27),
+   (3, 24), (3, 29), (4, 5), (4, 15), (4, 16), (5, 26), (5, 31), (6,
+   16), (6, 23), (6, 25), (7, 8), (7, 19), (8, 27), (8, 29), (9, 20),
+   (9, 22), (10, 17), (10, 23), (10, 31), (11, 28), (11, 29), (11, 30),
+   (12, 13), (12, 15), (12, 19), (13, 18), (13, 26), (14, 22), (14,
+   23), (14, 30), (16, 24), (17, 22), (17, 27), (18, 20), (19, 28),
+   (20, 21), (21, 24), (21, 30), (25, 31), (26, 28)],
+  7,
+  [1, 15, 18, 29, 16, 31, 23, -1, 7, 22, 17, 28, 13, 26, 30, 4, 6, 27,
+   20, 12, 9, 24, 14, 10, 3, 0, 5, 2, 19, 8, 21, 25],
+  43, 4, 5),
+# surv_kp5_n40: min paste k' = 5 at n=40
+ ("surv_kp5_n40", 40,
+  [(0, 10), (0, 31), (0, 32), (1, 20), (1, 22), (1, 36), (2, 7), (2,
+   17), (2, 33), (3, 22), (3, 34), (3, 35), (4, 25), (4, 27), (4, 29),
+   (5, 18), (5, 27), (5, 33), (6, 26), (6, 33), (6, 38), (7, 13), (7,
+   16), (8, 25), (8, 26), (8, 39), (9, 32), (9, 34), (9, 36), (10, 15),
+   (10, 16), (11, 19), (11, 31), (11, 35), (12, 23), (12, 32), (12,
+   37), (13, 29), (13, 30), (14, 16), (14, 19), (14, 30), (15, 23),
+   (15, 39), (17, 24), (17, 28), (18, 21), (18, 37), (19, 20), (20,
+   34), (21, 24), (21, 25), (22, 30), (23, 24), (26, 35), (27, 38),
+   (28, 36), (28, 37), (29, 39), (31, 38)],
+  31,
+  [32, 20, 33, 22, 25, 27, 38, 16, 39, 36, 0, 35, 37, 7, 19, 23, 14, 2,
+   5, 11, 34, 24, 30, 12, 17, 21, 8, 4, 36, 13, 13, -1, 9, 6, 3, 26, 1,
+   18, 31, 15],
+  54, 4, 5),
+]
+for row in PINS:
+    audit(*row)
+print("R41 survivor pins OK: paste-8 survives direct adversarial pressure; "
+      "no straddle-only L=8 anywhere; min paste k' reaches 5 at n=32")
+CHECK -->
+
 ## Summary
 
 The channel-sharpened supply conjecture, motivated by the R38 census:
 every pair-residual normal spanning tree of a cubic graph has an
 $L = 8$ firing triple realized through a 1-arc (paste) usable pairing,
 so the straddle channel — though present — is never necessary for
-8-supply. Unfalsified at 43/43 fresh-census residual trees plus both
-deterministic pins (where ALL 12 $L = 8$ triples are paste-realizable).
+8-supply. Unfalsified at 43/43 fresh-census residual trees, both deterministic
+pins (where ALL 12 $L = 8$ triples are paste-realizable), 20/20 R40
+adversarial trees at $n \in [30, 40]$, and — under DIRECT adversarial
+pressure on availability itself — 261/261 SA-hardened trees at
+$n \in [30, 56]$ (R41), where every $L = 8$ triple everywhere admits a
+paste pairing and min paste $k'$ reaches 5.
 If proved, the supply program collapses to the paste 8-line
 $g_3 = 2k' + 7 - |D|$ where the strongest structural machinery lives;
 if falsified, the pinned tree redirects effort to the straddle 8-line

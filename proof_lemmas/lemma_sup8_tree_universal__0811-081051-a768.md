@@ -39,6 +39,14 @@ firings were $L = 8$) gives 471/471 across ten seeds. Both pinned
 deterministic anchors — `sup1_dead_tree`'s 14-vertex tree (6/6 firings
 at 8) and `l8_exactness_dead`'s 12-vertex tree (6/7 at 8) — comply.
 
+**Evidence (R41 ladder-hardening).** Two independent adversarial SA
+runs biased AGAINST 8-availability (energy penalizing #L=8 triples on
+pair-residual trees; also the anti-paste8 and anti-po2 variants),
+$n \in [30, 64]$, girth $\ge 5$: **261/261 constructed pair-residual
+trees have an $L = 8$ firing triple** — zero falsifiers. The
+anti-sup8 energy drove one n=44 tree (run 1) down to a single L=8
+triple, never to zero. Strongest above-floor evidence to date.
+
 <!-- CHECK
 # sup8_tree_universal CHECK 1 (deterministic anchor): the pinned
 # l8_exactness_dead tree (which fires at L=4) nonetheless has six

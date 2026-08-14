@@ -86,6 +86,15 @@ Per-pairing $L$-by-channel: $L=8$ came 1,497x via $k''=1$ and 6,175x
 via $k'' \ge 2$; both non-8 lengths also arise through both channels
 ($L=4$: 13/112, $L=16$: 183/327), so no channel is length-pure.
 
+**Evidence (R41 ladder-hardening).** Two independent adversarial SA
+runs biased AGAINST availability (anti-po2-triple energy and the
+stronger anti-L8 / anti-paste8 variants), $n \in [30, 64]$, girth
+$\ge 5$: **261/261 constructed pair-residual trees are triple-alive**
+— zero falsifiers; the anti-po2 energy never got below 22 firing
+triples on a residual tree. Combined with R34/R35 sampling
+(471/471 at $n \le 26$) and the R40/R41 adversarial populations, the
+claim now has evidence both below and above the $n \ge 30$ floor.
+
 <!-- CHECK
 # triple_alive_universal CHECK 1 (deterministic anchor): the pinned
 # SUP-1-dead tree from lemma_sup1_dead_tree is triple-alive with six
