@@ -2107,3 +2107,57 @@ the analytic target of record.
 | Vertical calculus ($A \sqcup E$, slack identity) | **PROVED** (R43, lemma file) |
 | Hard-pin branched witness count | **0** on the 4 hardest pins (R43) |
 | Next | R44: anti-same-branch SA hardening; then 1-D interval attack |
+
+## Section 84 — R44: `paste8_samebranch_universal` survives its designated falsifier — the availability floor IS the pinned tree (session s_0815-080733-7bd0)
+
+### The experiment (Q71 continuation, R43's designated next step)
+
+Two independent SA runs (seeds 20260815, 76100815; ~556k iterations
+each, 20 min wall-clock each) with the R41 lexicographic recipe
+retargeted at the NEW claim: energy = (residuality violations,
+then **#same-branch paste-8 pairings**), moves = cubic 2-opt keeping
+girth $\ge 5$ + DFS re-root/re-order, $n \in [30, 48]$, 70% of
+restarts warm-started from the 8 pinned residual trees (cold-start
+residuality above $n = 26$ is too rare to test anything, per R40).
+
+### Result: zero falsifiers, and a striking floor identification
+
+- 385,272 + 351,286 pair-residual states visited under direct
+  anti-same-branch pressure: **not one lacked a same-branch paste-8.**
+- Min availability seen: **4 same-branch pairings** — and the minimum
+  state found by BOTH runs independently is **exactly the
+  `surv_thin_n32` pin, graph AND tree**. The R41 anti-generic-paste8
+  survivor is simultaneously the same-branch availability floor;
+  1.1M directed iterations could not push below it or separate the
+  same-branch channel from the generic one. (Consistent with R43's
+  census: on `surv_thin_n32` ALL paste-8 pairings are same-branch —
+  chain count 4, branched 0, pinned in the lemma's CHECK 1.)
+
+### Honest scope
+
+Warm-start dominance means R44 chiefly certifies the 2-opt/re-root
+NEIGHBORHOODS of the known hard pins; $n \in \{44, 48\}$ produced no
+cold residual states. This mirrors the R42 cold-unreachability
+finding and does not gate the analytic attack (whose burden is
+$n$-uniform).
+
+### Program state after R44
+
+The same-branch class has now survived the same two-stage adversarial
+protocol that the generic ladder survived in R40–R42 (reach
+residuality, then attack availability), at matching scale. The
+analytic target of record is the 1-D formulation (Section 83):
+chain-selection + slack-5 attainment over the interval system of a
+root chain. Queue update: Q71 resolved as reframed (its supply target
+is narrowed to the same-branch class); Q73 opened for the 1-D
+analytic attack.
+
+### Summary of round R44
+
+| Item | Status |
+|------|--------|
+| Anti-same-branch SA (2 runs, ~1.1M iters, n in [30,48]) | **DONE — 0 falsifiers** |
+| Residual states visited under pressure | 736k, all with same-branch paste-8 |
+| Availability floor | 4 pairings = `surv_thin_n32` EXACTLY (both runs) |
+| `paste8_samebranch_universal` | survives; evidence bullet added |
+| Next | Q73: 1-D interval attack (chain selection + slack-5 supply) |

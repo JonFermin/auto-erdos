@@ -111,11 +111,27 @@ sender pairs are the load-bearing extension.
   (CHECK 2). In the exploratory run (seed 20260815, 21 residuals),
   16/21 witnesses were already on a leaf pair; all 5 leaf-failures
   had chain-pair witnesses.
-- **Honest limitation**: no SA run has yet penalized SAME-BRANCH
-  paste-8 availability specifically (R41/R42 energies penalized
-  generic paste-8 / $L{=}8$ / po2 counts). SA-hardening this claim is
-  the natural next falsification step before analytic effort is
-  committed to it.
+- **Direct adversarial attack survived (R44, same session)**: two
+  independent SA runs whose lexicographic energy penalized
+  SAME-BRANCH paste-8 availability itself (residuality violations
+  first, then #same-branch paste-8 pairings; cubic 2-opt keeping
+  girth $\ge 5$ + DFS re-root/re-order; $n \in [30, 48]$; 70% of
+  restarts warm-started from the 8 pinned residual trees), ~1.1M SA
+  iterations total, visiting 385k + 351k pair-residual states:
+  **zero falsifiers**. Availability bottomed at **4 same-branch
+  pairings — and the minimum state found by BOTH runs independently
+  is exactly the `surv_thin_n32` pin** (same graph, same tree), whose
+  same-branch pairing count 4 is already deterministically pinned in
+  CHECK 1. The R41-hardened tree is simultaneously the same-branch
+  availability floor: directed pressure could not separate the
+  same-branch channel from the generic paste-8 channel.
+- **Honest limitations**: cold-start SA reaches pair-residuality
+  rarely above $n = 26$, so the R44 walks explored mainly the
+  2-opt/re-root neighborhoods of the 8 warm-start pins (plus
+  occasional cold finds); $n \in \{44, 48\}$ contributed no cold
+  residual states, and coverage above $n = 40$ is thin. The claim
+  remains unproven and universally quantified — sampling can only
+  falsify.
 
 <!-- CHECK
 # paste8_samebranch_universal CHECK 1 (deterministic pins): on all 8
