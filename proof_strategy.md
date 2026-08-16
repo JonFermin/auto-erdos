@@ -2242,6 +2242,13 @@ $(0,5) \times 2$, $(3,2) \times 4$). Supply for
 `paste8_samebranch_universal` stays per-chain interval arithmetic,
 now over the projected family — Q74.
 
+**Numerical anchors (R45; any re-derivation must reproduce these
+exactly).** `fund_pair_overlap` length: $|D| = g_1 + g_2 + 2 -
+2k_{12}$, so $(g_1, g_2, k_{12}) = (5, 3, 2) \Rightarrow |D| =
+5 + 3 + 2 - 4 = 6$ (not a power of 2, no violation), while
+$(5, 3, 1) \Rightarrow |D| = 8$ (a pair violation if it arose);
+parity $|D| \equiv g_1 + g_2 \pmod 2$ always.
+
 ### Summary of round R45
 
 | Item | Status |
