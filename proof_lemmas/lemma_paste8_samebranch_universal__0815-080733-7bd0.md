@@ -132,6 +132,22 @@ sender pairs are the load-bearing extension.
   residual states, and coverage above $n = 40$ is thin. The claim
   remains unproven and universally quantified — sampling can only
   falsify.
+- **R45: survives on the chain1d falsifier, and the fully-1-D
+  strengthening is DEAD.** `paste8_chain1d_universal` (all three
+  senders on one chain) was disproved at introduction by
+  `chain1d_falsifier_n14` (CHECK 3 below): a pair-residual $n = 14$
+  tree with 6 same-branch witnesses — every one with a FOREIGN
+  cover (sender incomparable with the pair's deeper sender) — and 0
+  fully 1-D ones. Two consequences for THIS lemma: (i) it is now the
+  terminal member of the refinement ladder — leaf-only (below) and
+  chain1d (above) are both dead, so same-branch is pinched between
+  falsified neighbors; (ii) any proof must let the cover enter the
+  pair's chain from a sibling branch — the projected-interval
+  formulation (Q74), not the senders-on-chain one. NOTE the class
+  caveat: the falsifier's graph has girth 3; the R44 anti-same-branch
+  hardening ran in the girth $\ge 5$ class only. A wide-class (no
+  girth floor) anti-same-branch SA is the R45-designated next
+  falsifier for this lemma itself.
 
 <!-- CHECK
 # paste8_samebranch_universal CHECK 1 (deterministic pins): on all 8
@@ -489,6 +505,113 @@ assert trees_seen > 100000, f"too few trees: {trees_seen}"
 assert residual >= 25, f"too few residual trees: {residual} -- probe vacuous"
 print(f"trees={trees_seen} residual={residual} -- every pair-residual tree "
       f"has a same-branch paste-8")
+CHECK -->
+
+<!-- CHECK
+# paste8_samebranch_universal CHECK 3 (deterministic pin,
+# chain1d_falsifier_n14, added R45): the tree that DISPROVED the
+# fully-1-D strengthening paste8_chain1d_universal.  Assert it is
+# pair-residual, has EXACTLY 6 same-branch paste-8 (pair, cover)
+# combos -- so this lemma survives on it -- and 0 of them fully 1-D
+# (every cover's sender incomparable with the pair's deeper sender).
+def single_cycle_len(sym):
+    if not sym: return None
+    dg = {}
+    for u, v in sym: dg[u] = dg.get(u, 0) + 1; dg[v] = dg.get(v, 0) + 1
+    if any(d != 2 for d in dg.values()): return None
+    adjS = {}
+    for u, v in sym:
+        adjS.setdefault(u, []).append(v); adjS.setdefault(v, []).append(u)
+    st = next(iter(dg)); seen = {st}; stk = [st]
+    while stk:
+        u = stk.pop()
+        for w in adjS[u]:
+            if w not in seen: seen.add(w); stk.append(w)
+    return len(sym) if len(seen) == len(dg) else None
+
+def n_arcs(es):
+    if not es: return 0
+    adjP = {}
+    for u, v in es:
+        adjP.setdefault(u, []).append(v); adjP.setdefault(v, []).append(u)
+    seen = set(); comps = 0
+    for s in list(adjP):
+        if s in seen: continue
+        comps += 1; seen.add(s); stk = [s]
+        while stk:
+            u = stk.pop()
+            for w in adjP[u]:
+                if w not in seen: seen.add(w); stk.append(w)
+    return comps
+
+nn = 14; root = 1
+par = [4, -1, 1, 11, 8, 13, 13, 2, 7, 10, 12, 4, 3, 9]
+edges = [(0, 1), (0, 2), (0, 4), (1, 2), (1, 3), (2, 7), (3, 11), (3, 12),
+         (4, 8), (4, 11), (5, 9), (5, 11), (5, 13), (6, 7), (6, 12),
+         (6, 13), (7, 8), (8, 10), (9, 10), (9, 13), (10, 12)]
+deg = {}
+for u, v in edges: deg[u] = deg.get(u, 0) + 1; deg[v] = deg.get(v, 0) + 1
+assert all(deg[v] == 3 for v in range(nn)), "not cubic"
+depth = [-1] * nn; depth[root] = 0
+pending = [v for v in range(nn) if v != root]
+while pending:
+    nxt = []
+    for v in pending:
+        if depth[par[v]] >= 0: depth[v] = depth[par[v]] + 1
+        else: nxt.append(v)
+    assert len(nxt) < len(pending)
+    pending = nxt
+tre = set()
+for v in range(nn):
+    if v != root: tre.add((min(v, par[v]), max(v, par[v])))
+def is_anc(u, v):
+    if depth[u] > depth[v]: return False
+    x = v
+    while depth[x] > depth[u]: x = par[x]
+    return x == u
+def comp(u, v):
+    return u == v or is_anc(u, v) or is_anc(v, u)
+def fcyc(s, a):
+    es = set(); u = s
+    while u != a:
+        p = par[u]; es.add((min(u, p), max(u, p))); u = p
+    es.add((min(s, a), max(s, a)))
+    return es
+be = []
+for e in edges:
+    e = tuple(sorted(e))
+    if e in tre: continue
+    u, v = e
+    a, b = (u, v) if depth[u] <= depth[v] else (v, u)
+    assert is_anc(a, b), "non-ancestral non-tree edge -- not a DFS tree"
+    be.append((b, a))
+fc = [fcyc(s, a) for s, a in be]
+pe = [c - {(min(s, a), max(s, a))} for c, (s, a) in zip(fc, be)]
+m = len(fc)
+PO2 = {4, 8, 16, 32}
+assert all(len(c) not in PO2 for c in fc), "fc violation"
+for i in range(m):
+    for j in range(i + 1, m):
+        assert single_cycle_len(set(fc[i] ^ fc[j])) not in PO2, "pair fires"
+n_sb = n_1d = 0
+for i in range(m):
+    s1 = be[i][0]
+    for j in range(i + 1, m):
+        s2 = be[j][0]
+        if not comp(s1, s2): continue
+        D = set(fc[i] ^ fc[j])
+        if single_cycle_len(D) is None: continue
+        sd = s1 if depth[s1] >= depth[s2] else s2
+        for z in range(m):
+            if z == i or z == j: continue
+            arc = D & pe[z]
+            if not arc or n_arcs(arc) != 1: continue
+            if len(D) + len(pe[z]) + 1 - 2 * len(arc) == 8:
+                n_sb += 1
+                if comp(be[z][0], sd): n_1d += 1
+assert (n_sb, n_1d) == (6, 0), f"(samebranch, fully_1d) = ({n_sb}, {n_1d})"
+print("chain1d_falsifier_n14 OK: pair-residual, 6 same-branch paste-8 "
+      "(this lemma survives), 0 fully 1-D (chain1d disproved)")
 CHECK -->
 
 ## Summary

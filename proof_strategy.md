@@ -2161,3 +2161,95 @@ analytic attack.
 | Availability floor | 4 pairings = `surv_thin_n32` EXACTLY (both runs) |
 | `paste8_samebranch_universal` | survives; evidence bullet added |
 | Next | Q73: 1-D interval attack (chain selection + slack-5 supply) |
+
+## Section 85 — R45: Chain census — paste-8 supply is FULLY 1-D everywhere sampled; the branching geometry drops out entirely (session s_0816-080841-64db)
+
+### The census (Q73's first step: WHICH chain carries the witness?)
+
+R45 enumerated every same-branch paste-8 witness on the 8 pins and
+on 25 fresh pair-residual trees (84,000 sampled DFS trees, seed
+20260816+45, $n \in \{12..22\}$), located its chains, tested three
+selection rules, and classified the COVER's sender against the
+pair's chain.
+
+**Selection rules**: deepest-leaf, max-sender, and
+max-overlapping-pairs ALL pass on 8/8 pins and 25/25 census trees
+(exists and forall-over-ties variants); on the pins EVERY root chain
+carries a witness (1–4 leaves each; every-chain not tabulated on the
+census trees). Witness chains are abundant — no rule is load-bearing.
+
+**The striking column — the cover often lives on the SAME chain**:
+on all 8 pins and 25/25 census trees some witness has $s_3$
+comparable with the deeper sender (all three back edges on ONE root
+chain, **fully 1-D**); 62/85 pin witnesses, 100% on the four hardest
+pins (`sup1_dead_tree` 12/12, `viol3_n40` 12/12, `surv_thin_n32`
+4/4, `surv_kp5_n32` 8/8), 13/25 census trees exclusively. The R43
+"hard instances live in the refined class" signature repeats one
+level down — but see below: this time the signature MISLED.
+
+**No constraint hides in the slack split or arc side**: splits cover
+all of $(0,5), \dots, (5,0)$ across the pins and both $A$- and
+$E$-arcs occur — slack-5 attainment must handle the full range.
+
+### The strengthening `paste8_chain1d_universal`: introduced, then DISPROVED inside the same round
+
+Conjectured from the census: every pair-residual tree has a paste-8
+with all three senders pairwise comparable — the whole configuration
+then being three depth intervals on one line, a witness six
+integers. CHECK 1 pins the exact (fully-1-D, same-branch) counts on
+all 8 pins; CHECK 2 (68,800-tree prefix of the census stream, 23/23
+residuals) passed.
+
+**The designated falsifier was executed BEFORE analytic effort (the
+standing dual-attack discipline) and killed the claim in under 20
+seconds of SA time.** Anti-chain1d SA (lexicographic energy:
+residuality violations, then #fully-1-D paste-8 pairings; cubic
+2-opt + DFS re-root; warm-started from the pins) produced
+`chain1d_falsifier_n14`: a pair-residual $n = 14$ tree (8 back
+edges, 3 leaves at depths 5/11/11) with **6 same-branch paste-8
+witnesses and 0 fully 1-D ones** — in every witness the cover's
+sender sits on a branch incomparable with the pair's deeper sender.
+Independently re-verified with the triple-first census enumerator;
+pinned as `paste8_samebranch_universal` CHECK 3; the chain1d lemma
+file is committed as status **disproved** (audit trail; CHECKs
+runtime-skipped). It is the first known tree where the same-branch
+and fully-1-D classes strictly separate.
+
+**Class caveat that widens the R44 evidence.** The falsifier's graph
+has girth 3; the R40–R44 harnesses all kept girth $\ge 5$ (the R45
+harness's local girth check was accidentally leaky — the bug WAS the
+discovery vector). The universals quantify over ALL connected cubic
+graphs, so the wide class is the right one to harden in. Re-running
+with energy = #same-branch paste-8 pairings in the same wide class
+(seeds 20260816 / 76100816, 6 min each, ~3.8M iterations, $n \in
+[30, 48]$ cold + pin-graph warm restarts): **6,721 pair-residual
+states under direct anti-same-branch pressure, zero falsifiers, min
+availability 5.** `paste8_samebranch_universal` survives its own
+R45-designated wide-class falsifier (caveats: short runs; the floor
+tree `surv_thin_n32`, availability 4, was not re-found — restarts
+re-root the pin graphs randomly).
+
+### What survives: the projected-interval formulation (Q74)
+
+The pair side of the 1-D picture stands — $A, I, E$ consecutive
+depth intervals on one root chain $R$. The cover side must be
+enriched: ANY back edge $B_3 = (s_3, a_3)$ whose path meets $R$
+contributes the PROJECTED interval $[d(a_3), d(x_3)]$ ($x_3$ = where
+$s_3$'s root path leaves $R$), its off-chain length entering the
+slack identity but never the arc. The falsifier proves the
+enrichment strictly necessary (all 6 witnesses foreign; splits
+$(0,5) \times 2$, $(3,2) \times 4$). Supply for
+`paste8_samebranch_universal` stays per-chain interval arithmetic,
+now over the projected family — Q74.
+
+### Summary of round R45
+
+| Item | Status |
+|------|--------|
+| Chain census (8 pins + 25 fresh residuals, 84k trees) | DONE |
+| Selection rules (deepest-leaf / max-sender / max-pairs) | all pass everywhere — none load-bearing |
+| `paste8_chain1d_universal` (fully 1-D strengthening) | introduced + **DISPROVED same round** (`chain1d_falsifier_n14`) |
+| Falsifier pinned | samebranch CHECK 3: 6 same-branch, 0 fully-1-D, pair-residual |
+| Wide-class (girth-3-allowed) anti-samebranch SA | **survives** — 6,721 residual states, 0 falsifiers, floor 5 |
+| Refinement ladder state | same-branch now pinched between dead neighbors (leaf-only below, chain1d above) |
+| Next | Q74: projected-interval attack on `paste8_samebranch_universal` |
