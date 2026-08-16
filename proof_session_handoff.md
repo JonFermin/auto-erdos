@@ -1,86 +1,89 @@
-# Session handoff (session s_0815-080733-7bd0)
+# Session handoff (session s_0816-080841-64db)
 
-**Stop reason**: Logical milestone + context budget. R43 and R44 both
-keep_progress with committed records.
+**Stop reason**: Logical milestone + context budget. R45 keep_progress
+with committed record (records/proof_erdos_gyarfas_48aa5fdd307f_5164555.json).
 
-**What was done this session**:
+**What was done this session (R45, one round, dense)**:
 
-R43 — **Q71 witness-shape census.** Classified every paste-8 usable
-pairing on the 8 pinned residual trees + 2 fresh sampled censuses by
-the senders' tree-order relation (leaf / chain / branched). Findings:
-(1) **leaf-pair-only supply is DEAD** (viol3_n40, surv_thin_n32,
-surv_kp5_n32 + 5/21 census trees have no leaf-pair paste-8); (2) on
-the 4 hardest pins ALL witnesses are SAME-BRANCH (comparable senders)
-— branched count 0. New lemma `paste8_samebranch_universal` (open,
-CHECK 1 = 8 pins with exact (leaf, chain, branched) counts, CHECK 2 =
-124k-tree fresh-seed probe, 31/31 residuals comply) + PROVED vertical
-calculus: same-branch D = anchor-interval A ⊔ sender-interval E on one
-root chain, |D| = |A|+|E|+2 (unifies leaf_pair_witness /
-crossing_pair_formula); one-interval meets are automatic single-arc
-pastes; 8-line = slack identity (|A|+|E|-k') + (g3-k') = 5. Strategy
-Section 83. Also condensed Sections 58-60/62-64 into digests (strategy
-was over the 120k critic-budget threshold; Section 61's anchor table
-kept verbatim).
+1. **Q73 chain census** (8 pins + 25 fresh residuals from 84k trees,
+   seed 20260816+45): all three chain-selection rules (deepest-leaf,
+   max-sender, max-pairs) pass EVERYWHERE, both tie-variants — witness
+   chains are abundant, no rule is load-bearing. On pins, every root
+   chain carries a witness.
+2. **Fully-1-D class discovered, formalized, and KILLED same round.**
+   Census showed some witness has all 3 senders on one chain on 8/8
+   pins + 25/25 census trees (4 hardest pins: 100% of witnesses).
+   Lemma `paste8_chain1d_universal` committed with 2 CHECKs (both
+   pass) — then its DESIGNATED falsifier (anti-chain1d SA, R44
+   recipe) killed it in <20s: `chain1d_falsifier_n14` (pinned in
+   samebranch CHECK 3) is pair-residual with 6 samebranch witnesses,
+   ALL with foreign-branch covers, 0 fully-1-D. Ledger: disproved.
+   LESSON (now in notes): "hard pins live exclusively in the refined
+   class" misled here after guiding correctly in R43 — never skip
+   the falsifier.
+3. **Wide-class discovery via a lucky bug**: the R45 SA's leaky girth
+   check explored girth-3 cubic graphs — a WIDER class than
+   R40-R44's girth>=5 harnesses, and where chain1d died. Re-ran
+   anti-SAMEBRANCH SA in the wide class (2x6min, ~3.8M iters, 6721
+   pair-residual states): 0 falsifiers, floor 5.
+   `paste8_samebranch_universal` survives; harden in the wide class
+   from now on.
+4. **Q74 opened — the projected-interval formulation**: pair = A,I,E
+   consecutive depth intervals on chain R; cover = ANY back edge
+   whose path meets R, projected interval [d(a3), d(x3)] (x3 = where
+   its root path leaves R; always a branch vertex), off-chain length
+   enters slack only, never the arc. On the falsifier each chain's
+   system DOUBLES with projections (senders+projected: 2+3, 4+4,
+   4+4) — quantitative evidence the projected family is the right
+   1-D universe.
 
-R42... R44 — **anti-same-branch SA hardening** (the R43-designated
-falsifier): two independent runs, lexicographic energy (residuality
-first, then #same-branch paste-8 pairings), cubic 2-opt girth>=5 + DFS
-re-root/re-order, n in [30,48], 70% warm-started from the 8 pins.
-~1.1M iters, 736k pair-residual states visited under direct pressure:
-**zero falsifiers; availability floor = 4 pairings = surv_thin_n32
-EXACTLY (graph AND tree), found independently by both runs.** The
-generic-paste8 survivor is simultaneously the same-branch floor.
-Strategy Section 84. SA harness archived at the session scratchpad
-(sa_antisamebranch.py) — re-derivable from Section 84's recipe.
-
-**qid state**: Q71 resolved (reframed). **Q73 open and next**: prove
-`paste8_samebranch_universal` via the 1-D formulation — every
-pair-residual tree has a root chain R, two back edges with
-overlapping depth-intervals on R (comparable senders), and a third
-back edge meeting A or E in a single arc with slack exactly 5.
-Candidate handles: (i) chain-selection rule (deepest leaf?); (ii)
-pigeonhole/counting over the chain's projected interval system; (iii)
-R30 dichotomy (c1)-(c3) specialized to 1-D (straddle = P3 swallows
-the cancelled gap I between A and E). If stalled after 2-3 rounds,
-run /erdos-proof-ideation with the R43/R44 census + floor facts.
+**qid state**: Q73 resolved. **Q74 open and next.**
 
 **CRITIC INFRA (running list, all still live)**:
-- Prewarm internal AND falsify before proof_prepare on every round
-  that edits strategy/lemmas: render via pp._render_critic_prompt
-  with PROOF_TAG=erdos_gyarfas; call via
-  library._critic_subprocess.call_critic(prompt, critic_name=<name>,
-  timeout_s=900) — call_critic is NOT in proof_prepare's namespace.
-- HARNESS TRAP hit TWICE this session: shell cwd resets between
-  commands — a Section-84 append and a prewarm both landed in the
-  MAIN checkout. PREFIX EVERY COMMAND with
-  cd /home/user/auto-erdos/worktrees/0730-080656-0fbf, and add a
-  size-guard assert (worktree strategy ~115k chars vs master ~320k)
-  when rendering critic prompts.
-- Falsify-critic numerical_check trap (R41): deterministic anchor
-  tables in strategy text; Section 61's table is load-bearing.
-- SA engineering: integer seeds only, absolute output paths
-  (a relative-path bug killed one run's launch this session).
-- proof_strategy.md at ~115k chars after condensation — headroom for
-  ~2 sections before the 120k threshold again.
+- Prewarm internal AND falsify (timeout_s=900) before proof_prepare
+  on every round that edits strategy/lemmas — falsify took ~13 min
+  this session, well over proof_prepare's own 240s critic timeout.
+- NEW TRAP INSTANCE (R45, mirrors R41): falsify critic hallucinated
+  its own test arithmetic for fund_pair_overlap ((5,3,2) -> claimed
+  |D|=8, truth 6); failed numerical_check auto-escalates to BLOCKING
+  -> verdict blocked. Fix = deterministic worked-anchor line in
+  strategy (Section 85 "Numerical anchors"), re-prewarm, re-run.
+  Check any new falsify response's numerical_checks BEFORE
+  proof_prepare (eval them from the critic cache).
+- Strategy is at ~120.4k bytes / ~119.6k chars — AT the 120k critic
+  threshold. CONDENSE (Sections 26-31 are the best candidates;
+  Section 61 anchor table is load-bearing, keep verbatim) BEFORE
+  appending Section 86.
+- HARNESS TRAP: shell cwd resets between commands unpredictably.
+  Prefix EVERY command with cd to the worktree; use absolute paths
+  in scripts. (Two wrong-cwd incidents this session, both caught.)
+- Stop-hook forces mid-session pushes on this account setup. If a
+  round later discards, use git revert (never force-push).
 
 **Files modified this session**:
+- proof_lemmas/lemma_paste8_chain1d_universal__0816-080841-64db.md
+  (NEW: introduced + disproved same round, falsifier + anatomy inside)
 - proof_lemmas/lemma_paste8_samebranch_universal__0815-080733-7bd0.md
-  (NEW: open, 2 CHECKs, vertical calculus proved, R44 evidence)
-- proof_strategy.md (Sections 83, 84; Sections 58-60/62-64 condensed)
-- records/proof_erdos_gyarfas_e53e83294adb_7fb9af2.json (R43 keep)
-- records/proof_erdos_gyarfas_d3d847858a31_e87b550.json (R44 keep)
-- proof_open_questions.jsonl (Q71 claimed→resolved, Q73 opened),
-  journal, ledger (paste8_samebranch_universal -> open), notes
+  (R45 evidence bullet + CHECK 3 = chain1d_falsifier_n14 pin)
+- proof_strategy.md (Section 85 + fund_pair_overlap numerical anchors)
+- records/proof_erdos_gyarfas_48aa5fdd307f_5164555.json (R45 keep)
+- queue (Q73 claimed->resolved, Q74 opened), journal, ledger, notes
 
-**Suggested next moves (R45+), in order**:
-1. Claim Q73. Re-read Sections 83-84 and the samebranch lemma. Start
-   with a census of WHICH chain carries the witness (deepest leaf's
-   chain? the chain with most back-edge intervals?) — a selection
-   rule is the analytic foothold, mirroring the R31 min-gap rule.
-2. Then attack slack-5 attainment on the selected chain: the interval
-   system is {[d(a_i), d(s_i)]} projected on R; pair = overlapping
-   intervals; cover arc + slack are pure depth arithmetic. Try
-   pigeonhole over the ~n/2 slack values of covers crossing A or E.
-3. Round cap 50; 44 rounds logged — ~6 rounds left. Budget: 2-3
-   rounds on Q73 analytics, then ideation or convergence declaration
-   (exit 6) with the same-branch reduction as the partial result.
+**Suggested next moves (R46+, ~5 rounds to cap 50)**:
+1. CONDENSE strategy below ~115k bytes first (critic budget).
+2. Claim Q74. Projected-interval census on the 8 pins + falsifier +
+   fresh residuals: per witness chain, tabulate the projected system
+   (senders + foreign projections), and re-express every known
+   witness in projected coordinates. Hypothesis to probe: the
+   projected system on SOME chain always contains an overlapping
+   pair + a projected cover at slack 5 (this is exactly samebranch
+   restated — the census should reveal what forces slack-5
+   attainment; look at the x3 branch-vertex structure).
+3. SA-falsify any refinement BEFORE analytics (standing policy,
+   twice-validated). Wide class (no girth floor), availability
+   energy per R45 recipe (scratchpad harness re-derivable from
+   Section 84 + notes).
+4. Budget: 2 rounds on Q74; if no analytic traction, run
+   /erdos-proof-ideation with the falsifier anatomy + projected
+   census as framing, or declare convergence (exit 6) with the
+   samebranch reduction + wide-class hardening as the partial result.
