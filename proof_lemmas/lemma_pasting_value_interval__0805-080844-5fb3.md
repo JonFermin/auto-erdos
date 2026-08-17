@@ -1,12 +1,15 @@
 ---
 id: pasting_value_interval
-status: open
+status: disproved
 depends_on: [triple_sym_diff_structure, fund_pair_overlap, pasting_rescue_census]
-discharged_by_round: null
+discharged_by_round: 46
 introduced_at_round: 23
 ---
 
 # Lemma `pasting_value_interval` (conjecture + falsification probe: the pasting value set is a step-2 interval containing 8)
+
+**DISPROVED (R46, session s_0817-081104-2f11).** `sb_falsifier_n18` (pinned with full data in `lemma_paste8_samebranch_universal` CHECK 4) is a pair-residual tree with $V(T) = \{6, 7, 9, 10, 11, 12, 13, 14, 15, 16\}$: the even part $V_e = \{6, 10, 12, 14, 16\}$ is NOT a gap-free step-2 interval (10 present, 8 absent) and $8 \notin V$. Both the interval claim and the $8 \in V$ claim die on the same tree. The (T1)–(T3) tuning program targeting 8 alone is void; value control must target the PO2 SET.
+
 
 **Setting.** As in `pasting_rescue_census`. For a DFS tree $T$ of a
 connected cubic graph, the **pasting value set** is

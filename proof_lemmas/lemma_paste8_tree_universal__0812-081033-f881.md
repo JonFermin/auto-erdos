@@ -1,12 +1,15 @@
 ---
 id: paste8_tree_universal
-status: open
+status: disproved
 depends_on: [sup8_tree_universal, shortpaste_floor_line, straddle_floor_line]
-discharged_by_round: null
+discharged_by_round: 46
 introduced_at_round: 38
 ---
 
 # Lemma `paste8_tree_universal` (conjecture + probe: every pair-residual tree has a PASTE-channel $L = 8$ firing)
+
+**DISPROVED (R46, session s_0817-081104-2f11).** `sb_falsifier_n18` (pinned with full data in `lemma_paste8_samebranch_universal` CHECK 4) is a pair-residual tree with ZERO usable $L = 8$ pairings of any class — no paste-channel $L = 8$ firing triple exists there (indeed no $L = 8$ firing triple at all: $8 \notin V(T)$). Its 4 firing triples are all $L = 16$, each factoring through a chain (same-branch) pasting. Successor universal: `pastePO2_samebranch_universal` (paste at ANY power of 2).
+
 
 **Setting.** As in `sup8_tree_universal`: $T$ a pair-residual normal
 spanning tree of a connected cubic graph. A triple $\{x, y, z\}$

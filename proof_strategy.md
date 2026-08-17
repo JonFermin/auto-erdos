@@ -2007,3 +2007,72 @@ declared the converged partial result.
 | No odd slack above 5 universally forced | established (SA, confirmed set-based) |
 | `paste8_samebranch_universal` | survives all SA states; refinements above it triply dead |
 | Next (R47) | ideation for direct 5-attainment angles, or declare convergence |
+
+### R46 addendum 2 — `sb_falsifier_n18`: the ENTIRE $L = 8$ target falsified; the program pivots to the PO2 set
+
+Continuing the R45-designated wide-class anti-same-branch SA (now with
+the `paste8_projected_coords` fast evaluator, sanity-locked to the
+set-based enumerator on all 10 pins) produced, from a COLD $n = 18$
+start, the most consequential falsifier of the branch:
+
+**`sb_falsifier_n18`** (data + deterministic pin:
+`lemma_paste8_samebranch_universal` CHECK 4; independently confirmed
+by the set-based enumerator, then by a full-triple scan):
+
+- pair-residual; same-branch slack set odd part $\{3, 7, 9, 11, 13\}$
+  — **no slack 5**: `paste8_samebranch_universal` DISPROVED.
+- **zero usable $L = 8$ pairings of any class**:
+  `paste8_tree_universal` DISPROVED.
+- no $L = 8$ firing triple at all; full value set
+  $V(T) = \{6, 7, 9, 10, 11, 12, 13, 14, 15, 16\}$, holed **exactly
+  at 8** ($V_e = \{6, 10, 12, 14, 16\}$ — 10 present, 8 absent):
+  `sup8_tree_universal` and `pasting_value_interval` DISPROVED.
+- BUT: 4 firing triples, **all $L = 16$, every one factoring through a
+  chain (same-branch) pasting** at slack $13 = 16 - 3$.
+  `triple_alive_universal` (any PO2) SURVIVES and is vindicated as the
+  honest tree-level universal — exactly as its R34 introduction
+  argued. Further samebranch-paste-8 falsifiers followed from cold
+  starts at $n = 18$ and $n = 24$ (the class is robustly falsifiable,
+  not a single sporadic tree).
+
+**Where the wrong turn happened.** R23 observed $8 \in V(T)$ on 100%
+of residuals and reduced the tuning program to "target 8 alone"; 26
+rounds and 200+ residual trees never contradicted it. The adversarial
+walk found the region where the value set holes out at exactly 8
+while 16 stays reachable. Fourth consecutive census-regularity killed
+by SA in two rounds — the method lesson is now written into the notes
+channel and is standing policy.
+
+**What survives, exactly:**
+
+1. `triple_alive_universal` — the tree-level supply universal (any
+   PO2).
+2. The same-branch MECHANISM: every PO2 firing triple on every known
+   falsifier/pin factors through comparable-sender pastes.
+3. `paste8_projected_coords` (PROVED this round) — length-agnostic;
+   the witness predicate for ANY target length is interval arithmetic
+   on one root chain.
+4. The proved vertical calculus (parts 1–3 of the dead lemma's file),
+   also length-agnostic.
+
+**Successor lemma** (`pastePO2_samebranch_universal`, open, Q75):
+every pair-residual tree has a same-branch pasting config with slack
+$\in \{1, 5, 13, 29\}$ ($L \in \{4, 8, 16, 32\}$). Implies the EGC
+conclusion on pair-residual trees. All 12 pins comply (CHECK 1;
+`sb_falsifier_n18` attains ONLY 13). Designated wide-class SA
+falsifier executed the same round: outcome recorded below.
+
+### Summary of round R46 (FINAL — supersedes both tables above)
+
+| Item | Status |
+|------|--------|
+| Strategy condensation (Sections 26–31 → digest) | DONE (120.4k → ~107k bytes) |
+| `paste8_projected_coords` | **PROVED** + CHECK (5,514 covers, 0 exceptions) |
+| `slack_ladder_above5` | introduced + DISPROVED same round (`ladder_gap9_n14`) |
+| `paste8_samebranch_universal` | **DISPROVED** (`sb_falsifier_n18`: no slack-5 same-branch paste) |
+| `paste8_tree_universal` | **DISPROVED** (same tree: no L=8 pasting, any class) |
+| `sup8_tree_universal` | **DISPROVED** (same tree: no L=8 firing triple; $8 \notin V$) |
+| `pasting_value_interval` | **DISPROVED** (same tree: $V_e$ gapped at 8) |
+| `triple_alive_universal` | SURVIVES (fires at 16) — again the terminal tree-level universal |
+| `pastePO2_samebranch_universal` | introduced (open), 12-pin CHECK passes, designated SA falsifier run same round |
+| Q74 | resolved; Q75 opened (PO2-set analytic attack) |

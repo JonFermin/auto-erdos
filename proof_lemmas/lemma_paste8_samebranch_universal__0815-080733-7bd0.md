@@ -1,12 +1,58 @@
 ---
 id: paste8_samebranch_universal
-status: open
+status: disproved
 depends_on: [paste8_tree_universal, leaf_pair_witness, crossing_pair_formula, fund_pair_overlap, shortpaste_floor_line]
-discharged_by_round: null
+discharged_by_round: 46
 introduced_at_round: 43
 ---
 
-# Lemma `paste8_samebranch_universal` (conjecture + probe: every pair-residual tree has a paste-8 on a SAME-BRANCH pair)
+# Lemma `paste8_samebranch_universal` (DISPROVED R46 — and the whole $L = 8$ target with it)
+
+**DISPROOF (R46, session s_0817-081104-2f11).** The R45-designated
+wide-class anti-same-branch SA (continued in R46 with the fast
+projected-coordinate evaluator) produced **`sb_falsifier_n18`** from a
+COLD start ($n = 18$, root 8, not in any pin's neighborhood):
+
+```
+par   = [17, 7, 1, 12, 6, 3, 16, 5, -1, 11, 15, 13, 9, 10, 4, 8, 0, 2]
+edges = [(0,8),(0,16),(0,17),(1,2),(1,5),(1,7),(2,15),(2,17),(3,5),
+         (3,10),(3,12),(4,6),(4,12),(4,14),(5,7),(6,14),(6,16),(7,8),
+         (8,15),(9,11),(9,12),(9,13),(10,13),(10,15),(11,13),(11,14),
+         (16,17)]
+```
+
+Independently confirmed by the set-based enumerator (explicit
+symmetric differences and arcs, no projected shortcut), pinned in
+CHECK 4:
+
+- pair-residual (no PO2 fundamental cycle, no PO2 single-cycle pair);
+- same-branch slack set has odd part $\{3, 7, 9, 11, 13\}$ — **5 is
+  missing**: no same-branch paste-8. THIS lemma is dead.
+- Stronger: **zero usable $L = 8$ pairings of ANY class** (leaf,
+  chain, branched) — `paste8_tree_universal` is dead too;
+- the full pasting value set is
+  $V(T) = \{6, 7, 9, 10, 11, 12, 13, 14, 15, 16\}$ — the hole sits
+  EXACTLY at 8: `pasting_value_interval` (gap-free $V_e \ni 8$) and
+  `sup8_tree_universal` ($L = 8$ exactly) are dead;
+- yet the tree HAS 4 firing triples, all at $L = 16$, and **every one
+  factors through a CHAIN (same-branch) pasting** — with slack
+  $|A| + |E| + g_3 - 2k' = 13 = 16 - 3$. `triple_alive_universal`
+  (any PO2) survives and is vindicated as the honest universal; the
+  surviving refinement along this mechanism is
+  `pastePO2_samebranch_universal` (slack $\in \{1, 5, 13, 29\}$).
+
+**What was wrong.** Not the same-branch mechanism — the target LENGTH.
+Every census tree (R20–R46, 200+ residuals) happened to have
+$8 \in V(T)$; the adversarial SA found the region where the value set
+holes out exactly at 8 while 16 remains reachable. The $L = 8$
+exclusivity assumption entered at R23 ("targeting 8 alone suffices")
+and silently shaped R27–R46; it dies here, at the FOURTH consecutive
+SA kill of a census regularity (chain1d R45, full-interval R46,
+ladder-above-5 R46, this).
+
+Historical conjecture text and evidence follow (for the record; the
+vertical calculus parts 1–3 are PROVED and remain load-bearing — they
+are length-agnostic and power `paste8_projected_coords`).
 
 **Setting.** $T$ a pair-residual normal spanning tree of a connected
 cubic graph, as in `paste8_tree_universal`. Call a pair of back edges
@@ -627,6 +673,130 @@ for i in range(m):
 assert (n_sb, n_1d) == (6, 0), f"(samebranch, fully_1d) = ({n_sb}, {n_1d})"
 print("chain1d_falsifier_n14 OK: pair-residual, 6 same-branch paste-8 "
       "(this lemma survives), 0 fully 1-D (chain1d disproved)")
+CHECK -->
+
+<!-- CHECK
+# paste8_samebranch_universal CHECK 4 (deterministic pin,
+# sb_falsifier_n18 -- the R46 DISPROOF).  Assert: pair-residual;
+# NO usable L=8 pairing of any class; same-branch slack set misses 5
+# but contains 13; exactly 4 PO2 firing triples, all L=16, each with
+# a chain-pairing pasting factorization.
+def single_cycle_len(sym):
+    if not sym: return None
+    dg = {}
+    for u, v in sym: dg[u] = dg.get(u, 0) + 1; dg[v] = dg.get(v, 0) + 1
+    if any(d != 2 for d in dg.values()): return None
+    adjS = {}
+    for u, v in sym:
+        adjS.setdefault(u, []).append(v); adjS.setdefault(v, []).append(u)
+    st = next(iter(dg)); seen = {st}; stk = [st]
+    while stk:
+        u = stk.pop()
+        for w in adjS[u]:
+            if w not in seen: seen.add(w); stk.append(w)
+    return len(sym) if len(seen) == len(dg) else None
+
+def n_arcs(es):
+    if not es: return 0
+    adjP = {}
+    for u, v in es:
+        adjP.setdefault(u, []).append(v); adjP.setdefault(v, []).append(u)
+    seen = set(); comps = 0
+    for s in list(adjP):
+        if s in seen: continue
+        comps += 1; seen.add(s); stk = [s]
+        while stk:
+            u = stk.pop()
+            for w in adjP[u]:
+                if w not in seen: seen.add(w); stk.append(w)
+    return comps
+
+nn = 18; root = 8
+par = [17, 7, 1, 12, 6, 3, 16, 5, -1, 11, 15, 13, 9, 10, 4, 8, 0, 2]
+edges = [(0, 8), (0, 16), (0, 17), (1, 2), (1, 5), (1, 7), (2, 15), (2, 17),
+         (3, 5), (3, 10), (3, 12), (4, 6), (4, 12), (4, 14), (5, 7), (6, 14),
+         (6, 16), (7, 8), (8, 15), (9, 11), (9, 12), (9, 13), (10, 13),
+         (10, 15), (11, 13), (11, 14), (16, 17)]
+deg = {}
+for u, v in edges: deg[u] = deg.get(u, 0) + 1; deg[v] = deg.get(v, 0) + 1
+assert all(deg[v] == 3 for v in range(nn)) and len(edges) == 27, "not cubic"
+depth = [-1] * nn; depth[root] = 0
+pending = [v for v in range(nn) if v != root]
+while pending:
+    nxt = []
+    for v in pending:
+        if depth[par[v]] >= 0: depth[v] = depth[par[v]] + 1
+        else: nxt.append(v)
+    assert len(nxt) < len(pending)
+    pending = nxt
+tre = set()
+for v in range(nn):
+    if v != root: tre.add((min(v, par[v]), max(v, par[v])))
+def is_anc(u, v):
+    if depth[u] > depth[v]: return False
+    x = v
+    while depth[x] > depth[u]: x = par[x]
+    return x == u
+def fcyc(s, a):
+    es = set(); u = s
+    while u != a:
+        p = par[u]; es.add((min(u, p), max(u, p))); u = p
+    es.add((min(s, a), max(s, a)))
+    return es
+be = []
+for e in edges:
+    e = tuple(sorted(e))
+    if e in tre: continue
+    u, v = e
+    a, b = (u, v) if depth[u] <= depth[v] else (v, u)
+    assert is_anc(a, b), "non-ancestral non-tree edge -- not a DFS tree"
+    be.append((b, a))
+fc = [fcyc(s, a) for s, a in be]
+pe = [c - {(min(s, a), max(s, a))} for c, (s, a) in zip(fc, be)]
+m = len(fc)
+PO2 = {4, 8, 16, 32}
+assert all(len(c) not in PO2 for c in fc), "fund cycle fires"
+for i in range(m):
+    for j in range(i + 1, m):
+        assert single_cycle_len(set(fc[i] ^ fc[j])) not in PO2, "pair fires"
+n8_any = 0; sb_slacks = set(); fire16 = 0; fire_other = 0; chain16 = 0
+for i in range(m):
+    for j in range(i + 1, m):
+        for k in range(j + 1, m):
+            L = single_cycle_len(set(fc[i] ^ fc[j] ^ fc[k]))
+            if L not in PO2: continue
+            if L == 16: fire16 += 1
+            else: fire_other += 1
+            has_chain = False
+            for (a, b, c) in ((i, j, k), (i, k, j), (j, k, i)):
+                D = set(fc[a] ^ fc[b])
+                if single_cycle_len(D) is None: continue
+                arc = D & pe[c]
+                if not arc or n_arcs(arc) != 1: continue
+                if L == 8: n8_any += 1
+                s1, s2 = be[a][0], be[b][0]
+                if s1 == s2 or is_anc(s1, s2) or is_anc(s2, s1):
+                    has_chain = True
+            if L == 16 and has_chain: chain16 += 1
+for i in range(m):
+    s1 = be[i][0]
+    for j in range(i + 1, m):
+        s2 = be[j][0]
+        if s1 != s2 and not (is_anc(s1, s2) or is_anc(s2, s1)): continue
+        D = set(fc[i] ^ fc[j])
+        if single_cycle_len(D) is None: continue
+        for z in range(m):
+            if z == i or z == j: continue
+            arc = D & pe[z]
+            if not arc or n_arcs(arc) != 1: continue
+            sb_slacks.add(len(D) - 2 + len(pe[z]) - 2 * len(arc))
+assert n8_any == 0, f"usable L=8 pairing exists: {n8_any}"
+assert 5 not in sb_slacks and 13 in sb_slacks, sorted(sb_slacks)
+assert (fire16, fire_other, chain16) == (4, 0, 4), \
+    (fire16, fire_other, chain16)
+print("sb_falsifier_n18 OK: pair-residual, NO same-branch paste-8 "
+      "(5 not in slack set -- lemma DISPROVED), no L=8 pasting of any "
+      "class, 4 firing triples all L=16 all chain-pasted (slack 13)")
 CHECK -->
 
 ## Summary

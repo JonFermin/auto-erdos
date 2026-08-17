@@ -1,12 +1,15 @@
 ---
 id: sup8_tree_universal
-status: open
+status: disproved
 depends_on: [triple_alive_universal, l8_exactness_dead]
-discharged_by_round: null
+discharged_by_round: 46
 introduced_at_round: 36
 ---
 
 # Lemma `sup8_tree_universal` (conjecture + probe: every pair-residual tree has an $L = 8$ firing triple)
+
+**DISPROVED (R46, session s_0817-081104-2f11).** `sb_falsifier_n18` (pinned with full data in `lemma_paste8_samebranch_universal` CHECK 4) is a pair-residual tree whose PO2 firing triples are ALL at $L = 16$ — it has NO firing triple at $L = 8$: the full pasting value set is $V(T) = \{6, 7, 9, \dots, 16\}$, holed exactly at 8. The $L = 8$ exclusivity that shaped R23–R46 is dead; the honest universal is `triple_alive_universal` (any PO2), which this tree satisfies at 16 via chain (same-branch) pastings — see `pastePO2_samebranch_universal`.
+
 
 **Setting.** As in `triple_alive_universal`: $T$ a normal spanning tree
 of a connected cubic graph, pair-residual (no fundamental cycle and no
