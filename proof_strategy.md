@@ -2076,3 +2076,58 @@ falsifier executed the same round: outcome recorded below.
 | `triple_alive_universal` | SURVIVES (fires at 16) — again the terminal tree-level universal |
 | `pastePO2_samebranch_universal` | introduced (open), 12-pin CHECK passes, designated SA falsifier run same round |
 | Q74 | resolved; Q75 opened (PO2-set analytic attack) |
+
+### R46 addendum 3 — the successor dies too; the complementary-falsifier PINCH
+
+The designated SA falsifier for `pastePO2_samebranch_universal` (2
+seeds; seed 20260846 survived 11,650 residual states, min availability
+2) killed it on the second seed: **`po2_falsifier_n18`** (pinned in
+that lemma's CHECK 2, independently set-based-confirmed):
+pair-residual, same-branch slack set $\{2,3,4,6,\dots,12\}$ disjoint
+from $\{1, 5, 13, 29\}$ — yet rescued by exactly ONE PO2 firing
+triple, at $L = 8$, factoring ONLY through **branched** pairs
+($V(T) = [5..15]$, $V \cap \mathrm{PO2} = \{8\}$).
+
+**The pinch.** The two R46 falsifiers are complementary:
+
+| | $L = 8$ | same-branch class |
+|---|---|---|
+| `sb_falsifier_n18` | impossible ($8 \notin V$) | necessary AND sufficient (4/4 chain pastes at 16) |
+| `po2_falsifier_n18` | necessary AND sufficient (branched paste at 8) | impossible (no PO2 slack) |
+
+Neither the length coordinate nor the pair-class coordinate of the
+pasting mechanism admits ANY universal restriction.
+`triple_alive_universal` (R34) is hereby pinched as the exact terminal
+tree-level universal: minimal, unfalsified at 4.7M+ SA iterations
+across R44–R46 plus ~200 census residuals, and now with every natural
+strengthening dead by explicit pinned counterexample.
+
+**Anti-samebranch SA final tally** (both seeds): 4.74M iterations,
+19,548 pair-residual states, **11 independent samebranch-paste-8
+falsifiers** at $n \in \{18, 20, 24\}$ — the R44 "availability floor"
+picture (min 4 at `surv_thin_n32`) was an artifact of the girth
+$\ge 5$ class + warm-start bias; in the wide class availability
+reaches 0.
+
+**R47 successor candidate** (NOT yet introduced as a lemma —
+SA-probe FIRST): `pastePO2_tree_universal` — every pair-residual tree
+has a pasting config over ANY pair class with slack
+$\in \{1, 5, 13, 29\}$, i.e. $V(T) \cap \{4, 8, 16, 32\} \ne
+\emptyset$. Implies `triple_alive_universal` via the pasting
+criterion; satisfied by both falsifiers; equivalent to
+triple-aliveness if R19's pasting-exhaustiveness (100% empirical)
+were proved — which is itself a candidate PROVABLE lemma and would
+close the gap between the two.
+
+### Summary of round R46 (FINAL v3 — supersedes all tables above)
+
+| Item | Status |
+|------|--------|
+| Strategy condensation (Sections 26–31 → digest) | DONE |
+| `paste8_projected_coords` | **PROVED** (5,514-cover CHECK, 0 exceptions) |
+| `slack_ladder_above5` | introduced + DISPROVED (`ladder_gap9_n14`) |
+| `paste8_samebranch_universal` | **DISPROVED** (`sb_falsifier_n18` + 10 more falsifiers) |
+| `paste8_tree_universal`, `sup8_tree_universal`, `pasting_value_interval` | **DISPROVED** (same tree, $8 \notin V$) |
+| `pastePO2_samebranch_universal` | introduced + **DISPROVED** (`po2_falsifier_n18`, branched-only rescue) |
+| `triple_alive_universal` | **PINCHED as the exact terminal universal** (complementary falsifiers) |
+| Q74/Q75 resolved; Q76 opened | pastePO2_tree_universal SA-probe + pasting-exhaustiveness proof attempt |

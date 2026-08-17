@@ -1,12 +1,48 @@
 ---
 id: pastePO2_samebranch_universal
-status: open
+status: disproved
 depends_on: [triple_alive_universal, fund_pair_overlap, paste8_projected_coords, pasting_vertex_automatic]
-discharged_by_round: null
+discharged_by_round: 46
 introduced_at_round: 46
 ---
 
-# Lemma `pastePO2_samebranch_universal` (conjecture + probe: every pair-residual tree has a same-branch paste at SOME power of 2)
+# Lemma `pastePO2_samebranch_universal` (DISPROVED at introduction, R46 — the same-branch class itself is insufficient)
+
+**DISPROOF (R46, same round as introduction — killed by its designated
+SA falsifier, seed 76100846, after seed 20260846 survived 11,650
+residual states).** `po2_falsifier_n18` ($n = 18$, root 1, cold
+start):
+
+```
+par   = [4, -1, 13, 12, 15, 7, 9, 16, 11, 0, 6, 10, 8, 3, 13, 1, 14, 12]
+edges = [(0,4),(0,7),(0,9),(1,2),(1,15),(1,17),(2,8),(2,13),(3,12),
+         (3,13),(3,14),(4,11),(4,15),(5,6),(5,7),(5,16),(6,9),(6,10),
+         (7,16),(8,11),(8,12),(9,10),(10,11),(12,17),(13,14),(14,16),
+         (15,17)]
+```
+
+Independently confirmed by the set-based enumerator (CHECK 2):
+pair-residual; same-branch slack set $\{2,3,4,6,7,8,9,10,11,12\}$ —
+**disjoint from $\{1, 5, 13, 29\}$**; yet the tree has exactly ONE
+PO2 firing triple, at $L = 8$, and its pasting factorizations are
+**exclusively BRANCHED** pairs ($(|D|, k') = (14, 8)$ and $(7, 1)$);
+full $V(T) = [5..15]$ with $V \cap \mathrm{PO2} = \{8\}$.
+
+**The complementary-falsifier pinch (the R46 finding).** Together with
+`sb_falsifier_n18` (no $L = 8$ anywhere, rescued ONLY by chain pastes
+at $L = 16$), this tree (no same-branch paste at any PO2, rescued ONLY
+by branched pastes at $L = 8$) shows NEITHER the length coordinate NOR
+the pair-class coordinate of the pasting mechanism can be restricted:
+`triple_alive_universal` is the exact terminal universal, minimal
+among tree-level supply statements, with every natural strengthening
+now falsified by an explicit pinned counterexample. The surviving
+successor candidate is `pastePO2_tree_universal` (paste at some PO2
+over ALL pair classes, $V(T) \cap \{4,8,16,32\} \ne \emptyset$)
+— implied by neither falsifier's death, satisfied by both, NOT yet
+probed by a designated SA falsifier: that is the R47 task, BEFORE any
+analytic effort.
+
+Original conjecture text follows (for the record).
 
 **Setting.** $T$ a pair-residual normal spanning tree of a connected
 cubic graph; same-branch pairs, sym-diff intervals $A, I, E$, covers,
@@ -197,6 +233,125 @@ print("pins OK: every pinned pair-residual tree has a same-branch "
       "attains only 13")
 CHECK -->
 
+<!-- CHECK
+# pastePO2_samebranch_universal CHECK 2 (deterministic pin,
+# po2_falsifier_n18 -- the DISPROOF): pair-residual; same-branch slack
+# set disjoint from {1,5,13,29}; exactly ONE PO2 firing triple (L=8),
+# factoring ONLY through branched pairs.
+def single_cycle_len(sym):
+    if not sym: return None
+    dg = {}
+    for u, v in sym: dg[u] = dg.get(u, 0) + 1; dg[v] = dg.get(v, 0) + 1
+    if any(d != 2 for d in dg.values()): return None
+    adjS = {}
+    for u, v in sym:
+        adjS.setdefault(u, []).append(v); adjS.setdefault(v, []).append(u)
+    st = next(iter(dg)); seen = {st}; stk = [st]
+    while stk:
+        u = stk.pop()
+        for w in adjS[u]:
+            if w not in seen: seen.add(w); stk.append(w)
+    return len(sym) if len(seen) == len(dg) else None
+
+def n_arcs(es):
+    if not es: return 0
+    adjP = {}
+    for u, v in es:
+        adjP.setdefault(u, []).append(v); adjP.setdefault(v, []).append(u)
+    seen = set(); comps = 0
+    for s in list(adjP):
+        if s in seen: continue
+        comps += 1; seen.add(s); stk = [s]
+        while stk:
+            u = stk.pop()
+            for w in adjP[u]:
+                if w not in seen: seen.add(w); stk.append(w)
+    return comps
+
+nn = 18; root = 1
+par = [4, -1, 13, 12, 15, 7, 9, 16, 11, 0, 6, 10, 8, 3, 13, 1, 14, 12]
+edges = [(0, 4), (0, 7), (0, 9), (1, 2), (1, 15), (1, 17), (2, 8), (2, 13),
+         (3, 12), (3, 13), (3, 14), (4, 11), (4, 15), (5, 6), (5, 7),
+         (5, 16), (6, 9), (6, 10), (7, 16), (8, 11), (8, 12), (9, 10),
+         (10, 11), (12, 17), (13, 14), (14, 16), (15, 17)]
+deg = {}
+for u, v in edges: deg[u] = deg.get(u, 0) + 1; deg[v] = deg.get(v, 0) + 1
+assert all(deg[v] == 3 for v in range(nn)) and len(edges) == 27, "not cubic"
+depth = [-1] * nn; depth[root] = 0
+pending = [v for v in range(nn) if v != root]
+while pending:
+    nxt = []
+    for v in pending:
+        if depth[par[v]] >= 0: depth[v] = depth[par[v]] + 1
+        else: nxt.append(v)
+    assert len(nxt) < len(pending)
+    pending = nxt
+tre = set()
+for v in range(nn):
+    if v != root: tre.add((min(v, par[v]), max(v, par[v])))
+def is_anc(u, v):
+    if depth[u] > depth[v]: return False
+    x = v
+    while depth[x] > depth[u]: x = par[x]
+    return x == u
+def fcyc(s, a):
+    es = set(); u = s
+    while u != a:
+        p = par[u]; es.add((min(u, p), max(u, p))); u = p
+    es.add((min(s, a), max(s, a)))
+    return es
+be = []
+for e in edges:
+    e = tuple(sorted(e))
+    if e in tre: continue
+    u, v = e
+    a, b = (u, v) if depth[u] <= depth[v] else (v, u)
+    assert is_anc(a, b), "non-ancestral non-tree edge -- not a DFS tree"
+    be.append((b, a))
+fc = [fcyc(s, a) for s, a in be]
+pe = [c - {(min(s, a), max(s, a))} for c, (s, a) in zip(fc, be)]
+m = len(fc)
+PO2 = {4, 8, 16, 32}
+assert all(len(c) not in PO2 for c in fc), "fund cycle fires"
+for i in range(m):
+    for j in range(i + 1, m):
+        assert single_cycle_len(set(fc[i] ^ fc[j])) not in PO2, "pair fires"
+sb = set()
+for i in range(m):
+    s1 = be[i][0]
+    for j in range(i + 1, m):
+        s2 = be[j][0]
+        if s1 != s2 and not (is_anc(s1, s2) or is_anc(s2, s1)): continue
+        D = set(fc[i] ^ fc[j])
+        if single_cycle_len(D) is None: continue
+        for z in range(m):
+            if z == i or z == j: continue
+            arc = D & pe[z]
+            if not arc or n_arcs(arc) != 1: continue
+            sb.add(len(D) - 2 + len(pe[z]) - 2 * len(arc))
+assert not (sb & {1, 5, 13, 29}), sorted(sb)
+nfire = 0; branched_only = True
+for i in range(m):
+    for j in range(i + 1, m):
+        for k in range(j + 1, m):
+            L = single_cycle_len(set(fc[i] ^ fc[j] ^ fc[k]))
+            if L not in PO2: continue
+            nfire += 1
+            assert L == 8, L
+            for (a, b, c) in ((i, j, k), (i, k, j), (j, k, i)):
+                D = set(fc[a] ^ fc[b])
+                if single_cycle_len(D) is None: continue
+                arc = D & pe[c]
+                if not arc or n_arcs(arc) != 1: continue
+                s1, s2 = be[a][0], be[b][0]
+                if s1 == s2 or is_anc(s1, s2) or is_anc(s2, s1):
+                    branched_only = False
+assert nfire == 1 and branched_only, (nfire, branched_only)
+print("po2_falsifier_n18 OK: pair-residual, same-branch slacks disjoint "
+      "from {1,5,13,29} (lemma DISPROVED), one PO2 firing triple (L=8) "
+      "factoring only through BRANCHED pairs")
+CHECK -->
+
 ## Summary
 
 The set-valued successor of the dead single-length paste universals:
@@ -206,6 +361,11 @@ $\{1, 5, 13, 29\}$ (equivalently, a power-of-2 cycle obtained by
 pasting a cover onto a comparable-sender pair). Implies the EGC
 conclusion on pair-residual trees; refines `triple_alive_universal`
 along the mechanism that every known witness and falsifier actually
-uses. Unfalsified on all 12 pins (including every falsifier that
-killed its predecessors) and all census residuals; the R46-designated
-wide-class SA falsifier ran the same round it was introduced.
+uses. DISPROVED at introduction by its designated SA falsifier:
+`po2_falsifier_n18` has no same-branch paste at any PO2 slack yet is
+rescued by a BRANCHED paste at $L = 8$. Together with
+`sb_falsifier_n18` (chain-paste-at-16 necessary) the two complementary
+counterexamples pinch `triple_alive_universal` as the exact terminal
+universal: neither the length nor the pair-class coordinate can be
+restricted. Successor candidate: `pastePO2_tree_universal` (all pair
+classes) — SA-probe it before analytics (R47).
