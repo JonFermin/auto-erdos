@@ -148,6 +148,17 @@ sender pairs are the load-bearing extension.
   hardening ran in the girth $\ge 5$ class only. A wide-class (no
   girth floor) anti-same-branch SA is the R45-designated next
   falsifier for this lemma itself.
+- **R46: the witness predicate is proved fully 1-D in projected
+  coordinates** (`paste8_projected_coords`): every paste cover acts on
+  the pair's chain through its projected interval
+  $[d(a_3), d(\operatorname{lca}(s_3, s_d))]$ alone, with its
+  off-chain tail a nonnegative slack weight — verified on 5,514
+  same-branch single-arc covers across the 9 pins and 567 witnesses
+  in the R46 census, zero exceptions. The slack-value census also
+  found the ladder structure (`slack_ladder_above5`): the odd slack
+  set reaches $\ge 5$ and is gap-free from 5 up on every residual
+  tree sampled — a strictly stronger conjecture whose proof (high
+  endpoint + descent above 5) would prove THIS lemma.
 
 <!-- CHECK
 # paste8_samebranch_universal CHECK 1 (deterministic pins): on all 8

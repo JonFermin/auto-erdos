@@ -427,473 +427,75 @@ argument.
   $OOO$/$OEE$ (the only mechanism combining both parity classes, which
   is structurally why mixed-parity residuals need it).
 
-## Section 26 — R19: Triple sym-diff structure and the pasting mechanism (session s_0803-080758-2226)
+## Sections 26–31 — R19–R24 pasting-mechanism digest (condensed 2026-08-17, session s_0817-081104-2f11; full narratives archived in strategies/erdos_gyarfas/ under sessions s_0803-080758-2226, s_0804-080732-f106, s_0805-080844-5fb3)
 
-### New proved lemma: `triple_sym_diff_structure`
+Six rounds that built the pasting machinery. All proved lemmas live in
+their lemma files; this digest keeps the load-bearing formulas and the
+still-open caveats.
 
-The R18 handoff asked for the triple analogue of `crossing_pair_formula`.
-R19 proves it in the strongest natural generality (Lemma
-`triple_sym_diff_structure`, all parts elementary and unconditional):
+**Proved lemmas** (statements + proofs in `proof_lemmas/`):
 
-1. **Length formula**: $|S| = 3 + t$, where $t$ is the number of tree edges
-   covered by an odd number of the three sender→anchor tree paths.
-2. **Parity consistency**: $t \equiv \sum_i \operatorname{gap}_i \pmod 2$,
-   rederiving `triple_parity`(2).
-3. **Single-cycle criterion**: $S$ is always a nonempty even subgraph
-   ($\deg_S(v) = b(v) + \tau(v)$, always even); it is a single simple cycle
-   iff connected and 2-regular.
-4. **Pasting lemma**: two simple cycles $X, Y$ whose intersection
-   *subgraph* is a single path of length $k \ge 1$ have
-   $X \triangle Y$ = a single simple cycle of length $|X| + |Y| - 2k$.
-5. **Triple pasting criterion**: if a pair of the triple has single-cycle
-   sym-diff $D$ (nested or crossing — mixed-parity pairs allowed!) and
-   $D \cap C_3$ is a single path of length $k \ge 1$, then $S$ is a single
-   cycle of length $|D| + \operatorname{gap}_3 + 1 - 2k$.
-6. **Mixed-parity rescue shape**: a mixed pair has ODD $|D|$; pasting a
-   third back edge fires only when $\operatorname{gap}_3$ is even — the
-   $OEE$ class. A same-parity pair ($|D|$ even) pastes to fire only with
-   odd $\operatorname{gap}_3$ ($OOO$/$EEO$). This derives the
-   `triple_parity` classes *mechanistically*.
+- `triple_sym_diff_structure` (R19, 6 parts): triple sym-diff length
+  $|S| = 3 + t$ ($t$ = tree edges covered oddly); $S$ always a nonempty
+  even subgraph; **pasting lemma** — cycles $X, Y$ meeting in a single
+  path of length $k \ge 1$ have $X \triangle Y$ a single cycle of length
+  $|X| + |Y| - 2k$; **triple pasting criterion** — pair sym-diff $D$ a
+  single cycle and $D \cap C_3$ a single path of length $k' \ge 1$ give
+  $|S| = |D| + \operatorname{gap}_3 + 1 - 2k'$; parity legality classes
+  $OEE$ (mixed pair + even third) and $OOO$/$EEO$ derived
+  mechanistically. Census: 100% of sampled firing triples (2,604/2,604)
+  factor through the pasting criterion — pasting is empirically
+  exhaustive, no other firing route needs handling.
+- `fund_pair_overlap` (R21, iff): two fundamental cycles intersect in
+  $\emptyset$, one vertex, or one vertical path running from the deeper
+  anchor down to $\operatorname{lca}(s_1, s_2)$, so
+  $k_{12} = d(\operatorname{lca}(s_1,s_2)) - d(\text{deeper anchor})$;
+  $C_1 \triangle C_2$ is a single cycle **iff** $k_{12} \ge 1$, and then
+  $|D| = \operatorname{gap}_1 + \operatorname{gap}_2 + 2 - 2k_{12}$
+  (parity $|D| \equiv g_1 + g_2$; nested/crossing/branching subsumed
+  uniformly; same-sender pairs give overlap automatically, and every
+  DFS leaf of a min-degree-3 graph sends $\ge 2$ back edges).
+- `mixed_overlap_supply` (R22): **parity segregation is impossible in
+  2-connected graphs** — if both gap parities occur, some mixed pair
+  overlaps, giving odd single-cycle $D$ ($OEE$ raw material). Proof via
+  root-one-child + low-point property (every child subtree sends a back
+  edge strictly above its parent; hence every tree edge is covered),
+  else the covering parity 2-colors tree edges and is forced constant.
+  Sharp: bridged compositions show 2-connectedness can't be dropped.
+- `pasting_meeting_structure` (R24, iff): $E(D) \cap E(T) = A \sqcup L_1
+  \sqcup L_2$ (anchor interval strictly above $m = \operatorname{lca}$,
+  two legs below, one empty when senders comparable); $P_3$ meets each
+  segment in one contiguous vertical interval, at most two nonempty;
+  $D \cap C_3$ is a single path iff exactly one intersection is
+  nonempty and carries every shared vertex ($k'$ = its length). The
+  stray-vertex condition is automatic in cubic trees — proved in R25
+  (`pasting_vertex_automatic`, Section 65).
 
-### Key structural insight
+**Census facts** (R20/R23 probes, unfalsified):
 
-The pair taxonomy only asks whether nested/crossing sym-diffs have PO2
-*length*. But mixed nested/crossing pairs still produce single sym-diff
-cycles $D$ of odd length — invisible to the pair mechanisms, which can
-never fire on them. The pasting lemma shows these odd cycles are raw
-material: adding a third even-gap back edge whose fundamental cycle meets
-$D$ in a path of length $k$ yields an even cycle of length
-$|D| + \operatorname{gap}_3 + 1 - 2k$, with $k$ tunable over the overlap.
-This is the concrete route by which mixed-parity residual trees get their
-$C_8$s.
+- Every pair-residual tree sampled is pasting-rescued (54/54 at R20,
+  50/50 at R23; 192k trees, $n \le 22$) and **mixed-parity** (all-even /
+  all-odd pair-residual trees: never observed, but ruling them out is
+  load-bearing and OPEN — an all-even one would have no rescue route).
+- `pasting_value_interval` (R23): the achievable value set
+  $V(T) = \{|D| + g_3 + 1 - 2k'\}$ has even part $V_e(T)$ a **gap-free
+  step-2 interval containing 8** on 100% of residual trees;
+  $v_{\min} \in \{4,6,8\}$, $v_{\max}$ grows with $n$, $k'$ sweeps
+  1..12. Tuning reduced to (T1) interval-ness of $V_e$ (candidate:
+  $\pm2$ local moves — slide the meeting segment / swap $B_3$ to an
+  adjacent cover), (T2) $v_{\min} \le 8$, (T3) $v_{\max} \ge 8$. All
+  three still open; the reduction targets 8 only, and $8 \in V_e(T)$
+  per-tree is exactly the later `sup8_tree_universal` probe.
 
-### CHECK census (falsification probe, sampled cubic DFS trees n=10,12,14)
-
-- 19,980 triples checked: length formula, even-subgraph property, and both
-  pasting length formulas hold with **zero violations** (9,418 pair
-  pastings, 27,544 triple pasting decompositions).
-- **2,604/2,604 firing triples (100%) factor through the pasting
-  criterion** — every sampled firing triple has a pair decomposition with
-  single-cycle $D$ meeting the third fundamental cycle in a single path.
-  Pasting is stated as sufficient, but empirically it is exhaustive.
-- Firing lengths: $C_4$ 50×, $C_8$ 2554× — matching the R18 census shape.
-
-### Q9 program after R19
-
-1. ~~Length formula + single-cycle criterion~~ (**done**, R19).
-2. **New target (R20 — existence)**: prove that in a mixed-parity tree
-   where all pair mechanisms fail to fire, there EXISTS a mixed
-   nested/crossing pair with single-cycle sym-diff $D$ and a third
-   even-gap back edge with $D \cap C_3$ a path and
-   $|D| + \operatorname{gap}_3 + 1 - 2k \in \{4, 8, 16, 32\}$.
-   The 100% pasting census says this is the right formulation: no other
-   firing route needs to be handled. Sub-questions:
-   (a) why does a mixed pair with single-cycle $D$ always exist in a
-   mixed residual tree? (b) why can the length always be tuned to a PO2?
-   The R18 observation that rescued trees carry 4–8 distinct firing
-   triples suggests a counting argument over the free parameters
-   ($\operatorname{gap}_3$, $k$).
-
-### Summary of round R19
-
-| Item | Status |
-|------|--------|
-| `triple_sym_diff_structure` lemma (6 parts) | **proved** (R19) |
-| Pasting length formulas on 27.5k decompositions | **verified, 0 violations** (R19) |
-| Firing-via-pasting census | **100% (2604/2604)** (R19) |
-| Existence of firing pasting config in residual trees | **open** (Q9, R20 target) |
-
-## Section 27 — R20: Pasting-rescue falsification probe survives at 120k trees (session s_0803-080758-2226)
-
-### Dual-attack probe first (standing policy)
-
-Before analytic effort on the R19-posed existence question, R20 ran the
-falsification probe (Lemma `pasting_rescue_census`, status open). The
-target claim: every **pair-residual** tree (no PO2 fundamental cycle AND
-no pair of back edges — in ANY configuration, including branching pairs —
-with single-PO2-cycle sym-diff) admits a firing triple that factors
-through the pasting criterion.
-
-### Probe outcome (120,000 DFS trees, n ∈ {12,14,16})
-
-- **54 pair-residual trees found; every single one is pasting-rescued.**
-  Zero falsifications of either sub-claim (firing triple exists; a firing
-  triple factors through pasting).
-- **All 54 residual trees are mixed-parity** — sharper than R18 (which
-  saw ≥96% mixed): at these sizes the pair-residual class appears to be
-  *entirely* mixed-parity. (All-even and all-odd residuals: zero.)
-- Rescue shape census:
-  | pair class | gap₃ parity | length | count |
-  |---|---|---|---|
-  | mixed pair (odd |D|) | even | C₈ | 36 |
-  | mixed pair (odd |D|) | even | C₁₆ | 1 |
-  | same-parity pair (even |D|) | odd | C₈ | 17 |
-- Overlap parameter k ranges over 1..7 with no concentration — the length
-  tuning genuinely uses the freedom in k, supporting a counting/averaging
-  existence argument over (gap₃, k) rather than a rigid construction.
-
-### Interpretation
-
-The two rescue routes are exactly the two parity-legal pasting shapes from
-`triple_sym_diff_structure`(6): OEE via mixed pair + even third, and
-OOO/EEO via same-parity pair + odd third. The mixed-pair route dominates
-(37/54). The R20+ analytic problem is now cleanly split:
-
-1. **(Supply of raw material.)** In a mixed-parity pair-residual tree,
-   show a pair with single-cycle sym-diff D exists whose parity class
-   admits a legal third back edge. Mixed pairs with overlapping paths are
-   natural candidates (both parity classes are nonempty by definition of
-   mixed; overlap needs a structural argument — cubic trees have few
-   branches, cf. the branch-count bounds in Sections 8–10).
-2. **(Length tuning.)** Show that over the available third back edges and
-   the induced overlaps k, the value |D| + gap₃ + 1 − 2k hits
-   {4, 8, 16, 32}. The census (k spread over 1..7, 4–8 firing triples per
-   rescued tree in R18) suggests a pigeonhole/averaging argument.
-
-### Summary of round R20
-
-| Item | Status |
-|------|--------|
-| `pasting_rescue_census` probe (120k trees) | **unfalsified, non-vacuous (54 residuals)** (R20) |
-| Pair-residual ⊆ mixed-parity (at n ≤ 16) | **observed, 54/54** (R20) |
-| Two-route rescue shape (OEE dominant) | **observed 37+17** (R20) |
-| Analytic supply + tuning arguments | **open** (Q9, R21 target) |
-
-## Section 28 — R21: Unified pair-overlap characterization; supply half made concrete (session s_0804-080732-f106)
-
-### New proved lemma: `fund_pair_overlap`
-
-The R20 handoff's supply route ("overlapping pairs always give single-cycle
-sym-diffs") is proved in complete generality, as an *iff*:
-
-1. **Intersection structure**: for any two back edges, the intersection
-   subgraph of their fundamental cycles is empty, a single vertex, or a
-   single vertical path — never anything else. The shared chain runs
-   exactly from the **deeper anchor** down to $\operatorname{lca}(s_1,s_2)$,
-   so $k = d(\operatorname{lca}(s_1,s_2)) - d(\text{deeper anchor})$.
-2. **Single-cycle iff overlap**: $C_1 \triangle C_2$ is a single simple
-   cycle **iff** the two tree paths share an edge ($k \ge 1$), and then
-   $|D| = \operatorname{gap}_1 + \operatorname{gap}_2 + 2 - 2k$. ($k=0$
-   with one shared vertex → degree-4 vertex; disjoint → disconnected.)
-3. **Subsumption**: nested ($m=s_2$, $k=\operatorname{gap}_2$) and crossing
-   ($m=s_1$, $k=d(s_1)-d(a_2)$) formulas drop out; **branching pairs**
-   (senders in different subtrees) are covered uniformly for the first time.
-4. **Parity**: $|D| \equiv \operatorname{gap}_1+\operatorname{gap}_2$; mixed
-   overlapping pairs give ODD single cycles — the $OEE$ raw material.
-5. **Same-sender supply**: any vertex sending two back edges gives an
-   overlapping pair automatically ($k = \operatorname{gap}_{\text{inner}}$,
-   $|D| = |\operatorname{gap}_1-\operatorname{gap}_2|+2$). In min-degree-3
-   graphs every DFS leaf sends $\ge 2$ back edges.
-
-### CHECK census (20,000 pairs, cubic DFS trees n=10–16)
-
-- Zero violations of the chain characterization, the iff, or the length
-  formula; $k$ observed up to 14; 1,476 same-sender pairs all conform.
-- **Supply is empirically universal: 777/777 mixed-parity trees contain a
-  mixed overlapping pair (100%).** Not restricted to pair-residual trees —
-  every mixed-parity tree sampled had odd single-cycle raw material.
-
-### Q9 program after R21
-
-The existence problem is now two fully explicit statements about tree
-depth data:
-
-1. **(Supply — nearly closed.)** Conjecture: every mixed-parity DFS tree
-   of a min-degree-3 graph contains an odd-gap and an even-gap back edge
-   with edge-overlapping paths. 100% empirical support (777/777). Candidate
-   proof: if NO mixed pair overlaps, the parity classes of back edges
-   partition the tree edge-disjointly ("parity segregation"); derive a
-   contradiction with min degree 3 (every leaf sends ≥ 2 back edges; a
-   segregated tree should force an all-one-parity corner somewhere).
-   R22 target: prove supply, or falsify the segregation-contradiction with
-   a targeted probe on larger n.
-2. **(Tuning — the remaining core.)** With everything explicit, a firing
-   triple needs $\operatorname{gap}_1+\operatorname{gap}_2+
-   \operatorname{gap}_3+3-2(k_{12}+k') \in \{4,8,16,32\}$. Question: do the
-   achievable $(k_{12}+k')$ values sweep enough of an interval? The R20
-   census (k' spread 1..7, 4–8 firing triples per rescued tree) suggests
-   yes; needs a range/pigeonhole argument over the choice of $B_3$.
-
-### Summary of round R21
-
-| Item | Status |
-|------|--------|
-| `fund_pair_overlap` lemma (iff + explicit k) | **proved** (R21) |
-| Branching pairs unified with nested/crossing | **proved** (R21) |
-| CHECK on 20k pairs, 0 violations | **verified** (R21) |
-| Mixed-overlap supply at 100% (777/777 mixed trees) | **observed** (R21) |
-| Supply proof (parity-segregation contradiction) | **open** (R22 target) |
-| Length tuning to PO2 | **open** (Q9 core) |
-
-## Section 29 — R22: Supply half closed — no parity segregation in 2-connected graphs (session s_0804-080732-f106)
-
-### New proved lemma: `mixed_overlap_supply`
-
-The R21 program asked why every mixed-parity pair-residual tree has a
-mixed overlapping pair. Answer: **parity segregation is impossible in any
-2-connected graph**, pair-residual or not.
-
-**Statement.** $G$ 2-connected simple, $T$ a DFS tree. If both odd and
-even back-edge gaps occur, some odd-gap and some even-gap back edge have
-edge-overlapping vertical paths; hence (`fund_pair_overlap`) a mixed pair
-with **odd single-cycle** sym-diff $D$ exists — the $OEE$ raw material.
-
-**Proof shape** (elementary; every ingredient proved in-repo):
-1. In a 2-connected graph, the DFS root has exactly one child, and every
-   child subtree of every non-root vertex sends a back edge strictly
-   above it (low-point property). Both are proved from scratch as facts
-   (a) and (b) in `lemma_mixed_overlap_supply__0804-080732-f106.md`
-   (contradiction with 2-connectedness via the no-cross-edge property of
-   DFS), and machine-checked there on 796 trees / 9,568 instances. Hence
-   every tree edge is covered.
-2. If no mixed pair overlaps, each tree edge is covered by one parity
-   only — a 2-coloring $\chi$ of tree edges. Spelled out: for every
-   non-root $v$ and every child $c$ of $v$, the low-point property (1)
-   gives a back edge from the subtree rooted at $c$ whose anchor is a
-   strict ancestor of $v$; its vertical path passes through both the
-   child edge $(v,c)$ and $v$'s parent edge, so
-   $\chi(v,c) = \chi(\text{parent edge of } v)$. Hence all tree edges
-   incident to one vertex share a color, and $\chi$ is constant on the
-   connected tree.
-3. Every back edge covers some tree edge ⇒ all gaps have the constant
-   color's parity ⇒ tree not mixed. Contrapositive: done.
-
-**Sharpness**: bridged compositions (all-odd-gap block + bridge +
-all-even-gap block) are mixed with no mixed overlap — 2-connectedness
-cannot be dropped from the lemma. (Empirically the hypothesis was never
-binding in our samples: R21 saw 777/777 mixed trees with a mixed
-overlapping pair, with no 2-connectedness filter applied.)
-
-**Reduction gap (flagged 2026-08-05, open sub-item).** "Cycles live in
-blocks" does NOT by itself reduce EGC to the 2-connected case for this
-lemma's purposes: a block of a min-degree-3 graph need not have min
-degree 3 *within the block* (a cut vertex may keep only 2 of its
-incidences inside a given block), and `mixed_overlap_supply` is applied
-to a DFS tree of the whole graph, whose back-edge parity classes span
-blocks. The one fact we do use and prove nothing beyond: every simple
-cycle of $G$ lies inside one block (a cycle is 2-connected, so it cannot
-cross a cut vertex into two components), so a PO2 cycle found in any
-block settles $G$. A minimal-counterexample-is-2-connected reduction is
-PLAUSIBLE but unproven in this artifact: the natural cut-vertex surgery
-($G = G_1 \cup_v G_2$, repair the degree deficit at $v$ in each piece)
-has an unspecified degree-repair step that could itself create PO2
-cycles, and no lemma file contains it. Until such a reduction lemma is
-proved, the supply half (Section 29) is closed only for 2-connected $G$,
-and the pair-residual existence chain of Section 30 inherits that
-hypothesis. A future round should either (a) formulate and prove the
-reduction lemma (with a CHECK over small graphs with cut vertices), or
-(b) run the segregation argument per-block with a per-block DFS tree.
-
-### CHECK (796 2-connected cubic DFS trees, n=10–18)
-
-Zero violations: root-one-child, low-point (9,568 checks), full coverage
-(10,364 tree edges), and the conclusion itself (768/768 mixed trees have
-an overlapping mixed pair — verified directly, independent of the proof).
-
-### Q9 after R22 — the open core is tuning ONLY
-
-In a pair-residual (hence mixed-parity, per R20 census) tree of a
-2-connected graph we now HAVE: a mixed pair $(B_1, B_2)$ with single-cycle
-$D$, $|D| = \operatorname{gap}_1 + \operatorname{gap}_2 + 2 - 2k_{12}$ odd.
-Remaining: show some third back edge $B_3$ (even gap, for $OEE$) has
-$D \cap C_3$ a single path of length $k' \ge 1$ with
-$|D| + \operatorname{gap}_3 + 1 - 2k' \in \{4, 8, 16, 32\}$.
-Two sub-questions for R23+:
-1. **Meeting**: why does some even-gap $B_3$ meet $D$ in a single path at
-   all? (Candidate: the same low-point/coverage machinery applied to the
-   tree edges of $D$; note $D$ contains tree edges, and every tree edge
-   is covered — an even-gap cover of a $D$-edge is a candidate $B_3$, if
-   segregation-style arguments can control the intersection shape.)
-   Structural reduction: $E(D) \cap E(C_3)$ is automatically
-   tree-edges-only ($C_3$'s unique non-tree edge is $B_3 \ne B_1, B_2$),
-   and $P_3$ is a single vertical chain while the tree edges of $D$ form
-   at most two arcs, each a union of at most two vertical chains (the
-   complementary arcs of `fund_pair_overlap`(2)). The intersection of two
-   vertical chains is a contiguous depth interval (proof of
-   `fund_pair_overlap`(1)), so $P_3 \cap E(D)$ is a union of at most a
-   bounded number of vertical segments — the meeting condition is that
-   exactly one segment is nonempty (plus the shared-vertex condition),
-   i.e. an interval-combinatorics question on root chains, not a global
-   graph question.
-2. **Tuning**: why can the length be steered to a PO2? (R20: $k'$ spread
-   1..7, 4–8 firing triples per rescued tree — slack exists. Candidate:
-   quantify the achievable interval of $k'$ over admissible $B_3$ and
-   pigeonhole powers of 2 within the parity class.)
-
-### Summary of round R22
-
-| Item | Status |
-|------|--------|
-| `mixed_overlap_supply` lemma (no segregation, 2-conn) | **proved** (R22) |
-| Sharpness (bridged compositions) | **noted** (R22) |
-| CHECK: 796 trees, proof facts + conclusion, 0 violations | **verified** (R22) |
-| Supply half of Q9 existence | **CLOSED (2-connected)** (R22) |
-| Meeting + tuning of the third back edge | **open** (R23 target) |
-
-## Section 30 — R23: The pasting value set is a step-2 interval containing 8 (session s_0805-080844-5fb3)
-
-### Dual-attack probe first (standing policy)
-
-The R22 handoff asked, before analytic effort on meeting + tuning: census
-the FULL achievable value set of each pair-residual tree,
-
-$$V(T) = \{\, |D| + \operatorname{gap}_3 + 1 - 2k' : \text{legal (pair, } B_3\text{) pasting configs} \,\},$$
-
-where legality means the pair's sym-diff $D$ is a single cycle
-(`fund_pair_overlap`: tree paths overlap, $k_{12} \ge 1$) and $C_3$ meets
-$D$ in a single path of $k' \ge 1$ edges
-(`triple_sym_diff_structure`(5)). Every $L \in V(T)$ is the length of an
-actual simple cycle of $G$ — so the tuning question is exactly "does
-$V(T)$ meet $\{4,8,16,32\}$?". The R20 probe recorded only the first
-firing shape per tree; this round records everything (new probe lemma
-`pasting_value_interval`).
-
-### Probe outcome (192k committed-CHECK trees over n = 12–22; 240k in calibration)
-
-| Quantity | Result |
-|---|---|
-| Pair-residual trees found | 50 (committed run); 53 (calibration, incl. n=22 band) |
-| $8 \in V(T)$ | **100%** (50/50, 53/53) |
-| $V_e(T)$ (even part) a gap-free step-2 interval | **100%** |
-| $v_{\min}(T)$ | $\in \{4, 6, 8\}$ — always $\le 8$ |
-| $v_{\max}(T)$ | $\in \{10,\dots,18\}$, growing with $n$ |
-| $k'$ observed | sweeps $1..12$, no concentration |
-
-Two structural surprises, both favorable:
-
-1. **The interval WIDENS with $n$.** At $n \in \{18,20,22\}$ the residual
-   trees have $V_e$ spanning $[4,16]$–$[6,18]$, versus $[6,10]$-ish at
-   $n=12$. Containment of 8 gets slacker at scale, not tighter — the
-   worry that large girth-like parameters push $v_{\min}$ past 8 is
-   empirically absent at these sizes (though $v_{\min} \le 8$ still needs
-   an argument valid for all $n \le 64$, per the witness cap).
-2. **$V(T)$ typically contains consecutive integers** (both parities),
-   because different configs change the parity of
-   $|D| + \operatorname{gap}_3$. The $\pm 1$-in-$k'$ freedom visible in
-   adjacent configs is the mechanism behind interval-ness.
-
-### The tuning argument, reduced to three statements
-
-The probe converts Q9's tuning half into:
-
-- **(T1) Interval-ness**: $V_e(T)$ has no gaps. Candidate proof: a local
-  move on configs — slide $B_3$'s meeting segment one edge along the
-  chain of $D$ it lives on (changing $k'$ by 1 changes $L$ by 2), or swap
-  $B_3$ to a back edge covering the adjacent tree edge (coverage:
-  low-point machinery of `mixed_overlap_supply`). Each move changes $L$
-  by exactly $\pm 2$ within the parity class; connectivity of the config
-  graph would give interval-ness.
-- **(T2) Low endpoint** $v_{\min} \le 8$: exhibit ONE config with EVEN
-  $L \le 8$ (here and in (T3), $v_{\min}/v_{\max}$ denote the endpoints
-  of the even part $V_e(T)$, so the witnessing config must have
-  $|D| + \operatorname{gap}_3$ odd). Max-overlap configs ($k'$ as large
-  as possible — deep chains meeting long segments of $D$) push $L$ down;
-  same-sender pairs at leaves give $|D| = |g_1 - g_2| + 2$ as small as 3
-  (mixed) with $k'$ up to the inner gap.
-- **(T3) High endpoint** $v_{\max} \ge 8$: exhibit ONE config with EVEN
-  $L \ge 8$. Min-overlap ($k' = 1$) with the longest available
-  $\operatorname{gap}_3$; a residual tree has no PO2 fundamental cycle,
-  so gaps avoid $\{3,7,15,31\}$, and cubic trees on $\ge 12$ vertices
-  have depth $\ge 5$-ish chains — the census $v_{\max} \ge 10$ suggests
-  slack here.
-
-(T2)+(T3)+(T1) $\Rightarrow 8 \in V_e(T) \Rightarrow$ a firing triple at
-$C_8$, closing Q9's tuning half ($V_e$ consists of even values by
-definition and 8 is even, so the two endpoint bounds plus T1's
-gap-freeness within the even class suffice). The reduction targets only 8, never 16
-or 32 — **conditional** on 8 being per-tree available
-($8 \in V_e(T)$ on every residual tree), which is NOT yet a theorem: it
-is exactly the per-tree SUP-8 statement that R35 splits off as the
-`sup8_tree_universal` probe (observed on every R20/R23 tree and 295/295
-at R35, but open). (For calibration, the R18 census over crossing-failed residuals saw
-firing lengths $C_8$ 698×, $C_4$ 39×, $C_{16}$ 1× — $C_8$ dominates but
-is not literally the only firing length; the point is that targeting 8
-alone suffices for existence, since $8 \in V$ held on every R20/R23
-pair-residual tree.)
-
-### Standing hypotheses the chain still leans on (tracked, not yet discharged)
+**Standing hypotheses still leaned on (open, tracked):**
 
 1. **2-connectedness** — `mixed_overlap_supply` needs it; the reduction
-   from general min-degree-3 graphs is an open sub-item (Section 29
-   reduction-gap note).
-2. **Pair-residual ⊆ mixed-parity** — empirical only (54/54 at
-   $n \le 16$, R20; consistent at $n \le 22$, R23). An all-even
-   pair-residual tree would have easy vacuous (PO2 gaps are odd), pairs
-   failed by definition, and triple vacuous (`triple_parity` corollary)
-   — i.e. NO rescue route at all — so proving "all-even pair-residual
-   trees do not exist" (or handling them separately) is load-bearing,
-   not cosmetic. All-odd pair-residual trees would need an $OOO$ triple;
-   same status. Candidate route: all-even means every gap is even, and
-   nested/crossing on an even-gap pair have even offset — quantify how
-   much of $\{2,6,14,30\}$ the offsets must sweep in a tree with
-   $n/2 + 1$ even gaps avoiding failure everywhere.
-
-### Summary of round R23
-
-| Item | Status |
-|------|--------|
-| `pasting_value_interval` probe (192k trees, n ≤ 22) | **unfalsified, non-vacuous (50 residuals)** (R23) |
-| $8 \in V$ on every pair-residual tree | **observed 100%** (R23) |
-| $V_e$ gap-free step-2 interval | **observed 100%** (R23) |
-| Tuning reduced to (T1) interval + (T2)/(T3) endpoints | **formulated** (R23) |
-| Proofs of (T1)–(T3); meeting-structure characterization | **open** (R24 target) |
-| 2-connectedness reduction lemma | **open** (R24+ target, Section 29) |
-| Rule out all-even / all-odd pair-residual trees | **open** (R24+ target) |
-
-## Section 31 — R24: Meeting reduced to interval combinatorics; stray-vertex condition empirically automatic (session s_0805-080844-5fb3)
-
-### New proved lemma: `pasting_meeting_structure`
-
-The R22/R23 "meeting" question — when does a third back edge $B_3$ meet
-$D = C_1 \triangle C_2$ in a single path, enabling the
-`triple_sym_diff_structure`(5) pasting — is now closed as a structure
-lemma (all parts proved, elementary):
-
-1. $E(D) \cap E(T) = A \sqcup L_1 \sqcup L_2$: the anchor interval
-   $A = [a_{\text{sh}} .. a_{\text{deep}}]$ (strictly above
-   $m = \operatorname{lca}(s_1,s_2)$) plus the two legs
-   $L_i = [m .. s_i]$ (below $m$, in different subtrees when the senders
-   branch; one leg empty when the senders are comparable).
-2. $P_3$ meets each segment in a single contiguous vertical interval,
-   and at most TWO of the three intersections can be nonempty ($P_3$
-   descends into only one child subtree of $m$).
-3. **Meeting criterion (iff):** $D \cap C_3$ is a single path of length
-   $k' \ge 1$ iff exactly one intersection is nonempty and every shared
-   vertex of $D, C_3$ lies on it; $k'$ = that interval's length.
-
-CHECK: 28,740 pairs / 167,403 triples across cubic $n \in \{10,..,16\}$,
-zero violations of (1), (2), or the iff (3).
-
-### Empirical bonus — the stray-vertex condition is free in cubic trees
-
-In every one of the 92,894 sampled configs with exactly one nonempty
-intersection, the stray-vertex condition held automatically
-(`vertex_auto=(92894, 92894)`; 167,724/167,724 in the larger calibration
-run). **Open conjecture (`vertex-automatic`, candidate R25):** in cubic
-DFS trees, "$P_3$ meets exactly one segment in $\ge 1$ edge" alone
-implies the pasting hypothesis. If proved, meeting-existence reduces to:
-some even-gap back edge covers a tree edge of exactly one segment of $D$
-— and coverage of every tree edge is already guaranteed by
-`mixed_overlap_supply`(1) in the 2-connected case.
-
-### Q9 state after R24
-
-| Piece | Status |
-|------|--------|
-| Supply (mixed pair with odd single-cycle $D$) | proved, 2-connected (R22; reduction gap open) |
-| Meeting (structure + iff criterion) | **proved** (R24) |
-| Meeting (existence of a pasting even-gap $B_3$) | open — vertex-automatic conjecture + one-segment covering argument |
-| Tuning (T1 interval / T2, T3 endpoints of $V_e$) | open (R23 reduction) |
-| Parity-class caveats (all-even/all-odd residuals, 2-conn) | open, tracked (Section 30) |
-
-### Summary of round R24
-
-| Item | Status |
-|------|--------|
-| `pasting_meeting_structure` (decomposition, contiguity, iff) | **proved** (R24) |
-| CHECK 28.7k pairs / 167k triples, 0 violations | **verified** (R24) |
-| Stray-vertex condition automatic in cubic samples | **observed 100% (92,894/92,894)** (R24) |
-| vertex-automatic proof; existence of pasting $B_3$ | vertex-automatic **proved** (R25, Section 65); existence open |
+   from min-degree-3 to 2-connected is NOT proved ("cycles live in
+   blocks" fails: a block need not keep min degree 3, and the DFS tree's
+   parity classes span blocks; the cut-vertex surgery has an unproved
+   degree-repair step that could itself create PO2 cycles). Only used
+   fact: any PO2 cycle found in a block settles $G$.
+2. **Pair-residual ⊆ mixed-parity** — empirical only (R20/R23).
 
 ## Section 65 — R25: Vertex-automatic proved — subcubic pasting is pure interval combinatorics (session s_0806-081011-9409)
 
@@ -2260,3 +1862,100 @@ parity $|D| \equiv g_1 + g_2 \pmod 2$ always.
 | Wide-class (girth-3-allowed) anti-samebranch SA | **survives** — 6,721 residual states, 0 falsifiers, floor 5 |
 | Refinement ladder state | same-branch now pinched between dead neighbors (leaf-only below, chain1d above) |
 | Next | Q74: projected-interval attack on `paste8_samebranch_universal` |
+
+## Section 86 — R46: Projected coordinates PROVED; the slack ladder discovered — descent-above-5 is the new analytic core (session s_0817-081104-2f11)
+
+### Housekeeping
+
+Sections 26–31 (R19–R24 narratives) condensed to a digest (full
+narratives archived under `strategies/erdos_gyarfas/`); the strategy
+dropped from 120.4k to ~104k bytes, back under the critic budget.
+
+### `paste8_projected_coords` PROVED — Q74 handle (i) closed
+
+The R45-framed projected-interval formulation is now a theorem
+(`lemma_paste8_projected_coords__0817-081104-2f11.md`, elementary from
+`fund_pair_overlap` + `pasting_meeting_structure`): for a same-branch
+pair on root chain $R = [\mathrm{root}..s_d]$, ANY paste cover $B_3$
+(foreign or on-chain) satisfies, with
+$x_3 = \operatorname{lca}(s_3, s_d)$ and
+$\pi(B_3) = [d(a_3), d(x_3)]$:
+
+1. $a_3 \in R$, $d(a_3) < d(x_3)$,
+   $\mathrm{off}(B_3) = g_3 - |\pi| \ge 0$ ($= 0$ iff $s_3 \in R$);
+2. **arc $= \pi \cap A$ or $\pi \cap E$** — whichever is nonempty,
+   and the single-arc condition is exactly "$\pi$ meets exactly one
+   of $A, E$ in an edge" (they are separated by $I$, $k_{12} \ge 1$);
+3. $L = 8 \iff (|A|+|E|-k') + (|\pi|-k') + \mathrm{off} = 5$.
+
+So the same-branch paste-8 predicate is pure interval arithmetic in
+the projected system of ONE root chain: pair intervals $A, I, E$ plus
+per-back-edge data $(\pi, \mathrm{off})$. No branching geometry
+survives. R46 census verification: 5,514 same-branch single-arc covers
+on the 9 pins (deterministic CHECK, 91 paste-8 witnesses) + 567
+witnesses over 43 fresh residual trees (124k trees, seed 20260817+46)
+— zero exceptions. Foreign off-chain weights are small:
+$\mathrm{off} \in \{1{:}81, 2{:}17, 3{:}4, 4{:}3\}$ across foreign
+witnesses. $x_3$ landing zones: side-$E$ foreign covers always have
+$x_3$ strictly inside $E$; side-$A$ foreign covers have $x_3$ in $A$
+or in $I$.
+
+### The slack ladder — new structure found by the census
+
+Per residual tree, censusing the FULL same-branch slack value set
+$S(T) = \{|A|+|E|+g_3-2k'\}$ (all same-branch pairs $\times$ all
+single-arc covers, not just $L = 8$):
+
+- **All 52 residual trees examined** (9 pins + 43 fresh): the odd part
+  reaches $\ge 5$ and is **gap-free from 5 to its max**. On the pins
+  the ladders are wide — e.g. `viol3_n40` $\{3..31\}$, `surv_kp5_n32`
+  $\{5..27\}$ — even though R40–R44 SA pressure minimized paste-8
+  availability; adversarial hardening thins the WITNESS count but not
+  the slack ladder.
+- **The full-interval form is DEAD at introduction**: fresh census
+  tree `ladder_gap3_n16` has odd slacks $\{1, 5, 7, 9, 11\}$ — slack
+  1 attainable, slack 3 NOT. Descent can fail below 5. Pinned in
+  `lemma_slack_ladder_above5__0817-081104-2f11.md` CHECK 1 (the
+  anomaly is load-bearing negative knowledge: on `ladder_gap3_n16`
+  the descent move fails at $3$ even though $1$ is attainable, so any
+  proof of (D) must use the $s \ge 7$ hypothesis in an essential way
+  and show the same obstruction cannot occur above 5).
+
+New probe lemma `slack_ladder_above5` (status open, strictly stronger
+than `paste8_samebranch_universal`): odd slack set reaches $\ge 5$ and
+$\{5, 7, \dots, \max\} \subseteq S_{\mathrm{odd}}(T)$. Its proof
+decomposes into two 1-D statements in projected coordinates:
+
+- **(H)** some config with odd slack $\ge 5$ exists (high endpoint —
+  min-overlap $k' = 1$ covers with long $g_3$; residual gaps avoid
+  $\{3,7,15,31\}$);
+- **(D)** descent: odd slack $s \ge 7$ attainable $\Rightarrow$
+  $s - 2$ attainable ($-2$ moves: extend the arc into the side
+  interval, shrink the pair, swap to a $g_3 - 2$ cover — all local on
+  the chain's interval system).
+
+(H) + (D) $\Rightarrow$ slack 5 $\Rightarrow$
+`paste8_samebranch_universal`. This is the R23 (T1)–(T3) program
+transported one level down, where it is now a statement about
+intervals on a line rather than about graphs.
+
+### Round discipline note
+
+Per the twice-validated standing policy (R44 recipe, R45 lesson:
+"never skip the falsifier"), R47 MUST run the designated anti-ladder
+SA falsifier (wide class, energy = residuality then #missing odd
+values in $[5, \max]$, warm restarts from `ladder_gap3_n16` — the only
+tree known to attain ANY odd gap — plus the 8 pins) BEFORE analytic
+effort on (H)/(D).
+
+### Summary of round R46
+
+| Item | Status |
+|------|--------|
+| Strategy condensation (Sections 26–31 → digest) | DONE (120.4k → ~104k bytes) |
+| `paste8_projected_coords` (arc $= \pi \cap$ side; slack decomposition) | **PROVED** + CHECK (5,514 covers, 0 exceptions) |
+| Q74 handle (i) — witness predicate fully 1-D in projected coords | **CLOSED** |
+| Slack-set census (9 pins + 43 fresh residuals) | DONE — ladder-above-5 holds 52/52 |
+| Full-interval strengthening | **DEAD at introduction** (`ladder_gap3_n16`: 1 yes, 3 no) |
+| `slack_ladder_above5` probe lemma (H + D decomposition) | introduced, open, 2 CHECKs pass |
+| Next (R47) | designated anti-ladder SA falsifier FIRST, then (H)/(D) analytics |
