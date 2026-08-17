@@ -1,12 +1,48 @@
 ---
 id: slack_ladder_above5
-status: open
+status: disproved
 depends_on: [paste8_samebranch_universal, paste8_projected_coords]
-discharged_by_round: null
+discharged_by_round: 46
 introduced_at_round: 46
 ---
 
-# Lemma `slack_ladder_above5` (conjecture + probe: the same-branch slack set is gap-free from 5 upward)
+# Lemma `slack_ladder_above5` (DISPROVED at introduction, R46: the same-branch slack set is NOT gap-free above 5)
+
+**DISPROOF (R46, same round as introduction — the designated SA
+falsifier killed the claim in under 30 seconds of search time, before
+any analytic effort was spent).** The falsifier `ladder_gap9_n14` is
+the `chain1d_falsifier_n14` GRAPH re-rooted at vertex 0: pair-residual,
+odd same-branch slack set $\{3, 5, 7, 11\}$ — max $= 11 \ge 5$ but
+**9 is missing**. Independently re-verified with the set-based
+enumerator (fundamental-cycle symmetric differences and explicit arc
+computation, no projected-coordinate shortcut). Pinned in CHECK 3
+below (CHECKs of disproved lemmas are runtime-skipped; kept for
+audit).
+
+Worse for any weakened ladder: a second confirmed falsifier
+(cold-start SA, $n = 16$, root 2,
+`par=[5,12,-1,4,11,6,1,2,10,0,9,7,13,3,8,10]`,
+`edges=[(0,5),(0,9),(0,14),(1,6),(1,11),(1,12),(2,7),(2,8),(2,13),
+(3,4),(3,12),(3,13),(4,7),(4,11),(5,6),(5,14),(6,15),(7,11),(8,10),
+(8,14),(9,10),(9,15),(10,15),(12,13)]`) has odd set
+$\{3, 5, 9, 11, 13\}$ — **7 missing**. SA also produced misses at 9
+and 11 from multiple starts. Conclusion: **no odd slack value above 5
+is universally forced; 5 stands alone.** The descent/pigeonhole route
+to slack-5 attainment (H)+(D) is dead as stated. Both falsifiers
+still contain slack 5 — `paste8_samebranch_universal` survives on
+every state the SA visited (all runs, zero samebranch falsifiers).
+
+**Method lesson (3rd instance of the pattern: chain1d R45,
+full-interval R46, this).** Random-DFS censuses at $10^5$-tree scale
+(124k census + 56k probe CHECK, 63 residual trees, zero ladder
+violations) repeatedly fail to find what direct SA finds in seconds —
+even a bare RE-ROOT of an existing pin was a falsifier. Never promote
+a census regularity to a conjecture without running the SA falsifier
+in the same round.
+
+---
+
+Original conjecture text follows (for the record).
 
 **Setting.** $T$ a pair-residual normal spanning tree of a connected
 cubic graph. The **same-branch slack set** is
@@ -273,6 +309,109 @@ print("pins OK: odd slack sets exact on all 10; ladder-above-5 holds "
 CHECK -->
 
 <!-- CHECK
+# slack_ladder_above5 CHECK 3 (deterministic pin, ladder_gap9_n14 —
+# the DISPROOF): the chain1d_falsifier_n14 graph re-rooted at 0 is
+# pair-residual with odd same-branch slack set {3, 5, 7, 11}: max 11,
+# 9 MISSING (ladder falsified), 5 present (samebranch survives).
+def single_cycle_len(sym):
+    if not sym: return None
+    dg = {}
+    for u, v in sym: dg[u] = dg.get(u, 0) + 1; dg[v] = dg.get(v, 0) + 1
+    if any(d != 2 for d in dg.values()): return None
+    adjS = {}
+    for u, v in sym:
+        adjS.setdefault(u, []).append(v); adjS.setdefault(v, []).append(u)
+    st = next(iter(dg)); seen = {st}; stk = [st]
+    while stk:
+        u = stk.pop()
+        for w in adjS[u]:
+            if w not in seen: seen.add(w); stk.append(w)
+    return len(sym) if len(seen) == len(dg) else None
+
+def n_arcs(es):
+    if not es: return 0
+    adjP = {}
+    for u, v in es:
+        adjP.setdefault(u, []).append(v); adjP.setdefault(v, []).append(u)
+    seen = set(); comps = 0
+    for s in list(adjP):
+        if s in seen: continue
+        comps += 1; seen.add(s); stk = [s]
+        while stk:
+            u = stk.pop()
+            for w in adjP[u]:
+                if w not in seen: seen.add(w); stk.append(w)
+    return comps
+
+nn = 14; root = 0
+par = [-1, 0, 1, 12, 8, 11, 13, 2, 6, 13, 7, 3, 10, 5]
+edges = [(0, 1), (0, 2), (0, 4), (1, 2), (1, 3), (2, 7), (3, 11), (3, 12),
+         (4, 8), (4, 11), (5, 9), (5, 11), (5, 13), (6, 8), (6, 12),
+         (6, 13), (7, 8), (7, 10), (9, 10), (9, 13), (10, 12)]
+deg = {}
+for u, v in edges: deg[u] = deg.get(u, 0) + 1; deg[v] = deg.get(v, 0) + 1
+assert all(deg[v] == 3 for v in range(nn)), "not cubic"
+depth = [-1] * nn; depth[root] = 0
+pending = [v for v in range(nn) if v != root]
+while pending:
+    nxt = []
+    for v in pending:
+        if depth[par[v]] >= 0: depth[v] = depth[par[v]] + 1
+        else: nxt.append(v)
+    assert len(nxt) < len(pending)
+    pending = nxt
+tre = set()
+for v in range(nn):
+    if v != root: tre.add((min(v, par[v]), max(v, par[v])))
+def is_anc(u, v):
+    if depth[u] > depth[v]: return False
+    x = v
+    while depth[x] > depth[u]: x = par[x]
+    return x == u
+def fcyc(s, a):
+    es = set(); u = s
+    while u != a:
+        p = par[u]; es.add((min(u, p), max(u, p))); u = p
+    es.add((min(s, a), max(s, a)))
+    return es
+be = []
+for e in edges:
+    e = tuple(sorted(e))
+    if e in tre: continue
+    u, v = e
+    a, b = (u, v) if depth[u] <= depth[v] else (v, u)
+    assert is_anc(a, b), "non-ancestral non-tree edge -- not a DFS tree"
+    be.append((b, a))
+fc = [fcyc(s, a) for s, a in be]
+pe = [c - {(min(s, a), max(s, a))} for c, (s, a) in zip(fc, be)]
+m = len(fc)
+PO2 = {4, 8, 16, 32}
+assert all(len(c) not in PO2 for c in fc), "fc violation"
+for i in range(m):
+    for j in range(i + 1, m):
+        assert single_cycle_len(set(fc[i] ^ fc[j])) not in PO2, "pair fires"
+sl = set()
+for i in range(m):
+    s1 = be[i][0]
+    for j in range(i + 1, m):
+        s2 = be[j][0]
+        if s1 != s2 and not (is_anc(s1, s2) or is_anc(s2, s1)): continue
+        D = set(fc[i] ^ fc[j])
+        if single_cycle_len(D) is None: continue
+        for z in range(m):
+            if z == i or z == j: continue
+            arc = D & pe[z]
+            if not arc or n_arcs(arc) != 1: continue
+            sl.add(len(D) - 2 + len(pe[z]) - 2 * len(arc))
+odd = sorted(s for s in sl if s % 2 == 1)
+assert odd == [3, 5, 7, 11], f"odd slack set changed: {odd}"
+assert 9 not in sl and 5 in sl, "disproof shape changed"
+print("ladder_gap9_n14 OK: pair-residual, odd slacks {3,5,7,11} -- 9 "
+      "missing above 5 (slack_ladder_above5 DISPROVED), 5 present "
+      "(paste8_samebranch_universal survives)")
+CHECK -->
+
+<!-- CHECK
 # slack_ladder_above5 CHECK 2 (falsification probe, fresh seed
 # 20260817+146): every sampled pair-residual cubic DFS tree has odd
 # same-branch slack set gap-free from 5 to its max, with max >= 5.
@@ -443,14 +582,14 @@ CHECK -->
 
 ## Summary
 
-The slack-value structure of the same-branch channel: on every
-pair-residual tree the odd part of the same-branch slack set reaches
-at least 5 and is gap-free from 5 up to its maximum. Strictly stronger
-than `paste8_samebranch_universal`; decomposes its proof into a high-
-endpoint bound (H) plus a $-2$ descent step (D) valid above slack 5 —
-both statements about the projected interval system of one root chain
-(`paste8_projected_coords`). The full-interval form is dead:
-`ladder_gap3_n16` attains slack 1 but not 3. Unfalsified on all 9
-standing pins (wide gap-free ladders even on the SA-hardened trees),
-43/43 census residuals, and a fresh-seed probe. Designated falsifier
-(wide-class anti-ladder SA) is the R47 task, BEFORE analytic effort.
+DISPROVED at introduction (R46). The census-suggested claim — odd
+same-branch slack set gap-free from 5 to its max — was killed by its
+designated SA falsifier within seconds: `ladder_gap9_n14` (the
+`chain1d_falsifier_n14` graph re-rooted at 0, CHECK 3) is
+pair-residual with odd slacks $\{3,5,7,11\}$, missing 9; a second
+falsifier misses 7. No odd slack above 5 is universally forced — 5
+stands alone, so the descent route (H)+(D) to slack-5 attainment is
+dead, while `paste8_samebranch_universal` itself survived every SA
+state. Third consecutive census-regularity killed by SA (chain1d,
+full-interval, this): census scale $10^5$ random DFS trees is NOT
+evidence — even a re-root of a standing pin was a falsifier.

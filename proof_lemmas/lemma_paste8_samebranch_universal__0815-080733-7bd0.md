@@ -154,11 +154,15 @@ sender pairs are the load-bearing extension.
   $[d(a_3), d(\operatorname{lca}(s_3, s_d))]$ alone, with its
   off-chain tail a nonnegative slack weight — verified on 5,514
   same-branch single-arc covers across the 9 pins and 567 witnesses
-  in the R46 census, zero exceptions. The slack-value census also
-  found the ladder structure (`slack_ladder_above5`): the odd slack
-  set reaches $\ge 5$ and is gap-free from 5 up on every residual
-  tree sampled — a strictly stronger conjecture whose proof (high
-  endpoint + descent above 5) would prove THIS lemma.
+  in the R46 census, zero exceptions. The slack-value census
+  suggested a ladder structure (`slack_ladder_above5`: odd slack set
+  gap-free from 5 up) — DISPROVED same round by its designated SA
+  falsifier (`ladder_gap9_n14` misses 9; another tree misses 7; no
+  odd slack above 5 is universally forced). THIS lemma survived every
+  residual state those SA runs visited: slack 5 was present in all of
+  them. The refinement ladder above this lemma is now triply dead
+  (chain1d, full-interval, ladder-above-5) — 5-attainment must be
+  proved directly, not via structured neighbors.
 
 <!-- CHECK
 # paste8_samebranch_universal CHECK 1 (deterministic pins): on all 8

@@ -1959,3 +1959,51 @@ effort on (H)/(D).
 | Full-interval strengthening | **DEAD at introduction** (`ladder_gap3_n16`: 1 yes, 3 no) |
 | `slack_ladder_above5` probe lemma (H + D decomposition) | introduced, open, 2 CHECKs pass |
 | Next (R47) | designated anti-ladder SA falsifier FIRST, then (H)/(D) analytics |
+
+### R46 addendum — the ladder is DEAD (designated falsifier, same round)
+
+Executed per the round-discipline note above, the designated
+anti-ladder SA (wide class, projected-coordinate slack evaluation
+cross-checked against the set-based enumerator on all 10 pins) killed
+`slack_ladder_above5` in under 30 seconds of search:
+
+- **`ladder_gap9_n14`** = the `chain1d_falsifier_n14` GRAPH re-rooted
+  at vertex 0: pair-residual, odd slacks $\{3, 5, 7, 11\}$ — **9
+  missing** below max 11. Independently confirmed by the set-based
+  enumerator; pinned as CHECK 3 of the (now disproved) lemma file.
+- A cold-start $n = 16$ falsifier has odd slacks $\{3, 5, 9, 11, 13\}$
+  — **7 missing**. Misses at 9 and 11 recurred from multiple starts.
+- Conclusion: **no odd slack value above 5 is universally forced; 5
+  stands alone.** The (H)+(D) descent program is dead as stated.
+- `paste8_samebranch_universal` survived every pair-residual state the
+  SA visited (slack 5 present in all falsifiers and all intermediate
+  states — zero samebranch falsifiers across all runs).
+
+**Method lesson (third consecutive instance — now standing policy with
+teeth):** chain1d (R45), full-interval (R46), ladder-above-5 (R46)
+were ALL census-suggested regularities at $10^5$-random-DFS-tree scale
+and ALL died to direct SA within seconds — the last one to a bare
+RE-ROOT of an existing pin. Census scale is not evidence of
+universality. No census regularity may be promoted to a lemma without
+its SA falsifier executing in the SAME round.
+
+**Program consequence.** The refinement ladder above
+`paste8_samebranch_universal` is triply dead; its proof cannot go
+through structured slack neighbors. What survives of R46: the
+PROVED projected-coordinate reduction (`paste8_projected_coords`) —
+the right language — and the terminal open core: slack-5 attainment
+over the projected interval system of some root chain, to be attacked
+directly (not via descent), by genuinely new angles (ideation) or
+declared the converged partial result.
+
+### Summary of round R46 (final, superseding the table above)
+
+| Item | Status |
+|------|--------|
+| Strategy condensation (Sections 26–31 → digest) | DONE (120.4k → ~104k bytes) |
+| `paste8_projected_coords` | **PROVED** + CHECK (5,514 covers, 0 exceptions) |
+| Q74 handle (i) — predicate fully 1-D in projected coords | **CLOSED** |
+| `slack_ladder_above5` | introduced + **DISPROVED same round** (`ladder_gap9_n14`: 9 missing; second tree: 7 missing) |
+| No odd slack above 5 universally forced | established (SA, confirmed set-based) |
+| `paste8_samebranch_universal` | survives all SA states; refinements above it triply dead |
+| Next (R47) | ideation for direct 5-attainment angles, or declare convergence |
