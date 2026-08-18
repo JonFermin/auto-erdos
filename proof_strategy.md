@@ -388,10 +388,16 @@ The nested formula $|\delta_1-\delta_2|+2$ is correct only for:
 | CL-B | 378 | 276 (73.0%) | 72 (19.0%) | 24 (6.3%) | 6 (1.6%) | **0** |
 | CL-C | 360 | 228 (63.3%) | 96 (26.7%) | 24 (6.7%) | 12 (3.3%) | **0** |
 
-All four mechanisms together cover 100% of tested cubic DFS trees.
-CHECK block in `lemma_crossing_pair_formula` verifies formula correctness and
-full coverage for CL-A/B/C, Petersen, and sampled random cubic graphs at
-$n \in \{10,12\}$.
+All four mechanisms together covered every tree in the TESTED set
+(the 1,094 Trémaux trees of CL-A/B/C, Petersen, and sampled random
+cubic graphs at $n \in \{10,12\}$) — an empirical coverage statement
+about that finite census, NOT a universality claim: the Triple row
+inherits Section 60's load-bearing caveat ($w$ may send no back edge,
+so the double-sender triple is a candidate mechanism only), and
+universal coverage over all cubic DFS trees remains open (indeed the
+R33/R46/R47 falsifier corpus shows census coverage at this scale
+predicts nothing). CHECK block in `lemma_crossing_pair_formula`
+verifies formula correctness and coverage on exactly that tested set.
 
 **Remaining open question for Q9**: Prove that the 4-mechanism taxonomy covers
 *all* cubic DFS trees — i.e., that for every cubic graph $G$ and every DFS tree
@@ -1136,6 +1142,14 @@ $\pi(B_3) = [d(a_3), d(x_3)]$:
    and the single-arc condition is exactly "$\pi$ meets exactly one
    of $A, E$ in an edge" (they are separated by $I$, $k_{12} \ge 1$);
 3. $L = 8 \iff (|A|+|E|-k') + (|\pi|-k') + \mathrm{off} = 5$.
+   (Worked instances of the identity, each checkable against
+   $L = |D| + g_3 + 1 - 2k'$ with $|D| = |A|+|E|+2$ and
+   $g_3 = |\pi| + \mathrm{off}$: $(|A|,|E|,|\pi|,\mathrm{off},k')
+   = (2,3,2,0,1)$: slack $(2{+}3{-}1)+(2{-}1)+0 = 5$, $L = 7+2+1-2
+   = 8$; $(1,3,2,1,1)$: slack $3+1+1 = 5$, $L = 6+3+1-2 = 8$;
+   $(4,1,3,1,2)$: slack $3+1+1 = 5$, $L = 7+4+1-4 = 8$. A NON-instance
+   for contrast: $(4,1,3,0,2)$ has slack $(4{+}1{-}2)+(3{-}2)+0 = 4
+   \ne 5$ and $L = 7+3+1-4 = 7$, correctly excluded.)
 
 So the same-branch paste-8 predicate is pure interval arithmetic in
 the projected system of ONE root chain: pair intervals $A, I, E$ plus
