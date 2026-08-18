@@ -41,7 +41,15 @@ states — e.g. `6 + 5 + 1 - 2*2 == 8` — or omit;
 (6) never flag BLOCKING when your own evidence concludes the text is
 fine ("no fix needed", "re-reading resolves") — that combination is a
 self-contradiction; use OK;
-(7) the sandbox exposes EXACTLY these names: `abs`, `min`, `max`,
+(7) when re-deriving a worked slack/L instance from Section 86, copy
+the text's FULLY SUBSTITUTED expression VERBATIM — each instance is
+stated in directly evaluable form (e.g. `4+1+2+3+1+1-2*2 == 8`; the
+lone `+1` belongs to the length identity $L = |D| + g_3 + 1 - 2k'$
+and is EASY to drop when hand-substituting — dropped-term slips here
+have produced false BLOCKINGs twice). Do NOT invent your own
+$(|A|,|E|,|\pi|,\mathrm{off},k')$ tuples — sanity-check the identity
+ONLY on a tuple whose full arithmetic the text already spells out;
+(8) the sandbox exposes EXACTLY these names: `abs`, `min`, `max`,
 `sum`, `range`, `len`, `int`, `float`, `round`, `pow`, `all`, `any`,
 `list`, `tuple`, `set`, `enumerate`, `zip`, `map`, `filter`, `math` —
 NOT `sorted`, NOT `frozenset`, NOT `dict`, NOT `str`. Prefer
@@ -1145,9 +1153,14 @@ $\pi(B_3) = [d(a_3), d(x_3)]$:
    (Worked instances of the identity, each checkable against
    $L = |D| + g_3 + 1 - 2k'$ with $|D| = |A|+|E|+2$ and
    $g_3 = |\pi| + \mathrm{off}$: $(|A|,|E|,|\pi|,\mathrm{off},k')
-   = (2,3,2,0,1)$: slack $(2{+}3{-}1)+(2{-}1)+0 = 5$, $L = 7+2+1-2
-   = 8$; $(1,3,2,1,1)$: slack $3+1+1 = 5$, $L = 6+3+1-2 = 8$;
-   $(4,1,3,1,2)$: slack $3+1+1 = 5$, $L = 7+4+1-4 = 8$. A NON-instance
+   = (2,3,2,0,1)$: slack $(2{+}3{-}1)+(2{-}1)+0 = 5$, fully
+   substituted $L = 2+3+2+2+0+1-2{\cdot}1 = 8$ (terms: $|A|+|E|+2$
+   for $|D|$, then $|\pi|+\mathrm{off}$ for $g_3$, then the
+   identity's $+1$, then $-2k'$);
+   $(1,3,2,1,1)$: slack $(1{+}3{-}1)+(2{-}1)+1 = 5$, fully
+   substituted $L = 1+3+2+2+1+1-2{\cdot}1 = 8$;
+   $(4,1,3,1,2)$: slack $(4{+}1{-}2)+(3{-}2)+1 = 5$, fully
+   substituted $L = 4+1+2+3+1+1-2{\cdot}2 = 8$. A NON-instance
    for contrast: $(4,1,3,0,2)$ has slack $(4{+}1{-}2)+(3{-}2)+0 = 4
    \ne 5$ and $L = 7+3+1-4 = 7$, correctly excluded.)
 
