@@ -1,94 +1,99 @@
-# Session handoff (session s_0817-081104-2f11)
+# Session handoff (session s_0818-081353-a397)
 
-**Stop reason**: Logical milestone (R46 logged — the densest round of
-the branch) + context budget.
+**Stop reason**: Logical milestone — the densest session of the branch:
+TWO kept rounds (R47, R48), both partial_result with 0 blocking.
 
-**What happened this session (R46, one round, five commits)**:
+**What happened (R47)**:
 
-1. **`paste8_projected_coords` PROVED** — the same-branch paste
-   predicate is pure interval arithmetic in projected coordinates on
-   one root chain: arc $= \pi(B_3) \cap$ side, $\pi = [d(a_3),
-   d(\mathrm{lca}(s_3, s_d))]$, off-chain tail = nonnegative slack
-   weight. CHECK: 5,514 covers on 9 pins, 0 exceptions. This lemma is
-   length-agnostic and SURVIVES everything below.
-2. **The census→SA killing field (4 kills in one round)**:
-   `slack_ladder_above5` (introduced + disproved same round,
-   `ladder_gap9_n14`), then the big one — **`sb_falsifier_n18`**
-   (cold SA, wide class): pair-residual, $V(T)$ holed EXACTLY at 8,
-   rescued only by chain pastes at $L = 16$. Kills
-   `paste8_samebranch_universal`, `paste8_tree_universal`,
-   `sup8_tree_universal`, `pasting_value_interval` in one tree.
-   Then **`po2_falsifier_n18`**: no same-branch paste at ANY PO2
-   slack, rescued only by BRANCHED paste at $L = 8$ — kills the
-   successor `pastePO2_samebranch_universal` at introduction.
-3. **The pinch**: the two falsifiers are complementary (one kills the
-   length coordinate, the other the class coordinate).
-   `triple_alive_universal` (R34) is the exact terminal tree-level
-   universal; every natural strengthening now has a pinned
-   counterexample. Anti-PO2 SA final tally: 3 falsifiers (2 cold
-   n=18, 1 at n=16 from the ladder_gap3 graph re-rooted at 10 — not
-   yet pinned, in tasks output only). Anti-samebranch tally: 11
-   falsifiers, 4.74M iters, 19.5k residual states.
-4. Strategy condensed (Sections 26–31 → digest); Q74/Q75 resolved,
-   Q76 opened.
+1. Q76's SA-first discipline executed: the designated falsifier for
+   `pastePO2_tree_universal` (energy: residuality, then #single-arc
+   PO2 pasting configs over ALL pair classes) killed it BEFORE
+   introduction — and the falsifiers overshot: five distinct
+   pair-residual $n = 18$ trees with ZERO PO2 firing triples of any
+   kind. **`triple_alive_universal` is DISPROVED** (641/641 census +
+   261/261 adversarial hardening overturned — sixth and decisive
+   census-regularity killed by direct SA). Two pins in its CHECK 3;
+   each independently confirmed by exhaustive cycle-space sweep (all
+   $2^{10}-1$ subsets = every simple cycle of the graph).
+2. All five falsifiers share depth spectrum $\{8 \mapsto 4, 16
+   \mapsto 4\}$ — the rescue moved EXACTLY one level up. None of the
+   graphs is an EGC witness.
+3. `lemma_pastePO2_tree_universal__0818-081353-a397.md` created
+   (status disproved, direct exhaustive CHECK). Sections 65–77
+   condensed (114k → ~78k bytes). Record:
+   records/proof_erdos_gyarfas_3effc6a29552_c3a49a7.json.
 
-**qid state**: Q76 open and next (see queue for full text). Q69
-[released] — consider resolving it against the R46 state if
-convergence is ever declared (it references the dead
-paste8_tree_universal target; its "remaining analytic core" claim is
-now superseded by Q76).
+**What happened (R48)**:
 
-**Suggested next moves (R47+)**:
-1. **SA-probe `pastePO2_tree_universal` BEFORE introducing it**
-   ($V(T) \cap \{4,8,16,32\} \ne \emptyset$, all pair classes).
-   Harness: scratchpad r47_sa.py/r46_sb_sa.py pattern — energy =
-   (viol, #configs with slack in {1,5,13,29} over ALL pairs with
-   single-cycle D). The projected-coords fast evaluator only covers
-   same-branch pairs; for branched pairs use set-based arcs or extend
-   the evaluator via fund_pair_overlap/pasting_meeting_structure
-   (legs L1, L2 + anchor interval A — 3 segments, P3 meets each in an
-   interval; single-arc iff exactly one nonempty).
-2. **Try to PROVE pasting-exhaustiveness** (R19: 2,604/2,604 firing
-   triples factor through pasting). If proved, pastePO2_tree becomes
-   EQUIVALENT to triple_alive_universal. Start from
-   triple_sym_diff_structure(3): S single cycle → some pair's D
-   single cycle + single-arc meet? (Careful: probably needs the
-   even-subgraph decomposition; run a designated SA falsifier for
-   exhaustiveness itself FIRST — energy = residuality then
-   #firing-triples-with-pasting-factorization minus #firing-triples.)
-3. Study the falsifier anatomy pair (Q76 handle): what geometry
-   forces class/length switching.
-4. If both tracks stall: /erdos-proof-ideation with the pinch as
-   framing, or declare convergence — the partial result (proved
-   machinery + pinched terminal universal + 14 pinned
-   counterexamples) is publishable-grade negative knowledge.
+1. `quad_alive_universal` introduced (open): every triple-dead
+   pair-residual tree fires a quadruple. Designated falsifiers ran
+   SAME ROUND: basin-constrained SA (R47, 1.8M proposals — class
+   brittle, 0.03% move survival) + class-preserving beam search
+   (2 seeds, ~1M evals, dozens of distinct class states) + 20k-DFS
+   census per falsifier graph (52 triple-dead trees found).
+   **Every observed triple-dead state (~530) is quad-alive with
+   nquad ≥ m = 10, min attained exactly** — every back edge in ≥ 2
+   firing quads on the pins. nquad ≥ m recorded as census
+   observation only (n = 18). Record:
+   records/proof_erdos_gyarfas_7886d45adf77_aab3cb4.json.
+2. THE OPEN FLANK: the triple-dead class is UNREACHED at any
+   $n \ne 18$. Cold SA fails to enter it even at 18 (warm/census
+   routes only); growth moves ($n \to n+2$ double-subdivision+join)
+   always revived a PO2 pair/triple.
 
-**CRITIC INFRA (standing list, all live)**:
-- Prewarm internal AND falsify (timeout_s=900) before proof_prepare —
-  BOTH took 412s this session, over the 240s in-run cap. MUST export
-  `NODE_EXTRA_CA_CERTS=/root/.ccr/ca-bundle.crt` for claude -p to work
-  in the remote container (TLS proxy; without it critics fail in ~4s).
-- Check falsify's numerical_checks from the cache BEFORE
-  proof_prepare (R41/R45 trap). This session: all 4 checks true, no
-  trap.
-- Strategy is at ~114k bytes — nearing the 120k critic threshold
-  AGAIN. Condense Sections 65–77 (R25–R37 narratives, mostly
-  superseded by the R46 disproofs) EARLY next session.
-- HARNESS TRAP (bit twice this session despite the warning): shell
-  cwd resets unpredictably between Bash calls; one strategy append
-  landed in the MAIN checkout and had to be reverted. cd to the
-  worktree INSIDE every command; never use bare relative paths.
-- Stop-hook forces mid-session commits+pushes; journal/queue rows are
-  fine to push, keep doing it.
-- proof_results.tsv is container-local (gitignored): the round cap
-  counter resets each container. R-numbering lives in the strategy
-  narrative — keep it monotone by hand.
+**qid state**: Q76 resolved. Q77 (depth escalation) opened and
+CLAIMED by this session with R48 partial progress — next session
+re-claims it.
+
+**Suggested next moves (R49+)**:
+1. Reach the triple-dead class at $n \in \{16, 20, 22\}$: warm-start
+   from beam states whose growth children have viol3 = 1 (nearly
+   dead), or bias the SA energy by which subset layer the violation
+   lives in. A quad falsifier at larger $n$ (depth 5) would tilt the
+   program toward unbounded-depth ⇒ convergence-as-negative-result.
+2. Attack nquad ≥ m analytically: per-back-edge participation ≥ 2
+   suggests each $B_i$ contributes a forced family of firing
+   quadruples under depth-≤3 deadness. A proof would give
+   quad_alive_universal with a margin at n = 18 scale — but beware:
+   this is EXACTLY the shape of claim the branch has now killed six
+   times; SA-first at other scales BEFORE any proof effort.
+3. Q77 handle (c): graph-level quantifier (R33 fork branch 2) is
+   cheap and untouched — 99.9%+ of DFS trees of every falsifier
+   graph are non-residual.
+4. Consider /erdos-proof-ideation with the depth-escalation pinch as
+   framing if the class-reachability problem stalls.
+
+**CRITIC INFRA (standing list, updated)**:
+- Prewarm internal AND falsify AND **strategy** (timeout_s=900,
+  NODE_EXTRA_CA_CERTS=/root/.ccr/ca-bundle.crt) — strategy critic
+  fast-failed (exit 1, ~2-4s, empty stderr) TWICE this session and
+  succeeded on plain retry; treat exit-1-fast as transient and retry
+  up to 3x.
+- Pre-evaluate falsify + numerical checks from the cache BEFORE
+  proof_prepare. THREE false-BLOCKING traps this session: (a)
+  numerical critic used `sorted` (not in sandbox — header now lists
+  the exact name roster); (b) falsify invented its own
+  (A,E,pi,off,k') tuple and mis-summed it; (c) falsify dropped the
+  +1 term hand-substituting L = |D|+g3+1-2k'. Fixes: header items
+  (7)+(8), and Section 86's worked instances are now FULLY
+  substituted strings critics can copy verbatim. Iterate
+  edit→prewarm→pre-check until 0 blocking-equivalent, THEN
+  proof_prepare.
+- proof_results.tsv container-local; R-numbering by hand (next: R49).
+- Worktree: worktrees/0730-080656-0fbf on branch
+  erdos-proof/0730-080656-0fbf; scratchpad harnesses r47_sa.py
+  (tracks a/b/q energies), r48_beam.py, r48_treecensus.py,
+  r47_verify.py (networkx cycle-space sweep) are container-local —
+  reconstruct from lemma CHECKs if lost.
 
 **Files modified this session**:
-- proof_strategy.md (Sections 26–31 digest; Section 86 + 3 addenda)
-- proof_lemmas/lemma_paste8_projected_coords__0817-081104-2f11.md (NEW, proved)
-- proof_lemmas/lemma_slack_ladder_above5__0817-081104-2f11.md (NEW, disproved same round)
-- proof_lemmas/lemma_pastePO2_samebranch_universal__0817-081104-2f11.md (NEW, disproved same round)
-- proof_lemmas/lemma_paste8_samebranch_universal__0815-080733-7bd0.md (open → disproved, CHECK 4 = sb_falsifier_n18)
-- proof_lemmas/lemma_paste8_tree_universal__0812-081033-f881.md, lemma_sup8_tree_universal__0811-081051-a768.md, lemma_pasting_value_interval__0805-080844-5fb3.md (open → disproved)
-- queue (Q74 claimed→resolved, Q75 opened→resolved, Q76 opened), journal, notes
+- proof_strategy.md (Sections 65–77 digest; Sections 87, 88; critic
+  header items 7–8; fully substituted worked instances)
+- proof_lemmas/lemma_triple_alive_universal__0810-081024-1a40.md
+  (open → disproved, CHECK 3 pins)
+- proof_lemmas/lemma_pastePO2_tree_universal__0818-081353-a397.md
+  (NEW, disproved at introduction)
+- proof_lemmas/lemma_quad_alive_universal__0818-081353-a397.md
+  (NEW, open, 2 CHECKs)
+- records/ (2 new partial-result records), ledger, queue, journal,
+  notes
