@@ -1501,3 +1501,78 @@ warning: PO2 cycles can hide below any fixed sym-diff depth.
 | Pasting-exhaustiveness | deprioritized (payload moot); minnf $\ge 2$ observed while live |
 | Q76 | resolved; Q77 opened (depth-escalation program) |
 | Quad-falsifier SA (5 runs) | launched, running at close |
+
+## Section 88 — R48: The depth-4 frontier holds — `quad_alive_universal` introduced with its falsifier campaigns already run; the nquad ≥ m observation (session s_0818-081353-a397)
+
+### Class-preserving search (the R47 brittleness problem solved by brute width)
+
+R47's basin-constrained SA revealed that blind moves break the
+triple-dead class 99.97% of the time. R48 replaced it with a
+class-preserving **beam search**: from the three pinned falsifiers,
+each generation evaluates ~9k targeted neighbors per beam state
+(double-edge swaps × fresh DFS, 1,500 mass re-rootings, cubic growth
+moves $n \to n+2$ via double subdivision + join), keeps only
+triple-dead residual results (dedup by canonical (edges, root, par)),
+ranked by nquad. Two seeds, 40 generations each.
+
+### Results (all $n = 18$ — the class is unreached elsewhere)
+
+1. **No quad falsifier.** Dozens of distinct class states per seed;
+   best_ever nquad = 10 throughout; growth moves produced ZERO
+   triple-dead states at $n = 20$ (subdivision revives PO2 pairs or
+   triples every time so far).
+2. **DFS-tree census of all five falsifier graphs** (20k random DFS
+   trees each, including the two R46 graphs whose PINNED trees fire
+   triples): triple-dead rates 0.035%–0.075%; all 52 triple-dead
+   trees quad-alive with **nquad ≥ 10 and minimum exactly 10 = m on
+   every graph**. Note the graph-level reading (Q77 handle (c)):
+   every falsifier GRAPH also has an abundance (99.9%+) of
+   non-residual DFS trees — the R33 graph-quantifier fork stays wide
+   open and easy.
+3. **The $\mathrm{nquad} \ge m$ observation.** Every triple-dead
+   state ever observed (≈530 across SA + beam + census) has at least
+   $m = 10$ firing quadruples, minimum attained exactly, and on the
+   three pins every back edge participates in ≥ 2 firing quadruples.
+   Recorded as census observation ONLY (single scale $n = 18$;
+   standing policy forbids promotion without a falsifier campaign at
+   other scales) — but it smells like a counting/parity mechanism:
+   killing all $\binom{m}{\le 3}$ layers appears to FORCE wide
+   supply in the $\binom{m}{4}$ layer, which would be the analytic
+   route to `quad_alive_universal`.
+
+### Lemma bookkeeping
+
+`quad_alive_universal` introduced (open): every triple-dead
+pair-residual normal spanning tree of a connected cubic graph fires
+some quadruple. Its designated falsifiers ran SAME ROUND (the two
+campaigns above; standing policy satisfied at the only reachable
+scale). CHECK 1 pins the three R47 trees' quadruple anatomy
+(nquad/participation/lengths asserted exactly); CHECK 2 is a
+fixed-seed 20k-tree falsification probe over the five graphs (7
+class hits, non-vacuous, ~3s).
+
+### Open flank for R49+
+
+1. Reach the triple-dead class at $n \ne 18$: dedicated cold SA at
+   $n \in \{14, 16, 20, 22\}$ (the R47 cold runs failed even at 18 —
+   only warm/census routes worked; try warm-starting the $n = 20$
+   hunt from beam states whose growth-move children are CLOSEST to
+   triple-dead, i.e. viol3 = 1).
+2. Attack $\mathrm{nquad} \ge m$ analytically: per-back-edge supply
+   (participation ≥ 2) suggests each $B_i$ contributes a bounded
+   family of candidate quadruples whose survival is forced by the
+   depth-≤3 deadness hypotheses.
+3. If the class proves reachable at growing $n$ with quad-dead
+   states appearing: the depth-escalation (unbounded depth) branch
+   takes over and convergence-as-negative-result becomes the honest
+   endpoint.
+
+### Summary of round R48
+
+| Item | Status |
+|------|--------|
+| Class-preserving beam search (2 seeds × 40 gens) | run — no quad falsifier, best nquad = 10 |
+| DFS census, 5 falsifier graphs × 20k trees | 52 triple-dead, ALL quad-alive, min nquad = 10 = m |
+| `quad_alive_universal` | **introduced (open)**, falsifiers same-round, 2 CHECKs pass |
+| nquad ≥ m | census observation (n = 18 only), analytic target |
+| Class at $n \ne 18$ | UNREACHED — R49's first job |
