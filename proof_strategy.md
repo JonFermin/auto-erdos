@@ -40,7 +40,14 @@ False escalates to BLOCKING. Check the single instance the text
 states — e.g. `6 + 5 + 1 - 2*2 == 8` — or omit;
 (6) never flag BLOCKING when your own evidence concludes the text is
 fine ("no fix needed", "re-reading resolves") — that combination is a
-self-contradiction; use OK.)
+self-contradiction; use OK;
+(7) the sandbox exposes EXACTLY these names: `abs`, `min`, `max`,
+`sum`, `range`, `len`, `int`, `float`, `round`, `pow`, `all`, `any`,
+`list`, `tuple`, `set`, `enumerate`, `zip`, `map`, `filter`, `math` —
+NOT `sorted`, NOT `frozenset`, NOT `dict`, NOT `str`. Prefer
+`set(...) == set(...)` over `sorted(...) == [...]`; an expression
+using an unexposed name raises NameError, counts as a FAILED check,
+and escalates your finding to BLOCKING even when you flagged it OK.)
 
 ## Section 1 — Setup
 
