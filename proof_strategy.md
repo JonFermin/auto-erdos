@@ -497,832 +497,74 @@ still-open caveats.
    fact: any PO2 cycle found in a block settles $G$.
 2. **Pair-residual ⊆ mixed-parity** — empirical only (R20/R23).
 
-## Section 65 — R25: Vertex-automatic proved — subcubic pasting is pure interval combinatorics (session s_0806-081011-9409)
-
-### New proved lemma: `pasting_vertex_automatic`
-
-The R24 open conjecture is a theorem, by a two-line degree count:
-
-1. **(Two-cycle vertex-meeting, $\Delta \le 3$.)** In any graph of
-   maximum degree $\le 3$, two cycles through a common vertex $v$ each
-   use exactly 2 of $v$'s $\le 3$ incident edges, so by pigeonhole they
-   share an edge at $v$. Two cycles of a subcubic graph can never cross
-   vertex-only.
-2. **(No strays.)** $E(D) \cap E(C_3) = P_3 \cap (A \sqcup L_1 \sqcup
-   L_2)$ is tree-only (`pasting_meeting_structure`(0)–(1)). If exactly
-   one segment intersection $P_3 \cap X$ is nonempty, every shared
-   vertex of the cycles $D$ and $C_3$ is, by (1), an endpoint of a
-   shared edge. That shared edge is necessarily a TREE edge: the only
-   non-tree edges of $D$ are its back edges $B_1, B_2$, the only
-   non-tree edge of $C_3$ is $B_3$, and $B_3 \notin \{B_1, B_2\}$, so
-   no back edge lies in both cycles. A shared tree edge lies in
-   $E(D) \cap E(C_3) = P_3 \cap X$ — i.e. every shared vertex lies on
-   the subpath $P_3 \cap X$. The stray-vertex condition is automatic.
-3. **(Collapsed criterion.)** For $\Delta(G) \le 3$: $D \cap C_3$ is a
-   single path (pasting hypothesis) **iff** exactly one of
-   $P_3 \cap A$, $P_3 \cap L_1$, $P_3 \cap L_2$ is edge-nonempty, and
-   $k'$ = that interval's length.
-
-CHECK: 100-trial cubic census $n \in \{10,..,16\}$, 3 roots each —
-every shared vertex of $D, C_3$ carries a shared incident edge, and the
-collapsed criterion matches brute-force single-path truth on every
-triple (assertions over >30k triples, >100k shared-vertex checks).
-
-**Scope.** Sharp at degree 3: at a degree-$\ge 4$ vertex two cycles can
-cross vertex-only. Min-degree-3 non-cubic graphs are NOT covered — the
-cubic/subcubic reduction stays on the Section 29 gap list.
-
-### Q9 state after R25
-
-| Piece | Status |
-|------|--------|
-| Supply (mixed pair with odd single-cycle $D$) | proved, 2-connected (R22; reduction gap open) |
-| Meeting (structure + iff criterion) | proved (R24) |
-| Meeting criterion collapse (vertex-automatic, subcubic) | **proved** (R25) |
-| Meeting (existence of a pasting even-gap $B_3$) | open — now purely: some even-gap back edge covers edges of exactly ONE segment |
-| Tuning (T1 interval / T2, T3 endpoints of $V_e$) | open (R23 reduction; R26+ targets) |
-| Parity-class caveats (all-even/all-odd residuals, 2-conn) | open, tracked (Sections 29, 30) |
-
-## Section 66 — R26: Cover dichotomy — paste or straddle the cancelled interval; per-pair existence is dead (session s_0806-081011-9409)
-
-### New proved lemma: `pasting_cover_dichotomy`
-
-Any back edge $B_3 \notin \{B_1,B_2\}$ covering a tree edge of $D$
-("cover") satisfies exactly one of:
-
-1. **Paste** — $P_3$ meets exactly one of $A, L_1, L_2$ in edges, and
-   (subcubic, `pasting_vertex_automatic`) $D \cap C_3$ is a single
-   path.
-2. **Straddle** — $P_3$ meets $A$ and exactly one leg $L_i$, and then
-   $I = [a_{\text{deep}}..m] \subseteq P_3$, the anchor is strictly
-   above $a_{\text{deep}}$, the sender strictly below $m$ in $c_i$'s
-   subtree, $P_3 \cap A \ni$ ($A$'s deepest edge),
-   $P_3 \cap L_i \ni (m, c_i)$, and $\operatorname{gap}_3 \ge k_{12}+2$.
-
-Existence criteria (contrapositives): a cover pastes whenever
-$\operatorname{gap}_3 \le k_{12}+1$, OR its anchor is at/below
-$a_{\text{deep}}$, OR its sender is at/above $m$.
-
-CHECK: 21,293 single-cycle pairs / 107,054 covers over 2-edge-connected
-cubic samples $n \in \{10,..,16\}$ — dichotomy and all straddle
-consequences hold with zero violations (69,362 pasting / 37,692
-straddling).
-
-### Census: per-pair meeting-existence FAILS — tuning must be per-tree
-
-With coverage guaranteed (2-edge-connected samples): ~3% of
-single-cycle pairs have NO pasting cover; ~16% have no EVEN-gap pasting
-cover (even $\operatorname{gap}_3$ ⇔ even $L$ when $|D|$ odd). So T2/T3
-cannot be proved pair-locally; the correct quantifier is per-tree
-("some pair admits an even-gap pasting cover"), matching
-`pasting_value_interval`'s per-tree censuses (8 ∈ V, 53/53 residuals).
-No future round should attempt per-pair existence.
-
-### Q9 state after R26
-
-| Piece | Status |
-|------|--------|
-| Meeting criterion (collapsed, subcubic) | proved (R24+R25) |
-| Cover dichotomy + paste criteria (gap ≤ k12+1 / anchor / sender) | **proved** (R26) |
-| Per-pair even-gap pasting existence | **dead** (census: ~16% failure) |
-| Per-tree meeting existence + T2/T3 endpoints | open (R27+ target) |
-| T1 interval-ness of $V_e$ | open |
-| 2-conn reduction; all-even/all-odd exclusion | open (Sections 29, 30) |
-
-## Section 67 — R27: T3 refined to a min-overlap short-paste config; per-tree meeting existence subsumed (session s_0807-081112-b59a)
-
-### New probe lemma: `t3_min_overlap_short_paste`
-
-The R26 handoff's first priority (rule out $V_e \subseteq \{6\}$
-per-tree) is subsumed by a sharper, still-falsifiable reduction. Census
-(standalone, 192k sampled DFS trees, $n \in \{12..22\}$, 62
-pair-residual trees):
-
-1. **Joint route available 62/62**: every pair-residual tree admits a
-   legal pasting config with $k' = 1$ (min overlap — $C_3$ meets $D$ in
-   a single edge, so $L = |D| + \operatorname{gap}_3 - 1$, no overlap
-   bookkeeping), $\operatorname{gap}_3 \le k_{12} + 1$ (the
-   position-free sufficient paste criterion from
-   `pasting_cover_dichotomy` — no anchor/sender analysis needed), and
-   $|D| + \operatorname{gap}_3 \ge 9$ odd, hence even $L \ge 8$.
-2. **$V_e$ never empty, never $\subseteq \{6\}$** (0/62 each): per-tree
-   meeting existence AND the refined T3 both hold on every sample, via
-   the same config.
-3. **Parity families**: the odd-$|D|$/even-gap family realizes the
-   config on 61/62 — but ONE tree required the even-$|D|$/odd-gap
-   family. The R26 suspicion is confirmed: the second family is
-   load-bearing; an analytic T3 proof must not assume $|D|$ odd (so
-   `mixed_overlap_supply` alone is not the whole supply story for T3).
-4. **Minimal realizations** concentrate on $(\lvert D\rvert,
-   \operatorname{gap}_3, k') = (\text{odd} \ge 7, 2, 1)$ — a
-   short back edge pasted on one edge of a long odd $D$; min-gap census
-   2:55, 4:5, 5:2. $\operatorname{gap}_3 = 2$ means $C_3$ is a
-   triangle; a counterexample graph may be triangle-free, so the
-   analytic target is the criterion class, not the triangle case.
-
-### What this changes in the tuning program
-
-T3 ($v_{\max} \ge 8$) is now: *find one (pair, cover) with $k'=1$,
-$\operatorname{gap}_3 \le k_{12}+1$, $|D| + \operatorname{gap}_3 \ge 9$
-odd*. All positional machinery (anchor/sender, straddle structure) is
-out of the T3 path; what remains is existence + arithmetic:
-
-- **Existence of a $k'=1$ cover**: among covers of $D$'s tree edges,
-  one meeting exactly one segment in exactly one edge. Candidate: the
-  cover of a segment's END edge (top of $A$ or bottom of a leg) with
-  smallest gap — its $P_3$ is anchored/sent near the segment boundary,
-  limiting the met interval. Needs an argument.
-- **Arithmetic $|D| + \operatorname{gap}_3 \ge 9$ odd**: on a
-  pair-residual tree $|D| \notin \{4, 8, 16, 32\}$; if $|D| \ge 9$ any
-  parity-correct short cover works; small cases $|D| \in \{3, 5, 6, 7\}$
-  need $\operatorname{gap}_3 \ge 9 - |D|$, i.e. interplay with $k_{12}$
-  via the short criterion ($\operatorname{gap}_3 \le k_{12}+1$ forces
-  $k_{12} \ge 8 - |D|$ — large overlap pairs).
-
-### Summary of round R27
-
-| Item | Status |
-|------|--------|
-| `t3_min_overlap_short_paste` probe (192k trees, 62 residuals) | **unfalsified, non-vacuous** (R27) |
-| $V_e = \emptyset$ or $V_e \subseteq \{6\}$ on some residual tree | **never observed** (0/62) (R27) |
-| T3 reduced to position-free existence + arithmetic | **formulated** (R27) |
-| Even-$|D|$ family load-bearing (1/62 trees need it) | **observed** (R27) |
-| Analytic proof of the joint-config existence | open (R28+ target) |
-
-## Section 68 — R28: Direct tuning to 8 inside the short-paste class; pigeonhole program collapsed (session s_0807-081112-b59a)
-
-### New probe lemma: `tune8_short_paste`
-
-The T2-side census (standalone, 192k sampled DFS trees, seed
-20260807+28, 51 pair-residual trees) produced a sharper reduction than
-the planned T2 endpoint bound:
-
-1. **Exact tuning available 51/51**: every pair-residual tree admits a
-   legal pasting config with $\operatorname{gap}_3 \le k_{12}+1$
-   (position-free short-paste criterion) and
-   $|D| + \operatorname{gap}_3 + 1 - 2k' = 8$ exactly. The pasted
-   triple cycle is a $C_8$ — so $8 \in V(T)$ **directly**.
-2. **The R23 pigeonhole program (T1 + T2 + T3) is now a fallback**:
-   direct containment needs no interval-ness and no endpoint bounds.
-   If `tune8_short_paste` is falsified at larger $n$, the T1/T2/T3
-   route (with R27's `t3_min_overlap_short_paste` as the T3 leg)
-   reactivates.
-3. **$k'$ freedom is load-bearing**: fixing $k' = 1$ fails on 3/51
-   trees (unlike the T3-side lemma where $k'=1$ always sufficed for
-   $L \ge 8$). Observed $k'$ in minimal $L=8$ realizations spans
-   $1..4$; min $\operatorname{gap}_3$ is 2 on 45/51, 4 on 6/51.
-4. **Same-sender pairs are NOT the universal supply** for small even
-   $L$: 1/51 trees has no same-sender realization with $L \le 8$ —
-   consistent with R27's parity-family finding that the supply story
-   must go beyond any single special pair shape.
-
-### Open core after R28 (Q9 tuning half)
-
-Prove: *every pair-residual tree admits a pair (single-cycle $D$,
-overlap $k_{12}$) and a cover $B_3$ with
-$\operatorname{gap}_3 \le k_{12}+1$, $D \cap C_3$ a single path of
-$k' \ge 1$ edges, and $|D| + \operatorname{gap}_3 = 7 + 2k'$.* The
-diophantine surface has three degrees of freedom (pair choice, cover
-choice, $k'$); the censuses say random cubic structure always supplies
-a solution. Candidate analytic route: start from any single-cycle pair
-(supply: R22), enumerate the covers of $D$'s tree edges guaranteed by
-2-edge-connectedness, and show the value map
-$(B_3) \mapsto |D| + \operatorname{gap}_3 - 2k'$ sweeps a residue class
-wide enough to hit 7.
-
-### Summary of round R28
-
-| Item | Status |
-|------|--------|
-| `tune8_short_paste` probe (192k trees, 51 residuals) | **unfalsified, non-vacuous** (R28) |
-| $8 \in V(T)$ via short-paste class only | **observed 100% (51/51)** (R28) |
-| T1/T2/T3 pigeonhole program | **demoted to fallback** (R28) |
-| $k'=1$-only variant | **falsified** (3/51 need $k' \ge 2$) (R28) |
-| Analytic proof of exact tuning | open (R29+ target) |
-
-## Section 69 — R29: Value-set pre-census — tree-level sweeps dead, per-pair sweep survives (session s_0808-080808-ce3d)
-
-### The census (192k sampled DFS trees, seed 20260808+29, 52 residuals)
-
-For each pair-residual tree, tabulate the short-paste value multiset
-$S(T) = \bigcup_p S_p(T)$ and each pair's own
-$S_p(T) = \{|D| + \operatorname{gap}_3 + 1 - 2k'\}$ over legal covers
-with $\operatorname{gap}_3 \le k_{12}+1$. Results:
-
-1. **Tree-level even-interval FALSIFIED (4/52)**: the even part of
-   $S(T)$ has gaps, e.g. $\{6,8,10,14\}$ (12 missing) and
-   $\{4,8,10,12,14\}$ (6 missing). The R28 candidate route ("show the
-   union value map sweeps a residue class") is dead as stated.
-2. **Descent FALSIFIED (3/52)**: some even $v \ge 10 \in S(T)$ has
-   $v - 2 \notin S(T)$ — no tree-level step-down induction.
-3. **Selection rules dead**: the max-$k_{12}$ pair hosts an $L=8$
-   config only 30/52; min-$|D|$ pair is a sweep pair 31/52; the pair
-   attaining the global minimum even value, 29/52.
-4. **Per-pair interval-ness NOT automatic**: 553/637 pairs with even
-   values have step-2-interval even sets. All observed failures are the
-   8-skipping pattern $E_p = \{6, 10\}$ at $|D| = 7$,
-   $k_{12} \in \{4,5\}$: covers realize $\operatorname{gap}_3 = 2k'-2$
-   and $2k'+2$ but never $2k'$.
-5. **SURVIVES 52/52 (new probe `sweep_pair_exists`)**: some single pair
-   has $E_p$ a step-2 interval containing 8. Endpoint structure: in the
-   widest such pair, 8 is an endpoint 41/52 — nearly always the MINIMUM
-   (confirmed by the probe's own tally: 8 is the interval min on 36/41
-   residuals at the committed scale).
-6. Global boundary facts (52/52): $\min(\text{even } S(T)) \in
-   \{4, 6, 8\}$ (never $> 8$, never empty) and
-   $\max(\text{even } S(T)) \ge 10$.
-
-### What the analytic program becomes
-
-The burden localizes to ONE pair (this round's probe), split three ways:
-
-- **(i) Selection**: identify the pair analytically. None of the greedy
-  rules work; the census suggests the witnessing pair is characterized
-  by its cover arithmetic (small $|D|$ odd with a $\operatorname{gap}_3
-  = 2k'$-class cover, or the $|D|$-even/odd-gap family), not by an
-  extremal statistic.
-- **(ii) Interval-ness of $E_p$**: the only observed failure mode is
-  the $\operatorname{gap}_3 \bmod 4$ class gap at $|D| = 7$. Analytic
-  sub-question: for which $(|D|, k_{12})$ does the cover family hit
-  every $\operatorname{gap}_3 - 2k'$ residue in an interval? The
-  $k'$-freedom (R28: $k' = 1$ insufficient 3/51) is exactly what fills
-  classes.
-- **(iii) Min-attainment**: prove $\min E_p = 8$ (not $\le 6$!) for the
-  selected pair — the census says the sweep interval usually STARTS at
-  8, so the lower endpoint is the theorem, not a bound to beat. (Not a
-  direction flip against T2's "$v_{\min} \le 8$": $E_p$ is the sweep
-  interval of ONE selected pair, while $v_{\min}$ is the endpoint of
-  the tree-level union $V_e(T)$ over all configs. $\min E_p = 8$ for
-  the selected pair puts $8 \in V_e(T)$ directly and is compatible with
-  other pairs/triples realizing smaller even values — R35's $L = 4$
-  firings show $v_{\min} = 4$ does occur on some trees.) A pair
-  whose every short cover satisfies $|D| + \operatorname{gap}_3 + 1 -
-  2k' \ge 8$ with equality attained is the target object; the parity
-  bookkeeping ($|D|$ odd $\Rightarrow \operatorname{gap}_3$ even for
-  even $L$) plus pair-residuality ($|D| \notin \{4,8,16,32\}$) are the
-  available constraints.
-
-### Summary of round R29
-
-| Item | Status |
-|------|--------|
-| `sweep_pair_exists` probe (152k trees, 41 residuals committed) | **unfalsified, non-vacuous** (R29) |
-| Tree-level even-interval / descent / greedy selection | **all falsified** (R29) |
-| Per-pair interval failure mode | **isolated**: $E_p=\{6,10\}$ gap-at-8, $|D|=7$ (R29) |
-| 8 as interval MINIMUM of the sweep pair | **dominant** (36/41) (R29) |
-| Analytic split: selection / interval-ness / min-attainment | **formulated** (R30+ target) |
-
-## Section 70 — R30: Floor/line lemma PROVED — the tuning program is now one supply statement (session s_0808-080808-ce3d)
-
-### New proved lemma: `shortpaste_floor_line`
-
-Elementary but load-bearing arithmetic for the short-paste class, all
-proved (not probed) in `lemma_shortpaste_floor_line__0808-080808-ce3d.md`,
-and machine-checked against the census extraction code (274k configs,
-consistency CHECK):
-
-1. **Parity**: even $L$ forces $g_3 \equiv |D| + 1 \pmod 2$.
-2. **Overlap**: $g_3 \ge \max(k', 2)$ (a cycle properly contains its
-   overlap path; simple graphs have no 2-cycles).
-3. **Floor**: every even-$L$ short-paste config with $k' \le |D| - 6$
-   has $L \ge 8$. The R29 undershoots ($L \in \{4, 6\}$) live entirely
-   in the near-maximal-overlap regime $k' \ge |D| - 5$.
-4. **Line**: $L = 8 \iff g_3 = 2k' + 7 - |D|$.
-
-(Worked $L = 8$ boundary instances of $L = |D| + g_3 + 1 - 2k'$, for
-single-instance re-derivation — each satisfies the line
-$g_3 = 2k' + 7 - |D|$: $(|D|, k', g_3) = (6, 1, 3)$ gives
-$6 + 3 + 1 - 2 = 8$; $(7, 1, 2)$ gives $7 + 2 + 1 - 2 = 8$;
-$(7, 2, 4)$ gives $7 + 4 + 1 - 4 = 8$; $(9, 2, 2)$ gives
-$9 + 2 + 1 - 4 = 8$; $(10, 4, 5)$ gives $10 + 5 + 1 - 8 = 8$. NOT on
-the line: $(10, 1, 5)$ gives $10 + 5 + 1 - 2 = 14$, an even value
-above the floor, not 8.)
-
-(Worked ODD-$L$ boundary anchor — the floor's "even $L$" hypothesis is
-LOAD-BEARING; do not re-derive the floor without it. At the boundary
-$k' = |D| - 6$ with the raw overlap minimum $g_3 = \max(k', 2)$ one can
-get $L = 7$: $(|D|, k', g_3) = (8, 2, 2)$ gives $8 + 2 + 1 - 4 = 7$,
-which is ODD — outside the floor claim's hypothesis, NOT a
-counterexample. Parity (claim 1) is what closes the gap: $|D| = 8$
-even forces $g_3$ odd for even $L$, so the minimal admissible cover has
-$g_3 = 3$, giving $L = 8 + 3 + 1 - 4 = 8$ — exactly on the line
-$g_3 = 2k' + 7 - |D| = 3$. The floor claim quantifies ONLY over even
-$L$; odd values like 7 between the parity classes are expected and
-harmless.)
-
-### Two reductions purchased by the lemma
-
-**(A) T3's arithmetic half is gone.** Any pair with $|D| \ge 6$ and any
-$k' = 1$ short cover has even $L \ge 8$ (both parity families of R27,
-uniformly — the lone even-$|D|$ census tree stops being a special
-case). *Hypothesis anchor (R40): this is a FLOOR over whatever $k'=1$
-covers exist, not an exact-8 realizability claim. On a pair-residual
-tree the $|D| = 6$, $k' = 1$ case cannot hit 8 at all: even $L$ forces
-$g_3$ odd, and $g_3 = 3$ would make $C_3$ a $C_4$ — excluded by
-residuality — so $g_3 \ge 5$ and $L \ge 10$ there. Exact 8 at
-$|D| = 6$ requires $k' = 2$ (cell $(6,2)$ of §79's menu, which is why
-$(6,1)$ is not a menu cell). No contradiction with §79.*
-`t3_min_overlap_short_paste` reduces to pure supply:
-
-> **(SUP-1)** every pair-residual tree admits a pair with $|D| \ge 6$
-> and a short cover ($g_3 \le k_{12} + 1$) meeting $D$ in exactly one
-> edge.
-
-Only $|D| \in \{3, 5\}$ pairs escape; pair-residuality already excludes
-$|D| \in \{4, 8, 16, 32\}$.
-
-**(B) `tune8_short_paste` is equivalent to line-hitting.** The exact-8
-statement is: some pair and short cover satisfy
-$g_3 = 2k' + 7 - |D|$. Per-$|D|$ windows (parity automatic):
-$|D|=7$: $(k', g_3) \in \{(1,2), (2,4), (3,6), \dots\}$;
-$|D|=9$: $\{(2,2), (3,4), \dots\}$; $|D|=6$: $\{(1,3), (2,5), \dots\}$;
-$|D|=5$: $\{(1,4), \dots\}$; $|D|=3$: $\{(1,6), \dots\}$. *(R40 note:
-on pair-residual trees, entries with $|C_3| = g_3 + 1 \in \{4, 8\}$
-are unrealizable — cover-residuality kills e.g. $(6; 1, 3)$ and
-$(6; 3, 7)$; see §79's menu for the surviving $k' \le 2$ cells.)* The
-short criterion couples each window entry to a minimum pair overlap
-$k_{12} \ge g_3 - 1 = 2k' + 6 - |D|$: **large-$|D|$ pairs hit the line
-with ANY overlap; small-$|D|$ pairs need overlap at least
-$7 - |D|$-ish.** Triangle-free graphs remove only the $g_3 = 2$
-entries ($(7; 1, 2)$ and $(9; 2, 2)$).
-
-### The open core after R30 (Q9), sharpened
-
-1. **(SUP-1)** above — the $L \ge 8$ existence supply (T3 leg, now
-   arithmetic-free).
-2. **(SUP-8)** line-hitting supply: a pair + short cover on
-   $g_3 = 2k' + 7 - |D|$ (equivalent to `tune8_short_paste`; the
-   sweep-pair probe `sweep_pair_exists` says the witnessing pair's even
-   value set is moreover an interval with min 8 — consistent with the
-   floor: a pair whose covers all sit in $k' \le |D| - 6$ cannot go
-   below 8).
-3. Standing hypotheses (unchanged): 2-connectedness reduction
-   (Section 29); all-even/all-odd exclusion (Section 30); cubic →
-   min-degree-3 reduction.
-
-### Summary of round R30
-
-| Item | Status |
-|------|--------|
-| `shortpaste_floor_line` (parity/overlap/floor/line) | **PROVED** + consistency CHECK (R30) |
-| T3 arithmetic | **eliminated** — T3 = supply statement SUP-1 (R30) |
-| tune8 | **= line-hitting** $g_3 = 2k'+7-|D|$, overlap-coupled windows (R30) |
-| Undershoot regime | **confined** to $k' \ge |D|-5$ (R30) |
-| SUP-1 / SUP-8 analytic proof | open (R31+ target) |
-
-## Section 71 — R31: SUP-1 census — end-edge witnesses universal, min-gap selection rule survives (session s_0809-080835-54ee)
-
-### New probe lemma: `sup1_end_edge`
-
-The R30 handoff's first priority (SUP-1 positional census) executed:
-three independent seeds, $n \in \{12..24\}$, 480k sampled DFS trees,
-152 pair-residual, plus a fourth seed (152k trees, 37 residuals) inside
-the committed CHECK. Results:
-
-1. **SUP-1 holds 189/189** (all four seeds): every pair-residual tree
-   admits a pair with $|D| \ge 6$ and a $k' = 1$ short cover
-   ($\operatorname{gap}_3 \le k_{12}+1$, $D \cap C_3$ a single edge)
-   with $|D| + \operatorname{gap}_3$ odd — hence an even short-paste
-   value $L \ge 8$ by `shortpaste_floor_line`. The odd-$L$-only
-   fallback was never needed (0 trees where $k'=1$ short covers exist
-   only with the wrong parity).
-2. **End-edge refinement 100% (126/126 checked)**: the witness's met
-   edge can always be taken to be an END edge of its $D$-segment
-   (incident to $a_{\mathrm{sh}}$, $a_{\mathrm{deep}}$, $m$, or a
-   sender $s_i$). Witness distribution: 318 end vs 41 interior
-   (seed 1) — end edges dominate but the refinement is about
-   existence, which never fails.
-3. **Min-gap selection rule 100% (126/126)**: for some pair
-   ($|D| \ge 6$) and some end edge $e$, the MINIMUM-GAP back edge
-   covering $e$ is itself a SUP-1 witness. This is the analytic
-   handle: 2-edge-connectedness supplies covers of every tree edge;
-   the rule says the cheapest cover of the right boundary edge works.
-4. **Falsified finer variants** (recorded so no session chases them):
-   leg-TOP-only fails 3/63 (seed 2); leg-BOTTOM-only 38/39; $A$-end-only
-   38/39 (seed 1). No single boundary vertex class suffices — the
-   disjunction over all six is the survivor.
-5. **Structural fact with proof sketch**: every SHORT cover of the
-   leg-top edge $(m, c_i)$ anchors inside the cancelled interval $I$
-   (else it contains $I$ plus $A$'s deepest edge — a straddle, forcing
-   $\operatorname{gap}_3 \ge k_{12}+2$ by `pasting_cover_dichotomy`).
-   Observed 60/60 (seed 2). Witness min-gaps concentrate at
-   $\operatorname{gap}_3 \in \{2, 4\}$ (54/60).
-
-### What the analytic program becomes
-
-SUP-1 is now a two-step target, both localized to segment boundaries:
-
-- **(i) Cover existence with shortness+parity at SOME end edge**: among
-  the six end edges of a $|D| \ge 6$ pair, one has a min-gap cover that
-  is short ($\le k_{12}+1$) with $\operatorname{gap}_3 \equiv |D|+1
-  \bmod 2$. Shortness is NOT automatic (90 non-short $k'=1$ even-$L$
-  end-edge covers observed on seed 3 alone), so the argument must
-  either pick the pair (maximize $k_{12}$?) or trade end edges off
-  against each other.
-- **(ii) $k' = 1$ at the boundary**: for an end-edge cover, $k'=1$
-  means the cover's tree path diverges from the segment immediately
-  past the met edge. At the leg top this is forced when $s_3 = c_i$ or
-  the chain of $s_3$ leaves $L_i$ right below $c_i$ (47/60 witnesses
-  have $s_3 = c_i$ exactly).
-
-### Summary of round R31
-
-| Item | Status |
-|------|--------|
-| `sup1_end_edge` probe (4 seeds, 632k trees, 189 residuals) | ~~unfalsified~~ **SUPERSEDED — disproved at R33** (`sup1_dead_tree`) |
-| SUP-1 (T3 supply) | ~~holds 189/189~~ **SUPERSEDED — FALSE at R33**; the 189/189 was sampling luck |
-| End-edge witness + min-gap rule | ~~100% (126/126 each)~~ **SUPERSEDED — disproved at R33** (both refinements die with SUP-1) |
-| Leg-top-only / leg-bottom-only / A-end-only | **all falsified** (R31) |
-| Short leg-top covers anchor in $I$ | **proved-sketch + 60/60** (R31) |
-| SUP-1 analytic proof (steps i+ii) | open (R32+ target) |
-
-## Section 72 — R32: SUP-1 localizes to the cancelled interval's boundary; cover structure there PROVED (session s_0809-080835-54ee)
-
-### New lemma: `sup1_iadj` (proved Part 1 + open Part 2)
-
-Scoping censuses first (all standalone): the $\forall$-pair versions of
-R31's min-gap rule are DEAD — "every $|D| \ge 6$ pair admits the rule"
-and even "every $|D| \ge 6$ pair admits some SUP-1 witness" fail on
-EVERY sampled residual tree (0/37 each; per-pair rates 211/698 and
-245/698); max-$k_{12}$ pair selection reaches only 10/37. Working
-pairs usually expose exactly ONE working end edge (157/211). So pair
-selection is load-bearing and greedy statistics are dead — consistent
-with R29.
-
-The positive localization: restricting R31's rule to the (at most
-three) **$I$-adjacent boundary edges** — leg tops $(m, c_i)$ and the
-$A$-bottom edge at $a_{\mathrm{deep}}$ — still works on every tree
-(42/42 at seed 532, 50/50 at the committed probe's seed 632), and NO
-tree ever needs a far boundary edge (senders' ends, $a_{\mathrm{sh}}$'s
-end). The SUP-1 witness lives at the boundary of the cancelled
-interval.
-
-**Proved (Part 1, from `pasting_cover_dichotomy` + cubic geometry;
-consistency-checked on 1.03M short-cover configs):** short covers
-through $I$-adjacent edges are pinned to the $I$-window —
-
-- Leg-top $(m, c_i)$, $A \ne \emptyset$: the cover anchors INSIDE $I$
-  ($a_3 \in V(I)$ — else it would contain $I$ plus $A$'s bottom edge
-  and straddle, forcing $\operatorname{gap}_3 \ge k_{12}+2$), meets
-  only $L_i$, and $k' = 1 + (\text{common descent of } P_3, L_i
-  \text{ below } c_i)$. $k'=1$ iff divergence at $c_i$ (e.g.
-  $s_3 = c_i$, or $|L_i| = 1$).
-- $A$-bottom: meets only $A$,
-  $k' = d(a_{\mathrm{deep}}) - \max(d(a_3), d(a_{\mathrm{sh}}))$;
-  $k'=1$ iff $a_3 = \mathrm{par}(a_{\mathrm{deep}})$ or $|A|=1$; with
-  both legs nonempty $s_3$ is never strictly below $m$ (all children
-  of $m$ are leg children in a cubic graph).
-
-### The analytic burden after R32
-
-1. **(Selection)** Which pair: the witnessing pair is NOT extremal in
-   any tested statistic; candidate characterizations should come from
-   the cover side (which pairs have a short-with-right-parity min-gap
-   cover at an $I$-adjacent edge).
-2. **(Existence)** Why some $I$-adjacent edge's min-gap cover is short
-   with $\operatorname{gap}_3 \equiv |D|+1 \bmod 2$ and $k'=1$ — Part 1
-   reduces this to: the cover anchors in the $I$-window / meets one
-   segment, so shortness couples $\operatorname{gap}_3$ to $k_{12}$
-   through the window depth, and $k'=1$ is a local divergence
-   condition at $c_i$ resp. $a_{\mathrm{deep}}$.
-3. SUP-8 (line-hitting, $L = 8$ exactly) unchanged — the sweep-pair
-   census (R29) plus the floor (R30) still frame it.
-
-### Summary of round R32
-
-| Item | Status |
-|------|--------|
-| `sup1_iadj` Part 1 (cover structure at $I$-adjacent edges) | **PROVED** + 1.03M-config CHECK (R32) |
-| `sup1_iadj` Part 2 probe (I-adjacent min-gap rule) | **unfalsified**, 92/92 across 2 seeds (R32) |
-| Far-boundary-edge necessity | **never observed** (0 trees) (R32) |
-| $\forall$-pair rule / $\forall$-pair SUP-1 / max-$k_{12}$ | **all falsified** (0/37, 0/37, 10/37) (R32) |
-| SUP-1 analytic proof (selection + existence) | open (R33+ target) |
-
-## Section 73 — R33: SUP-1 FALSIFIED — a pair-residual tree with no k'=1 supply at all; program forks (session s_0810-081024-1a40)
-
-### The counterexample (new lemma `sup1_dead_tree`, PROVED)
-
-The R32 handoff's census move (tabulate min-gap covers at $I$-adjacent
-edges) ran on fresh seeds and, at seed 77003, surfaced a residual tree
-whose (pair $\times$ $I$-adjacent edge) candidate set contains no
-$k'=1$-with-parity min-gap cover. Widening the scan on that graph found
-DFS trees with **no SUP-1 witness of any kind**: a 14-vertex cubic
-graph $G_0$ with a pinned normal spanning tree $T_0$ (depth-13,
-fundamental cycle lengths $[3,6,6,6,3,14,6,6]$) that is pair-residual
-and — exhaustively over all 16 eligible pairs and all third back edges
-— admits NO cover with $k' = 1$, $\operatorname{gap}_3 \le k_{12}+1$,
-and $\operatorname{gap}_3 \equiv |D|+1 \bmod 2$.
-`lemma_sup1_dead_tree__0810-081024-1a40.md` pins the object with a
-fully deterministic CHECK (no sampling).
-
-Dead as universals over pair-residual trees, all at once:
-
-- **SUP-1** (`sup1_end_edge` core, "189/189" R31) — status: disproved.
-- End-edge refinement + min-gap selection rule (R31) — dead a fortiori.
-- **`sup1_iadj` Part 2** ($I$-adjacent supply, "92/92" R32) — status:
-  disproved. (Part 1's cover-structure geometry is untouched and
-  remains proved.)
-
-Rarity: 0/167 residuals on three fresh seeds (564k trees), ~1/250
-overall across five seeds — rare enough that four independent R31/R32
-censuses missed it, common enough that the analytic program would have
-died at the first serious attack on "existence".
-
-### Why the tree still fires: the $k'' \in \{2,4\}$ channels
-
-$T_0$ is **triple-alive**: six triples give 3-way sym-diffs that are
-single 8-cycles. Every one works through met-path sizes
-$|D \cap C_3| \in \{2, 4\}$ (two shapes: $|D|=6$, $k_{12}=3$,
-$\operatorname{gap}_3=5$, non-short, $k''=2$, $L = 6+6-4 = 8$; and
-$|D|=10$, $k_{12}=5$, $\operatorname{gap}_3=5$, short, $k''=4$,
-$L = 10+6-8 = 8$). The $k'=1$ paste class the program tuned since R23
-is provably insufficient; the triple mechanism as a whole is not.
-
-Also recorded: no $k$-subset of back edges with $k \in \{5,\dots,8\}$
-fires on $T_0$ (quads do), and $G_0$ has cycles of every length
-$3,5..14$ — the graph is no E-G counterexample; 976/1000 sampled DFS
-trees of $G_0$ are non-residual.
-
-### Salvage: the conditional selection rule (recorded, not committed)
-
-Before the counterexample surfaced, the census confirmed a clean
-arithmetic selection rule on SUP-1-**alive** trees: among all
-candidates (pair $|D| \ge 6$, $I$-adjacent edge) whose min-gap cover
-has $k'=1$ and correct parity, the minimum-$\operatorname{gap}_3$
-candidate is itself short — hence a witness — **123/123 trees across
-four seeds** (and "every min-achiever short" 121/123). If SUP-1
-returns in a per-graph form, this closes its selection half; parked
-until then.
-
-### The fork (R34+ decision)
-
-Two ways forward, not exclusive:
-
-1. **Widen tree-level supply to all met sizes**: conjecture
-   "every pair-residual normal spanning tree is triple-alive" (some
-   triple's sym-diff is a single po2 cycle). This is the honest,
-   mechanism-complete universal — it subsumes SUP-8 and absorbs the
-   $k''\ge 2$ channels the counterexample exposed. Cost: the clean
-   interval/tuning arithmetic of R23–R30 covered only $k'=1$ pastes;
-   $k'' \ge 2$ pastes need their own value formula
-   ($L = |D| + \operatorname{gap}_3 + 1 - 2k''$, single-cycle
-   conditions from `triple_sym_diff_structure`).
-2. **Move the quantifier to the graph**: "every cubic graph has SOME
-   normal spanning tree where a single/pair/triple mechanism fires."
-   Empirically overwhelming (976/1000 on $G_0$); analytically a
-   different game (choose the DFS, e.g. leaf-count or depth extremal
-   trees), closer to how the literature attacks E-G.
-
-Q9 (the SUP-1 analytic program) is resolved as **falsified-framing**;
-Q68 opens the fork with the triple-aliveness probe as the immediate
-dual-attack target.
-
-### Summary of round R33
-
-| Item | Status |
-|------|--------|
-| `sup1_dead_tree` (pinned counterexample) | **PROVED**, deterministic CHECK (R33) |
-| SUP-1 universal / end-edge / min-gap (R31) | **DISPROVED** (R33) |
-| `sup1_iadj` Part 2 ($I$-adjacent supply) | **DISPROVED** (R33) |
-| `sup1_iadj` Part 1 (cover geometry) | proved, unaffected |
-| Conditional selection rule (alive trees) | 123/123, parked (R33) |
-| Triple-aliveness universal (fork branch 1) | open — R34 probe target |
-| Graph-level quantification (fork branch 2) | open — fallback |
-
-## Section 74 — R34: Triple-aliveness — the mechanism-complete supply universal (session s_0810-081024-1a40)
-
-### New lemma `triple_alive_universal` (open, probe committed)
-
-Q68's fork branch 1 gets its dual-attack probe. **Claim**: every
-pair-residual normal spanning tree of a cubic graph is triple-alive —
-some 3-subset of back edges has a single-cycle power-of-2 sym-diff,
-with NO restriction on the met size $k'' = |D \cap C_3|$. The fired
-length through any pairing is $L = |D| + \operatorname{gap}_3 + 1 -
-2k''$.
-
-**Census: 176/176 residual trees across four seeds (571k trees).**
-The channel split is the analytically decisive datum:
-
-- mixed ($k''=1$ and $k'' \ge 2$ both fire): 151;
-- only $k''=1$: 13 — a $k'' \ge 2$-only rule dies here;
-- only $k'' \ge 2$: 12 — the SUP-1 class dies here (this bucket
-  contains `sup1_dead_tree`'s pinned anchor).
-
-So neither sub-channel suffices alone; the honest universal is the
-disjunction. All observed firings hit $L = 8$ exactly (never 4/16/32
-on a residual tree) — worth asserting or refuting at scale, since
-"$L = 8$ always available" would collapse SUP-8 into this claim.
-
-CHECK 1 (deterministic): the pinned SUP-1-dead tree is triple-alive
-with exactly six firing triples, all $L = 8$. CHECK 2 (probe, ~10s):
-125k trees / 32 residuals, all triple-alive, fixed seed; an assert
-failure prints (graph, root, parent array) ready for pinning.
-
-### R35+ plan
-
-1. Joint $(|D|, \operatorname{gap}_3, k'', L)$ census of firing
-   triples on residual trees: which arithmetic identities pin $L = 8$;
-   how often the firing pairing straddles vs pastes
-   (`pasting_cover_dichotomy`'s two branches).
-2. Build the $k'' \ge 2$ value theory: for straddling covers, the met
-   set spans two segments — derive the analogue of the
-   `shortpaste_floor_line` interval for $k'' \ge 2$ and check whether
-   the two channels' value sets always jointly cover 8.
-3. If the probe survives R35's wider sweep, promote triple-aliveness
-   to the program's headline supply conjecture and retire SUP-8 as a
-   separate target.
-
-### Summary of round R34
-
-| Item | Status |
-|------|--------|
-| `triple_alive_universal` probe (4 seeds, 571k trees, 176 residuals) | **unfalsified, non-vacuous** (R34) |
-| Channel split (13 only-$k''{=}1$ / 12 only-$k''{\ge}2$ / 151 mixed) | measured (R34) |
-| All residual-tree firings at $L = 8$ | observed, unasserted (R35 target) |
-| $k'' \ge 2$ value theory | open (R35+ target) |
-
-## Section 75 — R35: L=8 exactness FALSIFIED; census confirms triple-aliveness at 641/641 and the arc bound (session s_0811-081051-a768)
-
-### New proved lemma: `l8_exactness_dead` (pinned counterexample)
-
-R34's open question 1 ("all residual-tree firings are $L = 8$
-exactly") is settled negatively, cheaply, and deterministically. A
-randomized sweep at $n = 12$ (seed 99001) surfaced, and the lemma's
-CHECK exhaustively verifies, a 12-vertex cubic graph with a
-pair-residual normal tree (root 10) whose 7 firing triples split
-$\{L{=}4: 1,\; L{=}8: 6\}$. The fired 4-cycle
-$(1,2),(2,10),(4,10),(1,4)$ is an ordinary $C_4$ of the graph that is
-invisible to every fundamental cycle and every pair sym-diff —
-detecting an *existing* power-of-2 cycle can genuinely require triple
-depth. The exactness observation was a census-window artifact (and in
-hindsight sat in tension with R18's older census, which had already
-recorded $C_4$ 39x / $C_{16}$ 1x among 738 firings under the earlier
-residual pipeline).
-
-### R35 census (five seeds + smoke, 1,605,440 trees, 465 residuals)
-
-- **Triple-aliveness: 465/465** (0 dead trees; cumulative with R34:
-  **641/641**). The universal survives a 2.8x larger sweep.
-- **Firing histogram** (3,268 firing triples): $L=8$ 3,017 (92.3%),
-  $L=16$ 199 (6.1%), $L=4$ 52 (1.6%).
-- **Per-tree firing-length sets** (295 tracked residuals): $\{8\}$
-  225x, $\{4,8\}$ 31x, $\{8,16\}$ 36x, $\{4,8,16\}$ 3x — **8 present
-  295/295**. The per-tree refinement "every pair-residual tree has
-  some $L = 8$ firing" (per-tree SUP-8) is unfalsified and becomes
-  R36's probe lemma.
-- **Pairing frame loses no generality**: every firing triple (3,268)
-  had $\ge 1$ pairing with $D$ a single cycle.
-- **Arc bound observed unconditionally**: over 8,307 usable pairings,
-  $D \cap C_3$ always had $\le 2$ arcs — the paste/straddle dichotomy
-  (`pasting_cover_dichotomy`, proved for overlapping pairs) held in
-  every observed configuration; $k''=1$ was always 1-arc (1,693/1,693,
-  consistent with `pasting_vertex_automatic`); $k'' \ge 2$ split 4,843
-  paste / 1,771 straddle.
-- **Identity exact**: $L = |D| + \operatorname{gap}_3 + 1 - 2k''$ held
-  in all 8,307 pairings ($k''$ up to 16, $|D|$ up to 22).
-- **No channel is length-pure**: $L=8$ arises via $k''=1$ (1,497) and
-  $k'' \ge 2$ (6,175); so do $L=4$ (13/112) and $L=16$ (183/327). A
-  value theory cannot pin length from the channel alone.
-- Caveat: per-tree channel classification (this sweep: 441 mixed, 24
-  only-$k'' \ge 2$, 0 only-$k''=1$) used ALL usable pairings per
-  firing triple; R34's 13/176 only-$k''=1$ bucket likely classified
-  per-triple minima — the definitions differ, so the two splits are
-  not directly comparable. Both agree on the load-bearing fact: each
-  channel alone is insufficient.
-
-### Program shape after R35
-
-1. `triple_alive_universal` stays the headline supply conjecture, with
-   the full power-of-2 disjunction (no L=8 collapse).
-2. **R36**: split off per-tree SUP-8 as its own probe lemma
-   (`sup8_tree_universal`): every pair-residual tree has some firing
-   triple at $L = 8$ exactly. If it survives, the value theory only
-   has to produce 8 (not any po2); if it dies, the pinned tree will
-   show which lengths must be produced instead.
-3. The $k'' \ge 2$ value theory (straddle analogue of
-   `shortpaste_floor_line`) remains the analytic core: straddle
-   produced 1,771/8,307 firing pairings, and 24 trees fire ONLY via
-   $k'' \ge 2$.
-
-### Summary of round R35
-
-| Item | Status |
-|------|--------|
-| `l8_exactness_dead` (pinned 12-vertex counterexample) | **proved** (R35) |
-| Triple-aliveness at scale (465/465; cumulative 641/641) | **unfalsified** (R35) |
-| Per-tree "8 always available" (295/295) | observed, probe at R36 |
-| Arc bound $\le 2$ / identity exact (8,307 pairings) | **verified** (R35) |
-| $k'' \ge 2$ straddle value theory | open (R36+ target) |
-
-## Section 76 — R36: per-tree SUP-8 split off as `sup8_tree_universal` (session s_0811-081051-a768)
-
-### New lemma `sup8_tree_universal` (open, probe committed)
-
-R35's fork is made precise. `l8_exactness_dead` killed the per-firing
-form of "the triple mechanism produces 8"; the strongest surviving
-8-specific statement is per-tree:
-
-**Claim**: every pair-residual normal spanning tree of a connected
-cubic graph has some firing triple at $L = 8$ **exactly**.
-
-Evidence: 295/295 tracked residual trees at R35 (length-set table in
-the lemma), 176/176 at R34 (all observed firings there were 8), and
-both deterministic pinned anchors (`sup1_dead_tree` 6/6 at 8;
-`l8_exactness_dead` 6/7 at 8, including the tree that also fires a 4).
-Cumulative: 471/471 across ten seeds.
-
-CHECK 1 anchors on the `l8_exactness_dead` pin — the tree that DOES
-fire at 4 still has six $L = 8$ triples, so the pin that killed
-exactness complies with the per-tree form. CHECK 2 is a fresh-seed
-(20260811) 125k-tree probe requiring an $L = 8$ firing on every
-residual tree (39 residuals, non-vacuous, ~10s), printing (graph,
-root, parent array) on any falsifier for immediate pinning.
-
-### Why this split matters for the value theory
-
-- If `sup8_tree_universal` holds, the $k'' \ge 2$ straddle value
-  theory only has to show 8 is attainable — one target length, and the
-  R23 tuning reduction (Section 48) becomes unconditional.
-- If it dies, the pinned falsifier will be a residual tree served ONLY
-  by $L \in \{4, 16, 32\}$ — the first hard evidence that the supply
-  argument must genuinely track all four lengths, and
-  `triple_alive_universal` (the disjunction) remains the honest
-  headline.
-- Either way `triple_alive_universal` is untouched: sup8 is strictly
-  stronger, and its failure does not propagate down.
-
-### Summary of round R36
-
-| Item | Status |
-|------|--------|
-| `sup8_tree_universal` lemma + 2 CHECKs (anchor + fresh-seed probe) | **committed, open** (R36) |
-| Per-tree SUP-8 evidence base | 471/471 across ten seeds (R34+R35) |
-| Next: $k'' \ge 2$ straddle value theory targeting 8 | open (R37+) |
-
-## Section 77 — R37: Straddle value theory PROVED — both channels now exact lines (session s_0812-081033-f881)
-
-### New proved lemma: `straddle_floor_line`
-
-The $k'' \ge 2$ straddle analogue of `shortpaste_floor_line` (the open
-core item 1 from R36) is closed in one round, and it is *exact*, not
-just a floor. For a straddling cover of pair $(B_1, B_2)$ met on leg
-$L_i$ (unmet leg $L_j$), define $w = \operatorname{lca}(s_3, s_i)$,
-$y = d(a_{\mathrm{deep}}) - d(a_3)$, and four nonnegative **slacks**
-$\alpha_A = |A| - k_A$, $\beta_A = y - k_A$,
-$\alpha_L = |L_i| - k_L = d(s_i) - d(w)$,
-$\beta_L = d(s_3) - d(w)$. Then (all proved, elementary interval
-combinatorics on tree chains):
-
-1. **Arc dichotomy**: $D \cap C_3$ has exactly as many arcs as
-   segments met, $\le 2$ — R35's observed 8,307/8,307 arc bound is now
-   a THEOREM; $k'' = k_A + k_L$ in the straddle case.
-2. **Exact formula**:
-   $\tilde L = |D \oplus C_3| = k_{12} + 3 + |L_j| + \alpha_A +
-   \beta_A + \alpha_L + \beta_L$.
-3. **Coupling**: $\alpha_A \cdot \beta_A = 0$.
-4. **Floor**: $\tilde L \ge k_{12} + 3 + |L_j| \ge 4$; $\tilde L = 4$
-   forces the rigid zero-slack $(k_{12}, |L_j|) = (1, 0)$ config.
-5. **8-line**: $\tilde L = 8 \iff k_{12} + |L_j| + \Sigma = 5$; hence
-   straddle-8 needs $k_{12} \le 5$ and $|L_j| \le 4$.
-
-Worked anchor (n=10, root 1, $B_1 = (2,1)$, $B_2 = (0,3)$,
-$B_3 = (7,8)$; deterministically re-verified in the lemma's CHECK 1):
-$k_{12} = 1$, $|L_j| = |L_1| = 1$, slacks $(2, 0, 1, 0)$, so
-$\tilde L = 1 + 3 + 1 + 2 + 0 + 1 + 0 = 8$; identity cross-check
-$|D| = 10$, $g_3 = 5$, $k'' = 4$: $10 + 5 + 1 - 8 = 8$. The
-floor-tight anchor (n=10, root 4) has all slacks 0, $k_{12} = 1$,
-$|L_j| = 0$: $\tilde L = 4 = 10 + 9 + 1 - 16$.
-
-Scratch sweep (seed 20260812, $n \in \{10..18\}$): 94,940 straddles,
-formula exact on ALL; 53,336 fired, $\tilde L$-histogram min 4
-(105 rigid $L{=}4$s), 6,331 fired straddle-8s. CHECK 2 (seed
-20260812+37, ~1s) asserts claims 1–5 on every straddle config:
-23,514 straddles, 1,918 fired 8s, 29 floor-tight 4s, zero violations.
-
-### Program shape after R37
-
-- **The value side of the whole program is DONE.** Every usable
-  pairing is paste (1 arc: `shortpaste_floor_line`, exact line
-  $g_3 = 2k' + 7 - |D|$) or straddle (2 arcs: exact line
-  $k_{12} + |L_j| + \Sigma = 5$) — no third channel, by claim 1.
-- **`sup8_tree_universal` is now supply + firing only**: every
-  pair-residual tree needs SOME pair + cover ON one of the two
-  8-lines with $D \oplus C_3$ a single cycle. The remaining
-  difficulty is existential (supply) and topological (firing =
-  single-cycle-ness), not arithmetic.
-- Cheap screen for the supply hunt: straddle-8 hosts need
-  $k_{12} \le 5$, $|L_j| \le 4$; the observed straddle-8s are
-  dominated by $|L_j| = 0$ (ancestor-type pairs — one sender on the
-  other's root-chain).
-
-### Summary of round R37
-
-| Item | Status |
-|------|--------|
-| `straddle_floor_line` (formula + coupling + floor + 8-line) | **proved** (R37) |
-| Arc bound $\le 2$ (R35: observed) | **upgraded to theorem** (R37) |
-| Value theory, both channels | **complete** (R30 + R37) |
-| Next: supply + firing for the two 8-lines on residual trees | open (R38+) |
+## Sections 65–77 — R25–R37 mechanism-and-value digest (condensed 2026-08-18, session s_0818-081353-a397; full narratives archived in strategies/erdos_gyarfas/ under sessions s_0806-081011-9409 through s_0812-081033-f881)
+
+The thirteen rounds R25–R37 built the complete value theory of the
+pasting/straddle mechanism and watched its supply refinements die one
+by one. What survives, and the deaths that shaped the program:
+
+**PROVED (all still standing, length-agnostic where noted):**
+
+- `pasting_vertex_automatic` (R25): in a subcubic graph two cycles
+  through a common vertex share an edge there; hence $D \cap C_3$ is a
+  single path iff exactly one of $P_3 \cap A$, $P_3 \cap L_1$,
+  $P_3 \cap L_2$ is edge-nonempty, and $k'$ = that interval's length.
+  Sharp at degree 3; min-degree-3 non-cubic NOT covered (gap list §29).
+- `pasting_cover_dichotomy` (R26): any cover pastes (meets one
+  segment; single-path meet) or straddles ($P_3$ meets $A$ and one leg,
+  $I \subseteq P_3$, $\operatorname{gap}_3 \ge k_{12}+2$). Short
+  criterion: $\operatorname{gap}_3 \le k_{12}+1$ forces paste.
+- `shortpaste_floor_line` (R30): parity ($L$ even $\Rightarrow g_3
+  \equiv |D|+1 \bmod 2$); overlap ($g_3 \ge \max(k',2)$); floor
+  (even-$L$ short pastes with $k' \le |D|-6$ have $L \ge 8$); line
+  ($L = 8 \iff g_3 = 2k'+7-|D|$).
+- `sup1_iadj` Part 1 (R32): short covers through $I$-adjacent edges
+  anchor inside the $I$-window; $k'=1$ iff local divergence at
+  $c_i$ / $a_{\mathrm{deep}}$. (Part 2, the supply claim, died at R33.)
+- `l8_exactness_dead` (R35): pinned 12-vertex residual tree firing at
+  $L = 4$ — detecting an existing PO2 cycle can require triple depth;
+  no length-purity for the triple mechanism.
+- `straddle_floor_line` (R37): straddle values are EXACT —
+  $\tilde L = k_{12} + 3 + |L_j| + \Sigma$ (four slacks, coupling
+  $\alpha_A \beta_A = 0$), floor $\tilde L \ge 4$, 8-line
+  $k_{12} + |L_j| + \Sigma = 5$; arc bound $\le 2$ upgraded from
+  census to theorem. **The value side of the program is complete**:
+  every usable pairing is paste (exact line, R30) or straddle (exact
+  line, R37).
+
+**DIED (chronologically — each killed a live analytic program):**
+
+- Per-pair meeting existence (R26 census: ~16% of pairs have no
+  even-gap pasting cover) — tuning went per-tree.
+- Tree-level even-interval sweeps, descent, and every greedy pair
+  selection rule (R29): the union value set $S(T)$ has gaps; only the
+  per-pair probe `sweep_pair_exists` survived that round.
+- **SUP-1** — "every residual tree has a $|D| \ge 6$ pair with a
+  $k'=1$ short parity-correct cover" — R31 census 189/189, end-edge
+  and min-gap refinements 126/126, THEN R33: `sup1_dead_tree`, a
+  pinned 14-vertex tree with NO SUP-1 witness of any kind
+  (exhaustive), killing `sup1_end_edge` and `sup1_iadj` Part 2 in one
+  stroke. The tree still fires 6 triples, all $L=8$, all through
+  $k'' \in \{2,4\}$ — the fork that birthed `triple_alive_universal`
+  (R34): every pair-residual tree is triple-alive (some 3-subset
+  sym-diff is a single PO2 cycle, no met-size restriction). Census
+  R34+R35: 641/641 residual trees across 2.2M sampled DFS trees;
+  per-tree firing-length sets had 8 present 295/295, which split off
+  `sup8_tree_universal` (R36, per-tree $L=8$ exactly).
+- R28 `tune8_short_paste` (51/51) and R27 `t3_min_overlap_short_paste`
+  (62/62) — probe ancestors of the paste-8 lineage, superseded by the
+  R38+ splits and dead with them at R46.
+
+**Where it went next (Sections 78–86)**: R38 found the straddle channel
+never necessary (paste8_tree split); R39/R40 killed $O(1)$-locality;
+R41–R45 adversarial SA hardening + the 1-D chain census; R46 the
+census→SA killing field (paste8/sup8/value-interval/samebranch all
+dead, `paste8_projected_coords` proved, the complementary-falsifier
+pinch). Post-R47 hindsight: `triple_alive_universal` itself is now
+DISPROVED (§87) — the 641/641 census was the sixth and largest
+census-regularity to die to direct SA, and `l8_exactness_dead`'s moral
+("PO2 cycles can hide below any fixed sym-diff depth") was the right
+one all along.
 
 ## Section 78 — R38: Channel census — the straddle channel is never necessary; `paste8_tree_universal` split off (session s_0812-081033-f881)
 
@@ -2131,3 +1373,110 @@ close the gap between the two.
 | `pastePO2_samebranch_universal` | introduced + **DISPROVED** (`po2_falsifier_n18`, branched-only rescue) |
 | `triple_alive_universal` | **PINCHED as the exact terminal universal** (complementary falsifiers) |
 | Q74/Q75 resolved; Q76 opened | pastePO2_tree_universal SA-probe + pasting-exhaustiveness proof attempt |
+
+## Section 87 — R47: `triple_alive_universal` DISPROVED — the tree-level supply program terminates; the depth-4 frontier opens (session s_0818-081353-a397)
+
+### Housekeeping
+
+Sections 65–77 (R25–R37 narratives) condensed to a digest; the
+strategy dropped from ~114k to ~75k bytes (all full narratives remain
+archived under `strategies/erdos_gyarfas/`).
+
+### The round: SA-first on Q76, and the terminal universal dies
+
+Per Q76's mandatory SA-first discipline, the designated wide-class
+falsifier for `pastePO2_tree_universal` ($V(T) \cap \{4,8,16,32\}
+\ne \emptyset$ over ALL pair classes) ran BEFORE the lemma was
+introduced — energy $=$ (residuality violations, \#single-arc PO2
+pasting configs over all pairs with single-cycle $D$), sanity-locked
+on all R46 pins (reproducing `po2_falsifier_n18`'s $V \cap
+\mathrm{PO2} = \{8\}$ with exactly 2 branched configs and
+`sb_falsifier_n18`'s 8 configs all at $L = 16$). Seven runs (4
+track-(a), 3 exhaustiveness track-(b)), cold at $n \in \{18, 24\}$
+plus warm restarts from the R46 falsifiers.
+
+**Track (a) falsified within seconds — and the falsifiers are
+stronger than requested.** Five distinct pair-residual trees at
+$n = 18$ (three from track (a): cold seed 20260847, cold seed
+76100847, warm-from-`po2_falsifier_n18` seed 40470818; two more from
+track (b)'s side-detector: seeds 20260848, 40470819) each have **zero
+single-arc PO2 pasting configs of any pair class — because they have
+zero PO2 firing triples of any kind**. Every one falsifies not just
+`pastePO2_tree_universal` (dead BEFORE introduction, as designed) but
+**`triple_alive_universal` itself** — the R34 terminal universal that
+had survived 641/641 census residuals (2.2M sampled trees, R34+R35),
+261/261 adversarially hardened trees (R41–R42), and the entire R46
+killing field.
+
+**Independent confirmation (different code path, exhaustive).** Each
+falsifier was re-verified by a full cycle-space sweep: all $2^{10}-1$
+nonempty subsets of the 10 fundamental cycles — i.e. every even
+subgraph, hence a superset of EVERY simple cycle of the graph —
+enumerated with edge-index bitmasks and networkx single-cycle tests
+(graph simple/cubic/connected, tree spanning + normal re-derived from
+scratch). All five: pair-residual, triple-dead. Two pinned
+deterministically (CHECK 3 of the lemma file; primary =
+warm-start falsifier, secondary = cold falsifier, both $n = 18$,
+$m = 10$).
+
+### The depth spectrum — the R47 structural datum
+
+The sweep also computes, for each PO2 length, the minimum
+fundamental-cycle subset size realizing it as a single cycle. **All
+five falsifiers share the identical spectrum: $8 \mapsto 4$,
+$16 \mapsto 4$** (no PO2 at depths 1–3, both 8- and 16-cycles as
+4-subset sym-diffs, 16 persisting through depth $\ge 8$). None of the
+five graphs is PO2-cycle-free — the rescue moved EXACTLY one level up,
+to quadruples, in every case. Firing-quadruple counts: 10–12 per tree.
+
+### What R47 kills, precisely
+
+| Claim | Fate |
+|---|---|
+| `triple_alive_universal` (R34) | **DISPROVED** — 5 explicit $n=18$ falsifiers, 2 pinned + exhaustively confirmed |
+| `pastePO2_tree_universal` | **falsified BEFORE introduction** (SA-first discipline; same trees, a fortiori) |
+| pasting-exhaustiveness (Q76 track (b)) | **mooted at triple level** — its equivalence payload (`pastePO2_tree` $\equiv$ `triple_alive`) is now moot with both sides dead; SA evidence before the pivot: min factorizations per firing triple never observed below 2 |
+| The bounded-depth-3 certificate program (R23–R46) | **terminated** — no depth-$\le 3$ statement above the mechanism survives |
+
+Sixth (and decisive) census-regularity killed by direct SA. The
+standing policy gains its sharpest instance yet: 641/641 at random-DFS
+scale, 261/261 under adversarial hardening — and the falsifier class
+sits close enough to the R46 anti-PO2 walk that a warm start reached
+it in 4,114 iterations. `l8_exactness_dead` (R35) was the early
+warning: PO2 cycles can hide below any fixed sym-diff depth.
+
+### What survives
+
+1. The PROVED mechanism corpus — `pasting_vertex_automatic`,
+   `pasting_cover_dichotomy`, `shortpaste_floor_line`,
+   `straddle_floor_line`, `sup1_iadj` Part 1,
+   `paste8_projected_coords` — none of it quantified over trees; all
+   of it describes HOW a firing subset fires, at any depth.
+2. The falsifier corpus: 16 pinned counterexamples spanning every
+   layer of the dead hierarchy (SUP-1 → paste8 → PO2-set →
+   triple-alive).
+3. The reframed question (Q77): **depth escalation.** Define
+   $\mathrm{depth}(T) = \min\{|S| : S$ a back-edge subset with
+   single-PO2-cycle sym-diff$\}$. R47 shows $\mathrm{depth} = 4$ is
+   realized on pair-residual trees. Open: is depth bounded over ALL
+   normal spanning trees of cubic graphs (a bounded-depth certificate
+   would be a tree-level EGC proof), or can SA push it arbitrarily
+   high ($\Rightarrow$ the certificate program is hopeless and the
+   branch converges as negative knowledge)? The designated
+   quad-falsifier SA (energy: depth-$\le 3$ residuality, then \#firing
+   quadruples) is running as of this round's close; its outcome is
+   R48's first datum. Note the escalation is NOT free for the
+   adversary: killing quadruples adds $\binom{m}{4}$ constraints, and
+   both 8 and 16 must be expelled from a 210-subset layer.
+
+### Summary of round R47
+
+| Item | Status |
+|------|--------|
+| Strategy condensation (Sections 65–77 → digest) | DONE (114k → ~78k bytes) |
+| `pastePO2_tree_universal` designated SA falsifier | run FIRST, falsified before introduction (file created disproved, pinned) |
+| `triple_alive_universal` | **DISPROVED** — open → disproved, CHECK 3 pins 2 of 5 falsifiers, exhaustive independent confirmation |
+| Depth spectrum of all 5 falsifiers | uniform $\{8 \mapsto 4, 16 \mapsto 4\}$ — rescue at exactly depth 4 |
+| Pasting-exhaustiveness | deprioritized (payload moot); minnf $\ge 2$ observed while live |
+| Q76 | resolved; Q77 opened (depth-escalation program) |
+| Quad-falsifier SA (5 runs) | launched, running at close |

@@ -1,12 +1,45 @@
 ---
 id: triple_alive_universal
-status: open
+status: disproved
 depends_on: [sup1_dead_tree, triple_sym_diff_structure, shortpaste_floor_line]
-discharged_by_round: null
+discharged_by_round: 47
 introduced_at_round: 34
 ---
 
-# Lemma `triple_alive_universal` (conjecture + probe: every pair-residual tree fires via some triple, over ALL met-size channels)
+# Lemma `triple_alive_universal` (DISPROVED at R47 — pair-residual trees with NO firing triple exist)
+
+**DISPROOF (R47, session s_0818-081353-a397).** The designated SA
+falsifier for the successor candidate `pastePO2_tree_universal`
+(energy: residuality, then #single-arc PO2 pasting configs over ALL
+pair classes) produced five distinct pair-residual trees at $n = 18$
+with zero PO2 firing triples of ANY kind — falsifying this lemma, not
+just the successor. Two are pinned in CHECK 3 below:
+
+- **`ta_falsifier_warm_n18`** (warm start from `po2_falsifier_n18`,
+  seed 40470818, found at iteration 4,114) and
+  **`ta_falsifier_cold_n18`** (cold start, seed 20260847, iteration
+  2,369). Three further independent falsifiers (seeds 76100847,
+  20260848, 40470819) confirm the class is robustly reachable.
+
+Each was independently confirmed by an exhaustive cycle-space sweep
+(all $2^{10}-1$ subsets of the fundamental cycles = every even
+subgraph = superset of every simple cycle): pair-residual, triple-dead,
+and — the structural datum — **every falsifier has PO2 cycles at
+subset size exactly 4**, with identical depth spectrum
+$\{8 \mapsto 4, 16 \mapsto 4\}$ and 10–12 firing quadruples. The
+graphs are not EGC witnesses; the rescue moved exactly one level up.
+
+**Postmortem.** The claim survived 641/641 census residuals (2.2M
+sampled DFS trees, R34+R35), 261/261 adversarially hardened trees
+(R41–R42), and the R46 killing field — the sixth and largest
+census-regularity to die to direct SA. The falsifier class sits within
+a few edge swaps of `po2_falsifier_n18` (which had exactly ONE firing
+triple). `l8_exactness_dead` (R35) was the early warning: PO2 cycles
+can hide below any fixed sym-diff depth. Successor question: Q77
+(depth escalation — is $\min\{|S|: S$ fires$\}$ bounded over normal
+spanning trees of cubic graphs?).
+
+Original conjecture text follows (for the record).
 
 **Setting.** $T$ a normal (Trémaux) spanning tree of a connected cubic
 graph, back edges $B_1, \dots, B_m$ with fundamental cycles
@@ -304,7 +337,113 @@ print(f"trees={trees_seen} residual={residual} — every pair-residual tree "
       f"is triple-alive")
 CHECK -->
 
+
+<!-- CHECK
+# triple_alive_universal CHECK 3 (deterministic DISPROOF pins, R47):
+# two pair-residual trees with NO PO2 firing triple (exhaustive over
+# all fund cycles, pairs, triples), both rescued at subset size 4
+# (positive control: some 4-subset fires at 8 AND some at 16).
+PO2_LENS = {4, 8, 16, 32}
+
+def single_cycle_len(sym):
+    if not sym: return None
+    dg = {}
+    for u, v in sym: dg[u] = dg.get(u, 0) + 1; dg[v] = dg.get(v, 0) + 1
+    if any(d != 2 for d in dg.values()): return None
+    adjS = {}
+    for u, v in sym:
+        adjS.setdefault(u, []).append(v); adjS.setdefault(v, []).append(u)
+    st = next(iter(dg)); seen = {st}; stk = [st]
+    while stk:
+        u = stk.pop()
+        for w in adjS[u]:
+            if w not in seen: seen.add(w); stk.append(w)
+    return len(sym) if len(seen) == len(dg) else None
+
+FALSIFIERS = [
+    ('ta_falsifier_warm_n18', 18,
+     [(0, 7), (0, 9), (0, 16), (1, 2), (1, 15), (1, 17), (2, 8), (2, 13),
+      (3, 12), (3, 13), (3, 14), (4, 5), (4, 11), (4, 15), (5, 7), (5, 10),
+      (6, 9), (6, 10), (6, 11), (7, 16), (8, 11), (8, 12), (9, 10),
+      (12, 17), (13, 14), (14, 16), (15, 17)],
+     17, [7, 17, 13, 12, 15, 4, 9, 16, 11, 10, 5, 6, 8, 3, 13, 1, 14, -1]),
+    ('ta_falsifier_cold_n18', 18,
+     [(0, 3), (0, 9), (0, 13), (1, 7), (1, 8), (1, 11), (2, 9), (2, 10),
+      (2, 16), (3, 4), (3, 6), (4, 6), (4, 8), (5, 11), (5, 12), (5, 15),
+      (6, 12), (7, 10), (7, 17), (8, 15), (9, 13), (10, 17), (11, 16),
+      (12, 15), (13, 14), (14, 16), (14, 17)],
+     10, [9, 7, 9, 0, 6, 15, 3, 17, 4, 13, -1, 1, 5, 14, 16, 8, 11, 10]),
+]
+
+for name, nn, edges, root, par in FALSIFIERS:
+    edges = [tuple(sorted(e)) for e in edges]
+    assert len(set(edges)) == len(edges) and len(edges) == 27
+    deg = {}
+    for u, v in edges: deg[u] = deg.get(u, 0) + 1; deg[v] = deg.get(v, 0) + 1
+    assert all(deg.get(v) == 3 for v in range(nn)), f"{name}: not cubic"
+    depth = [-1] * nn; depth[root] = 0
+    pending = [v for v in range(nn) if v != root]
+    while pending:
+        nxt = []
+        for v in pending:
+            if depth[par[v]] >= 0: depth[v] = depth[par[v]] + 1
+            else: nxt.append(v)
+        assert len(nxt) < len(pending), f"{name}: par not a tree"
+        pending = nxt
+    tre = {(min(v, par[v]), max(v, par[v])) for v in range(nn) if v != root}
+    assert tre <= set(edges), f"{name}: tree edge not in graph"
+
+    def is_anc(u, v):
+        if depth[u] > depth[v]: return False
+        x = v
+        while depth[x] > depth[u]: x = par[x]
+        return x == u
+
+    fc = []
+    for e in edges:
+        if e in tre: continue
+        u, v = e
+        a, b = (u, v) if depth[u] <= depth[v] else (v, u)
+        assert is_anc(a, b), f"{name}: non-ancestral back edge {e}"
+        es = set(); x = b
+        while x != a:
+            p = par[x]; es.add((min(x, p), max(x, p))); x = p
+        es.add(e)
+        fc.append(es)
+    m = len(fc)
+    assert m == 10, f"{name}: expected 10 back edges, got {m}"
+    assert all(len(c) not in PO2_LENS for c in fc), f"{name}: fund cycle fires"
+    for i in range(m):
+        for j in range(i + 1, m):
+            assert single_cycle_len(fc[i] ^ fc[j]) not in PO2_LENS, \
+                f"{name}: pair ({i},{j}) fires"
+    for i in range(m):
+        for j in range(i + 1, m):
+            for k in range(j + 1, m):
+                L = single_cycle_len(fc[i] ^ fc[j] ^ fc[k])
+                assert L not in PO2_LENS, \
+                    f"{name}: triple ({i},{j},{k}) fires at {L} — NOT a falsifier"
+    quad_lens = set()
+    from itertools import combinations
+    for sub in combinations(range(m), 4):
+        acc = set()
+        for i in sub: acc ^= fc[i]
+        L = single_cycle_len(acc)
+        if L in PO2_LENS: quad_lens.add(L)
+    assert quad_lens == {8, 16}, \
+        f"{name}: depth-4 rescue spectrum {sorted(quad_lens)} != [8, 16]"
+    print(f"{name}: pair-residual, TRIPLE-DEAD (exhaustive), "
+          f"depth-4 rescue at lengths {sorted(quad_lens)}")
+
+print("triple_alive_universal DISPROVED: both pinned trees verified")
+CHECK -->
+
 ## Summary
+
+**DISPROVED at R47** (CHECK 3: two pinned pair-residual triple-dead
+$n = 18$ trees, exhaustively verified, rescued at subset size 4 with
+identical spectrum $\{8, 16\}$; five falsifiers found in total).
+Historical record of the conjecture and its evidence base follows.
 
 The post-SUP-1 supply universal: every pair-residual normal spanning
 tree of a cubic graph admits SOME triple of back edges whose 3-way
