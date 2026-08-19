@@ -1,99 +1,83 @@
-# Session handoff (session s_0818-081353-a397)
+# Session handoff (session s_0819-080840-a647)
 
-**Stop reason**: Logical milestone — the densest session of the branch:
-TWO kept rounds (R47, R48), both partial_result with 0 blocking.
+**Stop reason**: Logical milestone — two kept rounds (R49, R50), both
+partial_result with 0 blocking.
 
-**What happened (R47)**:
+**What happened (R49)**:
 
-1. Q76's SA-first discipline executed: the designated falsifier for
-   `pastePO2_tree_universal` (energy: residuality, then #single-arc
-   PO2 pasting configs over ALL pair classes) killed it BEFORE
-   introduction — and the falsifiers overshot: five distinct
-   pair-residual $n = 18$ trees with ZERO PO2 firing triples of any
-   kind. **`triple_alive_universal` is DISPROVED** (641/641 census +
-   261/261 adversarial hardening overturned — sixth and decisive
-   census-regularity killed by direct SA). Two pins in its CHECK 3;
-   each independently confirmed by exhaustive cycle-space sweep (all
-   $2^{10}-1$ subsets = every simple cycle of the graph).
-2. All five falsifiers share depth spectrum $\{8 \mapsto 4, 16
-   \mapsto 4\}$ — the rescue moved EXACTLY one level up. None of the
-   graphs is an EGC witness.
-3. `lemma_pastePO2_tree_universal__0818-081353-a397.md` created
-   (status disproved, direct exhaustive CHECK). Sections 65–77
-   condensed (114k → ~78k bytes). Record:
-   records/proof_erdos_gyarfas_3effc6a29552_c3a49a7.json.
+1. The R48 reachability flank CLOSED. Harness reconstructed from lemma
+   CHECK blocks (sanity-locked on all three R47 pins). Growth-children
+   census (351 children/pin, ranked by (residuality, viol3)) + warm SA
+   entered the triple-dead pair-residual class at n=20: 49 states on 8
+   graphs, via TWO routes (warm growth from ta_warm child (14,18);
+   cold SA direct). Second-generation growth reached n=22 (1 state).
+   Every hit verified by exhaustive 2^m-1 cycle-space sweep.
+2. quad_alive_universal SURVIVES at n=20/22. Depth spectrum uniformly
+   {8:4, 16:4}. KILLED at n=20: per-back-edge participation floor
+   (min participation 0 occurs — pinned) and "min nquad exactly m".
+   Consequence: any supply mechanism must be GLOBAL (C(m,4) layer).
+3. CHECK 3 added to lemma_quad_alive_universal (pins at n=20 x3 incl.
+   minpart=0, n=22). Record: proof_erdos_gyarfas_412b12fa6997_75b8adc.
 
-**What happened (R48)**:
+**What happened (R50)**:
 
-1. `quad_alive_universal` introduced (open): every triple-dead
-   pair-residual tree fires a quadruple. Designated falsifiers ran
-   SAME ROUND: basin-constrained SA (R47, 1.8M proposals — class
-   brittle, 0.03% move survival) + class-preserving beam search
-   (2 seeds, ~1M evals, dozens of distinct class states) + 20k-DFS
-   census per falsifier graph (52 triple-dead trees found).
-   **Every observed triple-dead state (~530) is quad-alive with
-   nquad ≥ m = 10, min attained exactly** — every back edge in ≥ 2
-   firing quads on the pins. nquad ≥ m recorded as census
-   observation only (n = 18). Record:
-   records/proof_erdos_gyarfas_7886d45adf77_aab3cb4.json.
-2. THE OPEN FLANK: the triple-dead class is UNREACHED at any
-   $n \ne 18$. Cold SA fails to enter it even at 18 (warm/census
-   routes only); growth moves ($n \to n+2$ double-subdivision+join)
-   always revived a PO2 pair/triple.
+1. Growth ladder reached n=24 (2 states, 2 graphs, m=13): quad-alive
+   (nquad 20, 33), spectrum {8:4,16:4}, exhaustively verified;
+   minpart=0 recurs (qa_grow_n24 pinned in CHECK 3).
+2. RETRACTED (as the R49 falsify critic demanded): "widening nquad
+   floor" — floors are 10,15,41,20 vs m=10..13; n=22's 41 was a
+   single sample. Surviving observation: nquad >= m at 4 scales.
+3. Negative reachability data: n=22 resists widening (714k iters, 0
+   new states on its graph; 3376 growth children of the other 7 n=20
+   graphs produced none); cold SA fails at 22 (as at 16) — only the
+   one cold-n=20 lineage climbs. Record:
+   proof_erdos_gyarfas_4255412e47c1_342f4c9.
 
-**qid state**: Q76 resolved. Q77 (depth escalation) opened and
-CLAIMED by this session with R48 partial progress — next session
-re-claims it.
+**qid state**: Q77 remains CLAIMED by this session with R49+R50
+progress rows — next session re-claims it.
 
-**Suggested next moves (R49+)**:
-1. Reach the triple-dead class at $n \in \{16, 20, 22\}$: warm-start
-   from beam states whose growth children have viol3 = 1 (nearly
-   dead), or bias the SA energy by which subset layer the violation
-   lives in. A quad falsifier at larger $n$ (depth 5) would tilt the
-   program toward unbounded-depth ⇒ convergence-as-negative-result.
-2. Attack nquad ≥ m analytically: per-back-edge participation ≥ 2
-   suggests each $B_i$ contributes a forced family of firing
-   quadruples under depth-≤3 deadness. A proof would give
-   quad_alive_universal with a margin at n = 18 scale — but beware:
-   this is EXACTLY the shape of claim the branch has now killed six
-   times; SA-first at other scales BEFORE any proof effort.
-3. Q77 handle (c): graph-level quantifier (R33 fork branch 2) is
-   cheap and untouched — 99.9%+ of DFS trees of every falsifier
-   graph are non-residual.
-4. Consider /erdos-proof-ideation with the depth-escalation pinch as
-   framing if the class-reachability problem stalls.
+**Suggested next moves (R51+)**:
+1. n=26 rung from the two n=24 graphs; diversify the ladder from all
+   8 n=20 graphs with longer SA budgets (only one lineage climbs).
+   Watch for any quad-dead state (depth-5 escalation) — none in ~580
+   states so far.
+2. n=14 emptiness: SAT/exhaustive treatment (m=8). SA absence is not
+   evidence; the falsify critic explicitly asked for this.
+3. Formulate ONE killable probe lemma for the global counting hunch
+   (e.g. "nquad >= m at every triple-dead state at n=26") instead of
+   a program — strategy critic's ask.
+4. Strategy-level (consider /erdos-proof-ideation): engage F2
+   (induced-P10 must exist in any counterexample — unused in 50
+   rounds) or document why it's set aside; pre-commit an exit
+   criterion for the depth-escalation program (strategy critic asks
+   for convergence-as-negative-knowledge at a stated round budget).
 
 **CRITIC INFRA (standing list, updated)**:
-- Prewarm internal AND falsify AND **strategy** (timeout_s=900,
-  NODE_EXTRA_CA_CERTS=/root/.ccr/ca-bundle.crt) — strategy critic
-  fast-failed (exit 1, ~2-4s, empty stderr) TWICE this session and
-  succeeded on plain retry; treat exit-1-fast as transient and retry
-  up to 3x.
-- Pre-evaluate falsify + numerical checks from the cache BEFORE
-  proof_prepare. THREE false-BLOCKING traps this session: (a)
-  numerical critic used `sorted` (not in sandbox — header now lists
-  the exact name roster); (b) falsify invented its own
-  (A,E,pi,off,k') tuple and mis-summed it; (c) falsify dropped the
-  +1 term hand-substituting L = |D|+g3+1-2k'. Fixes: header items
-  (7)+(8), and Section 86's worked instances are now FULLY
-  substituted strings critics can copy verbatim. Iterate
-  edit→prewarm→pre-check until 0 blocking-equivalent, THEN
-  proof_prepare.
-- proof_results.tsv container-local; R-numbering by hand (next: R49).
-- Worktree: worktrees/0730-080656-0fbf on branch
-  erdos-proof/0730-080656-0fbf; scratchpad harnesses r47_sa.py
-  (tracks a/b/q energies), r48_beam.py, r48_treecensus.py,
-  r47_verify.py (networkx cycle-space sweep) are container-local —
+- Prewarm ALL critics via scratchpad prewarm.py pattern (renders
+  prompts via proof_prepare._render_critic_prompt, calls
+  library._critic_subprocess.call_critic(prompt, critic_name=...,
+  timeout_s=900), NODE_EXTRA_CA_CERTS=/root/.ccr/ca-bundle.crt),
+  pre-evaluate findings, THEN proof_prepare (cache replays). This
+  session: 0 blocking on both rounds, first try.
+- TRAP fixed this session: background/foreground shells can reset cwd
+  to the REPO ROOT, whose proof_strategy.md is a stale main-branch
+  copy — one prewarm ran against it and produced phantom findings
+  (Sections 41-57 contradictions that do not exist in the worktree
+  file). ALWAYS chdir to the worktree INSIDE the script (os.chdir)
+  before rendering prompts; verify with `wc -l proof_strategy.md`
+  (worktree ~1.8k lines vs root >6k).
+- proof_notes.py needs PROOF_TAG in the SAME command line (env does
+  not persist across Bash calls); one R50 note initially landed in
+  proof_notes_primitive_set_erdos.md and was cleaned up.
+- proof_results.tsv container-local; R-numbering by hand (next: R51).
+- Worktree worktrees/0730-080656-0fbf; scratchpad harnesses
+  r49_reach.py (bitmask fc/energy/SA/growth, sanity-locked on pins),
+  r49_phaseD.py, r50_scale.py, r49_hits.jsonl (all 52 verified class
+  states with graphs/trees/quad data) are container-local —
   reconstruct from lemma CHECKs if lost.
 
 **Files modified this session**:
-- proof_strategy.md (Sections 65–77 digest; Sections 87, 88; critic
-  header items 7–8; fully substituted worked instances)
-- proof_lemmas/lemma_triple_alive_universal__0810-081024-1a40.md
-  (open → disproved, CHECK 3 pins)
-- proof_lemmas/lemma_pastePO2_tree_universal__0818-081353-a397.md
-  (NEW, disproved at introduction)
+- proof_strategy.md (Sections 89, 90)
 - proof_lemmas/lemma_quad_alive_universal__0818-081353-a397.md
-  (NEW, open, 2 CHECKs)
-- records/ (2 new partial-result records), ledger, queue, journal,
-  notes
+  (R49/R50 evidence paragraphs; CHECK 3 with 5 pins at n=20/22/24)
+- records/ (2 new partial-result records), queue, journal, notes
