@@ -1689,3 +1689,82 @@ triple-deadness re-derived inside the CHECK).
 | "min nquad exactly $m$" | **DEAD at $n = 20$** (min 15 > 11) |
 | Depth spectrum | uniform $\{8 \mapsto 4, 16 \mapsto 4\}$ across all ~580 class states, all scales |
 | $n = 16$ | unreached — emptiness below 18 is a new open question |
+
+## Section 90 — R50: The growth ladder reaches $n = 24$; the "widening floor" retracted as a one-sample artifact; cold reachability is scale-spotty (session s_0819-080840-a647)
+
+### The round
+
+R50 acted on the two sharpest R49-critic cautions (the falsify pass
+flagged the $n = 22$ single-sample trend risk explicitly) and on the
+R49 open flank: widen the $n = 22$ sample, push the growth ladder to
+$n = 24$, and re-test cold reachability at 22.
+
+1. **$n = 24$ REACHED — fourth scale.** Growth children of the
+   $n = 22$ state (514 candidates censused), warm SA on the four
+   best: **2 triple-dead pair-residual states on 2 distinct cubic
+   graphs at $n = 24$** ($m = 13$). Both quad-alive — nquad 20 and
+   33, both $\ge m$ — both with depth spectrum $\{8 \mapsto 4, 16
+   \mapsto 4\}$, both verified by the exhaustive $2^{13} - 1$
+   cycle-space sweep. Min participation 0 recurs (the nquad = 20
+   state has a quad-idle back edge — pinned as `qa_grow_n24` in
+   CHECK 3). `quad_alive_universal` survives at every scale ever
+   reached: 18, 20, 22, 24.
+2. **The "widening floor" claim is RETRACTED** (as the R49 falsify
+   critic demanded): the observed floors are 10, 15, 41, 20 at
+   $n = 18, 20, 22, 24$ vs $m = 10, 11, 12, 13$. The $n = 22$ value
+   41 was a single-sample artifact — $n = 24$'s minimum of 20 breaks
+   any monotone-widening reading. What survives is exactly
+   **nquad $\ge m$ at four scales, minimum attained only at
+   $n = 18$**. No trend language beyond that.
+3. **$n = 22$ resists widening.** 714k further warm-SA iterations on
+   the known $n = 22$ graph: zero additional class states (the class
+   there may be near-unique per graph). Growth children of the other
+   seven $n = 20$ graphs (3,376 censused): none entered the class at
+   $n = 22$ within budget — only the original cold-route graph's
+   lineage has produced $n = 22$/$n = 24$ states so far.
+4. **Cold SA fails at $n = 22$** (2 seeds, 1.2M iterations, best
+   energy 2), exactly as at $n = 16$. Cold entry works at 18 and 20
+   only. Reachability is scale-spotty; the double-subdivision+join
+   ladder is the reliable route upward — consistent with the class
+   being thin and clustered around grown lineages.
+
+### Reading
+
+The depth-4 frontier now holds at four scales with ~580 observed
+class states and zero quad-dead states. Depth-spectrum uniformity
+($\{8, 16\}$ at subset size exactly 4, 32 never at the minimum even
+where it fits) is the strongest standing regularity. The analytic
+question stays as R49 posed it — WHY can the $\binom{m}{4}$ layer
+never be emptied once $\binom{m}{\le 3}$ is — with the added datum
+that the mechanism must tolerate quad-idle back edges (so it cannot
+be a per-edge forcing) and must not depend on $n$ (four scales now).
+The escalation alternative (depth 5 realized somewhere) has survived
+zero of four scales' falsifier campaigns — but the campaigns are
+SA/growth-based and the class is demonstrably thin; absence of a
+quad-dead state at unreachable scales is weak evidence.
+
+### Open flank for R51+
+
+1. Diversify the ladder: grow from ALL 8 $n = 20$ graphs with longer
+   SA budgets (only one lineage has climbed so far), and from the
+   two $n = 24$ graphs to 26 — is the ladder infinite, and does any
+   rung produce a quad-dead state?
+2. $n \le 16$ emptiness: the falsify critic's suggestion stands —
+   an exhaustive or SAT-based treatment at $n = 14$ ($m = 8$) is
+   the honest route; SA absence is not evidence of emptiness.
+3. The global counting question, now sharpened: a mechanism forcing
+   $\binom{m}{4}$-layer supply that (a) tolerates quad-idle edges,
+   (b) is scale-free, (c) yields only lengths 8 and 16 at the
+   minimum. Any proof attempt gets an SA falsifier at a new scale
+   FIRST (standing policy, unbroken).
+
+### Summary of round R50
+
+| Item | Status |
+|------|--------|
+| $n = 24$ | **REACHED** (2 states, 2 graphs, growth ladder) — `quad_alive_universal` survives a fourth scale |
+| CHECK 3 | extended: `qa_grow_n24` pin (nquad 20, min participation 0) |
+| "widening floor" | **retracted** — $n = 22$'s 41 was one-sample; floors 10, 15, 41, 20 vs $m$ 10–13 |
+| nquad $\ge m$ | holds at 4 scales (only surviving quantitative observation) |
+| $n = 22$ widening | failed (714k iters, 0 new states) — class thin per graph |
+| Cold SA at 22 | fails (as at 16) — cold entry only at 18, 20 |

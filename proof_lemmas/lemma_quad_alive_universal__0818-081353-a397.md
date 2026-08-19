@@ -85,6 +85,23 @@ per-back-edge. $n = 16$ remains unreached (cold SA, 1.7M iterations,
 best energy 2 — one residual violation); whether the class is empty
 below 18 is open.
 
+**R50 falsifier campaign at $n = 24$ (fourth scale).** Second-
+generation growth from the $n = 22$ state reached $n = 24$: 2 states
+on 2 distinct graphs ($m = 13$), both quad-alive (nquad 20 and 33,
+$\ge m$), both with depth spectrum $\{8 \mapsto 4, 16 \mapsto 4\}$,
+exhaustively verified ($2^{13} - 1$ subsets); min participation 0
+recurs at $n = 24$ (CHECK 3 pins it). Sampling caveats, recorded
+deliberately: the $n = 22$ evidence is a SINGLE state (714k further
+warm-SA iterations on its graph produced no second one), so the
+$n = 22$ value nquad $= 41$ supports the FLOOR (nquad $\ge m$) but
+no trend — the $n = 24$ minimum of 20 shows the apparent widening
+10, 15, 41 was a one-sample artifact. Cold SA fails at $n = 22$
+(best energy 2, 1.2M iterations) as at $n = 16$: cold reachability
+is scale-spotty (works at 18, 20 only so far); the growth route is
+the reliable ladder. Cumulative: nquad $\ge m$ at four scales
+($10 \ge 10$, $15 \ge 11$, $41 \ge 12$, $20 \ge 13$), zero quad-dead
+states ever observed.
+
 <!-- CHECK
 # quad_alive_universal CHECK 1 (deterministic anchor): the three R47
 # pinned triple-dead trees each have >= 10 firing quadruples, with
@@ -348,6 +365,15 @@ PINS20 = [
      15, [8, 6, 7, 16, 11, 13, 20, 17, 3, 21, 9, 0, 4, 2, 10, -1, 5, 15,
           10, 1, 14, 0],
      41, 7),
+    ('qa_grow_n24', 24,
+     [(0, 19), (0, 21), (0, 22), (1, 5), (1, 6), (1, 8), (2, 7), (2, 9),
+      (2, 18), (3, 8), (3, 10), (3, 16), (4, 11), (4, 12), (4, 13), (5, 6),
+      (5, 16), (6, 20), (7, 15), (7, 17), (8, 10), (9, 14), (9, 18),
+      (10, 18), (11, 12), (11, 21), (12, 15), (13, 16), (13, 19), (14, 17),
+      (14, 23), (15, 17), (19, 21), (20, 22), (20, 23), (22, 23)],
+     15, [22, 5, 18, 8, 13, 16, 1, 15, 10, 14, 18, 12, 4, 19, 17, -1, 3, 7,
+          9, 21, 6, 0, 23, 20],
+     20, 0),
 ]
 
 for name, nn, edges, root, par, expect_nquad, expect_minpart in PINS20:
