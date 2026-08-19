@@ -1589,3 +1589,103 @@ class hits, non-vacuous, ~3s).
 | `quad_alive_universal` | **introduced (open)**, falsifiers same-round, 2 CHECKs pass |
 | nquad ≥ m | census observation (n = 18 only), analytic target |
 | Class at $n \ne 18$ | UNREACHED — R49's first job |
+
+## Section 89 — R49: The triple-dead class reached at $n = 20$ and $n = 22$ — `quad_alive_universal` survives at three scales; the participation floor dies (session s_0819-080840-a647)
+
+### The round: reachability, the R48 open flank
+
+R48 left the entire falsifier-class evidence base at $n = 18$. R49
+closed that flank with a three-phase campaign (harness reconstructed
+from the lemma CHECK blocks and sanity-locked on all three R47 pins —
+reproducing nquad $= 10, 12, 10$ and min participation 2 exactly):
+
+1. **Growth-children census.** All 351 double-subdivision+join
+   children of each R47 pin ($n = 20$), 60 random DFS trees each,
+   ranked by (pair-residuality violations, viol3). The best children
+   start at $(v_1 + v_2, v_3) = (0, 4)$–$(0, 6)$: growth ALWAYS
+   revives some depth-$\le 3$ firing subset (confirming R48), but the
+   nearly-dead children are dense enough to warm-start from.
+2. **Warm SA at $n = 20$** from the six best child states (70s
+   each): the `ta_warm` child (subdivided edges 14, 18) entered the
+   class after $\sim$70k iterations and produced **47 distinct
+   triple-dead pair-residual trees on 6 distinct cubic graphs**.
+3. **Cold SA at $n \in \{16, 20\}$** (2 seeds each): $n = 20$ reached
+   the class directly — 2 hits on 2 further graphs at $\sim$714k
+   iterations — so reachability does NOT depend on the growth route.
+   $n = 16$: unreached (best energy 2, i.e. one residual violation,
+   after 1.7M iterations across both seeds).
+
+**Second-generation growth.** Phase D re-ran the census on 4 of the
+new $n = 20$ graphs (859 children) and warm-SA'd the five best
+children at $n = 22$: **one triple-dead pair-residual tree at
+$n = 22$** ($m = 12$), from a child of a COLD-route graph. The growth
+route iterates: $18 \to 20 \to 22$.
+
+### Verification discipline
+
+Every hit (49 at $n = 20$, 1 at $n = 22$) was re-verified by the
+independent exhaustive cycle-space sweep (all $2^m - 1$ fundamental-
+cycle subsets, graph re-checked simple/cubic/connected, tree
+re-checked spanning + normal from scratch) — the same code path that
+confirmed the R47 disproof. Four hits are pinned deterministically in
+`lemma_quad_alive_universal` CHECK 3 (two routes, three scales,
+triple-deadness re-derived inside the CHECK).
+
+### Results
+
+1. **`quad_alive_universal` SURVIVES at all three reachable scales.**
+   Zero quad-dead states among 50 new class states ($\sim$580
+   cumulative with R47/R48). Depth spectrum is uniform $\{8 \mapsto
+   4, 16 \mapsto 4\}$ on every falsifier-class state ever observed —
+   at $n = 22$ included, where longer PO2 lengths (32) are
+   combinatorially available but never appear at the minimum.
+2. **nquad $\ge m$ holds at all three scales** — now a two-parameter
+   census observation: $n = 18$: min 10 $= m$; $n = 20$: range 15–34
+   vs $m = 11$; $n = 22$: 41 vs $m = 12$. The observed FLOOR grows
+   faster than $m$ along reachable states (10, 15, 41 vs $m$ = 10,
+   11, 12) — quadruple supply seems to WIDEN with scale, which leans
+   against depth escalation along these routes.
+3. **Two sharper $n = 18$ observations DIE at $n = 20$:**
+   (a) "minimum exactly $m$" — the $n = 20$ minimum is 15 > 11;
+   (b) the per-back-edge participation floor ("every back edge in
+   $\ge 2$ firing quadruples") — most $n = 20$ states have a back
+   edge in ZERO firing quadruples (CHECK 3 pins `qa_warm15_n20`,
+   participation vector min 0). **Consequence for the analytic
+   track: any supply mechanism must be GLOBAL — counting the
+   $\binom{m}{4}$ layer — not a per-back-edge forcing argument.**
+   The R48 hunch "each $B_i$ contributes a forced family" is dead as
+   stated; only the aggregate floor survives.
+4. **$n = 16$ open.** Cold SA stalls at energy 2. Whether the
+   triple-dead class is EMPTY below $n = 18$ (a minimality statement
+   that would anchor the class) is a new, well-posed question.
+
+### Open flank for R50+
+
+1. Iterate the growth pipeline to $n \in \{24, 26\}$ (census +
+   warm SA is now a $\sim$10-minute recipe per scale); track the
+   nquad floor. If it keeps widening, formulate the mechanism
+   question: WHAT about double-subdivision+join forces quadruple
+   supply to grow? A growth-monotonicity lemma (SA-first, as always)
+   would convert the census trend into structure.
+2. $n = 16$ emptiness: SAT/exhaustive angles are plausible at
+   $m = 9$ ($\binom{9}{\le 3}$ = 129 deadness constraints per tree;
+   the graph count at $n = 16$ is ~4k cubic graphs, but trees per
+   graph are many — a SAT encoding over (graph, tree) pairs is the
+   honest route if this is pursued).
+3. The global counting question (successor of the dead per-back-edge
+   hunch): on triple-dead trees, why can the $\binom{m}{4}$ layer
+   never be emptied? The depth-spectrum uniformity ($\{8, 16\}$ at
+   depth exactly 4, never 32, never depth 5+ minima) is the
+   strongest structural regularity still standing.
+
+### Summary of round R49
+
+| Item | Status |
+|------|--------|
+| Class reachability at $n \ne 18$ | **CLOSED** — 49 states at $n = 20$ (8 graphs, 2 routes), 1 at $n = 22$ |
+| `quad_alive_universal` | survives all three scales; CHECK 3 added (4 pins, 2 routes, 3 scales) |
+| nquad $\ge m$ | now a 3-scale census observation; floor widens (10, 15, 41) |
+| Participation floor ($\ge 2$ per back edge) | **DEAD at $n = 20$** (min participation 0 pinned) |
+| "min nquad exactly $m$" | **DEAD at $n = 20$** (min 15 > 11) |
+| Depth spectrum | uniform $\{8 \mapsto 4, 16 \mapsto 4\}$ across all ~580 class states, all scales |
+| $n = 16$ | unreached — emptiness below 18 is a new open question |

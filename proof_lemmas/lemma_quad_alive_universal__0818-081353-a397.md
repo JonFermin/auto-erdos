@@ -63,6 +63,28 @@ show every back edge lies in $\ge 2$ firing quadruples on all three
 R47 pins, suggesting a structural supply mechanism rather than
 coincidence.
 
+**R49 falsifier campaign at $n = 20$ (the class reached beyond 18).**
+The reachability flank closed at $n = 20$: 49 distinct triple-dead
+pair-residual trees on 8 distinct cubic graphs, found by TWO
+independent routes — (i) warm SA from the best growth child
+(double-subdivision + join of edges 14, 18) of the R47 `ta_warm`
+falsifier, after a census of all 351 growth children per pin ranked by
+(residuality, viol3); (ii) cold SA from random cubic graphs at
+$n = 20$ directly (2 hits, $\sim$714k iterations). Every state
+verified by exhaustive cycle-space sweep (all $2^{11} - 1$ subsets).
+Outcome: **zero quad-dead states — the lemma survives at a second
+scale.** Depth spectrum uniform $\{8 \mapsto 4, 16 \mapsto 4\}$ on all
+49, same as every $n = 18$ falsifier. nquad range 15–34, so **nquad
+$\ge m = 11$ holds at $n = 20$** (census observation now at two
+scales) — but two sharper $n = 18$ features die: the minimum is NOT
+attained at $m$ (15 > 11), and the participation floor is gone —
+most $n = 20$ states have a back edge in ZERO firing quadruples
+(CHECK 3 pins one). Any analytic mechanism for quadruple supply must
+therefore be global (counting the $\binom{m}{4}$ layer), not
+per-back-edge. $n = 16$ remains unreached (cold SA, 1.7M iterations,
+best energy 2 — one residual violation); whether the class is empty
+below 18 is open.
+
 <!-- CHECK
 # quad_alive_universal CHECK 1 (deterministic anchor): the three R47
 # pinned triple-dead trees each have >= 10 firing quadruples, with
@@ -267,6 +289,132 @@ print(f"probe OK: {tdead_total} triple-dead residual trees sampled across "
       f"5 graphs, all quad-alive")
 CHECK -->
 
+<!-- CHECK
+# quad_alive_universal CHECK 3 (R49 deterministic anchor, n=20): three
+# pinned triple-dead pair-residual trees at n=20 (m=11), from TWO
+# independent routes (cold SA on random cubic + warm SA from a growth
+# child of the R47 ta_warm falsifier).  Each is verified triple-dead
+# from scratch (all subsets |S|<=3) and quad-alive with the exact
+# pinned nquad / participation profile.  qa_warm15_n20 has a back edge
+# in ZERO firing quadruples (min participation 0) — the n=18
+# "every back edge in >= 2 firing quads" observation does NOT extend
+# to n=20; the nquad >= m floor itself survives (15, 32, 34 >= 11).
+from itertools import combinations
+PO2_LENS = {4, 8, 16, 32}
+
+def single_cycle_len(sym):
+    if not sym: return None
+    dg = {}
+    for u, v in sym: dg[u] = dg.get(u, 0) + 1; dg[v] = dg.get(v, 0) + 1
+    if any(d != 2 for d in dg.values()): return None
+    adjS = {}
+    for u, v in sym:
+        adjS.setdefault(u, []).append(v); adjS.setdefault(v, []).append(u)
+    st = next(iter(dg)); seen = {st}; stk = [st]
+    while stk:
+        u = stk.pop()
+        for w in adjS[u]:
+            if w not in seen: seen.add(w); stk.append(w)
+    return len(sym) if len(seen) == len(dg) else None
+
+PINS20 = [
+    ('qa_cold_n20', 20,
+     [(0, 3), (0, 8), (0, 11), (1, 6), (1, 8), (1, 19), (2, 8), (2, 13),
+      (2, 18), (3, 7), (3, 10), (4, 6), (4, 11), (4, 12), (5, 13), (5, 16),
+      (5, 19), (6, 19), (7, 15), (7, 17), (9, 10), (9, 14), (9, 18),
+      (10, 18), (11, 12), (12, 15), (13, 16), (14, 16), (14, 17), (15, 17)],
+     4, [8, 19, 18, 0, -1, 13, 1, 15, 1, 10, 3, 4, 11, 16, 17, 12, 14, 7, 9, 5],
+     32, 5),
+    ('qa_warm34_n20', 20,
+     [(0, 2), (0, 4), (0, 7), (1, 3), (1, 5), (1, 18), (2, 4), (2, 6),
+      (3, 15), (3, 18), (4, 8), (5, 10), (5, 19), (6, 13), (6, 15), (7, 9),
+      (7, 12), (8, 14), (8, 16), (9, 10), (9, 15), (10, 17), (11, 12),
+      (11, 17), (11, 19), (12, 14), (13, 16), (13, 19), (14, 16), (17, 18)],
+     18, [4, 18, 6, 1, 2, 10, 15, 0, 14, 7, 9, 19, 11, 16, 12, 3, 8, 11, -1, 5],
+     34, 8),
+    ('qa_warm15_n20', 20,
+     [(0, 2), (0, 4), (0, 7), (1, 3), (1, 5), (1, 12), (2, 4), (2, 5),
+      (3, 17), (3, 18), (4, 8), (5, 13), (6, 10), (6, 15), (6, 17), (7, 9),
+      (7, 12), (8, 14), (8, 16), (9, 10), (9, 14), (10, 17), (11, 13),
+      (11, 18), (11, 19), (12, 15), (13, 16), (14, 16), (15, 19), (18, 19)],
+     15, [7, 5, 4, 1, 0, 2, 17, 12, 16, 14, 9, 19, 15, 11, 8, -1, 13, 10, 3, 18],
+     15, 0),
+    ('qa_grow_n22', 22,
+     [(0, 8), (0, 11), (0, 21), (1, 6), (1, 8), (1, 19), (2, 7), (2, 13),
+      (2, 18), (3, 4), (3, 8), (3, 16), (4, 11), (4, 12), (5, 13), (5, 16),
+      (5, 19), (6, 19), (6, 20), (7, 15), (7, 17), (9, 10), (9, 18),
+      (9, 21), (10, 14), (10, 18), (11, 12), (12, 15), (13, 16), (14, 17),
+      (14, 20), (15, 17), (20, 21)],
+     15, [8, 6, 7, 16, 11, 13, 20, 17, 3, 21, 9, 0, 4, 2, 10, -1, 5, 15,
+          10, 1, 14, 0],
+     41, 7),
+]
+
+for name, nn, edges, root, par, expect_nquad, expect_minpart in PINS20:
+    edges = [tuple(sorted(e)) for e in edges]
+    deg = {}
+    for u, v in edges:
+        assert u != v
+        deg[u] = deg.get(u, 0) + 1; deg[v] = deg.get(v, 0) + 1
+    assert len(deg) == nn and all(d == 3 for d in deg.values())
+    depth = [-1] * nn; depth[root] = 0
+    pending = [v for v in range(nn) if v != root]
+    while pending:
+        nxt = []
+        for v in pending:
+            if depth[par[v]] >= 0: depth[v] = depth[par[v]] + 1
+            else: nxt.append(v)
+        assert len(nxt) < len(pending)
+        pending = nxt
+    tre = {(min(v, par[v]), max(v, par[v])) for v in range(nn) if v != root}
+    assert tre <= set(edges)
+
+    def is_anc(u, v):
+        if depth[u] > depth[v]: return False
+        x = v
+        while depth[x] > depth[u]: x = par[x]
+        return x == u
+
+    fc = []
+    for e in edges:
+        if e in tre: continue
+        u, v = e
+        a, b = (u, v) if depth[u] <= depth[v] else (v, u)
+        assert is_anc(a, b)   # normality of the tree
+        es = set(); x = b
+        while x != a:
+            p = par[x]; es.add((min(x, p), max(x, p))); x = p
+        es.add(e); fc.append(es)
+    m = len(fc)
+    assert m == nn // 2 + 1
+    # triple-deadness from scratch: no PO2 single cycle at |S| <= 3
+    for size in (1, 2, 3):
+        for sub in combinations(range(m), size):
+            acc = set()
+            for i in sub: acc ^= fc[i]
+            assert single_cycle_len(acc) not in PO2_LENS, \
+                f"{name}: NOT triple-dead at |S|={size}, sub={sub}"
+    quads = []
+    for sub in combinations(range(m), 4):
+        acc = set()
+        for i in sub: acc ^= fc[i]
+        L = single_cycle_len(acc)
+        if L in PO2_LENS: quads.append((sub, L))
+    assert len(quads) == expect_nquad, \
+        f"{name}: nquad {len(quads)} != {expect_nquad}"
+    assert all(L in {8, 16} for _, L in quads), f"{name}: unexpected length"
+    assert len(quads) >= m, f"{name}: nquad below m"
+    part = [0] * m
+    for sub, L in quads:
+        for i in sub: part[i] += 1
+    assert min(part) == expect_minpart, \
+        f"{name}: min participation {min(part)} != {expect_minpart}"
+    print(f"{name}: triple-dead verified, quad-alive, nquad={len(quads)}, "
+          f"min participation {min(part)}")
+print("R49 anchor OK: class reached at n=20 by two routes; all quad-alive; "
+      "nquad >= m holds; participation floor dies at n=20")
+CHECK -->
+
 ## Summary
 
 The depth-4 successor universal opened by R47's disproof of
@@ -277,10 +425,14 @@ distinct triple-dead states across two designated falsifier campaigns
 (basin-constrained SA + class-preserving beam search) and a 100k-tree
 DFS census over all five falsifier graphs — all quad-alive, all with
 nquad $\ge 10 = m$ (minimum attained exactly, every back edge in
-$\ge 2$ firing quadruples on the pins). Known limitation: the entire
-evidence base is $n = 18$; no triple-dead state has yet been reached
-at any other size, so the class's behavior under growth is the open
-flank. If the lemma dies, the depth-escalation question (Q77) takes
-over; if it holds with the observed $\ge m$ margin, a counting or
-parity mechanism forcing quadruple supply on triple-dead trees is the
-analytic target.
+$\ge 2$ firing quadruples on the pins). R49 extended the evidence to
+$n = 20$: 49 triple-dead states on 8 graphs from two independent
+routes (warm growth + cold SA), all quad-alive with nquad $\ge 15 >
+m = 11$, uniform depth spectrum $\{8 \mapsto 4, 16 \mapsto 4\}$ —
+while the per-back-edge participation floor and the "minimum exactly
+$m$" coincidence both died ($n = 20$ states with a quad-idle back
+edge exist; CHECK 3). If the lemma dies at some scale, the
+depth-escalation question (Q77) takes over; if it holds with the
+observed $> m$ margin, a GLOBAL counting mechanism on the
+$\binom{m}{4}$ layer (not per-back-edge supply) is the analytic
+target.
