@@ -1768,3 +1768,102 @@ quad-dead state at unreachable scales is weak evidence.
 | nquad $\ge m$ | holds at 4 scales (only surviving quantitative observation) |
 | $n = 22$ widening | failed (714k iters, 0 new states) — class thin per graph |
 | Cold SA at 22 | fails (as at 16) — cold entry only at 18, 20 |
+
+## Section 91 — R51: EXHAUSTIVE small-scale resolution — the class is empty below 18, and the complete $n = 18$ census is 6 states on 3 graphs (session s_0820-080812-2a88)
+
+### The round
+
+R50's open flank item 2 (the falsify critic's standing ask) was an
+honest exhaustive treatment of small scales. R51 built one and it
+resolved far more than asked: a complete enumeration of ALL (connected
+cubic graph, normal spanning tree, root) triples per scale, via
+BFS-canonical rooted tree shapes ($\le 2$ children per non-root vertex,
+$\le 3$ at the root; nondecreasing parent vectors cover every shape)
+completed by all comparable simple back-edge placements (normality
+makes every non-tree edge an ancestor–descendant chord), with EXACT
+incremental pruning (a placed back edge that creates a firing 1/2/3-
+subset can never be in a class state — firing subsets persist). New
+lemma: `lemma_class_empty_below_18` (status: proved), CHECKs carry the
+full harness.
+
+Sanity locks before production: the independent verifier reproduces all
+five cross-scale pins of `lemma_quad_alive_universal` exactly; coverage
+with pruning off yields 5/5 cubic graphs at $n = 8$ and 19/19 at
+$n = 10$; the pruned search finds `ta_falsifier_warm_n18` (and
+`qa_cold_n20`) on their own shapes. Every survivor of the pruned search
+is re-verified from scratch by an independent set-XOR sweep.
+
+### Result 1 — the class is EMPTY for all $n \le 16$ (exhaustive)
+
+$n = 4, 6, 8, 10, 12, 14, 16$: zero class states (largest run:
+$n = 16$, 22,514 feasible shapes, 5.3M search nodes, 98 s). So
+`depth(T) <= 3` is a THEOREM for cubic graphs on $\le 16$ vertices,
+$n = 18$ is the exact minimal scale of the triple-dead pair-residual
+class, and the R49/R50 cold-SA failures at 14/16 were genuine
+emptiness. The falsify critic's concern ("SA absence is not evidence")
+is discharged in the strongest possible way.
+
+### Result 2 — the COMPLETE census at $n = 18$: exactly 6 states on exactly 3 graphs
+
+Full enumeration at $n = 18$ (169k feasible shapes, 103M nodes, 4
+shards, ~13 min): 10 raw labeled survivors, deduping (graph iso with
+depth/tree-flag invariants) to **6 states on 3 cubic graphs** — all
+containing the three R47 pins (ground-truth containment). Per state:
+nquad 10, 12, 14 (graph A, $|\mathrm{Aut}| = 2$), 17 (graph B), 25, 25
+(graph C); min participation 2, 2, 3, 4, 6, 6; all firing quads of
+length 8 or 16. Pinned exactly in `lemma_class_empty_below_18` CHECK 3.
+
+Consequences:
+
+1. **`quad_alive_universal` is PROVED at the minimal scale** — by
+   exhaustion. nquad $\ge m$ and participation $\ge 2$ are THEOREMS at
+   $n = 18$ (participation still dies at $n = 20$: `qa_warm15_n20`).
+2. **Correction: all five "distinct" R46–R47 falsifiers are ONE graph.**
+   ta_warm, ta_cold, ta_b2, po2_falsifier_n18, sb_falsifier_n18 are
+   pairwise isomorphic (= graph A). The SA/beam dedup was labeled-
+   canonical and never tested graph isomorphism. Every R46–R47
+   cross-falsifier anatomy comparison (e.g. Q76's "po2 branched rescue
+   vs sb chain rescue") compared the same graph under different trees.
+   The R49 claim "8 distinct graphs at $n = 20$" and R50's "2 graphs at
+   $n = 24$" are UNAUDITED up to isomorphism — R52 must re-check before
+   any structural argument leans on graph counts.
+3. **Graphs B and C were never reached by any campaign** (50 rounds of
+   SA/beam/growth all lived on A's lineage): cold-SA reachability is
+   biased, not just scale-spotty. The B/C states are the extreme
+   supply states (nquad 17, 25) — search pressure toward LOW nquad kept
+   the campaigns near A.
+4. The analytic question ("why can the $\binom{m}{4}$ layer never be
+   emptied once $\binom{m}{\le 3}$ is?") now has an EXACT minimal
+   dataset: 6 objects, fully known, $m = 10$. Any candidate mechanism
+   can be tested against the complete minimal core rather than samples.
+
+### Program pre-commitments (the strategy critic's standing asks)
+
+1. **Exit criterion for the depth-escalation program (Q77)**: if by
+   round R56 neither (a) a quad-dead state has been found at any scale
+   (depth-5 escalation), nor (b) a candidate global counting mechanism
+   for the $\binom{m}{4}$ layer has survived one falsifier campaign,
+   the program closes as converged negative knowledge ("depth $\le 4$
+   holds on every reachable/enumerable state; no mechanism identified")
+   and the round budget moves to the F2 flank or the graph-level
+   quantifier (R33 fork branch 2).
+2. **F2 (induced-P10) stays set aside** while the exhaustive-census
+   route is producing theorems (this round: two), because F2's
+   hypothesis (a whole-graph counterexample) lives at unknown, likely
+   large $n$, whereas the census route is currently converting the
+   frontier into exact finite knowledge. F2 is the designated pivot at
+   the R56 exit criterion.
+
+### Open flank for R52+
+
+1. **Exhaustive census at $n = 20$** (same harness, ~19x nodes ≈ 2 CPU-h
+   sharded — feasible): exact class at the second scale; audits the "8
+   graphs" claim; tests whether nquad $\ge m$ and the $\{8, 16\}$
+   spectrum stay exhaustive; any quad-dead state = depth-5 discovery.
+2. Structural anatomy of the exact 6-state core: what do A, B, C share
+   (girth 3 with $\ge 4$ triangles in the minimum cycle basis;
+   triangle-adjacency patterns; where the firing quads live relative to
+   the triangles)? A mechanism conjecture must reproduce nquad
+   $\{10, 12, 14, 17, 25\}$ exactly at $n = 18$.
+3. Growth-lineage placement: are the known $n = 20/22/24$ states grown
+   from A only? Do B/C have their own ladders upward?

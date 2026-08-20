@@ -102,6 +102,24 @@ the reliable ladder. Cumulative: nquad $\ge m$ at four scales
 ($10 \ge 10$, $15 \ge 11$, $41 \ge 12$, $20 \ge 13$), zero quad-dead
 states ever observed.
 
+**R51 — PROVED AT THE MINIMAL SCALE (exhaustive census; see
+`lemma_class_empty_below_18`).** A complete enumeration of all (cubic
+graph, normal spanning tree, root) triples proves the class is EMPTY
+for all $n \le 16$ and computes the ENTIRE class at $n = 18$: exactly
+**6 states on exactly 3 cubic graphs** (up to isomorphism), every one
+quad-alive — so the lemma holds at its minimal scale by exhaustion, not
+sampling. Exhaustive facts at $n = 18$: nquad $\in \{10, 12, 14, 17,
+25\}$ (so nquad $\ge m = 10$ is a theorem at 18, minimum attained);
+min participation $\ge 2$ is a theorem at 18 (it still dies at
+$n = 20$ per CHECK 3's `qa_warm15_n20`); every firing quadruple has
+length in $\{8, 16\}$. Two corrections to the earlier evidence
+narrative: (i) the five "distinct" $n = 18$ falsifier graphs used in
+CHECK 2 and all R46–R48 campaigns are pairwise ISOMORPHIC — one graph
+(labeled dedup never tested graph isomorphism); (ii) two of the three
+carrier graphs at $n = 18$ were never reached by any SA/beam/growth
+campaign. Sampled-evidence claims of "distinct graphs" at $n \ge 20$
+are unaudited up to isomorphism and pending an R52 re-check.
+
 <!-- CHECK
 # quad_alive_universal CHECK 1 (deterministic anchor): the three R47
 # pinned triple-dead trees each have >= 10 firing quadruples, with
