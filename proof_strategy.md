@@ -1927,3 +1927,77 @@ RUNNING; R53 will carry the census. Any quad-dead survivor = depth-5
 discovery; expected theorems if none: exact class at the second
 scale, nquad $\ge m = 11$ status, spectrum $\{8, 16\}$ status, and
 the true graph count (audits R49's "8").
+
+## Section 93 — R53: the COMPLETE $n = 20$ census — 42 states / 10 graphs, quad-alive everywhere, and the nquad $\ge m$ floor is dead (session s_0821-080752-392f)
+
+### The round
+
+Section 92's launched enumeration completed: the exhaustive class
+census at the second scale (32,652,735 shapes / 1,289,003 feasible /
+1,806,659,655 nodes / ~85 min on 4 shards; 67 raw survivors). Every
+survivor re-verified from scratch by the independent checker; dedup
+up to rooted (graph, tree)-pair isomorphism. CHECK 5 of
+`lemma_quad_alive_universal` pins the ENTIRE census compactly (42
+parent-vector + back-edge encodings, each re-verified in-block with
+exact nquad / minpart / spectrum, plus census-level facts and the
+10-graph dedup by complete backtracking isomorphism). Ground truth:
+all three R49 pins are contained.
+
+### Theorems at $n = 20$ (by exhaustion)
+
+1. **`quad_alive_universal` holds at $n = 20$**: all 42 class states
+   fire some quadruple. Combined with R51: the lemma is now proved at
+   BOTH known scales of the class ($n = 18$: 6/6; $n = 20$: 42/42),
+   and the class is empty below 18.
+2. **Spectrum**: every firing quadruple at both exhaustive scales has
+   length 8 or 16. Depth spectrum $\{8, 16\} \mapsto 4$ is exhaustive
+   at two scales.
+3. **The nquad $\ge m$ floor is DEAD**: min nquad $= 9 < m = 11$,
+   attained by exactly two tree-states on one carrier with
+   $|\mathrm{Aut}| = 10$, 5 triangles — never reached by SA (sampled
+   range was 15–34). Two exhaustive scales give min-nquad $= m$ at 18
+   and $= m - 2$ at 20. The floor was a reachability artifact, as the
+   participation floor was (minpart $= 0$ on 29/42 states at 20 vs
+   0/6 at 18).
+4. **Graph diversity**: 10 carrier graphs (R49's sampled claim was
+   "8"), state counts 23/5/5/3/1/1/1/1/1/1, triangles 2–6,
+   $|\mathrm{Aut}| \in \{1, 1, 1, 1, 2, 2, 2, 4, 8, 10\}$. High
+   symmetry is where min-nquad drops: the two nquad-9 states live on
+   the $|\mathrm{Aut}| = 10$ carrier.
+5. **Growth lineage**: exactly ONE carrier (the 6-triangle,
+   $|\mathrm{Aut}| = 4$ one) is a double-subdivision+join child of an
+   $n = 18$ census graph (B). First recorded instance of graph-level
+   descent between class carriers; the dominant and min-nquad
+   carriers descend from none of A/B/C. The "ladder" intuition
+   survives only as an existence statement, not as the generic
+   mechanism.
+
+### Program consequences
+
+1. **THE quantitative frontier is now min-nquad vs scale**: $10, 9$
+   at the two exhaustive scales — decreasing absolutely AND relative
+   to $m$. If it reaches 0 at some scale, `quad_alive_universal` dies
+   and depth-5 opens (Q77's escalation). The census also names WHERE
+   to hunt: high-$|\mathrm{Aut}|$ carriers. New question Q78: targeted
+   low-nquad hunt at $n = 22$ — enumerate high-symmetry cubic graphs
+   at 22 (e.g. via vertex-transitive / large-group catalogs + local
+   search around symmetric completions) and sweep their normal trees
+   for class states with nquad $< m$; a quad-dead hit ends the
+   bounded-depth program, a nonzero floor across symmetric carriers
+   feeds the mechanism conjecture.
+2. **Any counting mechanism must now explain min-nquad decay**, not a
+   floor: the $\binom{m}{4}$-layer supply shrinks (relative to $m$)
+   as the class grows richer. The Section 91 anatomy flank now has 48
+   exact states across two scales to test against; a mechanism must
+   reproduce min-nquad $\{10, 9\}$ and max-nquad $\{25, 45\}$.
+3. **Exhaustion beyond $n = 20$ is out of reach for this harness**
+   ($n = 22$ extrapolates to $\sim 35$–$45$G nodes $\approx$ 250+
+   CPU-h). The exhaustive program pivots to TARGETED enumeration
+   (fixed carrier graphs: all normal trees of a given symmetric cubic
+   graph is a much smaller space) — this is exactly Q78's shape.
+
+### R56 exit criterion (Section 91) — status after R53
+
+Neither (a) a quad-dead state (42/42 alive at 20) nor (b) a surviving
+counting mechanism yet; rounds R54–R56 get the Q78 targeted hunt and
+the two-scale anatomy. The criterion stands.

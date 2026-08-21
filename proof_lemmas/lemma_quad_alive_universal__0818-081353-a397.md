@@ -139,6 +139,43 @@ re-entered, so lineage claims are search-route provenance only — any
 structural induction on $n$ via class-preserving growth moves has NO
 empirical instance on record.
 
+**R53 — the COMPLETE census at $n = 20$ (exhaustive; CHECK 5 pins all
+of it).** The validated R52 harness run exhaustively at $n = 20$
+(32,652,735 tree shapes, 1,289,003 feasible, 1,806,659,655 search
+nodes, 4 shards, $\sim$85 min wall): 67 raw labeled survivors,
+deduping to **42 states on 10 cubic graphs**. Ground truth: all three
+R49 pins are contained (state-level iso). Headlines:
+
+1. **The lemma is PROVED at the second scale by exhaustion**: all 42
+   states are quad-alive; every firing quadruple has length in
+   $\{8, 16\}$ (both facts now exhaustive at $n \in \{18, 20\}$).
+2. **The nquad $\ge m$ floor is DEAD**: min nquad over the class is
+   **9 $< m = 11$**, attained by two tree-states on ONE graph with
+   $|\mathrm{Aut}| = 10$ and 5 triangles — the highest-symmetry
+   carrier in the census, never reached by any SA/beam campaign
+   (SA-sampled nquad range was 15–34; exhaustion reaches 9). The
+   "nquad $\ge m$ at four scales" observation was a reachability
+   artifact, like the participation floor before it. The two
+   exhaustive scales give min-nquad $10 = m$ (at 18) and $9 = m - 2$
+   (at 20): the true floor DECREASES both absolutely and relative to
+   $m$; whether it reaches 0 at some scale (= a quad-dead state =
+   depth-5 discovery) is now THE quantitative frontier.
+3. **Participation floor**: 29/42 states have a back edge in ZERO
+   firing quadruples ($n = 18$: 0/6). minpart $= 0$ is the NORM at
+   20, not the exception.
+4. **Carrier-graph anatomy**: state counts per graph
+   23/5/5/3/1/1/1/1/1/1 (one dominant carrier, $|\mathrm{Aut}| = 2$,
+   4 triangles, 23 tree-states); triangle counts span 2–6, so the
+   $n = 18$ "girth 3, several triangles" pattern loosens (a
+   2-triangle carrier exists); $|\mathrm{Aut}|$ multiset
+   $\{10, 8, 4, 2, 2, 2, 1, 1, 1, 1\}$ — high symmetry appears
+   exactly where min-nquad drops.
+5. **Growth lineage (networkx, out-of-band)**: exactly ONE of the 10
+   carrier graphs is a double-subdivision+join child of an $n = 18$
+   census graph (of B — the first recorded graph-level descent
+   instance between class carriers); the dominant carrier and the
+   min-nquad carrier descend from none of A/B/C.
+
 <!-- CHECK
 # quad_alive_universal CHECK 1 (deterministic anchor): the three R47
 # pinned triple-dead trees each have >= 10 firing quadruples, with
@@ -562,6 +599,196 @@ n20 = ['qa_cold_n20', 'qa_warm34_n20', 'qa_warm15_n20']
 assert len({tris[k] for k in n20}) == 3
 print("R52 iso-audit anchor OK: triangle counts 5/3/4 pairwise distinct -> "
       "the three pinned n=20 carrier graphs are pairwise non-isomorphic")
+CHECK -->
+
+<!-- CHECK
+# quad_alive_universal CHECK 5 (R53 exhaustive-census anchor, n=20): the
+# COMPLETE triple-dead pair-residual class at n=20, all 42 states pinned
+# compactly (BFS-canonical parent vector ; back edges), each re-verified
+# from scratch: simple/cubic/connected, normal tree, triple-dead over all
+# |S|<=3, quad-alive with EXACT (nquad, minpart, #8-cycles, #16-cycles).
+# Census-level pins: 42 states; min nquad = 9 < m = 11 attained exactly
+# twice, both minpart 0, both on ONE carrier graph with |Aut| = 10 (the
+# nquad >= m floor is DEAD at the second exhaustive scale); 29/42 states
+# have minpart = 0; all firing lengths in {8,16}; graph dedup (invariant
+# partition + complete backtracking isomorphism) gives EXACTLY 10 carrier
+# graphs with state counts 23/5/5/3/1x6.
+from itertools import combinations
+PO2_LENS = {4, 8, 16, 32}
+
+CENSUS20 = [
+ ('0,1,2,3,4,5,6,7,8,9,10,10,11,12,13,14,15,16,17;0-11,0-18,1-3,2-15,4-19,5-7,6-12,8-16,9-19,13-17,14-18', 26, 6, 7, 19),
+ ('0,1,2,3,4,5,6,7,8,9,10,10,11,13,14,15,16,17,18;0-12,0-19,1-3,2-11,4-14,5-7,6-16,8-18,9-12,13-15,17-19', 21, 2, 5, 16),
+ ('0,1,2,3,4,5,6,7,8,9,10,10,11,13,14,15,16,17,18;0-12,0-19,1-3,2-11,4-18,5-7,6-16,8-14,9-12,13-19,15-17', 20, 3, 7, 13),
+ ('0,1,2,3,4,5,6,7,8,9,10,10,11,13,14,15,16,17,18;0-12,0-19,1-7,2-16,3-5,4-14,6-11,8-18,9-12,13-15,17-19', 19, 2, 7, 12),
+ ('0,1,2,3,4,5,6,7,8,9,10,11,11,12,14,15,16,17,18;0-2,0-13,1-14,3-5,4-15,6-8,7-16,9-18,10-13,12-19,17-19', 24, 3, 5, 19),
+ ('0,1,2,3,4,5,6,7,8,9,10,11,11,12,14,15,16,17,18;0-2,0-13,1-14,3-5,4-15,6-17,7-9,8-19,10-13,12-19,16-18', 32, 5, 5, 27),
+ ('0,1,2,3,4,5,6,7,8,9,10,11,11,12,14,15,16,17,18;0-2,0-13,1-14,3-16,4-6,5-18,7-9,8-19,10-13,12-15,17-19', 37, 4, 10, 27),
+ ('0,1,2,3,4,5,6,7,8,9,10,11,11,12,14,15,16,17,18;0-2,0-13,1-14,3-16,4-6,5-18,7-9,8-19,10-13,12-19,15-17', 24, 5, 5, 19),
+ ('0,1,2,3,4,5,6,7,8,9,10,11,12,13,13,14,16,17,18;0-2,0-15,1-5,3-7,4-19,6-17,8-14,9-11,10-15,12-19,16-18', 37, 7, 9, 28),
+ ('0,1,2,3,4,5,6,7,8,9,10,11,12,13,13,14,16,17,18;0-2,0-15,1-11,3-9,4-19,5-7,6-17,8-14,10-15,12-19,16-18', 34, 8, 10, 24),
+ ('0,1,2,3,4,5,6,7,8,9,10,11,12,13,13,14,16,17,18;0-4,0-15,1-16,2-6,3-18,5-7,8-15,9-11,10-19,12-17,14-19', 45, 10, 7, 38),
+ ('0,1,2,3,4,5,6,6,7,9,10,10,11,12,13,14,15,17,17;0-4,0-16,1-8,2-18,3-13,5-8,7-14,9-19,11-18,12-16,15-19', 34, 7, 7, 27),
+ ('0,1,2,3,4,5,6,7,8,8,10,11,12,12,13,15,16,17,17;0-2,0-14,1-10,3-9,4-18,5-15,6-19,7-9,11-14,13-18,16-19', 30, 6, 6, 24),
+ ('0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18;0-2,0-19,1-11,3-9,4-6,5-15,7-17,8-14,10-12,13-19,16-18', 19, 0, 4, 15),
+ ('0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18;0-2,0-19,1-11,3-9,4-18,5-7,6-16,8-14,10-12,13-19,15-17', 17, 0, 8, 9),
+ ('0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18;0-2,0-19,1-11,3-9,4-18,5-15,6-8,7-17,10-12,13-19,14-16', 17, 0, 5, 12),
+ ('0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18;0-2,0-19,1-11,3-13,4-6,5-15,7-17,8-10,9-19,12-14,16-18', 9, 0, 4, 5),
+ ('0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18;0-2,0-19,1-11,3-13,4-10,5-19,6-8,7-17,9-15,12-14,16-18', 16, 0, 6, 10),
+ ('0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18;0-2,0-19,1-11,3-17,4-6,5-15,7-13,8-10,9-19,12-18,14-16', 15, 0, 6, 9),
+ ('0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18;0-6,0-19,1-3,2-12,4-14,5-11,7-9,8-18,10-16,13-15,17-19', 19, 0, 4, 15),
+ ('0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18;0-6,0-19,1-15,2-4,3-13,5-11,7-9,8-18,10-16,12-14,17-19', 17, 0, 8, 9),
+ ('0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18;0-6,0-19,1-15,2-4,3-13,5-11,7-17,8-10,9-19,12-14,16-18', 20, 0, 6, 14),
+ ('0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18;0-6,0-19,1-15,2-12,3-5,4-14,7-9,8-18,10-16,11-13,17-19', 17, 0, 5, 12),
+ ('0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18;0-10,0-19,1-3,2-12,4-14,5-7,6-16,8-18,9-11,13-15,17-19', 9, 0, 4, 5),
+ ('0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18;0-10,0-19,1-3,2-12,4-18,5-7,6-16,8-14,9-11,13-19,15-17', 20, 0, 6, 14),
+ ('0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18;0-10,0-19,1-7,2-16,3-5,4-14,6-12,8-18,9-11,13-15,17-19', 15, 0, 6, 9),
+ ('0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18;0-10,0-19,1-19,2-8,3-5,4-14,6-16,7-13,9-11,12-18,15-17', 25, 0, 6, 19),
+ ('0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18;0-10,0-19,1-19,2-8,3-17,4-6,5-15,7-13,9-11,12-18,14-16', 27, 0, 10, 17),
+ ('0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18;0-10,0-19,1-19,2-8,3-17,4-14,5-7,6-16,9-11,12-18,13-15', 23, 0, 6, 17),
+ ('0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18;0-10,0-19,1-19,2-12,3-5,4-14,6-16,7-9,8-18,11-13,15-17', 19, 0, 4, 15),
+ ('0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18;0-10,0-19,1-19,2-12,3-9,4-18,5-7,6-16,8-14,11-13,15-17', 18, 0, 6, 12),
+ ('0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18;0-10,0-19,1-19,2-16,3-5,4-14,6-12,7-9,8-18,11-17,13-15', 21, 0, 6, 15),
+ ('0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18;0-14,0-19,1-3,2-12,4-10,5-7,6-16,8-18,9-15,11-13,17-19', 16, 0, 6, 10),
+ ('0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18;0-14,0-19,1-3,2-12,4-10,5-19,6-8,7-17,9-15,11-13,16-18', 22, 0, 8, 14),
+ ('0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18;0-14,0-19,1-3,2-12,4-10,5-19,6-16,7-9,8-18,11-13,15-17', 22, 0, 5, 17),
+ ('0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18;0-14,0-19,1-11,2-4,3-13,5-19,6-8,7-17,9-15,10-12,16-18', 22, 0, 5, 17),
+ ('0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18;0-18,0-19,1-7,2-4,3-13,5-15,6-12,8-10,9-19,11-17,14-16', 25, 0, 6, 19),
+ ('0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18;0-18,0-19,1-7,2-16,3-5,4-14,6-12,8-10,9-19,11-17,13-15', 27, 0, 10, 17),
+ ('0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18;0-18,0-19,1-7,2-16,3-13,4-6,5-15,8-10,9-19,11-17,12-14', 23, 0, 6, 17),
+ ('0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18;0-18,0-19,1-11,2-4,3-13,5-15,6-8,7-17,9-19,10-12,14-16', 19, 0, 4, 15),
+ ('0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18;0-18,0-19,1-11,2-8,3-17,4-6,5-15,7-13,9-19,10-12,14-16', 21, 0, 6, 15),
+ ('0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18;0-18,0-19,1-15,2-4,3-13,5-11,6-8,7-17,9-19,10-16,12-14', 18, 0, 6, 12),
+]
+
+def scl(sym):
+    if not sym: return None
+    dg = {}
+    for u, v in sym: dg[u] = dg.get(u, 0) + 1; dg[v] = dg.get(v, 0) + 1
+    if any(d != 2 for d in dg.values()): return None
+    adjS = {}
+    for u, v in sym:
+        adjS.setdefault(u, []).append(v); adjS.setdefault(v, []).append(u)
+    st = next(iter(dg)); seen = {st}; stk = [st]
+    while stk:
+        u = stk.pop()
+        for w in adjS[u]:
+            if w not in seen: seen.add(w); stk.append(w)
+    return len(sym) if len(seen) == len(dg) else None
+
+n = 20
+adjs = []; stats = []
+for enc, xnq, xmp, xs8, xs16 in CENSUS20:
+    ps, bs = enc.split(';')
+    par = [-1] + [int(x) for x in ps.split(',')]
+    bes = [tuple(int(x) for x in e.split('-')) for e in bs.split(',')]
+    for i in range(2, n):
+        assert par[i] >= par[i - 1] and par[i] < i
+    edges = [tuple(sorted((par[v], v))) for v in range(1, n)] \
+          + [tuple(sorted(e)) for e in bes]
+    assert len(set(edges)) == 30
+    deg = {}
+    for u, v in edges:
+        assert u != v
+        deg[u] = deg.get(u, 0) + 1; deg[v] = deg.get(v, 0) + 1
+    assert len(deg) == n and all(d == 3 for d in deg.values())
+    depth = [0] * n
+    for v in range(1, n): depth[v] = depth[par[v]] + 1
+    anc = [set() for _ in range(n)]
+    for v in range(1, n): anc[v] = anc[par[v]] | {par[v]}
+    fc = []
+    for u, w in bes:
+        a, b = (u, w) if depth[u] <= depth[w] else (w, u)
+        assert a in anc[b]              # normality
+        es = set(); x = b
+        while x != a:
+            p = par[x]; es.add((min(x, p), max(x, p))); x = p
+        es.add((min(u, w), max(u, w))); fc.append(es)
+    m = len(fc)
+    assert m == 11
+    for size in (1, 2, 3):
+        for sub in combinations(range(m), size):
+            acc = set()
+            for i in sub: acc ^= fc[i]
+            assert scl(acc) not in PO2_LENS, "NOT triple-dead"
+    quads = []
+    for sub in combinations(range(m), 4):
+        acc = set()
+        for i in sub: acc ^= fc[i]
+        L = scl(acc)
+        if L in PO2_LENS: quads.append((sub, L))
+    part = [0] * m; s8 = s16 = 0
+    for sub, L in quads:
+        if L == 8: s8 += 1
+        else:
+            assert L == 16; s16 += 1
+        for i in sub: part[i] += 1
+    assert (len(quads), min(part), s8, s16) == (xnq, xmp, xs8, xs16), \
+        f"profile mismatch: {(len(quads), min(part), s8, s16)}"
+    adj = [set() for _ in range(n)]
+    for u, v in edges: adj[u].add(v); adj[v].add(u)
+    adjs.append(adj); stats.append((xnq, xmp))
+
+assert len(CENSUS20) == 42
+nqs = sorted(q for q, _ in stats)
+assert nqs[0] == 9 and nqs.count(9) == 2 and all(q > 0 for q in nqs)
+assert all(mp == 0 for q, mp in stats if q == 9)
+assert sum(1 for _, mp in stats if mp == 0) == 29
+
+def tri_pv(adj):
+    t = [0] * n
+    for u in range(n):
+        ns = sorted(adj[u])
+        for a in range(3):
+            for b in range(a + 1, 3):
+                if ns[b] in adj[ns[a]]: t[u] += 1
+    return t
+
+def iso_maps(adj1, adj2, count_all=False):
+    t1, t2 = tri_pv(adj1), tri_pv(adj2)
+    i1 = [(t1[v], tuple(sorted(t1[w] for w in adj1[v]))) for v in range(n)]
+    i2 = [(t2[v], tuple(sorted(t2[w] for w in adj2[v]))) for v in range(n)]
+    if sorted(i1) != sorted(i2): return 0
+    order = sorted(range(n), key=lambda v: i1[v])
+    mp = [-1] * n; iv = [-1] * n; cnt = [0]
+    def rec(k):
+        if k == n:
+            cnt[0] += 1
+            return not count_all
+        u = order[k]
+        for c in range(n):
+            if iv[c] >= 0 or i2[c] != i1[u]: continue
+            ok = True
+            for w in adj1[u]:
+                if mp[w] >= 0 and mp[w] not in adj2[c]: ok = False; break
+            if ok:
+                for w in adj2[c]:
+                    if iv[w] >= 0 and iv[w] not in adj1[u]: ok = False; break
+            if not ok: continue
+            mp[u] = c; iv[c] = u
+            if rec(k + 1): return True
+            mp[u] = -1; iv[c] = -1
+        return False
+    rec(0)
+    return cnt[0]
+
+reps = []   # (adj, count, first index)
+for i, adj in enumerate(adjs):
+    for r in reps:
+        if iso_maps(r[0], adj):
+            r[1] += 1; break
+    else:
+        reps.append([adj, 1, i])
+assert len(reps) == 10, f"{len(reps)} carrier graphs != 10"
+assert sorted(r[1] for r in reps) == [1, 1, 1, 1, 1, 1, 3, 5, 5, 23]
+lowidx = [i for i, (q, _) in enumerate(stats) if q == 9]
+assert iso_maps(adjs[lowidx[0]], adjs[lowidx[1]]), "nquad-9 states on different graphs?"
+aut = iso_maps(adjs[lowidx[0]], adjs[lowidx[0]], count_all=True)
+assert aut == 10, f"min-nquad carrier |Aut| = {aut} != 10"
+assert sum(tri_pv(adjs[lowidx[0]])) // 3 == 5
+print("R53 census anchor OK: complete n=20 class = 42 states / 10 graphs, "
+      "all quad-alive, lengths {8,16}; min nquad 9 < m = 11 (twice, minpart "
+      "0, one |Aut|=10 carrier); 29/42 states have a quad-idle back edge")
 CHECK -->
 
 ## Summary
