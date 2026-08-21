@@ -176,6 +176,48 @@ R49 pins are contained (state-level iso). Headlines:
    instance between class carriers); the dominant carrier and the
    min-nquad carrier descend from none of A/B/C.
 
+**R54 — targeted hunt at $n \in \{22, 24\}$ (fixed-graph sweeps;
+CHECK 6).** A canonical-DFS fixed-graph enumerator (each (root, normal
+tree) pair visited exactly once — sibling subtrees of a normal tree
+have no cross edges, so increasing-label child order realizes every
+tree; validated by exact reproduction of the A/B/C classes at $n = 18$
+and the |Aut|=10-carrier class at $n = 20$) swept: the two known
+$n \ge 22$ carriers COMPLETELY, all 363 unique double-subdivision+join
+children of the four most significant $n = 20$ carriers (min-nquad
+G1, |Aut|=8 G9, dominant G0, B-descendant G3), all 10 cubic
+circulants $C_{22}(s, 11)$, all $GP(11, k)$, and the 6-triangle-ring
+family at $n = 24$ (the $k = 6$ analog of G1's pentagonal-ring
+structure). Results:
+
+1. **No quad-dead state, no below-$m$ state** at $n \in \{22, 24\}$ in
+   any sweep. The min-nquad decay $(10, 9)$ seen under exhaustion at
+   18/20 does NOT continue along any tested route.
+2. **The complete class of the qa_grow_n22 carrier is ONE state**
+   (nquad 41); a SECOND $n = 22$ carrier exists — a growth child of
+   the min-nquad $|\mathrm{Aut}| = 10$ carrier (explicit un-growth
+   pinned in CHECK 6), non-isomorphic to the first, with complete
+   class TWO states (nquad 41, 41). Every known $n = 22$ state has
+   nquad EXACTLY 41 $\gg m = 12$ — a striking uniformity across two
+   carriers and three states.
+3. **The complete class of the qa_grow_n24 carrier is 13 states**
+   (nquad 20–31, min 20 $> m = 13$, all quad-alive, lengths {8,16};
+   pinned).
+4. **Full vertex-transitivity excludes the class**: all 10 cubic
+   circulants and all five $GP(11, k)$ at $n = 22$ have EMPTY class
+   (CHECK 6 re-sweeps the circulants in-block); the 6-triangle-ring
+   family at $n = 24$ is class-empty for every chord offset. The
+   "high symmetry $\Rightarrow$ low nquad" reading of R53 is wrong as
+   a trend: the min-nquad carrier's $|\mathrm{Aut}| = 10$ sits in a
+   narrow window — symmetric enough to thin the quad supply,
+   irregular enough to admit class states at all.
+5. **Growth-descent is rare but real**: of 363 unique children of the
+   four carriers, exactly ONE is in the class (G1's child above);
+   G9/G0/G3 have NO class-carrying children. Combined with R52-R53:
+   two descent instances are now on record (B $\to$ G3 at $18 \to
+   20$, G1 $\to$ new carrier at $20 \to 22$), both to HIGH-nquad
+   children — growth never transports the low-nquad structure.
+
+
 <!-- CHECK
 # quad_alive_universal CHECK 1 (deterministic anchor): the three R47
 # pinned triple-dead trees each have >= 10 firing quadruples, with
@@ -789,6 +831,291 @@ assert sum(tri_pv(adjs[lowidx[0]])) // 3 == 5
 print("R53 census anchor OK: complete n=20 class = 42 states / 10 graphs, "
       "all quad-alive, lengths {8,16}; min nquad 9 < m = 11 (twice, minpart "
       "0, one |Aut|=10 carrier); 29/42 states have a quad-idle back edge")
+CHECK -->
+
+<!-- CHECK
+# quad_alive_universal CHECK 6 (R54 targeted-hunt anchors, n in {22, 24}):
+# (a) complete fixed-graph class sweeps IN-BLOCK via the validated
+#     canonical-DFS enumerator: the qa_grow_n22 carrier has EXACTLY 1
+#     class state (nquad 41); the new R54 carrier (a double-subdivision+
+#     join child of the CHECK-5 min-nquad |Aut|=10 carrier) has EXACTLY 2
+#     (nquad 41, 41) — every known n=22 state has nquad 41 >> m = 12;
+# (b) the two n=22 carriers are NOT isomorphic (backtracking decision);
+#     the new carrier IS a growth child of the min-nquad carrier
+#     (verified by explicit un-growth);
+# (c) ALL cubic circulants C22(s,11), s=1..10, have EMPTY class — full
+#     vertex-transitivity excludes the class at n=22 entirely;
+# (d) the 13 pinned states of the qa_grow_n24 carrier re-verify exactly
+#     (min nquad 20 > m = 13, all quad-alive, lengths {8,16}).
+from itertools import combinations
+PO2MASK = (1 << 4) | (1 << 8) | (1 << 16) | (1 << 32)
+PO2_LENS = {4, 8, 16, 32}
+
+QA22 = [(0,8),(0,11),(0,21),(1,6),(1,8),(1,19),(2,7),(2,13),(2,18),(3,4),
+ (3,8),(3,16),(4,11),(4,12),(5,13),(5,16),(5,19),(6,19),(6,20),(7,15),
+ (7,17),(9,10),(9,18),(9,21),(10,14),(10,18),(11,12),(12,15),(13,16),
+ (14,17),(14,20),(15,17),(20,21)]
+CH22 = [(0,1),(0,2),(0,20),(1,2),(1,11),(2,3),(3,4),(3,13),(4,5),(4,6),
+ (5,6),(5,15),(6,7),(7,8),(7,21),(8,9),(8,10),(9,10),(9,19),(10,11),
+ (11,12),(12,13),(12,14),(13,14),(14,15),(15,16),(16,17),(16,18),(17,18),
+ (17,21),(18,19),(19,20),(20,21)]
+G1_20 = [(0,1),(0,2),(0,19),(1,2),(1,11),(2,3),(3,4),(3,13),(4,5),(4,6),
+ (5,6),(5,15),(6,7),(7,8),(7,17),(8,9),(8,10),(9,10),(9,19),(10,11),
+ (11,12),(12,13),(12,14),(13,14),(14,15),(15,16),(16,17),(16,18),(17,18),
+ (18,19)]
+N24_STATES = [
+ ('0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,14,16,17,18,19,20,21,21;9-11,4-0,22-17,22-20,1-23,13-15,3-5,0-23,15-10,12-2,19-7,16-18,6-8', 26),
+ ('0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,14,16,17,18,19,20,20,22;9-11,4-0,1-23,13-15,3-5,21-16,21-17,0-23,19-22,15-10,12-2,18-7,6-8', 27),
+ ('0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,15,17,18,19,20,21,22;10-12,5-0,22-18,2-0,14-16,4-6,21-23,1-23,16-11,13-3,20-8,17-19,7-9', 21),
+ ('0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,15,17,18,19,20,21,22;10-12,5-0,23-18,23-21,2-0,14-16,4-6,1-22,16-11,13-3,20-8,17-19,7-9', 22),
+ ('0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,15,17,18,19,20,21,21;10-12,5-0,2-0,14-16,4-6,22-17,22-18,20-23,1-23,16-11,13-3,19-8,7-9', 20),
+ ('0,1,2,3,4,4,5,7,8,9,10,11,12,13,14,15,15,17,18,19,20,21,22;10-12,23-18,23-21,1-6,14-16,3-5,6-0,0-22,16-11,13-2,20-8,17-19,7-9', 28),
+ ('0,1,2,3,4,4,5,7,8,9,10,11,12,13,14,15,15,17,18,19,20,21,21;10-12,1-6,14-16,3-5,22-17,22-18,6-0,20-23,0-23,16-11,13-2,19-8,7-9', 25),
+ ('0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,15,17,18,19,20,21,22;10-12,5-1,23-18,23-21,2-0,14-16,4-6,0-22,16-11,13-3,20-8,17-19,7-9', 20),
+ ('0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,15,17,18,19,20,21,21;10-12,5-1,2-0,14-16,4-6,22-17,22-18,20-23,0-23,16-11,13-3,19-8,7-9', 21),
+ ('0,1,2,3,4,5,6,7,8,9,10,11,11,12,14,15,16,17,17,18,19,21,22;3-1,9-7,15-20,22-0,8-13,16-19,10-12,20-14,23-21,23-2,0-13,18-5,6-4', 31),
+ ('0,1,2,3,4,5,5,7,8,9,10,11,11,12,14,15,16,17,18,19,20,21,22;17-19,6-1,6-4,8-13,21-23,10-12,13-7,23-18,22-0,20-9,3-15,0-2,14-16', 20),
+ ('0,1,2,3,4,5,5,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22;17-19,12-8,6-1,6-4,9-7,21-23,11-13,22-18,23-0,20-10,3-15,0-2,14-16', 21),
+ ('0,1,2,3,4,5,5,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22;17-19,12-8,6-1,6-4,9-7,21-23,11-13,23-18,22-0,20-10,3-15,0-2,14-16', 20),
+]
+
+
+def sweep(n, edges):
+    """Canonical-DFS class enumerator (validated R54): returns list of
+    (root, par) for every triple-dead pair-residual normal tree."""
+    edges = sorted(tuple(sorted(e)) for e in edges)
+    adj = [[] for _ in range(n)]
+    eidx = {}
+    for i, (u, v) in enumerate(edges):
+        adj[u].append(v); adj[v].append(u)
+        eidx[(u, v)] = i; eidx[(v, u)] = i
+    for a in adj:
+        a.sort(); assert len(a) == 3
+    par = [-1] * n; visited = [False] * n
+    pathmask = [0] * n; lastchild = [-1] * n
+    fcs = []; cands = []; marks = []
+    deg2 = bytearray(n); nb1 = [0] * n; nb2 = [0] * n; tv = [0] * 70
+    out = []
+
+    def is_single(t, L):
+        mm = t; ntv = 0
+        while mm:
+            b = mm & -mm; i = b.bit_length() - 1; mm ^= b
+            u, v = edges[i]
+            if deg2[u]: nb2[u] = v
+            else: nb1[u] = v; tv[ntv] = u; ntv += 1
+            deg2[u] += 1
+            if deg2[v]: nb2[v] = u
+            else: nb1[v] = u; tv[ntv] = v; ntv += 1
+            deg2[v] += 1
+        start = tv[0]; prev = start; cur = nb1[start]; steps = 1
+        while cur != start:
+            a = nb1[cur]
+            if a == prev: a = nb2[cur]
+            prev = cur; cur = a; steps += 1
+        for x in range(ntv): deg2[tv[x]] = 0
+        return steps == L
+
+    def close_backedges(w):
+        added = 0; pw = par[w]
+        for u in adj[w]:
+            if not visited[u] or u == pw: continue
+            f = (pathmask[w] ^ pathmask[u]) | (1 << eidx[(u, w)])
+            ok = True
+            c = f.bit_count()
+            if c == 4 or ((PO2MASK >> c) & 1 and is_single(f, c)): ok = False
+            if ok:
+                for x in cands:
+                    t = f ^ x; c = t.bit_count()
+                    if c == 4 or ((PO2MASK >> c) & 1 and is_single(t, c)):
+                        ok = False; break
+            if not ok:
+                for _ in range(added):
+                    fcs.pop(); del cands[marks.pop():]
+                return added, False
+            marks.append(len(cands)); k = len(fcs)
+            cands.append(f)
+            for i in range(k): cands.append(f ^ fcs[i])
+            fcs.append(f); added += 1
+        return added, True
+
+    def rec(stack, root):
+        i = len(stack) - 1
+        while i >= 0:
+            cur = stack[i]
+            if not (visited[adj[cur][0]] and visited[adj[cur][1]]
+                    and visited[adj[cur][2]]): break
+            i -= 1
+        if i < 0:
+            out.append((root, tuple(par))); return
+        cur = stack[i]; live = stack[:i + 1]; lc = lastchild[cur]
+        for w in adj[cur]:
+            if visited[w] or w <= lc: continue
+            visited[w] = True; par[w] = cur
+            pathmask[w] = pathmask[cur] | (1 << eidx[(cur, w)])
+            lastchild[cur] = w
+            k, ok = close_backedges(w)
+            if ok:
+                rec(live + [w], root)
+                for _ in range(k):
+                    fcs.pop(); del cands[marks.pop():]
+            visited[w] = False; par[w] = -1; lastchild[cur] = lc
+        return
+
+    for root in range(n):
+        visited[root] = True; par[root] = -1; pathmask[root] = 0
+        rec([root], root)
+        visited[root] = False
+    return out
+
+
+def profile(n, root, par, edges):
+    edges = [tuple(sorted(e)) for e in edges]
+    depth = [-1] * n; depth[root] = 0
+    pend = [v for v in range(n) if v != root]
+    while pend:
+        nxt = []
+        for v in pend:
+            if depth[par[v]] >= 0: depth[v] = depth[par[v]] + 1
+            else: nxt.append(v)
+        assert len(nxt) < len(pend); pend = nxt
+    tre = {(min(v, par[v]), max(v, par[v])) for v in range(n) if v != root}
+    fc = []
+    for e in edges:
+        if e in tre: continue
+        u, v = e
+        a, b = (u, v) if depth[u] <= depth[v] else (v, u)
+        es = set(); x = b
+        while x != a:
+            p = par[x]; es.add((min(x, p), max(x, p))); x = p
+        es.add(e); fc.append(es)
+    m = len(fc)
+    assert m == n // 2 + 1
+    def scl(sym):
+        if not sym: return None
+        dg = {}
+        for u, v in sym: dg[u] = dg.get(u, 0) + 1; dg[v] = dg.get(v, 0) + 1
+        if any(d != 2 for d in dg.values()): return None
+        adjS = {}
+        for u, v in sym:
+            adjS.setdefault(u, []).append(v); adjS.setdefault(v, []).append(u)
+        st = next(iter(dg)); seen = {st}; stk = [st]
+        while stk:
+            u = stk.pop()
+            for w in adjS[u]:
+                if w not in seen: seen.add(w); stk.append(w)
+        return len(sym) if len(seen) == len(dg) else None
+    for size in (1, 2, 3):
+        for sub in combinations(range(m), size):
+            acc = set()
+            for i in sub: acc ^= fc[i]
+            assert scl(acc) not in PO2_LENS, "not triple-dead"
+    nq = 0
+    for sub in combinations(range(m), 4):
+        acc = set()
+        for i in sub: acc ^= fc[i]
+        L = scl(acc)
+        if L in PO2_LENS:
+            assert L in (8, 16); nq += 1
+    return nq
+
+# (a) complete sweeps
+hits22 = sweep(22, QA22)
+nq22 = sorted(profile(22, r, p, QA22) for r, p in hits22)
+# labeled dedup not needed for the count claim if raw == states; assert raw
+assert nq22 == [41], f"qa_grow_n22 carrier class: {nq22}"
+hits_ch = sweep(22, CH22)
+nq_ch = sorted(profile(22, r, p, CH22) for r, p in hits_ch)
+assert nq_ch == [41, 41], f"new n=22 carrier class: {nq_ch}"
+print(f"n=22 complete sweeps OK: known carriers have classes {nq22} and {nq_ch} "
+      f"(every known n=22 state: nquad 41, m=12)")
+
+# (b) carriers distinct + growth-descent verified by explicit un-growth
+def adj_of(n, edges):
+    adj = [set() for _ in range(n)]
+    for u, v in edges: adj[u].add(v); adj[v].add(u)
+    return adj
+
+def tri_pv(n, adj):
+    t = [0] * n
+    for u in range(n):
+        ns = sorted(adj[u])
+        for a in range(len(ns)):
+            for b in range(a + 1, len(ns)):
+                if ns[b] in adj[ns[a]]: t[u] += 1
+    return t
+
+def iso(n, adj1, adj2):
+    t1, t2 = tri_pv(n, adj1), tri_pv(n, adj2)
+    i1 = [(t1[v], tuple(sorted(t1[w] for w in adj1[v]))) for v in range(n)]
+    i2 = [(t2[v], tuple(sorted(t2[w] for w in adj2[v]))) for v in range(n)]
+    if sorted(i1) != sorted(i2): return False
+    order = sorted(range(n), key=lambda v: i1[v])
+    mp = [-1] * n; iv = [-1] * n
+    def rec(k):
+        if k == n: return True
+        u = order[k]
+        for c in range(n):
+            if iv[c] >= 0 or i2[c] != i1[u]: continue
+            ok = True
+            for w in adj1[u]:
+                if mp[w] >= 0 and mp[w] not in adj2[c]: ok = False; break
+            if ok:
+                for w in adj2[c]:
+                    if iv[w] >= 0 and iv[w] not in adj1[u]: ok = False; break
+            if not ok: continue
+            mp[u] = c; iv[c] = u
+            if rec(k + 1): return True
+            mp[u] = -1; iv[c] = -1
+        return False
+    return rec(0)
+
+assert not iso(22, adj_of(22, QA22), adj_of(22, CH22)), "n=22 carriers iso?!"
+# un-growth: contract 20 and 21 out of CH22 -> must equal G1_20 exactly
+ch = set(map(tuple, (tuple(sorted(e)) for e in CH22)))
+n20, n21 = 20, 21
+nb20 = sorted(u for u, v in ch if v == n20) + sorted(v for u, v in ch if u == n20)
+nb21 = sorted(u for u, v in ch if v == n21) + sorted(v for u, v in ch if u == n21)
+nb20 = [x for x in nb20 if x != n21]; nb21 = [x for x in nb21 if x != n20]
+assert len(nb20) == 2 and len(nb21) == 2
+base = {e for e in ch if n20 not in e and n21 not in e}
+base.add(tuple(sorted(nb20))); base.add(tuple(sorted(nb21)))
+assert base == {tuple(sorted(e)) for e in G1_20}, "un-growth != G1"
+print("n=22 carriers pairwise non-iso; new carrier = double-subdivision+join "
+      "child of the CHECK-5 min-nquad |Aut|=10 carrier (explicit un-growth)")
+
+# (c) circulant emptiness
+for s in range(1, 11):
+    e = set()
+    for i in range(22):
+        e.add(tuple(sorted((i, (i + s) % 22))))
+        e.add(tuple(sorted((i, (i + 11) % 22))))
+    assert not sweep(22, sorted(e)), f"C22({s},11) has a class state?!"
+print("all 10 cubic circulants C22(s,11): class EMPTY (vertex-transitivity "
+      "excludes the class at n=22)")
+
+# (d) the 13 pinned states of the qa_grow_n24 carrier
+QA24 = [(0,19),(0,21),(0,22),(1,5),(1,6),(1,8),(2,7),(2,9),(2,18),(3,8),
+ (3,10),(3,16),(4,11),(4,12),(4,13),(5,6),(5,16),(6,20),(7,15),(7,17),
+ (8,10),(9,14),(9,18),(10,18),(11,12),(11,21),(12,15),(13,16),(13,19),
+ (14,17),(14,23),(15,17),(19,21),(20,22),(20,23),(22,23)]
+seen_nq = []
+for enc, xnq in N24_STATES:
+    ps, bs = enc.split(';')
+    par = [-1] + [int(x) for x in ps.split(',')]
+    bes = [tuple(int(x) for x in e.split('-')) for e in bs.split(',')]
+    n = 24
+    edges = [tuple(sorted((par[v], v))) for v in range(1, n)] \
+          + [tuple(sorted(e)) for e in bes]
+    assert len(set(edges)) == 36
+    nq = profile(n, 0, par, edges)
+    assert nq == xnq, f"n=24 state nquad {nq} != {xnq}"
+    seen_nq.append(nq)
+assert sorted(seen_nq) == [20, 20, 20, 20, 21, 21, 21, 22, 25, 26, 27, 28, 31]
+print("qa_grow_n24 carrier: 13 pinned states re-verified (min nquad 20 > "
+      "m = 13, all quad-alive, lengths {8,16})")
+print("R54 anchors OK")
+
 CHECK -->
 
 ## Summary

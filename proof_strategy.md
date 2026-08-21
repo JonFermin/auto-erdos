@@ -2001,3 +2001,69 @@ all three R49 pins are contained.
 Neither (a) a quad-dead state (42/42 alive at 20) nor (b) a surviving
 counting mechanism yet; rounds R54–R56 get the Q78 targeted hunt and
 the two-scale anatomy. The criterion stands.
+
+## Section 94 — R54: the targeted hunt at $n \in \{22, 24\}$ — no quad-death, a second $n=22$ carrier, and vertex-transitivity excludes the class (session s_0821-080752-392f)
+
+### The round
+
+Q78 executed via a new fixed-graph class enumerator: canonical-DFS
+sweep of ALL (root, normal tree) pairs of a chosen cubic graph with
+the R51/R52 exact triple-dead pruning (each tree visited exactly once;
+sibling subtrees of a normal tree have no cross edges, so the
+increasing-label child order realizes every tree). Validated by exact
+reproduction of the known complete classes: A/B/C at $n = 18$
+(3/1/2 states) and the min-nquad carrier at $n = 20$ (5 states,
+nquads $\{9, 9, 19, 19, 21\}$). Per-graph sweeps run in ~0.1–8 s, so
+hundreds of graphs at $n \in \{22, 24\}$ became checkable in one
+session. CHECK 6 of `lemma_quad_alive_universal` re-runs the decisive
+sweeps in-block.
+
+### Sweeps executed (all complete per graph)
+
+1. The known $n = 22$ carrier (qa_grow_n22's graph): class = ONE
+   state, nquad 41.
+2. All 363 unique growth children of the four significant $n = 20$
+   carriers (G1 min-nquad, G9, G0 dominant, G3 B-descendant):
+   exactly ONE child in the class — G1's child (n=22, tri 5,
+   $|\mathrm{Aut}| = 1$), class = TWO states, nquad 41 both. G9, G0,
+   G3: zero class-carrying children.
+3. Symmetric catalog at $n = 22$: all 10 cubic circulants
+   $C_{22}(s,11)$ and all $GP(11,k)$, $k = 1..5$ — class EMPTY on
+   every one.
+4. The 6-triangle-ring family at $n = 24$ (analog of G1's pentagonal
+   ring, all chord offsets): class EMPTY.
+5. The known $n = 24$ carrier: complete class = 13 states, nquad
+   20–31 (min 20 $> m = 13$).
+
+### Findings
+
+1. **No quad-dead and no below-$m$ state at $n \in \{22, 24\}$** along
+   any tested route: the min-nquad decay (10, 9) from the two
+   exhaustive scales does not continue under growth, symmetry, or the
+   ring family. Whether it continues under full exhaustion at 22 is
+   open (infeasible here: ~35–45G nodes).
+2. **Known $n = 22$ class: 3 states on 2 carriers, every nquad
+   EXACTLY 41.** The uniformity is unexplained; the two carriers are
+   non-isomorphic ($|\mathrm{Aut}| = 1$ both, tri 5 both).
+3. **Vertex-transitivity excludes the class at $n = 22$** — and the
+   triangle-ring family (which produces the min-nquad carrier at
+   $k = 5$) is class-empty at $k = 6$. The symmetry window for class
+   membership is narrow; $|\mathrm{Aut}| = 10$ at $n = 20$ is near
+   its edge.
+4. **Growth descent between class carriers: 2 instances on record**
+   (B→G3 at 18→20, G1→new at 20→22), both to high-nquad children.
+   Growth never transports low-nquad structure.
+
+### Consequences for the program
+
+- Q78's answer so far: the low-nquad phenomenon is NOT mobile — it
+  neither grows nor extends to symmetric families. If quad-death
+  exists, it lives at scales/structures beyond both reach of growth
+  from known carriers and the symmetric catalog: the honest routes
+  left are (i) full exhaustion at n=22 (needs ~10x more compute or a
+  sharper theory-driven pruning), (ii) an analytic mechanism ruling
+  quad-death out. The R56 exit criterion stands unchanged.
+- The uniform nquad=41 at n=22 (3 states) and the exact minimal cores
+  at 18/20 are now the sharpest data for the mechanism flank: any
+  counting mechanism must reproduce min-nquad {10, 9}, the n=22
+  uniformity, and the n=24 minimum 20.
