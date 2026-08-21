@@ -615,7 +615,7 @@ cubic graph has an $L = 8$ firing triple realized through a 1-arc
 
 Strictly stronger than `sup8_tree_universal` (which allows any
 channel). If it holds, the supply program collapses to the paste
-8-line $g_3 = 2k' + 7 - |D|$ — the channel where
+8-line $g_3 = 2k' + 7 - |D|$ (domain: even-$L$ short pastes with $k' \le |D|-6$ only — outside it the line does not apply and $g_3 \ge \max(k',2)$ governs) — the channel where
 `pasting_vertex_automatic`, the dichotomy paste-certificates
 (c1)–(c3), and `shortpaste_floor_line`(b) already live — and the
 straddle line becomes a proved-but-unneeded spare. If it dies, the
@@ -644,7 +644,7 @@ redirects to level $k+1$ with a pinned counterexample in hand.
 |------|--------|
 | Channel census (43 residual trees, both pins) | paste-8 universal, 43/43 + 12/12 |
 | `paste8_tree_universal` lemma + 2 CHECKs | **committed, open** (R38) |
-| Supply target if it holds | paste 8-line only: $g_3 = 2k' + 7 - |D|$ |
+| Supply target if it holds | paste 8-line only: $g_3 = 2k' + 7 - |D|$ (on its $k' \le |D|-6$ even-$L$ short-paste domain) |
 | Next: prove paste-8 supply on a structured subclass, or hunt bigger-n falsifiers | open (R39+) |
 
 ## Section 79 — R39: Cell census — the paste-8 certificate is $O(1)$-local; `paste8_k2_universal` split off (session s_0813-080958-9732)
@@ -652,7 +652,7 @@ redirects to level $k+1$ with a pinned counterexample in hand.
 ### Census (seed 20260813, n ∈ {12..26}, 153,600 trees, 46 residual)
 
 R38 said WHICH channel (paste); R39 asks WHERE on the paste 8-line
-$g_3 = 2k' + 7 - |D|$ the witnesses live. Enumerating ALL paste-8
+$g_3 = 2k' + 7 - |D|$ (valid on its $k' \le |D|-6$ even-$L$ short-paste domain) the witnesses live. Enumerating ALL paste-8
 witnesses of every residual tree and tabulating their $(|D|, k')$
 cells:
 
@@ -769,7 +769,7 @@ $n \ge 30$ — $(5,1), (5,2), (6,2), (7,2)$ — still respect the menu.
    is the strongest available falsifier for levels 2–4.
 2. If level 2 survives adversarial attack: the analytic proof must
    produce a paste-8 with UNBOUNDED $k'$ — the value line
-   $g_3 = 2k'+7-|D|$ covers all $k'$, so the burden is pure supply:
+   $g_3 = 2k'+7-|D|$ covers all $k'$ within its domain ($k' \le |D|-6$, even-$L$ short paste), so the burden is pure supply:
    show SOME pair + cover meeting in one arc on the 8-line. Candidate
    handle: the R30 dichotomy certificates (c1)–(c3) don't bound $k'$.
 3. Fallback (untouched): graph-level quantifier — choose the DFS tree.
@@ -822,7 +822,7 @@ The ladder is as hard as adversarial search can make it:
 261/261 direct-attack survival on top of 43/43 + 20/20 prior
 evidence. Per the R41+ plan, the program switches to the **analytic
 unbounded-$k'$ supply attack**: prove that on the 8-line
-$g_3 = 2k' + 7 - |D|$ some pair + cover meeting in one arc always
+$g_3 = 2k' + 7 - |D|$ (on its $k' \le |D|-6$ even-$L$ short-paste domain) some pair + cover meeting in one arc always
 exists on a pair-residual tree — value side already closed by
 `shortpaste_floor_line` for all $k'$; candidate handle: the R30
 dichotomy paste certificates (c1)–(c3), which do not bound $k'$.
@@ -1867,3 +1867,63 @@ Consequences:
    $\{10, 12, 14, 17, 25\}$ exactly at $n = 18$.
 3. Growth-lineage placement: are the known $n = 20/22/24$ states grown
    from A only? Do B/C have their own ladders upward?
+
+## Section 92 — R52: iso-audit of the $n \ge 20$ corpus + validated fast enumerator; the growth "ladder" is route, not descent (session s_0821-080752-392f)
+
+### The round
+
+Executes flanks 1 (prep) and 3 of Section 91. Two results and a
+program-level correction, plus a fully re-validated, faster exhaustive
+harness with which the complete $n = 20$ census is now running.
+
+### Result 1 — the three pinned $n = 20$ states sit on THREE pairwise non-isomorphic graphs
+
+Triangle counts alone separate them (5, 3, 4 for `qa_cold_n20` /
+`qa_warm34_n20` / `qa_warm15_n20`; triangle count is an isomorphism
+invariant), $|\mathrm{Aut}| = 2, 1, 2$. New CHECK 4 of
+`lemma_quad_alive_universal` pins this deterministically (stdlib
+triangle census + invariant-pruned automorphism backtracking), together
+with the $n = 22/24$ pin invariants (tri 5, $|\mathrm{Aut}| = 1$;
+tri 7, $|\mathrm{Aut}| = 2$). So the $n = 18$ correction (five
+"distinct" falsifiers = ONE graph) does NOT repeat at 20: the pinned
+$n \ge 20$ evidence is genuinely graph-diverse, and at least 3 of
+R49's "8 distinct graphs at $n = 20$" are real.
+
+### Result 2 — the growth "ladder" is search-route provenance, NOT graph descent
+
+networkx audit (out-of-band, complete over all $\binom{|E|}{2}$
+double-subdivision+join children): none of the three pinned $n = 20$
+graphs is a growth child of census graph A; `qa_grow_n22`'s graph is
+not a growth child of ANY pinned $n = 20$ graph; `qa_grow_n24`'s graph
+is not a growth child of `qa_grow_n22`'s. The R49/R50 route "grow,
+then warm SA" mutates the carrier graph (double-edge swaps) before the
+class is re-entered, so every cross-scale "lineage" statement in
+R49–R50 is about the search trajectory only. Consequence for the
+analytic program: there is NO empirical instance of a class-preserving
+growth move on record, so any induction-on-$n$ mechanism via local
+growth operations currently has zero supporting cases — Section 91's
+open flank 3 (do B/C have ladders?) is mooted in its original form.
+The right lineage question is now: does ANY double-subdivision+join
+child of a class state lie in the class (before SA repair)?
+
+### Harness v2 (validated) + the $n = 20$ census launch
+
+Inner-loop rewrite of the R51 enumerator (same domain, same exact
+pruning): popcount-4 shortcut (a nonzero cycle-space element with 4
+edges is a single 4-cycle — two disjoint cycles need $\ge 6$ edges),
+allocation-free rotation walk for lengths 8/16/32, flat incremental
+candidate list (fcs$[i]$, fcs$[i] \oplus$ fcs$[j]$), first-deficient
+pointer. Validation locks ALL pass: search-node counts match R51
+EXACTLY at every scale (131 / 1,386 / 17,624 / 280,530 / 5,297,594
+for $n = 8..16$; emptiness reproduced), the ta_warm pin is found on
+its own shape, and the complete $n = 18$ census REPRODUCES EXACTLY —
+102,771,427 nodes (R51's figure), 10 raw survivors, deduping to the
+same 6 states on 3 graphs with identical (nquad, minpart, spectrum,
+$|\mathrm{Aut}|$, triangle) profiles: A(tri 4): 10/2, 12/2, 14/3;
+B(tri 5): 17/4; C(tri 4): 25/6 twice. Speed: $n = 16$ in 60 s
+single-core (R51: 98 s). The complete $n = 20$ run (forecast
+$\approx 2 \times 10^9$ nodes, $\sim 3$–4 h wall on 4 shards) is
+RUNNING; R53 will carry the census. Any quad-dead survivor = depth-5
+discovery; expected theorems if none: exact class at the second
+scale, nquad $\ge m = 11$ status, spectrum $\{8, 16\}$ status, and
+the true graph count (audits R49's "8").

@@ -120,6 +120,25 @@ carrier graphs at $n = 18$ were never reached by any SA/beam/growth
 campaign. Sampled-evidence claims of "distinct graphs" at $n \ge 20$
 are unaudited up to isomorphism and pending an R52 re-check.
 
+**R52 — iso-audit of the $n \ge 20$ pinned corpus (CHECK 4).** The
+three pinned $n = 20$ states sit on THREE pairwise non-isomorphic
+cubic graphs — proved by triangle counts alone (5, 3, 4 for
+`qa_cold_n20`, `qa_warm34_n20`, `qa_warm15_n20`; a graph invariant),
+with $|\mathrm{Aut}| = 2, 1, 2$ pinned as well. So unlike $n = 18$
+(where five "distinct" falsifiers collapsed to one graph), the
+$n = 20$ pinned evidence is genuinely graph-diverse: at least 3 of
+R49's claimed "8 distinct graphs" are real. Second finding: the
+growth "ladder" is NOT graph-descent. None of the three $n = 20$
+pinned graphs is a double-subdivision+join child of census graph A;
+`qa_grow_n22`'s graph is not a growth child of any pinned $n = 20$
+graph; `qa_grow_n24`'s graph is not a growth child of
+`qa_grow_n22`'s (networkx audit over all $\binom{|E|}{2}$ growth
+children, out-of-band). The R49/R50 route "grow then warm-SA" mutates
+the carrier graph by double-edge-swaps before the class is
+re-entered, so lineage claims are search-route provenance only — any
+structural induction on $n$ via class-preserving growth moves has NO
+empirical instance on record.
+
 <!-- CHECK
 # quad_alive_universal CHECK 1 (deterministic anchor): the three R47
 # pinned triple-dead trees each have >= 10 firing quadruples, with
@@ -457,6 +476,92 @@ for name, nn, edges, root, par, expect_nquad, expect_minpart in PINS20:
           f"min participation {min(part)}")
 print("R49 anchor OK: class reached at n=20 by two routes; all quad-alive; "
       "nquad >= m holds; participation floor dies at n=20")
+CHECK -->
+
+<!-- CHECK
+# quad_alive_universal CHECK 4 (R52 iso-audit anchor): the three pinned
+# n=20 carrier graphs are pairwise NON-isomorphic — proved by triangle
+# count alone (an isomorphism invariant): 5, 3, 4.  |Aut| pinned via
+# exhaustive invariant-pruned backtracking (2, 1, 2), plus the n=22/24
+# growth-pin invariants (tri 5 |Aut| 1; tri 7 |Aut| 2).  This corrects
+# the n=18 lesson (five "distinct" falsifiers = ONE graph) in the other
+# direction: the n>=20 pinned corpus is genuinely graph-diverse.
+GRAPHS = {
+ 'qa_cold_n20': (20, [(0,3),(0,8),(0,11),(1,6),(1,8),(1,19),(2,8),(2,13),
+  (2,18),(3,7),(3,10),(4,6),(4,11),(4,12),(5,13),(5,16),(5,19),(6,19),
+  (7,15),(7,17),(9,10),(9,14),(9,18),(10,18),(11,12),(12,15),(13,16),
+  (14,16),(14,17),(15,17)], 5, 2),
+ 'qa_warm34_n20': (20, [(0,2),(0,4),(0,7),(1,3),(1,5),(1,18),(2,4),(2,6),
+  (3,15),(3,18),(4,8),(5,10),(5,19),(6,13),(6,15),(7,9),(7,12),(8,14),
+  (8,16),(9,10),(9,15),(10,17),(11,12),(11,17),(11,19),(12,14),(13,16),
+  (13,19),(14,16),(17,18)], 3, 1),
+ 'qa_warm15_n20': (20, [(0,2),(0,4),(0,7),(1,3),(1,5),(1,12),(2,4),(2,5),
+  (3,17),(3,18),(4,8),(5,13),(6,10),(6,15),(6,17),(7,9),(7,12),(8,14),
+  (8,16),(9,10),(9,14),(10,17),(11,13),(11,18),(11,19),(12,15),(13,16),
+  (14,16),(15,19),(18,19)], 4, 2),
+ 'qa_grow_n22': (22, [(0,8),(0,11),(0,21),(1,6),(1,8),(1,19),(2,7),(2,13),
+  (2,18),(3,4),(3,8),(3,16),(4,11),(4,12),(5,13),(5,16),(5,19),(6,19),
+  (6,20),(7,15),(7,17),(9,10),(9,18),(9,21),(10,14),(10,18),(11,12),
+  (12,15),(13,16),(14,17),(14,20),(15,17),(20,21)], 5, 1),
+ 'qa_grow_n24': (24, [(0,19),(0,21),(0,22),(1,5),(1,6),(1,8),(2,7),(2,9),
+  (2,18),(3,8),(3,10),(3,16),(4,11),(4,12),(4,13),(5,6),(5,16),(6,20),
+  (7,15),(7,17),(8,10),(9,14),(9,18),(10,18),(11,12),(11,21),(12,15),
+  (13,16),(13,19),(14,17),(14,23),(15,17),(19,21),(20,22),(20,23),
+  (22,23)], 7, 2),
+}
+
+def adj_of(n, edges):
+    adj = [set() for _ in range(n)]
+    for u, v in edges: adj[u].add(v); adj[v].add(u)
+    assert all(len(a) == 3 for a in adj)
+    return adj
+
+def tri_per_vertex(n, adj):
+    t = [0] * n
+    for u in range(n):
+        ns = sorted(adj[u])
+        for i in range(3):
+            for j in range(i + 1, 3):
+                if ns[j] in adj[ns[i]]: t[u] += 1
+    return t
+
+def count_autos(n, adj, invar):
+    # exhaustive backtracking over invariant-compatible maps; complete.
+    order = sorted(range(n), key=lambda v: (invar[v], -len(adj[v])))
+    mp = [-1] * n; inv = [-1] * n; cnt = [0]
+    def rec(i):
+        if i == n: cnt[0] += 1; return
+        u = order[i]
+        for c in range(n):
+            if inv[c] >= 0 or invar[c] != invar[u]: continue
+            ok = True
+            for w in adj[u]:
+                if mp[w] >= 0 and mp[w] not in adj[c]: ok = False; break
+            if not ok: continue
+            for w in adj[c]:
+                if inv[w] >= 0 and inv[w] not in adj[u]: ok = False; break
+            if not ok: continue
+            mp[u] = c; inv[c] = u
+            rec(i + 1)
+            mp[u] = -1; inv[c] = -1
+    rec(0)
+    return cnt[0]
+
+tris = {}
+for name, (n, edges, expect_tri, expect_aut) in GRAPHS.items():
+    adj = adj_of(n, edges)
+    tv = tri_per_vertex(n, adj)
+    ntri = sum(tv) // 3
+    assert ntri == expect_tri, f"{name}: triangles {ntri} != {expect_tri}"
+    invar = [(tv[v], tuple(sorted(tv[w] for w in adj[v]))) for v in range(n)]
+    aut = count_autos(n, adj, invar)
+    assert aut == expect_aut, f"{name}: |Aut| {aut} != {expect_aut}"
+    tris[name] = ntri
+    print(f"{name}: n={n} triangles={ntri} |Aut|={aut}")
+n20 = ['qa_cold_n20', 'qa_warm34_n20', 'qa_warm15_n20']
+assert len({tris[k] for k in n20}) == 3
+print("R52 iso-audit anchor OK: triangle counts 5/3/4 pairwise distinct -> "
+      "the three pinned n=20 carrier graphs are pairwise non-isomorphic")
 CHECK -->
 
 ## Summary
