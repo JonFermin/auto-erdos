@@ -2212,3 +2212,89 @@ class-nonemptiness sweep. Q79 opened. If no graph passes, or passes
 fail L3, the depth-escalation program closes per the pre-commitment
 with the mechanism as the converged artifact; a pass that realizes a
 normal cotree is the depth-5 discovery.
+
+## Section 96 — R56: the mechanism falsifier campaign — 2,271 graphs, zero quad-dead states, all 61 covering-feasible graphs blocked at the cotree layer with complete UNSAT certificates; the depth-escalation program CLOSES (session s_0822-080621-c9ec)
+
+### The campaign (Q79; the falsifier the R56 pre-commitment demanded)
+
+Section 95's mechanism made a falsifiable claim: quad-death requires a
+graph passing L1 (5-coverability of the PO2 cycle system within budget
+$m$) and L2 (some 5-cover is a cotree) and L3 (some such cotree is
+normal). R56 swept graph populations far beyond anything the tree
+censuses could reach, at $n \in \{22, 24, 26, 28\}$, testing each
+graph exactly (stdlib DP or SAT for L1; CEGAR to UNSAT for L2;
+explicit root sweep for L3):
+
+| population | n | count | C4-excl. | L1-infeasible | L1 pass |
+|---|---|---|---|---|---|
+| random cubic          | 22 | 200 | 186 | 14  | 0 |
+| growth children qa22  | 24 | 528 | 410 | 118 | 0 |
+| growth children ch22  | 24 | 528 | 402 | 126 | 0 |
+| random cubic          | 24 | 200 | 186 | 14  | 0 |
+| growth children qa24  | 26 | 630 | 550 | 30  | **50** |
+| random cubic          | 26 | 100 | 90  | 10  | 0 |
+| adversarial low-$c_8$ | 26 | 25  | 0   | 14  | **11** |
+| random cubic          | 28 | 60  | 56  | 4   | 0 |
+| **total**             |    | **2271** | **1880** | **330** | **61** |
+
+(C4-excluded = graph has a 4-cycle, so quad-death is impossible
+outright, Section 95. The adversarial arm runs a local search
+minimizing $c_8$ — with a $100\times$ penalty on 4-cycles — before
+testing, i.e. it *manufactures* the low-$c_8$ condition that L1
+passes need; it converts a 0% random pass rate at $n = 26$ into 44%.)
+
+### Results
+
+1. **L1 passes exist only where $c_8$ collapses**: all 50 organic
+   passes are growth children of the $c_8 = 1$ qa24 carrier
+   ($c_8 \in 3$–$6$ after subdivision re-lengthens cycles), and the 11
+   engineered passes have $c_8$ driven to 2–3. No random graph at any
+   scale passes L1 ($c_8$ is typically two-digit).
+2. **Every one of the 61 L1-pass graphs is L2-blocked with a COMPLETE
+   UNSAT certificate**: the CEGAR enumeration (SAT models of the
+   5-cover polytope + lazily added cycle-hitting clauses) reached
+   UNSAT on all 61 — zero cotree 5-covers exist, zero cotrees were
+   even seen along the way (scratchpad r56_verify_l1pass.py, verdicts
+   in r56_l1pass_verdicts.tsv; runtimes 0–1451 s). L3 was never
+   reached. **Zero quad-dead candidates in the entire campaign.**
+3. **The L2 obstruction is triangle starvation**: for the $n = 24$
+   carrier the CEGAR certificate is 6 explicit constraints — 5 of the
+   carrier's triangles plus one 6-cycle, each of which every cotree
+   must hit but every 5-cover starves (5-covering concentrates $X$ on
+   high-PO2-coverage edges; triangle edges carry almost no PO2
+   cycles). The 6-clause certificate is independently re-checkable in
+   seconds; a stdlib mixed-threshold DP also re-proves it (88 s, peak
+   4.2M states — documented, too slow for a CHECK block).
+4. A density heuristic frames the asymptotics honestly: cotree density
+   is $(n/2+1)/(3n/2) \to 1/3$, so a random cotree carries $\approx
+   8/3 = 2.67$ edges of an 8-cycle (far below 5 — any graph with a
+   few spread 8-cycles fails L1 at every $n$) and $\approx 16/3 =
+   5.33$ of a 16-cycle (barely above 5 — L1 on 16-cycles is
+   borderline-feasible, as observed). Depth-6 death would need
+   $\ge 6 > 5.33$ per 16-cycle — supercritical again. The escalation
+   tower forces PO2-cycle-sparse graphs ever harder; the
+   $\mathcal{C}(G) = \emptyset$ endpoint IS the EGC counterexample.
+
+### Program decision (per the Section 91 pre-commitment, restated §94)
+
+The R56 exit criterion offered (a) a quad-dead state or (b) a counting
+mechanism surviving a falsifier campaign, else closure. Outcome: (a)
+did not occur — and the campaign showed WHY it kept not occurring, at
+every scale and in an adversarial population built to break the
+mechanism; (b) is met — the covering mechanism survived 2,271 graphs
+with zero exceptions and made only confirmed predictions (the 61
+L1-passes were each individually adjudicated, none escaped L2).
+
+**The depth-escalation program (Q77) CLOSES as converged negative
+knowledge**: no quad-dead state exists on any known carrier
+($n \le 24$, Section 95 THEOREM) nor on any of 2,271 swept graphs
+($n \le 28$); quad-death, if it exists at all, requires a cubic graph
+with simultaneously (i) no 4-cycle, (ii) near-vanishing 8-cycle
+structure, (iii) a 5-coverable 16-cycle system whose covers survive
+the feedback/triangle tension — a profile the campaign shows is not
+reachable by growth from the class, by random sampling, or by direct
+adversarial construction at these scales. Budget redirects to the
+analytic core (the paste-8 supply question left open at Q69's release,
+and the F2 graph-level quantifier), per Section 91's closure clause.
+Q77 and Q79 are resolved; the next session should run
+/erdos-proof-ideation against this closure record.

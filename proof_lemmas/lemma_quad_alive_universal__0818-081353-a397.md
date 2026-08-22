@@ -250,6 +250,28 @@ $n=22$ nquad-41 uniformity is NOT "zero deficiency": $N = c_8 +
 c_{16}$ differs across the two carriers (204 vs 215); exactly 41
 cycles sit in the depth-4 layer each time, unexplained.
 
+**R56 — the mechanism falsifier campaign; the depth-escalation program
+closes (CHECK 10; strategy Section 96).** 2,271 cubic graphs at
+$n \in \{22, 24, 26, 28\}$ (random, all growth children of the three
+$n \ge 22$ carriers, and an adversarial arm that minimizes $c_8$
+before testing) were adjudicated exactly against the Section-95
+layers: 1,880 have a 4-cycle (quad-death impossible outright), 330 are
+L1-infeasible (no 5-cover of the PO2 system within budget $m$ — exact
+DP/SAT), and 61 pass L1 — every one of which received a COMPLETE
+SAT/CEGAR UNSAT certificate that no 5-cover is a cotree (zero cotrees
+observed; L3 normality never even reached). Zero quad-dead states.
+L1 passes occur only where $c_8$ collapses (children of the $c_8 = 1$
+carrier; the adversarial arm's engineered $c_8 \in \{2, 3\}$). The L2
+obstruction is triangle starvation: 5-covers concentrate on
+high-PO2-coverage edges and starve triangles, which every cotree must
+hit — the $n = 24$ carrier's certificate is 5 triangles + one 6-cycle.
+CHECK 10 pins an explicit L1-pass graph at $n = 26$ (growth child of
+the $n = 24$ carrier) with an explicit verified 5-cover whose
+complement is not a tree. Per the R56 pre-commitment the
+depth-escalation program closes as converged negative knowledge; the
+lemma stays OPEN (it implies cubic EGC, so no proof is expected from
+this program), with the covering mechanism as the closure artifact.
+
 
 <!-- CHECK
 # quad_alive_universal CHECK 1 (deterministic anchor): the three R47
@@ -1480,4 +1502,81 @@ for s in list(padj):
 assert not acyc, "this cover's complement is unexpectedly acyclic"
 print("n=24 carrier: c8=1 of N=210; 5-coverable (explicit X verified); "
       "this cover is not a cotree (complement cyclic); R55 CHECK 9 OK")
+CHECK -->
+
+<!-- CHECK
+# quad_alive_universal CHECK 10 (R56 campaign anchor, n=26): an explicit
+# L1-pass — a growth child of the n=24 carrier (subdivide edges (14,17)
+# and (20,23) with new vertices 24, 25, join them) — is 5-coverable: the
+# pinned 14-edge X gives every one of its 285 PO2 cycles >= 5 edges
+# (verified in-block), so the L1 covering obstruction that kills every
+# n <= 22 carrier is genuinely dead at this scale; yet this cover's
+# complement is not a tree (contains a cycle, verified) — consistent
+# with the out-of-block campaign result (SAT/CEGAR complete UNSAT
+# certificates on all 61 L1-pass graphs: NO 5-cover of any of them is a
+# cotree; strategy Section 96, scratchpad r56_verify_l1pass.py). The
+# universal L2 statement is deliberately NOT re-claimed by this block.
+G26 = [(0,19),(0,21),(0,22),(1,5),(1,6),(1,8),(2,7),(2,9),(2,18),(3,8),
+ (3,10),(3,16),(4,11),(4,12),(4,13),(5,6),(5,16),(6,20),(7,15),(7,17),
+ (8,10),(9,14),(9,18),(10,18),(11,12),(11,21),(12,15),(13,16),(13,19),
+ (14,24),(14,25),(15,17),(17,24),(19,21),(20,22),(20,23),(22,23),
+ (23,25),(24,25)]
+n = 26
+edges = sorted(tuple(sorted(e)) for e in G26)
+assert len(edges) == 39
+adj = [[] for _ in range(n)]
+for u, v in edges:
+    adj[u].append(v); adj[v].append(u)
+assert all(len(a) == 3 for a in adj)
+# un-growth: contracting 24 and 25 must give the CHECK-9 n=24 carrier
+QA24 = [(0,19),(0,21),(0,22),(1,5),(1,6),(1,8),(2,7),(2,9),(2,18),(3,8),
+ (3,10),(3,16),(4,11),(4,12),(4,13),(5,6),(5,16),(6,20),(7,15),(7,17),
+ (8,10),(9,14),(9,18),(10,18),(11,12),(11,21),(12,15),(13,16),(13,19),
+ (14,17),(14,23),(15,17),(19,21),(20,22),(20,23),(22,23)]
+base = {e for e in edges if 24 not in e and 25 not in e}
+nb24 = sorted(x for e in edges for x in e if 24 in e and x not in (24, 25))
+nb25 = sorted(x for e in edges for x in e if 25 in e and x not in (24, 25))
+assert len(nb24) == 2 and len(nb25) == 2
+base.add(tuple(sorted(nb24))); base.add(tuple(sorted(nb25)))
+assert base == {tuple(sorted(e)) for e in QA24}, "un-growth != n=24 carrier"
+out = []; path = [0]*17; onpath = [False]*n
+def rec(s, u, ln):
+    for w in adj[u]:
+        if w == s and ln >= 3:
+            if ln in (8, 16) and path[1] < path[ln-1]:
+                es = frozenset(
+                    tuple(sorted((path[i], path[i+1]))) for i in range(ln-1)
+                ) | {tuple(sorted((path[ln-1], s)))}
+                out.append(es)
+        elif w > s and not onpath[w] and ln < 16:
+            onpath[w] = True; path[ln] = w
+            rec(s, w, ln+1)
+            onpath[w] = False
+for s in range(n):
+    onpath[s] = True; path[0] = s
+    rec(s, s, 1)
+    onpath[s] = False
+assert (sum(1 for c in out if len(c) == 8), len(out)) == (4, 285)
+X = {(0,22),(2,7),(2,9),(2,18),(4,13),(5,16),(6,20),(9,14),(11,21),
+     (13,16),(13,19),(14,24),(17,24),(24,25)}
+assert len(X) == 14 == n // 2 + 1 and X <= set(edges)
+assert all(len(c & X) >= 5 for c in out), "X is not a 5-cover?!"
+comp = [e for e in edges if e not in X]
+padj = {}
+for u, v in comp:
+    padj.setdefault(u, []).append(v); padj.setdefault(v, []).append(u)
+seen = set(); acyc = True
+for s0 in list(padj):
+    if s0 in seen: continue
+    stk = [(s0, -1)]; seen.add(s0)
+    while stk:
+        u, p = stk.pop()
+        for w in padj[u]:
+            if w == p: continue
+            if w in seen: acyc = False
+            else: seen.add(w); stk.append((w, u))
+assert not acyc, "this cover's complement is unexpectedly acyclic"
+print("R56 anchor OK: explicit n=26 growth child (c8=4, N=285) is "
+      "5-coverable — L1 dead at this scale — but the pinned cover is "
+      "not a cotree; campaign L2 certificates live out-of-block")
 CHECK -->
