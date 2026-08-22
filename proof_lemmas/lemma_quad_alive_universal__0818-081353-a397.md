@@ -217,6 +217,39 @@ structure). Results:
    20$, G1 $\to$ new carrier at $20 \to 22$), both to HIGH-nquad
    children — growth never transports the low-nquad structure.
 
+**R55 — the covering reframing and the graph-level mechanism (CHECKs
+7–9; strategy Section 95).** For a normal tree with cotree $B$,
+$S(c) = c \cap B$ for every simple cycle $c$ (a back edge lies on no
+fundamental cycle but its own), so $\mathrm{depth}(c) = |c \cap B|$
+and: triple-dead $\iff$ every PO2 cycle carries $\ge 4$ cotree edges;
+nquad $= \#\{c : |c \cap B| = 4\}$; quad-dead $\iff$ every PO2 cycle
+carries $\ge 5$. The identity reproduces the recorded nquad of ALL 64
+exact states (CHECK 7 pins three: censusB 17, the $n=20$ min state 9,
+a $n=22$ state 41). Since $|B| = m$ always, quad-death on carrier $G$
+requires *5-coverability*: an $m$-subset $X \subseteq E(G)$ with
+$|c \cap X| \ge 5$ for every PO2 cycle. Results: NONE of the 15 known
+carriers at $n \le 22$ is 5-coverable — proved by an exact stdlib DP
+in-block (CHECK 7: the three $n=18$ and both $n=22$ carriers; CHECK 8:
+all ten $n=20$ carriers) — so quad-aliveness at the two COMPLETE
+census scales, and on the known $n=22$ carriers, follows from a
+graph-level covering obstruction, tree-free. The 8-cycle subsystem
+alone obstructs 14 of 15; packing does not ($\nu \le 2$ everywhere,
+$5\nu \le m$). The $n=24$ carrier ($c_8 = 1$) IS 5-coverable (CHECK 9
+pins an explicit cover; $d = 6$ infeasible by SAT), but no 5-cover is
+even a cotree (CEGAR over covers with lazily-added cycle-hitting
+clauses goes UNSAT after 6 clauses; scratchpad r55_cover24.py) — so
+no quad-dead state exists there either. Net: **no quad-dead state on
+any known carrier at any scale $n \le 24$**, now explained by a
+mechanism (covering L1 / cotree-feedback L2 / normality L3 — L3 never
+yet needed) that runs in seconds per graph. Logical placement, made
+explicit this round: a PO2-cycle-free cubic graph would satisfy
+quad-death vacuously, so THIS LEMMA IMPLIES CUBIC EGC — proving it is
+not a shortcut past the conjecture; the honest outputs are disproof
+or converged negative knowledge with the mechanism as artifact. The
+$n=22$ nquad-41 uniformity is NOT "zero deficiency": $N = c_8 +
+c_{16}$ differs across the two carriers (204 vs 215); exactly 41
+cycles sit in the depth-4 layer each time, unexplained.
+
 
 <!-- CHECK
 # quad_alive_universal CHECK 1 (deterministic anchor): the three R47
@@ -1139,3 +1172,312 @@ depth-escalation question (Q77) takes over; if it holds with the
 observed $> m$ margin, a GLOBAL counting mechanism on the
 $\binom{m}{4}$ layer (not per-back-edge supply) is the analytic
 target.
+
+<!-- CHECK
+# quad_alive_universal CHECK 7 (R55 covering-mechanism anchors, n in
+# {18, 22} + reframing identity): (a) the three n=18 carriers and BOTH
+# known n=22 carriers are not 5-coverable: no edge set of size <= m
+# gives every PO2 cycle >= 5 edges — proved by an exact DP (complete:
+# any feasible cover contains a DP-reachable state built from
+# exactly-needed additions per deficient cycle) — hence NO quad-dead
+# state exists on any of them (a quad-dead cotree would be such a
+# cover); (b) the reframing identity nquad = #{PO2 cycles carrying
+# exactly 4 back edges} reproduces recorded nquads 17 (censusB), 9
+# (n=20 min state), 41 (a qa_grow_n22-carrier state), with every PO2
+# cycle carrying >= 4 back edges (triple-dead cross-check).
+from itertools import combinations
+
+def po2_cycles(n, edges):
+    adj = [[] for _ in range(n)]
+    for u, v in edges:
+        adj[u].append(v); adj[v].append(u)
+    out = []; path = [0]*17; onpath = [False]*n
+    def rec(s, u, ln):
+        for w in adj[u]:
+            if w == s and ln >= 3:
+                if ln in (8, 16) and path[1] < path[ln-1]:
+                    es = frozenset(
+                        tuple(sorted((path[i], path[i+1]))) for i in range(ln-1)
+                    ) | {tuple(sorted((path[ln-1], s)))}
+                    out.append(es)
+            elif w > s and not onpath[w] and ln < 16:
+                onpath[w] = True; path[ln] = w
+                rec(s, w, ln+1)
+                onpath[w] = False
+    for s in range(n):
+        onpath[s] = True; path[0] = s
+        rec(s, s, 1)
+        onpath[s] = False
+    return out
+
+def infeas_cover5(cycs, m):
+    # True iff NO edge set Y with |Y| <= m has |c cap Y| >= 5 for all c.
+    # Completeness: if a feasible Y exists, walk the cycle order keeping
+    # S subseteq Y; at each deficient cycle |Y cap c| >= 5 supplies the
+    # exactly-`need` additions, so some DP state stays inside Y and the
+    # DP cannot empty. Emptying is therefore a proof of infeasibility.
+    U = sorted(set().union(*cycs))
+    bit = {e: 1 << i for i, e in enumerate(U)}
+    masks = [sum(bit[e] for e in c) for c in cycs]
+    elists = [[bit[e] for e in c] for c in cycs]
+    idx = sorted(range(len(cycs)), key=lambda i: len(cycs[i]))
+    first = None
+    for a in range(len(idx)):
+        for b in range(a+1, len(idx)):
+            i, j = idx[a], idx[b]
+            if not masks[i] & masks[j]: first = [i, j]; break
+        if first: break
+    if first is None: first = [idx[0]]
+    order = list(first); acc = 0
+    for i in first: acc |= masks[i]
+    pool8 = [i for i in range(len(cycs)) if i not in first and len(cycs[i]) == 8]
+    pool16 = [i for i in range(len(cycs)) if i not in first and len(cycs[i]) == 16]
+    for pool in (pool8, pool16):
+        while pool:
+            j = max(pool, key=lambda i: (masks[i] & acc).bit_count())
+            order.append(j); acc |= masks[j]; pool.remove(j)
+    states = {0}
+    for ci in order:
+        cm = masks[ci]; new = set()
+        for st in states:
+            need = 5 - (st & cm).bit_count()
+            if need <= 0: new.add(st); continue
+            free = [b for b in elists[ci] if not (st & b)]
+            budget = m - st.bit_count()
+            if need > budget or need > len(free): continue
+            for pick in combinations(free, need):
+                t = st
+                for b in pick: t |= b
+                new.add(t)
+        states = new
+        if not states: return True
+    return False
+
+A18 = [(0,1),(0,2),(0,10),(1,2),(1,14),(2,3),(3,4),(3,8),(4,5),(4,16),(5,6),
+ (5,7),(6,7),(6,17),(7,8),(8,9),(9,10),(9,14),(10,11),(11,12),(11,13),
+ (12,13),(12,14),(13,15),(15,16),(15,17),(16,17)]
+B18 = [(0,1),(0,2),(0,10),(1,2),(1,14),(2,3),(3,4),(3,5),(4,5),(4,17),(5,6),
+ (6,7),(6,8),(7,8),(7,16),(8,9),(9,10),(9,13),(10,11),(11,12),(11,14),
+ (12,13),(12,14),(13,15),(15,16),(15,17),(16,17)]
+C18 = [(0,1),(0,2),(0,6),(1,2),(1,9),(2,3),(3,4),(3,7),(4,5),(4,14),(5,6),
+ (5,17),(6,7),(7,8),(8,9),(8,10),(9,10),(10,11),(11,12),(11,13),(12,13),
+ (12,16),(13,14),(14,15),(15,16),(15,17),(16,17)]
+QA22 = [(0,8),(0,11),(0,21),(1,6),(1,8),(1,19),(2,7),(2,13),(2,18),(3,4),
+ (3,8),(3,16),(4,11),(4,12),(5,13),(5,16),(5,19),(6,19),(6,20),(7,15),
+ (7,17),(9,10),(9,18),(9,21),(10,14),(10,18),(11,12),(12,15),(13,16),
+ (14,17),(14,20),(15,17),(20,21)]
+CH22 = [(0,1),(0,2),(0,20),(1,2),(1,11),(2,3),(3,4),(3,13),(4,5),(4,6),
+ (5,6),(5,15),(6,7),(7,8),(7,21),(8,9),(8,10),(9,10),(9,19),(10,11),
+ (11,12),(12,13),(12,14),(13,14),(14,15),(15,16),(16,17),(16,18),(17,18),
+ (17,21),(18,19),(19,20),(20,21)]
+
+cyc_of = {}
+for name, n, E, m in (("A18", 18, A18, 10), ("B18", 18, B18, 10),
+                      ("C18", 18, C18, 10), ("QA22", 22, QA22, 12),
+                      ("CH22", 22, CH22, 12)):
+    cy = po2_cycles(n, [tuple(sorted(e)) for e in E])
+    cyc_of[name] = cy
+    assert infeas_cover5(cy, m), f"{name} unexpectedly 5-coverable"
+print("5 carriers (3 at n=18, 2 at n=22) proved NOT 5-coverable => "
+      "no quad-dead state exists on any of them")
+
+def nquad_via(cycs, back):
+    B = set(back)
+    for c in cycs:
+        assert len(c & B) >= 4, "PO2 cycle with <= 3 back edges?!"
+    return sum(1 for c in cycs if len(c & B) == 4)
+
+parB = [-1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 12, 13, 15, 16]
+treB = {tuple(sorted((v, parB[v]))) for v in range(1, 18)}
+backB = [tuple(sorted(e)) for e in B18 if tuple(sorted(e)) not in treB]
+assert nquad_via(cyc_of["B18"], backB) == 17
+
+enc16 = ('0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18;'
+         '0-2,0-19,1-11,3-13,4-6,5-15,7-17,8-10,9-19,12-14,16-18')
+ps, bs = enc16.split(';')
+par20 = [-1] + [int(x) for x in ps.split(',')]
+bes20 = [tuple(sorted((int(a), int(b)))) for a, b in
+         (e.split('-') for e in bs.split(','))]
+E20 = [tuple(sorted((par20[v], v))) for v in range(1, 20)] + bes20
+cy20 = po2_cycles(20, E20)
+assert (sum(1 for c in cy20 if len(c) == 8), len(cy20)) == (5, 70)
+assert nquad_via(cy20, bes20) == 9
+assert infeas_cover5(cy20, 11)   # the G1 min-nquad carrier, in-block too
+
+par22 = [8, 6, 7, 16, 11, 13, 20, 17, 3, 21, 9, 0, 4, 2, 10, -1, 5, 15,
+         10, 1, 14, 0]
+tre22 = {tuple(sorted((v, par22[v]))) for v in range(22) if par22[v] != -1}
+back22 = [tuple(sorted(e)) for e in QA22 if tuple(sorted(e)) not in tre22]
+assert len(back22) == 12
+assert nquad_via(cyc_of["QA22"], back22) == 41
+print("reframing identity nquad = #{PO2 cycles with exactly 4 back edges} "
+      "verified on censusB(17), n=20 min state(9), n=22 state(41)")
+print("R55 CHECK 7 OK")
+CHECK -->
+
+<!-- CHECK
+# quad_alive_universal CHECK 8 (R55 covering-mechanism anchors, n=20):
+# all TEN n=20 carrier graphs are not 5-coverable, so no quad-dead state
+# exists anywhere in the complete n=20 class — the CHECK-5 exhaustive
+# quad-aliveness now follows from a graph-level covering obstruction.
+# Representatives: one state encoding per carrier; fingerprints
+# (c8, N) are pairwise distinct and iso-invariant, CHECK 5 proves the
+# 42-state class dedups to 10 carriers with size partition
+# {23,5,5,3,1x6}, and the fingerprint partition has the same part
+# sizes; since iso-classes refine fingerprint classes, equal part
+# counts force the partitions to coincide — these 10 cover all 10.
+from itertools import combinations
+
+def po2_cycles(n, edges):
+    adj = [[] for _ in range(n)]
+    for u, v in edges:
+        adj[u].append(v); adj[v].append(u)
+    out = []; path = [0]*17; onpath = [False]*n
+    def rec(s, u, ln):
+        for w in adj[u]:
+            if w == s and ln >= 3:
+                if ln in (8, 16) and path[1] < path[ln-1]:
+                    es = frozenset(
+                        tuple(sorted((path[i], path[i+1]))) for i in range(ln-1)
+                    ) | {tuple(sorted((path[ln-1], s)))}
+                    out.append(es)
+            elif w > s and not onpath[w] and ln < 16:
+                onpath[w] = True; path[ln] = w
+                rec(s, w, ln+1)
+                onpath[w] = False
+    for s in range(n):
+        onpath[s] = True; path[0] = s
+        rec(s, s, 1)
+        onpath[s] = False
+    return out
+
+def infeas_cover5(cycs, m):
+    U = sorted(set().union(*cycs))
+    bit = {e: 1 << i for i, e in enumerate(U)}
+    masks = [sum(bit[e] for e in c) for c in cycs]
+    elists = [[bit[e] for e in c] for c in cycs]
+    idx = sorted(range(len(cycs)), key=lambda i: len(cycs[i]))
+    first = None
+    for a in range(len(idx)):
+        for b in range(a+1, len(idx)):
+            i, j = idx[a], idx[b]
+            if not masks[i] & masks[j]: first = [i, j]; break
+        if first: break
+    if first is None: first = [idx[0]]
+    order = list(first); acc = 0
+    for i in first: acc |= masks[i]
+    pool8 = [i for i in range(len(cycs)) if i not in first and len(cycs[i]) == 8]
+    pool16 = [i for i in range(len(cycs)) if i not in first and len(cycs[i]) == 16]
+    for pool in (pool8, pool16):
+        while pool:
+            j = max(pool, key=lambda i: (masks[i] & acc).bit_count())
+            order.append(j); acc |= masks[j]; pool.remove(j)
+    states = {0}
+    for ci in order:
+        cm = masks[ci]; new = set()
+        for st in states:
+            need = 5 - (st & cm).bit_count()
+            if need <= 0: new.add(st); continue
+            free = [b for b in elists[ci] if not (st & b)]
+            budget = m - st.bit_count()
+            if need > budget or need > len(free): continue
+            for pick in combinations(free, need):
+                t = st
+                for b in pick: t |= b
+                new.add(t)
+        states = new
+        if not states: return True
+    return False
+
+ENCS20 = [
+ '0,1,2,3,4,5,6,7,8,9,10,10,11,13,14,15,16,17,18;0-12,0-19,1-3,2-11,4-14,5-7,6-16,8-18,9-12,13-15,17-19',
+ '0,1,2,3,4,5,6,7,8,9,10,11,11,12,14,15,16,17,18;0-2,0-13,1-14,3-5,4-15,6-8,7-16,9-18,10-13,12-19,17-19',
+ '0,1,2,3,4,5,6,7,8,8,10,11,12,12,13,15,16,17,17;0-2,0-14,1-10,3-9,4-18,5-15,6-19,7-9,11-14,13-18,16-19',
+ '0,1,2,3,4,5,6,7,8,9,10,10,11,12,13,14,15,16,17;0-11,0-18,1-3,2-15,4-19,5-7,6-12,8-16,9-19,13-17,14-18',
+ '0,1,2,3,4,5,6,6,7,9,10,10,11,12,13,14,15,17,17;0-4,0-16,1-8,2-18,3-13,5-8,7-14,9-19,11-18,12-16,15-19',
+ '0,1,2,3,4,5,6,7,8,9,10,11,12,13,13,14,16,17,18;0-4,0-15,1-16,2-6,3-18,5-7,8-15,9-11,10-19,12-17,14-19',
+ '0,1,2,3,4,5,6,7,8,9,10,11,12,13,13,14,16,17,18;0-2,0-15,1-5,3-7,4-19,6-17,8-14,9-11,10-15,12-19,16-18',
+ '0,1,2,3,4,5,6,7,8,9,10,11,11,12,14,15,16,17,18;0-2,0-13,1-14,3-16,4-6,5-18,7-9,8-19,10-13,12-15,17-19',
+ '0,1,2,3,4,5,6,7,8,9,10,11,12,13,13,14,16,17,18;0-2,0-15,1-11,3-9,4-19,5-7,6-17,8-14,10-15,12-19,16-18',
+ '0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18;0-2,0-19,1-11,3-9,4-18,5-7,6-16,8-14,10-12,13-19,15-17',
+]
+fps = set()
+for enc in ENCS20:
+    ps, bs = enc.split(';')
+    par = [-1] + [int(x) for x in ps.split(',')]
+    bes = [tuple(sorted((int(a), int(b)))) for a, b in
+           (e.split('-') for e in bs.split(','))]
+    E = [tuple(sorted((par[v], v))) for v in range(1, 20)] + bes
+    assert len(set(E)) == 30
+    cy = po2_cycles(20, E)
+    fp = (sum(1 for c in cy if len(c) == 8), len(cy))
+    fps.add(fp)
+    assert infeas_cover5(cy, 11), enc
+assert len(fps) == 10, f"only {len(fps)} distinct carrier fingerprints"
+print("all 10 n=20 carriers proved NOT 5-coverable => the complete n=20 "
+      "class (42 states, CHECK 5) is quad-alive for a graph-level "
+      "covering reason; R55 CHECK 8 OK")
+CHECK -->
+
+<!-- CHECK
+# quad_alive_universal CHECK 9 (R55 boundary anchor, n=24): the
+# qa_grow_n24 carrier has exactly ONE 8-cycle among its 210 PO2 cycles,
+# and IS 5-coverable — an explicit 13-edge cover X is pinned and
+# re-verified in-block (>= 5 edges on every PO2 cycle), so the L1
+# covering obstruction that kills every n <= 22 carrier DIES here.
+# This particular cover's complement contains a cycle (verified), i.e.
+# X is not a cotree; that NO 5-cover of this carrier is a cotree is an
+# out-of-block result (SAT/CEGAR, UNSAT after 6 lazily-added
+# cycle-hitting clauses; strategy Section 95, scratchpad
+# r55_cover24.py) and is deliberately NOT re-claimed by this block.
+QA24 = [(0,19),(0,21),(0,22),(1,5),(1,6),(1,8),(2,7),(2,9),(2,18),(3,8),
+ (3,10),(3,16),(4,11),(4,12),(4,13),(5,6),(5,16),(6,20),(7,15),(7,17),
+ (8,10),(9,14),(9,18),(10,18),(11,12),(11,21),(12,15),(13,16),(13,19),
+ (14,17),(14,23),(15,17),(19,21),(20,22),(20,23),(22,23)]
+n = 24
+edges = sorted(tuple(sorted(e)) for e in QA24)
+assert len(edges) == 36
+adj = [[] for _ in range(n)]
+for u, v in edges:
+    adj[u].append(v); adj[v].append(u)
+assert all(len(a) == 3 for a in adj)
+out = []; path = [0]*17; onpath = [False]*n
+def rec(s, u, ln):
+    for w in adj[u]:
+        if w == s and ln >= 3:
+            if ln in (8, 16) and path[1] < path[ln-1]:
+                es = frozenset(
+                    tuple(sorted((path[i], path[i+1]))) for i in range(ln-1)
+                ) | {tuple(sorted((path[ln-1], s)))}
+                out.append(es)
+        elif w > s and not onpath[w] and ln < 16:
+            onpath[w] = True; path[ln] = w
+            rec(s, w, ln+1)
+            onpath[w] = False
+for s in range(n):
+    onpath[s] = True; path[0] = s
+    rec(s, s, 1)
+    onpath[s] = False
+assert sum(1 for c in out if len(c) == 8) == 1 and len(out) == 210
+X = {(0,19),(0,22),(1,8),(4,11),(6,20),(9,18),(10,18),(11,21),(12,15),
+     (13,16),(14,17),(14,23),(20,22)}
+assert len(X) == 13 and X <= set(edges)
+assert all(len(c & X) >= 5 for c in out), "X is not a d=5 cover?!"
+comp = [e for e in edges if e not in X]
+padj = {}
+for u, v in comp:
+    padj.setdefault(u, []).append(v); padj.setdefault(v, []).append(u)
+seen = set(); acyc = True
+for s in list(padj):
+    if s in seen: continue
+    stk = [(s, -1)]; seen.add(s)
+    while stk:
+        u, p = stk.pop()
+        for w in padj[u]:
+            if w == p: continue
+            if w in seen: acyc = False
+            else: seen.add(w); stk.append((w, u))
+assert not acyc, "this cover's complement is unexpectedly acyclic"
+print("n=24 carrier: c8=1 of N=210; 5-coverable (explicit X verified); "
+      "this cover is not a cotree (complement cyclic); R55 CHECK 9 OK")
+CHECK -->
