@@ -1,96 +1,78 @@
-# Session handoff (session s_0821-080752-392f)
+# Session handoff (session s_0822-080621-c9ec)
 
-**Stop reason**: Logical milestone — THREE keeps (R52, R53, R54), Q78
-resolved, all pushed.
+**Stop reason**: Logical milestone — two keeps (R55, R56), the
+depth-escalation program (Q77) formally CLOSED per the R51/R56
+pre-commitment, Q77 and Q79 resolved, all pushed.
 
 **What happened**:
 
-1. **R52** — iso-audit: the three pinned n=20 states sit on 3 pairwise
-   non-iso graphs (tri 5/3/4; CHECK 4); the R49/R50 "growth ladder" is
-   search-route provenance, NOT graph descent (warm SA mutates the
-   carrier). v2 enumerator (popcount-4 shortcut, allocation-free walk,
-   flat candidate list) validated bit-exactly: node counts match R51 at
-   every scale AND the full n=18 census reproduces exactly. Fixed a
-   falsify-critic BLOCKING by restating the paste-8-line domain
-   side-condition (k' <= |D|-6) at all 5 citation sites.
-2. **R53** — COMPLETE n=20 census (32,652,735 shapes / 1.81G nodes /
-   ~85 min on 4 shards): **42 states on 10 graphs**, all quad-alive,
-   spectrum {8,16} exhaustive. **nquad >= m floor DEAD**: min nquad 9 <
-   m=11, twice, on the |Aut|=10 pentagonal-triangle-ring carrier
-   (ring_triangles(5,3)) SA never reached; 29/42 states have minpart 0.
-   min-nquad over exhaustive scales: 10 (18), 9 (20) — decreasing.
-   CHECK 5 pins the ENTIRE census compactly (all 42 states re-verified
-   in-block + 10-graph dedup by complete backtracking iso). Exactly one
-   n=20 carrier (G3) is a growth child of an n=18 carrier (B).
-3. **R54** — fixed-graph canonical-DFS class enumerator (each (root,
-   normal tree) once; validated vs A/B/C and G1 known classes; ~1-8s
-   per graph; scratchpad r54_fixedg.py, reconstructable from CHECK 6
-   which embeds it whole). Targeted hunt at n in {22,24}: NO quad-dead,
-   NO below-m anywhere — 363 unique growth children of G1/G9/G0/G3
-   (exactly ONE in class: G1's child, 2 states nquad 41 both, CHECK 6
-   pins via explicit un-growth), all 10 circulants C22(s,11) + all
-   GP(11,k) class-EMPTY (vertex-transitivity excludes the class),
-   6-triangle-ring k=6 family class-empty. Known n=22 class: 3 states
-   on 2 non-iso carriers, ALL nquad EXACTLY 41 (m=12). qa_grow_n24
-   carrier complete class: 13 states, min nquad 20 > m=13. Q78
-   RESOLVED (negative on mobility of low-nquad structure).
+1. **R55 — the covering reframing (keep)**. depth(c) = |c ∩ B| (back
+   edges ON the cycle), so triple-dead/quad-dead are covering
+   statements about the m-edge cotree: quad-death requires an m-subset
+   giving every PO2 cycle >= 5 edges ("5-coverability"). Identity
+   verified on all 64 exact states. NONE of the 15 carriers at n<=22
+   is 5-coverable (stdlib DP, CHECKs 7-8 — 8-cycles alone obstruct
+   14/15); the n=24 carrier (c8=1) is 5-coverable but NO cover is a
+   cotree (SAT/CEGAR, 6-clause certificate = 5 triangles + one
+   6-cycle = triangle starvation). THEOREM: no quad-dead state on any
+   known carrier n<=24. Also made explicit: quad_alive_universal
+   IMPLIES cubic EGC — never spend proof effort trying to prove it.
+   CHECKs 7/8/9 added to lemma_quad_alive_universal. Record
+   proof_erdos_gyarfas_7f2f7a121b1f_f5199d4.json.
 
-**qid state**: Q77 CLAIMED (this session; escalation program continues).
-Q78 resolved. Queue has no other live open questions — next session
-should either open Q79 (mechanism) or run /erdos-proof-ideation.
+2. **R56 — the falsifier campaign (keep)**. 2,271 cubic graphs at
+   n=22-28: random (560), ALL growth children of qa22/ch22/qa24
+   (1,686), adversarial low-c8 local search (25). Verdicts: 1,880
+   C4-excluded, 330 L1-infeasible (exact), 61 L1-passes — every one
+   given a COMPLETE SAT/CEGAR UNSAT certificate that no 5-cover is a
+   cotree (r56_l1pass_verdicts.tsv; 0 cotrees ever observed, L3
+   normality never reached). Zero quad-dead candidates. L1 passes
+   need c8<=6 (qa24 lineage or engineered). CHECK 10 pins an explicit
+   n=26 L1-pass + verified cover + non-tree complement. Record
+   proof_erdos_gyarfas_4cef8e3264ad_8a8c14a.json.
 
-**R56 exit criterion (Section 91, restated Section 94)**: by R56,
-either (a) a quad-dead state, or (b) a counting mechanism surviving a
-falsifier campaign, else the depth-escalation program closes as
-converged negative knowledge and budget moves to F2 / graph-level
-quantifier. R55 and R56 are the last two rounds under this
-pre-commitment.
+**Program state**: The bounded-depth/depth-escalation program is
+CLOSED (converged negative knowledge; the covering mechanism L1/L2/L3
+is the artifact). quad_alive_universal stays open — and is now known
+to be at least as strong as cubic EGC. The class-census layer
+(n=18/20 complete, n=22/24 known carriers) is fully explained by the
+mechanism.
 
-**Suggested next moves (R55+)**:
-1. **Mechanism flank with exact data** (the strongest remaining move):
-   64 exact states now on record (42+6 exhaustive at 18/20, 3 at 22,
-   13 at 24). Concrete puzzles a mechanism must crack: WHY is nquad
-   exactly 41 on all three known n=22 states (two different carriers)?
-   What invariant gives min-nquad 10, 9 at the exhaustive scales?
-   Suggested first computation: for each exact state, tabulate the
-   firing-quad 4-subsets' overlap structure (pairwise |S_i ∩ S_j|,
-   support unions, 8- vs 16-cycle split) and regress nquad against
-   graph invariants (triangles, girth profile, |Aut|) — the census
-   data is in CHECK 5 (n=18/20) and CHECK 6 (n=22/24) encodings.
-2. If a mechanism conjecture forms: dual attack per standing policy
-   (CHECK falsification probe FIRST, e.g. sweep more graphs with the
-   fixed-graph enumerator hunting a counterexample to the conjectured
-   formula/bound).
-3. Full n=22 exhaustion is the only remaining route to extend the
-   min-nquad sequence: ~35-45G nodes ≈ 10x the n=20 run (~14h wall on
-   4 cores) — needs either a beefier box, a session dedicated to
-   babysitting it, or a sharper shape-level feasibility filter
-   (bipartite-matching pool bound instead of the simple count) to cut
-   the dense tail band.
+**qid state**: Q77 resolved (program closed). Q78 resolved (R54).
+Q79 resolved (campaign done). Queue has NO live open questions
+(Q69 stays released: the paste-8 supply analytic core).
 
-**CRITIC INFRA (standing, carried forward)**:
-- Prewarm ALL critics via scratchpad prewarm.py (renders via
-  proof_prepare._render_critic_prompt with witness_valid computed the
-  same way, call_critics_parallel timeout_s=900,
-  NODE_EXTRA_CA_CERTS=/root/.ccr/ca-bundle.crt), THEN proof_prepare
-  (cache replays). This session: 3/3 rounds 0 blocking (after the R52
-  citation fix), prewarms 60-253s.
-- os.chdir the worktree INSIDE any script; shells reset cwd (worktree
-  strategy ~2.1k lines, stale root >6k).
-- PROOF_TAG on the SAME command line for every helper.
-- proof_results.tsv is container-local; R-numbering by hand (next: R55).
-- Lemma CHECK budget: 15s / 20k chars per block. CHECK 5 runs 0.23s,
-  CHECK 6 3.4s — fine.
-- Monitor/pgrep footgun: pgrep -f "pattern" matches the watcher's own
-  command line — use a [c]haracter-class pattern.
-- Scratchpad harnesses (r52_exhaust2.py, r52_analyze.py, r53_locks.py,
-  r54_fixedg.py, r54_hunt.py, census20_blob.py) are container-local;
-  CHECK 5/6 carry the data and the fixed-graph enumerator complete —
-  reconstruct from there.
+**Suggested next moves**:
+1. Run /erdos-proof-ideation against this closure record. Candidate
+   directions the record itself suggests: (a) the paste-8 supply core
+   (unbounded k' for paste8_tree_universal — Q69's release note);
+   (b) F2 graph-level quantifier; (c) NEW: the depth-4-layer
+   uniformity at n=22 (exactly 41 both carriers — a covering-polytope
+   question); (d) NEW: try to prove the triangle-starvation L2
+   obstruction analytically (5-covers avoid triangle edges because
+   triangle edges carry few PO2 cycles — could yield "no quad-dead
+   state on any carrier with >= t triangles" as a lemma).
+2. If ideation prefers computation: the campaign harness
+   (scratchpad r56_campaign.py — container-local, reconstructable
+   from Section 96's description + CHECK 10's example) extends
+   directly to n=30+ and to targeted populations (girth-controlled,
+   c8=0 constructions become possible at n>=30ish).
+
+**CRITIC INFRA (standing, carried forward)**: prewarm ALL critics via
+scratchpad prewarm.py (renders via proof_prepare._render_critic_prompt
+with witness_valid computed the same way, call_critics_parallel
+timeout_s=900, NODE_EXTRA_CA_CERTS=/root/.ccr/ca-bundle.crt), THEN
+proof_prepare (cache replays). This session: 2/2 rounds 0 blocking,
+prewarms 324s/~300s. os.chdir the worktree INSIDE scripts.
+PROOF_TAG on the SAME command line. proof_results.tsv container-local;
+R-numbering by hand (next: R57). pgrep footgun bit AGAIN this
+session: a compound shell whose text contains the plain pattern
+kills itself — use [c]haracter-class in BOTH pgrep and pkill, and
+never reference the script name un-bracketed in the same compound.
 
 **Files modified this session**:
-- proof_strategy.md (Sections 92, 93, 94 + 8-line domain-citation fixes)
-- proof_lemmas/lemma_quad_alive_universal__0818-081353-a397.md (R52/53/54
-  paragraphs; CHECKs 4, 5, 6 added — census pins + sweeps)
-- records/proof_erdos_gyarfas_{a3d688805b3d_565f00b,e935e9bd9de2_c74840c,7340d5714f1e_4dc719d}.json
-- queue (Q77 claimed, Q78 opened+resolved), journal, notes
+- proof_strategy.md (Sections 95, 96)
+- proof_lemmas/lemma_quad_alive_universal__0818-081353-a397.md
+  (R55/R56 paragraphs; CHECKs 7, 8, 9, 10)
+- records/proof_erdos_gyarfas_{7f2f7a121b1f_f5199d4,4cef8e3264ad_8a8c14a}.json
+- queue (Q77 claimed->resolved, Q79 opened->resolved), journal, notes
