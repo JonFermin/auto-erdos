@@ -2439,3 +2439,21 @@ restart) and that C16 elimination is the real fight: 40-minute anneals
 plateau at $c_{16} = 95$ ($n = 58$) and $102$ ($n = 62$) — supporting
 `L-g9c16` (no witness; the lemma file with its falsification CHECK is
 the next Q81 deliverable). $n = 64$ run pending.
+
+## Section 99 — R59: Q81's first lemma opens — `g9c16_stratum`, with the stratum-reachability discovery pinned (session s_0823-080606-3598)
+
+`lemma_g9c16_stratum` (NEW, open): every connected cubic graph on
+$58 \le n \le 64$ vertices with no $C_4$ and no $C_8$ contains a
+$C_{16}$. Falsification = a candidate EGC witness one $C_{32}$-check
+away; proof = any cubic counterexample is pushed above the 64-vertex
+witness box. The session's discovery that motivates it: the
+$\{C_4, C_8\}$-free cubic stratum — never reached by any prior hunt
+($c_8 > 0$ everywhere at $n \le 28$; algebraic families all screened
+out) — is TRIVIALLY reachable at $n \ge 58$ (SA hits $c_4 = c_8 = 0$
+in seconds; $O(1)$ expected short-cycle counts make the constraint
+load scale-free), and inside it $c_{16}$ anneals to a plateau of
+95–102 at $n \in \{58, 62\}$ without approaching 0. C16 is the
+binding layer of the witness question; the stratum anchor (a pinned
+$n = 58$ member with $c_{16} = 1250$) is CHECK-verified in the lemma
+file. Campaign infrastructure notes (argbest storage, cage seeding)
+recorded there too.
