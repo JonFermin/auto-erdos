@@ -2298,3 +2298,89 @@ analytic core (the paste-8 supply question left open at Q69's release,
 and the F2 graph-level quantifier), per Section 91's closure clause.
 Q77 and Q79 are resolved; the next session should run
 /erdos-proof-ideation against this closure record.
+
+## Section 97 — R57: ideation restart — the fractional-certificate program (Q80) opens; carrier-A's 8-cycle sub-tally corrected (session s_0823-080606-3598)
+
+### Ideation (5 lens-locked proposers + judge, per the R56 closure directive)
+
+Five parallel proposers (sieve/density, weight-redistribution, entropy,
+extremal/stability, counterexample-first) ran against the closure
+record; a judge ranked them. Outcome (full digest in the notes channel):
+
+- **Q80 opened (rank 1, 35/40 + rank 2, 33/40 merged): the fractional
+  starvation program** — this section and the two new lemma files.
+- **Q81 opened (rank 3, 32/40): the girth-9 stratum witness hunt** at
+  $n = 58$–$64$, the first regime where $c_4 = c_8 = 0$ is provably
+  achievable (the (3,9)-cages at $n = 58$ sit INSIDE the witness box)
+  and was never searched. First lemma `L-g9c16`: every cubic
+  $\{C_4, C_8\}$-free graph on $58 \le n \le 64$ vertices contains a
+  $C_{16}$ — falsification IS a candidate witness one $C_{32}$-check
+  away.
+- **Benched, not queued (31/40): triangle-pocket integral discharging**
+  (P2) for the $c_8 \le 1$ integral core; its probes PROVED the qa24 L2
+  block is a pure integrality gap (fractional cotree 5-covers feasible
+  by Frank-Wolfe; integral UNSAT by R55 CEGAR) and that uniform charge
+  counting has 28–40% slack on every carrier. Lemma candidate
+  `tri7_blocks_qa24` needs an out-of-block exact SAT before opening.
+- **Rejected (23/40): entropy/load-distribution** — its top-$m$-mass
+  quantity IS the uniform counting dual $y \equiv 1$, already
+  strengthened past by dual ascent; recorded to prevent re-proposal.
+
+### The two new lemmas (Q80's opening move, both CHECK-validated)
+
+**`lp_dual_8cycle`** (L1 layer): an integer weighting $y \ge 0$ on the
+8-cycles with $\mathrm{top}_m(w_y) < 5\sum y_c$ is a 3-line proof that
+no $m$-subset 5-covers the 8-cycle system — the fractional refinement of
+the DEAD integer packing bound (dead-end #8, $\nu \le 2$, never fired).
+Live evidence: fires on 4/4 pinned $n \ge 20$ carriers (three uniform,
+`qa_grow_n22` via ascent $y = (1,2,1,1,1)$) and 36/36 random
+exactly-infeasible instances at $n = 18$; zero integrality gaps
+observed. Open content: the no-gap CONVERSE at $n \le 22$. Theorem
+shape: max edge-load $d$ and $c_8 > d\,m/5$ $\Rightarrow$ uniform dual
+fires $\Rightarrow$ no quad-dead state — "L1 needs $c_8$ collapse" with
+explicit constants.
+
+**`frac_starvation_l1pass`** (L2 layer, $c_8 \ge 2$ stratum): with
+$\Lambda(G)$ the value of the mixed packing LP (weight 5 per PO2 cycle,
+weight 1 per cycle $\le 7$, per-edge load $\le 1$), weak duality gives:
+$\Lambda(G) > m$ $\Rightarrow$ no 5-cover is a cotree $\Rightarrow$ no
+quad-dead state. Claim: every C4-free 5-coverable cubic $G$ with
+$c_8 \ge 2$ has $\Lambda(G) > m$. Pinned rational certificates: QA22
+carrier $5\nu^* = 25/2 > 12$; the R56 $n=26$ L1-pass $57/4 > 14$ with
+triangle weights $1/4$–$5/8$ on 7 of 8 triangles (R56's "triangle
+starvation" now explicit dual data); three fresh subdivision-children
+L1-passes at $\Lambda \ge 103/7, 59/4, 103/7 > 14$. Boundary fact
+making the hypothesis sharp: $\Lambda(\text{QA24}, c_8{=}1) = 167/14 <
+13$ — the $c_8 \le 1$ block is genuinely integral, no LP certificate
+exists there (consistent with, and jointly discovered by, the benched
+P2 probes).
+
+### Correction to an R55 sub-tally (re-audited independently this session)
+
+Section 95 states "the 8-cycle subsystem is already un-5-coverable for
+14 of the 15 carriers" with the lone exception the $(c_8, N) = (7,139)$
+carrier at $n = 20$. This is WRONG about carrier A
+(`ta_falsifier_warm_n18`, $n = 18$, $c_8 = 3$, $N = 67$): its 8-cycle
+subsystem IS 5-coverable within $m = 10$ — the 10-edge cover pinned in
+`lemma_lp_dual_8cycle`'s CHECK hits all three 8-cycles exactly 5 times
+(re-verified from scratch this session). There are therefore at least
+TWO carriers whose L1 obstruction is NOT in the 8-cycle layer alone.
+The R55 THEOREM is unaffected: full-system (8+16) un-5-coverability of
+all 15 carriers was proved by SAT + the stdlib DP (CHECKs 7–8 of
+`lemma_quad_alive_universal`, still passing), and adding 16-cycle
+constraints only strengthens infeasibility. What the correction changes
+is the MECHANISM story at carrier A: its obstruction needs 16-cycle
+weights (the mixed LP of `frac_starvation_l1pass`), not 8-cycle
+counting alone.
+
+### The program map after R57
+
+- L1, 8-cycle-rich stratum: `lp_dual_8cycle` counting duals (validated,
+  no-gap conjectured at $n \le 22$).
+- L2, $c_8 \ge 2$ stratum: `frac_starvation_l1pass` mixed LP
+  certificates (validated on every instance tried; next: exact LP over
+  all 61 R56 L1-passes to map the survivor family — any $\Lambda \le m$
+  instance falsifies).
+- $c_8 \le 1$ integral core: benched P2 (integral slot discharging) —
+  the sharply-defined residual where EGC-relevant hardness sits.
+- Disproof flank: Q81 girth-9 stratum (independent of all the above).
