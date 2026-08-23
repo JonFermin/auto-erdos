@@ -2384,3 +2384,58 @@ counting alone.
 - $c_8 \le 1$ integral core: benched P2 (integral slot discharging) —
   the sharply-defined residual where EGC-relevant hardness sits.
 - Disproof flank: Q81 girth-9 stratum (independent of all the above).
+
+## Section 98 — R58: `frac_starvation_l1pass` DISPROVED by its designated falsifier sweep — the integral obstruction dominates the organic family (session s_0823-080606-3598)
+
+### The sweep (Q80's first falsifier, run same-day as the lemma opened)
+
+All 630 double-subdivision children of QA24 were regenerated and
+adjudicated exactly (the census matches R56's growth-children row
+exactly: 550 C4-excluded, 30 L1-infeasible, 50 L1-passes — 46 with
+$c_8 \ge 2$, 4 exempt). Every L1-pass with $c_8 \ge 2$ got an exact
+$\Lambda$ verdict: float LP first, then EXACT rational simplex
+(Bland's rule, Fraction arithmetic, 39-row tableau) on every child the
+float dual could not push above budget.
+
+**Result: 27 of 46 are certified $\Lambda > 14$; 19 of 46 have exact
+optimum $\Lambda < 14$.** The lemma's conclusion fails on 19 members of
+its own hypothesis class. Two falsifiers are pinned in the lemma file
+with complete self-contained certificates — an explicit 14-edge 5-cover
+(the hypothesis) plus an explicit rational dual edge-cover with sum
+$27/2$ resp. $736/53 < 14$ (the refutation, via weak duality — no
+simplex trusted). Falsifier $c_8$ values: $\{2{\times}9, 3{\times}8,
+4{\times}2\}$; certified: $\{3{\times}2, 4{\times}11, 5{\times}7,
+6{\times}5, 8{\times}2\}$. The overlap at $c_8 \in \{3, 4\}$ means NO
+$c_8$ threshold rescues the claim.
+
+### What the falsification teaches (the corrected L2 landscape)
+
+1. **The integral obstruction is dominant, not marginal.** R57's
+   boundary picture ($\Lambda(\mathrm{QA24}) = 167/14 < 13$ making
+   $c_8 \le 1$ the "integral core") was wrong in scope: 19/46 (41%) of
+   the organic $c_8 \ge 2$ L1-pass family ALSO has $\Lambda \le m$ —
+   the L2 block there is a pure integrality gap, invisible to every LP
+   certificate. All 19 are quad-death-free regardless (they are among
+   R56's 61 CEGAR-certified L1-passes), so no quad-dead candidate
+   emerges; what died is the LP EXPLANATION, not the block.
+2. **The LP mechanism is real but partial**: 27/46 organic children +
+   QA22 (L1 layer, $5\nu^* = 25/2 > 12$) + the pinned R56 $n=26$
+   L1-pass carry exact transferable certificates. $\Lambda$ clusters
+   ($442/33$, $27/2$, $68/5$, $125/9$, $139/10$, $95/7$, $736/53$ on
+   the falsified side; $29/2$–$31/2$ on the certified side) suggest a
+   small set of binding dual shapes — the refined question is what
+   invariant separates the two subfamilies. That takes a NEW lemma id
+   (ledger rule) once a candidate invariant exists.
+3. **Ideation P2 (triangle-pocket integral discharging) is PROMOTED**:
+   the integral mechanism it targets is now the main phenomenon on the
+   organic family. Its bench condition (an out-of-block exact SAT for
+   `tri7_blocks_qa24`) is the natural next Q80 deliverable.
+
+### Q81 progress (parallel, computational)
+
+The girth-9-stratum SA hunt confirmed the stratum is trivially
+reachable ($c_4 = c_8 = 0$ within seconds at $n \in \{58, 62\}$, single
+restart) and that C16 elimination is the real fight: 40-minute anneals
+plateau at $c_{16} = 95$ ($n = 58$) and $102$ ($n = 62$) — supporting
+`L-g9c16` (no witness; the lemma file with its falsification CHECK is
+the next Q81 deliverable). $n = 64$ run pending.

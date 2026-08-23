@@ -1,8 +1,8 @@
 ---
 id: frac_starvation_l1pass
-status: open
+status: disproved
 depends_on: []
-discharged_by_round: null
+discharged_by_round: 58
 introduced_at_round: 57
 ---
 
@@ -290,4 +290,231 @@ for e1, e2, c8_exp, vnum, vden, cert in CHILDREN:
     print(f"child subdiv{e1}+{e2}: c8={c8}, certified Lambda >= {val} > 14")
 print("all 3 pinned subdivision children LP-certified above budget m=14")
 
+CHECK -->
+
+
+## DISPROVED (R58, session s_0823-080606-3598) — the designated falsifier sweep killed the claim same-day
+
+The R58 sweep regenerated the complete organic L1-pass population (all
+630 double-subdivision children of QA24; census exactly matches R56's
+row: 550 C4-excluded, 30 L1-infeasible, 50 L1-passes). Of the 46
+L1-passes with $c_8 \ge 2$: 27 satisfy $\Lambda > 14$ (exact rational
+certificates), but **19 have exact LP optimum $\Lambda < 14 = m$** —
+computed by exact rational simplex (Bland's rule, Fraction arithmetic)
+and INDEPENDENTLY certified by explicit feasible DUAL covers (below).
+The $c_8$ boundary is not clean: falsifiers have $c_8 \in \{2,3,4\}$
+(9/8/2), certified have $c_8 \in \{3,4,5,6,8\}$ (2/11/7/5/2) — overlap
+at $c_8 \in \{3,4\}$, so NO $c_8$ threshold rescues the claim.
+
+**Pinned counterexample 1** — subdiv$(12,15)+(13,16)$ of QA24
+($n = 26$, $c_8 = 2$, C4-free, 203 PO2 cycles, 22 short cycles):
+
+- Hypothesis holds (L1-pass): the 14-edge set
+  $X = \{(0,22),(1,8),(2,7),(3,16),(6,20),(10,18),(11,21),(12,24),
+  (13,19),(13,25),(14,23),(15,24),(16,25),(24,25)\}$
+  has $|c \cap X| \ge 5$ for all 203 PO2 cycles.
+- Conclusion fails: the edge weighting $u$ pinned in the CHECK below is
+  feasible for the covering dual ($\sum_{e \in c} u_e \ge 5$ per PO2
+  cycle, $\ge 1$ per cycle $\le 7$) with
+  $\sum_e u_e = 27/2 < 14$, so by weak duality EVERY packing $(y,z)$
+  has value $\le 27/2$: $\Lambda = 27/2 < m$.
+
+**Pinned counterexample 2** — subdiv$(0,22)+(10,18)$ ($c_8 = 4$,
+225 PO2 cycles): 5-cover exists (pinned in CHECK), dual cover sums to
+$736/53 < 14$. Kills any retreat to $c_8 \ge 4$.
+
+**What survives.** The certificate DIRECTION is untouched: $\Lambda > m$
+still proves the L2 block wherever it holds, and 27/46 of the organic
+family (plus QA22 at the L1 layer and the pinned R56 $n = 26$ L1-pass)
+carry exact certificates. What died is the claim that the fractional
+mechanism covers the whole $c_8 \ge 2$ stratum: **the integral
+obstruction (pure integrality gap, as at QA24) extends to 19/46 of the
+organic L1-pass family.** All 19 falsifiers are quad-death-free anyway
+— they are among R56's 61 L1-passes, each with a complete CEGAR UNSAT
+certificate at L2 — so no quad-dead candidate emerges; what fails is
+only the LP EXPLANATION of the block. The refined question (what
+invariant separates the 27 LP-certifiable children from the 19
+integral ones) is follow-up work under a NEW lemma id, and the benched
+triangle-pocket integral-discharging program (ideation P2) is promoted:
+the integral mechanism is the DOMINANT one on this family, not a
+$c_8 \le 1$ corner case.
+
+<!-- CHECK
+# frac_starvation_l1pass DISPROOF certificate (R58): pinned falsifier 1
+# subdiv(12,15)+(13,16) of QA24. Verifies from scratch, exact arithmetic:
+# (i) child is C4-free with c8 = 2 (hypothesis stratum), (ii) the pinned
+# 14-edge X is a 5-cover of ALL PO2 cycles (hypothesis: L1-pass),
+# (iii) the pinned dual u is feasible (>= 5 per PO2 cycle, >= 1 per
+# cycle <= 7) with sum = 27/2 < 14, so Lambda <= 27/2 < m by weak
+# duality and the lemma's conclusion FAILS. This CHECK passing = the
+# disproof is machine-verified (lemma status: disproved is correct).
+from fractions import Fraction
+
+def cyc_enum(n, edges, lens, Lmax):
+    adj = [[] for _ in range(n)]
+    for u, v in edges: adj[u].append(v); adj[v].append(u)
+    out = []; path = [0]*(Lmax+1); onpath = [False]*n
+    def rec(s, u, ln):
+        for w in adj[u]:
+            if w == s and ln >= 3:
+                if ln in lens and path[1] < path[ln-1]:
+                    out.append(frozenset(
+                        [tuple(sorted((path[i], path[i+1]))) for i in range(ln-1)]
+                        + [tuple(sorted((path[ln-1], s)))]))
+            elif w > s and not onpath[w] and ln < Lmax:
+                onpath[w] = True; path[ln] = w
+                rec(s, w, ln+1)
+                onpath[w] = False
+    for s in range(n):
+        onpath[s] = True; path[0] = s
+        rec(s, s, 1); onpath[s] = False
+    return out
+
+QA24 = [(0,19),(0,21),(0,22),(1,5),(1,6),(1,8),(2,7),(2,9),(2,18),(3,8),
+ (3,10),(3,16),(4,11),(4,12),(4,13),(5,6),(5,16),(6,20),(7,15),(7,17),
+ (8,10),(9,14),(9,18),(10,18),(11,12),(11,21),(12,15),(13,16),(13,19),
+ (14,17),(14,23),(15,17),(19,21),(20,22),(20,23),(22,23)]
+E24 = sorted(tuple(sorted(e)) for e in QA24)
+e1, e2 = (12,15), (13,16)
+ch = [e for e in E24 if e not in (e1, e2)]
+ch += [(e1[0],24),(e1[1],24),(e2[0],25),(e2[1],25),(24,25)]
+ch = sorted(tuple(sorted(e)) for e in ch)
+assert not cyc_enum(26, ch, {4}, 4)
+po2 = cyc_enum(26, ch, {8,16}, 16)
+assert sum(1 for c in po2 if len(c) == 8) == 2 and len(po2) == 203
+short = cyc_enum(26, ch, {3,4,5,6,7}, 7)
+assert len(short) == 22
+
+X = {(0,22),(1,8),(2,7),(3,16),(6,20),(10,18),(11,21),(12,24),(13,19),
+     (13,25),(14,23),(15,24),(16,25),(24,25)}
+assert len(X) == 14 and X <= set(ch)
+assert all(len(c & X) >= 5 for c in po2)   # hypothesis: 5-coverable, c8 >= 2
+
+U = {
+  (0,19): Fraction(1,2),
+  (0,21): Fraction(1,2),
+  (0,22): Fraction(1,4),
+  (1,5): Fraction(1,4),
+  (1,6): Fraction(1,2),
+  (1,8): Fraction(1,4),
+  (2,7): Fraction(1,4),
+  (2,9): Fraction(1,2),
+  (2,18): Fraction(1,4),
+  (3,8): Fraction(1,2),
+  (3,10): Fraction(1,4),
+  (4,11): Fraction(1,2),
+  (4,12): Fraction(1,2),
+  (5,6): Fraction(1,4),
+  (6,20): Fraction(1,4),
+  (7,15): Fraction(1,2),
+  (7,17): Fraction(1,4),
+  (8,10): Fraction(1,4),
+  (9,18): Fraction(1,4),
+  (10,18): Fraction(1,2),
+  (11,21): Fraction(1,2),
+  (12,24): Fraction(1,1),
+  (13,25): Fraction(3,2),
+  (14,23): Fraction(3,4),
+  (15,17): Fraction(1,4),
+  (15,24): Fraction(1,4),
+  (20,22): Fraction(1,4),
+  (20,23): Fraction(1,4),
+  (22,23): Fraction(1,2),
+  (24,25): Fraction(1,1),
+}
+tot = sum(U.values())
+assert tot == Fraction(27,2) and tot < 14
+assert set(U) <= set(ch)
+for c in po2:
+    assert sum(U.get(e, Fraction(0)) for e in c) >= 5
+for D in short:
+    assert sum(U.get(e, Fraction(0)) for e in D) >= 1
+print("DISPROOF verified: L1-pass child with c8=2 has Lambda <= 27/2 < 14")
+CHECK -->
+
+<!-- CHECK
+# frac_starvation_l1pass DISPROOF certificate (R58): pinned falsifier 2
+# subdiv(0,22)+(10,18), c8 = 4 — kills any c8-threshold retreat below 5.
+from fractions import Fraction
+
+def cyc_enum(n, edges, lens, Lmax):
+    adj = [[] for _ in range(n)]
+    for u, v in edges: adj[u].append(v); adj[v].append(u)
+    out = []; path = [0]*(Lmax+1); onpath = [False]*n
+    def rec(s, u, ln):
+        for w in adj[u]:
+            if w == s and ln >= 3:
+                if ln in lens and path[1] < path[ln-1]:
+                    out.append(frozenset(
+                        [tuple(sorted((path[i], path[i+1]))) for i in range(ln-1)]
+                        + [tuple(sorted((path[ln-1], s)))]))
+            elif w > s and not onpath[w] and ln < Lmax:
+                onpath[w] = True; path[ln] = w
+                rec(s, w, ln+1)
+                onpath[w] = False
+    for s in range(n):
+        onpath[s] = True; path[0] = s
+        rec(s, s, 1); onpath[s] = False
+    return out
+
+QA24 = [(0,19),(0,21),(0,22),(1,5),(1,6),(1,8),(2,7),(2,9),(2,18),(3,8),
+ (3,10),(3,16),(4,11),(4,12),(4,13),(5,6),(5,16),(6,20),(7,15),(7,17),
+ (8,10),(9,14),(9,18),(10,18),(11,12),(11,21),(12,15),(13,16),(13,19),
+ (14,17),(14,23),(15,17),(19,21),(20,22),(20,23),(22,23)]
+E24 = sorted(tuple(sorted(e)) for e in QA24)
+e1, e2 = (0,22), (10,18)
+ch = [e for e in E24 if e not in (e1, e2)]
+ch += [(e1[0],24),(e1[1],24),(e2[0],25),(e2[1],25),(24,25)]
+ch = sorted(tuple(sorted(e)) for e in ch)
+assert not cyc_enum(26, ch, {4}, 4)
+po2 = cyc_enum(26, ch, {8,16}, 16)
+assert sum(1 for c in po2 if len(c) == 8) == 4 and len(po2) == 225
+short = cyc_enum(26, ch, {3,4,5,6,7}, 7)
+
+X = {(1,8),(2,7),(3,16),(4,13),(6,20),(9,14),(10,25),(12,15),(13,16),
+     (13,19),(14,23),(18,25),(22,24),(24,25)}
+assert len(X) == 14 and X <= set(ch)
+assert all(len(c & X) >= 5 for c in po2)
+
+U = {
+  (0,19): Fraction(41,106),
+  (0,21): Fraction(27,106),
+  (1,5): Fraction(18,53),
+  (1,6): Fraction(19,53),
+  (1,8): Fraction(4,53),
+  (2,9): Fraction(20,53),
+  (2,18): Fraction(22,53),
+  (3,8): Fraction(19,53),
+  (3,10): Fraction(16,53),
+  (3,16): Fraction(12,53),
+  (4,11): Fraction(20,53),
+  (4,12): Fraction(16,53),
+  (5,6): Fraction(16,53),
+  (7,15): Fraction(20,53),
+  (7,17): Fraction(16,53),
+  (8,10): Fraction(18,53),
+  (9,14): Fraction(17,53),
+  (9,18): Fraction(11,53),
+  (10,25): Fraction(119,106),
+  (11,12): Fraction(17,53),
+  (13,16): Fraction(127,106),
+  (13,19): Fraction(14,53),
+  (14,23): Fraction(99,106),
+  (15,17): Fraction(17,53),
+  (18,25): Fraction(7,53),
+  (19,21): Fraction(19,53),
+  (20,22): Fraction(26,53),
+  (20,23): Fraction(16,53),
+  (22,23): Fraction(11,53),
+  (22,24): Fraction(59,53),
+  (24,25): Fraction(3,2),
+}
+tot = sum(U.values())
+assert tot == Fraction(736,53) and tot < 14
+assert set(U) <= set(ch)
+for c in po2:
+    assert sum(U.get(e, Fraction(0)) for e in c) >= 5
+for D in short:
+    assert sum(U.get(e, Fraction(0)) for e in D) >= 1
+print("DISPROOF verified: L1-pass child with c8=4 has Lambda <= 736/53 < 14")
 CHECK -->
