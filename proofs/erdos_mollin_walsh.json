@@ -54,5 +54,31 @@
   "time_budget_s": 1800,
   "writeup_models": ["opus"],
   "status_audited": "2026-07-11 — confirmed OPEN as of July 2026 (best partial results: Chan 2025 structural families, F4).",
-  "note": "Erdős–Mollin–Walsh conjecture. Two-track problem: Track 1 search loop hunts for a witness $n$ via sieving; Track 2 proof loop attempts a proof under the F1+F2+F3 ledger. Witness is a single integer $n$ with $n, n+1, n+2$ all powerful — verifier factors all three by trial division up to sqrt(max), checks every prime factor has multiplicity >= 2. Score = the smallest such $n$ (chosen so larger witnesses don't strictly outrank smaller ones — a single witness suffices). Computer-verified up to ~10^14 via Heath-Brown / Mollin–Walsh; any witness has $n > 10^{14}$, so the verifier must accept arbitrary-precision integers."
+  "note": "Erdős–Mollin–Walsh conjecture. Two-track problem: Track 1 search loop hunts for a witness $n$ via sieving; Track 2 proof loop attempts a proof under the F1+F2+F3 ledger. Witness is a single integer $n$ with $n, n+1, n+2$ all powerful — verifier factors all three by trial division up to sqrt(max), checks every prime factor has multiplicity >= 2. Score = the smallest such $n$ (chosen so larger witnesses don't strictly outrank smaller ones — a single witness suffices). Computer-verified up to ~10^14 via Heath-Brown / Mollin–Walsh; any witness has $n > 10^{14}$, so the verifier must accept arbitrary-precision integers.",
+  "ideation_lenses": [
+    {
+      "name": "pell-recurrences",
+      "description": "Consecutive powerful PAIRS come from Pell-type recurrences (8,9; 288,289; ...). Study the obstruction to extending a Pell pair to a triple; recurrence structure modulo squarefull constraints."
+    },
+    {
+      "name": "elliptic-mordell",
+      "description": "A powerful triple forces integral points on explicit Mordell/elliptic models (powerful m = a^2 b^3). Leverage integral-point finiteness, explicit curve computations, and rank bounds to exclude the parametrized families."
+    },
+    {
+      "name": "padic-local",
+      "description": "Local obstructions: among n, n+1, n+2 the even members must be 0 mod 4 (2-adic valuation 1 kills powerfulness), pinning n mod 4; mine mod-p^2 conditions systematically for an outright contradiction or strong density savings."
+    },
+    {
+      "name": "abc-heights",
+      "description": "abc kills all large triples. Make the implication quantitative (radical/height inequalities) to bound any counterexample's size, then complement with finite search below the bound."
+    },
+    {
+      "name": "sieve-density",
+      "description": "Powerful numbers count ~ c x^(1/2). Bound triple correlations by sieve/second-moment methods; even modest savings on pair correlations constrain where a triple could live."
+    },
+    {
+      "name": "counterexample-first",
+      "description": "Parametrize candidate triples through squarefull factorizations and Pell-pair extensions; the witness verifier decides any concrete candidate."
+    }
+  ]
 }

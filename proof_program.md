@@ -56,12 +56,14 @@ To start a new proof attempt:
    handoff, the cumulative cross-branch notes, the live open-questions
    queue, and the most recent session_close reason.
 5. **If the open-questions queue is empty or stale, run ideation before
-   burning rounds**: the `/erdos-proof-ideation` skill fans out N parallel
-   proposer agents with forced-distinct lenses (sieve/density,
-   weight-redistribution, entropy, extremal/stability,
-   counterexample-first) against the spec + dead-end ledger, judges them,
-   and queues the top 1-2 as new qids. Serial single-idea sessions are the
-   weakest search over proof space — don't default to them.
+   burning rounds**: the `/erdos-proof-ideation` skill fans out parallel
+   proposer agents — problem-native lenses from the spec's
+   `ideation_lenses` array, plus wildcard / analogy-miner / fresh-eyes /
+   revivalist slots — against the spec + dead-end ledger, ranks them
+   with a three-judge panel (rigor / novelty / upside), and queues each
+   judge's top pick as a new qid tagged `kind: explore` or
+   `kind: exploit`. Serial single-idea sessions are the weakest search
+   over proof space — don't default to them.
 6. **Confirm and go.**
 
 ## Ground rules (do not violate)
@@ -119,6 +121,107 @@ passing CHECK is evidence, not proof — but it is also a permanent
 regression test: `proof_prepare.py` re-runs every CHECK block every time,
 in critics-on AND critics-off modes, and a failure is a BLOCKING finding.
 
+## Variance policy — standing (adopted 2026-08-23)
+
+The keep rule rewards verifiability, not novelty: computational
+campaigns always produce clean partial results, while half-formed
+conceptual leaps attract critic findings — so left alone, the loop
+drifts into census/SAT grinding (R38–R56 of `erdos_gyarfas` is the
+case study; its one great idea, the R55 covering reframing, arrived
+55 rounds in). These rules push back. None of them is enforced by the
+gatekeeper — the handoff discipline below is what makes them stick.
+
+### 1. Pre-committed exit criteria (mandatory for every program)
+
+A **program** is any named, multi-session sequence of qids in service
+of one mechanism or approach. The strategy section that DECLARES a
+program must state, up front: (a) the falsifiable success criterion,
+(b) the negative-closure criterion (what observation closes the
+program as converged negative knowledge), and (c) a session budget.
+Extending a program past its budget requires an explicit journal note
+saying what changed. Precedent: the R51/R56 pre-commitment is the only
+thing that ended a 56-round program — make the pattern the default,
+not a late save.
+
+### 2. Exploration quota
+
+Every session handoff must state `consecutive exploit sessions on
+current program: k`. When `k >= 2`, the next session MUST either
+(i) claim a `kind: explore` qid (queued by ideation's novelty/upside
+judges — see the skill), or (ii) open with a fresh
+`/erdos-proof-ideation` fan-out before any round is spent. Momentum is
+useful; unbounded momentum is how one program consumes two months.
+The "pick the lowest-numbered open qid" default in the Round cycle is
+OVERRIDDEN by this quota when it fires.
+
+`kind` lives on the qid's INITIAL `open` row (written at ideation
+time) and is optional metadata everywhere else: later claim/resolve
+rows need not repeat it, and harness-appended rows (orphan
+auto-release) never carry it — so read a qid's kind from its first
+row, and treat a qid with no kind anywhere as `exploit`.
+
+### 3. Conjecture register
+
+Every session appends at least one NEW falsifiable observation to the
+notes channel before session_end, formatted:
+`CONJECTURE: <statement> | test: <how it could be killed>`.
+A reframing, a suspected invariant, a pattern in the data — minted
+this session, not restated. Rationale: nothing else in the loop
+rewards introducing a new mathematical object, and reframings are
+where the real progress has come from. Ideation passes read these
+lines as seed material.
+
+### 4. Explore/consolidate cadence (critics-off bursts)
+
+Critics-off mode (`AUTOERDOS_PROOF_CRITICS=0`) is not just a debug
+switch — it is the sanctioned EXPLORE mode. An explore session may
+develop speculative material under a dedicated
+`## Sandbox (unscreened speculation)` section of `proof_strategy.md`.
+Rules that keep the sandbox safe:
+
+- Before the next critics-ON milestone run, every sandbox item is
+  either PROMOTED (rewritten rigorously into a numbered section or a
+  lemma file, with CHECK probes) or PRUNED to the notes channel. The
+  sandbox section is EMPTY at every consolidation milestone.
+- Resolution phrasing is banned in the sandbox like everywhere else —
+  the `_compute_verdict_hint` defense-in-depth scans the whole file
+  and does not know the section is speculative.
+- A `<!-- WITNESS -->` or `<!-- CHECK -->` block never goes in the
+  sandbox — those are live to the harness wherever they appear.
+
+Cadence: after any consolidation milestone (critics-on pass, zero
+blocking), the next session on the problem may open with a critics-off
+burst by default.
+
+### 5. Portfolio rotation and the literature scout
+
+- When a problem's queue is empty AND its latest program just closed,
+  the next session must run ideation — and must seriously weigh
+  switching `PROOF_TAG` to another open spec (`frankl_union_closed`,
+  `erdos_mollin_walsh`) rather than reflexively re-entering the same
+  problem. As a floor: at least one in four Track 2 sessions goes to a
+  problem other than the current favorite. Cross-problem technique
+  transfer (entropy jumping into union-closed, Pell structure into
+  powerful triples) is a variance source a one-problem loop never sees.
+- A **literature-scout session** is a sanctioned session type: no
+  strategy edits, no rounds — sweep recent literature (arXiv listings,
+  surveys, adjacent solved problems) for transplantable techniques,
+  write findings WITH CITATIONS to the notes channel, and queue qids
+  for promising transplants. Spec `given_facts` are read-only at
+  runtime; a scout that finds a fact worth pinning proposes the spec
+  edit on a harness branch for human review instead of editing it
+  mid-loop.
+
+### 6. Ideation is a panel, not a filter
+
+`/erdos-proof-ideation` details live in the skill; the program-level
+contract is: proposals are generated under problem-native lenses (the
+spec's `ideation_lenses`) plus deliberately-decorrelated slots
+(wildcard, analogy miner, fresh-eyes with an ablated context pack,
+revivalist over released/abandoned directions), and selection takes
+each judge's top pick — never a consensus ranking. Consensus selection
+recreates the low-variance monoculture this policy exists to break.
+
 ## Round cycle
 
 Inside one session, repeat this body until a logical chunk of work is
@@ -129,7 +232,9 @@ done OR the token budget is low:
 uv run proof_session_start.py
 # Read its stdout. It prints the handoff, the open queue, the last close
 # reason. Pick the lowest-numbered open qid unless the handoff suggests
-# otherwise.
+# otherwise — EXCEPT when the exploration quota fires (Variance policy
+# §2: handoff says consecutive exploit sessions >= 2), which overrides
+# the default with a kind: explore qid or a fresh ideation fan-out.
 
 # 1. Claim the qid.
 echo '{"qid":"Q3","status":"claimed","session_id":"<sid>","summary":"taking Q3","ts":"<iso>"}' \
@@ -352,6 +457,9 @@ fan-out.
 - Don't re-enter an approach the notes channel or a
   `status: disproved/abandoned` lemma documents as dead without stating
   what is different this time (the strategy critic flags this).
+- Don't declare a multi-session program without pre-committed exit
+  criteria and a session budget (Variance policy §1), and don't extend
+  one past its budget without a journal note saying what changed.
 - Don't read F2's unsigned big-O as positive. The sign critic has a
   hard-coded clause that emits `unsigned-O-sign-confusion`.
 - Don't edit critic prompts mid-loop. Their sha256 is logged into
@@ -398,4 +506,7 @@ The conservative gates that DO still apply:
 
 Recommended use: bursts of speculative work; flip back to `AUTOERDOS_PROOF_CRITICS=1`
 (or unset) at consolidation milestones to re-screen the body with the
-full critic panel before claiming convergence.
+full critic panel before claiming convergence. This mode is the
+sanctioned EXPLORE half of the explore/consolidate cadence — see
+Variance policy §4 for the sandbox-section rules that keep speculative
+material quarantined from the critic-screened body.

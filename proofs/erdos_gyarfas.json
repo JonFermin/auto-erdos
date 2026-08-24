@@ -44,5 +44,35 @@
   "time_budget_s": 1800,
   "writeup_models": ["opus"],
   "status_audited": "2026-07-11 — confirmed OPEN as of July 2026.",
-  "note": "Witness-decidable disproof target: one finite graph settles the claim. The verifier is CONSERVATIVE — it accepts only when its exhaustive per-length cycle search completes within the node-expansion budget and finds no cycle of length 4, 8, 16, 32, or 64 (whichever are <= n); budget exhaustion is a rejection. Near-cubic graphs (the only plausible witness shape per F3) are cheap to search exhaustively. Track 1-style search also fits: generate min-degree-3 graphs (e.g. girth-biased lifts, voltage graphs over Z_m, cages) and screen with the same verifier. Sanity anchors: K_4 contains a 4-cycle; the Petersen graph (girth 5) contains 8-cycles — both are correctly rejected."
+  "note": "Witness-decidable disproof target: one finite graph settles the claim. The verifier is CONSERVATIVE — it accepts only when its exhaustive per-length cycle search completes within the node-expansion budget and finds no cycle of length 4, 8, 16, 32, or 64 (whichever are <= n); budget exhaustion is a rejection. Near-cubic graphs (the only plausible witness shape per F3) are cheap to search exhaustively. Track 1-style search also fits: generate min-degree-3 graphs (e.g. girth-biased lifts, voltage graphs over Z_m, cages) and screen with the same verifier. Sanity anchors: K_4 contains a 4-cycle; the Petersen graph (girth 5) contains 8-cycles — both are correctly rejected.",
+  "ideation_lenses": [
+    {
+      "name": "cycle-space-matroid",
+      "description": "Work in the F_2 cycle space / graphic matroid. Treat power-of-2 cycles as a distinguished subset of the cycle space; spanning-tree/cotree duality turns cycle statements into covering statements (Whitney duality, matroid union/intersection, feedback edge sets). Retro-predicts the R55 covering reframing - this lens belongs in the set from round 1."
+    },
+    {
+      "name": "discharging",
+      "description": "Assign charge to vertices/edges and redistribute by local rules until a global count contradicts PO2-cycle-freeness under min degree 3. The workhorse of cubic/planar graph theory; F1 (Heckman-Krakovski, 3-connected cubic planar) sits next door to this lens."
+    },
+    {
+      "name": "covering-spaces-lifts",
+      "description": "Voltage graphs, universal covers, quotients: how the PO2-cycle spectrum transforms under lifts and quotients. Upgrades the I-graph and Z_m-lift screens from enumeration to structure - which cycle lengths are forced downstairs given behavior upstairs?"
+    },
+    {
+      "name": "spectral-moore",
+      "description": "Trace/moment methods: closed 2^k-walk counts from eigenvalues; Moore-type bounds for graphs missing all even cycle lengths in {4,8,16,...}; does expansion (or near-3-regular spectral structure) force a short PO2 cycle?"
+    },
+    {
+      "name": "probabilistic-counting",
+      "description": "Lovasz Local Lemma / entropy compression / first-moment: quantify the constraint density of avoiding every PO2 cycle length against the freedom of a min-degree-3 graph; make the R56 cotree-density heuristic (8/3 vs 16/3 edges per cycle) rigorous."
+    },
+    {
+      "name": "induction-decomposition",
+      "description": "Thomassen-style induction on cubic graphs: ear decompositions, edge/vertex reductions preserving min degree 3, connectivity surgery. Find an operation under which a minimal counterexample collapses to a smaller one."
+    },
+    {
+      "name": "counterexample-first",
+      "description": "Assume FALSE. A witness is near-cubic, girth >= 5, >= 30 vertices (F3), contains an induced P10 (F2), avoids C4/C8/C16/C32/C64. Either the constraints turn contradictory (a proof sketch) or they define a search space to hand to Track-1-style generation plus the witness verifier."
+    }
+  ]
 }
