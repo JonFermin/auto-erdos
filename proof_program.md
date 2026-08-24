@@ -143,13 +143,20 @@ saying what changed. Precedent: the R51/R56 pre-commitment is the only
 thing that ended a 56-round program — make the pattern the default,
 not a late save.
 
+The session handoff must carry a `program: <name> — session <m> of
+<budget>` line; §2's "current program" means the program this line
+names. When no program has been declared yet, the problem
+(`PROOF_TAG`) itself is the current program.
+
 ### 2. Exploration quota
 
 Every session handoff must state `consecutive exploit sessions on
 current program: k`. When `k >= 2`, the next session MUST either
-(i) claim a `kind: explore` qid (queued by ideation's novelty/upside
-judges — see the skill), or (ii) open with a fresh
-`/erdos-proof-ideation` fan-out before any round is spent. Momentum is
+(i) claim a `kind: explore` qid (tagged at queue time by ideation —
+see the skill for which winners get the tag), or (ii) open with a
+fresh `/erdos-proof-ideation` fan-out AND claim one of the
+`kind: explore` qids it queues as this session's first qid — running
+the fan-out alone does not discharge the quota. Momentum is
 useful; unbounded momentum is how one program consumes two months.
 The "pick the lowest-numbered open qid" default in the Round cycle is
 OVERRIDDEN by this quota when it fires.
@@ -160,16 +167,38 @@ rows need not repeat it, and harness-appended rows (orphan
 auto-release) never carry it — so read a qid's kind from its first
 row, and treat a qid with no kind anywhere as `exploit`.
 
+Computing `k` for the handoff (the session_end template MUST carry the
+line — nothing in the harness computes it for you): a session counts
+as EXPLORE if it claimed a `kind: explore` qid, spent its rounds in a
+critics-off sandbox burst, or was an ideation-only / literature-scout
+session that claimed no exploit qid; otherwise it is EXPLOIT. `k` =
+prior handoff's `k` + 1 if this session was exploit on the same
+program, reset to 0 if it was explore or the program changed.
+Bootstrap/repair: if the prior handoff lacks the line for ANY reason
+(pre-policy handoff, session_end's built-in default template, a crash
+left a stale handoff), initialize from this session alone (`k = 1` if
+it was exploit, else `0`). If session_start reported an orphan
+session, classify the orphan from its surviving queue/journal rows
+and count it too; queue rows with `session_id: ideation-<ts>` newer
+than the prior handoff mean an ideation pass ran in between — treat
+`k` as reset.
+
 ### 3. Conjecture register
 
-Every session appends at least one NEW falsifiable observation to the
-notes channel before session_end, formatted:
+Every session that logged at least one round appends EXACTLY one new
+falsifiable observation (<= 3 lines) to the notes channel before
+session_end, formatted:
 `CONJECTURE: <statement> | test: <how it could be killed>`.
 A reframing, a suspected invariant, a pattern in the data — minted
-this session, not restated. Rationale: nothing else in the loop
-rewards introducing a new mathematical object, and reframings are
-where the real progress has come from. Ideation passes read these
-lines as seed material.
+this session, not restated. A session with nothing genuinely new
+appends NOTHING — never mint filler: session_start prints the notes
+in full but hard-truncates the OLDEST content past 100k chars, so
+padding evicts the dead-end ledger, the one thing the loop cannot
+afford to forget. When a conjecture dies, append
+`CONJECTURE-KILLED: <ref> — <how>` so ideation passes can filter the
+register. Rationale: nothing else in the loop rewards introducing a
+new mathematical object, and reframings are where the real progress
+has come from. Ideation passes read these lines as seed material.
 
 ### 4. Explore/consolidate cadence (critics-off bursts)
 
@@ -183,11 +212,24 @@ Rules that keep the sandbox safe:
   either PROMOTED (rewritten rigorously into a numbered section or a
   lemma file, with CHECK probes) or PRUNED to the notes channel. The
   sandbox section is EMPTY at every consolidation milestone.
+  Enforcement is handoff + preflight: a session ending with a
+  non-empty sandbox MUST add the handoff line `SANDBOX: <n> items
+  pending — promote/prune before any critics-ON proof_prepare run`,
+  and every session confirms the sandbox is empty before its FIRST
+  critics-ON `proof_prepare.py` (the env var dies with the session
+  that set it; a fresh session is critics-ON by default).
+- Every `proof_log_result.py` thesis logged while critics are off
+  starts `thesis: [critics-off] ...` — keep_progress records minted
+  in this mode are otherwise indistinguishable from critic-screened
+  partials in `records/` and `proof_results.tsv`.
 - Resolution phrasing is banned in the sandbox like everywhere else —
   the `_compute_verdict_hint` defense-in-depth scans the whole file
   and does not know the section is speculative.
-- A `<!-- WITNESS -->` or `<!-- CHECK -->` block never goes in the
-  sandbox — those are live to the harness wherever they appear.
+- A `<!-- WITNESS -->` block never goes in the sandbox — the witness
+  regex scans the whole file, sandbox included. Keep `<!-- CHECK -->`
+  blocks out too, for the opposite reason: they only EXECUTE from
+  `proof_lemmas/lemma_*.md`, so a sandbox CHECK is dead text that
+  reads like evidence but was never run.
 
 Cadence: after any consolidation milestone (critics-on pass, zero
 blocking), the next session on the problem may open with a critics-off
@@ -196,13 +238,23 @@ burst by default.
 ### 5. Portfolio rotation and the literature scout
 
 - When a problem's queue is empty AND its latest program just closed,
-  the next session must run ideation — and must seriously weigh
-  switching `PROOF_TAG` to another open spec (`frankl_union_closed`,
-  `erdos_mollin_walsh`) rather than reflexively re-entering the same
-  problem. As a floor: at least one in four Track 2 sessions goes to a
-  problem other than the current favorite. Cross-problem technique
-  transfer (entropy jumping into union-closed, Pell structure into
-  powerful triples) is a variance source a one-problem loop never sees.
+  the next session must run ideation — UNLESS the last ideation pass
+  on this problem queued nothing (the novelty-floor ground rule
+  fired). In that case do NOT re-queue: let the convergence gate see
+  the empty queue (exit 6 is a designed terminal, not a failure), run
+  `expert_brief.py`, and rotate to another open problem. Either way,
+  seriously weigh switching `PROOF_TAG` to another open spec
+  (`frankl_union_closed`, `erdos_mollin_walsh`) rather than
+  reflexively re-entering the same problem.
+- Rotation floor (computable): the dated appends in
+  `~/.cache/auto-erdos/proof_notes_<tag>.md` are the only
+  cross-branch, cross-problem trace of session activity. When
+  launching a NEW attempt, compare recent append dates across all
+  `proof_notes_*.md`; if the last four sessions' worth of appends all
+  belong to one problem, this attempt MUST target a different open
+  spec. Cross-problem technique transfer (entropy jumping into
+  union-closed, Pell structure into powerful triples) is a variance
+  source a one-problem loop never sees.
 - A **literature-scout session** is a sanctioned session type: no
   strategy edits, no rounds — sweep recent literature (arXiv listings,
   surveys, adjacent solved problems) for transplantable techniques,
@@ -297,6 +349,11 @@ When the token budget is low OR a logical milestone is reached, call:
 ```bash
 uv run proof_session_end.py "reason: <one-line stop reason>" < /path/to/handoff_template.md
 ```
+
+The handoff you pipe in MUST include the exploration-quota line
+`consecutive exploit sessions on current program: <k>` (Variance
+policy §2 defines `k` and its bootstrap) — the next session's quota
+decision reads it from there.
 
 `proof_session_end.py`:
 1. Reads handoff from stdin (or writes a default template).

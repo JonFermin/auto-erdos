@@ -25,8 +25,11 @@ lenses and one judge.
   if the journal is empty, ask the user. (Do NOT default to
   `primitive_set_erdos` — that spec is a rediscovery benchmark now.)
 - Optional: `L`, the lens-proposer count (default: all lenses in the
-  problem's lens set, capped at 6). The four special slots below are
-  always added on top of `L`.
+  problem's lens set, capped at 7). If a spec's lens set ever exceeds
+  the cap, never drop `counterexample-first` on a witness-decidable
+  spec; drop the lens most redundant with the current strategy's
+  existing machinery, and say which in the ideation digest. The four
+  special slots below are always added on top of `L`.
 
 ## Step 1 — Assemble the context packs (plural)
 
@@ -46,7 +49,9 @@ Read, in full:
 4. `proof_strategy.md` — current state of the draft.
 5. The queue history in `proof_open_questions.jsonl` — collect every
    qid whose latest status is `released` (these were let go, not
-   refuted; they are revival candidates).
+   refuted; note the harness still counts `released` in the LIVE queue
+   alongside `open` — the docket's job is to decide whether they
+   deserve re-claiming, not to "un-shelve" them).
 
 Build TWO context packs:
 
@@ -172,23 +177,39 @@ proposal.
 
 ## Step 5 — Commit the output (the only writes this skill makes)
 
-1. Take each judge's TOP pick (deduplicate — if two judges crown the
-   same proposal, take the next distinct pick from the judge with the
-   stronger justification). Queue 2-3 distinct winners as new qids in
-   `proof_open_questions.jsonl` (status `open`, summary = direction +
-   first_lemma, session_id = `ideation-<MMDD-HHMMSS>`), each with a
-   `kind` field: `"exploit"` for Judge RIGOR's pick, `"explore"` for
-   Judge NOVELTY's and Judge UPSIDE's picks (and for any winning
-   wildcard/fresh-eyes/revivalist proposal regardless of which judge
-   picked it). The `kind` field is what the exploration quota in
+1. Take each judge's TOP pick. Judges must return a strict ranking —
+   they break their own ties; if a judge fails or returns no usable
+   ranking, re-spawn it once, then proceed with the remaining judges'
+   picks. Deduplicate: a shared crown is credited to the judge with
+   the strongest justification, and each OTHER crowning judge's slot
+   is filled by that judge's next distinct pick; a crown shared
+   between RIGOR and NOVELTY/UPSIDE is tagged `explore`. Queue the
+   resulting distinct winners (three when three distinct proposals
+   exist; NONE when the all-proposals-scored-<=4-novelty ground rule
+   fires) as new qids in `proof_open_questions.jsonl` — status `open`,
+   summary = direction + first_lemma, session_id =
+   `ideation-<MMDD-HHMMSS>`, qid = `Q<MMDD-HHMMSS>-1..3` from the
+   same timestamp. Never "next integer": parallel worktrees minting
+   sequential Q-numbers collide at union-merge time, and
+   latest-row-wins then conflates two different questions. Each row
+   carries a `kind` field: `"exploit"` for Judge RIGOR's pick,
+   `"explore"` for Judge NOVELTY's and Judge UPSIDE's picks (and for
+   any winning analogy-miner/wildcard/fresh-eyes/revivalist proposal
+   regardless of which judge picked it).
+2. Close out the stale queue while you are here: for every `released`
+   qid in the revival docket that the revivalist ruled not worth
+   reviving and no judge picked, append a `resolved` row
+   (`summary: "closed by ideation <date>: <one-line reason>"`).
+   `released` rows count as LIVE to the gatekeeper — left unclosed
+   they permanently block the exit-6 convergence terminal. The `kind` field is what the exploration quota in
    `proof_program.md` schedules against. Do NOT collapse the panel to
    a consensus ranking — consensus selection is a variance killer and
    defeats the panel's purpose.
-2. Append a digest to the notes channel:
+3. Append a digest to the notes channel:
    `uv run proof_notes.py "IDEATION <date>: <P> proposals (<lenses used>), 3-judge panel — <one line each with R/N/U scores>; queued Q<i> (kind), Q<j> (kind), ..."`
    Losing proposals go in the digest too — a future ideation pass must
    not re-propose them from scratch.
-3. Report the ranking to the user, including where the judges
+4. Report the ranking to the user, including where the judges
    DISAGREED most (the max-spread proposal) — that disagreement is
    signal about where the problem's difficulty is misunderstood.
    Do NOT start editing `proof_strategy.md` — that is
