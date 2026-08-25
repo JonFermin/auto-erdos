@@ -2503,3 +2503,37 @@ lower bound: LP over the cycle space of the stratum, or SAT-UNSAT for
 repositories (houseofgraphs.org, aeb.win.tue.nl, users.cecs.anu.edu.au)
 are egress-blocked from this container; prong (i) remains unfetched —
 and the girth-3 finding suggests it matters less than R59 assumed.
+
+## Section 101 — R61: the 37 floor is move-class-robust — 3-opt + load-targeted proposals do not move it; the floor RISES with $n$ (58: 37, 60: 65, 62: 88), so $n = 58$ is the binding scale (session s_0825-081126-3d4c)
+
+R61 asked the sharp follow-up to R60: is $c_{16} = 37$ a 2-opt
+artifact? The harness was extended with (a) **3-opt moves** (remove
+three pairwise vertex-disjoint edges, rewire a random alternative
+perfect matching on the six endpoints; 40% of proposals) and (b)
+**load-targeted proposals** (half the moves pick the first removed edge
+as the max-$N_{16}$ of four random candidates), with exact incremental
+counting generalized to "16-cycles through $\ge 1$ edge of a set" by
+telescoped banned-edge path counts (validated: summing over all 87
+edges reproduces $c_{16} = 37$ exactly).
+
+- Three 25-minute runs from the 37-graph ($T_0 = 3$, seeds
+  201/202/203): **all returned 37** — $\approx 1.92$M proposals,
+  15.7k accepts, zero improvements. Combined with R60's three reheats,
+  the floor now survives $\{$2-opt, 3-opt, load-targeted$\}$ local
+  search from six independent schedules.
+- A fresh full-pipeline run at $n = 60$ with the v2 move class:
+  $c_{16} = 65$ (girth 3, max edge load 33, verified from scratch;
+  record in the R61 JSON). Best-known floors now: $n = 58$: **37**,
+  $n = 60$: **65** (single restart), $n = 62$: **88** (single restart).
+
+The floor *rising* with $n$ — despite the stratum getting roomier — is
+the second structural surprise (after girth 3). More vertices means
+more 16-cycles to kill, and the constraint density does not thin: the
+witness box's binding scale is exactly $n = 58$, the (3,9)-cage number.
+Local search has saturated; the honest next attacks are exact:
+(i) SAT-UNSAT for "a $\{C_4, C_8, C_{16}\}$-free connected cubic graph
+on 58 vertices exists" — which at UNSAT *is* `lemma_g9c16_stratum` at
+$n = 58$, and at SAT is a candidate witness one $C_{32}$-check away;
+(ii) an LP/counting lower bound on $c_{16}$ over the stratum;
+(iii) structured constructions (voltage-graph lifts with forbidden
+cycle lengths) instead of unstructured annealing.
