@@ -1,78 +1,65 @@
-# Session handoff (session s_0822-080621-c9ec)
+# Session handoff (session s_0825-081126-3d4c)
 
-**Stop reason**: Logical milestone — two keeps (R55, R56), the
-depth-escalation program (Q77) formally CLOSED per the R51/R56
-pre-commitment, Q77 and Q79 resolved, all pushed.
+**Stop reason**: Logical milestone — two keeps (R60, R61), Q81's SA
+prong is saturated and formally released with the exact-attack menu.
 
 **What happened**:
 
-1. **R55 — the covering reframing (keep)**. depth(c) = |c ∩ B| (back
-   edges ON the cycle), so triple-dead/quad-dead are covering
-   statements about the m-edge cotree: quad-death requires an m-subset
-   giving every PO2 cycle >= 5 edges ("5-coverability"). Identity
-   verified on all 64 exact states. NONE of the 15 carriers at n<=22
-   is 5-coverable (stdlib DP, CHECKs 7-8 — 8-cycles alone obstruct
-   14/15); the n=24 carrier (c8=1) is 5-coverable but NO cover is a
-   cotree (SAT/CEGAR, 6-clause certificate = 5 triangles + one
-   6-cycle = triangle starvation). THEOREM: no quad-dead state on any
-   known carrier n<=24. Also made explicit: quad_alive_universal
-   IMPLIES cubic EGC — never spend proof effort trying to prove it.
-   CHECKs 7/8/9 added to lemma_quad_alive_universal. Record
-   proof_erdos_gyarfas_7f2f7a121b1f_f5199d4.json.
+1. **R60 — the argbest campaign (keep)**. R59's c16 plateau of 95–102
+   was a schedule artifact (argbest not stored, no restarts). Fixed
+   harness (exact incremental per-edge path counting, audited, zero
+   drift): fresh-restart SA at n=58 reaches **c16 = 37**; three T0=4
+   reheats all return 37. The 37-graph is pinned with an explicit
+   16-cycle in lemma_g9c16_stratum CHECK 2 (both CHECKs pass in ~0s).
+   Structure: girth 3 (descent moves AWAY from the cage corner —
+   triangles are free), diffuse load (85/87 edges carry a 16-cycle,
+   max load 13). Record proof_erdos_gyarfas_1d7db642a361_b55545e.json.
 
-2. **R56 — the falsifier campaign (keep)**. 2,271 cubic graphs at
-   n=22-28: random (560), ALL growth children of qa22/ch22/qa24
-   (1,686), adversarial low-c8 local search (25). Verdicts: 1,880
-   C4-excluded, 330 L1-infeasible (exact), 61 L1-passes — every one
-   given a COMPLETE SAT/CEGAR UNSAT certificate that no 5-cover is a
-   cotree (r56_l1pass_verdicts.tsv; 0 cotrees ever observed, L3
-   normality never reached). Zero quad-dead candidates. L1 passes
-   need c8<=6 (qa24 lineage or engineered). CHECK 10 pins an explicit
-   n=26 L1-pass + verified cover + non-tree complement. Record
-   proof_erdos_gyarfas_4cef8e3264ad_8a8c14a.json.
+2. **R61 — move-class robustness (keep)**. 3-opt moves (alternative
+   matchings on 6 endpoints) + load-targeted proposals, exact
+   set-based incremental counting (telescoped banned-edge paths,
+   validated): three 25-min runs from the 37-graph all return 37 —
+   six independent schedules across R60–R61 fail to move the floor.
+   Fresh n=60 v2 run: c16=65. Floors RISE with n (58:37, 60:65,
+   62:88): the witness box's binding scale is n=58, the (3,9)-cage
+   number. Record proof_erdos_gyarfas_b49e53364515_2e5541f.json.
 
-**Program state**: The bounded-depth/depth-escalation program is
-CLOSED (converged negative knowledge; the covering mechanism L1/L2/L3
-is the artifact). quad_alive_universal stays open — and is now known
-to be at least as strong as cubic EGC. The class-census layer
-(n=18/20 complete, n=22/24 known carriers) is fully explained by the
-mechanism.
+**qid state**: Q81 released with the exact-attack menu. Queue has no
+live claimed questions (Q69 released: paste-8 supply analytic core).
 
-**qid state**: Q77 resolved (program closed). Q78 resolved (R54).
-Q79 resolved (campaign done). Queue has NO live open questions
-(Q69 stays released: the paste-8 supply analytic core).
-
-**Suggested next moves**:
-1. Run /erdos-proof-ideation against this closure record. Candidate
-   directions the record itself suggests: (a) the paste-8 supply core
-   (unbounded k' for paste8_tree_universal — Q69's release note);
-   (b) F2 graph-level quantifier; (c) NEW: the depth-4-layer
-   uniformity at n=22 (exactly 41 both carriers — a covering-polytope
-   question); (d) NEW: try to prove the triangle-starvation L2
-   obstruction analytically (5-covers avoid triangle edges because
-   triangle edges carry few PO2 cycles — could yield "no quad-dead
-   state on any carrier with >= t triangles" as a lemma).
-2. If ideation prefers computation: the campaign harness
-   (scratchpad r56_campaign.py — container-local, reconstructable
-   from Section 96's description + CHECK 10's example) extends
-   directly to n=30+ and to targeted populations (girth-controlled,
-   c8=0 constructions become possible at n>=30ish).
+**Suggested next moves** (in order):
+1. **SAT-UNSAT for a {C4,C8,C16}-free connected cubic graph on 58
+   vertices** (python-sat is in pyproject). UNSAT = lemma_g9c16_stratum
+   at n=58; SAT = candidate witness one C32-check away. Start with
+   incremental cycle-banning CEGAR on adjacency variables + degree=3
+   encodings; the 37-graph and its 37 16-cycles seed the first ban
+   round. Expect hard — budget a full session, checkpoint clauses.
+2. If SAT looks hopeless, LP/counting lower bound on c16 over the
+   stratum, or structured voltage-graph lifts with forbidden cycle
+   lengths {4,8,16,32} (c8=0 constructions become possible at n>=58).
+3. Alternatively run /erdos-proof-ideation against the R61 record.
 
 **CRITIC INFRA (standing, carried forward)**: prewarm ALL critics via
-scratchpad prewarm.py (renders via proof_prepare._render_critic_prompt
-with witness_valid computed the same way, call_critics_parallel
+scratchpad prewarm.py (renders via proof_prepare._render_critic_prompt,
+witness_valid computed the same way, call_critics_parallel
 timeout_s=900, NODE_EXTRA_CA_CERTS=/root/.ccr/ca-bundle.crt), THEN
-proof_prepare (cache replays). This session: 2/2 rounds 0 blocking,
-prewarms 324s/~300s. os.chdir the worktree INSIDE scripts.
-PROOF_TAG on the SAME command line. proof_results.tsv container-local;
-R-numbering by hand (next: R57). pgrep footgun bit AGAIN this
-session: a compound shell whose text contains the plain pattern
-kills itself — use [c]haracter-class in BOTH pgrep and pkill, and
-never reference the script name un-bracketed in the same compound.
+proof_prepare (cache replays). TWO new footguns this session:
+(a) do NOT append proof_notes between prewarm and proof_prepare — the
+falsify prompt embeds the notes channel, so the append invalidates its
+cache entry; (b) the falsify critic (368KB prompt) can fail transiently
+("claude -p exited 1 after ~3s") — retry it alone with timeout 900;
+(c) a critic response with prose BEFORE a trailing ```json fence is
+unparseable by proof_prepare's extractor (fence must be response-start;
+stray "[" in prose poisons bracket-extraction) — remedy: delete that
+prompt-sha row from ~/.cache/auto-erdos/critic_cache.tsv and re-fire
+live (never hand-write a cache row). proof_results.tsv container-local;
+R-numbering by hand (next: R62).
 
 **Files modified this session**:
-- proof_strategy.md (Sections 95, 96)
-- proof_lemmas/lemma_quad_alive_universal__0818-081353-a397.md
-  (R55/R56 paragraphs; CHECKs 7, 8, 9, 10)
-- records/proof_erdos_gyarfas_{7f2f7a121b1f_f5199d4,4cef8e3264ad_8a8c14a}.json
-- queue (Q77 claimed->resolved, Q79 opened->resolved), journal, notes
+- proof_strategy.md (Sections 100, 101)
+- proof_lemmas/lemma_g9c16_stratum__0823-080606-3598.md (R60/R61
+  paragraphs; CHECK 2 = pinned 37-graph with explicit 16-cycle)
+- records/proof_erdos_gyarfas_{1d7db642a361_b55545e,b49e53364515_2e5541f}.json
+- queue (Q81 claimed -> released with exact-attack menu), journal, notes
+- scratchpad harnesses q81_sa.py / q81_sa2.py (container-local,
+  reconstructable from Sections 100-101; argbests live in the records)
