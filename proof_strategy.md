@@ -2457,3 +2457,49 @@ binding layer of the witness question; the stratum anchor (a pinned
 $n = 58$ member with $c_{16} = 1250$) is CHECK-verified in the lemma
 file. Campaign infrastructure notes (argbest storage, cage seeding)
 recorded there too.
+
+## Section 100 — R60: the R59 plateau falls — argbest-stored SA reaches $c_{16} = 37$ at $n = 58$; the floor is a robust 2-opt local minimum with diffuse 16-cycle load (session s_0825-081126-3d4c)
+
+R60 re-ran the Q81 stratum campaign with the two fixes R59 itself
+prescribed: **store the argbest** (R59 only tracked its value) and
+**restart-rich schedules**. Four primary 35-minute anneals (exact
+incremental $c_{16}$ delta-counting with distance-pruned per-edge path
+enumeration, audited against a full recount at every argbest save and
+every 1500 accepted moves — zero drift across the campaign, $\approx
+4.8$M proposals / 46k accepts) plus three 20-minute basin-hop reheats:
+
+- $n = 58$, fresh restart: $c_{16} = \mathbf{37}$ — the R59 "plateau"
+  of 95 was a schedule artifact. The full descent $1250 \to 37$
+  happened inside the first 93 seconds (hot phase); the run then froze.
+- $n = 58$, second fresh restart: 112 (restart variance is large);
+  seeded from the R59 anchor: 80 (anchor seeding does not beat a good
+  fresh restart).
+- $n = 62$, fresh restart: 88 — sub-plateau descent confirmed at a
+  second scale.
+- Three reheats ($T_0 = 4$) from the 37-graph: all returned 37. The
+  value is a genuine local minimum of the 2-opt move class, not a
+  cooling artifact.
+
+Structure of the 37-graph (pinned with an explicit 16-cycle in
+`lemma_g9c16_stratum` CHECK 2; verified from scratch: cubic, connected,
+$c_4 = c_8 = 0$): **girth 3** — every low-$c_{16}$ argbest is
+triangle-rich, since odd and 6-cycles are free in this problem; the
+descent moves AWAY from the girth-9/cage corner, demoting the
+cage-seeding prong. The surviving 37 16-cycles are **diffuse**: 85 of
+87 edges carry at least one, max per-edge load 13. There is no small
+edge core whose surgery kills the residue — consistent with the
+R55–R58 finding that the binding obstruction is global-integral, not
+local. The live witness verifier rejects the 37-graph in $\sim 1$ ms
+citing its 16-cycle; a $c_{16} = 0$ stratum graph would proceed
+directly to the $C_{32}$ check.
+
+**Where this leaves Q81.** The gap between the 2-opt floor (37) and a
+witness (0) is now the quantitative core of the lemma. Either
+$\min c_{16} = 0$ somewhere in the box — richer move classes (triangle
+rotations / 3-opt), $n \in \{60, 64\}$, or C16-edge-targeted proposals
+could find it — or the floor is real and the right attack is an exact
+lower bound: LP over the cycle space of the stratum, or SAT-UNSAT for
+"$c_{16} < k$" at small $k$, which at $k = 1$ IS the lemma. Cage
+repositories (houseofgraphs.org, aeb.win.tue.nl, users.cecs.anu.edu.au)
+are egress-blocked from this container; prong (i) remains unfetched —
+and the girth-3 finding suggests it matters less than R59 assumed.
