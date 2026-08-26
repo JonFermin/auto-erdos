@@ -2689,3 +2689,48 @@ released summary. NEW Q82: decide $n = 32$ — port SMS-style
 isomorph-free exhaustion for $\{C_4, C_8, C_{16}\}$-free cubic (then
 min-deg-3) at order 32, or find a witness there; either outcome moves
 the global frontier. CHECK 4 pins both frontier stratum graphs.
+
+### External-fact citations, continued (added in R63 after ledger-critic flags)
+
+The three 2026 literature facts invoked by Section 103 are recorded here
+with full provenance (the problem ledger `proofs/erdos_gyarfas.json` is
+frozen for the branch; this block is the citation addendum channel, as
+in R62):
+
+4. **Cubic bipartite exhaustion to 58**: J. Tranquilli, *A 60-Vertex
+   Lower Bound for Cubic Bipartite Counterexamples to the Erdős–Gyárfás
+   Conjecture*, arXiv:2608.02675 (August 2026): every simple cubic
+   bipartite graph on $\le 58$ vertices contains a $C_4$, $C_8$, or
+   $C_{16}$; hence any cubic bipartite counterexample has $\ge 60$
+   vertices. Sign: POSITIVE partial result for a restricted class;
+   it does NOT assert anything about non-bipartite graphs, and using it
+   at $n = 60, 62, 64$ or for non-bipartite $n = 58$ would be a scope
+   error. Load-bearing use: it proves the bipartite case of
+   `lemma_g9c16_stratum` at $n = 58$ only.
+5. **SMS order-31 exclusion**: a 2026 SAT-modulo-symmetries computation,
+   cited in arXiv:2608.02675, excludes all minimum-degree-3 graphs
+   through order 31 (no power-of-2-cycle-free graph with min degree 3
+   exists on $\le 31$ vertices). Sign: POSITIVE partial result (an
+   exhaustion), superseding F3's floor of 30 with 32. Load-bearing use:
+   the witness box becomes $n \in [32, 64]$; the $n = 30$ SA floor 210
+   is thereby known to sit above a PROVEN positive minimum. If the
+   primary source's exact scope turns out to differ (we could not fetch
+   the PDF through the egress proxy — provenance is the search-index
+   summary of 2608.02675's citations), the conservative fallback is
+   F3's $n \ge 30$, which changes no round conclusion in this session:
+   no proof step below depends on 32-vs-30 beyond framing Q82.
+6. **Predominant cubicity, quantified**: arXiv:2605.22844 (May 2026),
+   beyond F3's summary: $\ge 4/7$ of the vertices of any minimal
+   counterexample have degree exactly 3, every vertex of a minimal
+   counterexample is adjacent to a degree-3 vertex, and every regular
+   minimal counterexample is cubic. Sign: constraints on a HYPOTHETICAL
+   object. Load-bearing use: motivates the cubic-first search order at
+   $n = 32$ (Q82); no proof step depends on the exact 4/7 constant.
+
+**Internal-consistency note (R63, addressing the internal critic).**
+Triple-deadness (§95: every cotree cycle carries $\ge 4$ cotree edges)
+never implied $c_8 = 0$ anywhere in this document: carrier A (§87, §91)
+is triple-dead WITH $c_8 = 3$ — its three 8-cycles each sit at cotree
+depth $\ge 4$, which is exactly what triple-deadness asserts. No section
+uses "triple-dead $\Rightarrow$ $c_8 = 0$"; §95's covering reframing
+depends only on the depth reading.
