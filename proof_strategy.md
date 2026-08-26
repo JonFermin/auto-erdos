@@ -2585,3 +2585,31 @@ scratchpad `q81_structured.py` (reconstructable: families as above,
 root-min DFS cycle counts); results JSON `q81_structured_results.json`;
 the two family-minimal graphs are pinned by construction in
 `lemma_g9c16_stratum` CHECK 3.
+
+### External-fact citations for Q81 (added in R62 after ledger-critic flags)
+
+Three facts invoked by the Q81 sections are external to the problem
+ledger; they are cited here explicitly and are load-bearing only where
+stated:
+
+1. **(3,9)-cage order and count**: the smallest cubic graphs of girth 9
+   have exactly 58 vertices, and there are exactly 18 of them.
+   G. Brinkmann, B. D. McKay, C. Saager, *The smallest cubic graphs of
+   girth nine*, Combinatorics, Probability and Computing 4 (1995),
+   317–330. Used only for: (a) the witness box $n \le 64$ contains
+   girth-9 cubic graphs at $n = 58$, hence the $\{C_4, C_8\}$-free
+   stratum is provably nonempty at $n = 58$; (b) the phrase "the
+   (3,9)-cage number" for 58. No other property of the cages is used.
+2. **Poisson short-cycle counts in random cubic graphs**: the numbers of
+   $k$-cycles in a uniform random cubic graph converge to independent
+   Poisson variables with means $2^k/(2k)$ ($k$ fixed, $n \to \infty$);
+   in particular the expected numbers of 4- and 8-cycles are the $O(1)$
+   constants 2 and 16. B. Bollobás, European J. Combin. 1 (1980), 311–316;
+   N. C. Wormald, J. Combin. Theory Ser. B 31 (1981), 168–182. Used only
+   as heuristic motivation for stratum reachability by annealing (the
+   reachability itself is established constructively by the runs); no
+   proof step depends on it.
+3. **$C_{64}$ in the witness box description**: at $n = 64$ the forbidden
+   length 64 comes from the claim itself ($64 = 2^6 \le n$), not from any
+   external source; at $n < 64$ no simple 64-cycle fits and the
+   constraint is vacuous.
