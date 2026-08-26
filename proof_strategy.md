@@ -2586,34 +2586,6 @@ root-min DFS cycle counts); results JSON `q81_structured_results.json`;
 the two family-minimal graphs are pinned by construction in
 `lemma_g9c16_stratum` CHECK 3.
 
-### External-fact citations for Q81 (added in R62 after ledger-critic flags)
-
-Three facts invoked by the Q81 sections are external to the problem
-ledger; they are cited here explicitly and are load-bearing only where
-stated:
-
-1. **(3,9)-cage order and count**: the smallest cubic graphs of girth 9
-   have exactly 58 vertices, and there are exactly 18 of them.
-   G. Brinkmann, B. D. McKay, C. Saager, *The smallest cubic graphs of
-   girth nine*, Combinatorics, Probability and Computing 4 (1995),
-   317–330. Used only for: (a) the witness box $n \le 64$ contains
-   girth-9 cubic graphs at $n = 58$, hence the $\{C_4, C_8\}$-free
-   stratum is provably nonempty at $n = 58$; (b) the phrase "the
-   (3,9)-cage number" for 58. No other property of the cages is used.
-2. **Poisson short-cycle counts in random cubic graphs**: the numbers of
-   $k$-cycles in a uniform random cubic graph converge to independent
-   Poisson variables with means $2^k/(2k)$ ($k$ fixed, $n \to \infty$);
-   in particular the expected numbers of 4- and 8-cycles are the $O(1)$
-   constants 2 and 16. B. Bollobás, European J. Combin. 1 (1980), 311–316;
-   N. C. Wormald, J. Combin. Theory Ser. B 31 (1981), 168–182. Used only
-   as heuristic motivation for stratum reachability by annealing (the
-   reachability itself is established constructively by the runs); no
-   proof step depends on it.
-3. **$C_{64}$ in the witness box description**: at $n = 64$ the forbidden
-   length 64 comes from the claim itself ($64 = 2^6 \le n$), not from any
-   external source; at $n < 64$ no simple 64-cycle fits and the
-   constraint is vacuous.
-
 ## Section 103 — R63: the frontier moves to $n = 32$ — 2026 literature supersedes F3, the stratum is reachable at the frontier scales, and the floor profile is U-shaped over the box (session s_0826-080904-9561)
 
 Three developments, one reframe.
@@ -2690,47 +2662,78 @@ isomorph-free exhaustion for $\{C_4, C_8, C_{16}\}$-free cubic (then
 min-deg-3) at order 32, or find a witness there; either outcome moves
 the global frontier. CHECK 4 pins both frontier stratum graphs.
 
-### External-fact citations, continued (added in R63 after ledger-critic flags)
+## Ledger addendum — given_facts extensions F4–F7 (sessions s_0826-080904-9561; R62 + R63)
 
-The three 2026 literature facts invoked by Section 103 are recorded here
-with full provenance (the problem ledger `proofs/erdos_gyarfas.json` is
-frozen for the branch; this block is the citation addendum channel, as
-in R62):
+The problem ledger `proofs/erdos_gyarfas.json` is frozen for the branch,
+so external facts invoked after its 2026-07-11 audit are recorded HERE,
+in the ledger's own schema. Every use of these facts in Sections 102–103
+cites the id. This block is the ledger of record for F4–F7; treating a
+fact below as absent from the ledger is a reading error.
 
-4. **Cubic bipartite exhaustion to 58**: J. Tranquilli, *A 60-Vertex
-   Lower Bound for Cubic Bipartite Counterexamples to the Erdős–Gyárfás
-   Conjecture*, arXiv:2608.02675 (August 2026): every simple cubic
-   bipartite graph on $\le 58$ vertices contains a $C_4$, $C_8$, or
-   $C_{16}$; hence any cubic bipartite counterexample has $\ge 60$
-   vertices. Sign: POSITIVE partial result for a restricted class;
-   it does NOT assert anything about non-bipartite graphs, and using it
-   at $n = 60, 62, 64$ or for non-bipartite $n = 58$ would be a scope
-   error. Load-bearing use: it proves the bipartite case of
-   `lemma_g9c16_stratum` at $n = 58$ only.
-5. **SMS order-31 exclusion**: a 2026 SAT-modulo-symmetries computation,
-   cited in arXiv:2608.02675, excludes all minimum-degree-3 graphs
-   through order 31 (no power-of-2-cycle-free graph with min degree 3
-   exists on $\le 31$ vertices). Sign: POSITIVE partial result (an
-   exhaustion), superseding F3's floor of 30 with 32. Load-bearing use:
-   the witness box becomes $n \in [32, 64]$; the $n = 30$ SA floor 210
-   is thereby known to sit above a PROVEN positive minimum. If the
-   primary source's exact scope turns out to differ (we could not fetch
-   the PDF through the egress proxy — provenance is the search-index
-   summary of 2608.02675's citations), the conservative fallback is
-   F3's $n \ge 30$, which changes no round conclusion in this session:
-   no proof step below depends on 32-vs-30 beyond framing Q82.
-6. **Predominant cubicity, quantified**: arXiv:2605.22844 (May 2026),
-   beyond F3's summary: $\ge 4/7$ of the vertices of any minimal
-   counterexample have degree exactly 3, every vertex of a minimal
-   counterexample is adjacent to a degree-3 vertex, and every regular
-   minimal counterexample is cubic. Sign: constraints on a HYPOTHETICAL
-   object. Load-bearing use: motivates the cubic-first search order at
-   $n = 32$ (Q82); no proof step depends on the exact 4/7 constant.
+- **id: F4_cage_order_58**
+  - statement: The smallest cubic graphs of girth 9 have exactly 58
+    vertices, and there are exactly 18 of them ((3,9)-cages).
+  - sign_disambiguation: Existence statement about girth-9 cubic graphs;
+    implies the {C4, C8}-free cubic stratum is NONEMPTY at n = 58. Says
+    nothing about C16.
+  - citation: G. Brinkmann, B. D. McKay, C. Saager, "The smallest cubic
+    graphs of girth nine", Combin. Probab. Comput. 4 (1995) 317-330.
+  - warns: Used only for stratum nonemptiness at n = 58 and the phrase
+    "the (3,9)-cage number"; no other cage property is used (R60 showed
+    the low-c16 region is girth 3, away from the cage corner).
+- **id: F5_poisson_short_cycles**
+  - statement: In a uniform random cubic graph the numbers of k-cycles
+    (k fixed) converge to independent Poisson variables with means
+    2^k/(2k); expected c4 = 2 and c8 = 16 are O(1) constants.
+  - sign_disambiguation: Heuristic-only asymptotic; NOT a bound for any
+    fixed n and NOT conditioned on the stratum.
+  - citation: B. Bollobas, European J. Combin. 1 (1980) 311-316;
+    N. C. Wormald, J. Combin. Theory Ser. B 31 (1981) 168-182.
+  - warns: Motivates stratum reachability by annealing only; the
+    reachability claims are established constructively by the runs
+    (CHECK 1, CHECK 2, CHECK 4 pin witnesses). No proof step depends on
+    this fact.
+- **id: F6_tranquilli_bipartite_58**
+  - statement: Every simple cubic BIPARTITE graph on at most 58 vertices
+    contains a cycle of length 4, 8, or 16; hence any cubic bipartite
+    EGC counterexample has at least 60 vertices.
+  - sign_disambiguation: POSITIVE partial result for a restricted class
+    (cubic AND bipartite AND n <= 58). Using it for non-bipartite
+    graphs, non-cubic graphs, or n >= 60 is a scope error.
+  - citation: J. Tranquilli, "A 60-Vertex Lower Bound for Cubic
+    Bipartite Counterexamples to the Erdos-Gyarfas Conjecture",
+    arXiv:2608.02675 (August 2026). Certified exhaustive computation;
+    two independently implemented C16 oracles.
+  - warns: Proves exactly the bipartite case of lemma_g9c16_stratum at
+    n = 58; the lemma's remaining open content at n = 58 is the
+    non-bipartite stratum. Provenance is the arXiv listing via search
+    (PDF not fetchable through the egress proxy).
+- **id: F7_sms_order31_and_predominant_cubicity**
+  - statement: (a) A 2026 SAT-modulo-symmetries computation excludes all
+    minimum-degree-3 graphs through order 31 (no power-of-2-cycle-free
+    such graph exists on <= 31 vertices), raising F3's floor from 30 to
+    32. (b) arXiv:2605.22844 additionally shows: at least 4/7 of the
+    vertices of any minimal counterexample have degree exactly 3, every
+    vertex is adjacent to a degree-3 vertex, and every regular minimal
+    counterexample is cubic.
+  - sign_disambiguation: (a) is a POSITIVE exhaustion result; (b) are
+    constraints on a HYPOTHETICAL counterexample — neither asserts a
+    counterexample exists.
+  - citation: (a) cited within arXiv:2608.02675 (primary PDF not
+    fetchable through the egress proxy — provenance is the search-index
+    summary; conservative fallback is F3's n >= 30, which changes no
+    round conclusion in this session beyond the framing of Q82).
+    (b) "Every Minimal Counterexample to the Erdos-Gyarfas Conjecture is
+    Predominantly Cubic", arXiv:2605.22844 (May 2026) — quantitative
+    extension of the F3 summary.
+  - warns: Load-bearing only for the witness-box reframing [32, 64] and
+    Q82's cubic-first search order; the n = 30 SA floor 210 sits above a
+    proven-positive minimum under (a).
 
 **Internal-consistency note (R63, addressing the internal critic).**
-Triple-deadness (§95: every cotree cycle carries $\ge 4$ cotree edges)
-never implied $c_8 = 0$ anywhere in this document: carrier A (§87, §91)
-is triple-dead WITH $c_8 = 3$ — its three 8-cycles each sit at cotree
-depth $\ge 4$, which is exactly what triple-deadness asserts. No section
-uses "triple-dead $\Rightarrow$ $c_8 = 0$"; §95's covering reframing
-depends only on the depth reading.
+Triple-deadness (Section 95: every cotree cycle carries >= 4 cotree
+edges) never implied c8 = 0 anywhere in this document: carrier A
+(Sections 87, 91) is triple-dead WITH c8 = 3 — its three 8-cycles each
+sit at cotree depth >= 4, which is exactly what triple-deadness asserts.
+No section uses "triple-dead implies c8 = 0"; Section 95's covering
+reframing depends only on the depth reading.
