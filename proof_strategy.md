@@ -2537,3 +2537,51 @@ $n = 58$, and at SAT is a candidate witness one $C_{32}$-check away;
 (ii) an LP/counting lower bound on $c_{16}$ over the stratum;
 (iii) structured constructions (voltage-graph lifts with forbidden
 cycle lengths) instead of unstructured annealing.
+
+## Section 102 — R62: the structured-constructions screen — 9,889 algebraic cubic graphs across the box, 4,062 stratum members, and none within 10x of the SA floors; symmetry itself is a $c_{16}$ obstruction (session s_0826-080904-9561)
+
+R62 executed prong (iii) of the R61 exact-attack menu: an exhaustive
+screen of the classical algebraic cubic families over the whole witness
+box $n \in \{58, 60, 62, 64\}$ — generalized Petersen $GP(m,k)$,
+I-graphs $I(m,j,k)$, Haar graphs (cyclic theta-lifts,
+$u_i \sim w_{i+t}$, $t \in \{0,a,b\}$), circulant Cayley graphs of
+$\mathbb{Z}_{2m}$ ($S = \{a, -a, m\}$), dihedral Cayley graphs of
+$D_m$ ($S = \{r^a, r^{-a}, r^b s\}$; the three-reflection sets coincide
+with Haar), and cyclic voltage lifts of $K_4$ over $\mathbb{Z}_{15}$
+and $\mathbb{Z}_{16}$ ($n = 60, 64$). 9,889 valid (simple cubic
+connected) graphs; every stratum member got an exact $c_{16}$ count.
+
+Findings:
+
+1. **$GP$, I-graphs, circulants, and dihedral mixed Cayley graphs
+   contribute ZERO stratum members** anywhere in the box — every single
+   one carries a 4- or 8-cycle. The classical "nice" families are
+   structurally locked out of the stratum.
+2. **Haar graphs flood the stratum but at high $c_{16}$**: 654 members
+   across the four scales, girth locked at 6, and $c_{16}$ *quantized
+   into just a few orbit-multiples per scale* (at $n = 58$: exactly two
+   values, 2552 and 2697, an 84/84 split over 168 members). Range over
+   all scales: $[2232, 2970]$ — two orders of magnitude above the SA
+   floors (37/65/88).
+3. **$K_4$-lifts are the best structured family and still 6x off**:
+   3,408 stratum members at $n \in \{60, 64\}$, girths 3–9, minimum
+   $c_{16} = 405$ at $K_4$-lift$(\mathbb{Z}_{15}; 0,1,3)$ and 416 at
+   $\mathbb{Z}_{16}$ — versus the SA floor 65 at $n = 60$. Notably the
+   lowest-$c_{16}$ lifts have girth 3, replicating R60's girth-3
+   discovery inside an algebraic family.
+4. **$n = 58$ is structurally thin**: $58 = 2 \cdot 29$ with 29 prime
+   admits only 2-vertex-base cyclic lifts (= bicirculants; Haar +
+   I-graphs exhaust the cubic ones), so the best structured $c_{16}$ at
+   the binding scale is Haar's 2552 — 69x the SA floor.
+
+The mechanism reading: cyclic symmetry quantizes $c_{16}$ into
+orbit-size multiples, so any vertex-transitive-ish member sits on a
+coarse lattice far from 0 — symmetry is not a route to a witness but an
+obstruction. This kills prong (iii) as a witness hunt (though not as a
+lower-bound tool) and sharpens the SAT prong: the witness, if it
+exists, is asymmetric, girth-3-rich, and diffuse — exactly the object
+local search already reaches better than algebra does. Screen harness:
+scratchpad `q81_structured.py` (reconstructable: families as above,
+root-min DFS cycle counts); results JSON `q81_structured_results.json`;
+the two family-minimal graphs are pinned by construction in
+`lemma_g9c16_stratum` CHECK 3.
