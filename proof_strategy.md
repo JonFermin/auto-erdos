@@ -2613,3 +2613,79 @@ stated:
    length 64 comes from the claim itself ($64 = 2^6 \le n$), not from any
    external source; at $n < 64$ no simple 64-cycle fits and the
    constraint is vacuous.
+
+## Section 103 — R63: the frontier moves to $n = 32$ — 2026 literature supersedes F3, the stratum is reachable at the frontier scales, and the floor profile is U-shaped over the box (session s_0826-080904-9561)
+
+Three developments, one reframe.
+
+**1. Literature (WebSearch this session; full citations in the notes
+channel).** (a) arXiv:2608.02675 (Tranquilli, Aug 2026): a certified
+exhaustive computation shows every simple cubic **bipartite** graph on
+$\le 58$ vertices contains a $C_4$, $C_8$, or $C_{16}$; cubic bipartite
+EGC counterexamples need $\ge 60$ vertices. The BIPARTITE half of
+`lemma_g9c16_stratum` at $n = 58$ is therefore literature, and the open
+content of the lemma at $n = 58$ is exactly the non-bipartite stratum.
+Our R62 Haar data (every bipartite stratum member found had girth 6,
+$c_{16} \ge 2232$) sits consistently inside their theorem. (b) Cited
+therein: a 2026 SAT-modulo-symmetries computation excludes ALL
+minimum-degree-3 graphs through order 31. F3's "$\ge 30$" is
+superseded: the witness box is $n \in [32, 64]$ and the global frontier
+is $n = 32$, where $C_{32}$-freeness means non-Hamiltonicity. (c)
+arXiv:2605.22844 (the F3 preprint): $\ge 4/7$ of a minimal
+counterexample's vertices have degree exactly 3, every vertex is
+adjacent to a degree-3 vertex, and every regular minimal counterexample
+is cubic.
+
+**2. SA at the frontier scales — the stratum is reachable at $n = 30$
+and $n = 32$.** The reconstructable 2-opt harness (scratchpad
+`q81_sa30.py`: double-edge-swap Metropolis, lexicographic
+$100c_4 + c_8$ phase 1, exact telescoped through-edge deltas audited
+every 5000 proposals, stratum-preserving pre-filter before any $L = 16$
+work in phase 2) reached $c_4 = c_8 = 0$ from fresh random starts at
+BOTH frontier scales — $n = 30$ at $\sim$1.5M proposals and $n = 32$
+twice (seeds 1 and 7, $\sim$1.2M proposals each). Prior cross-branch
+data had the stratum unreached anywhere below 58 (R56: $c_8 > 0$
+everywhere at $n \le 28$); reachability at 30/32 was open. Phase-2
+$c_{16}$ descent floors this session: $n = 30$: **210**; $n = 32$:
+**317** (entry 539, one continuous schedule; a second seed entered at
+456 and froze — argbest-seeded reheats at $T_0 \in \{0.8, 3\}$ did not
+move either floor, matching R60's observation that fresh continuous
+descents beat seeded restarts).
+
+**3. The floor profile over the full box is U-shaped, not
+monotone.** Best-known SA floors now: $n = 30$: 210, $n = 32$: 317,
+$n = 58$: 37, $n = 60$: 65, $n = 62$: 88. R61's "floors rise with $n$"
+was the right half of a U: at the small end the stratum is cramped and
+$c_{16}$ is forced high; the dip is at $n = 58$. Two readings: the
+witness-hunt's best scale remains $n = 58$ (with the lemma's open part
+now non-bipartite only), while the *proof* target at the frontier
+($n = 32$, floor 317 with SMS-grade exhaustion known one scale below)
+looks closest to closable. Note the $n = 30$ floor 210 is a
+calibration point: SMS order-31 exclusion PROVES $\min c_{16} > 0$
+there, so a robust SA floor of ~200 over a true positive minimum
+is the expected signature of a scale where the lemma-analogue HOLDS —
+observing the same signature at 32 (317) weakly suggests $n = 32$ is
+not the witness scale either.
+
+**4. SAT CEGAR at three scales — labeled-cycle bans do not converge at
+box scales.** Harness `q81_sat.py` (exact-3 seqcounter degrees, ALL
+labeled $C_4$s banned statically — 3$\binom{n}{4}$ clauses, $N(0) =
+\{1,2,3\}$ symmetry, CEGAR bans for 8/16/(32)-cycles + connectivity
+cuts, clause checkpoints for cross-session resume): $n = 30$
+($\{4,8,16\}$): $\sim$3,000 rounds / 2.0M ban clauses, models persist at
+$c_8 \approx 10\!-\!20$, $c_{16} \approx 500\!-\!800$; $n = 58$ lemma
+config: 1,350+ rounds / 1.7M bans, same plateau; $n = 32$ frontier
+config ($\{4,8,16,32\}$): 2,175+ rounds / 1.8M bans, model $c_{16}$
+dipped to $\approx 400$ mid-run without approaching 0. Conclusion:
+labeled-cycle CEGAR without isomorph-aware pruning is not the exact
+technology for any scale in the box — the SMS framework (symmetry
+breaking inside the solver) that closed order $\le 31$ is the tool to
+port; our checkpointed ban sets can seed it.
+
+**Queue.** Q81 is released: its SA prong was saturated in R60–R61, its
+structured prong killed in R62, its CEGAR prong measured non-convergent
+here; the LP/counting lower-bound prong remains open inside Q81's
+released summary. NEW Q82: decide $n = 32$ — port SMS-style
+isomorph-free exhaustion for $\{C_4, C_8, C_{16}\}$-free cubic (then
+min-deg-3) at order 32, or find a witness there; either outcome moves
+the global frontier. CHECK 4 pins both frontier stratum graphs.
