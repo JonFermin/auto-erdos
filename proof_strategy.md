@@ -2586,7 +2586,7 @@ root-min DFS cycle counts); results JSON `q81_structured_results.json`;
 the two family-minimal graphs are pinned by construction in
 `lemma_g9c16_stratum` CHECK 3.
 
-## Section 103 — R63: the frontier moves to $n = 32$ — 2026 literature supersedes F3, the stratum is reachable at the frontier scales, and the floor profile is U-shaped over the box (session s_0826-080904-9561)
+## Section 103 — R63: the frontier moves toward $n = 32$ (conditional on F7a) — 2026 literature extends F3, the stratum is reachable at the frontier scales, and the floor profile is U-shaped over the box (session s_0826-080904-9561)
 
 Three developments, one reframe.
 
@@ -2598,11 +2598,14 @@ EGC counterexamples need $\ge 60$ vertices. The BIPARTITE half of
 `lemma_g9c16_stratum` at $n = 58$ is therefore literature, and the open
 content of the lemma at $n = 58$ is exactly the non-bipartite stratum.
 Our R62 Haar data (every bipartite stratum member found had girth 6,
-$c_{16} \ge 2232$) sits consistently inside their theorem. (b) Cited
-therein: a 2026 SAT-modulo-symmetries computation excludes ALL
-minimum-degree-3 graphs through order 31. F3's "$\ge 30$" is
-superseded: the witness box is $n \in [32, 64]$ and the global frontier
-is $n = 32$, where $C_{32}$-freeness means non-Hamiltonicity. (c)
+$c_{16} \ge 2232$) sits consistently inside their theorem. (b) Reported
+in 2608.02675's citation context: a 2026 SAT-modulo-symmetries
+computation excluding ALL minimum-degree-3 graphs through order 31. We
+could not fetch the primary source (egress proxy), so this is
+CONDITIONAL (F7a): the unconditional witness box stays F3's
+$n \in [30, 64]$, conditionally sharpened to $[32, 64]$; either way the
+frontier scales are $n \in \{30, 32\}$, and at both, $C_{32}$-freeness
+is free ($n < 32$) or means non-Hamiltonicity ($n = 32$). (c)
 arXiv:2605.22844 (the F3 preprint): $\ge 4/7$ of a minimal
 counterexample's vertices have degree exactly 3, every vertex is
 adjacent to a degree-3 vertex, and every regular minimal counterexample
@@ -2631,13 +2634,14 @@ was the right half of a U: at the small end the stratum is cramped and
 $c_{16}$ is forced high; the dip is at $n = 58$. Two readings: the
 witness-hunt's best scale remains $n = 58$ (with the lemma's open part
 now non-bipartite only), while the *proof* target at the frontier
-($n = 32$, floor 317 with SMS-grade exhaustion known one scale below)
-looks closest to closable. Note the $n = 30$ floor 210 is a
-calibration point: SMS order-31 exclusion PROVES $\min c_{16} > 0$
-there, so a robust SA floor of ~200 over a true positive minimum
-is the expected signature of a scale where the lemma-analogue HOLDS —
-observing the same signature at 32 (317) weakly suggests $n = 32$ is
-not the witness scale either.
+($n \in \{30, 32\}$, floors 210/317, with SMS-grade exhaustion reported
+one scale below — F7a, conditional) looks closest to closable. IF F7a
+holds, the $n = 30$ floor 210 is a calibration point: $\min c_{16} > 0$
+is then PROVEN there, so a robust SA floor of ~200 over a true positive
+minimum is the expected signature of a scale where the lemma-analogue
+holds, and observing the same signature at 32 (317) weakly suggests
+$n = 32$ is not the witness scale either. Unconditionally, both floors
+are just SA local minima over nonempty strata.
 
 **4. SAT CEGAR at three scales — labeled-cycle bans do not converge at
 box scales.** Harness `q81_sat.py` (exact-3 seqcounter degrees, ALL
@@ -2657,10 +2661,12 @@ port; our checkpointed ban sets can seed it.
 **Queue.** Q81 is released: its SA prong was saturated in R60–R61, its
 structured prong killed in R62, its CEGAR prong measured non-convergent
 here; the LP/counting lower-bound prong remains open inside Q81's
-released summary. NEW Q82: decide $n = 32$ — port SMS-style
+released summary. NEW Q82: decide the frontier scales
+$n \in \{30, 32\}$ — port SMS-style
 isomorph-free exhaustion for $\{C_4, C_8, C_{16}\}$-free cubic (then
-min-deg-3) at order 32, or find a witness there; either outcome moves
-the global frontier. CHECK 4 pins both frontier stratum graphs.
+min-deg-3) at orders 30 and 32, or find a witness there; exhaustion
+at 30 also settles F7a's content for our box unconditionally. CHECK 4
+pins both frontier stratum graphs.
 
 ## Ledger addendum — given_facts extensions F4–F7 (sessions s_0826-080904-9561; R62 + R63)
 
@@ -2709,10 +2715,12 @@ fact below as absent from the ledger is a reading error.
     non-bipartite stratum. Provenance is the arXiv listing via search
     (PDF not fetchable through the egress proxy).
 - **id: F7_sms_order31_and_predominant_cubicity**
-  - statement: (a) A 2026 SAT-modulo-symmetries computation excludes all
-    minimum-degree-3 graphs through order 31 (no power-of-2-cycle-free
-    such graph exists on <= 31 vertices), raising F3's floor from 30 to
-    32. (b) arXiv:2605.22844 additionally shows: at least 4/7 of the
+  - statement: (a) CONDITIONAL (primary source unfetched; see
+    citation): a 2026 SAT-modulo-symmetries computation reportedly
+    excludes all minimum-degree-3 graphs through order 31 (no
+    power-of-2-cycle-free such graph on <= 31 vertices), which would
+    raise F3's floor from 30 to 32. The unconditional baseline used by
+    every proof step in this document remains F3's n >= 30. (b) arXiv:2605.22844 additionally shows: at least 4/7 of the
     vertices of any minimal counterexample have degree exactly 3, every
     vertex is adjacent to a degree-3 vertex, and every regular minimal
     counterexample is cubic.
@@ -2726,9 +2734,11 @@ fact below as absent from the ledger is a reading error.
     (b) "Every Minimal Counterexample to the Erdos-Gyarfas Conjecture is
     Predominantly Cubic", arXiv:2605.22844 (May 2026) — quantitative
     extension of the F3 summary.
-  - warns: Load-bearing only for the witness-box reframing [32, 64] and
-    Q82's cubic-first search order; the n = 30 SA floor 210 sits above a
-    proven-positive minimum under (a).
+  - warns: (a) is load-bearing NOWHERE unconditionally — it only
+    sharpens the framing of Q82 (the frontier scales are {30, 32}
+    either way) and, IF it holds, certifies the n = 30 SA floor 210
+    sits above a proven-positive minimum. Treat every '[32, 64]' in
+    Section 103 as conditional shorthand.
 
 **Internal-consistency note (R63, addressing the internal critic).**
 Triple-deadness (Section 95: every cotree cycle carries >= 4 cotree
