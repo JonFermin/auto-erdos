@@ -2747,3 +2747,68 @@ edges) never implied c8 = 0 anywhere in this document: carrier A
 sit at cotree depth >= 4, which is exactly what triple-deadness asserts.
 No section uses "triple-dead implies c8 = 0"; Section 95's covering
 reframing depends only on the depth reading.
+
+## Section 104 — R64: the NB-moment probe kills the spectral-LP prong at the frontier scales — banned-length walk mass is theta/dumbbell, not cycle (session s_0828-080832-67a3)
+
+Q82's released predecessor (Q81) left an "LP/counting lower bound on
+$c_{16}$" prong open, and Q82 inherits the same idea at the frontier
+scales $n \in \{30, 32\}$. Standing dual-attack policy: probe the prong
+for falsification BEFORE spending proof rounds on it. This round is
+that probe, and it is negative in a precise, pinned way.
+
+**Setup.** For a graph $G$ let $B$ be the non-backtracking edge
+operator on the $2m$ darts. By Ihara–Bass, for a cubic graph the
+spectrum of $B$ is $\{(\lambda \pm \sqrt{\lambda^2 - 8})/2 :
+\lambda \in \mathrm{spec}(A)\} \cup \{\pm 1\}^{m-n}$ — every
+$\mathrm{tr}(B^k)$ is an EXACT function of the adjacency spectrum.
+$\mathrm{tr}(B^k)$ counts tailless closed NB walks of length $k$, and
+$N_k = \sum_{d \mid k} d\,P_d$ with $P_d$ the primitive classes of
+length $d$. A $k$-cycle contributes $2k$ walks ($2k$ starting darts
+$\times$ … counted once per dart, both directions: $2k$ per cycle in
+$N_k$'s $d{=}k$ term, i.e. $P_k \supseteq$ 2 classes per $k$-cycle);
+crucially $P_k$ ALSO contains non-cycle primitives — figure-eights
+(two short cycles joined by a path, traversed as one NB circuit) and
+theta-walks — built entirely from cycles of ALLOWED lengths.
+
+**Data (exact integer computations on the CHECK-4 frontier argbests;
+Ihara–Bass cross-check agrees to the integer).**
+
+| graph | $c_3,c_5,c_6,c_7$ | $c_8$ | $\mathrm{tr}(B^8)$ | $c_{16}$ | $32c_{16}$ | $\mathrm{tr}(B^{16})$ | cycle share |
+|---|---|---|---|---|---|---|---|
+| G30 | 9, 1, 2, 1 | 0 | **320** | 210 | 6,720 | 65,312 | 10.3% |
+| G32 | 8, 3, 6, 3 | 0 | **240** | 317 | 10,144 | 66,000 | 15.4% |
+
+Low-order sanity closures: $\mathrm{tr}(B^3) = 6c_3$ and
+$\mathrm{tr}(B^5) = 10c_5$ hold exactly on both graphs;
+$\mathrm{tr}(B^4) = 0$ (no $C_4$, no length-4 primitives in a simple
+graph); on G30, $\mathrm{tr}(B^6) = 78 = 6c_3 + 12c_6$ exactly, so
+length-6 non-cycle mass is zero there — the shape mass turns on at
+length 8.
+
+**Why this kills the prong as posed.** A moment-LP certificate for
+$c_{16} > 0$ must show $\mathrm{tr}(B^{16})$ (spectrally forced)
+exceeds the largest possible non-cycle mass. But the length-8 row is a
+built-in counterexample to any spectra-only bound on non-cycle mass:
+there the cycle mass is exactly zero — $c_8 = 0$ is a stratum
+constraint — yet the trace is 320 and 240. The entire banned-length
+trace is theta/dumbbell mass supplied by the allowed short cycles
+(girth-3 structure: 9 resp. 8 triangles), and its size is set by WHERE
+those short cycles sit (pair distances), which the spectrum does not
+determine. At length 16 the same shape mass is 89.7% resp. 84.6% of
+the trace. So no LP over $\{\mathrm{tr}(A^k)\}_{k \le 16}$ /
+$\{\mathrm{tr}(B^k)\}_{k \le 16}$ can separate $c_{16} = 0$ from
+$c_{16} = 210$: the separating information is subgraph-positional, not
+spectral. A revival would need shape-aware counting (explicit
+upper bounds on figure-eight/theta primitives of length 16 in terms of
+$c_3, \dots, c_7, c_9, \dots, c_{15}$ and their pairwise distances) —
+a genuinely combinatorial, not spectral, argument. Parked, not queued.
+
+**Consequence for Q82.** The prong ordering inside Q82 collapses to
+the one the R63 data already favored: isomorph-free exhaustion
+(SMS-style lex-minimality) is the only live exact technology for the
+frontier scales. R65 begins that port, scoped to reach: an orderly
+(lex-minimal adjacency-matrix) generator with in-search $C_4/C_8$
+pruning, validated against the known connected-cubic counts at small
+$n$, then run upward on the $\{C_4, C_8\}$-free stratum with
+per-order exhaustive counts as the deliverable. CHECK 5 of
+`lemma_g9c16_stratum` pins this round's computation.
