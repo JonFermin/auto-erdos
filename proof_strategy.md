@@ -2925,8 +2925,11 @@ uses only in-house enumeration, the arithmetic-checkable A002851
 reference counts, and the in-ledger F3 (Markström: cubic
 counterexamples need $\ge 30$ vertices) — and F3 is used only as a
 CONSISTENCY check (our all-classes-carry-$C_{16}$ result agrees with
-it), never as a premise. F6 remains load-bearing only for the
-bipartite half of `lemma_g9c16_stratum` at $n = 58$ (Section 103,
-where it is explicitly attributed), and F7a remains load-bearing
-nowhere, as its addendum entry states.
+it), never as a premise. And with the R65 status
+correction in `lemma_g9c16_stratum` (its bipartite-half-at-58 closure
+downgraded to CONDITIONAL on F6, the lemma's open content formally
+unchanged), F6 and F7a are now load-bearing NOWHERE in this document:
+both are recorded expectations with attributed, conditional status,
+and every proved statement rests on in-house computation, the frozen
+ledger (F1–F3), or arithmetic-checkable references (A002851).
 
