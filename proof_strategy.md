@@ -2812,3 +2812,103 @@ pruning, validated against the known connected-cubic counts at small
 $n$, then run upward on the $\{C_4, C_8\}$-free stratum with
 per-order exhaustive counts as the deliverable. CHECK 5 of
 `lemma_g9c16_stratum` pins this round's computation.
+## Section 105 — R65: exhaustive rule-tree enumeration decides the small end — the {C4, C8}-free cubic stratum is EMPTY through n = 22 and turns on at n = 24 with exactly four graphs, all C16-carrying (session s_0828-080832-67a3)
+
+R63 closed with "the SMS isomorph-aware framework is the tool to port".
+This round ports the half of it our stack can carry exactly — complete,
+isomorph-controlled exhaustion — and it settles more than expected: the
+frontier's small end is now DECIDED for the cubic case, by in-house
+computation, unconditionally.
+
+**The enumerator.** A rule-tree over labeled adjacency structures:
+vertices are completed in index order (vertex $u$ acquires its remaining
+neighbors only after $0..u-1$ are full, so those neighbors are all
+$> u$); each vertex's neighbors are added in increasing order; a fresh
+vertex always takes the smallest unused label (discovery order); and
+$N(0) = \{1, 2, 3\}$. Every connected cubic graph admits at least one
+labeling satisfying these rules (replay a greedy discovery of the graph
+from any root), so the rule tree visits every isomorphism class at
+least once — zero completions is an exhaustion proof. Cycle bans are
+edge-monotone: a banned cycle can only be created by the addition of
+its own last edge, so rejecting exactly those additions that close a
+banned cycle (simple $u$–$v$ path of length $L-1$ present before the
+add, $L \in \{4, 8\}$) is exhaustion-safe. Completions are labeled
+graphs with (heavy) discovery-order multiplicity; classes are counted
+downstream by canonical dedup.
+
+**Validation (all in-session, all exact).** (i) Bans off, the
+enumerator reproduces A002851's connected-cubic class counts
+1/2/5/19/85/509 at $n = 4, \dots, 14$. (ii) In-search banning equals
+post-filtering on labeled counts: $C_4$-free at $n = 10/12/14/16$ gives
+58/528/12032/275273 both ways; $\{C_4, C_8\}$ at $n = 12..16$ agrees
+(both empty). (iii) Three independently written code paths — the
+single-process reference, the multiprocessing port (frontier-split
+subtrees), and a bitmask/meet-in-the-middle reimplementation of the ban
+tests — agree on the full fingerprint (node counts AND completions) at
+every order checked, including $n = 24$: 12,297,554 nodes both ways,
+9,512 labeled completions each. ($n = 26$ ran on the fastest path
+only; its class dedup uses an individualization-refinement canonical
+certificate validated against A002851 at $n = 10/12/14$ — 19/85/509 —
+and against the VF2 dedup at $n = 24$.) CHECK 1 of
+`lemma_stratum_onset_24__0828-080832-67a3.md` re-derives the
+fingerprint from scratch in ~3s.
+
+**Results (exhaustive, per order $n$, ban set $\{C_4, C_8\}$, connected
+cubic).**
+
+| $n$ | tree nodes | labeled completions | classes | verdict |
+|---|---|---|---|---|
+| 12 | 490 | 0 | 0 | empty |
+| 14 | 2,205 | 0 | 0 | empty |
+| 16 | 10,088 | 0 | 0 | empty |
+| 18 | 52,293 | 0 | 0 | empty |
+| 20 | 307,686 | 0 | 0 | empty |
+| 22 | 1,891,538 | 0 | 0 | empty |
+| 24 | 12,297,554 | 9,512 | **4** | **NONEMPTY — onset** |
+| 26 | 138,937,178 | 200,888 | **23** | **NONEMPTY** |
+
+**The onset at $n = 24$, and $n = 26$.** At 24: exactly four classes,
+pinned in CHECK 2 with full edge lists — all girth 3, all
+non-bipartite, $c_{16} = 207, 228, 315, 330$. At 26: exactly 23
+classes, ALL girth 3 again, $c_{16} \in [161, 454]$ (extremal member
+pinned in CHECK 3). No class at either order is $C_{16}$-free, so
+(since $C_{32}$ does not fit below $n = 32$) **there is no cubic
+Erdős–Gyárfás counterexample on $\le 26$ vertices** — an in-house
+re-derivation, by complete enumeration, of the corresponding range of
+F3's Markström computation (cubic counterexamples need $\ge 30$
+vertices, i.e. exhaustion through 28). One more scale ($n = 28$, R66,
+already running) re-derives Markström's cubic bound entirely in-house;
+the scales after that ($n = 30, 32$) are NEW unconditional cubic
+territory — Markström stopped at 28 and the order-31 SMS exclusion
+(F7a) is conditional, primary source unfetched. The floor profile now has EXACT left-wall points: 24: **207
+(exact)**, 26: **161 (exact)**, then 30: 210 (SA), 32: 317 (SA), 58:
+37 (SA), 60: 65 (SA), 62: 88 (SA). The exact floor DECREASES from the
+onset toward the 58-dip — which makes the SA values at 30/32 (210,
+317, both ABOVE the exact 26 floor) look like unconverged upper
+bounds rather than the true minima: the first concrete evidence that
+the SA floors at the frontier scales overestimate.
+
+**Corrections to the working picture.** (a) R56's sampling-based
+"$c_8 > 0$ everywhere at $n \le 28$" is FALSE as a structural
+statement: the stratum exists from 24 up (4 classes at 24, 23 at
+26). SA with the lexicographic
+$100 c_4 + c_8$ objective missed a four-class needle in a $\sim 10^8$-class haystack (A002851 growth) —
+reachability failure, not emptiness. (b) R63's "prior cross-branch data
+had the stratum unreached anywhere below 58" now reads: *unreached by
+search*; the true onset is 24. (c) The girth-3 signature of every SA
+argbest (R60, R63) is now explained at the small end: ALL 27 stratum
+classes at 24 and 26 have girth 3 — below 28 there are no girth-5
+stratum graphs at all.
+
+**Why this matters for Q82.** The frontier question at $n \in \{30, 32\}$
+is exactly this computation two scales up — and unlike $n \le 28$ it is
+not a re-derivation: completing it decides the cubic frontier
+unconditionally, independent of F7a. Measured rule-tree growth per order
+step: $22 \to 24$: $\times 6.5$; $24 \to 26$: $\times 11.3$ —
+putting $n = 28$ near $1.5 \times 10^9$ nodes ($\sim$2 h on this
+container's 4 cores with the bitmask/MITM ban tests; running as R66)
+and $n = 30$ near $1.5 \times 10^{10}$ (a dedicated long run or one
+more pruning idea away). The
+witness box's small end is closable by iterating the same validated
+tool; R66 continues upward.
+
