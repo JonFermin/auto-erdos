@@ -2912,3 +2912,21 @@ more pruning idea away). The
 witness box's small end is closable by iterating the same validated
 tool; R66 continues upward.
 
+**Ledger containment note (R65 fix, addressing the ledger critic).**
+`proofs/erdos_gyarfas.json` is frozen for the branch (read-only
+environment file), so external facts learned after its audit CANNOT be
+added to it; the schema-formatted "Ledger addendum" block following
+Section 103 is this document's sanctioned ledger of record for F4–F7,
+and each entry there carries its citation, sign-disambiguation, and
+scope warnings. Independently of that: NO conclusion of R64 or R65
+depends on F6 or F7a. R64 (NB-moment probe) uses only in-house exact
+computation on CHECK-pinned graphs. R65 (exhaustion through $n = 26$)
+uses only in-house enumeration, the arithmetic-checkable A002851
+reference counts, and the in-ledger F3 (Markström: cubic
+counterexamples need $\ge 30$ vertices) — and F3 is used only as a
+CONSISTENCY check (our all-classes-carry-$C_{16}$ result agrees with
+it), never as a premise. F6 remains load-bearing only for the
+bipartite half of `lemma_g9c16_stratum` at $n = 58$ (Section 103,
+where it is explicitly attributed), and F7a remains load-bearing
+nowhere, as its addendum entry states.
+

@@ -392,3 +392,27 @@ estimate that had incorrectly included crossing pairs.
 trees (not just the tested instances). The crossing-pair po2 condition
 $(d_{a_2}-d_{a_1})+(d_{s_2}-d_{s_1}) \in \{2,6,14,\ldots\}$ is a separate
 existence claim from the nested and triple conditions.
+
+**R65 fix (session s_0828-080832-67a3):** the falsify critic asked for the
+anchor table to be locked by a deterministic CHECK; the five tabulated
+instances of $L = (d_{a_2}-d_{a_1}) + (d_{s_2}-d_{s_1}) + 2$ are pinned
+below.
+
+<!-- CHECK
+# crossing_pair_formula CHECK: the five anchor-table instances of the
+# crossing-pair length formula L = (da2-da1)+(ds2-ds1)+2, re-derived.
+TABLE = [
+    (0, 1, 2, 3, 4),
+    (0, 4, 6, 8, 8),
+    (0, 2, 4, 5, 5),
+    (0, 3, 4, 6, 7),
+    (1, 2, 4, 7, 6),
+]
+for da1, da2, ds1, ds2, L in TABLE:
+    assert da1 < da2 < ds1 < ds2, (da1, da2, ds1, ds2)
+    assert (da2 - da1) + (ds2 - ds1) + 2 == L, (da1, da2, ds1, ds2, L)
+# power-of-two membership of each tabulated length
+po2 = {x for x in (4, 8, 16, 32)}
+assert [(L in po2) for (_, _, _, _, L) in TABLE] == [True, True, False, False, False]
+print("crossing_pair_formula CHECK: all 5 anchor instances re-derive; po2 pattern [T,T,F,F,F] confirmed")
+CHECK -->
