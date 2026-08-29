@@ -1114,6 +1114,16 @@ exactly).** `fund_pair_overlap` length: $|D| = g_1 + g_2 + 2 -
 $(5, 3, 1) \Rightarrow |D| = 8$ (a pair violation if it arose);
 parity $|D| \equiv g_1 + g_2 \pmod 2$ always.
 
+*[R66 audit note, addressing the falsify critic: the $|D| = 8$ case is
+a HYPOTHETICAL illustration of the formula — no $(5,3,1)$ pair-residual
+was ever exhibited, and "pair-residual $\to$ mixed parity" (Standing
+Hypothesis 2, Section 65) remains an open empirical hypothesis, never
+promoted. Audit result: no statement this document claims as proved
+depends on Section 85's pair-violation case or on Hypothesis 2; the
+entire depth-escalation program containing them was closed at R56 as
+negative knowledge (Section 96), and the post-R56 program (Sections
+97–106) makes no use of the cycle-space pair analysis.]*
+
 ### Summary of round R45
 
 | Item | Status |
