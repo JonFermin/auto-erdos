@@ -2933,3 +2933,95 @@ both are recorded expectations with attributed, conditional status,
 and every proved statement rests on in-house computation, the frozen
 ledger (F1–F3), or arithmetic-checkable references (A002851).
 
+
+## Section 106 — R66: the exhaustion reaches $n = 28$ — the full Markström range is now re-derived in-house, the exact floor falls to 153, girth 5 enters the stratum at the top of the $c_{16}$ range, and R65's node-count fingerprints at 24/26 are corrected (session s_0829-080615-66f6)
+
+R65 closed with "$n = 28$ near $1.5 \times 10^9$ nodes, running as R66" —
+and then session s_0828 ended abnormally, losing the container-local
+harness before the run finished. This round rebuilds the tool better and
+completes the program's small end.
+
+**The rebuilt harness (C port, validated against every pinned
+fingerprint).** The R65 rule-tree enumerator (CHECK 1 of
+`lemma_stratum_onset_24`) was ported to C (~40x per-node speedup;
+`enum.c`, container-local scratchpad, reconstructable from the CHECK-1
+reference + Section 105's rule description; the port preserves the exact
+recursion structure: one node count per `rec()` entry, candidates
+`(last+1 .. next\_fresh-1)` plus one fresh vertex, edge-monotone in-search
+bans via endpoint masks of simple paths of length 3/7 from the current
+vertex). Validation, all re-run this session: (i) bans off, labeled
+completions 50/639/9609 at $n = 8/10/12$ and A002851 class counts
+19/85/509 at $n = 10/12/14$; (ii) $C_4$-only in-search ban $\equiv$
+post-filter labeled counts 58/528/12032/275273 at $n = 10..16$; (iii)
+$\{C_4, C_8\}$ node counts 2205/10088/52293/307686/1891538 at
+$n = 14..22$ — every one equal to the pinned value; (iv) at $n = 24$,
+per-subtree comparison against the VERBATIM CHECK-1 Python reference
+(19 subtrees at a 10-edge frontier cut + prefix): bit-exact agreement on
+every subtree's (nodes, completions).
+
+**Fingerprint correction to Section 105 (content unaffected).** The
+verbatim CHECK-1 reference gives $12{,}302{,}758$ tree nodes at
+$n = 24$ — NOT the $12{,}297{,}554$ recorded in Section 105's table
+(and echoed in CHECK 1's prose) — while completions agree exactly
+(9,512). Same at $n = 26$: the C port (whose counting semantics are
+proven bit-exact against the reference at 24) gives $138{,}948{,}598$
+nodes vs the recorded $138{,}937{,}178$, with completions again agreeing
+exactly (200,888) and the class census again coming out 23 classes,
+$c_{16} \in [161, 454]$, all girth 3. Diagnosis: the R65 parallel path
+under-counted one node per emitted frontier state (the deltas, 5,204 and
+11,420, are exactly plausible state counts at the cuts used); its
+"single-process reference agreed" claim at those two orders cannot have
+been true of the node counts. EVERY mathematical conclusion of R65 —
+emptiness through 22, the four onset classes at 24, the 23 classes at
+26, all $c_{16}$ values, the girth-3 signature — is re-confirmed
+unchanged by two independent implementations this session. Only the two
+recorded node counts were wrong; the corrected fingerprints are the ones
+above.
+
+**Class dedup, replaced and strengthened.** Classes are now counted by
+an EXACT canonical certificate native to the rule tree: the
+lexicographically minimal rule-labeling edge sequence (min over root,
+root-neighbor order, and fresh-assignment order, computed by constrained
+replay with prefix pruning). Validated: A002851 19/85/509 at
+$n = 10/12/14$ (bans off); the pinned 4-class onset at 24 with
+$c_{16} = 207/228/315/330$; the 23 classes at 26 with floor 161 and
+ceiling 454. The certificate is itself an edge list, so the census file
+IS the class list.
+
+**R66 result — exhaustive, $n = 28$, ban set $\{C_4, C_8\}$, connected
+cubic.** Tree nodes $2{,}969{,}746{,}296$ (growth $26 \to 28$:
+$\times 21.4$ — the R65 extrapolation of $1.5 \times 10^9$ was 2x low);
+labeled completions $6{,}201{,}596$; EXACTLY **251 classes**; $c_{16}$
+range $[153, 731]$ with **no zero**. Since $C_{32}$ does not fit on
+$\le 28$ vertices, there is no cubic Erdős–Gyárfás counterexample on
+$\le 28$ vertices — with $n = 24, 26$ (R65) this completes the in-house
+re-derivation, by complete isomorph-controlled enumeration, of the full
+range of F3's Markström computation (cubic counterexamples need
+$\ge 30$ vertices). F3 is again used only as a consistency check, never
+as a premise; the agreement is now over the entire range it covers.
+
+**Structure at 28.** (a) The exact stratum floor falls again:
+$24{:}\,207 \to 26{:}\,161 \to 28{:}\,153$, extending the monotone
+descent toward the $n = 58$ SA dip (37) — and the exact 28 floor
+already undercuts the SA floor at $n = 30$ (210), hardening R65's
+inference that the SA values at the frontier scales are unconverged
+upper bounds. (b) Girth 5 enters the stratum for the first time:
+girth histogram $\{3{:}\,247,\ 5{:}\,4\}$ — and the four girth-5
+classes carry the four HIGHEST $c_{16}$ values (614, 616, 621, 731).
+At every scale where we can see it, moving toward the cage corner
+(higher girth) is $c_{16}$-adversarial, exactly matching the R60/R63
+observation that SA argbests flee to girth 3. CHECK 4 of
+`lemma_stratum_onset_24` pins the $c_{16} = 153$ extremal member and
+the minimal girth-5 member with from-scratch verification.
+
+**Where this leaves Q82.** The frontier scales are $n \in \{30, 32\}$.
+$n = 30$ is NEW territory (Markström stopped at 28): the same validated
+tool is running it now (measured growth predicts
+$\sim 6 \times 10^{10}$ nodes); at $n = 30$, $C_{32}$ does not fit, so
+ANY $C_{16}$-free completion there would be a full witness candidate —
+and zero completions... would move the cubic frontier for the first
+time since 2004. $n = 32$ at the measured $\times 21$/order growth is
+$\sim 1.3 \times 10^{12}$ nodes — out of reach for this container with
+the current tool; deciding it needs isomorph-aware in-search pruning
+(the SMS port proper), a stronger prune, or more hardware. R67 logs the
+$n = 30$ outcome.

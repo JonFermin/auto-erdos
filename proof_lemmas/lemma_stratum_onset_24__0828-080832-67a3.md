@@ -274,3 +274,75 @@ assert ccount(26, adj, 3) > 0
 assert ccount(26, adj, 16) == 161
 print("stratum_onset_24 CHECK 3: n=26 extremal member verified — cubic connected, c4=c8=0, girth 3, c16=161")
 CHECK -->
+
+**R66 addendum — $n = 28$ complete; fingerprint corrections (session
+s_0829-080615-66f6).** The C port of the CHECK-1 enumerator (validated
+bit-exactly against every pinned fingerprint at $n \le 22$ and, per
+subtree, against the verbatim CHECK-1 reference at $n = 24$) exhausts
+$n = 28$: $2{,}969{,}746{,}296$ tree nodes, $6{,}201{,}596$ labeled
+completions, EXACTLY 251 classes (lex-minimal rule-labeling
+certificate, validated on A002851 19/85/509 and the pinned 24/26
+censuses), $c_{16} \in [153, 731]$, no zero — so the cubic
+Erdős–Gyárfás exclusion is re-derived in-house through $n = 28$, the
+full Markström range. Girth 5 appears in the stratum for the first
+time (4 of 251 classes), carrying the four highest $c_{16}$ values.
+Exact floor profile: 24: 207, 26: 161, 28: 153. CORRECTION to the
+figures quoted in this file's Method paragraph and Section 105: the
+true node fingerprints are $12{,}302{,}758$ at $n = 24$ and
+$138{,}948{,}598$ at $n = 26$ (verbatim CHECK-1 reference, confirmed
+by the independent C path; the R65 parallel harness under-counted one
+node per frontier state). Completions and all class data stand
+unchanged. Section 106 has the full account.
+
+<!-- CHECK
+# stratum_onset_24 CHECK 4: R66 n=28 pins. (a) the exact-floor member
+# (class minimum c16 = 153) and (b) the minimal girth-5 member (c16 = 614;
+# girth 5 first appears in the stratum at n = 28). Verified from scratch:
+# connected, cubic, c4 = c8 = 0 (complete searches), girth / c16 as stated.
+# Exhaustiveness (251 classes at n=28, none C16-free) is the R66
+# enumeration result, fingerprinted in Section 106.
+def build(n, edges):
+    adj = [[] for _ in range(n)]
+    es = set()
+    for u, v in edges:
+        a, b = min(u, v), max(u, v)
+        assert a != b and (a, b) not in es
+        es.add((a, b))
+        adj[a].append(b); adj[b].append(a)
+    assert all(len(x) == 3 for x in adj)
+    seen = {0}; stk = [0]
+    while stk:
+        u = stk.pop()
+        for w in adj[u]:
+            if w not in seen:
+                seen.add(w); stk.append(w)
+    assert len(seen) == n
+    return adj
+
+def ccount(n, adj, L):
+    total = 0
+    for root in range(n):
+        stack = [(u, 2, (1 << root) | (1 << u)) for u in adj[root] if u > root]
+        while stack:
+            u, ln, vis = stack.pop()
+            for w in adj[u]:
+                if w == root:
+                    if ln == L:
+                        total += 1
+                elif w > root and not (vis >> w) & 1 and ln < L:
+                    stack.append((w, ln + 1, vis | (1 << w)))
+    return total // 2
+
+M153 = [(0, 1), (0, 2), (0, 3), (1, 2), (1, 4), (2, 5), (3, 6), (3, 7), (4, 8), (4, 9), (5, 10), (5, 11), (6, 7), (6, 12), (7, 13), (8, 9), (8, 14), (9, 15), (10, 11), (10, 16), (11, 17), (12, 18), (12, 19), (13, 20), (13, 21), (14, 18), (14, 22), (15, 23), (15, 24), (16, 19), (16, 25), (17, 26), (17, 27), (18, 22), (19, 25), (20, 21), (20, 23), (21, 26), (22, 27), (23, 24), (24, 25), (26, 27)]
+G614 = [(0, 1), (0, 2), (0, 3), (1, 4), (1, 5), (2, 6), (2, 7), (3, 8), (3, 9), (4, 6), (4, 8), (5, 10), (5, 11), (6, 12), (7, 10), (7, 13), (8, 14), (9, 12), (9, 15), (10, 16), (11, 14), (11, 17), (12, 18), (13, 15), (13, 19), (14, 20), (15, 21), (16, 17), (16, 21), (17, 22), (18, 19), (18, 23), (19, 24), (20, 24), (20, 25), (21, 26), (22, 25), (22, 27), (23, 25), (23, 26), (24, 27), (26, 27)]
+
+adj = build(28, M153)
+assert ccount(28, adj, 4) == 0 and ccount(28, adj, 8) == 0
+assert ccount(28, adj, 3) > 0  # girth 3
+assert ccount(28, adj, 16) == 153
+adj = build(28, G614)
+assert ccount(28, adj, 4) == 0 and ccount(28, adj, 8) == 0
+assert ccount(28, adj, 3) == 0 and ccount(28, adj, 5) > 0  # girth 5
+assert ccount(28, adj, 16) == 614
+print("stratum_onset_24 CHECK 4: n=28 extremal member (c16=153, girth 3) and minimal girth-5 member (c16=614) verified — cubic connected, c4=c8=0; no C16-free class exists at 28 (R66 exhaustion)")
+CHECK -->
