@@ -359,9 +359,14 @@ any probe of this formula should reproduce EXACTLY these values:
 
 The parity identity (`crossing_offset_parity`, R17) on the same tuples:
 $\omega = (d_{a_2}-d_{a_1})+(d_{s_2}-d_{s_1}) \equiv
-(d_{s_1}-d_{a_1})+(d_{s_2}-d_{a_2}) \pmod 2$ — the two sides are
-rearrangements of the same four terms, so the congruence is exact on
-every tuple (e.g. $(0,3,4,6)$: $3+2 = 5 \equiv 7 = 4+3$).
+(d_{s_1}-d_{a_1})+(d_{s_2}-d_{a_2}) \pmod 2$ — a CONGRUENCE, not an
+integer equality: the two sides differ by exactly
+$2(d_{a_2}-d_{s_1})$, an even integer, so the mod-2 congruence is
+exact on every tuple while the integer values generally differ (e.g.
+$(0,3,4,6)$: $3+2 = 5 \equiv 7 = 4+3 \pmod 2$, difference
+$2(3-4) = -2$). Machine-checkable form (sandbox names only):
+`all((( (da2-da1)+(ds2-ds1) ) - ( (ds1-da1)+(ds2-da2) )) % 2 == 0 for
+(da1,da2,ds1,ds2) in [(0,1,2,3),(0,4,6,8),(0,2,4,5),(0,3,4,6),(1,2,4,7)])`.
 
 **Proof idea**: the two fundamental cycles share tree edges on segment
 $\operatorname{TreePath}(a_2,s_1)$, which cancels. The surviving edge set is
@@ -1166,7 +1171,13 @@ $\pi(B_3) = [d(a_3), d(x_3)]$:
    = (2,3,2,0,1)$: slack $(2{+}3{-}1)+(2{-}1)+0 = 5$, fully
    substituted $L = 2+3+2+2+0+1-2{\cdot}1 = 8$ (terms: $|A|+|E|+2$
    for $|D|$, then $|\pi|+\mathrm{off}$ for $g_3$, then the
-   identity's $+1$, then $-2k'$);
+   identity's $+1$, then $-2k'$ — note the NET constant in
+   $(|A|,|E|,|\pi|,\mathrm{off},k')$ coordinates is
+   $+3 = 2 (\text{from } |D| = |A|+|E|+2) + 1$, and writing $+1$
+   there is the twice-repeated transcription slip; the canonical
+   machine-checkable form, sandbox names only, is
+   `all(A+E+2+pi+off+1-2*kp==L for (A,E,pi,off,kp,L) in
+   [(2,3,2,0,1,8),(1,3,2,1,1,8),(4,1,3,1,2,8),(4,1,3,0,2,7)])`);
    $(1,3,2,1,1)$: slack $(1{+}3{-}1)+(2{-}1)+1 = 5$, fully
    substituted $L = 1+3+2+2+1+1-2{\cdot}1 = 8$;
    $(4,1,3,1,2)$: slack $(4{+}1{-}2)+(3{-}2)+1 = 5$, fully
