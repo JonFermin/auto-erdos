@@ -2668,13 +2668,24 @@ min-deg-3) at orders 30 and 32, or find a witness there; exhaustion
 at 30 also settles F7a's content for our box unconditionally. CHECK 4
 pins both frontier stratum graphs.
 
-## Ledger addendum — given_facts extensions F4–F7 (sessions s_0826-080904-9561; R62 + R63)
+## Literature annotations F4–F7 — NOT ledger facts, NOT premises (sessions s_0826-080904-9561; R62 + R63; reframed R66)
 
-The problem ledger `proofs/erdos_gyarfas.json` is frozen for the branch,
-so external facts invoked after its 2026-07-11 audit are recorded HERE,
-in the ledger's own schema. Every use of these facts in Sections 102–103
-cites the id. This block is the ledger of record for F4–F7; treating a
-fact below as absent from the ledger is a reading error.
+The problem ledger `proofs/erdos_gyarfas.json` is frozen for the branch
+and consists of F1–F3 ONLY. The items below are literature
+ANNOTATIONS recorded for attribution and future-session context. They
+are NOT given_facts, and — as of the R66 audit — **no lemma status, no
+CHECK block, and no statement this document claims as proved uses F4,
+F5, F6, or F7 as a premise.** Specifically: stratum nonemptiness at
+$n = 58$ (F4's one former use, Section 99) is established in-house by
+the explicit $c_4 = c_8 = 0$ graph pinned in `lemma_g9c16_stratum`
+CHECK 2; F5 is a motivating heuristic with every reachability claim
+established constructively by pinned runs; F6 and F7 are recorded
+expectations whose only role is framing (the frontier scales are
+$\{30, 32\}$ with or without them — and R67's in-house exhaustion at
+$n = 30$ is replacing even that framing use). Deriving any conclusion
+from F4–F7 would be a scope error; the annotations stay in the
+document solely so future sessions know these results exist and where
+they came from.
 
 - **id: F4_cage_order_58**
   - statement: The smallest cubic graphs of girth 9 have exactly 58
@@ -2867,6 +2878,11 @@ cubic).**
 | 24 | 12,297,554 | 9,512 | **4** | **NONEMPTY — onset** |
 | 26 | 138,937,178 | 200,888 | **23** | **NONEMPTY** |
 
+*[R66 correction: the node counts in the 24 and 26 rows are wrong —
+the verbatim CHECK-1 reference gives 12,302,758 and 138,948,598
+(Section 106). Completions, classes, and every mathematical conclusion
+are unchanged.]*
+
 **The onset at $n = 24$, and $n = 26$.** At 24: exactly four classes,
 pinned in CHECK 2 with full edge lists — all girth 3, all
 non-bipartite, $c_{16} = 207, 228, 315, 330$. At 26: exactly 23
@@ -2912,13 +2928,14 @@ more pruning idea away). The
 witness box's small end is closable by iterating the same validated
 tool; R66 continues upward.
 
-**Ledger containment note (R65 fix, addressing the ledger critic).**
-`proofs/erdos_gyarfas.json` is frozen for the branch (read-only
-environment file), so external facts learned after its audit CANNOT be
-added to it; the schema-formatted "Ledger addendum" block following
-Section 103 is this document's sanctioned ledger of record for F4–F7,
-and each entry there carries its citation, sign-disambiguation, and
-scope warnings. Independently of that: NO conclusion of R64 or R65
+**Ledger containment note (R65 fix; wording superseded by the R66
+reframing).** `proofs/erdos_gyarfas.json` is frozen for the branch
+(read-only environment file), so external facts learned after its audit
+CANNOT be added to it. The block following Section 103 — retitled
+"Literature annotations F4–F7" in R66 — records them for attribution
+and context ONLY: they are not ledger facts and not premises of
+anything proved here; each entry carries its citation,
+sign-disambiguation, and scope warnings. Independently of that: NO conclusion of R64 or R65
 depends on F6 or F7a. R64 (NB-moment probe) uses only in-house exact
 computation on CHECK-pinned graphs. R65 (exhaustion through $n = 26$)
 uses only in-house enumeration, the arithmetic-checkable A002851
