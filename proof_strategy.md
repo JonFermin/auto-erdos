@@ -2452,3 +2452,30 @@ longer witnesses.
    contradicted there — raising Markström's $30$ toward $33$
    conditionally on triangle-freeness, the program's first positive
    milestone.
+
+## Section 99 — R59: `cycle_pair_sym_diff_exclusions` proved — one pair-interaction lemma for every witness length (session s_0830-080552-2844)
+
+**Lemma `cycle_pair_sym_diff_exclusions`** (proved, R59 — proof and
+CHECK in the lemma file): in any simple graph with girth $\ge 5$ and
+no $C_8$ (cubicity not needed), two distinct cycles NEVER have
+symmetric difference of size $2$, $4$, or $8$; a size-$6$ sym-diff is
+a single $C_6$; size $10$ is a $C_{10}$ or two edge-disjoint
+$C_5$'s; size $12$ decomposes as $\{12\}$, $\{7,5\}$, or $\{6,6\}$.
+Proof: the sym-diff is a nonempty even subgraph, so it decomposes into
+edge-disjoint cycles of $G$, each of length $\ge 5$ and $\ne 8$; the
+sizes $2, 4$ admit no such partition, and $8$ admits only $\{8\}$.
+
+This subsumes `c5_rigidity_c8free`(i) (the $(5,5)$ row of the lemma's
+supply table), yields the corrected $(9,9)$ interaction — sharing
+exactly $5$ edges impossible; sharing $1$ edge does NOT force a
+$C_{16}$ — and gives the exclusion rows for $(10,10)$, $(17,17)$,
+$(18,18)$ used by the coming supply counts. Odd-sum pairs
+($(5,10)$, $(9,10)$, $(17,18)$) have odd sym-diff and are untouched
+by the $\{2,4,8\}$ exclusion.
+
+**Next (R60)**: the pendant-$9$ supply cap. Two $9$-cycles
+pendant-witnessing the same edge at the same endpoint share $p \ge 2$
+edges with $p \in \{2, 3, 4, 6\}$; the target is a per-edge cap on
+pendant-$9$ witnesses (the $9$-analogue of `c5_rigidity_c8free`(ii)),
+CHECK-first on the pinned $n = 28$ instance (which has $9$-cycles) and
+on new SA-generated girth-$\ge 5$ $C_8$-free instances.
