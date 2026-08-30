@@ -2397,3 +2397,58 @@ cap is live and realized, not vacuous.
   EGC witness (32/64-cycles vacuous below $n = 32$), and the
   $(3,9)$-cage population at $n = 58$ (girth 9 kills $C_4/C_8$ free;
   87 edges, inside the verifier box) is untouched by any campaign.
+
+## Section 98 — R58: `criticality_edge_witness` proved — the saturation engine is rigorous, and $6$-witnesses cannot exist (session s_0830-080552-2844)
+
+**Lemma `criticality_edge_witness`** (proved, R58 — full proof and
+machinery CHECK in the lemma file). Let $\mathcal{C}$ be the class of
+connected cubic simple graphs with no PO2 cycle. If
+$\mathcal{C} \ne \emptyset$, $G$ is vertex-minimal in $\mathcal{C}$,
+and $G$ is triangle-free (hence girth $\ge 5$, as $C_4$ is PO2), then
+every non-bridge edge $e = uv$ of $G$ carries a witness: a cycle of
+length $2^k + 1$ pendant at one endpoint of $e$ (both its other edges
+on the cycle), or of length $2^k + 2$ with $e$ as a chord, for some
+$k \ge 2$ with $2^k \le n - 2$. Proof: delete $e$, suppress $u, v$
+(girth $\ge 5$ makes the suppression simple, Step 0/1), invoke
+minimality on the smaller cubic $G_e$ to get a PO2 cycle downstairs,
+lift it — it must use $1$ or $2$ of the two suppressed edges, since
+$0$ would put a PO2 cycle in $G$ itself.
+
+**Corollary (proved, same file):** $k = 2$ witnesses are always
+pendant $5$-cycles — a chord of a $C_6$ closes a $C_3$ or a $C_4$,
+both absent — and each $5$-cycle pendant-witnesses exactly the $5$
+off-cycle edges at its vertices. $k = 3$ chord witnesses only occur
+with the chord at cycle-distance $4$ or $5$ (splits $C_5 + C_7$ or
+$C_6 + C_6$); distances $2, 3$ close a $C_3$, or a $C_4$ AND a $C_8$.
+
+**The count so far** (for a triangle-free vertex-minimal
+$G \in \mathcal{C}$, $n \le 32$ so that only $k \in \{2, 3, 4\}$
+witnesses fit): demand $= 3n/2 - \#\text{bridges}$ edges, each
+requiring a witness of length in $\{5, 9, 10, 17, 18\}$ ($6$ is
+impossible by the Corollary). Supply side, first entry: by
+`c5_rigidity_c8free` ($G$ qualifies: girth $\ge 5$, $C_8$-free),
+$\#C_5 \le \lfloor 3n/5 \rfloor$, so at most $3n$ edges can be
+$5$-witnessed. Not yet a contradiction — the gap must come from the
+longer witnesses.
+
+**R59+ targets (open, in order):**
+1. $9/10$-witness rigidity. CAUTION recorded now: the ideation
+   proposal's claim "two $9$-cycles sharing exactly one edge force a
+   $C_{16}$" is NOT automatic — the symmetric difference has $16$
+   edges but is a single cycle only when the two residual paths are
+   internally vertex-disjoint; otherwise it decomposes (e.g.
+   $C_6 + C_5 + C_5$). The honest target is a classification of
+   $9$-cycle pairs through a shared edge under
+   girth $\ge 5$ + $C_8$/$C_{16}$-freeness, CHECK-first.
+2. Pendant-$5$ incidence sharpening: which edges can be off-cycle
+   edges of a $C_5$? (An off-cycle edge and the $5$-cycle meet in one
+   vertex; two $5$-cycles pendant-witnessing the same edge from its
+   two endpoints interact through `c5_rigidity_c8free`.)
+3. Bridge accounting (a cubic graph's bridges form a forest structure;
+   bounded or witness-carrying by a separate argument).
+4. Assemble the $n \le 32$ ledger: if
+   $\#\{$edges $5$-witnessable$\} + \#\{9/10\} + \#\{17/18\} <
+   3n/2 - \#\text{bridges}$ on any sub-range, minimality is
+   contradicted there — raising Markström's $30$ toward $33$
+   conditionally on triangle-freeness, the program's first positive
+   milestone.
