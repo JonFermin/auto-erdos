@@ -2298,3 +2298,102 @@ analytic core (the paste-8 supply question left open at Q69's release,
 and the F2 graph-level quantifier), per Section 91's closure clause.
 Q77 and Q79 are resolved; the next session should run
 /erdos-proof-ideation against this closure record.
+
+## Section 97 — R57: the criticality program opens — minimal-counterexample saturation vs. witness-supply rigidity; `c5_rigidity_c8free` proved (session s_0830-080552-2844)
+
+### Ideation (2026-08-30, per the R56 closure clause)
+
+The queue was empty, so this session ran the 5-proposer + judge fan-out
+before spending rounds. Ranking (full digest in the notes channel):
+P4 extremal/criticality 35/40 (queued as **Q80**, this program), P5
+counterexample-first 31/40 (queued as **Q81**: `c8free_c16_floor` and
+the $(3,9)$-cage arm at $n = 58$), P1 sieve/inflation-starvation 31/40
+(not queued — provable but low-transfer), P3 entropy/L1-analytic 28/40
+(statement right, mechanism missing), P2 two-parameter LP discharge
+24/40 (degenerates to the first-moment bound R55 showed never fires).
+
+### The program (Q80): quantify over minimal counterexamples only
+
+Every universal this loop has disproved (R19–R47) quantified over ALL
+normal-tree states or ALL cubic graphs — populations an SA falsifier
+can sample. The criticality program instead quantifies over
+**vertex-minimal counterexamples**, a class no falsifier can sample
+from, and which 56 rounds never touched. The engine is edge-deletion
+criticality:
+
+> Let $G$ be a vertex-minimal counterexample to cubic EGC (no PO2
+> cycle; among such graphs, fewest vertices) with girth $\ge 5$, and
+> let $e = uv$ be any non-bridge edge. Delete $e$ and suppress the two
+> resulting degree-$2$ vertices: the result $G_e$ is a smaller cubic
+> graph — *simple* because girth $\ge 5$ (a parallel edge after
+> suppressing $u$ needs a triangle through $u$ in $G - e$), and
+> connected because $e$ is not a bridge. By minimality $G_e$ contains a
+> PO2 cycle $c'$. Lifting $c'$ back to $G$ re-inserts $u$ (resp. $v$)
+> whenever $c'$ uses the suppressed edge $a_u b_u$ (resp. $a_v b_v$),
+> lengthening it by exactly the number of suppressed vertices it
+> passes; it cannot pass zero of them, else $G$ itself had a PO2
+> cycle. Hence $G$ contains, for EVERY non-bridge edge $e = uv$:
+> either a cycle of length $2^k + 1$ through exactly one of $u, v$
+> with both of that endpoint's other edges on the cycle (**pendant
+> witness**), or a cycle of length $2^k + 2$ through both $u$ and $v$
+> with $e$ as a chord (**chord witness**).
+
+This is a *saturation* statement: all $3n/2$ edges (minus bridges)
+demand a near-PO2 witness cycle, of length in
+$\{2^k + 1, 2^k + 2\} = \{5, 6, 9, 10, 17, 18, 33, 34, \dots\}$ — and
+for $n \le 32$ only $\{5, 6, 9, 10, 17, 18\}$ exist. Against the
+demand stands **rigidity**: in a counterexample ($C_4$- and $C_8$-free
+by definition), short cycles interact only in constrained ways,
+capping the witness supply. Contradiction target: supply $<$ demand
+for $n \le 32$ would push Markström's cubic bound $30 \to 33$ by
+counting alone — the first *positive* theorem target this loop has
+had. The formal criticality lemma (bridge case, exact lift bookkeeping,
+the girth-$\ge 5$ case restriction, and what "predominantly cubic"
+from F3 adds) is R58's job, CHECK-first, under a NEW id
+`criticality_edge_witness`; nothing in this section is yet cited as
+proved.
+
+### The first rung, proved this round
+
+**Lemma `c5_rigidity_c8free`** (proved, R57 — see the lemma file for
+the full sym-diff + combo-grid proof and the CHECK):
+in a cubic graph with girth $\ge 5$ and no $C_8$, (i) two distinct
+$5$-cycles share exactly $0$ or $2$ edges, and (ii) every edge lies on
+at most $2$ five-cycles — and a sharing pair shares $e$ plus exactly
+one adjacent edge. Only $p = 1$ (the sym-diff $C_8$) uses
+$C_8$-freeness; $p \in \{3, 4\}$ die under girth alone; the $p = 1$
+exclusion for diagonal-combo pairs is where all four middle-edge
+coincidences force a triangle or $C_4$. Corollary:
+$\#C_5 \le \lfloor 3n/5 \rfloor$ and at most $3n$ (edge, $5$-cycle)
+incidences — the first entry of the supply table.
+
+Empirical note (R57 probes): the coexistence "girth $\ge 5$, no
+$C_8$, some $C_5$" is rare but NOT empty. Seeded random sampling
+($n \le 16$) and short SA found nothing, but SA with energy
+$10^6 c_3 + 10^4 c_4 + c_8$ (double-edge-swap moves, 20k iterations)
+produced a cubic instance at $n = 28$ — girth $5$, no $C_8$, exactly
+five $5$-cycles — pinned as CHECK 2 in the lemma file. On it both
+conclusions are TIGHT: two sharing pairs each share exactly $2$
+adjacent edges, and the incidence cap $2$ is attained. The pin also
+contains a $C_{16}$, consistent with F3. So the $5$-witness supply
+cap is live and realized, not vacuous.
+
+### Roadmap
+
+- **R58**: `criticality_edge_witness` (new id) — the saturation lemma
+  above, stated with full bookkeeping, CHECK block first (probe: on
+  small cubic graphs WITH PO2 cycles the lift argument is vacuous, so
+  the probe validates the suppression/lift machinery itself:
+  delete-suppress random edges, lift the smaller graph's PO2 cycles,
+  confirm lengths $2^k + \#\{$suppressed vertices used$\}$).
+- **R59+**: rigidity rungs for the remaining witness lengths —
+  $6$-chord witnesses (a chord of a $C_6$ splits it into $C_3 + C_5$:
+  forces triangles), $9$/$10$-cycles vs $C_{16}$-freeness (two
+  $9$-cycles sharing exactly one edge form a $C_{16}$), then the
+  supply-vs-demand count at $n \le 32$.
+- **Q81 (computational complement, later rounds)**: `c8free_c16_floor`
+  — every connected cubic graph, $24 \le n \le 32$, with no $C_4$ and
+  no $C_8$ contains a $C_{16}$; a falsifier at $n = 30$ IS a complete
+  EGC witness (32/64-cycles vacuous below $n = 32$), and the
+  $(3,9)$-cage population at $n = 58$ (girth 9 kills $C_4/C_8$ free;
+  87 edges, inside the verifier box) is untouched by any campaign.
