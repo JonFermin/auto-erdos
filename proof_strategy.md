@@ -2479,3 +2479,81 @@ edges with $p \in \{2, 3, 4, 6\}$; the target is a per-edge cap on
 pendant-$9$ witnesses (the $9$-analogue of `c5_rigidity_c8free`(ii)),
 CHECK-first on the pinned $n = 28$ instance (which has $9$-cycles) and
 on new SA-generated girth-$\ge 5$ $C_8$-free instances.
+
+## Section 100 — R60: `pendant_9_cap` falsified at introduction — witness supply is abundant, the cardinality ledger dies, and the program's weight shifts to $C_{16}$-freeness (session s_0831-081008-aa29)
+
+Per the standing dual-attack policy, R60 ran the falsification probe
+against R59's closing target ("a per-edge cap on pendant-$9$
+witnesses, the $9$-analogue of `c5_rigidity_c8free`(ii)") BEFORE
+spending proof effort. The probe kills the target on the program's own
+pinned exemplar, and with it the entire cardinality version of the
+supply-vs-demand ledger. Full data and the audit-trail CHECK live in
+`proof_lemmas/lemma_pendant_9_cap__0831-081008-aa29.md`
+(status: disproved at introduction).
+
+### What remains rigorous (corollaries of R58 + R59, no new proof needed)
+
+A pendant-$9$ witness for $e = uv$ at $u$ is $ua \cup ub$ plus a
+$7$-path $a \to b$ in $G - u$ avoiding $v$; a $9$-cycle whose
+cycle-edges at $u$ are $ua, ub$ but which passes through $v$ has $e$
+as a chord (splitting $11 = 5 + 6$, the only split girth $\ge 5$ +
+$C_8$-freeness allows) and is not a witness. Two distinct pendant-$9$s
+at the same $(u, e)$ share $ua, ub$, so by
+`cycle_pair_sym_diff_exclusions` they share $p \in \{2, 3, 4, 6\}$
+edges; if their $7$-paths also share first and last edges,
+$p \in \{4, 6\}$.
+
+### The falsification (all 34 nine-cycles of the R57 pin, $n = 28$)
+
+Strict pendant-$9$ witnesses per (endpoint, edge) reach $\mathbf{6}$;
+per edge, $\mathbf{10}$ (targeted cap: $2$). The realized pairwise
+spectrum inside families is exactly $\{2, 3, 4, 6\}$ — the R59
+exclusions are tight, with nothing finer to harvest — and
+$(\text{first}, \text{last})$-edge groups reach size $3$, so the
+"$\le 2$ per group" refinement fails too. Decisively: **every one of
+the $42$ edges is $9$-witnessable**, and $24/42$ are additionally
+chord-$10$ witnessed (chord at cycle-distance $4$/$5$ of a $C_{10}$).
+Against length-$5$ scarcity ($\#C_5 \le 3n/5$, incidence $\le 2$)
+stands length-$9$ abundance: $\#C_9 = 34 > n$, per-edge
+$C_9$-incidence up to $12$.
+
+### Consequence: the ledger cannot be a cardinality argument
+
+Section 98's count hoped
+$\#\{5\text{-witnessable}\} + \#\{9/10\} + \#\{17/18\} <
+3n/2 - \#\text{bridges}$. On a member of the very class where the
+count operates (girth $\ge 5$, $C_8$-free), the $9$-supply alone
+saturates the demand. No per-edge cap refinement can rescue that. The
+pin, however, contains a $C_{16}$ (F3 forces one at $n = 28$), while a
+vertex-minimal counterexample with $n \le 32$ is $C_{16}$-free — so
+any surviving supply analysis must draw its scarcity from
+$C_{16}$-freeness, not from girth + $C_8$-freeness alone.
+
+### Redirect (this round's program decision)
+
+1. The criticality program's durable artifacts stand: the saturation
+   engine (`criticality_edge_witness`, any $n$), the interaction table
+   (`cycle_pair_sym_diff_exclusions`), and the length-$5$ scarcity
+   (`c5_rigidity_c8free`). What died is the hope that lengths $9/10$
+   are ALSO scarce without invoking $C_{16}$-freeness.
+2. The binding question is now exactly Q81's first lemma
+   `c8free_c16_floor` (every connected cubic graph
+   $24 \le n \le 32$ with no $C_4$, no $C_8$ contains a $C_{16}$): if
+   it holds on $30 \le n \le 32$, the witness class for the
+   triangle-free criticality target is EMPTY above Markström's
+   verified range and the conditional milestone follows with no
+   ledger at all. Conversely a girth-$\ge 5$ $C_8$-free $C_{16}$-free
+   graph at $n = 30$ would be a full EGC counterexample (Q81's
+   tripwire note). Either way, Q80's remaining supply questions and
+   Q81's floor are the SAME question; the split queue should merge on
+   Q81's arms, whose known obstacle (the $C_{16}$-DFS cost inside SA
+   energies and CHECK blocks at $n \ge 30$) is an engineering rung,
+   not a mathematical one.
+3. Q80 is therefore resolved as: criticality program CONVERGED at the
+   girth-$5$/$C_8$-free level — positive artifacts as above, supply
+   route closed by `pendant_9_cap`'s disproof, continuation lives in
+   Q81 ($C_{16}$-floor). $17/18$-witness rigidity is NOT worth a
+   round before the floor question settles: at $n \le 32$ a
+   $17$/$18$-witness contains $\ge 17$ of the $\le 48$ edges, but the
+   pin's abundance pattern leaves no reason to expect scarcity there
+   to close a gap the $9$-supply already fills.
