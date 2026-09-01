@@ -2611,8 +2611,10 @@ one of them produced a proof mechanism.
 On the pin, **all $614$ $C_{16}$s are sym-diff compositions of two
 shorter cycles** ($9{+}9$ sharing $1$ edge: $146$ distinct $C_{16}$s;
 $9{+}11$ sharing $2$: $313$; $10{+}10$ sharing $2$: $209$; ...;
-$13{+}13$ sharing $5$: $576$; union $= 614/614$). Sharper — the law
-that matters:
+$13{+}13$ sharing $5$: $576$ — per-shape counts overlap heavily; the
+$614/614$ is the DEDUPLICATED UNION of the nine shapes' outputs,
+computed as a set of edge-sets, not the sum of the rows). Sharper —
+the law that matters:
 
 > every pair of distinct $9$-cycles sharing EXACTLY ONE edge has
 > single-cycle sym-diff, i.e. composes to a $C_{16}$: $154/154$
@@ -2628,12 +2630,17 @@ never happens at share-$1$ in the class. If girth $\ge 5$ +
 $C_8$-freeness FORCES it (an R59-style exclusion argument — the
 extra shared vertex creates short cycles from the four sub-arcs),
 then in any $C_{16}$-free class member any two distinct $9$-cycles
-share $0$ or $\ge 2$ edges. R60's abundance weapon turns into the
-floor's proof engine: the $34 > n$ nine-cycles of a pin-like graph
-cannot coexist under that sharing constraint without volume — the
-supply that killed the cardinality ledger becomes the load that
-$C_{16}$-freeness cannot carry. This is precisely the inversion
-Section 100 hoped for ("scarcity must draw from $C_{16}$-freeness").
+share $0$ or $\ge 2$ edges. (Informal motivation for the R62 target,
+NOT a derived implication: the hope is that R60's abundance weapon
+turns into the floor's proof engine — that $34 > n$ nine-cycles of a
+pin-like graph cannot coexist under that sharing constraint — but
+whether the constraint actually caps a $9$-cycle family is exactly
+the open counting layer, Q82(ii). What IS established: the
+share-$1$ law holds empirically $3{,}738/3{,}738$, and IF
+`share1_c16_compose` is proved THEN $C_{16}$-freeness forces the
+$\{0, 2^+\}$ sharing pattern. Nothing further.) This is the
+inversion Section 100 hoped for ("scarcity must draw from
+$C_{16}$-freeness") — as a program, not yet a theorem.
 
 ### Program decision
 
