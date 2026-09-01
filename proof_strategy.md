@@ -2557,3 +2557,92 @@ $C_{16}$-freeness, not from girth + $C_8$-freeness alone.
    $17$/$18$-witness contains $\ge 17$ of the $\le 48$ edges, but the
    pin's abundance pattern leaves no reason to expect scarcity there
    to close a gap the $9$-supply already fills.
+
+## Section 101 — R61: the $C_{16}$-floor dual attack — five falsification probes all negative, truncation closure proved at $n \in \{24, 30\}$, and the composition engine appears (session s_0901-080823-307d)
+
+R61 opens Q81's binding question as a lemma file,
+`c8free_c16_floor` (status: open): every connected cubic graph on
+$24 \le n \le 32$ vertices with no $C_4$ and no $C_8$ contains a
+$C_{16}$. Per Section 100, this is now the SINGLE question the
+criticality program reduces to: on $30 \le n \le 31$ a falsifier is a
+complete EGC counterexample (cubic, $C_{32}$ needs $n \ge 32$), and if
+the floor holds there, the cubic witness class above Markström's range
+is empty at the next scale. Per the standing dual-attack policy the
+round ran falsification probes BEFORE proof effort. All negative — and
+one of them produced a proof mechanism.
+
+### Probe results (details + CHECKs in the lemma file)
+
+1. **Truncation closure (rigorous, exhaustive).** The triangle
+   truncation $T(H)$ ($n = 3|H|$, so $|H| \in \{8, 10\}$ in range) is
+   ALWAYS $C_4$-free; has a $C_8$ iff $H$ has a $C_3$ or $C_4$; has a
+   $C_{16}$ iff $H$ has a cycle of length $6$, $7$, or $8$ (the
+   lift-length window $16 - L \in [L, 2L]$). A truncation falsifier
+   therefore needs cubic $H$ with no cycle of length in
+   $\{3,4,6,7,8\}$: at $|H| = 8$ none of the $19{,}320$ connected
+   labeled cubic graphs qualifies (exhaustive, CHECK 3); at
+   $|H| = 10$ girth $\ge 5$ forces $H = $ Petersen (all $30{,}240$
+   labeled girth-$5$ cubic graphs on $10$ vertices share the Petersen
+   census — uniqueness re-verified from scratch in-session), and
+   Petersen's $10$ $C_6$s and $15$ $C_8$s fire both $C_{16}$ routes:
+   $T(\text{Petersen})$ has $c_{16} = 165 = 15 \cdot 1 + 10 \cdot
+   \binom{6}{4}$, the lift arithmetic exact (CHECK 2).
+2. **Symmetric families never reach the class.** All $1{,}981$
+   generalized Petersen, cyclic theta-lift, and dihedral-Cayley cubic
+   graphs at $24 \le n \le 32$ contain a $C_4$ or $C_8$ — zero class
+   members, extending R54's vertex-transitivity exclusion.
+3. **Growth rigidity.** All $609$ girth-$\ge 5$ H-extension children
+   ($n = 30$) of the R57 pin have $c_8 \ge 1$; all $720$ girth-$5$
+   grandchildren at $n = 32$ have $c_8 \ge 2$. The known $n = 28$
+   class member is an isolated point under single H-extensions.
+4. **SA campaign.** Soft-energy hierarchical annealing (energy
+   $10^4 c_3 [\mathrm{g5}] + 2500 c_4 + 900 c_8 + c_{16}$, 2-opt
+   moves, cyclic reheat, $5 \times 2400$ s, warm and cold starts
+   including $T(\text{Petersen})$): zero falsifiers; best clean
+   states stayed at $c_{16}$ in the hundreds (table in the lemma
+   file). The triangles-allowed chain independently converged toward
+   truncation-like structure ($9$ triangles at $n = 30$) — the valley
+   probe 1 proves has floor $165$ on the pure manifold.
+5. **Abundance at the known member.** The pin's exact census:
+   $c_9, \ldots, c_{16} = 34, 56, 70, 120, 183, 348, 484, 614$.
+
+### The composition engine (the round's structural find)
+
+On the pin, **all $614$ $C_{16}$s are sym-diff compositions of two
+shorter cycles** ($9{+}9$ sharing $1$ edge: $146$ distinct $C_{16}$s;
+$9{+}11$ sharing $2$: $313$; $10{+}10$ sharing $2$: $209$; ...;
+$13{+}13$ sharing $5$: $576$; union $= 614/614$). Sharper — the law
+that matters:
+
+> every pair of distinct $9$-cycles sharing EXACTLY ONE edge has
+> single-cycle sym-diff, i.e. composes to a $C_{16}$: $154/154$
+> pairs on the pin ($9 \times 10$: $462/462$; $10 \times 10$:
+> $350/350$) — and the same law holds with ZERO exceptions on all
+> four R61 SA snapshot graphs ($n = 30, 30, 32$ girth-$5$ and
+> $n = 30$ triangle-rich): $3{,}738/3{,}738$ share-$1$ pairs across
+> the five known class members.
+
+A share-$1$ pair fails to compose only if the two cycles share an
+extra VERTEX (degree-$4$ point in the sym-diff). Empirically that
+never happens at share-$1$ in the class. If girth $\ge 5$ +
+$C_8$-freeness FORCES it (an R59-style exclusion argument — the
+extra shared vertex creates short cycles from the four sub-arcs),
+then in any $C_{16}$-free class member any two distinct $9$-cycles
+share $0$ or $\ge 2$ edges. R60's abundance weapon turns into the
+floor's proof engine: the $34 > n$ nine-cycles of a pin-like graph
+cannot coexist under that sharing constraint without volume — the
+supply that killed the cardinality ledger becomes the load that
+$C_{16}$-freeness cannot carry. This is precisely the inversion
+Section 100 hoped for ("scarcity must draw from $C_{16}$-freeness").
+
+### Program decision
+
+- New lemma target for R62: `share1_c16_compose` — cubic, girth
+  $\ge 5$, no $C_8$: two distinct $9$-cycles sharing exactly one edge
+  share no other vertex (hence sym-diff $= C_{16}$). CHECK-first, per
+  policy; then the counting layer ("how many pairwise-share-$\{0,2+\}$
+  $9$-cycles fit on $3n/2$ edges" — note $c_9 > n$ on the pin).
+- Q81's arm A (the hunt) stays open as background pressure but stops
+  being the round driver: five independent probe families failing to
+  reach even $c_{16} < 165$ says the falsifier route needs a
+  structurally new idea, not more annealing.
