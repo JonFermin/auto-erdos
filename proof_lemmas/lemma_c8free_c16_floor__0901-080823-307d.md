@@ -117,7 +117,7 @@ g5) states reached — c16 floors observed:
 | $n=30$, girth $\ge 5$, cold | 728 | 218k |
 | $n=32$, girth $\ge 5$, warm | 781 | 195k |
 | $n=30$, triangles allowed, cold | 210 | 366k |
-| $n=30$, triangles allowed, warm from $T(\text{Petersen})$ | 165 | (long run) |
+| $n=30$, triangles allowed, warm from $T(\text{Petersen})$ | 165 | 431k |
 
 Zero falsifiers across $\sim 10^6$ proposals. The triangles-allowed
 chain independently converged toward truncation-like structure ($9$
