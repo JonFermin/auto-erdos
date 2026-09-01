@@ -1,78 +1,76 @@
-# Session handoff (session s_0822-080621-c9ec)
+# Session handoff (session s_0901-080823-307d)
 
-**Stop reason**: Logical milestone — two keeps (R55, R56), the
-depth-escalation program (Q77) formally CLOSED per the R51/R56
-pre-commitment, Q77 and Q79 resolved, all pushed.
+**Stop reason**: Logical milestone — R61 logged (the c8free_c16_floor
+dual attack), Q82 (composition engine) opened as the next program.
 
-**What happened**:
+**What happened (R61, keep_progress logged, record proof_erdos_gyarfas_fe2630b74112_102bb03.json)**:
 
-1. **R55 — the covering reframing (keep)**. depth(c) = |c ∩ B| (back
-   edges ON the cycle), so triple-dead/quad-dead are covering
-   statements about the m-edge cotree: quad-death requires an m-subset
-   giving every PO2 cycle >= 5 edges ("5-coverability"). Identity
-   verified on all 64 exact states. NONE of the 15 carriers at n<=22
-   is 5-coverable (stdlib DP, CHECKs 7-8 — 8-cycles alone obstruct
-   14/15); the n=24 carrier (c8=1) is 5-coverable but NO cover is a
-   cotree (SAT/CEGAR, 6-clause certificate = 5 triangles + one
-   6-cycle = triangle starvation). THEOREM: no quad-dead state on any
-   known carrier n<=24. Also made explicit: quad_alive_universal
-   IMPLIES cubic EGC — never spend proof effort trying to prove it.
-   CHECKs 7/8/9 added to lemma_quad_alive_universal. Record
-   proof_erdos_gyarfas_7f2f7a121b1f_f5199d4.json.
+1. **Five falsification probe families against `c8free_c16_floor`**
+   (every connected cubic graph 24<=n<=32 with no C4/C8 has a C16),
+   ALL negative — details + 4 green CHECK blocks in
+   `proof_lemmas/lemma_c8free_c16_floor__0901-080823-307d.md`:
+   - **Truncation closure PROVED at n=24/30** (the only truncation
+     orders in range): T(H) is always C4-free; C8 iff H has C3/C4;
+     C16 iff H has C6/C7/C8 (lift window 16-L in [L,2L]). n=8
+     exhaustive (19,320 graphs): no safe H. n=10: girth>=5 forces
+     Petersen (uniqueness re-verified exhaustively, 30,240 labeled =
+     10!/120, one census); T(Petersen) census c16 = 165 = 15*1 +
+     10*C(6,4) — arithmetic exact (CHECK 2).
+   - 1,981 symmetric graphs (GP(m,k), cyclic theta-lifts, dihedral
+     Cayley) at 24<=n<=32: ZERO are even {C4,C8}-free.
+   - Growth rigidity: all 609 girth-5 H-extension children (n=30) of
+     the R57 pin have c8>=1; all 720 grandchildren (n=32) c8>=2.
+   - Pin abundance: exact census c9..c16 = 34,56,70,120,183,348,484,614.
+   - SA campaign (5 x 2400s, soft hierarchical energy, warm+cold):
+     zero falsifiers; best clean c16: 728/755 (n=30 g5), 781 (n=32
+     g5), 210 (n=30 tri), 165 (warm from T(Petersen), never left its
+     start). The tri chain independently converged toward
+     truncation-like structure (9 triangles).
 
-2. **R56 — the falsifier campaign (keep)**. 2,271 cubic graphs at
-   n=22-28: random (560), ALL growth children of qa22/ch22/qa24
-   (1,686), adversarial low-c8 local search (25). Verdicts: 1,880
-   C4-excluded, 330 L1-infeasible (exact), 61 L1-passes — every one
-   given a COMPLETE SAT/CEGAR UNSAT certificate that no 5-cover is a
-   cotree (r56_l1pass_verdicts.tsv; 0 cotrees ever observed, L3
-   normality never reached). Zero quad-dead candidates. L1 passes
-   need c8<=6 (qa24 lineage or engineered). CHECK 10 pins an explicit
-   n=26 L1-pass + verified cover + non-tree complement. Record
-   proof_erdos_gyarfas_4cef8e3264ad_8a8c14a.json.
+2. **The composition engine (the round's structural find)**: all 614
+   C16s of the pin are sym-diff compositions of two shorter cycles;
+   the share-EXACTLY-1-edge law (single-cycle sym-diff, hence C16
+   from 9x9) holds 3,738/3,738 on ALL five known class members.
+   First-order arc arithmetic does NOT close the extra-vertex case
+   (18 surviving quadruples listed in the lemma) — the second-order
+   layer (c5_rigidity incidence caps, exclusion table on the implied
+   short cycles) is where the proof or the falsifier lives.
 
-**Program state**: The bounded-depth/depth-escalation program is
-CLOSED (converged negative knowledge; the covering mechanism L1/L2/L3
-is the artifact). quad_alive_universal stays open — and is now known
-to be at least as strong as cubic EGC. The class-census layer
-(n=18/20 complete, n=22/24 known carriers) is fully explained by the
-mechanism.
+**qid state**: Q81 claimed by this session (arm A executed; released
+at session end — the floor question itself stays open, hunts are now
+background pressure, not round drivers). **Q82 opened**: (i) prove
+`share1_c16_compose` (girth>=5 + C8-free => two distinct 9-cycles
+sharing exactly one edge share no other vertex); (ii) the counting
+layer (C16-free => 9-cycles pairwise share 0 or >=2 edges; any two
+9-cycles through a COMMON edge share >=2 edges — per-edge rigidity
+exactly where pendant_9_cap died).
 
-**qid state**: Q77 resolved (program closed). Q78 resolved (R54).
-Q79 resolved (campaign done). Queue has NO live open questions
-(Q69 stays released: the paste-8 supply analytic core).
-
-**Suggested next moves**:
-1. Run /erdos-proof-ideation against this closure record. Candidate
-   directions the record itself suggests: (a) the paste-8 supply core
-   (unbounded k' for paste8_tree_universal — Q69's release note);
-   (b) F2 graph-level quantifier; (c) NEW: the depth-4-layer
-   uniformity at n=22 (exactly 41 both carriers — a covering-polytope
-   question); (d) NEW: try to prove the triangle-starvation L2
-   obstruction analytically (5-covers avoid triangle edges because
-   triangle edges carry few PO2 cycles — could yield "no quad-dead
-   state on any carrier with >= t triangles" as a lemma).
-2. If ideation prefers computation: the campaign harness
-   (scratchpad r56_campaign.py — container-local, reconstructable
-   from Section 96's description + CHECK 10's example) extends
-   directly to n=30+ and to targeted populations (girth-controlled,
-   c8=0 constructions become possible at n>=30ish).
+**Suggested next moves (R62)**:
+1. Dual attack on `share1_c16_compose`: CHECK-hunt a share-1 pair
+   with an extra shared vertex inside the 18 arithmetic windows
+   (richer instances than the 5 known members — SA snapshots from
+   this session are pinned in CHECK 4) BEFORE proof effort.
+2. If the CHECK survives: case analysis over the 18 quadruples using
+   c5_rigidity_c8free (each survivor forces a C5/C6/C7 through u, v
+   or w) + cycle_pair_sym_diff_exclusions on the NEW pairs.
+3. Then the counting layer: max family of 9-cycles on 3n/2 edges
+   pairwise sharing 0 or >=2 edges vs. the criticality demand.
 
 **CRITIC INFRA (standing, carried forward)**: prewarm ALL critics via
 scratchpad prewarm.py (renders via proof_prepare._render_critic_prompt
 with witness_valid computed the same way, call_critics_parallel
 timeout_s=900, NODE_EXTRA_CA_CERTS=/root/.ccr/ca-bundle.crt), THEN
-proof_prepare (cache replays). This session: 2/2 rounds 0 blocking,
-prewarms 324s/~300s. os.chdir the worktree INSIDE scripts.
+proof_prepare (cache replays). os.chdir the worktree INSIDE scripts.
 PROOF_TAG on the SAME command line. proof_results.tsv container-local;
-R-numbering by hand (next: R57). pgrep footgun bit AGAIN this
-session: a compound shell whose text contains the plain pattern
-kills itself — use [c]haracter-class in BOTH pgrep and pkill, and
-never reference the script name un-bracketed in the same compound.
+R-numbering by hand (next: R62). The pgrep/pkill footgun bit AGAIN
+(a compound shell whose text contains the plain pattern kills itself
+— [c]haracter-class in BOTH, or kill by PID). Also new: the shell cwd
+RESETS between calls in this environment — cd explicitly in EVERY
+compound; one queue append landed in the main checkout and had to be
+reverted (worktree state was kept correct).
 
 **Files modified this session**:
-- proof_strategy.md (Sections 95, 96)
-- proof_lemmas/lemma_quad_alive_universal__0818-081353-a397.md
-  (R55/R56 paragraphs; CHECKs 7, 8, 9, 10)
-- records/proof_erdos_gyarfas_{7f2f7a121b1f_f5199d4,4cef8e3264ad_8a8c14a}.json
-- queue (Q77 claimed->resolved, Q79 opened->resolved), journal, notes
+- proof_strategy.md (Section 101)
+- proof_lemmas/lemma_c8free_c16_floor__0901-080823-307d.md (NEW, 4 CHECKs)
+- proof_open_questions.jsonl (Q81 claim/release, Q82 open)
+- proof_notes (R61 digest appended)
