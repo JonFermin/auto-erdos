@@ -2785,3 +2785,61 @@ whole range including F3-verified orders.
      $15$-cycle off that pattern? ($T(H)$ members realize it $600$
      times.) Girth-$5$ regime: couple R60's abundance engine to the
      four-shape spread.
+
+## Section 104 — R64: `c16_chord_equiv` proved (supply = chorded $C_{16}$, a bijection); the dedicated SA hunt on `share1_supply_18` is negative at floor $562$ (session s_0902-080754-8941)
+
+Two results, one structural and one empirical.
+
+### The bijection
+
+> **Lemma `c16_chord_equiv` (proved).** In a cubic $\{C_4, C_8\}$-free
+> graph, share-$1$ pairs with $|A| + |B| = 18$ are in bijection with
+> pairs $(C, xy)$ where $C$ is a $16$-cycle and $xy$ a chord of $C$:
+> the composition of R62 sends the shared edge to a chord of the
+> composed $C_{16}$; conversely a chord splits its $C_{16}$ into two
+> cycles sharing exactly that chord, with automatically class-allowed
+> lengths. The maps are mutually inverse.
+
+Cross-validated exactly on all four members — chord-incidence sums
+(R64, computed from $C_{16}$ chord censuses) equal pair totals (R63,
+computed from short-cycle enumeration): $1061$ (pin), $1079$ (G5),
+$562$ (TRI), $600$ ($T(\text{Petersen})$); chord-count distributions
+$\{0{:}32, 1{:}229, 2{:}251, 3{:}78, 4{:}24\}$,
+$\{0{:}112, 1{:}269, 2{:}247, 3{:}84, 4{:}16\}$,
+$\{0{:}10, 1{:}38, 2{:}53, 3{:}36, 4{:}55, 5{:}18\}$,
+$\{0{:}15, 4{:}150\}$. On $T(\text{Petersen})$ the census is exact
+lift arithmetic: the $15$ chordless $C_{16}$s are the all-direct
+$C_8$ lifts (third triangle vertices stay off-cycle), the $150$
+four-detour $C_6$ lifts carry exactly $4$ chords (each detoured
+triangle's skipped edge).
+
+So `share1_supply_18` $\equiv$ *every class member at
+$24 \le n \le 32$ has a chorded $C_{16}$*, and a supply falsifier
+that is not a floor falsifier has all its $C_{16}$s chordless.
+
+### The hunt
+
+Six SA workers (1500 s, energy $2500 c_4 + 900 c_8 + \#\text{pairs}$,
+pair count in the inner loop at $\sim 10$ ms/eval): ZERO zero-pair
+class members. In-class minima: $562$ ($n = 30$, twice, both warm
+chains converging to the TRI state), $659$ ($n = 30$ cold), $621$
+($n = 32$ cold), $1051$ (g5 $n = 30$); the g5 $n = 32$ chain never
+reached the class — an honest coverage hole. The direct objective
+could not be driven below the smallest already-known member value.
+
+### Program decision
+
+- Supply now has: a negative dedicated hunt, a single-object
+  reformulation (chorded $C_{16}$), and a sharp falsifier profile
+  (all $C_{16}$s chordless — never observed; known members are at
+  $5$–$15\%$ chordless).
+- Q84 stays open. The proof side is next (R65+): why must a class
+  member have a chorded $C_{16}$? Candidate: count spokes — a
+  chordless $C_{16}$ sends all $16$ third-edges outward into
+  $n - 16 \le 16$ outside vertices; at $n = 30$ pigeonhole forces an
+  outside vertex with $\ge 2$ spokes (a length-$2$ ear, hence cycles
+  of lengths $a + 2, 18 - a$ sharing $2$ edges — NOT yet a chord).
+  The route must convert ear structure + girth/C8 exclusions into
+  either a chorded $C_{16}$ or a shorter forbidden cycle. At
+  $n = 32$ the pigeonhole is tight (perfect spoke-matching
+  possible) — the range's hard end.
