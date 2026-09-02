@@ -2653,3 +2653,83 @@ $C_{16}$-freeness") — as a program, not yet a theorem.
   being the round driver: five independent probe families failing to
   reach even $c_{16} < 165$ says the falsifier route needs a
   structurally new idea, not more annealing.
+
+## Section 102 — R62: `share1_c16_compose` PROVED by cubic pigeonhole — hypothesis-free, the 18-window program vacuous, and the floor question reduces to a counting layer (session s_0902-080754-8941)
+
+R62 executed Q82(i) and it closed in one step, with a stronger
+statement than the target and with WEAKER hypotheses. The full proof
+and both CHECK blocks are in
+`proof_lemmas/lemma_share1_c16_compose__0902-080754-8941.md`
+(status: proved).
+
+> **Lemma (`share1_c16_compose`, general cubic composition law).**
+> In any cubic simple graph, two distinct cycles $A, B$ sharing
+> exactly one edge $uv$ satisfy $V(A) \cap V(B) = \{u, v\}$, and
+> $A \triangle B$ is a single cycle of length $|A| + |B| - 2$.
+
+*Proof sketch (two steps, no case analysis).* An extra shared vertex
+$w \notin \{u, v\}$ would see $2$ edges of $A$ and $2$ edges of $B$
+among its $3$ incident edges, so by pigeonhole $A$ and $B$ share an
+edge at $w$ — a second shared edge, contradiction. So $A - uv$ and
+$B - uv$ are internally-disjoint $u$–$v$ paths, and their union
+($= A \triangle B$) is one cycle of length $|A| + |B| - 2$. $\square$
+
+Three consequences:
+
+1. **The Q82(i) target and its per-edge rigidity corollary hold.** In
+   a $C_{16}$-free class member every pair of distinct $9$-cycles
+   shares $0$ or $\ge 2$ edges; in particular two $9$-cycles through a
+   common edge share $\ge 2$ edges — exactly the per-edge structure
+   whose ABSENCE (free share-$1$) characterizes the pin, where
+   `pendant_9_cap` died. The $9 \times 10 / C_{17}$ and
+   $10 \times 10 / C_{18}$ variants are the same arithmetic.
+2. **The R61 second-order program is vacuous.** The $18$ surviving
+   quadruples $(a_1, a_2, b_1, b_2)$ of the first-order arc arithmetic
+   all posit an extra shared vertex of arc-degree $4$ in a cubic
+   graph — the configuration does not exist. No `c5_rigidity` case
+   analysis is needed, and no falsifier can hide there. The
+   $3{,}738/3{,}738$ empirical law of R61 is explained, not just
+   observed.
+3. **Dual-attack accounting.** The probes ran first, as policy
+   demands: exhaustive over ALL $19{,}320$ connected cubic graphs on
+   $8$ vertices ($710{,}640$ share-$1$ cycle pairs — every one
+   composes; this includes girth-$3$/$4$ graphs, confirming the
+   hypothesis-free form), plus the pin's $154 + 462 + 350 = 966$
+   share-$1$ pairs from $\{9,10\}$-cycles, reproducing R61's counts
+   exactly (CHECKs 1–2 of the lemma file).
+
+### What is NOT yet proved, precisely
+
+`c8free_c16_floor` does not follow. The lemma converts
+$C_{16}$-freeness into a sharing constraint on the $9$-cycle family,
+but a class member could evade the mechanism by having FEW $9$-cycles
+(the constraint binds a family that must first be shown large). The
+open counting layer (Q83, replacing Q82(ii)) is now the single
+remaining leg:
+
+- **(supply)** Show every $\{C_4, C_8\}$-free connected cubic graph on
+  $30 \le n \le 32$ has many $9$-cycles — or find the right supply
+  statement (per-edge, per-vertex, or global; R60's
+  `criticality_edge_witness` supply argument is per-edge on the
+  CRITICAL graph, and whether it transfers here must be checked, not
+  assumed).
+- **(capacity)** Show a family of $9$-cycles pairwise sharing $0$ or
+  $\ge 2$ edges under girth $\ge 5$ + $C_8$-freeness cannot be that
+  large. Data points: the pin's $34$ nine-cycles contain share-$1$
+  pairs ($154$), so the pin itself does NOT satisfy the constraint —
+  consistent, since the pin has $614$ $C_{16}$s. What is the max
+  share-$\{0, 2^+\}$ $9$-cycle family on $42$ (resp. $45$, $48$)
+  edges? Two $9$-cycles sharing $\ge 2$ edges have sym-diff
+  constrained by R59's `cycle_pair_sym_diff_exclusions` — the sharing
+  pattern is not free, and this is where girth + $C_8$-freeness
+  re-enter.
+
+### Program decision
+
+- `share1_c16_compose`: **proved**, ledger updated this round.
+- Q82 resolved (part (i) proved; part (ii) re-scoped): Q83 opens the
+  counting layer with the two legs above, supply BEFORE capacity —
+  if supply fails there is no theorem here and the program must know
+  early (dual attack: hunt a class member, or an SA-reachable clean
+  state, with anomalously few $9$-cycles, before proving capacity
+  bounds).
