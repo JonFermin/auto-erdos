@@ -2733,3 +2733,55 @@ remaining leg:
   early (dual attack: hunt a class member, or an SA-reachable clean
   state, with anomalously few $9$-cycles, before proving capacity
   bounds).
+
+## Section 103 — R63: the 9-cycle-only supply leg falsified in-hand ($T(\text{Petersen})$ has $c_9 = 0$); supply re-scoped to `share1_supply_18`, abundant on every known member (session s_0902-080754-8941)
+
+R63 ran Q83's supply leg dual-attack FIRST, per policy, and the probe
+killed the leg as stated in one shot: **$T(\text{Petersen})$ — a
+verified class member at $n = 30$, in the file since R61 — has
+$c_9 = 0$** (its odd near-$9$ spectrum is empty; census $c_9, c_{10},
+c_{11}, c_{12} = 0, 12, 60, 130$, CHECK 1 of the new lemma file). No
+proof mechanism running through $9$-cycles alone can prove
+`c8free_c16_floor`. The evasion Section 102 warned about is not
+hypothetical; it is realized by a graph already in hand. (McGee, the
+other cheap evasion candidate, is NOT a class member: $c_8 = 34$.)
+
+But the R62 composition law is length-agnostic: ANY share-$1$ pair
+with $|A| + |B| = 18$ composes to a $C_{16}$. Re-scoping supply to
+the full admissible shape list $(3,15), (5,13), (6,12), (7,11),
+(9,9)$ turns the falsifier into a data point:
+
+| member | total share-1 sum-18 pairs | carrying shape |
+|---|---|---|
+| pin ($n=28$, g5) | 1061 | spread over $(5,13),(6,12),(7,11),(9,9)$ |
+| G5 snapshot ($n=30$, g5) | 1079 | same spread |
+| TRI snapshot ($n=30$) | 562 | $(3,15)$: 518 of 562 |
+| $T(\text{Petersen})$ ($n=30$) | 600 | $(3,15)$: all 600 |
+
+Every known member has supply $\ge 562$ — never marginal — but the
+carrying shape flips with girth: girth-$5$ members spread it, triangle
+-rich members concentrate it in $(3, 15)$. New open lemma
+`share1_supply_18` (every class member at $24 \le n \le 32$ has a
+share-$1$ pair with lengths summing to $18$): strictly STRONGER than
+the floor (a $C_{16}$ need not decompose), it implies the floor via
+`share1_c16_compose`, and its falsification hunt is meaningful on the
+whole range including F3-verified orders.
+
+### Program decision
+
+- Q83 resolved (supply leg as stated: FALSIFIED by $T(\text{Petersen})$;
+  probe result, not a proof loss — the dual-attack policy did its job
+  before proof effort was spent). Q84 opens on `share1_supply_18`:
+  1. **R64 falsification hunt**: the pair count runs in $\sim 10$ ms
+     per $n = 30$ graph — cheap enough for the SA inner loop. Energy
+     $W_4 c_4 + W_8 c_8 + \#\text{pairs}$, $n \in \{30, 32\}$, both
+     girth regimes, warm (known members) and cold starts. On any
+     zero-pair class member, IMMEDIATELY also check $c_{16}$: pairs
+     $= 0$ with $c_{16} = 0$ is a full cubic EGC counterexample;
+     pairs $= 0$ with $c_{16} > 0$ merely kills the supply route.
+  2. **Proof side, if the hunt is negative**: girth split. Triangle
+     regime: a $(3,15)$ pair is a triangle $t$ plus a $15$-cycle using
+     exactly one edge of $t$ — can a triangle-rich member keep every
+     $15$-cycle off that pattern? ($T(H)$ members realize it $600$
+     times.) Girth-$5$ regime: couple R60's abundance engine to the
+     four-shape spread.
