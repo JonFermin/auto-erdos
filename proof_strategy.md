@@ -2843,3 +2843,100 @@ could not be driven below the smallest already-known member value.
   either a chorded $C_{16}$ or a shorter forbidden cycle. At
   $n = 32$ the pigeonhole is tight (perfect spoke-matching
   possible) — the range's hard end.
+
+## Section 105 — R65: `chordless_c16_ear_geometry` proved — the falsifier's local structure is pinned, and the $n = 32$ tight end becomes a dichotomy (session s_0903-080730-a01c)
+
+R64 left the supply program at a single question (Q84 proof side): why
+must a class member at $24 \le n \le 32$ contain a chorded $C_{16}$?
+Equivalently (`c16_chord_equiv`): why can't ALL its $C_{16}$s be
+chordless? R65 answers "what does an all-chordless graph look like
+locally" — completely, and rigorously.
+
+### The probe (falsification-first, per policy)
+
+Full spoke census of every chordless $C_{16}$ on all four in-hand
+members (probe script re-run from scratch this session; enumerator
+validated against R64's chordless counts $32/112/10/15$):
+
+- **Every** chordless $C_{16}$ has an outside vertex catching
+  $\ge 2$ spokes — far above the pigeonhole minimum (TP: all fifteen
+  have profile $(2^8)$ — eight triangle apexes, zero singletons).
+- Observed $2$-ear arc distances: pin
+  $\{3{:}58,4{:}68,5{:}24,7{:}24,8{:}6\}$, G5
+  $\{3{:}99,4{:}132,5{:}89,7{:}72,8{:}59\}$, TRI $\{1{:}62\}$, TP
+  $\{1{:}120\}$. Girth-$5$ members use exactly $\{3,4,5,7,8\}$;
+  triangle-rich members sit entirely on $d = 1$.
+- $3$-ear arc triples: $(3,4,9), (4,5,7), (4,4,8), (3,5,8), (1,7,8)$.
+- $30$ of pin's $32$ and $109$ of G5's $112$ chordless $C_{16}$s
+  admit an outside EDGE with feet at arc distance $3$ (the rewiring
+  that spawns a second $C_{16}$); TRI/TP: zero (their spare structure
+  is all triangles).
+
+### The lemma (proved, hypothesis-free within the class)
+
+`chordless_c16_ear_geometry`
+(`lemma_chordless_c16_ear_geometry__0903-080730-a01c.md`): for a
+chordless $C_{16}$ in a cubic $\{C_4, C_8\}$-free graph —
+
+(a) exactly $16$ spokes, all leaving $C$;
+(b) $2$-ear feet distances $d \in \{1,3,4,5,7,8\}$ (girth $5$:
+    $\{3,4,5,7,8\}$), ear cycles of lengths $(d+2, 18-d)$ both
+    realized; $d=3$ certifies a $C_{15}$, $d=1$ a triangle sharing
+    exactly one edge with $C$;
+(c) distinct apexes have distinct feet pairs (else $C_4$);
+(d) $3$-ear arc triples $(a,b,c)$, $a+b+c=16$, avoid
+    $\{2, 6, 10, 14\}$ coordinatewise (pairwise sums come free);
+(e) $n \le 31$ forces a multi-spoke apex ($16$ spokes,
+    $\le 15$ outside vertices);
+(f) **$n = 32$ dichotomy**: no multi-spoke apex $\Rightarrow$ spokes
+    are a perfect matching, the outside graph is $2$-regular (disjoint
+    cycles, lengths $\ne 4, 8$), outside-edge feet distances avoid
+    $\{1, 5\}$, and every $d = 3$ outside edge spawns a SECOND
+    $C_{16}$ (swap the $2$-vertex arc interior for the outside edge).
+
+Both CHECK blocks pass: exclusion sets, feet distinctness, the exact
+ear-distance histograms above, and constructive edge-by-edge
+verification of all $300$ ear cycles on pin + TP.
+
+### What this buys
+
+1. **The falsifier profile is now three-layered.** All $C_{16}$s
+   chordless (R64) + every one of them carries ears from the menu
+   above (R65) + at $n = 32$ the single escape from ears is the
+   perfect-matching decomposition of (f) — where each $d = 3$
+   outside edge breeds another $C_{16}$ that must AGAIN be chordless.
+   The tight end is no longer amorphous: it is
+   $C_{16} \oplus$ matching $\oplus$ $\{4,8\}$-free cycle union with
+   a feet-distance law.
+2. **The triangle regime has a concrete chain.** A $d=1$ ear is a
+   triangle sharing one edge with $C$ — the $(3, 16)$ analog of the
+   supply pair. The missing step is moving the apex from $C_{16}$ to
+   a $C_{15}$: any triangle with exactly one edge on a $C_{15}$ IS
+   the supply pair. TP realizes $600$ such pairs while its chordless
+   $C_{16}$s realize $120$ $(3,17)$-type ears — the falsifier must
+   keep every triangle-ear OFF every $C_{15}$ while carrying eight
+   of them on each chordless $C_{16}$. Quantifying that tension
+   (triangle apexes are shared between nearby long cycles) is the
+   R66 opening.
+3. **Girth-5 regime**: each $d = 3$ ear on a chordless $C_{16}$
+   certifies a $C_{15}$ through the apex; a $C_{15}$ with an
+   off-cycle "chord-path of length 2"... is exactly a $(5,13)$ or
+   $(3,15)$-style pair candidate. The supply question localizes to:
+   can the manufactured $C_{15}$s all avoid share-$1$ contact with
+   $5/13$-cycles? G5's spread ($89+$ ears at $d=3$ per the histogram,
+   $273$ realized $(5,13)$ pairs) says no in-hand — the counting
+   argument is open.
+
+### Program state after R65
+
+- `share1_supply_18` stays open; its proof side now has a proved
+  structural base layer (this lemma) instead of a sketch.
+- Next moves (R66+): (i) triangle-regime tension — count triangle
+  apexes vs. $C_{15}$ edges through triangles (a triangle-rich
+  member has $\ge 9$ triangles by R63's censuses; every $15$-cycle
+  through exactly one edge of any triangle closes the supply); (ii)
+  the $n = 32$ matching case — push the (f) closure: iterate the
+  $d=3$ rewiring and look for a finite orbit argument or an
+  unavoidable $d \in \{1,5\}$ / $C_4/C_8$ collision; (iii) if both
+  stall, an `erdos-proof-ideation` fan-out on the chorded-$C_{16}$
+  question (the queue has no other live item).
