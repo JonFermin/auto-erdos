@@ -2940,3 +2940,80 @@ verification of all $300$ ear cycles on pin + TP.
   unavoidable $d \in \{1,5\}$ / $C_4/C_8$ collision; (iii) if both
   stall, an `erdos-proof-ideation` fan-out on the chorded-$C_{16}$
   question (the queue has no other live item).
+
+## Section 106 — R66: `c16_matching_corner_closed` — the $n = 32$ matching branch is EXHAUSTED (15,256 graphs, all with chorded $C_{16}$s); every in-range falsifier $C_{16}$ carries an ear (session s_0903-080730-a01c)
+
+Section 104 called $n = 32$ "the range's hard end": pigeonhole says
+nothing there, and a chordless $C_{16}$ could in principle send its
+$16$ spokes to $16$ distinct outside vertices. R66 killed that branch
+completely — not by estimate, by exhaustion.
+
+### The pivot: the matching branch is finite
+
+The observation that unlocks it (Step 1 of the lemma): in the
+matching branch the graph has NO free edges left —
+$16 + 16 + 16 = 48 = 3 \cdot 32/2$. $C$, the spokes, and the
+$2$-regular outside graph are the entire graph. So "class member
+with a matching-decomposed chordless $C_{16}$" is a FINITE object:
+a partition of $16$ into cycle lengths $\notin \{4, 8\}$ plus a feet
+bijection onto $\mathbb{Z}_{16}$.
+
+Class membership reduces exactly (both directions proved, kind-by-kind
+cycle classification) to the constraint system:
+partition parts $\notin \{4,8\}$; ring-path feet law
+$m \notin \{4-k, 8-k\}$ for both $u$–$v$ ring paths ($k$ = path
+edges incl. spokes); and no parallel-adjacent feet pairs on disjoint
+outside edges (the alternating octagon). Notably the $t$-alternation
+analysis shows nothing else can make a $C_4$ or $C_8$: $t = 2$
+bottoms out at exactly $8$ (the octagon), $t \ge 3$ at $\ge 12$.
+
+### The exhaustion
+
+All ten allowed partitions, full DFS over feet maps (rotation
+canonicalized, reflections double-counted, harmless): **15,256**
+configurations survive the constraints; every one, rebuilt as a graph
+and re-verified from scratch, is a genuine class member ($c_4 = c_8
+= 0$) — an independent empirical confirmation of the equivalence.
+Then the payoff census: **all 15,256 contain a chorded $C_{16}$;
+zero are all-chordless.**
+
+### Consequences
+
+1. **The ear theorem now covers the whole range.** In any class
+   member at $24 \le n \le 32$ with all $C_{16}$s chordless, EVERY
+   $C_{16}$ has a multi-spoke ear apex ($n \le 31$: pigeonhole,
+   R65(e); $n = 32$: this lemma). The supply falsifier has no
+   matching escape anywhere in range.
+2. **The falsifier profile tightens again.** All $C_{16}$s chordless
+   (R64) + every one carries an ear from the menu
+   $\{1,3,4,5,7,8\}$ (R65) + no matching decomposition exists at any
+   in-range order (R66). The remaining proof gap is exactly: *derive
+   a chorded $C_{16}$ (or a forbidden cycle) from a chordless
+   $C_{16}$ with a multi-spoke apex.*
+3. **Side product**: 15,256 fresh in-class states at $n = 32$ (the
+   largest verified corpus of class members so far, dwarfing the 4
+   known members) — warm-start material for future SA campaigns,
+   including the g5 $n = 32$ coverage hole from R64 (note: the
+   matching-branch graphs with triangle-free partitions, e.g.
+   $(16)$, $(11,5)$, $(10,6)$, $(9,7)$, $(6,5,5)$, still may contain
+   triangles only if some $D_i$ has length 3 — the partition IS the
+   triangle census of the outside graph).
+
+### Next moves (R67+)
+
+1. The single remaining configuration family: chordless $C_{16}$
+   with an ear apex ($d$ from the menu). The ear + its two derived
+   cycles (lengths $d+2$, $18-d$) + R65's exclusion web is now a
+   LOCAL structure; try the same trick — count the remaining degrees
+   of freedom around the ear and check whether a second exhaustion
+   (over local neighborhoods, not whole graphs) can force either a
+   chorded $C_{16}$ or an in-range contradiction. The complication:
+   at $n \le 31$ the graph is NOT determined by the decomposition
+   (fewer outside vertices than spokes — outside has spare edges).
+2. Triangle-regime tension (Section 105, item 2) remains the other
+   live opening: every $d=1$ apex is a triangle one edge short of a
+   $(3,15)$ supply pair; quantify apex-sharing across the $C_{15}$
+   population.
+3. The 15,256-graph corpus should be mined for supply statistics
+   (pair counts, chord distributions) before the next hunt — free
+   structure, zero SA cost.
