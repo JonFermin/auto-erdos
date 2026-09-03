@@ -70,31 +70,42 @@ $C_8$. If: the four kinds are exhaustive and each is handled.)
 
 **Step 3 — exhaustive enumeration.** The allowed partitions of $16$
 into parts $\ge 3$, $\ne 4, 8$ are exactly ten. DFS over feet maps
-with rotation of $C$ fixed (the first — largest — outside cycle's
-traversal starts at the vertex with foot $0$; each later cycle
-starts at its minimal unused foot; both traversal directions and
-reflections are enumerated redundantly, which is harmless), pruning
-by (A)/(B) incrementally and re-checking (A) in full plus (P) at
-closure. Every surviving configuration was BUILT as a graph and
-re-verified from scratch: $c_4 = c_8 = 0$ by direct cycle count.
-Result (configs per partition, every one a verified class member —
-confirming Step 2's equivalence empirically as well):
+with rotation of $C$ fixed: the first (largest) outside cycle's
+traversal starts at the vertex with foot $0$; every LATER cycle may
+start at ANY unused foot but is written from its OWN minimal foot
+(all its later feet must exceed its start), with equal-length cycles
+ordered by increasing start; both traversal directions are
+enumerated redundantly, which is harmless. Pruning by (A)/(B)
+incrementally, re-checking (A) in full plus (P) at closure. Every
+surviving configuration was BUILT as a graph and re-verified from
+scratch: $c_4 = c_8 = 0$ by direct cycle count. Result (configs per
+partition, every one a verified class member — confirming Step 2's
+equivalence empirically as well):
 
 | partition | configs | partition | configs |
 |---|---|---|---|
 | $(16)$ | 3104 | $(9,7)$ | 864 |
-| $(13,3)$ | 2028 | $(7,6,3)$ | 504 |
+| $(13,3)$ | 2028 | $(7,6,3)$ | 784 |
 | $(11,5)$ | 924 | $(7,3,3,3)$ | 784 |
 | $(10,6)$ | 2280 | $(6,5,5)$ | 384 |
-| $(10,3,3)$ | 4240 | $(5,5,3,3)$ | 144 |
+| $(10,3,3)$ | 4240 | $(5,5,3,3)$ | 320 |
 
-Total: **15,256** graphs (up to rotation; reflections/directions
+Total: **15,712** graphs (up to rotation; reflections/directions
 double-counted). For every single one, a full $C_{16}$ enumeration
-found a $16$-cycle with a chord: **15,256 / 15,256 chorded, 0
-all-chordless.** (Runtime $\approx 9$ min in CPython; the CHECK
-below re-runs the smallest partition's full census plus a
-deterministic spot sample of every other partition inside the
-harness budget.)
+found a $16$-cycle with a chord: **15,712 / 15,712 chorded, 0
+all-chordless.**
+
+*Audit note (R68).* The R66 run used a subtly incomplete
+canonicalization — each later cycle was forced to CONTAIN the
+globally minimal unused foot, which silently skips configurations in
+which that foot belongs to a later, smaller cycle. This affects
+exactly the partitions with distinct-size units beyond the second
+slot: $(7,6,3)$ ($504 \to 784$) and $(5,5,3,3)$ ($144 \to 320$);
+the corrected enumeration (own-min rule above) reproduces the other
+eight partitions EXACTLY, and the added $456$ graphs are all class
+members with chorded $C_{16}$s — the lemma's conclusion is unchanged
+and now stands on a provably complete enumeration. (The R67 corpus
+supply statistics were mined over the original 15,256-graph subset.)
 
 **Step 4 — consequences.**
 
@@ -169,9 +180,14 @@ def solve(partition, cap):
         if len(cyc) == L:
             rec(ci + 1); return
         if not cyc:
-            starts = [0] if ci == 0 else [min(p for p in range(16) if not used[p])]
+            if ci == 0:
+                starts = [0]
+            else:
+                starts = [p for p in range(16) if not used[p]]
+                if partition[ci] == partition[ci - 1]:
+                    starts = [p for p in starts if p > cycles[ci - 1][0]]
         else:
-            starts = range(16)
+            starts = [p for p in range(16) if p > cyc[0]]
         for p in starts:
             if used[p]: continue
             cyc.append(p); used[p] = True
@@ -205,7 +221,36 @@ def build(partition, cycles):
 
 def class_and_chorded(adj):
     n = 32
-    c4 = c8 = 0; chorded = False
+    bits = [0] * n
+    for v in range(n):
+        for w in adj[v]: bits[v] |= 1 << w
+    for u in range(n):
+        for v in range(u + 1, n):
+            c = bits[u] & bits[v] & ~(1 << u) & ~(1 << v)
+            if c and (c & (c - 1)):
+                return False, False          # C4 exists
+    for s in range(n):
+        d = [n + 1] * n; d[s] = 0; q = deque([s])
+        while q:
+            v = q.popleft()
+            if d[v] >= 8: continue
+            for w in adj[v]:
+                if d[w] > d[v] + 1:
+                    d[w] = d[v] + 1; q.append(w)
+        stack = [(u, (1 << s) | (1 << u), 1) for u in adj[s] if u > s]
+        while stack:
+            v, mask, depth = stack.pop()
+            for w in adj[v]:
+                if w == s:
+                    if depth + 1 == 8:
+                        return False, False  # C8 exists
+                    continue
+                if w < s or (mask >> w) & 1: continue
+                nd = depth + 1
+                if nd + d[w] > 8: continue
+                if nd < 8:
+                    stack.append((w, mask | (1 << w), nd))
+    chorded = False
     for s in range(n):
         d = [n + 1] * n; d[s] = 0; q = deque([s])
         while q:
@@ -218,21 +263,18 @@ def class_and_chorded(adj):
             v, mask, path = stack.pop()
             for w in adj[v]:
                 if w == s:
-                    if path[1] < path[-1]:
-                        if len(path) == 4: c4 += 1
-                        if len(path) == 8: c8 += 1
-                        if len(path) == 16 and not chorded:
-                            onC = set(path)
-                            idx = {x: i for i, x in enumerate(path)}
-                            for i, x in enumerate(path):
-                                for y in adj[x]:
-                                    if y in onC and abs(i - idx[y]) not in (1, 15):
-                                        chorded = True
+                    if len(path) == 16 and path[1] < path[-1]:
+                        onC = set(path)
+                        idx = {x: i for i, x in enumerate(path)}
+                        for i, x in enumerate(path):
+                            for y in adj[x]:
+                                if y in onC and abs(i - idx[y]) not in (1, 15):
+                                    return True, True
                     continue
                 if w < s or (mask >> w) & 1: continue
                 if len(path) + d[w] > 16: continue
                 stack.append((w, mask | (1 << w), path + [w]))
-    return c4 == 0 and c8 == 0, chorded
+    return True, False
 
 PARTS = [(16,), (13, 3), (11, 5), (10, 6), (10, 3, 3), (9, 7),
          (7, 6, 3), (7, 3, 3, 3), (6, 5, 5), (5, 5, 3, 3)]
@@ -240,7 +282,7 @@ PARTS = [(16,), (13, 3), (11, 5), (10, 6), (10, 3, 3), (9, 7),
 # Full census of the smallest partition: exactly 144 configs, every one a
 # class member with a chorded C16.
 sols = solve((5, 5, 3, 3), cap=10**9)
-assert len(sols) == 144, len(sols)
+assert len(sols) == 320, len(sols)
 for cyc in sols:
     is_mem, ch = class_and_chorded(build((5, 5, 3, 3), cyc))
     assert is_mem and ch, cyc
