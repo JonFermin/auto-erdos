@@ -3017,3 +3017,62 @@ zero are all-chordless.**
 3. The 15,256-graph corpus should be mined for supply statistics
    (pair counts, chord distributions) before the next hunt — free
    structure, zero SA cost.
+
+## Section 107 — R67: `c16_three_apex_corner_closed` — the $n = 30$ three-apex corner collapses to a single graph (a NEW fifth class member), and the $n = 32$ corpus is supply-abundant (session s_0903-080730-a01c)
+
+Two exhaustions and a corpus harvest, all downstream of R65/R66.
+
+### The three-apex corner at $n = 30$
+
+The zero-free spoke profiles of a chordless $C_{16}$ at $n = 30$
+(excess exactly $2$) are $(3, 1^{13})$ and $(2, 2, 1^{12})$. The
+first is edge-determined ($16 + 16 + 13 = 45$ edges — the whole
+graph), hence finite: DFS over apex triples $\times$ cycle partitions
+of $13$ $\times$ feet maps gives $10{,}838$ configurations; exact
+re-verification leaves exactly **24 class members — all isomorphic
+variants of ONE graph** (apex gaps $(1,7,8)$, outside
+$C_{10} \sqcup C_3$, census $c_3{=}2$, $c_5{=}5$, $c_6{=}8$,
+$c_7{=}6$, $c_9{=}28$, $c_{16}{=}613$), and that graph **contains
+chorded $C_{16}$s**. Falsifier consequence: at $n = 30$ a chordless
+$C_{16}$ in an all-chordless graph must have profile
+$(2, 2, 1^{12})$ or a $0$-spoke (branch) outside vertex.
+
+### The fifth class member
+
+The forced graph is a genuinely NEW verified class member at
+$n = 30$ (edge list in the lemma file) — and the first
+**mixed-regime** one: only $2$ triangles, supply spread over ALL five
+shapes: $(3,15){:}267$, $(5,13){:}314$, $(6,12){:}265$,
+$(7,11){:}100$, $(9,9){:}97$, total $1043$. The prior dichotomy
+(girth-5 members spread / triangle-rich members concentrate in
+$(3,15)$, Section 103) is NOT a dichotomy — the regimes interpolate.
+A proof split on girth must handle the middle, or better, avoid
+splitting.
+
+### Corpus mining ($n = 32$ matching-branch, 15,256 graphs)
+
+Share-$1$ sum-$18$ pair counts over the whole R66 corpus:
+min $888$, p10 $1003$, median $1092$, max $1292$, mean $1083$. No
+graph within $300$ of the in-class floor ($562$, TRI). The corpus's
+supply is uniformly abundant — consistent with the falsifier profile
+being unrealizable, and useless as hunt warm-starts for LOW pair
+counts (the TRI/TP style states remain the better seeds).
+
+### Falsifier profile after R67
+
+All $C_{16}$s chordless (R64) + every $C_{16}$ has a multi-spoke ear
+(R65 + R66, whole range) + at $n = 30$ no $(3, 1^{13})$ profile
+(R67) + at $n = 32$ the matching branch is empty (R66), so an
+$n = 32$ falsifier's every $C_{16}$ has an ear AND (by counting,
+$16$ spokes on $16$ outside vertices with a multi-spoke apex) a
+$0$-spoke branch vertex outside. The un-exhausted profiles now all
+contain either a long outside path between two 2-apexes
+($(2,2,1^{12})$ at $n=30$; feet-map space too large for the current
+pure-Python DFS) or outside branch vertices ($0$-spoke). Next
+exhaustion targets, in order of feasibility: (a) $(2,2,1^{12})$ at
+$n = 30$ with a compiled/bitmask propagator or python-sat encoding;
+(b) $n = 28$ zero-free profiles ($(3,3,1^{10})$, $(3,2,2,1^9)$,
+$(2^4,1^8)$ — excess 4, outside 12 vertices, 10 outside edges, all
+edge-determined and SMALLER search spaces than n=30 two-apex); (c)
+branch-vertex profiles via local structure lemmas rather than
+whole-graph exhaustion.
