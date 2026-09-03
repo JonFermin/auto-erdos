@@ -45,14 +45,25 @@ is re-verified exactly).
 *Exhaustion.* Allowed cycle partitions of $13$:
 $\{13\}, \{10,3\}, \{7,6\}, \{7,3,3\}, \{5,5,3\}$. DFS over all apex
 triples with foot $0$ (rotation-canonical; $39$ triples pass the gap
-law) and all feet maps with the necessary-condition pruning yields
-$10{,}838$ configurations; building each graph and testing
-$c_4 = c_8 = 0$ EXACTLY (full cycle search, no reliance on the
-pruning) leaves exactly $24$ members. All $24$ have apex gaps
+law) and all feet maps — each cycle written from its own minimal
+foot, equal-length cycles ordered by start (the provably complete
+canonicalization; see the R68 audit note below) — yields
+$15{,}066$ configurations; building each graph and testing
+$c_4 = c_8 = 0$ EXACTLY (no reliance on the pruning) leaves exactly
+$24$ members. All $24$ have apex gaps
 $(1, 7, 8)$ and partition $(10, 3)$, identical full cycle census
 (above), and each contains a chorded $C_{16}$ (verified by full
 $C_{16}$ enumeration per graph). The $24$ are the dihedral/direction
 variants of a single labeled graph. $\square$
+
+*Audit note (R68).* The R67 run used an incomplete canonicalization
+(every later cycle forced to contain the globally minimal unused
+foot), undercounting configurations whose minimal unused foot lies
+in a later, smaller cycle — $10{,}838$ instead of the true
+$15{,}066$. The corrected own-min enumeration returns the SAME $24$
+members with the same apex distribution ($4$ per each of the six
+gap-$(1,7,8)$ triples), all chorded — the conclusion is unchanged
+and now stands on a provably complete enumeration.
 
 **The forced graph** (canonical representative; $C = 0\ldots15$,
 apex $16$ with feet $\{0, 1, 8\}$, outside $C_{10}$ with feet
@@ -89,7 +100,7 @@ next exhaustion target.
 # CHECK — the full offline exhaustion (all 39 apex triples, 10,838
 # configs, ~100 s) found exactly 24 members; within the harness budget
 # this CHECK re-derives one full slice and audits every claimed member:
-# (i) the apex (0,1,8) slice enumerates exactly 172 configurations and
+# (i) the apex (0,1,8) slice enumerates exactly 252 configurations and
 # its exact member set is exactly the 4 claimed ones; (ii) all 24
 # claimed members across all slices are verified class members
 # (no C4 by common-neighbor count, no C8 by exhaustive depth-8 search)
@@ -149,10 +160,11 @@ def dfs(partition, positions, sink):
         if len(cyc) == L:
             rec(ci + 1); return
         if not cyc:
-            rem = [p for p in positions if p not in used]
-            starts = [rem[0]] if rem else []
-        else:
             starts = [p for p in positions if p not in used]
+            if ci > 0 and partition[ci] == partition[ci - 1]:
+                starts = [p for p in starts if p > cycles[ci - 1][0]]
+        else:
+            starts = [p for p in positions if p not in used and p > cyc[0]]
         for p in starts:
             cyc.append(p); used.add(p)
             ok = okA(ci); pushed = 0
@@ -274,7 +286,7 @@ cfgs = []
 rest = [p for p in range(16) if p not in (0, 1, 8)]
 for part in parts13():
     dfs(part, rest, lambda pp, cyc: cfgs.append(tuple(tuple(c) for c in cyc)))
-assert len(cfgs) == 172, len(cfgs)
+assert len(cfgs) == 252, len(cfgs)
 mem_this = set()
 for cyc in cfgs:
     adj = build((0, 1, 8), [list(c) for c in cyc])
