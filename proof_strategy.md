@@ -3237,3 +3237,56 @@ $(2,2,1^{12})$ at $n = 30$ or carry a $0$-spoke outside vertex.
 Next: (i) the $(2,2,1^{12})$ exhaustion via python-sat or a bitmask
 propagator; (ii) branch-vertex local lemmas (the graph stops being
 edge-determined there — exhaustion must give way to structure).
+
+## Section 111 — R71: `c16_n30_two_apex_closed` — the last zero-free corner falls in 57 seconds, and the ZERO-FREE PROGRAM IS COMPLETE (session s_0904-080738-b2bf)
+
+Section 107 flagged $(2,2,1^{12})$ at $n = 30$ as needing a compiled
+propagator or python-sat. A 90-second probe showed otherwise: the
+double-ear pruning (absent from that estimate) collapses the
+feet-map space. The full run — BOTH $n = 30$ zero-free profiles, the
+closed $(3,1^{13})$ included deliberately as a cross-check — took
+$57$ s: $59{,}002$ configurations.
+
+### The cross-check
+
+The $(3,1^{13})$ profile reproduced EXACTLY $15{,}066$
+configurations and EXACTLY the $24$ labeled R67 members, all in
+partition $(10,3)$ — R67/R68's numbers to the digit from an
+independent code path (different anchor logic, different structure
+generator). And the $(2,2,1^{12})$ corner REDISCOVERED two known
+graphs: the R61 G5 snapshot (found by simulated annealing) and the
+R67 corner graph (found via a different profile's exhaustion).
+Three independent search processes agree.
+
+### The result
+
+$(2,2,1^{12})$: $43{,}936$ configurations, $22$ structures,
+$1{,}976$ class members — **every one chorded, zero all-chordless**.
+The members collapse to $104$ isomorphism classes: $2$
+rediscoveries $+$ **102 NEW class members** ($82$ girth-$3$, $20$
+girth-$5$). Known-corpus growth this session: $5 \to 120$ members
+($12$ at $n{=}28$ + $1$ at $n{=}26$ + $102$ at $n{=}30$; $n$-profile
+of the corpus now $26{:}1$, $28{:}13$, $30{:}106$).
+
+### ZERO-FREE COMPLETION (the session's theorem)
+
+> In any cubic $\{C_4, C_8\}$-free graph on $24 \le n \le 32$
+> vertices, every chordless $C_{16}$ whose spokes touch all outside
+> vertices coexists with a chorded $C_{16}$.
+
+(R66/R68 $n{=}32$ + R67/R68 + R69 + R70 + R71.) A supply falsifier
+— all $C_{16}$s chordless — must therefore give EVERY chordless
+$C_{16}$ a $0$-spoke outside vertex. The zero-free side needs no
+further rounds; Q84's continuation is branch-vertex geometry:
+
+1. A $0$-spoke outside vertex has all three edges inside the
+   outside graph — branch trees/cycles that the ear-geometry menu
+   does not yet constrain; local lemmas needed.
+2. Counting pressure: $16$ spokes on $\le n - 17$ touched vertices
+   forces multi-spoke apexes ($n \le 32$), re-entering the R65 menu
+   with a smaller touched set — the pigeonhole sharpens as $0$-spoke
+   vertices accumulate.
+3. The $120$-member corpus (all supply-positive, min $562$
+   unchanged) is now large enough for serious falsifier-profile
+   statistics — e.g. how close does any member come to an
+   all-chordless $C_{16}$ census?
