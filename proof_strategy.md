@@ -3192,3 +3192,48 @@ sets, more apexes, LESS feet freedom, so the validated unit
 framework should close both cheaply — and then the zero-free
 question is settled for the entire range except $(2,2,1^{12})$ at
 $n = 30$, isolating the branch-vertex analysis as the true core.
+
+## Section 110 — R70: `c16_n2426_zero_free_closed` — $n = 24$ is EMPTY ($2.16$M configs), $n = 26$ is one new member; the zero-free program closes except $(2,2,1^{12})$ at $n = 30$ (session s_0904-080738-b2bf)
+
+The R69 unit framework, generalized only in the structure generator
+(profiles $(n_3, n_2, n_1)$ from $3 n_3 + 2 n_2 + n_1 = 16$,
+$n_3 + n_2 + n_1 = n - 16$, $n_2$ even; anchored $3$-apex, else
+anchored $2$-apex), pointed at the last two zero-free vertex counts.
+
+### $n = 24$: the corner is EMPTY
+
+Six structures across four feasible profiles ($(3^4, 1^4)$ dies
+structurally: four $1$-spoke vertices cannot partition into outside
+cycles of total length $4$), $2{,}160{,}786$ configurations — and
+**zero class members**: every configuration contains a $C_4$ or a
+$C_8$. No cubic $\{C_4, C_8\}$-free graph on $24$ vertices has a
+chordless zero-free $C_{16}$ at all: the smallest-$n$ end of the
+zero-free program closes with nothing in it.
+
+### $n = 26$: a single graph — the SMALLEST known class member
+
+$23$ structures, $963{,}093$ configurations, $24$ surviving labeled
+members — all in ONE structure ($(3^2, 2^2, 1^6)$: two $3$-apexes +
+a $3$-interior path + a $C_3$) and all dihedral variants of a
+SINGLE new class member: $c_3 = 5$, $c_5 = 4$, $c_9 = 13$,
+$c_{16} = 281$, supply $691 > 562$, chorded. At $n = 26$ this beats
+the R57 pin ($n = 28$) as the smallest known class member. The
+member count by $n$ now reads: $24{:}0$ (zero-free corner),
+$26{:}1$, $28{:}13$, $30{:}5$ — supply positive at every one.
+
+### The zero-free program's endgame
+
+| $n$ | zero-free profiles | status |
+|---|---|---|
+| 24 | $(2^8), (3,2^6,1), (3^2,2^4,1^2), (3^3,2^2,1^3)$ | EMPTY (R70) |
+| 26 | $(2^6,1^4), (3,2^4,1^5), (3^2,2^2,1^6), (3^3,1^7)$ | closed (R70) |
+| 28 | $(3,3,1^{10}), (3,2,2,1^9), (2^4,1^8)$ | closed (R69) |
+| 30 | $(3,1^{13})$ | closed (R67) |
+| 30 | $(2,2,1^{12})$ | **OPEN** — feet-map space too large for pure Python |
+| 32 | $(1^{16})$ matching | closed (R66/R68) |
+
+A supply falsifier's chordless $C_{16}$s must henceforth be
+$(2,2,1^{12})$ at $n = 30$ or carry a $0$-spoke outside vertex.
+Next: (i) the $(2,2,1^{12})$ exhaustion via python-sat or a bitmask
+propagator; (ii) branch-vertex local lemmas (the graph stops being
+edge-determined there — exhaustion must give way to structure).
