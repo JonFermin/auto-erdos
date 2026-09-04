@@ -1,78 +1,86 @@
-# Session handoff (session s_0822-080621-c9ec)
+# Session handoff (session s_0904-080738-b2bf)
 
-**Stop reason**: Logical milestone — two keeps (R55, R56), the
-depth-escalation program (Q77) formally CLOSED per the R51/R56
-pre-commitment, Q77 and Q79 resolved, all pushed.
+**Stop reason**: Major logical milestone — the zero-free program is
+COMPLETE. Four keep_progress rounds (R68, R69, R70, R71).
 
 **What happened**:
 
-1. **R55 — the covering reframing (keep)**. depth(c) = |c ∩ B| (back
-   edges ON the cycle), so triple-dead/quad-dead are covering
-   statements about the m-edge cotree: quad-death requires an m-subset
-   giving every PO2 cycle >= 5 edges ("5-coverability"). Identity
-   verified on all 64 exact states. NONE of the 15 carriers at n<=22
-   is 5-coverable (stdlib DP, CHECKs 7-8 — 8-cycles alone obstruct
-   14/15); the n=24 carrier (c8=1) is 5-coverable but NO cover is a
-   cotree (SAT/CEGAR, 6-clause certificate = 5 triangles + one
-   6-cycle = triangle starvation). THEOREM: no quad-dead state on any
-   known carrier n<=24. Also made explicit: quad_alive_universal
-   IMPLIES cubic EGC — never spend proof effort trying to prove it.
-   CHECKs 7/8/9 added to lemma_quad_alive_universal. Record
-   proof_erdos_gyarfas_7f2f7a121b1f_f5199d4.json.
+1. **R68 (enumeration audit)**: found + fixed an incomplete DFS
+   canonicalization in R66/R67 (later cycle forced to contain the
+   globally minimal unused foot). Corrected own-min rule; matching
+   corner 15,256 -> 15,712 configs, three-apex 10,838 -> 15,066;
+   SAME members, conclusions unchanged — both corners now stand on
+   provably complete enumerations.
 
-2. **R56 — the falsifier campaign (keep)**. 2,271 cubic graphs at
-   n=22-28: random (560), ALL growth children of qa22/ch22/qa24
-   (1,686), adversarial low-c8 local search (25). Verdicts: 1,880
-   C4-excluded, 330 L1-infeasible (exact), 61 L1-passes — every one
-   given a COMPLETE SAT/CEGAR UNSAT certificate that no 5-cover is a
-   cotree (r56_l1pass_verdicts.tsv; 0 cotrees ever observed, L3
-   normality never reached). Zero quad-dead candidates. L1 passes
-   need c8<=6 (qa24 lineage or engineered). CHECK 10 pins an explicit
-   n=26 L1-pass + verified cover + non-tree complement. Record
-   proof_erdos_gyarfas_4cef8e3264ad_8a8c14a.json.
+2. **R69 (`c16_n28_zero_free_closed` proved)**: generalized unit-DFS
+   (apexes/paths/cycles with exclusion tables + double-ear pruning,
+   validated bit-for-bit on the audited R67 slice) exhausted all
+   three n=28 zero-free profiles: 362,294 configs, 214 members, ALL
+   chorded. 12 NEW class members (12 iso classes), incl. a second
+   girth-5 member with record supply 1330. Pin verified to have no
+   zero-free chordless C16 (consistency probe).
 
-**Program state**: The bounded-depth/depth-escalation program is
-CLOSED (converged negative knowledge; the covering mechanism L1/L2/L3
-is the artifact). quad_alive_universal stays open — and is now known
-to be at least as strong as cubic EGC. The class-census layer
-(n=18/20 complete, n=22/24 known carriers) is fully explained by the
-mechanism.
+3. **R70 (`c16_n2426_zero_free_closed` proved)**: n=24 corner EMPTY
+   (2,160,786 configs, zero members). n=26: one new class member
+   (24 labeled = 1 iso class; supply 691) — now the smallest known
+   class member.
 
-**qid state**: Q77 resolved (program closed). Q78 resolved (R54).
-Q79 resolved (campaign done). Queue has NO live open questions
-(Q69 stays released: the paste-8 supply analytic core).
+4. **R71 (`c16_n30_two_apex_closed` proved — CAPSTONE)**: the
+   (2,2,1^12) profile Section 107 called "too large" fell in 57s
+   (the estimate predated the double-ear pruning): 43,936 configs,
+   1,976 members, ALL chorded, 104 iso classes. Rediscovered the G5
+   snapshot AND the R67 member independently (validation); 102 NEW
+   members. The (3,1^13) profile re-run reproduced R67's numbers
+   exactly (15,066 / 24).
 
-**Suggested next moves**:
-1. Run /erdos-proof-ideation against this closure record. Candidate
-   directions the record itself suggests: (a) the paste-8 supply core
-   (unbounded k' for paste8_tree_universal — Q69's release note);
-   (b) F2 graph-level quantifier; (c) NEW: the depth-4-layer
-   uniformity at n=22 (exactly 41 both carriers — a covering-polytope
-   question); (d) NEW: try to prove the triangle-starvation L2
-   obstruction analytically (5-covers avoid triangle edges because
-   triangle edges carry few PO2 cycles — could yield "no quad-dead
-   state on any carrier with >= t triangles" as a lemma).
-2. If ideation prefers computation: the campaign harness
-   (scratchpad r56_campaign.py — container-local, reconstructable
-   from Section 96's description + CHECK 10's example) extends
-   directly to n=30+ and to targeted populations (girth-controlled,
-   c8=0 constructions become possible at n>=30ish).
+**The session's theorem (zero-free completion)**: in any cubic
+{C4,C8}-free graph on 24<=n<=32 vertices, every chordless C16 whose
+spokes touch all outside vertices coexists with a chorded C16.
+Hence a supply falsifier must give EVERY chordless C16 a 0-spoke
+outside vertex. Corpus: 5 -> 120 known members, all supply-positive
+(floor 562 intact).
 
-**CRITIC INFRA (standing, carried forward)**: prewarm ALL critics via
-scratchpad prewarm.py (renders via proof_prepare._render_critic_prompt
-with witness_valid computed the same way, call_critics_parallel
-timeout_s=900, NODE_EXTRA_CA_CERTS=/root/.ccr/ca-bundle.crt), THEN
-proof_prepare (cache replays). This session: 2/2 rounds 0 blocking,
-prewarms 324s/~300s. os.chdir the worktree INSIDE scripts.
-PROOF_TAG on the SAME command line. proof_results.tsv container-local;
-R-numbering by hand (next: R57). pgrep footgun bit AGAIN this
-session: a compound shell whose text contains the plain pattern
-kills itself — use [c]haracter-class in BOTH pgrep and pkill, and
-never reference the script name un-bracketed in the same compound.
+**qid state**: Q84 RESOLVED (zero-free arm). Q85 OPENED:
+branch-vertex program — (a) 0-spoke local structure (three outside
+edges -> branch trees vs girth/C8 exclusions), (b) spoke-count
+pigeonhole re-entering the R65 ear menu, (c) corpus statistics
+(how close does any of the 120 members come to all-chordless C16s?).
+
+**Suggested next moves (R72)**:
+1. Claim Q85. Start with (b): at n<=32, a chordless C16 with k
+   0-spoke outside vertices puts 16 spokes on n-16-k touched
+   vertices; excess 16-(n-16-k) grows with k — every 0-spoke vertex
+   ADDS an apex elsewhere. Formalize the trade-off as a lemma.
+2. The n=32 case after R66: a falsifier C16 needs an ear AND a
+   0-spoke vertex — outside is a matching minus something; try
+   exhausting n=32 profiles with ONE 0-spoke vertex (15 touched,
+   one 2-apex): edge-determined again, likely cheap with the R69
+   framework (structures: 0-spoke vertex has 3 outside edges).
+3. Alternatively run erdos-proof-ideation for fresh branch-vertex
+   lenses before committing rounds.
+
+**CRITIC INFRA (standing, carried forward)**: prewarm ALL critics
+via scratchpad prewarm.py THEN proof_prepare (cache replays); check
+cached responses for failing numerical_checks BEFORE running
+prepare (sandbox lacks sorted/itertools — critics' own exprs fail
+eval and escalate OK->BLOCKING); recall_falsify.py pattern:
+use_cache=False, validate parse + all numerical_checks eval truthy,
+then _cache_store. One genuinely-wrong falsify BLOCKING occurred
+(R58 'chord elsewhere' — an a_u b_u edge IS the triangle u a_u b_u);
+fix was clarifying Section 98 text (critics read the strategy + only
+the first 40K chars of the lemma corpus — lemma-file edits may not
+reach them). PROOF_TAG on the SAME command line for EVERY helper.
+cwd RESETS between shell calls — cd explicitly in EVERY compound.
+R-numbering by hand (next: R72). proof_results.tsv is LOCAL and
+dies with the container — the journal is the durable trail.
 
 **Files modified this session**:
-- proof_strategy.md (Sections 95, 96)
-- proof_lemmas/lemma_quad_alive_universal__0818-081353-a397.md
-  (R55/R56 paragraphs; CHECKs 7, 8, 9, 10)
-- records/proof_erdos_gyarfas_{7f2f7a121b1f_f5199d4,4cef8e3264ad_8a8c14a}.json
-- queue (Q77 claimed->resolved, Q79 opened->resolved), journal, notes
+- proof_strategy.md (Sections 108-111 + Section 98 clarification)
+- proof_lemmas/lemma_c16_matching_corner_closed__0903-080730-a01c.md (R68 correction)
+- proof_lemmas/lemma_c16_three_apex_corner_closed__0903-080730-a01c.md (R68 correction)
+- proof_lemmas/lemma_criticality_edge_witness__0830-080552-2844.md (clarifying note)
+- proof_lemmas/lemma_c16_n28_zero_free_closed__0904-080738-b2bf.md (NEW, proved)
+- proof_lemmas/lemma_c16_n2426_zero_free_closed__0904-080738-b2bf.md (NEW, proved)
+- proof_lemmas/lemma_c16_n30_two_apex_closed__0904-080738-b2bf.md (NEW, proved)
+- records/proof_erdos_gyarfas_{495a0a75aea0_ed5674f,d0d324a40ee1_6726a9a,27ce97cd1952_6668d42,7373bc7186e9_28026c3}.json
+- proof_open_questions.jsonl (Q84 resolved, Q85 opened)
