@@ -68,6 +68,11 @@ $E(G_e) = (E(G) - e - \{\text{edges at } u, v\}) \cup \{a_u b_u,\ a_v b_v\}$.
   $u a_u b_u$ — excluded (likewise for $a_v b_v$); and
   $\{a_u, b_u\} = \{a_v, b_v\}$ is impossible by Step 0, so no
   parallel edges arise; no loops since $a_u \ne b_u$, $a_v \ne b_v$.
+  (Note there is no "chord elsewhere" escape: an edge of $G$ joining
+  $a_u$ and $b_u$ — wherever one imagines it drawn — together with
+  the edges $u a_u, u b_u$ IS the triangle $u a_u b_u$, so
+  triangle-freeness alone already forbids $a_u b_u \in E(G)$;
+  no hypothesis beyond girth $\ge 5$ is needed for simplicity.)
 - **Cubic:** every vertex of $G_e$ keeps degree $3$: $a_u$ trades the
   edge $a_u u$ for $a_u b_u$, etc.
 - **Connected:** $e$ is not a bridge, so $G - e$ is connected;
