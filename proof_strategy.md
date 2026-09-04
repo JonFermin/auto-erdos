@@ -3129,3 +3129,61 @@ argued from an incomplete enumeration is worthless. The corrected
 runs close the audit gap: the two corners are now genuinely closed,
 and the falsifier profile of Section 107 (every $C_{16}$ chordless +
 eared + branch-vertex/two-apex only) stands on complete searches.
+
+## Section 109 — R69: `c16_n28_zero_free_closed` — the whole $n = 28$ zero-free corner is EXHAUSTED (362,294 configs, 214 members, all chorded), and TWELVE new class members appear at once (session s_0904-080738-b2bf)
+
+The R66/R67 exhaustion engine, generalized to arbitrary outside
+structure (apexes + paths + cycles as "units" with per-unit
+cycle-length exclusion tables) and validated bit-for-bit against the
+audited R67 apex-$(0,1,8)$ slice ($252$ configs, $4$ members), was
+pointed at the three zero-free spoke profiles of a chordless
+$C_{16}$ at $n = 28$: $(3,3,1^{10})$, $(3,2,2,1^9)$, $(2^4,1^8)$
+(excess $4$; all edge-determined: $16 + 16 + 10 = 42$ edges).
+
+### The result
+
+| profile | configs | members | all-chordless |
+|---|---|---|---|
+| $(3,3,1^{10})$ | 71,304 | 0 | 0 |
+| $(3,2,2,1^9)$ | 128,310 | 6 | 0 |
+| $(2^4,1^8)$ | 162,680 | 208 | 0 |
+
+Every member contains a chorded $C_{16}$: **the supply falsifier
+cannot realize any chordless $C_{16}$ zero-free at $n = 28$.**
+Combined with R66 ($n = 32$ matching) and R67 ($n = 30$ three-apex),
+every closed corner keeps pointing the falsifier at $0$-spoke
+(branch-vertex) profiles — or at $(2,2,1^{12})$ at $n = 30$, the one
+zero-free profile still open.
+
+### Twelve new class members
+
+The $214$ labeled members collapse to $12$ isomorphism classes —
+ALL previously unknown (the known $n = 28$ member, the R57 pin, has
+$32$ chordless $C_{16}$s but none zero-free — verified directly, a
+consistency probe on the enumeration itself). Highlights:
+
+- **A second girth-5 member** (class 9): $c_5 = 4$, $c_{16} = 731$,
+  supply $1330$ — the LARGEST share-1 sum-18 supply seen on any
+  member (pin: $1061$). The girth-5 regime is not a single point.
+- Ten triangle members ($c_3 \in \{1, 2, 4\}$) filling the
+  mixed-regime interpolation R67 first exposed: supplies
+  $838$–$1049$, spread across shapes.
+- NO member has an outside cycle: every one is pure-path outside
+  (profile $(3,3,1^{10})$, whose outside is all cycles, is EMPTY —
+  $71{,}304$ configs, not one $\{C_4, C_8\}$-free). A structural
+  hint: outside cycles at $n = 28$ zero-free are $C_8$-generators.
+- Every supply is $\ge 838 > 562$ (floor): the in-class floor is
+  untouched by $12$ new members — `share1_supply_18`'s margin
+  widens, and the falsifier profile keeps receding.
+
+### Why this matters for Q84
+
+The Q84 proof side ("why must a class member at $24 \le n \le 32$
+contain a chorded $C_{16}$?") now has three exhausted corners plus a
+corpus of $17$ known members ($12$ of them new today) all
+comfortably supplied. The remaining zero-free work is $n = 24$
+(excess $8$) and $n = 26$ (excess $6$) — smaller outside vertex
+sets, more apexes, LESS feet freedom, so the validated unit
+framework should close both cheaply — and then the zero-free
+question is settled for the entire range except $(2,2,1^{12})$ at
+$n = 30$, isolating the branch-vertex analysis as the true core.
