@@ -2409,7 +2409,12 @@ every non-bridge edge $e = uv$ of $G$ carries a witness: a cycle of
 length $2^k + 1$ pendant at one endpoint of $e$ (both its other edges
 on the cycle), or of length $2^k + 2$ with $e$ as a chord, for some
 $k \ge 2$ with $2^k \le n - 2$. Proof: delete $e$, suppress $u, v$
-(girth $\ge 5$ makes the suppression simple, Step 0/1), invoke
+(girth $\ge 5$ makes the suppression simple, Step 0/1: an edge of
+$G$ joining $u$'s two other neighbors $a_u, b_u$ — wherever drawn —
+would itself close the triangle $u a_u b_u$ with the edges
+$u a_u, u b_u$, so triangle-freeness forbids it, and a common
+neighbor of $u$ and $v$ closes a triangle with $e$; hence the two
+new edges are fresh and distinct — no multi-edge case exists), invoke
 minimality on the smaller cubic $G_e$ to get a PO2 cycle downstairs,
 lift it — it must use $1$ or $2$ of the two suppressed edges, since
 $0$ would put a PO2 cycle in $G$ itself.
