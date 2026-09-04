@@ -97,7 +97,7 @@ either a smarter propagator or a compiled search — recorded as the
 next exhaustion target.
 
 <!-- CHECK
-# CHECK — the full offline exhaustion (all 39 apex triples, 10,838
+# CHECK — the full offline exhaustion (all 39 apex triples, 15,066
 # configs, ~100 s) found exactly 24 members; within the harness budget
 # this CHECK re-derives one full slice and audits every claimed member:
 # (i) the apex (0,1,8) slice enumerates exactly 252 configurations and

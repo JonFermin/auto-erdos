@@ -3076,3 +3076,56 @@ $(2^4,1^8)$ — excess 4, outside 12 vertices, 10 outside edges, all
 edge-determined and SMALLER search spaces than n=30 two-apex); (c)
 branch-vertex profiles via local structure lemmas rather than
 whole-graph exhaustion.
+
+## Section 108 — R68: the enumeration audit — both corner exhaustions re-run under a provably complete canonicalization; counts revised, conclusions unchanged (session s_0904-080738-b2bf)
+
+An adversarial audit of the R66/R67 DFS enumerations found a subtly
+incomplete canonicalization: each later outside cycle was forced to
+CONTAIN the globally minimal unused foot. That rule silently skips
+every configuration in which the globally minimal unused foot belongs
+to a later, *smaller* cycle — a genuine gap, not a symmetry quotient.
+
+**The corrected rule (own-min canonicalization).** The first
+(largest) outside cycle starts at foot $0$; every later cycle may
+start at ANY unused foot but is written from its OWN minimal foot
+(all later feet within the cycle must exceed its start), and
+equal-length cycles are ordered by increasing start. This quotient is
+provably complete: any configuration can be rewritten into exactly
+this form by rotating each cycle to its minimal foot and sorting
+equal-length cycles, and no two distinct configurations collide.
+
+**Effect on `c16_matching_corner_closed` (R66).** Only partitions
+with distinct-size units beyond the second slot were undercounted:
+$(7,6,3)$: $504 \to 784$ and $(5,5,3,3)$: $144 \to 320$; the other
+eight partitions reproduce EXACTLY. Total $15{,}256 \to 15{,}712$
+configurations. Every one of the $456$ added graphs is a verified
+class member with a chorded $C_{16}$: **15,712 / 15,712 chorded, 0
+all-chordless** — the lemma's conclusion is unchanged and now stands
+on a complete enumeration.
+
+**Effect on `c16_three_apex_corner_closed` (R67).**
+$10{,}838 \to 15{,}066$ configurations; the exact member filter
+returns the SAME $24$ graphs (four per each of the six gap-$(1,7,8)$
+apex triples), all dihedral/direction variants of the single fifth
+class member, all chorded — conclusion unchanged. The apex-$(0,1,8)$
+CHECK slice is $172 \to 252$ configurations with the identical
+member set.
+
+**CHECK hygiene.** Both lemmas' embedded CHECK blocks were updated to
+the corrected enumeration and re-run standalone: matching-corner
+$5.2$ s, three-apex $3.4$ s — both inside the $15$ s harness budget,
+both passing.
+
+**Corpus caveat carried forward.** The R67 supply-mining statistics
+(Section 107) were computed over the original $15{,}256$-graph
+subset; they remain valid as statistics of that subset. The $456$
+added matching-branch graphs have not been mined — irrelevant to the
+floor question (their pair counts can only ADD abundance evidence)
+but noted for honesty.
+
+**Why this round matters.** Both corner lemmas are quoted as
+EXHAUSTIONS — "the branch is empty of falsifiers" — and an exhaustion
+argued from an incomplete enumeration is worthless. The corrected
+runs close the audit gap: the two corners are now genuinely closed,
+and the falsifier profile of Section 107 (every $C_{16}$ chordless +
+eared + branch-vertex/two-apex only) stands on complete searches.
