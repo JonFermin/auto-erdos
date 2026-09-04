@@ -23,9 +23,9 @@ A proof attempt may take MANY sessions. This skill drives ONE session — but is
 
 You start in the repo root (the main checkout).
 
-**First, resolve the proof tag.** If the launch prompt names a non-default proof (e.g. "on primitive_set_erdos", `PROOF_TAG=primitive_set_erdos`), `export PROOF_TAG=<tag>` **before** any preflight check, any loop command, and any helper invocation. Default is `primitive_set_erdos`. Every helper (`proof_prepare.py`, `proof_log_result.py`, `proof_session_start.py`) reads this env var at import time, so the export must persist for the whole session.
+**First, resolve the proof tag.** If the launch prompt names a non-default proof (e.g. "on erdos_gyarfas", `PROOF_TAG=erdos_gyarfas`), `export PROOF_TAG=<tag>` **before** any preflight check, any loop command, and any helper invocation. The helpers' built-in default is `primitive_set_erdos`, but that spec is a rediscovery benchmark now (proved in the literature, May 2026) — for real work the launch prompt should name an open problem (`erdos_gyarfas`, `frankl_union_closed`, `erdos_mollin_walsh`); if it doesn't, ask rather than silently defaulting onto the benchmark. Every helper (`proof_prepare.py`, `proof_log_result.py`, `proof_session_start.py`) reads this env var at import time, so the export must persist for the whole session. Mind the portfolio-rotation floor (Variance policy §5 in `proof_program.md`) when picking between open problems.
 
-**Resolve the critic mode.** If the launch prompt asks for "critics off", "speculative mode", or "explore without critics", `export AUTOERDOS_PROOF_CRITICS=0` for the session. In that mode `proof_prepare.py` skips the five LLM critics; the witness verifier and the resolution-string defense-in-depth still run. This favors novel directions over conservative gating — see the "Critics-off mode" section in `proof_program.md` for the exact gates that remain.
+**Resolve the critic mode.** If the launch prompt asks for "critics off", "speculative mode", or "explore without critics", `export AUTOERDOS_PROOF_CRITICS=0` for the session. In that mode `proof_prepare.py` skips the LLM critics; the witness verifier and the resolution-string defense-in-depth still run. This favors novel directions over conservative gating — see the "Critics-off mode" section in `proof_program.md` for the exact gates that remain, and Variance policy §4 there for the sandbox-section rules an explore session must follow (speculative material under `## Sandbox (unscreened speculation)`, promoted-or-pruned before the next critics-on milestone).
 
 Then run these checks in parallel:
 
@@ -109,6 +109,13 @@ Run every command from inside the worktree. Repeat until one of the four stop co
 ```bash
 # 1. Pick a qid. Default is the lowest-numbered open / released qid from
 #    the printout above; the handoff may suggest a different priority.
+#    EXCEPTION (Variance policy §2): if the handoff reports
+#    "consecutive exploit sessions on current program: 2" or more, you
+#    MUST pick a kind: explore qid instead — or stop and run
+#    /erdos-proof-ideation to mint one — before any exploit round.
+#    (Read `kind` from the qid's FIRST row in proof_open_questions.jsonl:
+#    session_start prints only each qid's LATEST row, which never
+#    carries kind and, for auto-released qids, is just the release note.)
 QID=Q1  # or whatever you picked
 
 # 2. Claim the qid.
@@ -125,7 +132,11 @@ git commit -m "<short imperative summary>"
 
 # 5. Run the verifier — but NOT every round. proof_prepare runs 5 LLM
 #    critics; ~30s/critic. Run on logical milestones, OR every 5 rounds
-#    as a safety net.
+#    as a safety net. PREFLIGHT: before any critics-ON run, confirm the
+#    "## Sandbox" section of proof_strategy.md is empty — promote or
+#    prune leftovers first (Variance policy §4). A prior explore
+#    session's env var did not persist; this session is critics-ON by
+#    default, and unpruned speculation draws blocking findings.
 PROOF_TAG=$PROOF_TAG uv run proof_prepare.py > run.log 2>&1
 grep "^claim_status:\|^witness_valid:\|^verdict_hint:\|^critic_blocking_count:\|^critic_warn_count:" run.log
 
@@ -172,6 +183,10 @@ cat <<EOF | PROOF_TAG=$PROOF_TAG uv run proof_session_end.py "reason: token budg
 # Session handoff (session $SID)
 
 **Stop reason**: token budget low
+
+**Consecutive exploit sessions on current program**: <k — compute per Variance policy §2, never copy a literal number>
+(REQUIRED line; at 2+ the NEXT session must claim a kind: explore qid
+or open with ideation and claim one of its explore qids.)
 
 **Current focus**: Working on Lemma 2 sub-bound (b). Lemma 1 is proved
 (see proof_lemmas/lemma_001.md). Lemma 2's frontmatter is status:open.
@@ -229,6 +244,7 @@ DISPROOFS=$(awk -F'\t' 'NR>1 && $10=="keep_disproof" {n++} END {print n+0}' proo
 cat <<EOF | PROOF_TAG=$PROOF_TAG uv run proof_session_end.py "reason: <one-line>"
 # Final handoff
 **Stop reason**: <round cap | converged | counterexample | interrupted>
+**Consecutive exploit sessions on current program**: <k — Variance policy §2>
 **Outcome**: <kept records / partial result / disproof / no progress>
 **For human review**: <pointers — kept records under records/proof_*.json>
 EOF

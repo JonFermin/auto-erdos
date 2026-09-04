@@ -1,65 +1,86 @@
-# Session handoff (session s_0825-081126-3d4c)
+# Session handoff (session s_0904-080738-b2bf)
 
-**Stop reason**: Logical milestone — two keeps (R60, R61), Q81's SA
-prong is saturated and formally released with the exact-attack menu.
+**Stop reason**: Major logical milestone — the zero-free program is
+COMPLETE. Four keep_progress rounds (R68, R69, R70, R71).
 
 **What happened**:
 
-1. **R60 — the argbest campaign (keep)**. R59's c16 plateau of 95–102
-   was a schedule artifact (argbest not stored, no restarts). Fixed
-   harness (exact incremental per-edge path counting, audited, zero
-   drift): fresh-restart SA at n=58 reaches **c16 = 37**; three T0=4
-   reheats all return 37. The 37-graph is pinned with an explicit
-   16-cycle in lemma_g9c16_stratum CHECK 2 (both CHECKs pass in ~0s).
-   Structure: girth 3 (descent moves AWAY from the cage corner —
-   triangles are free), diffuse load (85/87 edges carry a 16-cycle,
-   max load 13). Record proof_erdos_gyarfas_1d7db642a361_b55545e.json.
+1. **R68 (enumeration audit)**: found + fixed an incomplete DFS
+   canonicalization in R66/R67 (later cycle forced to contain the
+   globally minimal unused foot). Corrected own-min rule; matching
+   corner 15,256 -> 15,712 configs, three-apex 10,838 -> 15,066;
+   SAME members, conclusions unchanged — both corners now stand on
+   provably complete enumerations.
 
-2. **R61 — move-class robustness (keep)**. 3-opt moves (alternative
-   matchings on 6 endpoints) + load-targeted proposals, exact
-   set-based incremental counting (telescoped banned-edge paths,
-   validated): three 25-min runs from the 37-graph all return 37 —
-   six independent schedules across R60–R61 fail to move the floor.
-   Fresh n=60 v2 run: c16=65. Floors RISE with n (58:37, 60:65,
-   62:88): the witness box's binding scale is n=58, the (3,9)-cage
-   number. Record proof_erdos_gyarfas_b49e53364515_2e5541f.json.
+2. **R69 (`c16_n28_zero_free_closed` proved)**: generalized unit-DFS
+   (apexes/paths/cycles with exclusion tables + double-ear pruning,
+   validated bit-for-bit on the audited R67 slice) exhausted all
+   three n=28 zero-free profiles: 362,294 configs, 214 members, ALL
+   chorded. 12 NEW class members (12 iso classes), incl. a second
+   girth-5 member with record supply 1330. Pin verified to have no
+   zero-free chordless C16 (consistency probe).
 
-**qid state**: Q81 released with the exact-attack menu. Queue has no
-live claimed questions (Q69 released: paste-8 supply analytic core).
+3. **R70 (`c16_n2426_zero_free_closed` proved)**: n=24 corner EMPTY
+   (2,160,786 configs, zero members). n=26: one new class member
+   (24 labeled = 1 iso class; supply 691) — now the smallest known
+   class member.
 
-**Suggested next moves** (in order):
-1. **SAT-UNSAT for a {C4,C8,C16}-free connected cubic graph on 58
-   vertices** (python-sat is in pyproject). UNSAT = lemma_g9c16_stratum
-   at n=58; SAT = candidate witness one C32-check away. Start with
-   incremental cycle-banning CEGAR on adjacency variables + degree=3
-   encodings; the 37-graph and its 37 16-cycles seed the first ban
-   round. Expect hard — budget a full session, checkpoint clauses.
-2. If SAT looks hopeless, LP/counting lower bound on c16 over the
-   stratum, or structured voltage-graph lifts with forbidden cycle
-   lengths {4,8,16,32} (c8=0 constructions become possible at n>=58).
-3. Alternatively run /erdos-proof-ideation against the R61 record.
+4. **R71 (`c16_n30_two_apex_closed` proved — CAPSTONE)**: the
+   (2,2,1^12) profile Section 107 called "too large" fell in 57s
+   (the estimate predated the double-ear pruning): 43,936 configs,
+   1,976 members, ALL chorded, 104 iso classes. Rediscovered the G5
+   snapshot AND the R67 member independently (validation); 102 NEW
+   members. The (3,1^13) profile re-run reproduced R67's numbers
+   exactly (15,066 / 24).
 
-**CRITIC INFRA (standing, carried forward)**: prewarm ALL critics via
-scratchpad prewarm.py (renders via proof_prepare._render_critic_prompt,
-witness_valid computed the same way, call_critics_parallel
-timeout_s=900, NODE_EXTRA_CA_CERTS=/root/.ccr/ca-bundle.crt), THEN
-proof_prepare (cache replays). TWO new footguns this session:
-(a) do NOT append proof_notes between prewarm and proof_prepare — the
-falsify prompt embeds the notes channel, so the append invalidates its
-cache entry; (b) the falsify critic (368KB prompt) can fail transiently
-("claude -p exited 1 after ~3s") — retry it alone with timeout 900;
-(c) a critic response with prose BEFORE a trailing ```json fence is
-unparseable by proof_prepare's extractor (fence must be response-start;
-stray "[" in prose poisons bracket-extraction) — remedy: delete that
-prompt-sha row from ~/.cache/auto-erdos/critic_cache.tsv and re-fire
-live (never hand-write a cache row). proof_results.tsv container-local;
-R-numbering by hand (next: R62).
+**The session's theorem (zero-free completion)**: in any cubic
+{C4,C8}-free graph on 24<=n<=32 vertices, every chordless C16 whose
+spokes touch all outside vertices coexists with a chorded C16.
+Hence a supply falsifier must give EVERY chordless C16 a 0-spoke
+outside vertex. Corpus: 5 -> 120 known members, all supply-positive
+(floor 562 intact).
+
+**qid state**: Q84 RESOLVED (zero-free arm). Q85 OPENED:
+branch-vertex program — (a) 0-spoke local structure (three outside
+edges -> branch trees vs girth/C8 exclusions), (b) spoke-count
+pigeonhole re-entering the R65 ear menu, (c) corpus statistics
+(how close does any of the 120 members come to all-chordless C16s?).
+
+**Suggested next moves (R72)**:
+1. Claim Q85. Start with (b): at n<=32, a chordless C16 with k
+   0-spoke outside vertices puts 16 spokes on n-16-k touched
+   vertices; excess 16-(n-16-k) grows with k — every 0-spoke vertex
+   ADDS an apex elsewhere. Formalize the trade-off as a lemma.
+2. The n=32 case after R66: a falsifier C16 needs an ear AND a
+   0-spoke vertex — outside is a matching minus something; try
+   exhausting n=32 profiles with ONE 0-spoke vertex (15 touched,
+   one 2-apex): edge-determined again, likely cheap with the R69
+   framework (structures: 0-spoke vertex has 3 outside edges).
+3. Alternatively run erdos-proof-ideation for fresh branch-vertex
+   lenses before committing rounds.
+
+**CRITIC INFRA (standing, carried forward)**: prewarm ALL critics
+via scratchpad prewarm.py THEN proof_prepare (cache replays); check
+cached responses for failing numerical_checks BEFORE running
+prepare (sandbox lacks sorted/itertools — critics' own exprs fail
+eval and escalate OK->BLOCKING); recall_falsify.py pattern:
+use_cache=False, validate parse + all numerical_checks eval truthy,
+then _cache_store. One genuinely-wrong falsify BLOCKING occurred
+(R58 'chord elsewhere' — an a_u b_u edge IS the triangle u a_u b_u);
+fix was clarifying Section 98 text (critics read the strategy + only
+the first 40K chars of the lemma corpus — lemma-file edits may not
+reach them). PROOF_TAG on the SAME command line for EVERY helper.
+cwd RESETS between shell calls — cd explicitly in EVERY compound.
+R-numbering by hand (next: R72). proof_results.tsv is LOCAL and
+dies with the container — the journal is the durable trail.
 
 **Files modified this session**:
-- proof_strategy.md (Sections 100, 101)
-- proof_lemmas/lemma_g9c16_stratum__0823-080606-3598.md (R60/R61
-  paragraphs; CHECK 2 = pinned 37-graph with explicit 16-cycle)
-- records/proof_erdos_gyarfas_{1d7db642a361_b55545e,b49e53364515_2e5541f}.json
-- queue (Q81 claimed -> released with exact-attack menu), journal, notes
-- scratchpad harnesses q81_sa.py / q81_sa2.py (container-local,
-  reconstructable from Sections 100-101; argbests live in the records)
+- proof_strategy.md (Sections 108-111 + Section 98 clarification)
+- proof_lemmas/lemma_c16_matching_corner_closed__0903-080730-a01c.md (R68 correction)
+- proof_lemmas/lemma_c16_three_apex_corner_closed__0903-080730-a01c.md (R68 correction)
+- proof_lemmas/lemma_criticality_edge_witness__0830-080552-2844.md (clarifying note)
+- proof_lemmas/lemma_c16_n28_zero_free_closed__0904-080738-b2bf.md (NEW, proved)
+- proof_lemmas/lemma_c16_n2426_zero_free_closed__0904-080738-b2bf.md (NEW, proved)
+- proof_lemmas/lemma_c16_n30_two_apex_closed__0904-080738-b2bf.md (NEW, proved)
+- records/proof_erdos_gyarfas_{495a0a75aea0_ed5674f,d0d324a40ee1_6726a9a,27ce97cd1952_6668d42,7373bc7186e9_28026c3}.json
+- proof_open_questions.jsonl (Q84 resolved, Q85 opened)

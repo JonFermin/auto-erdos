@@ -263,9 +263,15 @@ Branch hygiene (the anti-progress-loss contract, 2026-07-25):
   `strategies/<problem>/`.
 
 Skills: `erdos-proof-attempt` drives rounds; `erdos-proof-ideation` fans
-out N parallel proposer agents with distinct mathematical lenses + a
-judge before rounds are spent — use it whenever the open-questions queue
-is empty or a dead end was just documented.
+out parallel proposer agents — problem-native lenses from the spec's
+`ideation_lenses` plus wildcard / analogy-miner / fresh-eyes /
+revivalist slots — and ranks them with a three-judge panel (rigor /
+novelty / upside), queueing each judge's top pick as a qid tagged
+`kind: explore|exploit`. Use it whenever the open-questions queue is
+empty or a dead end was just documented. The **Variance policy** section
+of `proof_program.md` (pre-committed program exit criteria, exploration
+quota, conjecture register, critics-off sandbox cadence, portfolio
+rotation) is standing policy for every Track 2 session.
 
 Standing policy: **dual attack** — every open lemma gets a CHECK-block
 falsification probe *before* proof effort is spent on it. The
