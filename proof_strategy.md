@@ -3290,3 +3290,87 @@ further rounds; Q84's continuation is branch-vertex geometry:
    unchanged) is now large enough for serious falsifier-profile
    statistics — e.g. how close does any member come to an
    all-chordless $C_{16}$ census?
+
+## Section 112 — R72: ideation reset + `arc_exchange_witness` opened — the Tutte-port lemma that would fuse the supply and witness questions (session s_0905-080544-2e51)
+
+### Ideation (2026-09-05, per the exploration quota)
+
+Three consecutive exploit sessions (s_0901, s_0902, s_0904) triggered
+Variance policy §2, so this session opened with the full 11-proposer +
+3-judge fan-out (digest in the notes channel). Winners queued:
+
+- **Q0905-082429-1** (claimed this session): the arc-exchange witness
+  below — analogy-miner slot, a port of the bridge/arc-exchange
+  skeleton of Tutte's 4-connected-planar Hamiltonicity proof; RIGOR
+  and UPSIDE crown (9/10 each). The panel's max-spread proposal:
+  NOVELTY scored it 4 (incumbent objects), RIGOR/UPSIDE 9 (killable,
+  on-frontier, true-means-done).
+- **Q0905-082429-2**: the mod-4 invariant program — L_mod4: every
+  graph with min degree $\ge 3$ has a cycle of length $\equiv 0 \pmod 4$
+  (wildcard + fresh-eyes convergence; NOVELTY crown). A falsifier IS a
+  complete EGC counterexample. Complete min-degree-3 exhaustion at
+  $n \le 7$ (236,926 graphs) and 21k cubic samples found none;
+  fresh-eyes PROVED the 3-connected bipartite case via Menger triples.
+  Literature check (Dean–Lesniak–Saito line) is step 0.
+- **Q0905-082429-3**: the triangle-cover stratum —
+  spec$(T(G)) = \{3\} \cup \bigcup_{k} [2k, 3k]$ makes full-triangle-cover
+  witnesses decidable by a complete certificate over the 6,299
+  connected cubic girth-5 graphs on $10$–$20$ vertices; also the first
+  audit of the girth-$\ge 5$ normalization every incumbent result
+  silently assumes.
+
+Q69 and Q80 were closed by the panel (paste-8 program dead at every
+probed level; Q80 an auto-release artifact whose live content continues
+as Q83/Q85). Q81 (girth-9 $n{=}58$ hunt) stays released: the revivalist
+made the case (the R69 engine and 120-member corpus post-date its
+shelving) but lost at the panel — an instrumental lemma with no
+mathematical content.
+
+### R72: `arc_exchange_witness` (Q0905-082429-1) — conjecture + probe
+
+> **Conjecture (`arc_exchange_witness`).** In a connected cubic
+> $\{C_4, C_8\}$-free graph on $24 \le n \le 32$ vertices, every
+> $0$-spoke outside vertex $v$ of a chordless $16$-cycle $C$ lies on a
+> **chorded** $16$-cycle sharing at least one edge with $C$.
+
+Why it matters: the zero-free completion (Sections 106–111) handles
+every chordless $C_{16}$ whose spokes touch all outside vertices
+($k = 0$). This lemma is exactly the complement ($k \ge 1$). Together
+they would say: **any class member containing a $C_{16}$ at all contains
+a chorded one** (supply $\ge 1$ with no further enumeration), so a
+supply falsifier must contain NO $16$-cycle — i.e. must falsify
+`c8free_c16_floor` outright, and at $n \le 30$ such a graph is a
+complete EGC witness. The supply question and the witness question
+fuse into one.
+
+Dual-attack record (probes ran FIRST, per standing policy; details and
+two deterministic CHECKs in
+`proof_lemmas/lemma_arc_exchange_witness__0905-080544-2e51.md`):
+T(Petersen) — $90/90$ ($C$, $v$) pairs pass ($15$ chordless $C_{16}$s,
+each with exactly $k = 6$ interior vertices: pure $k \ge 1$ territory
+the zero-free program never touched). The $10$ members of the R71
+anchored slice — $1{,}588/1{,}588$ pairs pass (counts $184/10$
+reproduce the R71 enumerator exactly, revalidating both code paths).
+A $240$ s double-edge-swap random walk inside the clean class at
+$n = 30$: $7{,}937$ accepted $\{C_4, C_8\}$-free states,
+$1{,}065{,}245$ pairs, **zero violations**. The proposer's own
+symmetry-artifact worry (T(Petersen)'s uniform $\theta(8,8,8)$
+exchanges) does not survive the asymmetric slice members.
+
+The crux for the proof side, stated honestly: an exchange bypassing
+complementary arcs $a + b = 16$ via an interior path of length $c$
+yields cycles $a + c$ and $b + c$, so a $16$-cycle appears iff
+$c \in \{a, b\}$; $C_8$-freeness kills only $a + c = 8$ and
+$b + c = 8$. The proof must force a matching triple from the
+counting pressure ($16$ spokes on $\le n - 16 - k$ touched vertices)
+plus the ear menu, or route through `share1_c16_compose` composition
+chains. That is R73+'s job; this round establishes the target is
+worth the effort (it survived $\sim 10^6$-pair falsification pressure)
+and is formally on file with reproducible CHECKs.
+
+Program declaration (per Variance policy §1): **arc-exchange program**
+— success criterion: `arc_exchange_witness` proved (then the $k \ge 1$
+branch closes and supply/witness fuse); negative-closure criterion: a
+probe violation (then the violating ($C$, $v$) pair becomes the seed
+of a supply-falsifier hunt — both outcomes are informative); session
+budget: 3 sessions from this one, extension requires a journal note.
