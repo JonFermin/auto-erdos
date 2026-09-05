@@ -284,3 +284,205 @@ proof targets: (a) the counting menu at a $0$-spoke vertex (its three
 edges go to outside vertices whose own spokes bound the reachable
 $(a, b, c)$ triples), (b) composition via `share1_c16_compose` when the
 direct exchange misses $16$.
+
+---
+
+## R73 refinement — the mechanism extracted from data (session s_0905-080544-2e51)
+
+Instrumenting the R72 probes (11 deterministic graphs, then 1,810
+fresh random-walk states / 241,399 pairs) shows the witness is far
+more structured than the bare statement demands. Three invariants,
+each individually killable, all zero-violation so far (all evidence
+at $n = 30$; other $n$ untested — flagged, not hidden):
+
+1. **(dist-3)** Every $0$-spoke vertex $v$ of a chordless $C_{16}$
+   satisfies $\mathrm{dist}(v, C) \le 3$; the split observed is
+   $\approx 95\%$ at distance $2$, $\approx 5\%$ at distance $3$,
+   never $4$. NOT a pure counting fact: at $n = 30$ the radius-3
+   ball of a $0$-spoke vertex fits inside the $14$-vertex outside
+   graph even C4-freely; excluding distance $4$ needs the
+   $C_8$/ear structure, so this is a genuine first rung.
+2. **(share-8)** For every ($C$, $v$) pair some chorded witness
+   $C'$ shares $\ge 8$ edges with $C$ (observed max-share spectrum:
+   $8$–$11$).
+3. **(off-6)** Some witness has $\le 6$ vertices off $C$
+   (observed: $4$–$6$).
+
+The dominant single-arc form (82% of pairs, not universal): $C'$
+keeps ONE arc of $C$ of length $b \in \{10, 11\}$ and replaces the
+complementary arc $a = 16 - b \in \{5, 6\}$ by an equal-length
+branch path through $v$ — i.e. the exchange lands on $16$ via
+$c = a$ exactly as the crux demands, with $a$ drawn from the proved
+ear-menu arc-distances. Proof plan this suggests (R74+): from
+(dist-3), $v$ reaches $C$ through $\le 2$ intermediate outside
+vertices on each of two disjoint routes; the feet of those routes
+are spokes whose arc-distance menu is pinned by
+`chordless_c16_ear_geometry`; the counting pressure ($16$ spokes on
+$\le n - 16 - k$ touched vertices) must then force a foot pair at
+arc-distance matching the route length. The share-$\ge 8$ /
+single-arc statistics say the matching pair essentially always
+exists with the SHORT route ($c \in \{5, 6\}$, occasionally
+longer composite shares).
+
+<!-- CHECK
+# R73 CHECK 3 - refinement invariants on T(Petersen) + the 10 slice
+# members: dist(v,C) <= 3, some witness with share >= 8, some witness
+# with <= 6 off-C vertices, for every (chordless C16, 0-spoke v) pair.
+from collections import deque
+from itertools import combinations
+def all_c16(adj):
+    n = len(adj); out = []
+    for s in range(n):
+        d = [n+1]*n; d[s] = 0; q = deque([s])
+        while q:
+            v = q.popleft()
+            for w in adj[v]:
+                if d[w] > d[v]+1: d[w] = d[v]+1; q.append(w)
+        stack = [(u, (1 << s) | (1 << u), [s, u]) for u in adj[s] if u > s]
+        while stack:
+            v, mask, path = stack.pop()
+            for w in adj[v]:
+                if w == s:
+                    if len(path) == 16 and path[1] < path[-1]:
+                        es = frozenset(frozenset(e) for e in zip(path, path[1:]+path[:1]))
+                        out.append((frozenset(path), es, tuple(path)))
+                    continue
+                if w < s or (mask >> w) & 1: continue
+                if len(path) + d[w] > 16: continue
+                stack.append((w, mask | (1 << w), path+[w]))
+    return out
+def dist_to_set(adj, v, S):
+    d = {v: 0}; q = deque([v])
+    while q:
+        u = q.popleft()
+        if u in S: return d[u]
+        for w in adj[u]:
+            if w not in d:
+                d[w] = d[u]+1; q.append(w)
+    return 99
+def graphs():
+    padj = {v: set() for v in range(10)}
+    for i in range(5):
+        for a, b in ((i, (i+1) % 5), (i, i+5), (5+i, 5+(i+2) % 5)):
+            padj[a].add(b); padj[b].add(a)
+    verts = [(v, u) for v in sorted(padj) for u in sorted(padj[v])]
+    idx = {p: i for i, p in enumerate(verts)}
+    g = [set() for _ in verts]
+    for v in sorted(padj):
+        for a, b in combinations([idx[(v, u)] for u in sorted(padj[v])], 2):
+            g[a].add(b); g[b].add(a)
+        for u in padj[v]:
+            if v < u:
+                g[idx[(v, u)]].add(idx[(u, v)]); g[idx[(u, v)]].add(idx[(v, u)])
+    yield [sorted(s) for s in g]
+    MD = [[min(abs(a-b) % 16, 16-abs(a-b) % 16) for b in range(16)] for a in range(16)]
+    def exm(m):
+        return frozenset(x for x in (4-m, 8-m) if 1 <= x <= 8)
+    hosts = [0, 0]+list(range(1, 13))+[13, 13]
+    excl = []; adj1 = []
+    for si in range(16):
+        e = []; nr = []
+        for sj in range(si):
+            t = abs(hosts[si]-hosts[sj])
+            ex = exm(t+2)
+            if ex: e.append((sj, ex))
+            if t == 1: nr.append((sj, frozenset((hosts[si], hosts[sj]))))
+        excl.append(e); adj1.append(nr)
+    def build(feet):
+        adj = [[] for _ in range(30)]
+        def add(a, b): adj[a].append(b); adj[b].append(a)
+        for i in range(16): add(i, (i+1) % 16)
+        for si in range(16): add(16+hosts[si], feet[si])
+        for h in range(13): add(16+h, 17+h)
+        return adj
+    def has_c4(adj):
+        n = len(adj); bits = [0]*n
+        for v in range(n):
+            for w in adj[v]: bits[v] |= 1 << w
+        for u in range(n):
+            for v in range(u+1, n):
+                c = bits[u] & bits[v] & ~(1 << u) & ~(1 << v)
+                if c and (c & (c-1)): return True
+        return False
+    def has_c8(adj):
+        n = len(adj)
+        for s in range(n):
+            d = [n+1]*n; d[s] = 0; q = deque([s])
+            while q:
+                v = q.popleft()
+                for w in adj[v]:
+                    if d[w] > d[v]+1: d[w] = d[v]+1; q.append(w)
+            stack = [(u, (1 << s) | (1 << u), 2) for u in adj[s] if u > s]
+            while stack:
+                v, mask, ln = stack.pop()
+                for w in adj[v]:
+                    if w == s:
+                        if ln == 8: return True
+                        continue
+                    if w < s or (mask >> w) & 1: continue
+                    if ln + d[w] > 8: continue
+                    stack.append((w, mask | (1 << w), ln+1))
+        return False
+    members = []
+    feet = [-1]*16; used = [False]*16
+    for i, p in enumerate((0, 1, 3)):
+        feet[i] = p; used[p] = True
+    exc = []
+    def rec(g):
+        if g == 16:
+            adj = build(feet)
+            if not has_c4(adj) and not has_c8(adj):
+                members.append(adj)
+            return
+        if g in (1, 15):
+            cands = [p for p in range(feet[g-1]+1, 16) if not used[p]]
+        else:
+            cands = [p for p in range(16) if not used[p]]
+        for p in cands:
+            ok = True
+            for (gj, e) in excl[g]:
+                if MD[p][feet[gj]] in e: ok = False; break
+            pushed = 0
+            if ok:
+                for (gj, hp) in adj1[g]:
+                    a, b = p, feet[gj]
+                    for (c, dd, hp2) in exc:
+                        if hp & hp2: continue
+                        if len({a, b, c, dd}) == 4 and ((MD[a][c] == 1 and MD[b][dd] == 1)
+                                or (MD[a][dd] == 1 and MD[b][c] == 1)):
+                            ok = False; break
+                    if not ok: break
+                    exc.append((a, b, hp)); pushed += 1
+            if ok:
+                feet[g] = p; used[p] = True
+                rec(g+1)
+                used[p] = False; feet[g] = -1
+            for _ in range(pushed): exc.pop()
+    rec(3)
+    assert len(members) == 10, len(members)
+    for m in members:
+        yield m
+npairs = 0
+for adj in graphs():
+    n = len(adj)
+    cs = all_c16(adj)
+    chl, chd = [], []
+    for vs, es, path in cs:
+        ch = False
+        for x in path:
+            for y in adj[x]:
+                if y in vs and frozenset((x, y)) not in es:
+                    ch = True
+        (chd if ch else chl).append((vs, es))
+    for vs, es in chl:
+        interior = [v for v in range(n) if v not in vs
+                    and not any(u in vs for u in adj[v])]
+        for v in interior:
+            npairs += 1
+            assert dist_to_set(adj, v, vs) <= 3, ("dist>3", sorted(vs), v)
+            wits = [(vs2, es2) for vs2, es2 in chd if v in vs2 and (es & es2)]
+            assert wits
+            assert max(len(es & es2) for _, es2 in wits) >= 8, ("share<8", v)
+            assert min(len(vs2 - vs) for vs2, _ in wits) <= 6, ("offC>6", v)
+assert npairs == 1678, npairs
+CHECK -->

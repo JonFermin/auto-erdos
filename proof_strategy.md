@@ -466,7 +466,10 @@ still-open caveats.
   $OEE$ (mixed pair + even third) and $OOO$/$EEO$ derived
   mechanistically. Census: 100% of sampled firing triples (2,604/2,604)
   factor through the pasting criterion — pasting is empirically
-  exhaustive, no other firing route needs handling.
+  exhaustive, no other firing route needs handling. [MOOTED at R47
+  with `triple_alive_universal`'s death: this census is inert history
+  of the closed tree-level program, not live support for anything —
+  do not cite it as evidence in later sections.]
 - `fund_pair_overlap` (R21, iff): two fundamental cycles intersect in
   $\emptyset$, one vertex, or one vertical path running from the deeper
   anchor down to $\operatorname{lca}(s_1, s_2)$, so
@@ -3374,3 +3377,61 @@ branch closes and supply/witness fuse); negative-closure criterion: a
 probe violation (then the violating ($C$, $v$) pair becomes the seed
 of a supply-falsifier hunt — both outcomes are informative); session
 budget: 3 sessions from this one, extension requires a journal note.
+
+## Section 113 — R73: the arc-exchange mechanism extracted — dist-3, share-8, off-6 invariants, and the single-arc exchange form (session s_0905-080544-2e51)
+
+R73 instrumented the R72 probes before spending proof effort on the
+raw statement. Over the 11 deterministic graphs (1,678 pairs) and
+1,810 fresh random-walk states (241,399 pairs, all $n = 30$), three
+strictly-stronger invariants hold with zero violations (full data +
+CHECK 3 in the lemma file):
+
+1. **dist-3**: every $0$-spoke vertex is at distance $\le 3$ from its
+   chordless $C_{16}$ ($\approx 95\%$ at distance $2$, rest at $3$,
+   never $4$). Not a pure ball-counting fact at $n = 30$ — a genuine
+   first proof rung that needs the $C_8$/ear structure.
+2. **share-8**: some chorded witness shares $\ge 8$ edges with $C$.
+3. **off-6**: some witness carries $\le 6$ vertices off $C$.
+
+Dominant form (82% of pairs): a **single-arc exchange** — $C'$ keeps
+one arc of length $b \in \{10, 11\}$ and replaces the complementary
+arc $a = 16 - b$ with an equal-length branch path through $v$; the
+crux equation $c \in \{a, b\}$ is satisfied with $c = a \in \{5, 6\}$,
+where $a$ sits inside the proved ear-menu arc-distance set. The
+remaining 18% use multi-arc shares (composite exchanges), so the
+single-arc form is a mechanism, not yet a universal.
+
+**Why arc-exchange should not be census-regularity #7** (answering
+the R72 strategy critic directly): (i) unlike the six dead tree-level
+universals, its hypothesis space is not an unbounded SA-samplable
+abstraction — the ($a, b, c$) triple menu at a $0$-spoke vertex is
+FINITE and pinned by two proved lemmas (`chordless_c16_ear_geometry`
+for foot arc-distances, `share1_c16_compose` for composite routes),
+so the conjecture reduces to a bounded combinatorial statement about
+that menu, not an open-ended regularity; (ii) both outcomes are
+informative — a falsifying ($C$, $v$) pair is precisely a seed for
+the supply-falsifier hunt (the dead universals' falsifiers refuted
+crutches, not targets). The honest caveat stays on file: all current
+evidence is $n = 30$; $n \in \{24, \dots, 28, 32\}$ probes are queued
+for R74 alongside proof effort on dist-3.
+
+**Sibling-program pre-commitment** (answering the second strategy
+critic): if the arc-exchange program stalls — no proved rung and no
+falsifier by the end of its 3-session budget (Section 112) — the
+next program is **Q0905-082429-2 (mod-4 invariant)**, opening with
+the Dean–Lesniak–Saito-line literature check; Q0905-082429-3
+(triangle-cover certificate) is the fallback computational lane, one
+session, certificate-or-counterexample. This ordering is fixed now
+to prevent drift.
+
+**R74 plan**: (a) probe the invariants at $n \in \{26, 28, 32\}$
+(the R69/R70 enumerators regenerate members at those $n$); (b) prove
+dist-3 — sketch: if $\mathrm{dist}(v, C) \ge 4$ then $B(v, 2)$ lives
+entirely in the outside graph at distance $\ge 2$ from $C$, and the
+$C_4$-free ball bound ($|B(v,2)| \ge 7$, $= 10$ when $N(v)$ is
+edge-free) plus the spoke-counting pressure ($16$ spokes on
+$\le n - 16 - k$ touched vertices with $k \ge |B(v, \mathrm{dist}-2)|$
+zero-spoke vertices) should overflow the outside budget once the
+$C_8$-exclusions prune the ball collapses; (c) formalize the
+single-arc exchange as the target sub-lemma with the multi-arc
+composite as the declared fallback route.
