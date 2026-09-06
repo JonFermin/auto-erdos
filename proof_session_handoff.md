@@ -1,86 +1,83 @@
-# Session handoff (session s_0904-080738-b2bf)
+# Session handoff (session s_0906-080631-d6e8)
 
-**Stop reason**: Major logical milestone — the zero-free program is
-COMPLETE. Four keep_progress rounds (R68, R69, R70, R71).
+**Stop reason**: Major milestone — the BRANCH-DISTANCE THEOREM is
+proved over the whole witness-decidable range (R74 + R75, both
+keep_progress).
+
+**program**: arc-exchange — session 2 of 3
+
+**Consecutive exploit sessions on current program**: 0
+(this session claimed Q0905-082429-1, whose ideation row carries
+kind: explore; the orphaned s_0905 that opened the program was
+explore for the same reason.)
 
 **What happened**:
 
-1. **R68 (enumeration audit)**: found + fixed an incomplete DFS
-   canonicalization in R66/R67 (later cycle forced to contain the
-   globally minimal unused foot). Corrected own-min rule; matching
-   corner 15,256 -> 15,712 configs, three-apex 10,838 -> 15,066;
-   SAME members, conclusions unchanged — both corners now stand on
-   provably complete enumerations.
+1. **R74 (`c16_dist3_le30` proved, keep, afb6b50)**: in class
+   members on 24<=n<=30, every 0-spoke vertex of a chordless C16
+   has dist(v,C) <= 3. Proof: radius-2 ball bound in cubic C4-free
+   graphs (|B(v,2)| = 8 on a triangle / 10 otherwise) + spoke
+   pigeonhole (|T| >= 6) kills n<=28; at n=30 the forced 8-vertex
+   plug G[Z]=B(v,2) (degree seq (3^6,2^2) or (3^7,1), radius 2)
+   does not exist — 129,584-graph enumeration, validated against
+   the known 19,355 labeled cubic count + differential prune test,
+   ZERO survive (C8-freeness kills the last 2,520).
 
-2. **R69 (`c16_n28_zero_free_closed` proved)**: generalized unit-DFS
-   (apexes/paths/cycles with exclusion tables + double-ear pruning,
-   validated bit-for-bit on the audited R67 slice) exhausted all
-   three n=28 zero-free profiles: 362,294 configs, 214 members, ALL
-   chorded. 12 NEW class members (12 iso classes), incl. a second
-   girth-5 member with record supply 1330. Pin verified to have no
-   zero-free chordless C16 (consistency probe).
+2. **R74 cross-n sweep**: corpus (n=26 member 14 pairs; twelve n=28
+   reps + pin 745 pairs) + walks (n=24 42,300 / n=26 67,312 /
+   n=28 59,397 / n=32 201,612 pairs): the CORE arc-exchange
+   conjecture passes every one of ~411k new pairs. ALL THREE R73
+   refinements FALSIFIED at n=32 with reproducible CHECK witnesses:
+   dist-3 (37 dist-4 pairs), share-8 (min 7), off-6 (up to 8).
+   At n<=28 the invariants are STRONGER (dist=2, share>=9, off<=5).
+   R73's ear-menu/replaced-arc conflation fixed in Section 113 +
+   lemma file.
 
-3. **R70 (`c16_n2426_zero_free_closed` proved)**: n=24 corner EMPTY
-   (2,160,786 configs, zero members). n=26: one new class member
-   (24 labeled = 1 iso class; supply 691) — now the smallest known
-   class member.
+3. **R75 (`c16_dist4_n32` proved, keep, 9b4f90b)**: at n=32,
+   dist(v,C) <= 4, sharp. The dist-5 forcing pins |T|=8 dead,
+   |T|=7 -> Z = B(v,2)+{z*}, |T|=6 -> Z = B(v,2)+{e1,e2}; the ball
+   is the rigid 8-vertex triangle shape (interior degrees full), so
+   only 71 completions exist across all four cases — every one has
+   a C4 or C8. Same-session turnaround of the R74 conjecture-
+   register entry.
 
-4. **R71 (`c16_n30_two_apex_closed` proved — CAPSTONE)**: the
-   (2,2,1^12) profile Section 107 called "too large" fell in 57s
-   (the estimate predated the double-ear pruning): 43,936 configs,
-   1,976 members, ALL chorded, 104 iso classes. Rediscovered the G5
-   snapshot AND the R67 member independently (validation); 102 NEW
-   members. The (3,1^13) profile re-run reproduced R67's numbers
-   exactly (15,066 / 24).
+**qid state**: Q0905-082429-1 RELEASED back to open (program
+continues, R76 next). Q85 (branch-vertex umbrella) open.
+Q0905-082429-2 (mod-4) and Q0905-082429-3 (triangle-cover) open;
+the Section 113 sibling pre-commitment order stands.
 
-**The session's theorem (zero-free completion)**: in any cubic
-{C4,C8}-free graph on 24<=n<=32 vertices, every chordless C16 whose
-spokes touch all outside vertices coexists with a chorded C16.
-Hence a supply falsifier must give EVERY chordless C16 a 0-spoke
-outside vertex. Corpus: 5 -> 120 known members, all supply-positive
-(floor 562 intact).
-
-**qid state**: Q84 RESOLVED (zero-free arm). Q85 OPENED:
-branch-vertex program — (a) 0-spoke local structure (three outside
-edges -> branch trees vs girth/C8 exclusions), (b) spoke-count
-pigeonhole re-entering the R65 ear menu, (c) corpus statistics
-(how close does any of the 120 members come to all-chordless C16s?).
-
-**Suggested next moves (R72)**:
-1. Claim Q85. Start with (b): at n<=32, a chordless C16 with k
-   0-spoke outside vertices puts 16 spokes on n-16-k touched
-   vertices; excess 16-(n-16-k) grows with k — every 0-spoke vertex
-   ADDS an apex elsewhere. Formalize the trade-off as a lemma.
-2. The n=32 case after R66: a falsifier C16 needs an ear AND a
-   0-spoke vertex — outside is a matching minus something; try
-   exhausting n=32 profiles with ONE 0-spoke vertex (15 touched,
-   one 2-apex): edge-determined again, likely cheap with the R69
-   framework (structures: 0-spoke vertex has 3 outside edges).
-3. Alternatively run erdos-proof-ideation for fresh branch-vertex
-   lenses before committing rounds.
+**Suggested next moves (R76)**:
+1. The (a,b,c) MENU LEMMA at n <= 30: v at dist <= 3 from C; the
+   exchange needs TWO disjoint v-C routes (not necessarily
+   shortest — that is the gap the corollary remark flags).
+   Instrument the walk data first: record the two-route length
+   pairs (c1,c2) and foot arc-distances actually used by minimal
+   witnesses; then prove the menu against chordless_c16_ear_geometry
+   + the off-C budget |Z| <= 16-|T|.
+2. If the menu lemma stalls this session or next, the pre-committed
+   sibling program is Q0905-082429-2 (mod-4 invariant), opening
+   with the Dean-Lesniak-Saito literature check (Section 113).
+3. The plug-forcing method (rigid ball + tiny completion space +
+   C8 kills last) is now 2-for-2; it may also settle the n=32
+   two-route geometry directly.
 
 **CRITIC INFRA (standing, carried forward)**: prewarm ALL critics
-via scratchpad prewarm.py THEN proof_prepare (cache replays); check
-cached responses for failing numerical_checks BEFORE running
-prepare (sandbox lacks sorted/itertools — critics' own exprs fail
-eval and escalate OK->BLOCKING); recall_falsify.py pattern:
-use_cache=False, validate parse + all numerical_checks eval truthy,
-then _cache_store. One genuinely-wrong falsify BLOCKING occurred
-(R58 'chord elsewhere' — an a_u b_u edge IS the triangle u a_u b_u);
-fix was clarifying Section 98 text (critics read the strategy + only
-the first 40K chars of the lemma corpus — lemma-file edits may not
-reach them). PROOF_TAG on the SAME command line for EVERY helper.
-cwd RESETS between shell calls — cd explicitly in EVERY compound.
-R-numbering by hand (next: R72). proof_results.tsv is LOCAL and
-dies with the container — the journal is the durable trail.
+via scratchpad prewarm.py THEN proof_prepare (cache replays); the
+prewarm pattern: solo call_critic per critic (900s window,
+use_cache=False), validate parse + every numerical_check
+sandbox-evals truthy (sandbox lacks sorted/itertools!), only then
+_cache_store. PROOF_TAG on the SAME command line for EVERY helper.
+cwd RESETS between shell calls. R-numbering by hand (next: R76).
+proof_results.tsv is LOCAL and dies with the container — the
+journal is the durable trail. Walk/probe scripts (r74_lib.py has
+the shared probe_graph with strict=False mode) died with this
+container's scratchpad; the CHECK blocks in the two lemma files
+carry everything reproducible.
 
 **Files modified this session**:
-- proof_strategy.md (Sections 108-111 + Section 98 clarification)
-- proof_lemmas/lemma_c16_matching_corner_closed__0903-080730-a01c.md (R68 correction)
-- proof_lemmas/lemma_c16_three_apex_corner_closed__0903-080730-a01c.md (R68 correction)
-- proof_lemmas/lemma_criticality_edge_witness__0830-080552-2844.md (clarifying note)
-- proof_lemmas/lemma_c16_n28_zero_free_closed__0904-080738-b2bf.md (NEW, proved)
-- proof_lemmas/lemma_c16_n2426_zero_free_closed__0904-080738-b2bf.md (NEW, proved)
-- proof_lemmas/lemma_c16_n30_two_apex_closed__0904-080738-b2bf.md (NEW, proved)
-- records/proof_erdos_gyarfas_{495a0a75aea0_ed5674f,d0d324a40ee1_6726a9a,27ce97cd1952_6668d42,7373bc7186e9_28026c3}.json
-- proof_open_questions.jsonl (Q84 resolved, Q85 opened)
+- proof_strategy.md (Sections 114, 115 + R73 conflation fixes in 113)
+- proof_lemmas/lemma_c16_dist3_le30__0906-080631-d6e8.md (NEW, proved)
+- proof_lemmas/lemma_c16_dist4_n32__0906-080631-d6e8.md (NEW, proved)
+- proof_lemmas/lemma_arc_exchange_witness__0905-080544-2e51.md (R74 section, CHECKs 4-5, amended invariant table)
+- records/proof_erdos_gyarfas_{b910b0026c44_afb6b50,...R75...}.json
+- proof_open_questions.jsonl, proof_journal.jsonl, notes channel

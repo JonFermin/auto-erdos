@@ -5,6 +5,7 @@ One snapshot of `proof_strategy.md` per closed session, written by
 Merge policy for `proof_strategy.md` conflicts: keep the newer
 session_close's version — every session's narrative survives here.
 
+- branch_0730-080656-0fbf_divergent.md
 - s_0730-080837-b7c4.md
 - s_0801-082519-6641.md
 - s_0802-080649-85be.md
@@ -32,4 +33,4 @@ session_close's version — every session's narrative survives here.
 - s_0901-080823-307d.md
 - s_0902-080754-8941.md
 - s_0904-080738-b2bf.md
-- branch_0730-080656-0fbf_divergent.md
+- s_0906-080631-d6e8.md
