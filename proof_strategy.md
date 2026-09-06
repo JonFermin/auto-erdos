@@ -3396,8 +3396,18 @@ CHECK 3 in the lemma file):
 Dominant form (82% of pairs): a **single-arc exchange** — $C'$ keeps
 one arc of length $b \in \{10, 11\}$ and replaces the complementary
 arc $a = 16 - b$ with an equal-length branch path through $v$; the
-crux equation $c \in \{a, b\}$ is satisfied with $c = a \in \{5, 6\}$,
-where $a$ sits inside the proved ear-menu arc-distance set. The
+crux equation $c \in \{a, b\}$ is satisfied with $c = a \in \{5, 6\}$.
+*(R74 correction of an R73 conflation the internal critic caught: the
+girth-$5$ menu $\{3,4,5,7,8\}$ of `chordless_c16_ear_geometry`(b)
+constrains the feet arc-distance of a length-**2** ear through a
+single apex — a different object from the replaced arc. What binds a
+length-$c$ outside path between feet at arc distance $d$ is the
+general ear exclusion $\{d + c,\ 16 - d + c\} \cap \{4, 8\} =
+\emptyset$; the single-arc exchange is the case $d = a$, $c = a$,
+where $d + c = 2a \in \{10, 12\}$ is unconstrained and
+$16 - d + c = 16$ IS the witness cycle. In particular $a = 6$ is
+legal for the exchange path even though $6$ is excluded from the
+2-ear menu.)* The
 remaining 18% use multi-arc shares (composite exchanges), so the
 single-arc form is a mechanism, not yet a universal.
 
@@ -3435,3 +3445,93 @@ zero-spoke vertices) should overflow the outside budget once the
 $C_8$-exclusions prune the ball collapses; (c) formalize the
 single-arc exchange as the target sub-lemma with the multi-arc
 composite as the declared fallback route.
+
+## Section 114 — R74: dist-3 PROVED for $n \le 30$; cross-$n$ probes pass everywhere; off-6 falsified at $n = 32$ (session s_0906-080631-d6e8)
+
+R73 left two debts: the internal critic's ear-menu/replaced-arc
+conflation (fixed in place in Section 113 and in the lemma file — the
+2-ear feet menu $\{3,4,5,7,8\}$ constrains length-2 ears, not the
+replaced arc; the binding constraint on a length-$c$ path between
+feet at arc distance $d$ is $\{d+c, 16-d+c\} \cap \{4,8\} =
+\emptyset$), and the falsify critic's "all evidence is $n = 30$"
+objection. R74 discharges both.
+
+### The proved rung: `c16_dist3_le30` (NEW lemma, status: proved)
+
+In any connected cubic $\{C_4, C_8\}$-free $G$ on $24 \le n \le 30$
+vertices, every $0$-spoke outside vertex $v$ of a chordless $C_{16}$
+satisfies $\mathrm{dist}(v, C) \le 3$. Proof shape:
+
+1. **Ball bound** (cubic + $C_4$-free): $|B(v,2)| = 8$ if $v$ is on
+   a triangle, else $10$; never less than $8$.
+2. **Counting**: $\mathrm{dist}(v, C) \ge 4$ puts $B(v, 2)$ entirely
+   inside the $0$-spoke set $Z$, while the $16$ spokes force
+   $|T| \ge 6$ touched vertices; $n = 16 + |T| + |Z| \ge 30$.
+   This kills $n \le 28$ outright.
+3. **$n = 30$ plug enumeration**: equality forces $|T| = 6$,
+   $Z = B(v, 2)$ exactly ($8$ vertices), exactly $2$ $Z$–$T$ edges,
+   and $G[Z]$ of degree sequence $(3^6, 2^2)$ or $(3^7, 1)$ with
+   radius $2$ from $v$. Exhaustive enumeration ($129{,}584$ labeled
+   graphs; enumerator validated against the known $19{,}355$ labeled
+   cubic graphs on $8$ vertices and a differential prune test):
+   $7{,}560$ are $C_4$-free, $2{,}520$ pass the radius/deficit
+   conditions, and every single one contains a $C_8$. No plug
+   exists.
+
+This is the first proved rung of the arc-exchange program: at
+$n \le 30$ the branch vertex $v$ reaches $C$ within $3$ steps, so
+the exchange-path menu is pinned to concrete short shapes. The
+bound is also SHARP: at $n = 32$ (where the forcing leaves slack —
+$|T| + |Z| = 16$) distance $4$ actually occurs, so dist-3 does not
+extend and no effort should be spent trying.
+
+### Cross-$n$ falsification sweep (the R73 flag, discharged)
+
+Deterministic corpus (arc-exchange lemma CHECK 4): the $n = 26$
+member ($14$ pairs) and all twelve $n = 28$ zero-free classes + the
+R57 pin ($745$ pairs) — the conjecture holds on all $759$ pairs, and
+the invariants are STRICTLY stronger at $n \le 28$: distance always
+exactly $2$, share $\ge 9$, off-$C$ $\le 5$. Walks: $n = 24$,
+$14{,}100$ accepted states / $42{,}300$ pairs (uniform: every pair
+dist $2$ / share $10$ / off $4$); $n = 26$, $4{,}808$ states /
+$67{,}312$ pairs; $n = 28$, $988$ states / $59{,}397$ pairs; zero
+violations at $n \le 28$ (the pin is swap-rigid — no accepted move
+in $120$ s).
+
+### First contact with $n = 32$: all three refinements die, the core survives everything
+
+No class member at $n = 32$ had ever been constructed in this
+program (the zero-free corners at $n = 32$ were closed abstractly).
+Local search (random cubic + cost-descent on $\#C_4 + \#C_8$) found
+one in seconds; the walk explored $814$ accepted states /
+$201{,}612$ ($C$, $v$) pairs of genuine $k \ge 1$ territory. Result:
+**the core conjecture passes all $201{,}612$ pairs**, while ALL
+THREE R73 refinement invariants fail —
+
+- **off-6 FALSE** (min-off $7$ on $1{,}301$ pairs, $8$ on $18$;
+  reproducible example in arc-exchange lemma CHECK 5);
+- **dist-3 FALSE** ($37$ pairs at distance exactly $4$, never $5$;
+  reproducible sharpness witness in `c16_dist3_le30` CHECK 4 — the
+  proved $n \le 30$ bound is best possible);
+- **share-8 FALSE** ($337$ pairs with max share $7$).
+
+Observed $n = 32$ floors: dist $\le 4$, share $\ge 7$, off $\le 8$;
+single-arc $98\%$ with kept arcs $b$ down to $3$. The R73
+invariants were $n \le 30$ facts, not structural ones — precisely
+the falsify critic's objection, now settled in both directions: the
+refinements were indeed $n{=}30$-local, and the core conjecture
+survived a $200$k-pair assault in the one regime with room to kill
+it cheaply.
+
+Program status (session 2 of the 3-session budget): one rung proved
+(`c16_dist3_le30`, sharp), the cross-$n$ evidence debt closed, and
+the proof problem now bifurcates cleanly: (i) $n \le 30$, where
+dist $\le 3$ is a theorem and the exchange menu is short-range;
+(ii) $n = 32$, where dist $\le 4$ / share $\ge 7$ / off $\le 8$ are
+the observed envelope. R75 targets: (a) prove dist-$\le 4$ at
+$n = 32$ by the same forcing ($\mathrm{dist} \ge 5$ pushes
+$B(v, 3)$ into $Z$ — the ball is larger and the case tree finite);
+(b) turn dist-3 into the $n \le 30$ exchange-menu lemma proper:
+enumerate the $(a, b, c)$ triples reachable through a
+distance-$\le 3$ branch vertex against the proved ear menu and the
+spoke-counting pressure.

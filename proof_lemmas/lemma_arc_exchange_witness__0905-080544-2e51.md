@@ -312,8 +312,14 @@ The dominant single-arc form (82% of pairs, not universal): $C'$
 keeps ONE arc of $C$ of length $b \in \{10, 11\}$ and replaces the
 complementary arc $a = 16 - b \in \{5, 6\}$ by an equal-length
 branch path through $v$ — i.e. the exchange lands on $16$ via
-$c = a$ exactly as the crux demands, with $a$ drawn from the proved
-ear-menu arc-distances. Proof plan this suggests (R74+): from
+$c = a$ exactly as the crux demands. *(R74 correction: R73's claim
+here that $a$ is "drawn from the proved ear-menu arc-distances"
+conflated the length-2-ear feet menu $\{3,4,5,7,8\}$ of
+`chordless_c16_ear_geometry`(b) with the replaced arc; the binding
+constraint on a length-$c$ outside path between feet at arc distance
+$d$ is $\{d+c,\ 16-d+c\} \cap \{4,8\} = \emptyset$, under which
+$d = c = a \in \{5,6\}$ is unconstrained — $6$ is not in the 2-ear
+menu and does not need to be.)* Proof plan this suggests (R74+): from
 (dist-3), $v$ reaches $C$ through $\le 2$ intermediate outside
 vertices on each of two disjoint routes; the feet of those routes
 are spokes whose arc-distance menu is pinned by
@@ -485,4 +491,261 @@ for adj in graphs():
             assert max(len(es & es2) for _, es2 in wits) >= 8, ("share<8", v)
             assert min(len(vs2 - vs) for vs2, _ in wits) <= 6, ("offC>6", v)
 assert npairs == 1678, npairs
+CHECK -->
+
+---
+
+## R74 — cross-$n$ evidence, one proved rung, one falsified refinement (session s_0906-080631-d6e8)
+
+R73's honest caveat ("all current evidence is $n = 30$") is now
+discharged in both directions:
+
+**1. dist-3 is PROVED for $24 \le n \le 30$** — see
+`c16_dist3_le30` (R74, status: proved): a radius-2 ball bound in
+cubic $C_4$-free graphs ($|B(v,2)| = 8$ on a triangle, $10$
+otherwise) plus the spoke pigeonhole ($|T| \ge 6$) forces
+$n \ge 30$ for any $0$-spoke vertex at distance $\ge 4$; at
+$n = 30$ the forced $8$-vertex plug $G[Z] = B(v,2)$ (degree
+sequence $(3^6,2^2)$ or $(3^7,1)$, $C_4$/$C_8$-free, radius $2$)
+does not exist — exhaustive enumeration, $129{,}584$ graphs, $0$
+survive. First proved rung of the arc-exchange program.
+
+**2. The core conjecture and dist-3/share-8 survive every cross-$n$
+probe.** Deterministic corpus (CHECK 4): the $n = 26$ member
+($14$ pairs) and the twelve $n = 28$ zero-free representatives plus
+the R57 pin ($745$ pairs) — arc-exchange holds on all $759$ pairs,
+and the invariants come back STRONGER at $n \le 28$: distance
+always exactly $2$, max share $\ge 9$, min off-$C$ $\le 5$
+(single-arc fraction: $50\%$ at $n{=}26$, $95\%$ at $n{=}28$; kept
+arcs $b \in \{7, \dots, 11\}$, so the R73 $b \in \{10,11\}$ menu is
+$n{=}30$-local, not structural). Random double-edge-swap walks
+inside the class: $n = 24$ — $14{,}100$ accepted states /
+$42{,}300$ pairs (from a locally-searched seed; striking uniformity:
+every pair has dist $2$, share $10$, off $4$); $n = 26$ — $4{,}808$
+states / $67{,}312$ pairs; $n = 28$ — $988$ states / $59{,}397$
+pairs (the pin is swap-rigid: $0$ accepted moves in $120$s); zero
+violations of anything at $n \le 28$.
+
+**3. ALL THREE R73 refinements FAIL at $n = 32$ — and the core
+conjecture survives them all.** Local search found a class member at
+$n = 32$ in seconds (the first constructed members at this $n$ —
+the zero-free corners there were closed abstractly, without graphs),
+and a $300$ s walk explored $814$ accepted states / $201{,}612$
+($C$, $v$) pairs, genuine $k \ge 1$ territory ($51$ chordless of
+$618$ $C_{16}$s in the first state). Outcomes:
+
+- **arc-exchange (the conjecture): $201{,}612 / 201{,}612$ pass.**
+- **off-6 FALSE**: min-off $7$ on $1{,}301$ pairs, $8$ on $18$
+  pairs. Reproducible example = CHECK 5 (a pair whose all $225$
+  edge-sharing witnesses carry $7$ off-$C$ vertices).
+- **dist-3 FALSE**: $37$ pairs at distance exactly $4$ (never
+  $5$) — so `c16_dist3_le30` is SHARP: distance $4$ is impossible
+  for $n \le 30$ (proved) and realized at $n = 32$.
+- **share-8 FALSE**: $337$ pairs with max share $7$.
+
+The $n = 32$ observed floors are dist $\le 4$, share $\ge 7$,
+off $\le 8$; single-arc fraction $98\%$ with kept arcs $b$ down to
+$3$. The R73 invariants were $n \le 30$ facts, not structural ones
+— exactly what the falsify critic's objection was probing for. The
+proof program bifurcates cleanly: at $n \le 30$ the mechanism is
+short-range (dist $\le 3$, proved) and tight; at $n = 32$ the
+$0$-spoke vertex can sit one step deeper and the exchange gets
+correspondingly looser, but it still never misses.
+
+**Amended invariant status** (supersedes the R73 list):
+
+| invariant | $n \le 28$ | $n = 30$ | $n = 32$ |
+|---|---|---|---|
+| arc-exchange (core) | holds ($759$ corpus + $169{,}009$ walk pairs) | holds ($\sim 1.3$M pairs, R72–R73) | holds ($201{,}612$ pairs) |
+| dist-3 | **proved** (dist $= 2$ observed) | **proved** (`c16_dist3_le30`) | **FALSE** (dist $4$ occurs; $\le 4$ observed) |
+| share-8 | share $\ge 9$ observed | holds (min $8$) | **FALSE** (min $7$ observed) |
+| off-6 | off $\le 5$ observed | holds (max $6$) | **FALSE** (up to $8$ observed) |
+
+<!-- CHECK
+# R74 CHECK 4 - cross-n corpus: the n=26 member (14 pairs) and the
+# twelve n=28 zero-free representatives + the R57 pin (745 pairs):
+# arc-exchange witness exists for every pair, dist(v,C) == 2 always,
+# some witness shares >= 9 edges, some witness has <= 5 off-C vertices.
+from collections import deque
+def to_adj_flat(flat, n):
+    nums = [int(x) for x in flat.split(",")]
+    adj = [[] for _ in range(n)]
+    for a, b in zip(nums[::2], nums[1::2]):
+        adj[a].append(b); adj[b].append(a)
+    return adj
+def all_c16(adj):
+    n = len(adj); out = []
+    for s in range(n):
+        d = [n+1]*n; d[s] = 0; q = deque([s])
+        while q:
+            v = q.popleft()
+            for w in adj[v]:
+                if d[w] > d[v]+1: d[w] = d[v]+1; q.append(w)
+        stack = [(u, (1 << s) | (1 << u), [s, u]) for u in adj[s] if u > s]
+        while stack:
+            v, mask, path = stack.pop()
+            for w in adj[v]:
+                if w == s:
+                    if len(path) == 16 and path[1] < path[-1]:
+                        es = frozenset(frozenset(e) for e in zip(path, path[1:]+path[:1]))
+                        out.append((frozenset(path), es))
+                    continue
+                if w < s or (mask >> w) & 1: continue
+                if len(path) + d[w] > 16: continue
+                stack.append((w, mask | (1 << w), path+[w]))
+    return out
+def dist_to_set(adj, v, S):
+    d = {v: 0}; q = deque([v])
+    while q:
+        u = q.popleft()
+        if u in S: return d[u]
+        for w in adj[u]:
+            if w not in d:
+                d[w] = d[u]+1; q.append(w)
+    return 99
+REPS28 = [
+"0,1,0,15,0,16,1,2,1,16,2,3,2,20,3,4,3,22,4,5,4,17,5,6,5,24,6,7,6,21,7,8,7,25,8,9,8,19,9,10,9,27,10,11,10,18,11,12,11,26,12,13,12,23,13,14,13,27,14,15,14,18,15,19,16,17,17,18,19,20,20,21,21,22,22,23,23,24,24,25,25,26,26,27",
+"0,1,0,15,0,16,1,2,1,16,2,3,2,18,3,4,3,23,4,5,4,17,5,6,5,21,6,7,6,25,7,8,7,22,8,9,8,20,9,10,9,20,10,11,10,19,11,12,11,19,12,13,12,26,13,14,13,24,14,15,14,27,15,27,16,17,17,18,18,19,20,21,21,22,22,23,23,24,24,25,25,26,26,27",
+"0,1,0,15,0,16,1,2,1,16,2,3,2,18,3,4,3,27,4,5,4,17,5,6,5,22,6,7,6,25,7,8,7,27,8,9,8,24,9,10,9,18,10,11,10,26,11,12,11,20,12,13,12,23,13,14,13,17,14,15,14,21,15,19,16,17,18,19,19,20,20,21,21,22,22,23,23,24,24,25,25,26,26,27",
+"0,1,0,15,0,16,1,2,1,21,2,3,2,17,3,4,3,18,4,5,4,16,5,6,5,24,6,7,6,26,7,8,7,17,8,9,8,18,9,10,9,27,10,11,10,27,11,12,11,19,12,13,12,25,13,14,13,22,14,15,14,20,15,23,16,17,18,19,19,20,20,21,21,22,22,23,23,24,24,25,25,26,26,27",
+"0,1,0,15,0,16,1,2,1,16,2,3,2,21,3,4,3,17,4,5,4,23,5,6,5,25,6,7,6,18,7,8,7,18,8,9,8,26,9,10,9,19,10,11,10,19,11,12,11,22,12,13,12,20,13,14,13,24,14,15,14,27,15,27,16,17,17,18,19,20,20,21,21,22,22,23,23,24,24,25,25,26,26,27",
+"0,1,0,15,0,16,1,2,1,26,2,3,2,18,3,4,3,23,4,5,4,16,5,6,5,21,6,7,6,17,7,8,7,19,8,9,8,19,9,10,9,18,10,11,10,27,11,12,11,20,12,13,12,22,13,14,13,25,14,15,14,27,15,24,16,17,17,18,19,20,20,21,21,22,22,23,23,24,24,25,25,26,26,27",
+"0,1,0,15,0,16,1,2,1,22,2,3,2,19,3,4,3,19,4,5,4,16,5,6,5,18,6,7,6,20,7,8,7,26,8,9,8,17,9,10,9,25,10,11,10,27,11,12,11,27,12,13,12,24,13,14,13,21,14,15,14,18,15,23,16,17,17,18,19,20,20,21,21,22,22,23,23,24,24,25,25,26,26,27",
+"0,1,0,15,0,16,1,2,1,16,2,3,2,19,3,4,3,17,4,5,4,23,5,6,5,25,6,7,6,22,7,8,7,22,8,9,8,21,9,10,9,21,10,11,10,18,11,12,11,26,12,13,12,20,13,14,13,24,14,15,14,27,15,27,16,17,17,18,18,19,19,20,20,21,22,23,23,24,24,25,25,26,26,27",
+"0,1,0,15,0,16,1,2,1,16,2,3,2,19,3,4,3,21,4,5,4,17,5,6,5,23,6,7,6,20,7,8,7,19,8,9,8,27,9,10,9,27,10,11,10,18,11,12,11,25,12,13,12,22,13,14,13,20,14,15,14,24,15,26,16,17,17,18,18,19,20,21,21,22,22,23,23,24,24,25,25,26,26,27",
+"0,1,0,15,0,16,1,2,1,26,2,3,2,22,3,4,3,25,4,5,4,16,5,6,5,19,6,7,6,21,7,8,7,17,8,9,8,23,9,10,9,20,10,11,10,24,11,12,11,27,12,13,12,19,13,14,13,20,14,15,14,27,15,18,16,17,17,18,18,19,20,21,21,22,22,23,23,24,24,25,25,26,26,27",
+"0,1,0,15,0,16,1,2,1,26,2,3,2,22,3,4,3,25,4,5,4,16,5,6,5,19,6,7,6,21,7,8,7,17,8,9,8,23,9,10,9,18,10,11,10,21,11,12,11,20,12,13,12,24,13,14,13,27,14,15,14,27,15,20,16,17,17,18,18,19,19,20,21,22,22,23,23,24,24,25,25,26,26,27",
+"0,1,0,15,0,16,1,2,1,16,2,3,2,17,3,4,3,20,4,5,4,16,5,6,5,23,6,7,6,21,7,8,7,25,8,9,8,22,9,10,9,19,10,11,10,17,11,12,11,26,12,13,12,18,13,14,13,24,14,15,14,27,15,27,17,18,18,19,19,20,20,21,21,22,22,23,23,24,24,25,25,26,26,27",
+]
+PIN28 = [(0,11),(0,19),(0,27),(1,17),(1,19),(1,21),(2,9),(2,13),(2,14),
+(3,22),(3,24),(3,25),(4,5),(4,7),(4,26),(5,14),(5,18),(6,7),(6,8),(6,20),
+(7,13),(8,14),(8,25),(9,17),(9,24),(10,16),(10,21),(10,27),(11,15),(11,16),
+(12,19),(12,23),(12,26),(13,18),(15,22),(15,26),(16,25),(17,23),(18,23),
+(20,21),(20,24),(22,27)]
+FLAT26 = "0,1,0,15,0,16,1,2,1,16,2,3,2,17,3,4,3,17,4,5,4,16,5,6,5,18,6,7,6,18,7,8,7,23,8,9,8,20,9,10,9,24,10,11,10,17,11,12,11,21,12,13,12,19,13,14,13,22,14,15,14,22,15,25,18,19,19,20,20,21,21,22,23,24,23,25,24,25"
+graphs = [to_adj_flat(FLAT26, 26)]
+for flat in REPS28:
+    graphs.append(to_adj_flat(flat, 28))
+gp = [[] for _ in range(28)]
+for a, b in PIN28:
+    gp[a].append(b); gp[b].append(a)
+graphs.append(gp)
+counts = []
+for adj in graphs:
+    n = len(adj)
+    cs = all_c16(adj)
+    chl, chd = [], []
+    for vs, es in cs:
+        ch = False
+        for x in vs:
+            for y in adj[x]:
+                if y in vs and frozenset((x, y)) not in es:
+                    ch = True
+        (chd if ch else chl).append((vs, es))
+    pairs = 0
+    for vs, es in chl:
+        interior = [v for v in range(n) if v not in vs
+                    and not any(u in vs for u in adj[v])]
+        for v in interior:
+            pairs += 1
+            wits = [(vs2, es2) for vs2, es2 in chd if v in vs2 and (es & es2)]
+            assert wits, ("arc-exchange fails", n, sorted(vs), v)
+            assert dist_to_set(adj, v, vs) == 2
+            assert max(len(es & es2) for _, es2 in wits) >= 9
+            assert min(len(vs2 - vs) for vs2, _ in wits) <= 5
+    counts.append(pairs)
+assert counts[0] == 14, counts
+assert sum(counts[1:]) == 745, counts
+CHECK -->
+
+<!-- CHECK
+# R74 CHECK 5 - off-6 falsifier at n=32: this class member (found by
+# local search + one accepted double-edge swap) is cubic, C4-free,
+# C8-free, connected; the chordless C16 below has 0-spoke vertex 24
+# whose every edge-sharing chorded witness through it carries SEVEN
+# off-C vertices (min off = 7 > 6), while the arc-exchange witness
+# still EXISTS (share 8, dist 2) - so off-6 fails at n=32 but the
+# core conjecture and dist-3/share-8 survive.
+from collections import deque
+ADJ = [[15, 20, 25], [13, 19, 26], [3, 4, 17], [2, 14, 31], [2, 6, 17], [22, 25, 29],
+       [4, 21, 27], [11, 16, 25], [18, 20, 30], [18, 21, 23], [22, 24, 28], [7, 14, 17],
+       [15, 18, 19], [1, 21, 28], [3, 11, 22], [0, 12, 16], [7, 15, 30], [2, 4, 11],
+       [8, 9, 12], [1, 12, 27], [0, 8, 30], [6, 9, 13], [5, 10, 14], [9, 27, 29],
+       [10, 26, 31], [0, 5, 7], [1, 24, 31], [6, 19, 23], [10, 13, 29], [5, 23, 28],
+       [8, 16, 20], [3, 24, 26]]
+n = 32
+assert all(len(a) == 3 for a in ADJ)
+assert all(u in ADJ[w] for u in range(n) for w in ADJ[u])
+def has_c4():
+    bits = [0]*n
+    for x in range(n):
+        for w in ADJ[x]: bits[x] |= 1 << w
+    for u in range(n):
+        for w in range(u+1, n):
+            c = bits[u] & bits[w] & ~(1 << u) & ~(1 << w)
+            if c and (c & (c-1)): return True
+    return False
+def has_c8():
+    for s in range(n):
+        stack = [(u, (1 << s) | (1 << u), 2) for u in ADJ[s] if u > s]
+        while stack:
+            x, mask, ln = stack.pop()
+            for w in ADJ[x]:
+                if w == s:
+                    if ln == 8: return True
+                    continue
+                if w < s or (mask >> w) & 1: continue
+                if ln >= 8: continue
+                stack.append((w, mask | (1 << w), ln+1))
+    return False
+assert not has_c4() and not has_c8()
+seen = {0}; q = deque([0])
+while q:
+    v = q.popleft()
+    for w in ADJ[v]:
+        if w not in seen:
+            seen.add(w); q.append(w)
+assert len(seen) == n
+def all_c16():
+    out = []
+    for s in range(n):
+        d = [n+1]*n; d[s] = 0; q = deque([s])
+        while q:
+            v = q.popleft()
+            for w in ADJ[v]:
+                if d[w] > d[v]+1: d[w] = d[v]+1; q.append(w)
+        stack = [(u, (1 << s) | (1 << u), [s, u]) for u in ADJ[s] if u > s]
+        while stack:
+            v, mask, path = stack.pop()
+            for w in ADJ[v]:
+                if w == s:
+                    if len(path) == 16 and path[1] < path[-1]:
+                        es = frozenset(frozenset(e) for e in zip(path, path[1:]+path[:1]))
+                        out.append((frozenset(path), es))
+                    continue
+                if w < s or (mask >> w) & 1: continue
+                if len(path) + d[w] > 16: continue
+                stack.append((w, mask | (1 << w), path+[w]))
+    return out
+cs = all_c16()
+assert len(cs) == 618, len(cs)
+chl, chd = [], []
+for vs, es in cs:
+    ch = False
+    for x in vs:
+        for y in ADJ[x]:
+            if y in vs and frozenset((x, y)) not in es:
+                ch = True
+    (chd if ch else chl).append((vs, es))
+assert len(chl) == 51, len(chl)
+target = frozenset([0, 4, 5, 6, 8, 9, 11, 14, 15, 16, 17, 18, 21, 22, 25, 30])
+hit = [(vs, es) for vs, es in chl if vs == target]
+assert len(hit) == 1
+vs, es = hit[0]
+v = 24
+assert v not in vs and not any(u in vs for u in ADJ[v])
+wits = [(vs2, es2) for vs2, es2 in chd if v in vs2 and (es & es2)]
+assert len(wits) == 225, len(wits)
+assert max(len(es & es2) for _, es2 in wits) == 8
+assert min(len(vs2 - vs) for vs2, _ in wits) == 7
 CHECK -->
