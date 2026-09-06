@@ -3535,3 +3535,37 @@ $B(v, 3)$ into $Z$ — the ball is larger and the case tree finite);
 enumerate the $(a, b, c)$ triples reachable through a
 distance-$\le 3$ branch vertex against the proved ear menu and the
 spoke-counting pressure.
+
+## Section 115 — R75: `c16_dist4_n32` proved — the branch-distance theorem closes over the whole range $24 \le n \le 32$ (session s_0906-080631-d6e8)
+
+The R74 conjecture-register entry is discharged the same session:
+at $n = 32$, $\mathrm{dist}(v, C) \le 4$ for every $0$-spoke vertex
+$v$ of a chordless $C_{16}$ — NEW lemma `c16_dist4_n32`, status:
+proved, sharp (the R74 dist-$4$ witness attains it).
+
+The proof re-runs the `c16_dist3_le30` forcing one radius higher.
+$\mathrm{dist}(v, C) \ge 5$ makes every deficit vertex ($Z$-vertex
+with a $T$-edge; distance exactly $2$ from $C$) avoid the whole
+ball $B(v, 2) \subseteq Z$. With $|T| + |Z| = 16$: $|T| = 8$ dies
+instantly ($|Z| = 8 < |B(v,2)| + 1$); $|T| = 7$ forces $Z =
+B(v,2) \sqcup \{z^*\}$ with $z^*$ of $G[Z]$-degree $0$ or $2$;
+$|T| = 6$ forces $Z = B(v,2) \sqcup \{e_1, e_2\}$ with degrees
+$(2,2)$ or $(1,3)$. In each case $v$ is on a triangle, so $B(v,2)$
+is the RIGID $8$-vertex shape whose interior degrees are full —
+only the $4$ boundary vertices (each needing exactly $2$ more
+edges) and the $\le 2$ extras accept new edges. The completion
+space is $71$ graphs total across the four cases; every single one
+contains a $C_4$ or a $C_8$. Zero survive (lemma CHECK 1 re-runs
+the entire enumeration in under a second). $C_8$-freeness is again
+what fails last — the same signature as the $n = 30$ plug.
+
+**Branch-distance theorem (now proved, $24 \le n \le 32$):** every
+$0$-spoke outside vertex of every chordless $C_{16}$ in a class
+member is at distance $\le 3$ from the cycle for $n \le 30$, and
+$\le 4$ at $n = 32$; both sharp. The honest caveat: this bounds
+the shortest $v$–$C$ route, not yet the two disjoint routes of an
+exchange. R76 target: the $(a, b, c)$ menu lemma — combine the
+branch-distance theorem with the off-$C$ budget ($|Z| \le
+16 - |T|$) and `chordless_c16_ear_geometry` to pin the exchange
+triple menu, first at $n \le 30$ where dist $\le 3$ makes the
+menu smallest.
