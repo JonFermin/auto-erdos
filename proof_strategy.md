@@ -3569,3 +3569,73 @@ branch-distance theorem with the off-$C$ budget ($|Z| \le
 16 - |T|$) and `chordless_c16_ear_geometry` to pin the exchange
 triple menu, first at $n \le 30$ where dist $\le 3$ makes the
 menu smallest.
+
+## Section 116 — R76: `c16_two_routes` proved — the exchange's two-route skeleton exists unconditionally at $n \le 30$ (session s_0907-080748-6915)
+
+R76 opens with the instrumentation the R75 handoff ordered: decompose
+every witness of every corpus pair (the $n = 26$ member, twelve
+$n = 28$ reps + the R57 pin, T(Petersen) + the ten R71 slice members
+at $n = 30$; $2{,}437$ pairs total, plus a fresh locally-searched
+$n = 24$ member with $3$ pairs) into its maximal shared arcs and off-$C$
+segments, and read off the segment through $v$ — the branch segment,
+whose two halves at $v$ are the exchange's two routes.
+
+**What the data says** (deterministic, whole corpus):
+
+1. **Single-arc is NOT universal.** $7/14$ pairs at $n{=}26$, $38/745$
+   at $n{=}28$, $173/1678$ at $n{=}30$ have NO single-arc witness at
+   all. The R73 "82% single-arc" was a walk-level statistic, not a
+   per-pair guarantee; the mechanism menu must include composites.
+2. **But $m \le 2$ IS universal.** Every one of those $218$ pairs has
+   a two-arc ($m = 2$) witness, and $215/218$ have one whose OTHER
+   off-$C$ segment is a length-$2$ ear through a single apex (the
+   remaining $3$: other segment of length $3$). No pair anywhere in
+   the corpus needs $m \ge 3$.
+3. **The route menu is tiny.** Per pair, minimizing over ALL witnesses:
+   the branch segment has length $L_v = c_1 + c_2 \in \{4, 5, 6\}$ and
+   the route pair $(c_1, c_2) \in \{(2,2), (2,3), (3,3)\}$ — both
+   routes $\le 3$ ALWAYS, with $(3,3)$ occurring exactly at the $39$
+   dist-$3$ pairs of $n = 30$. Distribution of the per-pair best:
+   $(2,2)$ for $2{,}208$ pairs ($n{=}24$: all $3$; $n{=}26$: all $14$;
+   $n{=}28$: $715/745$; $n{=}30$: $1476/1678$), $(2,3)$ for $193$,
+   $(3,3)$ for the $39$ dist-$3$ pairs.
+4. **Arithmetic floors (proved inline):** both routes have length
+   $\ge 2$ ($v$ is $0$-spoke), so $L_v \ge 4$; a SINGLE-arc witness
+   needs $L_v \ge 5$, because its complementary cycle (branch segment
+   $+$ the replaced arc) has length $2 L_v$, and $L_v = 4$ would make
+   it a $C_8$. So the $(2,2)$-route shape is possible only through
+   composite ($m = 2$) witnesses — which is exactly what the data
+   shows them doing.
+
+**The proved rung — `c16_two_routes` (NEW lemma, status: proved).**
+In class members on $24 \le n \le 30$, every $0$-spoke outside vertex
+$v$ of a chordless $C_{16}$ has two paths to $C$ sharing only $v$,
+with distinct feet and interiors off $C$. Proof: if not, the Menger
+fan gives a cutvertex $w$ whose $v$-side component $K$ is disjoint
+from $C$, has at most one $C$-touched vertex (only when $w \in C$,
+via $w$'s unique spoke), and so fits the $0$-spoke budget
+$|K| \le |Z| + [w \in C] \le (n - 22) + 1 \le 9$. But $G[K]$ would be
+a connected $C_4$/$C_8$-free graph with exactly $d_w \in \{1, 2\}$
+vertices of degree $2$ (forced by parity: $d_w \equiv |K| \bmod 2$)
+and the rest degree $3$ — and NO such graph on $4 \le k \le 9$
+vertices exists: $C_4$-freeness alone kills $k \le 7$; at
+$k \in \{8, 9\}$ all $360$ / $10{,}080$ $C_4$-free candidates contain
+a $C_8$. Zero survive (lemma CHECK 1, with an independent $k = 6$
+brute-force cross-validation; CHECK 2 verifies the statement directly
+on T(Petersen) by max-flow). $C_8$-freeness fails last — the
+plug-forcing signature, now 3-for-3.
+
+This closes the existence gap the R75 handoff flagged: the
+branch-distance theorem bounded one route; `c16_two_routes` gives the
+second, unconditionally. What it does NOT give is route LENGTHS — the
+observed menu $(c_1, c_2) \in \{(2,2),(2,3),(3,3)\}$ is the R77
+target (`c16_two_route_menu`, conjecture with CHECKs).
+
+$n = 32$ status: the same blob kill needs $k \le 10$ ($w \notin C$)
+and $k \le 11$ ($w \in C$). Both enumerated this session:
+$k{=}10$ — $413{,}280$ $C_4$-free candidates, zero $C_8$-free
+($\sim 10$ s); $k{=}11$ — $11{,}340{,}000$ $C_4$-free candidates,
+zero $C_8$-free ($359$ s). So the two-route conclusion holds on the
+whole range $24 \le n \le 32$; both runs exceed the $15$ s CHECK
+budget, so the lemma's CHECK-backed proved claim stays $n \le 30$
+with the $n = 32$ extension documented.
