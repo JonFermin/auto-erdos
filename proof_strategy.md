@@ -3639,3 +3639,52 @@ zero $C_8$-free ($359$ s). So the two-route conclusion holds on the
 whole range $24 \le n \le 32$; both runs exceed the $15$ s CHECK
 budget, so the lemma's CHECK-backed proved claim stays $n \le 30$
 with the $n = 32$ extension documented.
+
+## Section 117 — R77: `c16_two_route_menu` opened — the route-length menu as a bounded local conjecture (session s_0907-080748-6915)
+
+R76 proved the two-route skeleton exists; R77 turns the instrumentation
+law into the program's next falsifiable rung: NEW lemma
+`c16_two_route_menu` (status: open), stating that on $24 \le n \le 30$
+every ($C$, $v$) pair has a witness whose branch segment through $v$
+uses routes $(c_1, c_2) \in \{(2,2), (2,3)\}$ at dist-$2$ vertices and
+$(3,3)$ at dist-$3$ vertices — both routes $\le 3$, segment
+$\le 6$ — plus (separately) a witness with $m \le 2$ shared arcs.
+
+The menu is per-pair OPTIMAL: routes are $\ge 2$ ($0$-spoke) and
+$\ge \mathrm{dist}(v, C)$, so nothing shorter than $(2,2)$ /
+$(3,3)$ is possible at the respective distances. Its arithmetic
+skeleton is proved inline in the lemma file: a $(2,2)$ segment cannot
+close single-arc (the complementary cycle would be the $C_8$ —
+$2L = 8$), so the dominant witness shape is forced composite: segment
+$4$ + a length-$2$ ear + two arcs totalling $10$ — precisely what
+every corpus minimizer looks like. The segment/feet exclusion table
+($\{d + L, 16 - d + L\} \cap \{4, 8\} = \emptyset$: $L{=}4 \Rightarrow
+d \ne 4$, $L{=}5 \Rightarrow d \ne 3$, $L{=}6 \Rightarrow d \ne 2$)
+pins the local geometry the proof must land on.
+
+Dual-attack state (CHECKs 1–2 of the lemma file, $2{,}440$
+deterministic pairs, zero violations — including a first hardcoded
+$n = 24$ member): the $39$ fallback pairs at $n = 30$ are EXACTLY the
+dist-$3$ pairs, each carrying a $(3,3)$ witness. The $n = 32$ regime
+is excluded by design (dist $\le 4$ there, sharp; observed routes up
+to $(4, \cdot)$).
+
+Also recorded in the arc-exchange lemma file: the R73/R74 "single-arc
+dominant" statistic does NOT lift to a per-pair guarantee ($218/2437$
+corpus pairs have no single-arc witness at all; all of them have
+$m = 2$ witnesses, $215$ via a pure length-$2$ ear detour). The
+mechanism menu is therefore {single-arc} $\cup$ {arc + ear composite},
+both now CHECK-pinned.
+
+Program state after R76–R77 (session 3 of the 3-session arc-exchange
+budget): rungs proved — branch-distance ($\le 3$ at $n \le 30$,
+$\le 4$ at $n = 32$, both sharp), two-route existence ($n \le 30$
+CHECK-backed; $n = 32$ by documented enumeration). Open core —
+`c16_two_route_menu` (the route-length menu), then the landing
+arithmetic (menu routes $\times$ ear geometry $\Rightarrow$ a
+length-$16$ exchange always available), which together imply
+`arc_exchange_witness` and collapse the $k \ge 1$ branch of Q85 onto
+the zero-free completion. Per the Section 113 pre-commitment, if the
+menu lemma produces neither a proved rung nor a falsifier within its
+next budget window, the sibling program Q0905-082429-2 (mod-4
+invariant, Dean–Lesniak–Saito literature check first) takes over.
