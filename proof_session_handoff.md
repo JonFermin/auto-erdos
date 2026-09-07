@@ -1,83 +1,96 @@
-# Session handoff (session s_0906-080631-d6e8)
+# Session handoff (session s_0907-080748-6915)
 
-**Stop reason**: Major milestone — the BRANCH-DISTANCE THEOREM is
-proved over the whole witness-decidable range (R74 + R75, both
-keep_progress).
+**Stop reason**: clean session end — two rounds, both keeps (R76
+`c16_two_routes` proved; R77 `c16_two_route_menu` opened with
+2,440-pair CHECKs).
 
-**program**: arc-exchange — session 2 of 3
+**program**: arc-exchange — session 3 of 3; BUDGET WINDOW CLOSED with
+three consecutive keep sessions (R74–R75, R76–R77). The Section 113
+pre-commitment fires only on STALL (no proved rung and no falsifier);
+the program instead produced four proved lemmas in the window, so
+continuation is justified. If the next session prefers rotation
+anyway, the pre-committed sibling is Q0905-082429-2 (mod-4
+invariant), opening with the Dean–Lesniak–Saito literature check.
 
 **Consecutive exploit sessions on current program**: 0
 (this session claimed Q0905-082429-1, whose ideation row carries
-kind: explore; the orphaned s_0905 that opened the program was
-explore for the same reason.)
+kind: explore.)
 
 **What happened**:
 
-1. **R74 (`c16_dist3_le30` proved, keep, afb6b50)**: in class
-   members on 24<=n<=30, every 0-spoke vertex of a chordless C16
-   has dist(v,C) <= 3. Proof: radius-2 ball bound in cubic C4-free
-   graphs (|B(v,2)| = 8 on a triangle / 10 otherwise) + spoke
-   pigeonhole (|T| >= 6) kills n<=28; at n=30 the forced 8-vertex
-   plug G[Z]=B(v,2) (degree seq (3^6,2^2) or (3^7,1), radius 2)
-   does not exist — 129,584-graph enumeration, validated against
-   the known 19,355 labeled cubic count + differential prune test,
-   ZERO survive (C8-freeness kills the last 2,520).
+1. **R76 (`c16_two_routes` proved, keep, 2b61ae4)**: every 0-spoke
+   vertex of a chordless C16 in a class member on 24<=n<=30 has TWO
+   v->C paths sharing only v, distinct feet, interiors off C. Proof:
+   Menger fan + cutvertex blob kill — a separating cutvertex forces a
+   connected C4+C8-free blob with d_w in {1,2} degree-2 vertices
+   (parity-forced: d_w == k mod 2), rest cubic, on k <= 9 vertices
+   (0-spoke budget |Z| <= n-22, +1 iff w on C); NO such graph exists
+   on k=4..9 (CHECK 1: C4-freeness alone kills k<=7; the 360/10,080
+   C4-free candidates at k=8/9 all contain C8s). k=10 (413,280) and
+   k=11 (11,340,000 candidates, 359 s) also enumerate to ZERO, so the
+   conclusion extends to n=32 by documented (not CHECK-backed) runs.
+   Plug-forcing signature (C8 fails last) now 3-for-3.
 
-2. **R74 cross-n sweep**: corpus (n=26 member 14 pairs; twelve n=28
-   reps + pin 745 pairs) + walks (n=24 42,300 / n=26 67,312 /
-   n=28 59,397 / n=32 201,612 pairs): the CORE arc-exchange
-   conjecture passes every one of ~411k new pairs. ALL THREE R73
-   refinements FALSIFIED at n=32 with reproducible CHECK witnesses:
-   dist-3 (37 dist-4 pairs), share-8 (min 7), off-6 (up to 8).
-   At n<=28 the invariants are STRONGER (dist=2, share>=9, off<=5).
-   R73's ear-menu/replaced-arc conflation fixed in Section 113 +
-   lemma file.
+2. **R76 instrumentation (whole corpus + first hardcoded n=24
+   member)**: single-arc exchange is NOT per-pair universal (218/2437
+   pairs lack one: 7/14 at n26, 38/745 at n28, 173/1678 at n30); ALL
+   have m=2 witnesses, 215/218 via a length-2 ear second segment. The
+   universal law is the ROUTE MENU: per pair, some witness has routes
+   (c1,c2) in {(2,2),(2,3)} at dist-2 / (3,3) at dist-3, segment
+   <= 6 — per-pair optimal. (2,2) segments are forced composite
+   (single-arc L=4 makes the complementary cycle a C8).
 
-3. **R75 (`c16_dist4_n32` proved, keep, 9b4f90b)**: at n=32,
-   dist(v,C) <= 4, sharp. The dist-5 forcing pins |T|=8 dead,
-   |T|=7 -> Z = B(v,2)+{z*}, |T|=6 -> Z = B(v,2)+{e1,e2}; the ball
-   is the rigid 8-vertex triangle shape (interior degrees full), so
-   only 71 completions exist across all four cases — every one has
-   a C4 or C8. Same-session turnaround of the R74 conjecture-
-   register entry.
+3. **R77 (`c16_two_route_menu` opened, logged)**: the menu as an open
+   lemma with two CHECKs (762 pairs n<=28 + n24; 1,678 pairs n=30
+   with the 39 dist-3 fallback pairs verified to be exactly the
+   (3,3) rows). Arc-exchange lemma file amended with the R76
+   universality correction.
 
-**qid state**: Q0905-082429-1 RELEASED back to open (program
-continues, R76 next). Q85 (branch-vertex umbrella) open.
-Q0905-082429-2 (mod-4) and Q0905-082429-3 (triangle-cover) open;
-the Section 113 sibling pre-commitment order stands.
+4. **Geometry probe for R78** (scratchpad r77_probe_geo.py, results
+   in this handoff only): for minimal (2,2)+ear witnesses the
+   v-segment feet arc-distance menu is {1,2,3,5,6,7,8} — the d=4 gap
+   predicted by the exclusion table ({d+L,16-d+L} cap {4,8} empty) is
+   EXACTLY realized, everything allowed occurs. So the dist-2 menu
+   proof must be pigeonhole-over-allowed-configs (some allowed
+   (d_seg, d_ear) completion always exists), not unique-shape
+   forcing. Ear supply comes from chordless_c16_ear_geometry(e)
+   (some 2-ear apex exists at n<=31).
 
-**Suggested next moves (R76)**:
-1. The (a,b,c) MENU LEMMA at n <= 30: v at dist <= 3 from C; the
-   exchange needs TWO disjoint v-C routes (not necessarily
-   shortest — that is the gap the corollary remark flags).
-   Instrument the walk data first: record the two-route length
-   pairs (c1,c2) and foot arc-distances actually used by minimal
-   witnesses; then prove the menu against chordless_c16_ear_geometry
-   + the off-C budget |Z| <= 16-|T|.
-2. If the menu lemma stalls this session or next, the pre-committed
-   sibling program is Q0905-082429-2 (mod-4 invariant), opening
-   with the Dean-Lesniak-Saito literature check (Section 113).
-3. The plug-forcing method (rigid ball + tiny completion space +
-   C8 kills last) is now 2-for-2; it may also settle the n=32
-   two-route geometry directly.
+**qid state**: Q0905-082429-1 claimed by this session — release it at
+session_end (program continues, R78 next). Q85, Q0905-082429-2,
+Q0905-082429-3 unchanged.
 
-**CRITIC INFRA (standing, carried forward)**: prewarm ALL critics
-via scratchpad prewarm.py THEN proof_prepare (cache replays); the
-prewarm pattern: solo call_critic per critic (900s window,
-use_cache=False), validate parse + every numerical_check
-sandbox-evals truthy (sandbox lacks sorted/itertools!), only then
-_cache_store. PROOF_TAG on the SAME command line for EVERY helper.
-cwd RESETS between shell calls. R-numbering by hand (next: R76).
-proof_results.tsv is LOCAL and dies with the container — the
-journal is the durable trail. Walk/probe scripts (r74_lib.py has
-the shared probe_graph with strict=False mode) died with this
-container's scratchpad; the CHECK blocks in the two lemma files
-carry everything reproducible.
+**Suggested next moves (R78)**:
+1. Prove the dist-2 row of the menu at n<=28 first (uniform dist-2,
+   |Z| <= 6): two routes of length 2 exist by c16_two_routes +
+   distance; the feet are spoke-hosts of two distinct T-neighbours of
+   v('s neighbourhood). Count the allowed (d_seg, d_ear, arcs)
+   completions against |T| >= 6 and the ear menu; the blob-kill /
+   plug-forcing style may again reduce to a finite enumeration.
+2. The (3,3) fallback at n=30: re-run the c16_dist3_le30 plug
+   forcing one level up — the dist-3 geometry already pins B(v,2).
+3. If the menu stalls: falsifier hunt at n=30 walk states targeting
+   pairs with ONLY long-route witnesses (none seen in 1.5M pairs).
+
+**CRITIC INFRA (standing, carried forward + NEW lesson)**: prewarm
+ALL critics via scratchpad prewarm.py THEN proof_prepare (cache
+replays; newest cache row shadows older). NEW: store a critic
+response ONLY if every numerical_check sandbox-evals without
+ERROR — the sandbox lacks `sorted` (also itertools); a CORRECT
+OK-flagged falsify finding using sorted() got NameError-escalated to
+BLOCKING this session and had to be re-warmed (rewarm_falsify.py
+pattern: up to 4 attempts, require parse OK + zero eval-ERRORs;
+genuine False evals are real findings — keep those). internal and
+falsify critics each need ~8-13 min and often fail parse on attempt
+1; budget ~25 min per full prewarm. PROOF_TAG on the SAME command
+line for EVERY helper. cwd RESETS between shell calls. R-numbering
+by hand (next: R78). proof_results.tsv is LOCAL — the journal is the
+durable trail.
 
 **Files modified this session**:
-- proof_strategy.md (Sections 114, 115 + R73 conflation fixes in 113)
-- proof_lemmas/lemma_c16_dist3_le30__0906-080631-d6e8.md (NEW, proved)
-- proof_lemmas/lemma_c16_dist4_n32__0906-080631-d6e8.md (NEW, proved)
-- proof_lemmas/lemma_arc_exchange_witness__0905-080544-2e51.md (R74 section, CHECKs 4-5, amended invariant table)
-- records/proof_erdos_gyarfas_{b910b0026c44_afb6b50,...R75...}.json
+- proof_strategy.md (Sections 116, 117)
+- proof_lemmas/lemma_c16_two_routes__0907-080748-6915.md (NEW, proved)
+- proof_lemmas/lemma_c16_two_route_menu__0907-080748-6915.md (NEW, open)
+- proof_lemmas/lemma_arc_exchange_witness__0905-080544-2e51.md (R76 amendment)
+- records/proof_erdos_gyarfas_4ac8804f82e5_2b61ae4.json (R76 keep)
 - proof_open_questions.jsonl, proof_journal.jsonl, notes channel
