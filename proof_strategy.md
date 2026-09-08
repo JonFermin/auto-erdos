@@ -3688,3 +3688,64 @@ the zero-free completion. Per the Section 113 pre-commitment, if the
 menu lemma produces neither a proved rung nor a falsifier within its
 next budget window, the sibling program Q0905-082429-2 (mod-4
 invariant, Dean–Lesniak–Saito literature check first) takes over.
+
+## Section 118 — R78: `c16_menu_dist2_supply` proved — the dist-2 menu row reduces to two pure closure statements (session s_0908-080733-7e19)
+
+R78 executes the handoff's move 1 (pigeonhole-over-allowed-configs at
+dist-2) and finds the pigeonhole splits cleanly into a SUPPLY layer,
+which is now proved, and a CLOSURE layer, which is the open residue.
+Probes first (standing dual-attack): for all $2{,}401$ dist-$2$ pairs
+of the deterministic corpus, decompose the $(2,2)$/$(2,3)$ availability
+by the count $\tau(v)$ of T-neighbours of $v$ (neighbours with a foot
+on $C$).
+
+**What the data says** (deterministic, whole corpus):
+
+1. **Perfect dichotomy.** $\tau \in \{1, 2, 3\}$ with counts
+   $193 / 829 / 1379$; a $(2,2)$ witness exists for EXACTLY the
+   $\tau \ge 2$ pairs ($2{,}208$), and the $193$ $\tau = 1$ pairs are
+   EXACTLY the corpus pairs whose best row is $(2,3)$. Zero
+   exceptions either way.
+2. **Supply is never the blocker beyond $\tau$.** Every $\tau \ge 2$
+   pair has a legal landing pair (distinct feet, arc distance
+   $\ne 4$) — in fact EVERY cross-choice of feet is legal, which
+   R78 proves is forced (below). Every $\tau = 1$ pair has $\ge 1$
+   length-$3$ second route ($v x y f_2$, $f_2$ off the unique
+   T-neighbour's feet); supply histogram $1..7$, never $0$.
+3. **Closure shapes are flexible, not fixed.** Minimal $(2,2)$
+   witnesses: $m = 2$ with second off-$C$ segment of length $2$
+   ($1{,}653$), $3$ ($329$), $4$ ($186$), $5$–$7$ ($24$), or $m = 3$
+   with two short ears ($16$). Minimal $(2,3)$ witnesses at
+   $\tau = 1$: single-arc $m = 1$ at feet distance $5$ ($77$),
+   $m = 2$ ($44$), $m = 3$ ($72$). So a closure proof cannot fix ONE
+   local completion shape; the seg-$4$+ear+$2$-arcs sub-shape alone
+   covers $1{,}653/2{,}208$ but misses $555$ pairs.
+
+**The proved rung — `c16_menu_dist2_supply` (NEW lemma, status:
+proved).** (a) Distinct T-neighbours of a common $0$-spoke $v$ have
+disjoint feet ($C_4$: $v u_1 f u_2$). (b) Any cross-pair of their
+feet is at arc distance $\ne 4$ — the length-$4$ branch path plus a
+$4$-arc closes a $C_8$ — so every cross-pair is a legal
+$(2,2)$-landing pair. (c) A $(2,2)$ witness forces $\tau \ge 2$.
+(d) At $\tau = 1$ the $(2,3)$ row is per-pair optimal and its
+length-$2$ route runs through the unique T-neighbour. (e) A
+single-arc $(2,3)$ witness sits at feet distance exactly $5$
+($L = 5$, shared arc $11$; and $d = 3$ is the $C_8$ row of the
+exclusion table). (f) CHECK-backed realization: the dichotomy, the
+histograms, and the second-route supply on all $2{,}401$ pairs
+(CHECK 1: $762$ at $n \le 28$; CHECK 2: $1{,}639$ at $n = 30$).
+
+**The R78 reduction.** The dist-$2$ row of `c16_two_route_menu` is
+now equivalent to two supply-free closure statements: **(A)** at
+$\tau \ge 2$, some legal landing pair completes to a chorded
+$C_{16}$; **(B)** at $\tau = 1$, some $(2,3)$ completion exists.
+Both live entirely in how the $\le 14$-vertex outside routes the
+completion back to $C$ — the blob-kill/plug-forcing style now
+applies to the SECOND off-$C$ segment, whose length menu ($2..7$ at
+$m = 2$) is the enumeration frontier. R79 should attack (A) by
+enumerating the second-segment supply the way R76 enumerated the
+cutvertex blob: a $\tau \ge 2$ pair with NO completion would force
+all $\le 7$-edge outside paths between the complementary arc
+territories to die, and the $0$-spoke budget $|Z| \le n - 22$ plus
+the ear pigeonhole (`chordless_c16_ear_geometry`(e)) should kill
+that configuration on a finite enumeration.
