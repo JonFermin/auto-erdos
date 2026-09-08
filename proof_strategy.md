@@ -3749,3 +3749,38 @@ all $\le 7$-edge outside paths between the complementary arc
 territories to die, and the $0$-spoke budget $|Z| \le n - 22$ plus
 the ear pigeonhole (`chordless_c16_ear_geometry`(e)) should kill
 that configuration on a finite enumeration.
+
+## Section 119 — R79: `c16_landing_universal` opened — closure at dist-2 is per-landing universal on the corpus (session s_0908-080733-7e19)
+
+R79 probes closure statement (A) of the R78 reduction before spending
+proof effort on it (standing dual-attack) and finds it holds in a form
+far stronger than the menu needs: for EVERY one of the $9{,}134$ legal
+landings on the corpus ($3{,}474$ at $n \le 28$, $5{,}660$ at
+$n = 30$) — every choice of two T-neighbours and every choice of their
+feet — a completion to a chorded, arc-sharing $16$-cycle through the
+length-$4$ branch path exists. Not one landing requires choosing the
+RIGHT landing; closure never depends on the freedom that
+`c16_menu_dist2_supply` (b) guarantees.
+
+NEW lemma `c16_landing_universal` (status: open) states exactly this,
+with the full deterministic re-verification as CHECKs 1–2. Its
+negation — one landing in one class member with no completion — is a
+purely LOCAL falsification target, and its proof would give closure
+(A) with room to spare. Minimal-completion anatomy (probe record):
+one extra off-$C$ segment suffices for $8{,}884$ landings (segment
+length $2$–$10$, mode $2$), two extra segments (both $\le 4$) for the
+remaining $250$; every feet distance $d \in \{1,2,3,5,6,7,8\}$
+closes. Single-arc completions are impossible at $L = 4$ (the
+$C_8$ complementary cycle), so these shapes are completion-minimal.
+
+Attack plan for R80+: negate and blob-kill. A completion-free landing
+means: in $G - \{u_1, v, u_2\}$, no $f_2 \to f_1$ path of length $12$
+closes chorded and arc-sharing. The completion supply lives in the
+$\le 14$-vertex outside ($16$ spokes, `chordless_c16_ear_geometry`
+(e) pigeonhole), and removing $\{u_1, v, u_2\}$ deletes at most $3$
+outside vertices and $2$ spokes. The R76 cutvertex/blob technique
+applies to the separation structure between the two arc territories
+of $C \setminus \{f_1, f_2\}$; the $0$-spoke budget $|Z| \le n - 22$
+caps how much of the outside can refuse to carry a segment. If the
+enumeration stalls, the fallback is the weaker per-pair closure (A),
+for which the same probes give a $2{,}208$-pair CHECK corpus.
