@@ -59,6 +59,23 @@ Deterministic corpus, $2{,}440$ pairs total, zero violations:
   dist-$3$ pairs — falling to the $(3,3)$ row, each with a $(3,3)$
   witness present.
 
+**R78–R80 amendment (the dist-2 reduction + closure probe record).**
+`c16_menu_dist2_supply` (R78, proved) reduces this lemma's dist-$2$ row
+to two supply-free closure statements: (A) $\tau(v) \ge 2 \Rightarrow$
+some $(2,2)$ completion — for which `c16_landing_universal` (R79,
+open) records the corpus-universal per-landing form ($9{,}134/9{,}134$
+legal landings close); and (B) $\tau(v) = 1 \Rightarrow$ some $(2,3)$
+completion. R80 probe record for (B): closure is per-PAIR universal
+($193/193$ corpus pairs close) but NOT per-choice — of the $1{,}193$
+individual $(f_1, x, y, f_2)$ length-$3$ route choices with
+$f_2 \notin \mathrm{feet}(u)$, exactly $2$ fail (both at feet
+distance $1$: `n28r0` $v = 7$, `n28r6` $v = 0$), so (B) must
+quantify over choices, unlike (A). Two structural facts observed at
+$\tau = 1$: no choice ever lands at feet distance $3$ (the $L = 5$
+$C_8$-exclusion row is vacuously satisfied — the geometry never
+offers $d = 3$), and $\mathrm{feet}(u)$ splits $59$ single-spoke /
+$134$ two-spoke. The dist-$3$ $(3,3)$ row is untouched by R78–R80.
+
 Walk-level evidence (nondeterministic, documented in Sections 113–114):
 $\sim 1.5$M pairs across $n = 24 \dots 32$ never produced a pair
 whose every witness needs a route $> 4$; the $n = 32$ envelope is

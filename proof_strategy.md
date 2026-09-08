@@ -3784,3 +3784,31 @@ of $C \setminus \{f_1, f_2\}$; the $0$-spoke budget $|Z| \le n - 22$
 caps how much of the outside can refuse to carry a segment. If the
 enumeration stalls, the fallback is the weaker per-pair closure (A),
 for which the same probes give a $2{,}208$-pair CHECK corpus.
+
+## Section 120 — R80: the $\tau = 1$ closure probe — statement (B) is per-pair, not per-choice (session s_0908-080733-7e19)
+
+R80 completes the session's dual-attack sweep by probing closure
+statement (B) in the same per-choice form R79 used for (A): for each
+of the $193$ $\tau = 1$ pairs, every foot $f_1$ of the unique
+T-neighbour $u$ and every length-$3$ second-route option
+$(x, y, f_2)$ with $f_2 \notin \mathrm{feet}(u)$, search for a
+completion of the length-$5$ branch path into a chorded arc-sharing
+$16$-cycle.
+
+Result: $1{,}191$ of $1{,}193$ choices close, and every pair closes
+through some choice ($193/193$ — statement (B) holds on the whole
+corpus per-pair). But TWO individual choices fail (both at feet
+distance $1$: `n28r0` $v{=}7$ route $9$-$25$-$26$-$27$, `n28r6`
+$v{=}0$ route $4$-$1$-$2$-$3$), so the per-choice analogue of
+`c16_landing_universal` is FALSE at $\tau = 1$ — the asymmetry
+between (A) and (B) is real, and (B) must keep its existential
+quantifier over route choices. Bonus geometry: no $\tau = 1$ choice
+ever lands at feet distance $3$ ($0$ of $1{,}193$) — the $L = 5$
+exclusion row is never even tested; a proof of (B) may get $d \ne 3$
+for free from the same local structure that produces the routes.
+
+Recorded as an amendment in `c16_two_route_menu` (probe record, not
+a status change; the menu lemma stays open). Session tally: R78
+proved the supply layer, R79 pinned (A)'s strongest true form, R80
+pinned (B)'s — the dist-2 row is now three precisely-scoped closure
+targets with zero unknown supply questions.
