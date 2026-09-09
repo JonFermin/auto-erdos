@@ -3893,3 +3893,58 @@ additionally deletes $x$, and one fewer surviving outside vertex is
 exactly the kind of margin that turns a thin dip menu into a gapped
 one. Whether the extra deletion is the WHOLE story is open; the
 measured floors ($0$ vs $3$) are the fact.
+
+## Section 122 — R82: `c16_dip_decomposition` proved — the completion calculus, and chordedness is FREE at $d = 1$ (session s_0909-080743-06ca)
+
+R82 formalizes the language Section 121 used informally, and the
+formalization pays immediately: three validity conditions of the
+landing-closure question turn out to be vacuous or automatic, and the
+$d = 1$ row collapses to bare path existence.
+
+NEW lemma `c16_dip_decomposition` (status: proved). For ANY legal
+$\tau \ge 2$ landing $(f_1, u_1, v, u_2, f_2)$ and ANY $f_2 \to f_1$
+path $P$ of length $12$ in $G - \{u_1, v, u_2\}$, with
+$C' := \text{branch} \cdot P$:
+
+- **(a)** $C'$ always has $16$ distinct vertices — the `not16`
+  validity test is vacuous (interior of $P$ avoids the three deleted
+  vertices and both endpoints by simplicity).
+- **(b)** chordlessness of $C$ forces $P \cap C$ to be a union of
+  subarcs — $P$ decomposes as arcs $+$ off-$C$ segments (the "dip"
+  calculus).
+- **(c)** $E(C') \cap E(C)$ is exactly the set of $C$-edges of $P$,
+  and $P$'s first and last edges ARE $C$-edges: the spokes of $f_2$
+  and $f_1$ are precisely the deleted $u_2$ and $u_1$ (chordless
+  $C$ + cubic $\Rightarrow$ one spoke per $C$-vertex), so $P$ can
+  only leave $f_2$ and enter $f_1$ along $C$. Arc-sharing is
+  AUTOMATIC for every completion path, at every $d$ and $n$.
+- **(d)** no pure-arc $P$ exists (needs $d = 4$, excluded by
+  legality) — the single-arc exclusion re-derived in one line.
+- **(e)** at $d = 1$, arc-sharing $\Rightarrow$ chorded, for free:
+  the $C$-edge $f_1 f_2$ is a chord of $C'$ (its $C'$-neighbours
+  rule it out as a $C'$-edge since $|P| = 12 > 1$).
+
+**Corollary.** At $d = 1$ the landing closes iff
+$G - \{u_1, v, u_2\}$ has ANY $f_2 \to f_1$ path of length $12$ —
+every validity condition is automatic. The negation of
+`c16_landing_universal` at the tightest geometry is now a bare
+path-existence statement.
+
+**Census (whole corpus, deterministic).** At $d = 1$: all $18{,}325$
+length-$12$ paths are valid witnesses — zero failures of any kind.
+At $d \ge 2$: $216{,}832$ paths, $196{,}128$ valid, $20{,}704$ fail
+and every single failure is by chordlessness alone ($9.5\%$);
+`noshare`/`not16` never occur anywhere on the corpus — exactly as
+(a) and (c) force. So the ONLY
+nontrivial validity condition left in the dist-$2$ closure question
+is chordedness at $d \ge 2$ — and (e) explains why $d = 1$ is
+special. Combined with R81's slack floor ($\ge 3$ valid completions
+at every $d = 1$ landing), the blob-kill target for R83+ sharpens
+to: show $G - \{u_1, v, u_2\}$ always carries SOME length-$12$
+$f_2 \to f_1$ path — supply-side, with the ear
+pigeonhole (`chordless_c16_ear_geometry` (e)) and the surviving
+$\ge 12$ spokes on $\le 11$ outside vertices as the raw material —
+and separately find what forces a chord at $d \ge 2$ (the corpus
+says every $d \ge 2$ landing has at least one chorded completion —
+that is `c16_landing_universal` itself — but $9.5\%$ of raw paths
+are chordless, so the chord must be argued, not assumed).
