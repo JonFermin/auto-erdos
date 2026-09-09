@@ -3812,3 +3812,84 @@ a status change; the menu lemma stays open). Session tally: R78
 proved the supply layer, R79 pinned (A)'s strongest true form, R80
 pinned (B)'s — the dist-2 row is now three precisely-scoped closure
 targets with zero unknown supply questions.
+
+## Section 121 — R81: the two failing $\tau = 1$ choices mined — a pinpoint spectrum gap, and a slack floor of $3$ at every $\tau \ge 2$ $d = 1$ landing (session s_0909-080743-06ca)
+
+R81 executes the handoff's move 2: reconstruct the only two
+completion-free branch-path configurations known on the corpus (the
+R80 failures `n28r0` $v{=}7$, $u{=}8$, $f_1{=}9$, route
+$25$-$26$-$27$ and `n28r6` $v{=}0$, $u{=}16$, $f_1{=}4$, route
+$1$-$2$-$3$, both at feet distance $d = 1$) and characterize the
+obstruction. Three findings, all deterministic.
+
+**1. The failure mode is a pinpoint path-spectrum gap, not a
+near-miss.** For both failing choices, the set of $f_2 \to f_1$
+simple-path lengths in $G - \{u, v, x, y\}$ is, respectively,
+$\{1, 5, 9, 10, 12, 13, 14, 15\}$ (`n28r0`) and
+$\{1, 5, 8, 9, 10, 12, 13, 14, 15\}$ (`n28r6`): length $11$ — the
+one length that closes a $16$-cycle over the $5$-edge branch path —
+is missing while $10$ and $12$ are both present. There is no
+near-miss layer at all: not a single length-$11$ path exists, so no
+completion ever fails the chord or arc-sharing tests. No parity
+obstruction and no disconnection is involved (every one of the $181$
+$\tau = 1$, $d = 1$ choices reaches length $15$). The full
+$\tau = 1$ census: $1{,}193$ choices, feet-distance histogram
+$\{1{:}181,\ 2{:}135,\ 4{:}125,\ 5{:}182,\ 6{:}105,\ 7{:}250,\
+8{:}215\}$ ($d = 3$ absent, re-confirming R80), failures only at
+$d = 1$.
+
+**2. The mechanism is dip-menu arithmetic.** At $d = 1$ a completion
+is the $15$-edge long arc shortened by "dips" through off-$C$
+components of $G - \{u, v, x, y\}$: a single dip through a segment
+of length $s$ whose feet sit at long-arc positions $a < b$ yields
+path length $15 - (b - a) + s$, so length $11$ needs exactly
+$b - a = s + 4$, and multi-dip combinations need total shortening
+$4$ over disjoint position intervals. In `n28r0` the deletion of
+$\{u, v, x, y\} = \{8, 7, 25, 26\}$ leaves off-$C$ components
+$\{1\}, \{11\}, \{14\}, \{4,5,6,21,24\}$ whose
+attachment-position/segment-length menu misses $b - a = s + 4$ and
+every disjoint combination summing to $4$ (DFS-verified); `n28r6`
+is analogous. The obstruction is thus a thin arithmetic coincidence
+in the post-deletion dip menu — exactly the kind of accident a
+per-choice statement is exposed to when the branch path deletes
+FOUR vertices (two of them, $x, y$, from the completion supply
+itself).
+
+**3. The $\tau \ge 2$ contrast: a slack floor of $3$.** Re-running
+the same census on the $(A)$ side — all $1{,}629$ legal landings at
+$d = 1$ with $\tau \ge 2$ (branch path deletes only THREE vertices,
+$\{u_1, v, u_2\}$) — every landing
+has at least $\mathbf{3}$ distinct valid completions (floor $3$ hit
+$5$ times, histogram mode $9$, max $22$). The $\tau = 1$, $d = 1$
+margin census by contrast: floor $0$ (the two failures), and $9$
+further choices with exactly ONE valid completion. So per-landing
+universality (`c16_landing_universal`) is not merely true on the
+corpus — it holds with quantitative slack $\ge 3$ at the tightest
+feet geometry, precisely where the $\tau = 1$ analogue actually
+fails. Recorded as CHECK 3 of `c16_landing_universal` (early-exit
+count, $\sim 2$s): the slack floor AND the exact two-failure
+$\tau = 1$ contrast are now permanent regression probes.
+
+**Consequences for the program.** (i) The blob-kill of
+`c16_landing_universal`'s negation should not aim at "spectra are
+gapless" — pinpoint gaps DO occur in class members (the $\tau = 1$
+failures) — but at the supply side: with only $3$ deletions and
+$16 - 2 = 14$ surviving spokes, the dip menu at a $\tau \ge 2$
+landing is provably richer; the measured floor of $3$ says the
+right target is "the $(b - a, s)$ menu always covers total
+shortening $16 - d - 12 + s$", with room for THREE independent
+witnesses. (ii) A proof of closure (B) must route around $d = 1$
+per-choice failures; the natural shape is per-pair: the unique
+T-neighbour's OTHER foot $f_1'$ (present in $134/193$ pairs,
+feet$(u)$ split $59$ single / $134$ double) or another route choice
+always rescues — in both corpus failures the alternate foot with
+the SAME route closes ($d = 8$ resp. $d = 4$), and every other
+choice of the pair closes too ($7/8$ resp. $9/10$ choices OK).
+(iii) A plausible cause for the asymmetry (hypothesis, not proved):
+a $\tau = 1$ branch path deletes FOUR vertices from the completion's
+host graph versus THREE at $\tau \ge 2$ — in both regimes the
+deleted T-neighbours are potential dip carriers, but $\tau = 1$
+additionally deletes $x$, and one fewer surviving outside vertex is
+exactly the kind of margin that turns a thin dip menu into a gapped
+one. Whether the extra deletion is the WHOLE story is open; the
+measured floors ($0$ vs $3$) are the fact.

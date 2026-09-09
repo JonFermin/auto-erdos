@@ -75,6 +75,13 @@ $\tau = 1$: no choice ever lands at feet distance $3$ (the $L = 5$
 $C_8$-exclusion row is vacuously satisfied — the geometry never
 offers $d = 3$), and $\mathrm{feet}(u)$ splits $59$ single-spoke /
 $134$ two-spoke. The dist-$3$ $(3,3)$ row is untouched by R78–R80.
+R81 anatomy of the two failures (Section 121): the obstruction is a
+pinpoint $f_2 \to f_1$ path-spectrum gap at length $11$ (lengths
+$10$ and $12$ both present, no parity or connectivity obstruction) —
+dip-menu arithmetic in $G - \{u, v, x, y\}$ misses total shortening
+$4$; in both pairs the alternate foot of $u$ with the SAME route
+closes, so per-pair (B) survives with room ($7/8$ resp. $9/10$
+choices close).
 
 Walk-level evidence (nondeterministic, documented in Sections 113–114):
 $\sim 1.5$M pairs across $n = 24 \dots 32$ never produced a pair
