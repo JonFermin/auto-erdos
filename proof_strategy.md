@@ -3998,3 +3998,59 @@ $\ge 12$ spokes on $\le 11$ outside vertices (Section 122).
 The floor map above says this supply statement, proved with ANY
 positive yield at $d \le 2$, closes the tight zone; $d \ge 3$ can
 afford a lossier argument.
+
+## Section 124 — R84: `c16_d1_ear_cover` opened — the three-layer ear-cover criterion; $d = 1$ closure reduces to ear arithmetic (session s_0910-080911-1f4a)
+
+R84 attacks the main line set up by Sections 122–123: the $d = 1$
+supply question. By `c16_dip_decomposition`, a $d = 1$ landing
+closes iff $H = G - \{u_1, v, u_2\}$ has a length-$12$
+$f_2 \to f_1$ path. R84 classifies HOW such paths are assembled
+from the ear menu of $H$ and proves the assembly directions,
+leaving a single sharply-bounded supply conjecture open. NEW lemma
+`c16_d1_ear_cover` (status: open; sufficiency layers and shape
+exhaustion PROVED inside it).
+
+**Proved content.** In long-arc coordinates ($f_2 = 0$,
+$f_1 = 15$), with interior ears $(\mathrm{lo}, \mathrm{hi}, s)$ of
+$H$ attached at positions $1..14$ and shortening
+$(\mathrm{hi} - \mathrm{lo}) - s$:
+
+1. **(L1)** a single ear of shortening $3$ yields a valid
+   completion (arc–ear–arc);
+2. **(L2)** a sequential vertex-disjoint pair with total
+   shortening $3$ yields one (arc–ear–arc–ear–arc);
+3. **(L3)** an interleaved pair
+   ($\mathrm{lo}_1 < \mathrm{lo}_2 \le \mathrm{hi}_1 <
+   \mathrm{hi}_2$, one backward middle arc) with
+   $(\mathrm{hi}_2 - \mathrm{hi}_1) + (\mathrm{lo}_2 -
+   \mathrm{lo}_1) = s_1 + s_2 + 3$ yields one;
+4. **(shape exhaustion)** L1–L3 are the ONLY completion shapes
+   with $\le 2$ ears — a backward first ear or a nested second ear
+   strands the path.
+
+Validity of each construction is free by `c16_dip_decomposition`
+(a), (c), (e). All four points are proofs, not probes.
+
+**Census (CHECK 1 of the lemma, $\sim 1.5$s).** The trio covers
+ALL $1{,}629$ corpus landings: L1 $1{,}543$, else-L2 $79$,
+else-L3 $7$ — the seven L3-only landings pinned by identity, each
+with exactly ONE valid L3 pair. Depth $\ge 3$ is never needed on
+the corpus. Menu arithmetic: single-ear shortening $-1$ is present
+in $1{,}627/1{,}629$ menus, $+1$ in $1{,}607$, $+2$ in $1{,}574$;
+interior menus carry $13$–$78$ ears.
+
+**What is now open (the R85+ target).** The supply conjecture:
+every legal $d = 1$ landing admits L1, L2, or L3. This implies the
+$d = 1$ row of `c16_landing_universal` and is the cleanest form the
+$d = 1$ question has reached — a statement about $\le 11$ outside
+vertices carrying $\ge 12$ spokes and the positions/lengths of the
+ears they generate, with no path-search left in it. Attack notes:
+(i) the near-universal $\{-1, +1, +2\}$ shortenings mean the proof
+likely goes through "two small ears at compatible positions";
+(ii) the L3-only landings show the backtrack shape is genuinely
+needed — a supply proof restricted to L1/L2 is falsified on the
+corpus; (iii) a falsifier for the conjecture (menu missing all
+three layers) would NOT immediately falsify closure — depth-$3$
+shapes exist as a reserve — so the conjecture carries controlled
+risk. $d = 2$ (same floor $3$, chord no longer free) is the
+companion row, deferred until the $d = 1$ supply argument exists.
