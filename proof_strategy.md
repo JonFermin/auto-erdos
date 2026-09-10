@@ -3948,3 +3948,53 @@ and separately find what forces a chord at $d \ge 2$ (the corpus
 says every $d \ge 2$ landing has at least one chorded completion —
 that is `c16_landing_universal` itself — but $9.5\%$ of raw paths
 are chordless, so the chord must be argued, not assumed).
+
+## Section 123 — R83: the complete per-distance floor map — $d \le 2$ is EXACTLY the tight zone (session s_0910-080911-1f4a)
+
+R83 executes the handoff's quick win: extend the R81 slack census
+from $d = 1$ to ALL feet distances, over all $9{,}134$ legal
+$\tau \ge 2$ landings of the corpus. The result (deterministic,
+capped early-exit counts, every value exact below its cap):
+
+| $d$ | landings | completion floor |
+|---|---|---|
+| $1$ | $1{,}629$ | $3$ |
+| $2$ | $1{,}837$ | $3$ |
+| $3$ | $1{,}072$ | $8$ |
+| $5$ | $1{,}063$ | $12$ |
+| $6$ | $1{,}382$ | $9$ |
+| $7$ | $1{,}351$ | $9$ |
+| $8$ | $800$ | $12$ |
+
+($d = 4$ excluded by legality; all floors attained.) Recorded as
+CHECK 4 of `c16_landing_universal` with per-$d$ caps at
+floor${} + 1$, so the map is pinned exactly, alongside the per-$d$
+landing counts — a $\sim 4$s permanent regression probe.
+
+**Reads.** (i) The tight zone is EXACTLY $d \le 2$, as the s_0909
+CONJECTURE predicted: the floor jumps $3 \to 8$ at $d = 3$ and
+stays $\ge 8$. A supply argument therefore only needs to be sharp
+at $d \in \{1, 2\}$; at $d \ge 3$ there is $\ge 8$-fold corpus
+headroom, room for a cruder pigeonhole. (ii) $d = 1$ and $d = 2$
+share the same floor $3$ even though their validity regimes differ
+(`c16_dip_decomposition` (e): chordedness free at $d = 1$, argued
+at $d = 2$) — the scarcity at $d \le 2$ is in the RAW path supply,
+not in the validity filter. This matches the dip arithmetic: at
+fixed segment length $s$, a one-dip completion needs arc shortening
+$b - a = s + 4 - d$, hardest (largest) at small $d$. (iii) The
+floor-3 witnesses concentrate on `n26` at both $d = 1$ and $d = 2$
+(same $v = 7$, feet $9$-$24$ resp. $9$-$25$) — the same thin
+neighbourhood is extremal for both rows, another hint that one
+supply mechanism governs the whole $d \le 2$ zone.
+
+**Next (R84, the main line).** By `c16_dip_decomposition`, the
+$d = 1$ obligation is bare: $G - \{u_1, v, u_2\}$ always carries a
+length-$12$ $f_2 \to f_1$ path. Raw material:
+`chordless_c16_ear_geometry` (e) — $16$ spokes on $\le 14$ outside
+vertices; the deletion removes exactly $3$ outside vertices
+($u_1, v, u_2$, all off $C$) and between $2$ and $4$ spokes (the
+feet-multiplicities of $u_1$ and $u_2$; $v$ is $0$-spoke), leaving
+$\ge 12$ spokes on $\le 11$ outside vertices (Section 122).
+The floor map above says this supply statement, proved with ANY
+positive yield at $d \le 2$, closes the tight zone; $d \ge 3$ can
+afford a lossier argument.
