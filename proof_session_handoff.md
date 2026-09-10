@@ -1,103 +1,103 @@
-# Session handoff (session s_0909-080743-06ca)
+# Session handoff (session s_0910-080911-1f4a)
 
-**Stop reason**: logical milestone — two rounds, two keeps (R81
-probe/floor, R82 c16_dip_decomposition PROVED). Clean stopping point
-before the d<=2 supply lower bound, which is a full proof attempt
-best given a fresh session's budget.
+**Stop reason**: logical milestone — two rounds, two keeps (R83
+all-d floor map, R84 c16_d1_ear_cover opened with proved
+sufficiency layers). Clean stopping point before the supply
+conjecture, which is a fresh full attempt.
 
-**program**: arc-exchange — continuation window session 2 (the
-s_0908 handoff justified continuation with 4 proved lemmas; this
-session added a 5th, c16_dip_decomposition). Pre-committed sibling
-if the NEXT session prefers rotation is still Q0905-082429-2 (mod-4
-invariant, Dean–Lesniak–Saito literature check first).
+**program**: arc-exchange — continuation window session 3 (s_0908
+justified continuation with 4 proved lemmas, s_0909 added a 5th;
+this session added proved sufficiency layers + shape exhaustion
+inside the new open lemma and reduced d=1 closure to pure ear
+arithmetic). Pre-committed sibling if the NEXT session prefers
+rotation remains Q0905-082429-2 (mod-4 invariant,
+Dean–Lesniak–Saito literature check first).
 
 **Consecutive exploit sessions on current program**: 0
-(this session claimed Q0905-082429-1, whose ideation row carries
-kind: explore, so it is an EXPLORE session — k resets to 0.)
+(this session re-claimed Q0905-082429-1, whose ideation row carries
+kind: explore — k stays 0 by the same rule s_0909 applied. NOTE for
+the next session: three consecutive sessions have now ridden this
+one explore qid; if you continue the program again, consider
+whether the spirit of Variance policy §2 is still served, and
+release + re-claim through ideation if in doubt.)
 
 **What happened**:
 
-1. **R81 (keep, f20e7c9)**: mined the two failing tau=1 d=1 route
-   choices (n28r0 v=7 route 25-26-27; n28r6 v=0 route 1-2-3). The
-   obstruction is a PINPOINT f2->f1 path-spectrum gap at length 11
-   (lengths 10 and 12 both present, no parity/connectivity
-   obstruction) — dip-menu arithmetic in G-{u,v,x,y} misses total
-   shortening 4. In BOTH failures the alternate foot of u with the
-   SAME route closes, so per-pair (B) survives (7/8 resp. 9/10
-   choices OK). Proved the contrast: ALL 1,629 tau>=2 d=1 landings
-   carry >=3 valid completions (slack floor 3), vs floor 0 at
-   tau=1 d=1. CHECK 3 added to lemma_c16_landing_universal pins
-   both. Section 121.
+1. **R83 (keep, 4891c2c)**: the complete per-distance floor map
+   over all 9,134 tau>=2 landings: floors {1:3, 2:3, 3:8, 5:12,
+   6:9, 7:9, 8:12}, counts {1629, 1837, 1072, 1063, 1382, 1351,
+   800}. CHECK 4 of c16_landing_universal (per-d caps at floor+1,
+   ~4s). d<=2 is EXACTLY the tight zone (floor jumps 3->8 at d=3);
+   d=1 and d=2 share floor 3, so scarcity is in RAW path supply,
+   not the validity filter. Section 123.
 
-2. **R82 (keep, a552053)**: NEW lemma c16_dip_decomposition
-   (status: PROVED, ledger-recorded). The completion calculus at a
-   dist-2 tau>=2 landing: for ANY length-12 f2->f1 path P in
-   G-{u1,v,u2}, the closed walk (a) has 16 distinct vertices;
-   (b) decomposes as arcs+off-C segments (chordless C); (c)
-   arc-sharing is AUTOMATIC — the spokes of f1,f2 are exactly the
-   deleted u1,u2, so P must leave f2 / enter f1 along C, i.e. its
-   first and last edges are C-edges; (d) no pure-arc P (needs d=4,
-   excluded); (e) at d=1 arc-sharing => chorded for FREE (the
-   C-edge f1f2 is a chord). Corollary: the d=1 landing-closure
-   question reduces to BARE length-12 path existence in the deleted
-   graph. Corpus census: at d=1 all 18,325 paths are valid; at
-   d>=2 the ONLY failure mode anywhere is chordlessness (~9.5%);
-   noshare/not16 never occur. Section 122.
+2. **R84 (keep, a44275f)**: NEW lemma c16_d1_ear_cover (open, with
+   PROVED parts). In long-arc coordinates, interior ears
+   (lo, hi, s), shortening (hi-lo)-s: (L1) single ear shortening 3
+   => valid completion; (L2) sequential vertex-disjoint pair
+   totalling 3 => valid; (L3) interleaved pair
+   (lo1<lo2<=hi1<hi2, one backward middle arc,
+   (hi2-hi1)+(lo2-lo1)=s1+s2+3) => valid; plus depth-<=2 SHAPE
+   EXHAUSTION (L1-L3 are the only <=2-ear completion shapes).
+   Census CHECK: trio covers ALL 1,629 d=1 landings, partition
+   1543/79/7, the seven L3-only landings pinned by identity (each
+   with exactly one valid L3 pair). d=1 closure now reduces to the
+   SUPPLY CONJECTURE: every legal d=1 landing admits L1, L2 or L3.
+   Section 124.
 
 **qid state**: Q0905-082429-1 released at this session_end (program
-continues, R83 next). Q85, Q0905-082429-2, Q0905-082429-3 unchanged.
+continues, R85 next). Q85, Q0905-082429-2, Q0905-082429-3 unchanged.
 
-**Suggested next moves (R83)**:
-1. QUICK WIN: pin the completion-count floor >=3 across ALL feet
-   distances d (not just d=1). The margin map (r83_probe.py, in the
-   notes/CONJECTURE this session): floor is 3 at d in {1,2} only,
-   8-12 for d>=3. An early-exit cap-3 CHECK over all 9,134 landings
-   runs in ~2.2s (verified). This upgrades c16_landing_universal's
-   quantitative backing to all-d and isolates d<=2 as the tight
-   zone.
-2. MAIN LINE: attack the d<=2 supply lower bound directly. By R82
-   the d=1 obligation is: G-{u1,v,u2} always has a length-12
-   f2->f1 path. Raw material: chordless_c16_ear_geometry (e) — 16
-   spokes on <=14 outside vertices; deleting {u1,v,u2} removes <=3
-   outside vertices and exactly 2 spokes, leaving >=14 spokes on
-   <=11 outside vertices. This is a pure path-existence /
-   blob-supply statement — the cleanest form the closure question
-   has ever had. d=2 needs the same plus the chord argument (at
-   d>=2 chordedness must be argued, not free).
-3. FALLBACK / rotation: if the supply bound stalls, the
-   pre-committed sibling is Q0905-082429-2 (mod-4 invariant;
-   literature check Dean-Lesniak-Saito first).
+**Suggested next moves (R85)**:
+1. MAIN LINE — the supply conjecture. Menu facts to build on:
+   single-ear shortening -1 present in 1,627/1,629 menus, +1 in
+   1,607, +2 in 1,574; menus carry 13-78 interior ears; >=12
+   surviving spokes on <=11 outside vertices force multi-spoke
+   outside vertices (ears with s=2 and C4/C8-excluded gaps).
+   Attack shape: prove menus are dense enough in small shortenings
+   that {3} or {1,2}/{2,1} at compatible positions is unavoidable.
+   Start by mining WHY the -1 shortening is near-universal (it is
+   an s=gap+1 ear; the two exceptions are worth dissecting), then
+   the position-freedom of the +1/+2 ears.
+2. FALSIFICATION FIRST (dual attack, standing policy): before
+   proof effort, hunt a class member + landing whose menu misses
+   all three layers. The 7 L3-only landings are the natural seeds
+   (they are one menu-deletion away from a falsifier). If a
+   falsifier exists, depth-3 shapes become load-bearing and the
+   lemma needs a fourth layer, NOT abandonment.
+3. d=2 row (chord no longer free): dip calculus gives j-i = s+2
+   one-dip; the 90 multi-dip d=2 landings are unmined. Defer until
+   d=1 supply is settled or falsified.
+4. FALLBACK / rotation: pre-committed sibling Q0905-082429-2
+   (mod-4 invariant; literature check Dean-Lesniak-Saito first).
 
 **CRITIC INFRA (standing, carried forward + UPDATED)**: prewarm ALL
-7 critics BEFORE proof_prepare (cache replays). Prewarm pattern
-(rebuild in scratchpad each session — scratchpad dies with the
-container): render via pp._render_critic_prompt(name, spec,
-proof_md, witness_valid=wv); call library._critic_subprocess.
-call_critic(use_cache=False, timeout_s=1500); store via _cache_store
-ONLY if _parse_critic_response parses AND (numerical/falsify) no
-numerical_check _sandboxed_eval dies on a sandbox ARTIFACT
-(NameError/SyntaxError/banned-token; genuine False evals are real
-findings — keep). This session: all 7 stored attempt 1 both rounds;
-falsify is the slow one (~520-830s), full prewarm 748-826s.
-proof_prepare then runs ~175s (lemma CHECKs dominate).
-** NEW LESSON (cost me a wasted prewarm + two dead proof_prepare
-runs this session): strategy+falsify prompts EMBED the whole lemma
-corpus. Do NOT create a lemma file and then hold it aside (mv) while
-a prewarm runs — those two critics render with the transient file
-and store a stale prompt_sha that never matches the clean tree, so
-proof_prepare MISSES falsify -> synthetic BLOCKING(falsify). Finish
-ALL proof_lemmas/ edits for a round BEFORE launching the prewarm.
-Run render/hash diagnostics ONLY from inside the worktree — a cwd
-reset to the main checkout reads a different proof_strategy.md and
-reports spurious MISS on all 7. ** PROOF_TAG on the SAME command
-line for EVERY helper. cwd RESETS between shell calls. R-numbering
-by hand (next: R83). proof_results.tsv is LOCAL — the journal is the
-durable trail.
+7 critics BEFORE proof_prepare (cache replays); rebuild prewarm.py
+in scratchpad from this recipe: render via
+pp._render_critic_prompt(name, spec, proof_md, witness_valid=wv);
+call library._critic_subprocess.call_critic(use_cache=False,
+timeout_s=1500); store via _cache_store ONLY if
+_parse_critic_response parses AND (numerical/falsify) no
+numerical_check dies on a sandbox ARTIFACT (NameError/SyntaxError/
+banned-token/too-long) AND — NEW RULE this session — no OK-flagged
+finding carries a numerical_check that EVALUATES FALSE
+(self-contradictory row: the critic passes the lemma but typos its
+own arithmetic; R83 lost a prepare cycle to `(16+6)//3 <= 6`
+intended as ceil(16/3)<=|T| on c16_dist3_le30, auto-escalated to
+synthetic BLOCKING(falsify)). Genuine WARN/BLOCKING findings with
+failing checks are real — keep them. Finish ALL proof_lemmas/
+edits for a round BEFORE launching the prewarm (strategy+falsify
+embed the lemma corpus). PROOF_TAG on the SAME command line for
+EVERY helper; cwd resets between shell calls. R-numbering by hand
+(next: R85). This session: prewarm 568s (R83) / see log (R84);
+falsify is the slow one (~520-570s); proof_prepare ~183s after
+warm cache. proof_notes.py is CACHE-DIR-backed and DIES with the
+container — durable insights go in strategy sections + this
+handoff, not the notes channel.
 
 **Files modified this session**:
-- proof_strategy.md (Sections 121, 122)
-- proof_lemmas/lemma_c16_landing_universal__0908-080733-7e19.md (CHECK 3 + R81 amendment)
-- proof_lemmas/lemma_c16_two_route_menu__0907-080748-6915.md (R81 anatomy note)
-- proof_lemmas/lemma_c16_dip_decomposition__0909-080743-06ca.md (NEW, proved)
-- records/proof_erdos_gyarfas_{305c565fd2e9_f20e7c9,e28a10bd8cf6_a552053}.json
-- proof_open_questions.jsonl, proof_journal.jsonl, proof_notes (2 appends: CONJECTURE + CRITIC-INFRA)
+- proof_strategy.md (Sections 123, 124)
+- proof_lemmas/lemma_c16_landing_universal__0908-080733-7e19.md (R83 amendment + CHECK 4)
+- proof_lemmas/lemma_c16_d1_ear_cover__0910-080911-1f4a.md (NEW, open, proved layers inside)
+- records/proof_erdos_gyarfas_97262961f389_4891c2c.json (+ R84 record when logged)
+- proof_open_questions.jsonl, proof_journal.jsonl
