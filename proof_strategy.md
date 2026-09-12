@@ -4054,3 +4054,60 @@ three layers) would NOT immediately falsify closure — depth-$3$
 shapes exist as a reserve — so the conjecture carries controlled
 risk. $d = 2$ (same floor $3$, chord no longer free) is the
 companion row, deferred until the $d = 1$ supply argument exists.
+
+## Section 125 — R85: supply-floor and exclusion arithmetic proved; the fragile-8 census (session s_0912-080614-b899)
+
+R85 executes the handoff's falsification-first order on the supply
+conjecture and converts three of its "raw material" bullets into
+proofs, recorded as the (E1)–(E3) block of `c16_d1_ear_cover`:
+
+1. **(E1) Interiority is free.** $f_1, f_2$ carry no spokes in $H$
+   (their unique outside edges go to the deleted $u_1, u_2$), so
+   every ear of $H$ automatically has endpoints in positions
+   $1..14$. The interior-ear side condition of R84 is vacuous.
+
+2. **(E2) Ear exclusion law.** Every ear satisfies
+   $c + s \notin \{4, 8\}$ ($c$ = cycle distance of the feet): ear
+   + shorter arc is a cycle, banned at $4$ and $8$; ear + longer
+   arc has length $\ge 10$, never constrained. All $C_4/C_8$
+   obstruction on menus is this ONE inequality. Corollaries:
+   $s = 2$ ears have cycle gap $\notin \{2, 6\}$, shortening
+   $\notin \{0, 4, 8, 12\}$; odd shortenings — including the L1
+   shortening $3$ — are NEVER obstructed on non-straddling ears
+   (parity: $c + s = 2s + \mathrm{sh}$ is odd). This explains the
+   census shape: the validity filter cannot thin odd-shortening
+   supply, which is why L1 covers $95\%$ of landings.
+
+3. **(E3) Supply floor.** $\ge 12$ surviving spokes on $\le 11$
+   outside vertices (Sections 122–123) + pigeonhole put a
+   multi-spoke outside vertex in EVERY $d = 1$ menu, whose spoke
+   pair is an $s = 2$ interior ear (interior by E1, gap-restricted
+   by E2). The menu is never ear-free; corpus max-multiplicity
+   histogram: $\{2: 1090,\ 3: 539\}$, never $1$.
+
+**Falsification-first (the fragile-8 census, CHECK 2).** Defining
+an ear critical if its single deletion kills L1/L2/L3 coverage:
+exactly $8$ of $1{,}629$ landings possess critical ears — the seven
+R84 L3-only landings PLUS one previously hidden L2-unique landing
+$(\mathrm{n28r4}, 2, 20, 12, 11, 21, 22)$ — each with exactly $2$
+critical ears (its unique pair). $1{,}621$ landings survive any
+single deletion. The falsifier hunt is thereby reduced to a sharp
+target: a class member realizing "fragile landing geometry minus
+one pair-ear". No falsifier exists on the corpus. Secondary menu
+facts: $s = 2$ cycle gaps realize exactly the allowed set
+$\{1, 3, 4, 5, 7, 8\}$; $816$ landings are covered by $s = 2$ ears
+alone; $53$ landings have only triangle ($g = 1$) $s = 2$ ears —
+so the supply proof needs $s \ge 3$ ears as a fallback branch; the
+$-1$ shortening misses exactly $2$ menus, both L1.
+
+**Where the conjecture now stands.** Provably: every menu has an
+$s = 2$ ear, arithmetic cannot obstruct odd shortenings, and the
+corpus never gets within one deleted ear of a falsifier except at
+$8$ pinned landings. Open: pure position compatibility — forcing a
+shortening-$3$ ear or a compatible pair to exist. Next moves
+(R86+): (a) attack the compatibility question on the $53$
+all-triangle-$s2$ landings first (smallest menus, fallback
+structure explicit); (b) dissect the $8$ fragile landings' spoke
+geometry for what a falsifying member would need, feeding either a
+depth-$3$ fourth layer or a nonexistence argument; (c) $d = 2$ row
+(dip calculus, $90$ multi-dip landings) stays deferred.

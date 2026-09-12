@@ -60,6 +60,46 @@ In all three cases the first and last edges are $C$-edges
 ($\mathrm{lo}_1 \ge 1$, $\mathrm{hi}_{\text{last}} \le 14$) and the
 completion is valid by `c16_dip_decomposition` (a), (c), (e).
 
+**Proved (R85 — supply-floor and exclusion arithmetic).** Three
+further facts, each a proof:
+
+- **(E1) Interiority is free.** In $H$, positions $0$ and $15$
+  carry no spokes: $f_1$ is a foot of $u_1$, and since $C$ is
+  chordless and $G$ cubic, each $C$-vertex has exactly ONE outside
+  edge — so $f_1$'s unique outside edge goes to $u_1 \in
+  \{u_1, v, u_2\}$, deleted in $H$ (likewise $f_2 \to u_2$). Hence
+  EVERY ear of $H$ has both endpoints in positions $1..14$: the
+  interior-ear restriction in the statement is vacuous, and every
+  pigeonhole ear below lands in the usable range automatically.
+
+- **(E2) Ear exclusion law.** Every ear $(\mathrm{lo}, \mathrm{hi},
+  s)$ satisfies $c + s \notin \{4, 8\}$, where $c := \min(\mathrm{hi}
+  - \mathrm{lo},\ 16 - (\mathrm{hi} - \mathrm{lo}))$ is the cycle
+  distance of its feet. Proof: the ear together with the shorter
+  $C$-arc between its feet is a cycle of length $c + s$, forbidden
+  at $4$ and $8$ by $\{C_4, C_8\}$-freeness; the ear with the longer
+  arc has length $(16 - c) + s \ge 10$ (as $s \ge 2$, $c \le 8$), so
+  no second constraint arises. Corollaries: (i) an $s = 2$ ear has
+  $c \notin \{2, 6\}$, position gap $\notin \{2, 6, 10, 14\}$, and
+  shortening $\notin \{0, 4, 8, 12\}$; (ii) **odd shortenings are
+  never obstructed**: a non-straddling ear ($\mathrm{hi} -
+  \mathrm{lo} \le 8$) with odd shortening has $c + s = 2s +
+  \mathrm{shortening}$ odd $\notin \{4, 8\}$ — in particular the L1
+  shortening $3$ faces NO $C_4/C_8$ obstruction, matching its
+  $95\%$ share of the census.
+
+- **(E3) Supply floor.** Every legal $\tau \ge 2$, $d = 1$ landing's
+  menu contains at least one $s = 2$ ear. Proof: by
+  `chordless_c16_ear_geometry` (e) the $16$ spokes of $C$ land on
+  $\le 14$ outside vertices; deleting $u_1, v, u_2$ removes three
+  outside vertices and at most $4$ spokes ($u_1, u_2$ carry $\le 2$
+  feet each, $v$ none), leaving $\ge 12$ spokes on $\le 11$ outside
+  vertices. Pigeonhole: some surviving outside vertex $w$ carries
+  $\ge 2$ spokes, and its two distinct feet give an $s = 2$ ear
+  through $w$ — interior by (E1). By (E2)(i) its shortening lies in
+  $\{-1, 1, 2, 3, 5, 6, 7, 9, 10, 11\}$; if $3$, the landing is L1
+  outright.
+
 **Proved (shape exhaustion at depth $\le 2$).** A simple
 $f_2 \to f_1$ path whose off-$C$ part consists of ONE ear is L1; of
 TWO ears, it is L2 or L3: the first arc must start at $0$ and move
@@ -87,18 +127,45 @@ $1{,}627/1{,}629$ landings, $+1$ in $1{,}607$, $+2$ in $1{,}574$,
 $+3$ in exactly the $1{,}543$ L1 landings; interior menus carry
 $13$–$78$ ears.
 
-**Open (the supply conjecture).** Every legal $\tau \ge 2$, $d = 1$
-landing in the class admits an L1, L2, or L3 configuration. This
-implies `c16_landing_universal` restricted to $d = 1$ (sufficiency
-above); it is a priori STRONGER — depth-$\ge 3$ completions exist on
-the corpus but are never needed — so a falsifier for THIS lemma
-(a menu missing all three layers) need not falsify $d = 1$ closure
-itself. Raw material for supply: $\ge 12$ surviving spokes on
-$\le 11$ outside vertices (Section 122/123), pigeonhole forcing
-multi-spoke outside vertices, whose ears have $s = 2$ and $C_4/C_8$-
-excluded gaps; the near-universality of shortenings $\{-1, +1, +2\}$
-suggests the eventual proof shape: produce two small-shortening ears
-with compatible positions, or one ear of shortening $3$ directly.
+**Fragility census (probe record, R85).** Call an ear of a menu
+**critical** if deleting it (alone) leaves a menu admitting no L1,
+L2, or L3. Over all $1{,}629$ landings: exactly $8$ landings have a
+critical ear — the seven L3-only landings above plus ONE L2-unique
+landing hidden inside the L2 count, $(\mathrm{n28r4}, 2, 20, 12, 11,
+21, 22)$ ($0$ L1 ears, exactly $1$ L2 pair, $0$ L3 pairs) — and each
+fragile landing has EXACTLY $2$ critical ears, the two members of
+its unique pair. The other $1{,}621$ landings survive every single
+ear deletion. So the nearest falsifier candidates sit at distance
+"one ear-deletion at one of 8 pinned landings"; a class member
+realizing such a deletion (same landing geometry, one pair-ear
+absent) is the sharpest falsification target. Further menu
+arithmetic: $s = 2$ cycle gaps realize exactly $\{1, 3, 4, 5, 7,
+8\}$ corpus-wide (the (E2) spectrum, all allowed values attained);
+$816/1{,}629$ landings are covered by their $s = 2$ ears alone;
+$53$ landings have ONLY gap-$1$ (triangle) $s = 2$ ears, so an
+eventual supply proof cannot ride $s = 2$ ears exclusively; the
+$-1$ shortening is absent from exactly $2$ menus (both L1
+landings, pinned in CHECK 2).
+
+**Open (the supply conjecture — sharpened by R85).** Every legal
+$\tau \ge 2$, $d = 1$ landing in the class admits an L1, L2, or L3
+configuration. This implies `c16_landing_universal` restricted to
+$d = 1$ (sufficiency above); it is a priori STRONGER — depth-$\ge 3$
+completions exist on the corpus but are never needed — so a
+falsifier for THIS lemma (a menu missing all three layers) need not
+falsify $d = 1$ closure itself. What (E1)–(E3) leave open is
+exactly POSITION COMPATIBILITY: the menu provably contains an
+$s = 2$ ear of unobstructed shortening, and odd-shortening ears are
+arithmetically free, but nothing yet forces a shortening-$3$ ear or
+a compatible (disjoint, sequential-or-interleaved,
+total-shortening-$3$) pair to EXIST. The fragile-8 census bounds
+how tight the corpus gets: never below two witnesses per landing.
+Proof shape suggested by the data: (a) if some $w$ has $2$ spokes
+at cycle gap $5$ (shortening $3$), done by L1; (b) otherwise mine
+the $\ge 12$ spokes for TWO disjoint small-gap ears (gaps $3, 4$
+give shortenings $1, 2$) at compatible positions, with the $53$
+all-triangle-menu landings showing the needed fallback to $s \ge 3$
+ears (shortening $0$ and $3$ at $s = 3$ are both legal there).
 
 <!-- CHECK
 # CHECK 1 - R84 three-layer census: over all 1,629 legal tau>=2 d=1
@@ -107,6 +174,18 @@ with compatible positions, or one ear of shortening $3$ directly.
 # else L3 (interleaved pair, one backtrack) in exactly 7 — pinned by
 # identity, each with exactly ONE valid L3 pair. Trio covers everything;
 # sufficiency of each layer is constructive (see statement). ~1.5s.
+# CHECK 2 - R85 supply-floor + fragility census, verified per landing:
+# (i) INTERIORITY FREE: f1 and f2 carry no spokes in H (their unique
+#     outside edge goes to the deleted u1 / u2), so every ear is interior;
+# (ii) EXCLUSION LAW: every ear (lo, hi, s) has c + s not in {4, 8},
+#     c = min(hi-lo, 16-(hi-lo));
+# (iii) SUPPLY FLOOR: every menu contains an s=2 ear;
+# (iv) FRAGILITY: exactly 8 landings have a critical ear (an ear whose
+#     single deletion kills L1/L2/L3 coverage) — the 7 L3-only landings
+#     plus the L2-unique landing (n28r4, 2, 20, 12, 11, 21, 22) — and
+#     each fragile landing has EXACTLY 2 critical ears (its unique pair);
+# (v) the -1 shortening is absent from exactly 2 menus, both L1 landings:
+#     (n30s3, 44, 20, 8, 7, 19, 18) and (n30s5, 40, 25, 15, 14, 26, 27).
 # CHECK 3 - R81 slack floor: every legal tau>=2 landing at feet distance 1
 # (the tightest geometry, 1,629 landings over the full corpus) has >= 3
 # distinct valid completions (early-exit count). Contrast: of the 181
@@ -333,7 +412,24 @@ EXPECT_L3 = [("n26", 7, 19, 12, 11, 20, 21), ("n26", 8, 20, 19, 12, 21, 11),
              ("n28r1", 8, 3, 2, 18, 4, 17), ("n28r1", 16, 4, 3, 2, 17, 18),
              ("n28r1", 18, 24, 13, 12, 25, 26), ("n28r1", 19, 25, 24, 13, 26, 12),
              ("n28r3", 17, 25, 24, 5, 26, 6)]
-l1 = l2 = 0; l3 = []
+EXPECT_FRAGILE = sorted(EXPECT_L3 + [("n28r4", 2, 20, 12, 11, 21, 22)])
+EXPECT_NO_M1 = [("n30s3", 44, 20, 8, 7, 19, 18),
+                ("n30s5", 40, 25, 15, 14, 26, 27)]
+def hits1(EE):
+    return [e for e in EE if e[1] - e[0] - e[2] == 3]
+def hits2(EE):
+    return [(e1, e2) for e1 in EE for e2 in EE
+            if e1 is not e2 and e1[1] <= e2[0]
+            and (e1[1]-e1[0]-e1[2]) + (e2[1]-e2[0]-e2[2]) == 3
+            and not (e1[3] & e2[3])]
+def hits3(EE):
+    return [(e1, e2) for e1 in EE for e2 in EE
+            if e1 is not e2 and e1[0] < e2[0] <= e1[1] < e2[1]
+            and (e2[1]-e1[1]) + (e2[0]-e1[0]) == e1[2]+e2[2]+3
+            and not (e1[3] & e2[3])]
+def cov(EE):
+    return bool(hits1(EE)) or bool(hits2(EE)) or bool(hits3(EE))
+l1 = l2 = 0; l3 = []; fragile = []; no_m1 = []
 for name, adj in zip(names, graphs):
     n = len(adj)
     cs = all_c16(adj)
@@ -369,24 +465,39 @@ for name, adj in zip(names, graphs):
                                 px, py = posmap[x], posmap[y]
                                 if 1 <= px <= 14 and 1 <= py <= 14 and px != py:
                                     E.append((min(px, py), max(px, py), s, iv))
-                            if any(hi - lo - s == 3 for lo, hi, s, iv in E):
+                            ident = (name, ci, v, u1, f1, u2, f2)
+                            for f in (f1, f2):
+                                for t in adj[f]:
+                                    assert t in vsC or t in (u1, v, u2), \
+                                        ("spoke at position 0/15", ident, f, t)
+                            for lo, hi, s, iv in E:
+                                assert min(hi - lo, 16 - (hi - lo)) + s not in (4, 8), \
+                                    ("exclusion law violated", ident, lo, hi, s)
+                            assert any(s == 2 for lo, hi, s, iv in E), \
+                                ("menu without s=2 ear", ident)
+                            if all(hi - lo - s != -1 for lo, hi, s, iv in E):
+                                no_m1.append(ident)
+                            ncrit = sum(1 for e in E
+                                        if not cov([x for x in E if x is not e]))
+                            if ncrit:
+                                fragile.append((ident, ncrit))
+                            if hits1(E):
                                 l1 += 1; continue
-                            if any(e1 is not e2 and e1[1] <= e2[0]
-                                   and (e1[1]-e1[0]-e1[2]) + (e2[1]-e2[0]-e2[2]) == 3
-                                   and not (e1[3] & e2[3])
-                                   for e1 in E for e2 in E):
+                            if hits2(E):
                                 l2 += 1; continue
-                            pairs = [(e1, e2) for e1 in E for e2 in E
-                                     if e1 is not e2
-                                     and e1[0] < e2[0] <= e1[1] < e2[1]
-                                     and (e2[1]-e1[1]) + (e2[0]-e1[0]) == e1[2]+e2[2]+3
-                                     and not (e1[3] & e2[3])]
+                            pairs = hits3(E)
                             assert len(pairs) == 1, \
                                 ("not exactly one L3 pair", name, ci, v, f1, f2, len(pairs))
-                            l3.append((name, ci, v, u1, f1, u2, f2))
+                            l3.append(ident)
 assert l1 == 1543, l1
 assert l2 == 79, l2
 assert sorted(l3) == sorted(EXPECT_L3), l3
 print("CHECK 1 ok: L1", l1, "| L2", l2, "| L3", len(l3),
       "— trio covers all 1629 d=1 landings; L3-only landings pinned")
+assert sorted(i for i, k in fragile) == EXPECT_FRAGILE, fragile
+assert all(k == 2 for i, k in fragile), fragile
+assert sorted(no_m1) == sorted(EXPECT_NO_M1), no_m1
+print("CHECK 2 ok: interiority free | exclusion law c+s not in {4,8} |",
+      "s=2 supply floor universal | fragile =", len(fragile),
+      "landings (ncrit=2 each) | -1-missing =", len(no_m1))
 CHECK -->
