@@ -1,83 +1,91 @@
-# Session handoff (session s_0906-080631-d6e8)
+# Session handoff (session s_0912-080614-b899)
 
-**Stop reason**: Major milestone — the BRANCH-DISTANCE THEOREM is
-proved over the whole witness-decidable range (R74 + R75, both
-keep_progress).
+**Stop reason**: logical milestone — two rounds, two keeps (R85:
+E1–E3 proved + fragile-8 census; R86: class walk, zero falsifiers
+in a 20× expanded census, + E4 arc-triple law). Clean stopping
+point: the supply conjecture is now heavily falsification-tested
+and its provable perimeter is mapped; what remains is the genuine
+position-compatibility core.
 
-**program**: arc-exchange — session 2 of 3
+**program**: arc-exchange — continuation window session 4.
 
 **Consecutive exploit sessions on current program**: 0
-(this session claimed Q0905-082429-1, whose ideation row carries
-kind: explore; the orphaned s_0905 that opened the program was
-explore for the same reason.)
+(this session re-claimed Q0905-082429-1, kind: explore, so k stays
+0 by the letter of the rule — BUT this was the FOURTH consecutive
+session riding that one explore qid. The spirit of Variance policy
+§2 is no longer served by another bare re-claim: the NEXT session
+should rotate to Q0905-082429-2 (mod-4 invariant program;
+Dean–Lesniak–Saito literature check is its committed STEP 0) or
+Q0905-082429-3 / Q85, or re-enter the d=1 supply line only through
+a fresh ideation pass that re-ranks it against the alternatives.)
 
 **What happened**:
 
-1. **R74 (`c16_dist3_le30` proved, keep, afb6b50)**: in class
-   members on 24<=n<=30, every 0-spoke vertex of a chordless C16
-   has dist(v,C) <= 3. Proof: radius-2 ball bound in cubic C4-free
-   graphs (|B(v,2)| = 8 on a triangle / 10 otherwise) + spoke
-   pigeonhole (|T| >= 6) kills n<=28; at n=30 the forced 8-vertex
-   plug G[Z]=B(v,2) (degree seq (3^6,2^2) or (3^7,1), radius 2)
-   does not exist — 129,584-graph enumeration, validated against
-   the known 19,355 labeled cubic count + differential prune test,
-   ZERO survive (C8-freeness kills the last 2,520).
+1. **R85 (keep, 8f39a23)**: three proofs added to
+   `c16_d1_ear_cover` — (E1) interiority is free (f1/f2 carry no
+   spokes in H, every ear lands in positions 1..14); (E2) the ONE
+   ear exclusion law c+s ∉ {4,8} (all C4/C8 obstruction on menus;
+   corollaries: s=2 gaps avoid {2,6,10,14}, odd shortenings —
+   including L1's 3 — are never obstructed); (E3) supply floor
+   (≥12 spokes on ≤11 outside vertices ⇒ every menu has an s=2
+   ear). Falsification-first census: exactly 8 fragile landings
+   (7 L3-only + hidden L2-unique (n28r4,2,20,12,11,21,22)), each
+   with exactly 2 critical ears; pinned as CHECK 2. Section 125.
 
-2. **R74 cross-n sweep**: corpus (n=26 member 14 pairs; twelve n=28
-   reps + pin 745 pairs) + walks (n=24 42,300 / n=26 67,312 /
-   n=28 59,397 / n=32 201,612 pairs): the CORE arc-exchange
-   conjecture passes every one of ~411k new pairs. ALL THREE R73
-   refinements FALSIFIED at n=32 with reproducible CHECK witnesses:
-   dist-3 (37 dist-4 pairs), share-8 (min 7), off-6 (up to 8).
-   At n<=28 the invariants are STRONGER (dist=2, share>=9, off<=5).
-   R73's ear-menu/replaced-arc conflation fixed in Section 113 +
-   lemma file.
+2. **R86 (keep, ff0d16b)**: seeded 2-edge-swap walk INSIDE the
+   class from the 5 fragile hosts: 1,690 new class members, 31,377
+   legal d=1 landings, ZERO menus missing L1/L2/L3 (partition
+   24,930 / 4,544 / 1,903 — the 6% else-L3 share shows genuinely
+   thinner menus than the corpus). Trimmed slice pinned as CHECK 5
+   (66 members / 2,376 landings, ~2s). Fragile-8 anatomy: critical
+   ears ride 3-spoke vertices in 6/8 cases. (E4) proved: 3-spoke
+   arc triples (x,y,z), x+y+z=16, each ∉ {2,6,10,14}; exactly 7
+   admissible triples, all realized; 6 of 7 contain an arc in
+   {3,4,5} (direct small-shortening ear), unique exception (1,7,8)
+   with shortenings {-1,5,6}. Tri-only mining: of the 53 landings
+   with only triangle s=2 ears, 45 are L1 via s≥3 ears — the s≥3
+   fallback branch is real. Section 126.
 
-3. **R75 (`c16_dist4_n32` proved, keep, 9b4f90b)**: at n=32,
-   dist(v,C) <= 4, sharp. The dist-5 forcing pins |T|=8 dead,
-   |T|=7 -> Z = B(v,2)+{z*}, |T|=6 -> Z = B(v,2)+{e1,e2}; the ball
-   is the rigid 8-vertex triangle shape (interior degrees full), so
-   only 71 completions exist across all four cases — every one has
-   a C4 or C8. Same-session turnaround of the R74 conjecture-
-   register entry.
+**qid state**: Q0905-082429-1 released at this session_end with a
+rotation flag (see above). Q85, Q0905-082429-2, Q0905-082429-3
+unchanged.
 
-**qid state**: Q0905-082429-1 RELEASED back to open (program
-continues, R76 next). Q85 (branch-vertex umbrella) open.
-Q0905-082429-2 (mod-4) and Q0905-082429-3 (triangle-cover) open;
-the Section 113 sibling pre-commitment order stands.
+**Suggested next moves**:
+1. ROTATION (default): Q0905-082429-2 — mod-4 invariant program.
+   STEP 0 is the Dean–Lesniak–Saito-type literature check ("every
+   graph with min degree ≥3 has a cycle ≡ 0 mod 4" — this may be a
+   known theorem; if so, mine the technique, do not re-prove).
+2. If continuing d=1 supply DESPITE the flag (via ideation only):
+   the open core is now precisely stated — produce a shortening-3
+   ear or a compatible pair from: every menu has an s=2 ear (E3),
+   3-spoke vertices supply small shortenings unless triple
+   (1,7,8) (E4), tri-only menus get L1 from s≥3 ears empirically.
+   Attack: the 2-spoke gap dichotomy (Section 126 next-moves (a)) —
+   prove triangle-heavy menus force adjacent-spoke chains into
+   longer small-shortening ears.
+3. d=2 row (chord not free; 90 multi-dip landings) after d=1.
 
-**Suggested next moves (R76)**:
-1. The (a,b,c) MENU LEMMA at n <= 30: v at dist <= 3 from C; the
-   exchange needs TWO disjoint v-C routes (not necessarily
-   shortest — that is the gap the corollary remark flags).
-   Instrument the walk data first: record the two-route length
-   pairs (c1,c2) and foot arc-distances actually used by minimal
-   witnesses; then prove the menu against chordless_c16_ear_geometry
-   + the off-C budget |Z| <= 16-|T|.
-2. If the menu lemma stalls this session or next, the pre-committed
-   sibling program is Q0905-082429-2 (mod-4 invariant), opening
-   with the Dean-Lesniak-Saito literature check (Section 113).
-3. The plug-forcing method (rigid ball + tiny completion space +
-   C8 kills last) is now 2-for-2; it may also settle the n=32
-   two-route geometry directly.
-
-**CRITIC INFRA (standing, carried forward)**: prewarm ALL critics
-via scratchpad prewarm.py THEN proof_prepare (cache replays); the
-prewarm pattern: solo call_critic per critic (900s window,
-use_cache=False), validate parse + every numerical_check
-sandbox-evals truthy (sandbox lacks sorted/itertools!), only then
-_cache_store. PROOF_TAG on the SAME command line for EVERY helper.
-cwd RESETS between shell calls. R-numbering by hand (next: R76).
-proof_results.tsv is LOCAL and dies with the container — the
-journal is the durable trail. Walk/probe scripts (r74_lib.py has
-the shared probe_graph with strict=False mode) died with this
-container's scratchpad; the CHECK blocks in the two lemma files
-carry everything reproducible.
+**CRITIC INFRA (standing, carried forward)**: prewarm ALL 7
+critics BEFORE proof_prepare (cache replays); prewarm.py rebuilt
+in scratchpad per the s_0910 recipe WITH the self-contradictory-OK
+rule (reject a cached candidate if an OK-flagged finding's
+numerical_check evaluates False — falsify hit this on BOTH R85 and
+R86 prewarm attempts 1; one retry fixed it each time). Genuine
+WARN/BLOCKING findings with failing checks are real — keep them.
+Finish ALL proof_lemmas/ edits BEFORE launching prewarm
+(strategy+falsify embed the lemma corpus). PROOF_TAG on the SAME
+command line for EVERY helper; cwd resets between shell calls.
+R-numbering by hand (next: R87). Timings this session: prewarm
+568s/1072s (falsify retry doubles it), proof_prepare ~175s warm,
+lemma CHECK block now ~3.4s (CHECKs 1+2+5). proof_notes.py is
+CACHE-DIR-backed and DIES with the container — durable insights go
+in strategy sections + this handoff.
 
 **Files modified this session**:
-- proof_strategy.md (Sections 114, 115 + R73 conflation fixes in 113)
-- proof_lemmas/lemma_c16_dist3_le30__0906-080631-d6e8.md (NEW, proved)
-- proof_lemmas/lemma_c16_dist4_n32__0906-080631-d6e8.md (NEW, proved)
-- proof_lemmas/lemma_arc_exchange_witness__0905-080544-2e51.md (R74 section, CHECKs 4-5, amended invariant table)
-- records/proof_erdos_gyarfas_{b910b0026c44_afb6b50,...R75...}.json
-- proof_open_questions.jsonl, proof_journal.jsonl, notes channel
+- proof_strategy.md (Sections 125, 126)
+- proof_lemmas/lemma_c16_d1_ear_cover__0910-080911-1f4a.md
+  (E1–E4 proved blocks, fragility + extended census prose,
+  CHECK 2 and CHECK 5 added; CHECK block ~3.4s total)
+- records/proof_erdos_gyarfas_6651179ba9e2_8f39a23.json (R85)
+- records/proof_erdos_gyarfas_4d9e99ab728a_ff0d16b.json (R86)
+- proof_open_questions.jsonl, proof_journal.jsonl

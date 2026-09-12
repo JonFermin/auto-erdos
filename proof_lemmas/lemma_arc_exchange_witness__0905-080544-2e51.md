@@ -749,3 +749,19 @@ assert len(wits) == 225, len(wits)
 assert max(len(es & es2) for _, es2 in wits) == 8
 assert min(len(vs2 - vs) for vs2, _ in wits) == 7
 CHECK -->
+
+---
+
+## R76 amendment — per-pair single-arc universality is FALSE; the composite menu is pinned (session s_0907-080748-6915)
+
+Corpus-wide witness decomposition (Section 116) shows the single-arc
+form, while the dominant walk-level statistic, does NOT lift to a
+per-pair guarantee: $218$ of $2{,}437$ corpus pairs ($7/14$ at
+$n{=}26$, $38/745$ at $n{=}28$, $173/1678$ at $n{=}30$) have NO
+single-arc witness. Every such pair has an $m = 2$ two-arc witness,
+$215/218$ with a length-$2$ ear as the second off-$C$ segment. The
+core conjecture is untouched; but any proof of it must go through the
+two-shape menu (single-arc $\lor$ arc+ear composite), not the
+single-arc form alone. The two-route skeleton of the exchange is now
+PROVED (`c16_two_routes`, R76); the route-length menu is
+`c16_two_route_menu` (R77, open).
