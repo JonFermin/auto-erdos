@@ -4111,3 +4111,67 @@ structure explicit); (b) dissect the $8$ fragile landings' spoke
 geometry for what a falsifying member would need, feeding either a
 depth-$3$ fourth layer or a nonexistence argument; (c) $d = 2$ row
 (dip calculus, $90$ multi-dip landings) stays deferred.
+
+## Section 126 — R86: the class walk — 20× census expansion, zero falsifiers; 3-spoke arc-triple law (session s_0912-080614-b899)
+
+R86 executes the two follow-ups Section 125 queued: a genuine
+falsifier hunt BEYOND the fixed corpus, and the fragile-8 /
+tri-only structural mining.
+
+**The walk (falsification-first, main result).** A seeded
+2-edge-swap random walk inside the class — swaps preserve
+cubicity; a step is accepted iff the result is $C_4/C_8$-free and
+connected — from seeds n24, n26, n28r1, n28r3, n28r4 ($400$
+accepted steps each; the seeds host all 8 fragile landings)
+visited $1{,}690$ new class members, all still carrying chordless
+$C_{16}$s, with $31{,}377$ legal $\tau \ge 2$, $d = 1$ landings.
+EVERY menu admits L1, L2, or L3: zero falsifiers. Partition: L1
+$24{,}930$ / else-L2 $4{,}544$ / else-L3 $1{,}903$. The else-L3
+share is $6\%$ — fifteen times the corpus rate ($7/1{,}629$) — so
+the walk genuinely reaches thinner menus than the curated corpus,
+and the supply conjecture holds there too. A trimmed deterministic
+slice (seed n28r1, 66 members, $2{,}376$ landings) is pinned as
+CHECK 5 of `c16_d1_ear_cover`; the full walk is this probe record.
+Also checked on the walk: no landing had raw supply (a
+shortening-3 ear, or a vertex-disjoint pair with shortenings
+summing to 3, positions unconstrained) while lacking all of
+L1/L2/L3 — position compatibility never turned raw supply into an
+uncovered menu.
+
+**Fragile-8 anatomy.** The critical pair ears of the 8 fragile
+landings ride 3-SPOKE outside vertices in 6 of 8 cases (interior
+vertex with all three edges to $C$); the two exceptions (n28r4's
+L2-unique pair uses an $s = 4$ ear; n28r3's L3 pair an $s = 3$
+ear) still have one $s = 2$ critical ear each. A falsifying member
+must delete a critical ear, i.e. re-route a spoke of a 3-spoke
+vertex — but the 16-spoke budget is conserved, so the spoke lands
+elsewhere and (E3)'s pigeonhole re-fires. The walk result suggests
+this re-supply is what keeps falsifiers nonexistent.
+
+**Tri-only mining.** Of the 53 corpus landings whose $s = 2$ ears
+are all triangles ($g = 1$): 45 are L1-covered via $s \ge 3$ ears
+(lengths 3–8), 8 are pair-only. So the $s \ge 3$ menu carries the
+load exactly where $s = 2$ supply degenerates — the supply proof's
+fallback branch is real and used.
+
+**(E4), proved, recorded in the lemma.** A 3-spoke vertex cuts $C$
+into an arc triple $(x, y, z)$, $x + y + z = 16$, each arc
+avoiding $\{2, 6, 10, 14\}$ (three applications of E2). Exactly 7
+triples survive; all occur on the corpus ($437$ vertices,
+$145/68/62/47/33/50/32$). Six of seven contain an arc in
+$\{3, 4, 5\}$ — a direct small-shortening ($1/2/3$) $s = 2$ ear —
+and the unique exception $(1, 7, 8)$ has ear shortenings
+$\{-1, 5, 6\}$. Supply-proof skeleton this suggests: case on the
+pigeonhole vertex's multiplicity and triple; the hard residue is
+2-spoke-only landings with triangle-heavy menus and the $(1,7,8)$
+3-spoke case, where $s \ge 3$ ears must be produced (per the
+tri-only mining, they empirically always are).
+
+**Next moves (R87+).** (a) The 2-spoke gap dichotomy: mine WHICH
+$s = 2$ gaps coexist with which $s \ge 3$ supply — target a proof
+that a landing with NO small-shortening $s = 2$ ear forces
+structure (e.g. many triangle ears force adjacent-spoke pairs,
+whose outside vertices chain into longer small-shortening ears).
+(b) Push the walk to $n = 30$ seeds and longer runs if more
+falsification pressure is wanted before proof effort. (c) $d = 2$
+row still deferred.

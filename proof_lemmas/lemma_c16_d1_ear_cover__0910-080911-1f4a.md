@@ -100,6 +100,23 @@ further facts, each a proof:
   $\{-1, 1, 2, 3, 5, 6, 7, 9, 10, 11\}$; if $3$, the landing is L1
   outright.
 
+- **(E4) 3-spoke arc-triple law (R86).** A surviving outside vertex
+  $w$ with THREE spokes cuts $C$ into an arc triple $(x, y, z)$,
+  $x + y + z = 16$, and each of $x, y, z$ avoids $\{2, 6, 10, 14\}$
+  — apply (E2) to each of the three $s = 2$ ears through $w$ (a
+  pair of feet at consecutive-arc distance $x$ has cycle distance
+  $\min(x, 16 - x) \notin \{2, 6\}$). Exactly SEVEN unordered
+  triples survive: $(1,3,12)$, $(1,4,11)$, $(1,7,8)$, $(3,4,9)$,
+  $(3,5,8)$, $(4,4,8)$, $(4,5,7)$ — all seven occur on the corpus
+  ($437$ 3-spoke vertices, distribution $145/68/62/47/33/50/32$).
+  Six of the seven triples contain an arc in $\{3, 4, 5\}$ and so
+  provide an $s = 2$ ear of shortening $1$, $2$, or $3$ (position
+  gap = arc for feet consecutive along the triple, when interior);
+  the single exception is $(1, 7, 8)$, whose ears have shortenings
+  $\{-1, 5, 6\}$. So a 3-spoke vertex is a small-shortening
+  supplier unless its triple is exactly $(1, 7, 8)$ — a dichotomy a
+  supply proof can case on.
+
 **Proved (shape exhaustion at depth $\le 2$).** A simple
 $f_2 \to f_1$ path whose off-$C$ part consists of ONE ear is L1; of
 TWO ears, it is L2 or L3: the first arc must start at $0$ and move
@@ -147,6 +164,20 @@ eventual supply proof cannot ride $s = 2$ ears exclusively; the
 $-1$ shortening is absent from exactly $2$ menus (both L1
 landings, pinned in CHECK 2).
 
+**Extended census (probe record, R86 — the walk).** A seeded
+2-edge-swap random walk INSIDE the class (each step preserves
+cubicity; acceptance requires $C_4/C_8$-freeness and connectivity),
+started at the five hosts n24, n26, n28r1, n28r3, n28r4 for $400$
+accepted steps each, visited $1{,}690$ NEW class members carrying
+chordless $C_{16}$s; ALL $31{,}377$ legal $\tau \ge 2$, $d = 1$
+landings across them are covered by the trio (partition: L1
+$24{,}930$, else-L2 $4{,}544$, else-L3 $1{,}903$) — ZERO uncovered
+menus, a $\sim 20\times$ expansion of the R84 census, concentrated
+deliberately around the fragile-8 hosts. The L3 share ($6\%$,
+vs $0.4\%$ on the corpus) shows the walk reaches thinner menus
+than the corpus, and the conjecture still holds. A trimmed
+deterministic slice of the walk is pinned as CHECK 5.
+
 **Open (the supply conjecture — sharpened by R85).** Every legal
 $\tau \ge 2$, $d = 1$ landing in the class admits an L1, L2, or L3
 configuration. This implies `c16_landing_universal` restricted to
@@ -186,11 +217,18 @@ ears (shortening $0$ and $3$ at $s = 3$ are both legal there).
 #     each fragile landing has EXACTLY 2 critical ears (its unique pair);
 # (v) the -1 shortening is absent from exactly 2 menus, both L1 landings:
 #     (n30s3, 44, 20, 8, 7, 19, 18) and (n30s5, 40, 25, 15, 14, 26, 27).
+# CHECK 5 - R86 walk slice: seeded (rng 86) 2-edge-swap walk from n28r1
+# inside the class (cubic preserved by the swap; acceptance = C4-free,
+# C8-free, connected): 66 accepted class members, 2,376 legal tau>=2 d=1
+# landings, every menu admits L1, L2 or L3 (counts pinned; ~2s). The full
+# R86 walk (5 seeds x 400 steps, 1,690 members, 31,377 landings, zero
+# uncovered) is a probe record in Section 126 of proof_strategy.md.
 # CHECK 3 - R81 slack floor: every legal tau>=2 landing at feet distance 1
 # (the tightest geometry, 1,629 landings over the full corpus) has >= 3
 # distinct valid completions (early-exit count). Contrast: of the 181
 # tau=1 d=1 route choices, EXACTLY the two R80 failures (n28r0 v=7 f1=9
 # f2=27; n28r6 v=0 f1=4 f2=3) have zero completions.
+import random
 from collections import deque
 from itertools import combinations
 def to_adj(flat, n):
@@ -500,4 +538,90 @@ assert sorted(no_m1) == sorted(EXPECT_NO_M1), no_m1
 print("CHECK 2 ok: interiority free | exclusion law c+s not in {4,8} |",
       "s=2 supply floor universal | fragile =", len(fragile),
       "landings (ncrit=2 each) | -1-missing =", len(no_m1))
+def c4free(adj):
+    n = len(adj); bits = [0]*n
+    for a in range(n):
+        for b in adj[a]: bits[a] |= 1 << b
+    for a in range(n):
+        for b in range(a+1, n):
+            c = bits[a] & bits[b] & ~(1 << a) & ~(1 << b)
+            if c and (c & (c-1)): return False
+    return True
+def c8free(adj):
+    n = len(adj)
+    for s0 in range(n):
+        stack = [(u, (1 << s0) | (1 << u), 2) for u in adj[s0] if u > s0]
+        while stack:
+            vv, mask, ln = stack.pop()
+            for w in adj[vv]:
+                if w == s0:
+                    if ln == 8: return False
+                    continue
+                if w < s0 or (mask >> w) & 1 or ln >= 8: continue
+                stack.append((w, mask | (1 << w), ln+1))
+    return True
+def conn(adj):
+    seen = {0}; q = deque([0])
+    while q:
+        a = q.popleft()
+        for b in adj[a]:
+            if b not in seen: seen.add(b); q.append(b)
+    return len(seen) == len(adj)
+def d1_menus(adj):
+    n = len(adj)
+    for vs, es, path in all_c16(adj):
+        ch = False
+        for a in path:
+            for b in adj[a]:
+                if b in vs and frozenset((a, b)) not in es: ch = True
+        if ch: continue
+        vsC = set(vs)
+        for v in range(n):
+            if v in vsC or any(t in vsC for t in adj[v]): continue
+            if dist_to(adj, v, vsC) != 2: continue
+            tn = [(w, [f for f in adj[w] if f in vsC]) for w in adj[v]]
+            tn = [(w, F) for w, F in tn if F]
+            if len(tn) < 2: continue
+            for a in range(len(tn)):
+                for b in range(a+1, len(tn)):
+                    u1, F1 = tn[a]; u2, F2 = tn[b]
+                    for f1 in F1:
+                        for f2 in F2:
+                            if arc_dist(path, f1, f2) != 1: continue
+                            i2 = path.index(f2); i1 = path.index(f1)
+                            if (i1 - i2) % 16 == 1:
+                                order = [path[(i2 - t) % 16] for t in range(16)]
+                            else:
+                                order = [path[(i2 + t) % 16] for t in range(16)]
+                            pm = {vtx: t for t, vtx in enumerate(order)}
+                            E = []
+                            for x, y, s, iv in ears_full(adj, vsC, {u1, v, u2}):
+                                px, py = pm[x], pm[y]
+                                if 1 <= px <= 14 and 1 <= py <= 14 and px != py:
+                                    E.append((min(px, py), max(px, py), s, iv))
+                            yield E
+rng = random.Random(86)
+wadj = to_adj(REPS28[1], 28)
+acc = walked = 0; att = 0
+while acc < 100 and att < 8000:
+    att += 1
+    eds = [(a, b) for a in range(28) for b in wadj[a] if a < b]
+    (a, b) = rng.choice(eds); (c, d) = rng.choice(eds)
+    if len({a, b, c, d}) != 4: continue
+    pr = ((a, c), (b, d)) if rng.random() < 0.5 else ((a, d), (b, c))
+    if any(y in wadj[x] for x, y in pr): continue
+    cand = [list(nb) for nb in wadj]
+    for x, y in ((a, b), (c, d)):
+        cand[x].remove(y); cand[y].remove(x)
+    for x, y in pr:
+        cand[x].append(y); cand[y].append(x)
+    if not (c4free(cand) and c8free(cand) and conn(cand)): continue
+    wadj = cand; acc += 1
+    for E in d1_menus(wadj):
+        walked += 1
+        assert hits1(E) or hits2(E) or hits3(E), \
+            ("WALK FALSIFIER: d=1 menu without L1/L2/L3", acc, sorted(E)[:20])
+assert (acc, walked) == (66, 2376), (acc, walked)
+print("CHECK 5 ok: 2-swap walk from n28r1 —", acc,
+      "class members,", walked, "d=1 landings, zero uncovered menus")
 CHECK -->
