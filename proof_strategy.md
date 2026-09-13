@@ -4175,3 +4175,128 @@ whose outside vertices chain into longer small-shortening ears).
 (b) Push the walk to $n = 30$ seeds and longer runs if more
 falsification pressure is wanted before proof effort. (c) $d = 2$
 row still deferred.
+
+## Section 127 — R87: STEP 0 verdict on the mod-4 program — L_mod4 is a 1993 theorem; falsifier arm void; pigeonhole gadget mined (session s_0913-080612-48e5)
+
+Q0905-082429-2 was claimed under the s_0912 rotation flag, and its
+own pre-committed STEP 0 (the Dean–Lesniak–Saito-type literature
+check) was executed FIRST, exactly as queued. Verdict: the check
+fired on the first query.
+
+**Ledger discipline for this section.** Every literature item
+below is EXTERNAL and NOT in `proofs/erdos_gyarfas.json:given_facts`
+(the spec ledger carries only F1–F3). This section uses them solely
+to STEER the program — rescoping a qid is a research-management
+decision, not a proof step — and every proof-shaped consequence is
+stated conditionally (lemma `mod4_even_theta` C1 is an implication
+with external antecedent; T1/T2 there are self-contained and cite
+nothing). No internal lemma or proof section treats these items as
+established. FLAG FOR MAINTAINER: adding Dean–Lesniak–Saito 1993 to
+`given_facts` would make C1 unconditional.
+
+**Literature verdict (details + citations in
+`lemma_mod4_even_theta`).** L_mod4 — *every simple graph with
+minimum degree $\ge 3$ has a cycle of length $\equiv 0 \pmod 4$* —
+is a special case of Dean–Lesniak–Saito (Discrete Mathematics,
+1993): minimum degree $\ge 2$ with at most TWO degree-2 vertices
+already suffices. Choi–Chu (arXiv:2605.02731, May 2026) push to at
+most three degree-2 vertices with a full characterization of the
+exceptional graphs, and report Dean's conjecture
+($\delta \ge k \Rightarrow$ 0-mod-$k$ cycle) as known for all
+$k \ne 5$. The Győri–Li–Salia–Tompkins–Varga–Zhu line
+(arXiv:2312.09999) adds: every even theta contains a 0-mod-4
+cycle; every NON-PLANAR graph contains a 0-mod-4 cycle; bipartite
+0-mod-4-free graphs have $\le 3(n-2)/2$ edges.
+
+**Consequences, in order of weight:**
+
+1. **The falsifier arm of Q0905-082429-2 is retired.** Per the
+   cited literature (external, unledgered — see the discipline
+   paragraph above), no min-degree-3 graph avoids 0-mod-4 cycles,
+   so hunting one is hunting a falsifier the literature says does
+   not exist. Retiring the hunt is a RESOURCE-ALLOCATION decision,
+   sound even under citation risk: the hunt's own exhaustive
+   $n \le 7$ sweep (236,926 graphs) and 21k-cubic random probes
+   had already produced zero falsifiers, so the expected value of
+   continuing was near zero with or without the theorem. The
+   constraint-system engines (Menger-triple $\mathbb{Z}_4$, Tutte
+   2-cut descent) stay unlaunched for the same reason.
+
+2. **Decomposition item (i) is settled in the literature**
+   (conditionally here, via C1(c) of the lemma):
+   $S_4(G) \ne \emptyset$ for every min-degree-3 $G$, no
+   computation needed. The dyadic decomposition of EGC now reads:
+   EGC $\le$ (ii) $\max S_4 \ge 2 \min S_4$ + (iii) no gap $> 4$
+   in $S_4$ straddling a power of 2 — both statements about a set
+   literature guarantees NONEMPTY. These two are the genuine open
+   content if the mod-4 program is ever resumed as an exploit
+   line.
+
+3. **EGC counterexample profile sharpened, CONDITIONALLY**
+   (C1(a),(b); every claim in this item is under the L-DLS
+   antecedent and unusable as an internal proof step until the
+   ledger carries it): IF L-DLS, any counterexample contains a
+   cycle of length in $\{12, 20, 24, 28, 36, \dots\}$ (0 mod 4,
+   non-power-of-2), and so does every subgraph with min degree
+   $\ge 2$ and $\le 2$ degree-2 vertices — 0-mod-4 supply would be
+   ubiquitous, all of it avoiding powers of 2. The same external
+   line reports non-planarity alone forces a 0-mod-4 cycle (also
+   unledgered).
+
+4. **Gadget mined for the incumbent arc-exchange program**
+   (T1/T2, self-contained proofs in the lemma): an all-even theta
+   carries a 0-mod-4 cycle by pure pigeonhole on residues
+   $\{0, 2\}$; an all-odd theta does unless all three paths are
+   congruent mod 4. Applied to $C_{16}$ + one ear
+   ($\Theta(d, 16-d, \ell)$): an even ear at even arc distance
+   sends BOTH its cycles into the SAME mod-4 class —
+   $d + \ell \equiv 0 \pmod 4$ forces two 0-mod-4 cycles at once.
+   E2's exclusion law $c + s \notin \{4, 8\}$ is the small-length
+   shadow of this residue arithmetic; the mod-4 lens says ear
+   exclusions come in residue-locked PAIRS, which may compress the
+   menu case analysis in the `c16_d1_ear_cover` supply core (the
+   $(1,7,8)$ triple and tri-only menus).
+
+**Program bookkeeping.** Q0905-082429-2's STEP 0 is complete and
+its answer is "known theorem — mine, don't prove". The qid is
+resolved this session with that verdict: its falsifier arm is
+dead, its engines unlaunched by design, and its residual open
+content ((ii)+(iii) above) is queued only through a future
+ideation pass that would have to re-rank it against the
+arc-exchange core it feeds. This round is `kind: explore`
+(rotation satisfied); consecutive-exploit counter stays 0.
+**Sibling-fallback designation** (replacing the role Section 113
+gave the now-voided mod-4 falsifier hunt): if the arc-exchange
+core (`c16_d1_ear_cover`) stalls, the designated pivot is
+Q0905-082429-3 (triangle-cover stratum — counterexample-first,
+fully decidable over the 6,299 connected cubic girth-5 graphs on
+10..20 vertices), with a fresh ideation pass as the second slot.
+**Program extension note** (satisfying Section 112's 3-session
+budget rule; mirrored in the journal): the arc-exchange program is
+extended past its original budget on the strength of its proved
+rungs — `c16_dip_decomposition`, `c16_dist3_le30`,
+`c16_dist4_n32`, E1–E4 of `c16_d1_ear_cover` — with a fresh stop
+criterion tied to the open core, not session count: the program
+closes (and the pivot above fires) if two further critics-ON
+sessions pass without either (α) a proved supply lemma for
+2-spoke-only tri-heavy menus or (β) a falsifying landing in an
+expanded walk census.
+
+**Next moves (R88+).** (a) THE FORCING ATTACK on the
+`c16_d1_ear_cover` supply core — not census correlation but a
+proof skeleton: case-split on the E3 pigeonhole vertex's spoke
+multiplicity. 3-spoke case: E4 leaves seven arc triples, six
+containing an arc in $\{3,4,5\}$ (a direct small-shortening
+$s = 2$ ear feeding L1/L2); the residual is the single triple
+$(1,7,8)$. 2-spoke case: the vertex's two spokes cut $C$ into two
+arcs each avoiding $\{2, 6, 10, 14\}$ (two applications of E2);
+prove that a landing with NO small-shortening $s = 2$ ear forces
+its $s = 2$ ears triangle-heavy, whose adjacent-spoke pairs chain
+into an $s \ge 3$ ear of shortening 3 (the tri-only mining's
+empirical 45/53 is the target made theorem). The fragile-8 stay
+pinned as the residual to be handled by name. (b) The residue-pair
+lens (item 4) as the arithmetic organizing tool inside (a): check
+whether each fragile landing's two critical ears are mod-4
+residue-locked partners. (c) If the mod-4 line is resumed, START
+from Choi–Chu's exceptional-graph characterization (their $k = 4$
+section), not from scratch.
