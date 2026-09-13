@@ -217,12 +217,6 @@ ears (shortening $0$ and $3$ at $s = 3$ are both legal there).
 #     each fragile landing has EXACTLY 2 critical ears (its unique pair);
 # (v) the -1 shortening is absent from exactly 2 menus, both L1 landings:
 #     (n30s3, 44, 20, 8, 7, 19, 18) and (n30s5, 40, 25, 15, 14, 26, 27).
-# CHECK 5 - R86 walk slice: seeded (rng 86) 2-edge-swap walk from n28r1
-# inside the class (cubic preserved by the swap; acceptance = C4-free,
-# C8-free, connected): 66 accepted class members, 2,376 legal tau>=2 d=1
-# landings, every menu admits L1, L2 or L3 (counts pinned; ~2s). The full
-# R86 walk (5 seeds x 400 steps, 1,690 members, 31,377 landings, zero
-# uncovered) is a probe record in Section 126 of proof_strategy.md.
 # CHECK 3 - R81 slack floor: every legal tau>=2 landing at feet distance 1
 # (the tightest geometry, 1,629 landings over the full corpus) has >= 3
 # distinct valid completions (early-exit count). Contrast: of the 181
@@ -538,6 +532,97 @@ assert sorted(no_m1) == sorted(EXPECT_NO_M1), no_m1
 print("CHECK 2 ok: interiority free | exclusion law c+s not in {4,8} |",
       "s=2 supply floor universal | fragile =", len(fragile),
       "landings (ncrit=2 each) | -1-missing =", len(no_m1))
+CHECK
+-->
+
+<!-- CHECK
+# CHECK 5 - R86 walk slice: seeded (rng 86) 2-edge-swap walk from n28r1
+# inside the class (cubic preserved by the swap; acceptance = C4-free,
+# C8-free, connected): 66 accepted class members, 2,376 legal tau>=2 d=1
+# landings, every menu admits L1, L2 or L3 (counts pinned; ~2s). The full
+# R86 walk (5 seeds x 400 steps, 1,690 members, 31,377 landings, zero
+# uncovered) is a probe record in Section 126 of proof_strategy.md.
+# (split from the census block 2026-09-13, session s_0913: the merged
+#  block was 21,345 chars — over the 20,000-char cap — and was being
+#  SKIPPED with a WARN, i.e. the probes were not running. Assertions
+#  are byte-identical; shared machinery duplicated.)
+import random
+from collections import deque
+from itertools import combinations
+def to_adj(flat, n):
+    nums = [int(x) for x in flat.split(",")]
+    adj = [[] for _ in range(n)]
+    for a, b in zip(nums[::2], nums[1::2]):
+        adj[a].append(b); adj[b].append(a)
+    return adj
+REPS28_1 = "0,1,0,15,0,16,1,2,1,16,2,3,2,18,3,4,3,23,4,5,4,17,5,6,5,21,6,7,6,25,7,8,7,22,8,9,8,20,9,10,9,20,10,11,10,19,11,12,11,19,12,13,12,26,13,14,13,24,14,15,14,27,15,27,16,17,17,18,18,19,20,21,21,22,22,23,23,24,24,25,25,26,26,27"
+def all_c16(adj):
+    n = len(adj); out = []
+    for s in range(n):
+        d = [n+1]*n; d[s] = 0; q = deque([s])
+        while q:
+            v = q.popleft()
+            for w in adj[v]:
+                if d[w] > d[v]+1: d[w] = d[v]+1; q.append(w)
+        stack = [(u, (1 << s) | (1 << u), [s, u]) for u in adj[s] if u > s]
+        while stack:
+            v, mask, path = stack.pop()
+            for w in adj[v]:
+                if w == s:
+                    if len(path) == 16 and path[1] < path[-1]:
+                        es = frozenset(frozenset(e) for e in zip(path, path[1:]+path[:1]))
+                        out.append((frozenset(path), es, tuple(path)))
+                    continue
+                if w < s or (mask >> w) & 1: continue
+                if len(path) + d[w] > 16: continue
+                stack.append((w, mask | (1 << w), path+[w]))
+    return out
+def dist_to(adj, v, S):
+    d = {v: 0}; q = deque([v])
+    while q:
+        u = q.popleft()
+        if u in S: return d[u]
+        for w in adj[u]:
+            if w not in d: d[w] = d[u]+1; q.append(w)
+    return 99
+def arc_dist(pathC, a, b):
+    g = abs(pathC.index(a) - pathC.index(b)) % 16
+    return min(g, 16 - g)
+def ears_full(adj, vsC, banned, maxs=10):
+    out = []
+    for x in range(len(adj)):
+        if x not in vsC: continue
+        for w in adj[x]:
+            if w in vsC or w in banned: continue
+            stack = [(w, [x, w])]
+            while stack:
+                cur, path = stack.pop()
+                for t in adj[cur]:
+                    if t in banned: continue
+                    if t in vsC:
+                        if t != x and len(path) <= maxs:
+                            out.append((x, t, len(path), frozenset(path[1:])))
+                        continue
+                    if t in path: continue
+                    if len(path) >= maxs: continue
+                    stack.append((t, path + [t]))
+    seen = set(); res = []
+    for x, y, s, iv in out:
+        k = (min(x, y), max(x, y), s, iv)
+        if k not in seen: seen.add(k); res.append((x, y, s, iv))
+    return res
+def hits1(EE):
+    return [e for e in EE if e[1] - e[0] - e[2] == 3]
+def hits2(EE):
+    return [(e1, e2) for e1 in EE for e2 in EE
+            if e1 is not e2 and e1[1] <= e2[0]
+            and (e1[1]-e1[0]-e1[2]) + (e2[1]-e2[0]-e2[2]) == 3
+            and not (e1[3] & e2[3])]
+def hits3(EE):
+    return [(e1, e2) for e1 in EE for e2 in EE
+            if e1 is not e2 and e1[0] < e2[0] <= e1[1] < e2[1]
+            and (e2[1]-e1[1]) + (e2[0]-e1[0]) == e1[2]+e2[2]+3
+            and not (e1[3] & e2[3])]
 def c4free(adj):
     n = len(adj); bits = [0]*n
     for a in range(n):
@@ -601,7 +686,7 @@ def d1_menus(adj):
                                     E.append((min(px, py), max(px, py), s, iv))
                             yield E
 rng = random.Random(86)
-wadj = to_adj(REPS28[1], 28)
+wadj = to_adj(REPS28_1, 28)
 acc = walked = 0; att = 0
 while acc < 100 and att < 8000:
     att += 1
@@ -624,4 +709,5 @@ while acc < 100 and att < 8000:
 assert (acc, walked) == (66, 2376), (acc, walked)
 print("CHECK 5 ok: 2-swap walk from n28r1 —", acc,
       "class members,", walked, "d=1 landings, zero uncovered menus")
-CHECK -->
+CHECK
+-->

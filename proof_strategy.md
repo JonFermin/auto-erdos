@@ -4300,3 +4300,60 @@ whether each fragile landing's two critical ears are mod-4
 residue-locked partners. (c) If the mod-4 line is resumed, START
 from Choi–Chu's exceptional-graph characterization (their $k = 4$
 section), not from scratch.
+
+## Section 128 — R88: critical-pair rigidity — fragility has ONE shape; naive residue-lock refuted; skipped-CHECK infra repaired (session s_0913-080612-48e5)
+
+R88 executes Section 127's next-move (b): the residue-pair lens on
+the fragile-8, extended to a full per-landing criticality census of
+the R86 walk slice. New lemma: `fragile_pair_geometry` (proved;
+CHECK-pinned on the four hosting reps).
+
+**The rigidity law (P3 of the lemma).** The corpus fragile-8's
+critical pairs realize exactly three $(c, s, \text{shortening})$
+shapes: SIX of eight are the **template**
+$((3,2,1), (8,2,6))$ — an antipodal $s = 2$ ear interleaved with a
+$(3, 2)$ ear — and the two exceptions (n28r3, n28r4) are pinned by
+name. On the walk slice (66 members, 2,376 landings): **264
+fragile landings, ALL 264 with exactly the template shape** — zero
+new shapes anywhere. Fragility in this class is empirically one
+phenomenon.
+
+**Why that shape (P1 + P2).** The $s_1 = s_2 = 2$ L3 backtrack law
+forces offset sum $7$ — odd — so the two spans have OPPOSITE
+parity: a same-parity $s = 2$ pair can never be an L3 route. And
+by `mod4_even_theta` T2(b), the antipodal ear's two theta cycles
+are both $10 \equiv 2 \pmod 4$ while the $(3,2)$ ear's are
+$\{5, 15\}$ — the critical apparatus creates no even cycle besides
+$C$ and nothing in $\{4, 8, 16\}$. The two surviving ear types are
+exactly the ones the ambient exclusions cannot touch.
+
+**Hypothesis pruned (P4).** The naive residue-lock (Section 127
+(b)) is REFUTED: observed critical-pair $(\delta + s) \bmod 4$
+residue sets are $\{1,2\}$, $\{0,1\}$, $\{0,3\}$. Recorded so no
+future session re-derives it.
+
+**Supply core, restated smaller.** The remaining
+`c16_d1_ear_cover` gap is now: prove every L1-less,
+sequential-pair-less menu contains an antipodal $s = 2$ ear AND an
+interleaved $(3,2)$ ear at offset sum 7 (exceptions handled by
+name). E3 gives the $s = 2$ floor; E4 constrains 3-spoke arc
+triples; what is missing is placement.
+
+**Infra repaired this round** (both were silent falsification
+gaps): (1) `lemma_mod4_even_theta`'s R87 CHECK block lacked the
+closing `CHECK` sentinel, so the parser never registered it — it
+now runs (verified: 126 checks ran, 0 failed). (2) The
+`c16_d1_ear_cover` merged CHECK block (21,345 chars) was over the
+20,000-char cap and was being SKIPPED with a WARN — i.e. the R84–
+R86 census probes were NOT running in the verifier. Split into two
+byte-identical-assertion blocks (17,347 + 7,366 chars); both run.
+
+**Next moves (R89+).** (a) The placement proof: combine E3 + E4 +
+P1's parity-canonicity to force the template's existence in
+L1-less menus — the walk's 264 instances are the test bed; start
+from WHICH menu deficits (no shortening-3 ear, no disjoint pair)
+co-occur with antipodal supply. (b) If placement stalls for two
+critics-ON sessions, the Section 127 extension-note stop criterion
+fires: pivot to Q0905-082429-3. (c) The walk criticality census at
+larger scale (5 seeds x 400 steps) as background falsification
+pressure on the rigidity law.

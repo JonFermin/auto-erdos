@@ -244,4 +244,5 @@ for d in range(1, 16):
 assert [m for m in range(4, 44, 4) if m & (m - 1)] == [12, 20, 24, 28, 36, 40]
 
 print("CHECK ok: T1 on real thetas (2<=a<=b<=c<=7) | T2 (d,ell) box | C1 profile")
+CHECK
 -->
