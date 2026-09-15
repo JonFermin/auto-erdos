@@ -1,113 +1,101 @@
-# Session handoff (session s_0913-080612-48e5)
+# Session handoff (session s_0915-080622-71a7)
 
-**Stop reason**: logical milestone — two rounds, two keeps (R87:
-mod-4 STEP 0 verdict + gadget mining; R88: critical-pair rigidity
-law + falsification-infra repair). Clean stopping point: the
-rotation obligation is discharged, the mod-4 program is settled
-(known theorem, mined, resolved), and the supply core is restated
-strictly smaller.
+**Stop reason**: logical milestone — two rounds, two keeps (R89:
+s2/s2 catalog + antipodal participation law after a same-round
+refutation of the draft placement law; R90: reuse law + T3 +
+deterministic non-{3,8} family witnesses). The supply core is now
+"companion supply" — strictly smaller than before.
 
-**program**: arc-exchange — resumed as exploit AFTER this session's
-explore round; extension note posted (Section 127) with a fresh
-stop criterion (see below).
+**program**: arc-exchange (exploit; qid Q0905-082429-1 stays
+claimed by this session's rows — re-claim or release explicitly
+next session).
 
-**Consecutive exploit sessions on current program**: 0
-(this session claimed and resolved Q0905-082429-2, kind: explore —
-the rotation the s_0912 handoff demanded. R88 applied that qid's
-mined technique to the incumbent program's fragile-8; no bare
-re-claim of the released supply qid occurred.)
+**Consecutive exploit sessions on current program**: 1
+(s_0913 ended at 0 after its explore round; this session ran two
+exploit rounds on arc-exchange with no explore round. At 2+ the
+NEXT session must claim a kind: explore qid or open with ideation;
+at 1 it MAY exploit once more, then must rotate.)
 
 **What happened**:
 
-1. **R87 (keep, 5b48ac5)**: Q0905-082429-2's committed STEP 0
-   (literature check) fired immediately: L_mod4 is
-   Dean–Lesniak–Saito 1993 (min degree >=2 with <=2 degree-2
-   vertices suffices); Dean's conjecture known for all k != 5
-   (Choi–Chu 2026, arXiv:2605.02731). Falsifier arm retired,
-   constraint engines never launched. Mined into
-   `lemma_mod4_even_theta` (proved, CHECK-verified): T1 theta
-   parity pigeonhole (all-even theta always carries a 0-mod-4
-   cycle; all-odd unless paths congruent mod 4), T2 C16-ear
-   residue-pair law (even ear at even span sends BOTH its cycles
-   into ONE mod-4 class), C1 conditional EGC profile (external
-   antecedent — NOT ledger-citable; ledger discipline paragraph in
-   Section 127; FLAG FOR MAINTAINER: adding DLS 1993 to
-   proofs/erdos_gyarfas.json:given_facts would make C1
-   unconditional). Qid RESOLVED. Sections 127.
+1. **R89 (keep, 9fabf63 + revision)**: `template_placement` lemma
+   opened. T1 proved: complete s2/s2 L3 span catalog under
+   L1-lessness — EIGHT pairs ({3,4},{3,8},{4,7},{4,9},{7,8},
+   {7,12},{8,9},{8,11}) from P1 offset-sum-7 + E2 + width bound.
+   T2 proved: {3,4}'s unique realization is degenerate-sequential
+   (hi1=lo2), hence itself an L2 — L2-lessness kills it. The DRAFT
+   statement (every L1&L2-less menu carries the {3,8} template,
+   n28r3 sole exception) was REFUTED the same round by the 5-seed
+   walk (rng 91-95, 2,000 members, 36,364 landings, 3,046
+   L2-less): families {3,8} 2,400 / {7,8} 256 / {8,9} 256 / empty
+   134 — n28r3-stratum RECURS; H2 dead; fragility=L3-only dead
+   (646 non-template L2-less menus have 4-5 pairs, not fragile).
+   SURVIVED 100%: T1 catalog, trio coverage, family purity (never
+   mixed), and the revised statement — antipodal participation:
+   every s2/s2 pair in an L2-less menu contains a span-8 ear
+   (2,912/2,912); every L2-less menu has an antipodal-ear valid
+   pair (s in {2,3}; empty stratum rides shape ((.),(8,3,5))),
+   single exception n28r3 (unique pair all-c=7). Sections 129 +
+   addendum; refutations recorded — do NOT re-derive H2 or the
+   fragility identity.
 
-2. **R88 (keep, 38f82d7)**: `fragile_pair_geometry` (proved):
-   the fragile-8's critical pairs realize exactly 3 shapes — SIX
-   are the template ((3,2,1),(8,2,6)) (antipodal s=2 ear +
-   interleaved (3,2) ear), exceptions n28r3/n28r4 pinned by name.
-   Walk-slice criticality census (66 members / 2,376 landings):
-   264 fragile landings, ALL 264 template — zero new shapes. P1:
-   s=2 L3 pairs are parity-forced to opposite spans (offset sum
-   7). P2 (via T2): the template's ears yield cycles {10,10} and
-   {5,15} — no even cycle besides C, nothing in {4,8,16}; the
-   critical apparatus is exactly what the ambient exclusions
-   cannot touch. P4: naive mod-4 residue-lock REFUTED (recorded —
-   do not re-derive). Section 128.
+2. **R90 (keep, 794a04c)**: the REUSE LAW (open, 150/150): every
+   valid non-antipodal s2/s2 pair in an L1-less menu has an ear
+   that itself joins a valid L2 (9 corpus + 141 walk occurrences,
+   no exception). T3 proved: non-antipodal pairs carry shortening
+   multisets {2,5}/{2,7}/{5,10} — always an element of {2,5} —
+   and the L2 companions (shortening 1 or -2) are E2-free.
+   So statement (a) reduces to COMPANION SUPPLY: prove the
+   shortening-1 (or -2) companion exists. CHECK C pins
+   deterministic prefix-walk witnesses: empty family at rng-94
+   n28r3-walk member 3; {7,8} AND {8,9} both first at rng-95
+   n28r4-walk member 29 (seeds n24/n26/n28r1 never leave {3,8} in
+   400 steps — the exotic strata are n28r3/n28r4-adjacent).
+   Section 130.
 
-3. **INFRA (silent falsification gaps, both repaired in R88)**:
-   (a) CHECK blocks require a closing `CHECK` sentinel before
-   `-->` (`_CHECK_RE` in proof_prepare.py) — R87's block initially
-   lacked it and was silently unregistered; fixed. ALWAYS verify
-   new CHECK blocks register via
-   `pp.run_lemma_checks()` meta counts. (b) `c16_d1_ear_cover`'s
-   merged 21,345-char CHECK was over the 20,000 cap and SKIPPED
-   (R84–R86 census probes not running!); split into two blocks
-   (17,347 + 7,366), byte-identical assertions, both run. Current
-   state: 126 checks ran / 0 failed / 1 pre-existing timeout
-   (lemma_cyclic_orbit_avg_size, old primitive-set corpus).
-
-**qid state**: Q0905-082429-2 RESOLVED (verdict in its resolution
-row). Q85, Q0905-082429-3 open. Q0905-082429-1 released (rotation
-flag satisfied by this session's explore round).
+**qid state**: Q0905-082429-1 claimed by s_0915 (this session) —
+program continues. Q85, Q0905-082429-3 open. Stop criterion
+(Section 127 extension note, restated Section 130): two further
+critics-ON sessions without a proved supply lemma or a falsifying
+landing => pivot to Q0905-082429-3. This session RESET that clock
+(refutation landings found + T1/T2/T3 proved).
 
 **Suggested next moves**:
-1. R89+ (exploit, arc-exchange): the PLACEMENT proof — Section 128
-   next-move (a): prove every L1-less, sequential-pair-less d=1
-   menu contains the template (antipodal s=2 ear + interleaved
-   (3,2) ear at offset sum 7), exceptions by name. Ingredients:
-   E3 (s=2 floor), E4 (arc-triple law), P1 (parity-canonicity).
-   Test bed: the walk's 264 template instances.
-2. STOP CRITERION (Section 127 extension note): if two further
-   critics-ON sessions pass without (a) a proved supply lemma for
-   2-spoke-only tri-heavy menus or (b) a falsifying landing in an
-   expanded walk census, the program closes and pivots to
-   Q0905-082429-3 (triangle-cover stratum).
-3. Background: scale the walk criticality census (5 seeds x 400
-   steps) as falsification pressure on the rigidity law.
-
-**CRITIC INFRA (standing, carried forward, s_0913 measurements)**:
-prewarm ALL 7 critics BEFORE proof_prepare (cache replays);
-prewarm.py rebuilt in scratchpad per the standing recipe WITH the
-self-contradictory-OK rule AND a try/except around call_critic
-(it RAISES CriticUnavailable on timeout, does not return None).
-Opus-4-7 latency was PATHOLOGICAL this session: falsify took 5x
-540s-timeout retries mid-session (backend congestion), then 360s
-and 398s on later attempts; internal ran 348-408s (would breach
-proof_prepare's hard 240s wall — prewarm with timeout_s>=420 and
-let proof_prepare replay from cache). ledger/numerical ~100s,
-sign/openness/strategy fast. proof_prepare warm ~40s. Lemma CHECK
-suite now ~10s total. PROOF_TAG on the SAME command line for EVERY
-helper; cwd resets between shell calls (background tasks too —
-sys.path.insert(0, os.getcwd()) needed for `uv run python
-/abs/path.py`). R-numbering by hand (next: R89). proof_notes.py is
-CACHE-DIR-backed and DIES with the container — durable insights go
-in strategy sections + this handoff. Ledger critic enforces the
-given-facts ledger STRICTLY: external literature is quotable only
-as program-steering context or conditional antecedents, never as
-"theorem-backed" internal steps (cost R87 two edit-refire cycles).
+1. R91 (exploit, one more allowed at counter 1): COMPANION SUPPLY
+   for the {4,7} case — the walk's 46+7 realizations give
+   per-position statistics of where the shortening-1 companion
+   sits; try an E3-pigeonhole relative to the pair's occupied
+   positions. Test bed: CHECK C's prefix walks.
+2. The (8,3,5) floor of the empty stratum (Section 129 (b')):
+   census WHY both empty-stratum shape-families carry an antipodal
+   s=3 ear — spoke structure of those 134 menus.
+3. If R91 stalls: rotate (counter hits 2) — claim Q0905-082429-3
+   (triangle-cover) or run /erdos-proof-ideation.
 
 **Files modified this session**:
-- proof_strategy.md (Sections 127, 128)
-- proof_lemmas/lemma_mod4_even_theta__0913-080612-48e5.md (NEW,
-  proved: T1/T2/C1 + literature notes)
-- proof_lemmas/lemma_fragile_pair_geometry__0913-080612-48e5.md
-  (NEW, proved: P1-P4 + 4-host CHECK)
-- proof_lemmas/lemma_c16_d1_ear_cover__0910-080911-1f4a.md
-  (CHECK split only — assertions byte-identical)
-- records/proof_erdos_gyarfas_16263cbf995f_5b48ac5.json (R87)
-- records/proof_erdos_gyarfas_bc706c2b83b3_38f82d7.json (R88)
-- proof_open_questions.jsonl, proof_journal.jsonl
+- proof_strategy.md (Sections 129 + addendum, 130)
+- proof_lemmas/lemma_template_placement__0915-080622-71a7.md (NEW,
+  open: T1/T2/T3 proved, CHECK A/B/C)
+- records/proof_erdos_gyarfas_c59d8394265e_9fabf63.json (R89)
+- records/proof_erdos_gyarfas_ac10727d0ec9_794a04c.json (R90)
+- proof_open_questions.jsonl, proof_journal.jsonl, ledger.jsonl
+
+**CRITIC INFRA (standing, carried forward, s_0915 measurements)**:
+prewarm ALL 7 critics BEFORE proof_prepare (cache replays);
+prewarm.py rebuilt in scratchpad WITH the self-contradictory-OK
+rule — NOW PRECISELY DEFINED: an OK/WARN finding from
+numerical/falsify whose numerical_check fails _sandboxed_eval gets
+escalated to BLOCKING by proof_prepare's _evaluate_numerical_findings
+even though the critic passed it (R90 hit `(5 + 12 == 16)`, a
+critic arithmetic typo, and a primitive-set-flavored stray check —
+TWO bad draws in a row). Handling: parse each warmed response,
+sandbox-eval its checks, and on contradiction re-call with
+use_cache=False — CAUTION: use_cache=False also SKIPS the store,
+so persist the clean response explicitly via _cache_store(sha,
+name, resp) (newest entry shadows). Opus-4-7 latency this
+session: falsify 369-448s with two 480s timeouts mid-session;
+internal up to 443s; others 10-160s. proof_prepare warm replay
+~185s. CHECK suite now 129 blocks (~13s), still 1 pre-existing
+timeout (lemma_cyclic_orbit_avg_size). PROOF_TAG on the SAME
+command line for EVERY helper; R-numbering by hand (next: R91).
+
