@@ -4453,3 +4453,52 @@ H2 or the fragility identity. Next moves revised accordingly:
 antipodal $s \le 3$ ears in L2-less menus; (c′) deterministic
 short-walk CHECK witnesses for the $\{7,8\}$/$\{8,9\}$/empty
 families.
+
+## Section 130 — R90: the reuse law — every non-antipodal s$2$/s$2$ pair's L2 lives on its own ears; deterministic family witnesses pinned (session s_0915-080622-71a7)
+
+R90 executes Section 129's revised next-moves (a′) and (c′) via a
+mining pass over the same 5-seed walk plus the corpus.
+
+**The reuse law (open, census 150/150).** Statement (a) of
+`template_placement` asks why $\{4,7\}$, $\{4,9\}$, $\{7,12\}$
+pairs never survive into L2-less menus. The mining answer is
+sharper than co-occurrence: in EVERY observed realization ($9$
+corpus + $141$ walk occurrences), one of the pair's OWN ears
+participates in a valid L2 of the menu. The L2 obstruction is not
+elsewhere in the menu — it rides the pair itself. Mechanisms match
+the new T3 (proved, trivial arithmetic): each non-antipodal
+catalog pair carries an ear of shortening $2$ or $5$
+(multisets $\{2,5\}, \{2,7\}, \{5,10\}$), and the observed L2s are
+exactly shortening-$2$ ear $+$ shortening-$1$ companion or
+shortening-$5$ ear $+$ shortening-$(-2)$ companion (e.g. the
+$(1,3,4)$ ears). So proving the reuse law $=$ proving COMPANION
+SUPPLY: an L1-less menu containing a non-antipodal pair always
+contains a disjoint sequential shortening-$1$ (or $-2$) companion
+for the right ear. That is an E3/E4-style supply question one
+notch easier than the full conjecture — the companion shortenings
+$1, -2$ are the arithmetically FREE ones ((E2)(ii): odd never
+obstructed; $-2$ legal at $s = 4$).
+
+**Deterministic witnesses (CHECK C of the lemma).** The non-38
+L2-less families are pinned by short prefix walks, cheap enough
+for the verifier: empty family at member 3 of the rng-94 walk from
+n28r3 (members 1–2 clean); $\{7,8\}$ AND $\{8,9\}$ both first at
+member 29 of the rng-95 walk from n28r4 (members 1–28 clean). En
+route both walks re-verify catalog, participation, family purity,
+and the reuse law on every L1-less menu. Notable negative: seeds
+n24, n26, n28r1 never produce a non-38 family in 400 steps each —
+the $\{7,8\}/\{8,9\}$ strata are n28r4-adjacent, the empty
+stratum n28r3-adjacent; the corpus fragile hosts really do sit in
+structurally distinct neighborhoods.
+
+**Next moves (R91+).** (a) Companion supply: for a $\{4,7\}$ or
+$\{4,9\}$ pair, prove the shortening-$1$/$-2$ companion exists —
+start from the E3 pigeonhole ($\ge 12$ surviving spokes) relative
+to the pair's occupied positions; the walk's $141$ realizations
+give per-position statistics of WHERE the companion sits. (b) The
+$(8,3,5)$ floor of the empty stratum (Section 129 (b′)) — both
+its shape-families carry an antipodal $s = 3$ ear; census WHY
+(spoke structure of those $134$ menus). (c) Stop criterion
+unchanged: two further critics-ON sessions without a proved
+supply lemma or a falsifying landing $\Rightarrow$ pivot to
+Q0905-082429-3.

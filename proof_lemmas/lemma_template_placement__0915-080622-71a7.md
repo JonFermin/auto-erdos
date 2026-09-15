@@ -153,13 +153,39 @@ landings, $7{,}678$ L1-less, $3{,}046$ L2-less; probe record):
   empty-s$2$/s$2$ stratum always carry the $(8,3,5)$
   antipodal-$s{=}3$ shape — is there an E3-style floor for
   antipodal $s \le 3$ ears in L2-less menus?
-- **Next falsification targets:** pin deterministic short-walk
-  witnesses of the $\{7,8\}$, $\{8,9\}$ and empty families as
-  CHECK blocks (the 5-seed walk is too slow for a CHECK); scale
-  the walk further hunting for (i) a non-antipodal s$2$/s$2$ pair
-  in an L2-less menu (kills (a)), (ii) an L2-less menu with no
-  antipodal-ear valid pair (kills (b) or grows its exception
-  class).
+- **Next falsification targets:** scale the walk further hunting
+  for (i) a non-antipodal s$2$/s$2$ pair in an L2-less menu (kills
+  (a)), (ii) an L2-less menu with no antipodal-ear valid pair
+  (kills (b) or grows its exception class), (iii) a non-antipodal
+  pair none of whose ears joins an L2 (kills the reuse law below).
+
+**T3 — the reuse candidate is always available (proved, R90).**
+The three non-antipodal catalog pairs have shortening multisets
+$\{4,7\} \to \{2,5\}$, $\{4,9\} \to \{2,7\}$,
+$\{7,12\} \to \{5,10\}$ (shortening $= \delta - 2$); each contains
+an element of $\{2, 5\}$. A shortening-$2$ ear completes to an L2
+with any disjoint sequential shortening-$1$ ear, a
+shortening-$5$ ear with any disjoint sequential
+shortening-$(-2)$ ear — and BOTH companion types are E2-legal
+(odd shortenings are never obstructed by (E2)(ii); a
+shortening-$(-2)$ ear has $c + s = 2s - 2 \notin \{4, 8\}$ iff
+$s \notin \{3, 5\}$, and $s = 4$ realizes it, e.g. the observed
+$(1,3,4)$ companions). $\square$
+
+**The reuse law (open, R90 — census-backed $150/150$).** In an
+L1-less menu, EVERY valid non-antipodal s$2$/s$2$ L3 pair has an
+ear that itself participates in a valid L2 pair of the menu.
+Census: all $9$ corpus occurrences ($\{4,7\}$: $7$, $\{4,9\}$: $1$,
+$\{7,12\}$: $1$) and all $141$ 5-seed-walk occurrences ($\{4,7\}$:
+$46$, $\{4,9\}$: $95$) — no exception. Observed reuse mechanisms
+match T3: the pair's shortening-$2$ ear joins a shortening-$1$
+companion, or its shortening-$5$ ear joins a
+shortening-$(-2)$ companion. The reuse law IMPLIES statement (a)
+(the menu admits an L2), and is sharper: it says WHERE the L2
+lives. Proving it needs a supply argument for the companion ear —
+the same engine statement (b) needs; the T2 degenerate mechanism
+(companion forced by the pair's own feet) is the model to
+generalize.
 <!-- CHECK
 # CHECK A - R89 placement law + catalog on the four hosting reps
 # (n26, n28r1, n28r3, n28r4 — every corpus L1&L2-less landing lives here):
@@ -490,5 +516,207 @@ assert (acc, n_l1less, n_l2less) == (66, 396, 264), (acc, n_l1less, n_l2less)
 print("CHECK B ok: walk slice — 66 members, 396 L1-less (catalog holds),",
       "264 L1&L2-less ALL with s2/s2 family exactly {{3,8}}: the template",
       "is present and unique, zero exceptions")
+CHECK
+-->
+
+<!-- CHECK
+# CHECK C - R90 deterministic witnesses that the non-{3,8} L2-less families
+# are REAL and nearby (the 5-seed walk is too slow for a CHECK, so two short
+# prefix walks pin one witness each): (i) rng-94 walk from n28r3, 3 accepted
+# steps: member 3 carries an EMPTY-family (no-s2/s2) L2-less menu, members
+# 1-2 carry none; (ii) rng-95 walk from n28r4, 29 accepted steps: member 29
+# carries BOTH a {7,8}-family and an {8,9}-family L2-less menu, members 1-28
+# carry neither. Along both prefixes, every L1-less menu re-verifies the T1
+# catalog, antipodal participation, family purity, and the reuse law (every
+# non-antipodal s2/s2 pair has an ear inside a valid L2 pair). ~2s.
+import random
+from collections import deque
+def to_adj(flat, n):
+    nums = [int(x) for x in flat.split(",")]
+    adj = [[] for _ in range(n)]
+    for a, b in zip(nums[::2], nums[1::2]):
+        adj[a].append(b); adj[b].append(a)
+    return adj
+R28 = {"n28r3": "0,1,0,15,0,16,1,2,1,21,2,3,2,17,3,4,3,18,4,5,4,16,5,6,5,24,6,7,6,26,7,8,7,17,8,9,8,18,9,10,9,27,10,11,10,27,11,12,11,19,12,13,12,25,13,14,13,22,14,15,14,20,15,23,16,17,18,19,19,20,20,21,21,22,22,23,23,24,24,25,25,26,26,27", "n28r4": "0,1,0,15,0,16,1,2,1,16,2,3,2,21,3,4,3,17,4,5,4,23,5,6,5,25,6,7,6,18,7,8,7,18,8,9,8,26,9,10,9,19,10,11,10,19,11,12,11,22,12,13,12,20,13,14,13,24,14,15,14,27,15,27,16,17,17,18,19,20,20,21,21,22,22,23,23,24,24,25,25,26,26,27"}
+def all_c16(adj):
+    n = len(adj); out = []
+    for s in range(n):
+        d = [n+1]*n; d[s] = 0; q = deque([s])
+        while q:
+            v = q.popleft()
+            for w in adj[v]:
+                if d[w] > d[v]+1: d[w] = d[v]+1; q.append(w)
+        stack = [(u, (1 << s) | (1 << u), [s, u]) for u in adj[s] if u > s]
+        while stack:
+            v, mask, path = stack.pop()
+            for w in adj[v]:
+                if w == s:
+                    if len(path) == 16 and path[1] < path[-1]:
+                        es = frozenset(frozenset(e) for e in zip(path, path[1:]+path[:1]))
+                        out.append((frozenset(path), es, tuple(path)))
+                    continue
+                if w < s or (mask >> w) & 1: continue
+                if len(path) + d[w] > 16: continue
+                stack.append((w, mask | (1 << w), path+[w]))
+    return out
+def dist_to(adj, v, S):
+    d = {v: 0}; q = deque([v])
+    while q:
+        u = q.popleft()
+        if u in S: return d[u]
+        for w in adj[u]:
+            if w not in d: d[w] = d[u]+1; q.append(w)
+    return 99
+def arc_dist(pathC, a, b):
+    g = abs(pathC.index(a) - pathC.index(b)) % 16
+    return min(g, 16 - g)
+def ears_full(adj, vsC, banned, maxs=10):
+    out = []
+    for x in range(len(adj)):
+        if x not in vsC: continue
+        for w in adj[x]:
+            if w in vsC or w in banned: continue
+            stack = [(w, [x, w])]
+            while stack:
+                cur, path = stack.pop()
+                for t in adj[cur]:
+                    if t in banned: continue
+                    if t in vsC:
+                        if t != x and len(path) <= maxs:
+                            out.append((x, t, len(path), frozenset(path[1:])))
+                        continue
+                    if t in path: continue
+                    if len(path) >= maxs: continue
+                    stack.append((t, path + [t]))
+    seen = set(); res = []
+    for x, y, s, iv in out:
+        k = (min(x, y), max(x, y), s, iv)
+        if k not in seen: seen.add(k); res.append((x, y, s, iv))
+    return res
+def hits1(EE):
+    return [e for e in EE if e[1] - e[0] - e[2] == 3]
+def hits2(EE):
+    return [(e1, e2) for e1 in EE for e2 in EE
+            if e1 is not e2 and e1[1] <= e2[0]
+            and (e1[1]-e1[0]-e1[2]) + (e2[1]-e2[0]-e2[2]) == 3
+            and not (e1[3] & e2[3])]
+def hits3(EE):
+    return [(e1, e2) for e1 in EE for e2 in EE
+            if e1 is not e2 and e1[0] < e2[0] <= e1[1] < e2[1]
+            and (e2[1]-e1[1]) + (e2[0]-e1[0]) == e1[2]+e2[2]+3
+            and not (e1[3] & e2[3])]
+def c4free(adj):
+    n = len(adj); bits = [0]*n
+    for a in range(n):
+        for b in adj[a]: bits[a] |= 1 << b
+    for a in range(n):
+        for b in range(a+1, n):
+            c = bits[a] & bits[b] & ~(1 << a) & ~(1 << b)
+            if c and (c & (c-1)): return False
+    return True
+def c8free(adj):
+    n = len(adj)
+    for s0 in range(n):
+        stack = [(u, (1 << s0) | (1 << u), 2) for u in adj[s0] if u > s0]
+        while stack:
+            vv, mask, ln = stack.pop()
+            for w in adj[vv]:
+                if w == s0:
+                    if ln == 8: return False
+                    continue
+                if w < s0 or (mask >> w) & 1 or ln >= 8: continue
+                stack.append((w, mask | (1 << w), ln+1))
+    return True
+def conn(adj):
+    seen = {0}; q = deque([0])
+    while q:
+        a = q.popleft()
+        for b in adj[a]:
+            if b not in seen: seen.add(b); q.append(b)
+    return len(seen) == len(adj)
+def d1_menus(adj):
+    n = len(adj)
+    for vs, es, path in all_c16(adj):
+        if any(b in vs and frozenset((a, b)) not in es
+               for a in path for b in adj[a]): continue
+        vsC = set(vs)
+        for v in range(n):
+            if v in vsC or any(t in vsC for t in adj[v]): continue
+            if dist_to(adj, v, vsC) != 2: continue
+            tn = [(w, [f for f in adj[w] if f in vsC]) for w in adj[v]]
+            tn = [(w, F) for w, F in tn if F]
+            if len(tn) < 2: continue
+            for a in range(len(tn)):
+                for b in range(a+1, len(tn)):
+                    u1, F1 = tn[a]; u2, F2 = tn[b]
+                    for f1 in F1:
+                        for f2 in F2:
+                            if arc_dist(path, f1, f2) != 1: continue
+                            i2 = path.index(f2); i1 = path.index(f1)
+                            if (i1 - i2) % 16 == 1:
+                                order = [path[(i2 - t) % 16] for t in range(16)]
+                            else:
+                                order = [path[(i2 + t) % 16] for t in range(16)]
+                            pm = {vtx: t for t, vtx in enumerate(order)}
+                            E = []
+                            for x, y, s, iv in ears_full(adj, vsC, {u1, v, u2}):
+                                px, py = pm[x], pm[y]
+                                if 1 <= px <= 14 and 1 <= py <= 14 and px != py:
+                                    E.append((min(px, py), max(px, py), s, iv))
+                            yield E
+CAT8 = {(3, 4), (3, 8), (4, 7), (4, 9), (7, 8), (7, 12), (8, 9), (8, 11)}
+def prefix_walk(host_flat, seed, nsteps):
+    rng = random.Random(seed)
+    wadj = to_adj(host_flat, 28)
+    acc = att = 0
+    fams = []
+    while acc < nsteps and att < 60000:
+        att += 1
+        eds = [(a, b) for a in range(28) for b in wadj[a] if a < b]
+        (a, b) = rng.choice(eds); (c, d) = rng.choice(eds)
+        if len({a, b, c, d}) != 4: continue
+        pr = ((a, c), (b, d)) if rng.random() < 0.5 else ((a, d), (b, c))
+        if any(y in wadj[x] for x, y in pr): continue
+        cand = [list(nb) for nb in wadj]
+        for x, y in ((a, b), (c, d)):
+            cand[x].remove(y); cand[y].remove(x)
+        for x, y in pr:
+            cand[x].append(y); cand[y].append(x)
+        if not (c4free(cand) and c8free(cand) and conn(cand)): continue
+        wadj = cand; acc += 1
+        for E in d1_menus(wadj):
+            if hits1(E): continue
+            p2 = hits2(E)
+            s22 = set(tuple(sorted((e1[1]-e1[0], e2[1]-e2[0])))
+                      for e1, e2 in hits3(E) if e1[2] == 2 and e2[2] == 2)
+            for sp in s22:
+                assert sp in CAT8, ("catalog", acc, sp)
+                if 8 not in sp:
+                    assert p2, ("participation", acc, sp)
+                    prs = [(e1, e2) for e1, e2 in hits3(E)
+                           if e1[2] == 2 and e2[2] == 2
+                           and tuple(sorted((e1[1]-e1[0], e2[1]-e2[0]))) == sp]
+                    for e1, e2 in prs:
+                        assert any(f1 in (e1, e2) or f2 in (e1, e2)
+                                   for f1, f2 in p2), ("reuse law", acc, sp)
+            if p2: continue
+            assert len(s22) <= 1, ("family purity", acc, s22)
+            fams.append((acc, "empty" if not s22 else
+                         {(3, 8): "38", (7, 8): "78",
+                          (8, 9): "89"}.get(next(iter(s22)), "other")))
+    assert acc == nsteps, acc
+    return fams
+f3 = prefix_walk(R28["n28r3"], 94, 3)
+assert any(step == 3 and fam == "empty" for step, fam in f3), f3
+assert all(fam == "38" for step, fam in f3 if step < 3), f3
+f4 = prefix_walk(R28["n28r4"], 95, 29)
+got = {fam for step, fam in f4 if step == 29}
+assert {"78", "89"} <= got, sorted(f4)[-6:]
+assert all(fam == "38" for step, fam in f4 if step < 29), \
+    [x for x in f4 if x[0] < 29 and x[1] != "38"][:5]
+print("CHECK C ok: empty-family witness at (n28r3-walk rng94, member 3);",
+      "{7,8} and {8,9} witnesses both at (n28r4-walk rng95, member 29),",
+      "none earlier; catalog + participation + purity + reuse law hold",
+      "on all L1-less menus of both prefix walks")
 CHECK
 -->
