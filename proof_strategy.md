@@ -4421,3 +4421,35 @@ placement law, H2, and the fragility$=$L3-only identity. (c) If H2
 stalls two critics-ON sessions, the Section 127 extension-note
 stop criterion fires: pivot to Q0905-082429-3 (triangle-cover
 stratum).
+
+**R89 addendum (same session) — the 5-seed walk REFUTES the draft
+placement law and H2; the antipodal participation law replaces
+them.** Immediately after the above was drafted, the standing
+falsification walk was scaled per next-move (b): 5 seeds (n24,
+n26, n28r1, n28r3, n28r4; rng 91–95) × 400 accepted steps = 2,000
+class members, 36,364 legal $d = 1$ landings, 7,678 L1-less, 3,046
+L1&L2-less. Refuted: (i) the placement law as drafted — 646/3,046
+L2-less menus carry NO template ($\{7,8\}$-family: 256,
+$\{8,9\}$-family: 256, no-s$2$/s$2$: 134 — the n28r3 stratum
+RECURS; the rng-86 slice's 264/264 purity was seed locality);
+(ii) H2 — $\{7,8\}$ and $\{8,9\}$ pairs occur in L2-less menus;
+(iii) the "fragility $=$ L3-onlyness" identity — the 646
+non-template L2-less menus have 4–5 valid pairs each and are NOT
+fragile. Survived at 100%: the T1 catalog (0 violations, 7,678
+menus), trio coverage (0 uncovered, 36,364 landings), and — the
+new law — **antipodal participation**: all 2,912 s$2$/s$2$ pairs
+in L2-less menus contain a $\delta = 8$ ear; every L2-less menu
+realizes exactly ONE family ($\{3,8\}$, $\{7,8\}$, $\{8,9\}$, or
+none — never mixed); the 134 empty-stratum menus all carry an
+antipodal-$s{=}3$ pair (shape $((\cdot),(8,3,5))$); fragility is
+EXACTLY "family $\{3,8\}$ with unique pair" (2,400 menus). The
+lemma `template_placement` is revised in place to the
+participation law (statement (a): the non-antipodal catalog pairs
+$\{4,7\}, \{4,9\}, \{7,12\}$ never occur in L2-less menus; (b):
+every L2-less menu has an antipodal-ear valid pair, exception
+n28r3 by name), with the refutations recorded — do not re-derive
+H2 or the fragility identity. Next moves revised accordingly:
+(a′) the three exclusion cases; (b′) an E3-style floor for
+antipodal $s \le 3$ ears in L2-less menus; (c′) deterministic
+short-walk CHECK witnesses for the $\{7,8\}$/$\{8,9\}$/empty
+families.

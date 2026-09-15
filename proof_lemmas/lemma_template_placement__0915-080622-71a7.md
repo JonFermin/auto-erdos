@@ -6,7 +6,7 @@ discharged_by_round: null
 introduced_at_round: 89
 ---
 
-# Lemma `template_placement` (open — the placement law: L1-less, L2-less menus carry the template; s=2/s=2 L3 catalog proved)
+# Lemma `template_placement` (open — the antipodal participation law; s=2/s=2 L3 catalog proved; the draft "template-only" placement law REFUTED same-round at 5-seed scale)
 
 **Setting.** As `c16_d1_ear_cover`: $G$ connected cubic
 $\{C_4, C_8\}$-free, $C$ a chordless $16$-cycle, a legal $\tau \ge 2$
@@ -19,14 +19,44 @@ in $(c, s, \text{shortening})$ terms $((3,2,1), (8,2,6))$, the shape
 of all $270$ template-fragile critical pairs of
 `fragile_pair_geometry`.
 
-**Statement (open — the placement law).** Every legal $\tau \ge 2$,
-$d = 1$ landing whose menu admits NO L1 and NO L2 admits a template
-L3 pair — with the single named exception
-$(\mathrm{n28r3}, 17, 25, 24, 5, 26, 6)$, whose menu has no
-s$2$/s$2$ valid pair at all and is covered by a mixed
-$((7,2,5), (7,3,6))$ L3 pair. This, plus a proof that the exception
-class stays finite/named, is exactly the remaining supply gap of
-`c16_d1_ear_cover` (its L3 arm).
+**Statement (open — the antipodal participation law).** In every
+legal $\tau \ge 2$, $d = 1$ landing whose menu admits NO L1 and NO
+L2:
+
+- **(a)** every valid s$2$/s$2$ L3 pair contains an antipodal
+  ($\delta = 8$) ear — equivalently (by T1 + T2 below) its span
+  pair is one of $\{3,8\}, \{7,8\}, \{8,9\}, \{8,11\}$, i.e. the
+  catalog pairs $\{4,7\}, \{4,9\}, \{7,12\}$ never occur in an
+  L2-less menu;
+- **(b)** the menu admits SOME valid L3 pair containing an
+  antipodal ear (observed with $s \in \{2, 3\}$) — single named
+  exception $(\mathrm{n28r3}, 17, 25, 24, 5, 26, 6)$, whose unique
+  valid pair is the all-$c{=}7$ mixed $((7,2,5), (7,3,6))$.
+
+(b) restricted to existence-of-any-pair is the L3 arm of
+`c16_d1_ear_cover`'s supply conjecture; (a) is the attackable
+structured half: three per-span-pair exclusion cases.
+
+**REFUTATION RECORD (same round — do not re-derive).** The first
+draft of this lemma stated a stronger "placement law": every
+L1&L2-less menu carries the template $\{3,8\}$ pair, sole exception
+n28r3. A 5-seed $\times$ 400-step walk (rng 91–95, seeds n24, n26,
+n28r1, n28r3, n28r4; 2,000 members, 36,364 legal $d=1$ landings,
+7,678 L1-less, 3,046 L2-less) REFUTES it, and with it the
+collapse-hypothesis H2 ("non-template s$2$/s$2$ pairs occur only in
+L2-present menus"): $646/3{,}046$ L2-less menus have no template —
+$256$ carry a $\{7,8\}$ pair, $256$ an $\{8,9\}$ pair, $134$ have
+no s$2$/s$2$ pair at all (the n28r3-type stratum RECURS; it is not
+a finite named exception). The rng-86 slice's $264/264$
+$\{3,8\}$-purity (CHECK B below) was seed locality. Also refuted
+at scale: R88/R89's "fragility $=$ L3-onlyness" identity — the
+$646$ non-template L2-less menus all have $4$–$5$ valid L3 pairs
+and are NOT fragile ($295$ members show fragile $\ne$ L3-only).
+What SURVIVED the same walk, $100\%$: T1's catalog ($0$ violations
+on $7{,}678$ L1-less menus), trio coverage ($0$ uncovered menus in
+$36{,}364$), and the participation law above ($2{,}912/2{,}912$
+s$2$/s$2$ pairs contain $\delta = 8$; all $134$ empty-stratum menus
+carry an antipodal-$s{=}3$ pair, shape $((\cdot),(8,3,5))$).
 
 **T1 — the s$2$/s$2$ L3 span catalog (proved).** In any menu of an
 L1-less landing, a valid s$2$/s$2$ L3 pair has unordered span pair in
@@ -76,51 +106,60 @@ s$2$/s$2$ catalog shrinks to SEVEN span pairs, of which the template
 $\{3, 8\}$ is the only one the census below ever realizes in an
 L1-less, L2-less menu. $\square$
 
-**Census (probe record, R89 — corpus + walk slice, CHECK-pinned
-below).** Over the $1{,}629$ corpus landings plus the $2{,}376$
-walk-slice landings (rng 86, 66 members):
+**Census (probe records, R89).** Corpus ($1{,}629$ landings, $86$
+L1-less, $7$ L2-less), rng-86 slice ($2{,}376$ landings, $396$
+L1-less, $264$ L2-less; CHECK B), 5-seed walk ($36{,}364$
+landings, $7{,}678$ L1-less, $3{,}046$ L2-less; probe record):
 
-- **Placement law holds, $270/271$.** L1-less, L2-less landings:
-  $7$ corpus (the L3-only seven) $+ 264$ walk. All but
-  $(\mathrm{n28r3}, 17, \dots)$ contain the template; each of the
-  $270$ has s$2$/s$2$ span-set family EXACTLY $\{\{3,8\}\}$ — no
-  L2-less menu anywhere realizes a second s$2$/s$2$ shape. The
-  n28r3 exception has NO s$2$/s$2$ pair (its $s = 2$ spans are
-  $\{1, 4, 7, 11\}$: no odd/even pair at offset sum $7$ fits) and
-  is covered by $((7,2,5),(7,3,6))$.
-- **Catalog is tight-ish.** Corpus-wide (L1-less menus), six of the
-  seven surviving catalog pairs occur: $\{3,8\}$ ($16$ menus),
-  $\{4,7\}$ ($7$), $\{4,9\}$, $\{7,8\}$, $\{7,12\}$, $\{8,9\}$
-  ($1$ each); $\{8,11\}$ occurs in L1-present menus only; $\{3,4\}$
-  never occurs (consistent with T2 — its host menus would carry the
-  L2 anyway). Non-template pairs occur ONLY in menus that also
-  admit an L2 (hypothesis H2 below).
-- **Fragility $=$ L3-onlyness on the walk.** The walk's fragile set
-  (R88's $264$) IS its L1-less-L2-less set — identical $264$; on
-  the corpus, fragile $=$ L3-only seven $\cup$ the L2-unique
-  n28r4 landing. So template-fragility and L3-only coverage are the
-  same phenomenon up to the named n28r4 landing.
-- **Deficit correlation.** Antipodal ($\delta = 8$, $s = 2$) supply
-  is NOT forced by L1-lessness alone: $23/86$ corpus L1-less menus
-  have it. It is the L2-less stratum that always carries it
-  (via the template), $270/271$.
+- **s$2$/s$2$ family purity.** Every L2-less menu realizes at most
+  ONE s$2$/s$2$ span-pair family, never a mixture. 5-seed
+  histogram: $\{3,8\}$: $2{,}400$; $\{7,8\}$: $256$; $\{8,9\}$:
+  $256$; none: $134$. Corpus: $\{3,8\}$: $6$; none: $1$ (n28r3).
+  rng-86 slice: $\{3,8\}$: $264$.
+- **Antipodal participation, $100\%$.** Zero s$2$/s$2$ pairs
+  without a $\delta = 8$ ear across all L2-less menus, all three
+  censuses. The $134$ empty-stratum menus split into exactly two
+  menu shape-families (counts $84$ / $50$), and BOTH contain a
+  valid pair of shape $((\cdot), (8,3,5))$ — an antipodal
+  $s = 3$ ear. Statement (b)'s only failure anywhere: corpus
+  n28r3 (its $s{=}2$ spans are $\{1,4,7,11\}$; unique pair
+  all-$c{=}7$).
+- **Fragility refined.** Over the 5-seed walk's L2-less menus:
+  fragile $\Leftrightarrow$ family $\{3,8\}$ with a UNIQUE valid
+  pair ($2{,}400$ menus, each exactly $1$ pair); the $646$
+  non-template L2-less menus all have $4$–$5$ valid pairs, none
+  fragile. R88's template-fragility law survives (every fragile
+  landing IS template-shaped); its converse ("L3-only
+  $\Rightarrow$ fragile") does not.
+- **Catalog occupancy.** L1-less menus, corpus: $\{3,8\}$ $16$,
+  $\{4,7\}$ $7$, $\{4,9\}/\{7,8\}/\{7,12\}/\{8,9\}$ $1$ each
+  ($\{8,11\}$ under L1 only; $\{3,4\}$ never). 5-seed L1-less:
+  the non-antipodal pairs $\{4,7\}$ ($46$ menus) and $\{4,9\}$
+  ($95$) occur ONLY in L2-present menus — statement (a)
+  unfalsified at $7{,}678$-menu scale.
 
-**Open (the two-step supply core).**
-- **H1 (existence):** every L1-less, L2-less menu outside a
-  finite named exception class contains SOME valid s$2$/s$2$ L3
-  pair. (E3 gives one $s = 2$ ear; nothing yet forces a second at
-  compatible position.)
-- **H2 (collapse):** an L1-less menu containing a valid s$2$/s$2$
-  pair with span set $\ne \{3,8\}$ admits an L2. True on all data
-  ($482$ L1-less menus). H1 $+$ H2 $+$ T1 $+$ T2 $\Rightarrow$ the
-  placement law with exception class $=$ menus with no s$2$/s$2$
-  pair (n28r3-type), which would then need its own finite
-  treatment. Attack order: H2 first — it is per-span-pair case
-  analysis ($6$ cases), each case a concrete arithmetic question
-  about what else the menu must contain; the walk census gives
-  falsification pressure cheaply (any L2-less menu with a
-  non-template s$2$/s$2$ pair kills H2).
-
+**Open (the revised supply core).**
+- **(a) three exclusion cases:** show an L1-less menu containing a
+  valid $\{4,7\}$, $\{4,9\}$, or $\{7,12\}$ s$2$/s$2$ pair admits
+  an L2 (or an L1). Data to mine: $\{4,7\}$ has $46 + 7$
+  realizations, $\{4,9\}$ has $95 + 1$; $\{7,12\}$ is
+  near-extinct ($1$ corpus menu). The T2 mechanism (a pair
+  configuration that IS an L2) is the model — look for forced
+  companion ears from the pair's own feet via E3/E4 spoke
+  arithmetic.
+- **(b) existence:** every L2-less menu admits a valid pair
+  containing an antipodal ear ($s \in \{2,3\}$ observed),
+  exceptions finite/named. Sub-question: why does the
+  empty-s$2$/s$2$ stratum always carry the $(8,3,5)$
+  antipodal-$s{=}3$ shape — is there an E3-style floor for
+  antipodal $s \le 3$ ears in L2-less menus?
+- **Next falsification targets:** pin deterministic short-walk
+  witnesses of the $\{7,8\}$, $\{8,9\}$ and empty families as
+  CHECK blocks (the 5-seed walk is too slow for a CHECK); scale
+  the walk further hunting for (i) a non-antipodal s$2$/s$2$ pair
+  in an L2-less menu (kills (a)), (ii) an L2-less menu with no
+  antipodal-ear valid pair (kills (b) or grows its exception
+  class).
 <!-- CHECK
 # CHECK A - R89 placement law + catalog on the four hosting reps
 # (n26, n28r1, n28r3, n28r4 — every corpus L1&L2-less landing lives here):
@@ -273,12 +312,14 @@ CHECK
 -->
 
 <!-- CHECK
-# CHECK B - R89 placement law on the walk slice (rng 86, the CHECK-5 walk
-# of c16_d1_ear_cover): 66 class members, 2,376 legal tau>=2 d=1 landings,
-# 396 L1-less of which 264 L1&L2-less. Asserts: every s2/s2 valid L3 pair
-# in an L1-less menu is inside the T1 8-catalog, and EVERY L1&L2-less menu
-# has s2/s2 span-set family exactly {{3,8}} — the template is present and
-# is the only s2/s2 shape (the placement law, zero exceptions here).
+# CHECK B - R89 catalog + antipodal participation on the rng-86 walk slice
+# (the CHECK-5 walk of c16_d1_ear_cover): 66 class members, 2,376 legal
+# tau>=2 d=1 landings, 396 L1-less of which 264 L1&L2-less. Asserts: every
+# s2/s2 valid L3 pair in an L1-less menu is inside the T1 8-catalog, and
+# every L1&L2-less menu here has s2/s2 family exactly {{3,8}} — a pinned
+# SLICE fact (this slice is seed-local: the 5-seed walk also realizes
+# {7,8}, {8,9} and empty families — see the refutation record above; what
+# {3,8}-purity witnesses for the lemma is antipodal participation).
 import random
 from collections import deque
 def to_adj(flat, n):
