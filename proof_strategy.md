@@ -4357,3 +4357,67 @@ critics-ON sessions, the Section 127 extension-note stop criterion
 fires: pivot to Q0905-082429-3. (c) The walk criticality census at
 larger scale (5 seeds x 400 steps) as background falsification
 pressure on the rigidity law.
+
+## Section 129 — R89: the placement law localized — L1&L2-less menus carry the template and NOTHING else; s=2/s=2 L3 catalog proved (session s_0915-080622-71a7)
+
+R89 executes Section 128's next-move (a): the placement attack on
+the restated supply core. New lemma: `template_placement` (open —
+statement census-backed at 270/271; its T1/T2 arithmetic layers
+proved and CHECK-pinned).
+
+**The deficit census answered Section 128's opening question.**
+Which menu deficits co-occur with antipodal supply? Answer: NOT
+L1-lessness — only $23/86$ corpus L1-less menus carry an antipodal
+$s = 2$ ear. The correlation is exactly with the L2-less stratum:
+over corpus + walk slice, ALL $271$ L1-less, L2-less landings but
+one carry the antipodal ear, and they carry it inside a full
+template pair. The placement law as now stated: **every L1-less,
+L2-less $d = 1$ menu admits a template L3 pair** — single named
+exception $(\mathrm{n28r3}, 17, 25, 24, 5, 26, 6)$, which has no
+s$2$/s$2$ pair at all (spans $\{1,4,7,11\}$) and is covered by a
+mixed $((7,2,5),(7,3,6))$ pair.
+
+**Proved this round (T1 + T2 of the lemma).** The complete
+arithmetic catalog of s$2$/s$2$ L3 span pairs in an L1-less menu:
+EIGHT unordered span pairs ($\{3,4\}, \{3,8\}, \{4,7\}, \{4,9\},
+\{7,8\}, \{7,12\}, \{8,9\}, \{8,11\}$), from P1's offset-sum-7
+parity plus E2 exclusions plus the position-width bound
+$\delta_1 + 7 - a \le 13$. And: the $\{3,4\}$ pair's unique
+realization is degenerate-sequential ($\mathrm{hi}_1 =
+\mathrm{lo}_2$), hence IS a valid L2 pair — L2-lessness removes it,
+leaving seven. The census then shows the seven collapse to ONE in
+L1&L2-less menus: only $\{3,8\}$ (the template) is ever realized —
+$270/270$ menus that have any s$2$/s$2$ pair have span-set family
+exactly $\{\{3,8\}\}$. Non-template catalog pairs ($\{4,7\}$ six
+corpus menus, $\{4,9\}/\{7,8\}/\{7,12\}/\{8,9\}$ one each,
+$\{8,11\}$ only under L1) occur ONLY in menus that also admit an
+L2.
+
+**Fragility $=$ L3-onlyness (walk).** The walk's 264 fragile
+landings (R88) are EXACTLY its 264 L1&L2-less landings; on the
+corpus, fragile $=$ the seven L3-only $\cup$ the n28r4 L2-unique
+landing. Template-fragility and L3-only coverage are one
+phenomenon up to n28r4.
+
+**The supply core, two-step decomposition (open).**
+- **H1 (existence)**: every L1&L2-less menu outside a finite named
+  class contains SOME valid s$2$/s$2$ pair;
+- **H2 (collapse)**: an L1-less menu with a valid s$2$/s$2$ pair of
+  span set $\ne \{3,8\}$ admits an L2 (true on all 482 L1-less
+  menus).
+T1 + T2 + H1 + H2 $\Rightarrow$ the placement law with exception
+class $=$ no-s$2$/s$2$ menus (n28r3-type). H2 is the attackable
+half: six per-span-pair cases, each a concrete claim about what a
+menu containing that pair must also contain; falsification is
+cheap (the walk census kills a case the moment an L2-less menu
+realizes it).
+
+**Next moves (R90+).** (a) H2 case $\{4,7\}$ first — richest data
+(six corpus menus, all L2-present): mine WHICH L2 pair co-occurs
+and whether it is forced by the $\{4,7\}$ ears' own feet (the
+degenerate-L2 mechanism of T2 generalized). (b) Expanded walk
+census (new seeds/steps) as standing falsification pressure on the
+placement law, H2, and the fragility$=$L3-only identity. (c) If H2
+stalls two critics-ON sessions, the Section 127 extension-note
+stop criterion fires: pivot to Q0905-082429-3 (triangle-cover
+stratum).
