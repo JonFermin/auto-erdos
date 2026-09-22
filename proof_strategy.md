@@ -4176,7 +4176,7 @@ whose outside vertices chain into longer small-shortening ears).
 falsification pressure is wanted before proof effort. (c) $d = 2$
 row still deferred.
 
-## Section 127 — R87: STEP 0 verdict on the mod-4 program — L_mod4 is a 1993 theorem; falsifier arm void; pigeonhole gadget mined (session s_0913-080612-48e5)
+## Section 127 — R87: STEP 0 verdict on the mod-4 program — the literature check reports L_mod4 as a 1993 theorem (external, unledgered); falsifier arm retired on internal evidence; pigeonhole gadget mined (session s_0913-080612-48e5)
 
 Q0905-082429-2 was claimed under the s_0912 rotation flag, and its
 own pre-committed STEP 0 (the Dean–Lesniak–Saito-type literature
@@ -4195,40 +4195,45 @@ established. FLAG FOR MAINTAINER: adding Dean–Lesniak–Saito 1993 to
 `given_facts` would make C1 unconditional.
 
 **Literature verdict (details + citations in
-`lemma_mod4_even_theta`).** L_mod4 — *every simple graph with
-minimum degree $\ge 3$ has a cycle of length $\equiv 0 \pmod 4$* —
-is a special case of Dean–Lesniak–Saito (Discrete Mathematics,
+`lemma_mod4_even_theta`; every item below is an external CLAIM
+this draft quotes without asserting — none is used as a fact
+anywhere in this document).** The literature check REPORTS the
+following. L_mod4 — *every simple graph with minimum degree
+$\ge 3$ has a cycle of length $\equiv 0 \pmod 4$* — is claimed as
+a special case of Dean–Lesniak–Saito (Discrete Mathematics,
 1993): minimum degree $\ge 2$ with at most TWO degree-2 vertices
-already suffices. Choi–Chu (arXiv:2605.02731, May 2026) push to at
-most three degree-2 vertices with a full characterization of the
-exceptional graphs, and report Dean's conjecture
-($\delta \ge k \Rightarrow$ 0-mod-$k$ cycle) as known for all
-$k \ne 5$. The Győri–Li–Salia–Tompkins–Varga–Zhu line
-(arXiv:2312.09999) adds: every even theta contains a 0-mod-4
-cycle; every NON-PLANAR graph contains a 0-mod-4 cycle; bipartite
-0-mod-4-free graphs have $\le 3(n-2)/2$ edges.
+reportedly suffices. Choi–Chu (arXiv:2605.02731, May 2026)
+reportedly push to at most three degree-2 vertices with a full
+characterization of the exceptional graphs, and report Dean's
+conjecture ($\delta \ge k \Rightarrow$ 0-mod-$k$ cycle) as known
+for all $k \ne 5$. The Győri–Li–Salia–Tompkins–Varga–Zhu line
+(arXiv:2312.09999) reportedly adds: every even theta contains a
+0-mod-4 cycle; every NON-PLANAR graph contains a 0-mod-4 cycle;
+bipartite 0-mod-4-free graphs have $\le 3(n-2)/2$ edges.
 
 **Consequences, in order of weight:**
 
-1. **The falsifier arm of Q0905-082429-2 is retired.** Per the
-   cited literature (external, unledgered — see the discipline
-   paragraph above), no min-degree-3 graph avoids 0-mod-4 cycles,
-   so hunting one is hunting a falsifier the literature says does
-   not exist. Retiring the hunt is a RESOURCE-ALLOCATION decision,
-   sound even under citation risk: the hunt's own exhaustive
-   $n \le 7$ sweep (236,926 graphs) and 21k-cubic random probes
-   had already produced zero falsifiers, so the expected value of
-   continuing was near zero with or without the theorem. The
-   constraint-system engines (Menger-triple $\mathbb{Z}_4$, Tutte
-   2-cut descent) stay unlaunched for the same reason.
+1. **The falsifier arm of Q0905-082429-2 is retired — a
+   RESOURCE-ALLOCATION decision that stands on INTERNAL evidence
+   alone.** The hunt's own exhaustive $n \le 7$ sweep (236,926
+   graphs) and 21k-cubic random probes had already produced zero
+   falsifiers, so the expected value of continuing was near zero
+   BEFORE any literature input; the external reports above
+   (unledgered, quoted not asserted) merely corroborate the same
+   allocation choice. No proof step anywhere depends on the
+   retirement or on the quoted claims. The constraint-system
+   engines (Menger-triple $\mathbb{Z}_4$, Tutte 2-cut descent)
+   stay unlaunched for the same internal reason.
 
-2. **Decomposition item (i) is settled in the literature**
-   (conditionally here, via C1(c) of the lemma):
-   $S_4(G) \ne \emptyset$ for every min-degree-3 $G$, no
-   computation needed. The dyadic decomposition of EGC now reads:
-   EGC $\le$ (ii) $\max S_4 \ge 2 \min S_4$ + (iii) no gap $> 4$
-   in $S_4$ straddling a power of 2 — both statements about a set
-   literature guarantees NONEMPTY. These two are the genuine open
+2. **Decomposition item (i) is reportedly settled in the
+   literature** (STRICTLY conditional here, via C1(c) of the
+   lemma — an implication with the external antecedent; this
+   draft asserts nothing unconditionally):
+   IF the quoted reports hold, $S_4(G) \ne \emptyset$ for every
+   min-degree-3 $G$, no computation needed, and the dyadic
+   decomposition of EGC would read: EGC $\le$ (ii)
+   $\max S_4 \ge 2 \min S_4$ + (iii) no gap $> 4$ in $S_4$
+   straddling a power of 2. (ii) and (iii) are the genuine open
    content if the mod-4 program is ever resumed as an exploit
    line.
 
