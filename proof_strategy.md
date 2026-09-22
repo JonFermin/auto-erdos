@@ -4502,3 +4502,69 @@ its shape-families carry an antipodal $s = 3$ ear; census WHY
 unchanged: two further critics-ON sessions without a proved
 supply lemma or a falsifying landing $\Rightarrow$ pivot to
 Q0905-082429-3.
+
+## Section 131 — R91: the companion supply law — the reuse law refined to one route; route asymmetry and n28r3 stratum locality (session s_0922-080602-4fe4)
+
+R91 executes Section 130's next-move (a): a full companion-mining
+pass over the same 5-seed walk, per pair occurrence, asking not
+just WHETHER an ear of the pair joins an L2 (the reuse law) but
+WHICH ear, with WHICH companion, WHERE.
+
+**The companion supply law (open, census 141/141).** Call the
+minimum-span ear of a non-antipodal s$2$/s$2$ pair its **pilot**
+($\delta = 4$ for $\{4,7\}$ and $\{4,9\}$, $\delta = 7$ for
+$\{7,12\}$). In an L1-less menu, the pilot of every valid
+non-antipodal pair admits a sequential interior-disjoint companion
+of complementary shortening ($+1$, $+1$, $-2$ respectively), hence
+joins a valid L2. This is strictly sharper than R90's reuse law
+(which allowed either ear to do the reusing): the data says the
+pilot ALWAYS carries the load.
+
+**Route asymmetry (the new structural fact).** T3 offers two
+routes per pair; the census realizes them asymmetrically:
+
+- $\{4,7\}$ ($46$ walk menus): BOTH routes always available —
+  the short-$1$ companion of the pilot is UNIQUE and always
+  $(\delta, s) = (3, 2)$ at window gap $4$; the short-$(-2)$
+  companion of the $\delta 7$ ear is always $(2, 4)$ at gap $1$.
+  Only two pair realizations occur: $(2,6)\,\&\,(4,11)$ ($44$)
+  and $(4,11)\,\&\,(9,13)$ ($2$) — both contain $(4,11)$.
+- $\{4,9\}$ ($95$ walk menus): ONLY the pilot route exists. The
+  short-$7$ ear's $(-4)$ companion — E2-legal at $(\delta, s) \in
+  \{(1,5), (3,7), (4,8)\}$ — occurs $0/95$ times. Pilot
+  companions: $1$–$2$ per menu ($57$ single, $38$ double),
+  shapes $(3,2)/(4,3)/(6,5)$, all shortening $1$.
+
+**Stratum locality.** ALL $141$ non-antipodal occurrences lie on
+the n28r3 seed's walk — first $\{4,9\}$ at member $90$, first
+$\{4,7\}$ at member $92$; seeds n24, n26, n28r1, n28r4 produce
+none in $400$ steps each. Together with R90's finding that the
+empty family is n28r3-adjacent and $\{7,8\}/\{8,9\}$ are
+n28r4-adjacent, every exotic phenomenon of the placement problem
+clusters around two of the five corpus hosts. CHECK D of
+`template_placement` pins the deterministic witnesses (rng-94
+prefix, members $90$/$92$, $\sim 3$s) and re-verifies the
+companion supply law on every occurrence of the prefix.
+
+**Why this helps the proof.** Statement (a) of
+`template_placement` now reduces to: prove the short-$1$ companion
+for $\delta = 4$ pilots (covering $\{4,7\}$ and $\{4,9\}$) and the
+$(-2)$ companion for the pinned $\{7,12\}$ realization
+$(1,8)\,\&\,(2,14)$. The $\{4,7\}$ case's forced shape (companion
+always the $(3,2)$ gap-$3$ spoke pair at distance $4$ from the
+pilot) suggests the companion is not merely supplied but FORCED by
+the pair's geometry plus L1-lessness — the T2 degenerate mechanism
+one level up. Next mining question: WHICH outside vertex carries
+the forced companion (per-menu spoke structure at the companion's
+positions), and does an E4 arc-triple argument at the pilot's feet
+force it.
+
+**Next moves (R92+).** (a) Spoke-level mining of the $44$
+A-realization menus: locate the companion's host vertex relative
+to the landing ($u_1/v/u_2$) and the pilot's interior vertex; if
+one mechanism explains $44/44$, formalize it as the next
+arithmetic layer (T5). (b) The $(8,3,5)$ empty-stratum floor
+(Section 129 (b')) stands. (c) Stop-criterion clock: this is
+critics-ON session ONE of two without a proved supply lemma since
+the R89/R90 reset; one more such session without a proved supply
+lemma or falsifying landing $\Rightarrow$ pivot to Q0905-082429-3.

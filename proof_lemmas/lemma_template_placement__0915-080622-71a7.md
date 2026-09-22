@@ -186,6 +186,48 @@ lives. Proving it needs a supply argument for the companion ear —
 the same engine statement (b) needs; the T2 degenerate mechanism
 (companion forced by the pair's own feet) is the model to
 generalize.
+
+**The companion supply law (open, R91 — the reuse law refined to
+one route).** Call the minimum-span ear of a non-antipodal
+s$2$/s$2$ pair its **pilot** ($\delta = 4$ for $\{4,7\}$ and
+$\{4,9\}$, $\delta = 7$ for the position-pinned $\{7,12\}$;
+pilot shortenings $2, 2, 5$). Claim: in an L1-less menu the pilot
+of every valid non-antipodal pair admits a sequential
+interior-disjoint companion of the complementary shortening
+($3 - \mathrm{short}$: $+1$, $+1$, $-2$), hence joins a valid L2.
+This implies the reuse law and statement (a). R91 re-mining of the
+5-seed walk ($7{,}700$ L1-less menus re-derived; occurrence counts
+reproduce R90: $\{4,7\}$ $46$, $\{4,9\}$ $95$, $\{7,12\}$ $0$):
+
+- **Route asymmetry.** $\{4,7\}$: BOTH T3 routes are available in
+  $46/46$ menus (short-$2$ ear $+$ short-$1$ companion AND
+  short-$5$ ear $+$ short-$(-2)$ companion). $\{4,9\}$: the pilot
+  route exists in $95/95$, while the short-$7$ ear's $(-4)$
+  companion — E2-legal at $(\delta, s) \in \{(1,5), (3,7),
+  (4,8)\}$ — is realized in $0/95$. The reuse mechanism for
+  $\{4,9\}$ is EXCLUSIVELY the pilot route.
+- **Shape rigidity ($\{4,7\}$).** The short-$1$ companion is
+  UNIQUE in all $46$ menus and always $(\delta, s) = (3, 2)$ at
+  window gap $4$ from the pilot; the $(-2)$ companion is always
+  $(2, 4)$ at window gap $1$. Only two pair realizations occur:
+  $(2,6)\,\&\,(4,11)$ ($44$ menus) and $(4,11)\,\&\,(9,13)$
+  ($2$) — both carry the ear $(4,11)$.
+- **$\{4,9\}$ companions.** $1$–$2$ per menu ($57$ menus have
+  exactly one, $38$ have two), shapes $(3,2)/(4,3)/(6,5)$ — all
+  shortening $1$, mixed sides.
+- **Stratum locality.** ALL $141$ walk occurrences lie on the
+  n28r3 seed's walk (first $\{4,9\}$ at member $90$, first
+  $\{4,7\}$ at member $92$); seeds n24, n26, n28r1, n28r4 produce
+  NONE in $400$ steps each. Non-antipodal pairs are an
+  n28r3-adjacent phenomenon, like the empty family (CHECK C) —
+  the exotic strata cluster around the same host.
+
+Proof target as sharpened: prove the short-$1$ companion for
+$\delta = 4$ pilots (covers $\{4,7\}$ and $\{4,9\}$) and the
+$(-2)$ route for the pinned $\{7,12\}$ realization
+$(1,8)\,\&\,(2,14)$ — the census says the $\delta 4$-pilot route
+is what the class actually supplies, and for $\{4,7\}$ it
+supplies it with a forced shape.
 <!-- CHECK
 # CHECK A - R89 placement law + catalog on the four hosting reps
 # (n26, n28r1, n28r3, n28r4 — every corpus L1&L2-less landing lives here):
@@ -718,5 +760,206 @@ print("CHECK C ok: empty-family witness at (n28r3-walk rng94, member 3);",
       "{7,8} and {8,9} witnesses both at (n28r4-walk rng95, member 29),",
       "none earlier; catalog + participation + purity + reuse law hold",
       "on all L1-less menus of both prefix walks")
+CHECK
+-->
+
+<!-- CHECK
+# CHECK D - R91 companion supply law: deterministic witnesses on the rng-94
+# prefix walk from n28r3 (92 accepted steps, ~3s). Asserts: (i) NO
+# non-antipodal s2/s2 pair occurs in any L1-less menu before member 90;
+# (ii) member 90 carries exactly one {4,9} occurrence — pair (4,13)&(10,14),
+# pilot (10,14) with short-1 companions exactly {(2,5,2),(3,9,5)} and NO
+# (-4) companion for the short-7 ear; (iii) member 92 carries exactly two
+# {4,7} occurrences, both pair (2,6)&(4,11), pilot short-1 companion
+# UNIQUE = (10,13,2), and (1,3,4) among the (-2) companions of (4,11);
+# (iv) every occurrence satisfies the companion supply law (pilot has a
+# sequential disjoint complementary-shortening companion).
+import random
+from collections import deque
+def to_adj(flat, n):
+    nums = [int(x) for x in flat.split(",")]
+    adj = [[] for _ in range(n)]
+    for a, b in zip(nums[::2], nums[1::2]):
+        adj[a].append(b); adj[b].append(a)
+    return adj
+N28R3 = "0,1,0,15,0,16,1,2,1,21,2,3,2,17,3,4,3,18,4,5,4,16,5,6,5,24,6,7,6,26,7,8,7,17,8,9,8,18,9,10,9,27,10,11,10,27,11,12,11,19,12,13,12,25,13,14,13,22,14,15,14,20,15,23,16,17,18,19,19,20,20,21,21,22,22,23,23,24,24,25,25,26,26,27"
+def all_c16(adj):
+    n = len(adj); out = []
+    for s in range(n):
+        d = [n+1]*n; d[s] = 0; q = deque([s])
+        while q:
+            v = q.popleft()
+            for w in adj[v]:
+                if d[w] > d[v]+1: d[w] = d[v]+1; q.append(w)
+        stack = [(u, (1 << s) | (1 << u), [s, u]) for u in adj[s] if u > s]
+        while stack:
+            v, mask, path = stack.pop()
+            for w in adj[v]:
+                if w == s:
+                    if len(path) == 16 and path[1] < path[-1]:
+                        es = frozenset(frozenset(e) for e in zip(path, path[1:]+path[:1]))
+                        out.append((frozenset(path), es, tuple(path)))
+                    continue
+                if w < s or (mask >> w) & 1: continue
+                if len(path) + d[w] > 16: continue
+                stack.append((w, mask | (1 << w), path+[w]))
+    return out
+def dist_to(adj, v, S):
+    d = {v: 0}; q = deque([v])
+    while q:
+        u = q.popleft()
+        if u in S: return d[u]
+        for w in adj[u]:
+            if w not in d: d[w] = d[u]+1; q.append(w)
+    return 99
+def arc_dist(pathC, a, b):
+    g = abs(pathC.index(a) - pathC.index(b)) % 16
+    return min(g, 16 - g)
+def ears_full(adj, vsC, banned, maxs=10):
+    out = []
+    for x in range(len(adj)):
+        if x not in vsC: continue
+        for w in adj[x]:
+            if w in vsC or w in banned: continue
+            stack = [(w, [x, w])]
+            while stack:
+                cur, path = stack.pop()
+                for t in adj[cur]:
+                    if t in banned: continue
+                    if t in vsC:
+                        if t != x and len(path) <= maxs:
+                            out.append((x, t, len(path), frozenset(path[1:])))
+                        continue
+                    if t in path: continue
+                    if len(path) >= maxs: continue
+                    stack.append((t, path + [t]))
+    seen = set(); res = []
+    for x, y, s, iv in out:
+        k = (min(x, y), max(x, y), s, iv)
+        if k not in seen: seen.add(k); res.append((x, y, s, iv))
+    return res
+def hits1(EE):
+    return [e for e in EE if e[1] - e[0] - e[2] == 3]
+def hits3(EE):
+    return [(e1, e2) for e1 in EE for e2 in EE
+            if e1 is not e2 and e1[0] < e2[0] <= e1[1] < e2[1]
+            and (e2[1]-e1[1]) + (e2[0]-e1[0]) == e1[2]+e2[2]+3
+            and not (e1[3] & e2[3])]
+def c4free(adj):
+    n = len(adj); bits = [0]*n
+    for a in range(n):
+        for b in adj[a]: bits[a] |= 1 << b
+    for a in range(n):
+        for b in range(a+1, n):
+            c = bits[a] & bits[b] & ~(1 << a) & ~(1 << b)
+            if c and (c & (c-1)): return False
+    return True
+def c8free(adj):
+    n = len(adj)
+    for s0 in range(n):
+        stack = [(u, (1 << s0) | (1 << u), 2) for u in adj[s0] if u > s0]
+        while stack:
+            vv, mask, ln = stack.pop()
+            for w in adj[vv]:
+                if w == s0:
+                    if ln == 8: return False
+                    continue
+                if w < s0 or (mask >> w) & 1 or ln >= 8: continue
+                stack.append((w, mask | (1 << w), ln+1))
+    return True
+def conn(adj):
+    seen = {0}; q = deque([0])
+    while q:
+        a = q.popleft()
+        for b in adj[a]:
+            if b not in seen: seen.add(b); q.append(b)
+    return len(seen) == len(adj)
+def d1_menus(adj):
+    n = len(adj)
+    for vs, es, path in all_c16(adj):
+        if any(b in vs and frozenset((a, b)) not in es
+               for a in path for b in adj[a]): continue
+        vsC = set(vs)
+        for v in range(n):
+            if v in vsC or any(t in vsC for t in adj[v]): continue
+            if dist_to(adj, v, vsC) != 2: continue
+            tn = [(w, [f for f in adj[w] if f in vsC]) for w in adj[v]]
+            tn = [(w, F) for w, F in tn if F]
+            if len(tn) < 2: continue
+            for a in range(len(tn)):
+                for b in range(a+1, len(tn)):
+                    u1, F1 = tn[a]; u2, F2 = tn[b]
+                    for f1 in F1:
+                        for f2 in F2:
+                            if arc_dist(path, f1, f2) != 1: continue
+                            i2 = path.index(f2); i1 = path.index(f1)
+                            if (i1 - i2) % 16 == 1:
+                                order = [path[(i2 - t) % 16] for t in range(16)]
+                            else:
+                                order = [path[(i2 + t) % 16] for t in range(16)]
+                            pm = {vtx: t for t, vtx in enumerate(order)}
+                            E = []
+                            for x, y, s, iv in ears_full(adj, vsC, {u1, v, u2}):
+                                px, py = pm[x], pm[y]
+                                if 1 <= px <= 14 and 1 <= py <= 14 and px != py:
+                                    E.append((min(px, py), max(px, py), s, iv))
+                            yield E
+TARGETS = {(4, 7), (4, 9), (7, 12)}
+rng = random.Random(94)
+wadj = to_adj(N28R3, 28)
+acc = att = 0
+occ = []
+while acc < 92 and att < 200000:
+    att += 1
+    eds = [(a, b) for a in range(28) for b in wadj[a] if a < b]
+    (a, b) = rng.choice(eds); (c, d) = rng.choice(eds)
+    if len({a, b, c, d}) != 4: continue
+    pr = ((a, c), (b, d)) if rng.random() < 0.5 else ((a, d), (b, c))
+    if any(y in wadj[x] for x, y in pr): continue
+    cand = [list(nb) for nb in wadj]
+    for x, y in ((a, b), (c, d)):
+        cand[x].remove(y); cand[y].remove(x)
+    for x, y in pr:
+        cand[x].append(y); cand[y].append(x)
+    if not (c4free(cand) and c8free(cand) and conn(cand)): continue
+    wadj = cand; acc += 1
+    for E in d1_menus(wadj):
+        if hits1(E): continue
+        for e1, e2 in hits3(E):
+            if e1[2] != 2 or e2[2] != 2: continue
+            sp = tuple(sorted((e1[1]-e1[0], e2[1]-e2[0])))
+            if sp not in TARGETS: continue
+            pilot = e1 if (e1[1]-e1[0]) <= (e2[1]-e2[0]) else e2
+            other = e2 if pilot is e1 else e1
+            pc = sorted((g[0], g[1], g[2]) for g in E if g is not pilot
+                        and (g[1]-g[0]-g[2]) == 3-(pilot[1]-pilot[0]-pilot[2])
+                        and not (g[3] & pilot[3])
+                        and (g[1] <= pilot[0] or g[0] >= pilot[1]))
+            oc = sorted((g[0], g[1], g[2]) for g in E if g is not other
+                        and (g[1]-g[0]-g[2]) == 3-(other[1]-other[0]-other[2])
+                        and not (g[3] & other[3])
+                        and (g[1] <= other[0] or g[0] >= other[1]))
+            assert pc, ("companion supply law violated", acc, sp, pilot)
+            occ.append((acc, sp, (pilot[0], pilot[1]), (other[0], other[1]),
+                        tuple(pc), tuple(oc)))
+assert acc == 92, acc
+assert all(o[0] >= 90 for o in occ), occ
+o90 = [o for o in occ if o[0] == 90]
+assert len(o90) == 1 and o90[0][1] == (4, 9), o90
+assert o90[0][2] == (10, 14) and o90[0][3] == (4, 13), o90
+assert set(o90[0][4]) == {(2, 5, 2), (3, 9, 5)}, o90
+assert o90[0][5] == (), o90   # the (-4) route: no companion for the short-7 ear
+o92 = [o for o in occ if o[0] == 92]
+assert len(o92) == 2 and all(o[1] == (4, 7) for o in o92), o92
+for o in o92:
+    assert o[2] == (2, 6) and o[3] == (4, 11), o
+    assert o[4] == ((10, 13, 2),), o     # pilot short-1 companion UNIQUE
+    assert (1, 3, 4) in o[5], o          # the (-2) companion of (4,11)
+assert len(occ) == 3, occ
+print("CHECK D ok: rng-94 prefix (92 members) — no non-antipodal pair before",
+      "member 90; {4,9} witness at 90 (pilot (10,14), 2 short-1 companions,",
+      "no -4 route); two {4,7} occurrences at 92 (pilot (2,6), companion",
+      "(10,13,2) unique, (1,3,4) is the -2 companion); companion supply law",
+      "holds on every occurrence")
 CHECK
 -->
