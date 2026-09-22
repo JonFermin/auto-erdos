@@ -4604,3 +4604,39 @@ without a proved supply lemma since the R89/R90 reset (T5 is a
 proved obstruction, not the supply lemma); one more such session
 without a proved supply lemma or falsifying landing
 $\Rightarrow$ pivot to Q0905-082429-3.
+
+**R91 addendum (same session) — the fresh-seed hunt refutes the
+pilot-route sharpening and the $\{4,9\}$ pilot typing; the reuse
+law and statement (a) survive a $40\times$ census expansion.**
+Immediately after Section 131 was drafted, the standing
+falsification walk was extended with three fresh seeds from n28r3
+(rng $96$–$98$, $1{,}200$ accepted steps each). Deep n28r3
+territory is DENSE in the stratum: $16{,}461$ L1-less menus,
+$5{,}744$ non-antipodal occurrences ($\{4,7\}$ $1{,}624$,
+$\{4,9\}$ $4{,}120$). Refuted: (i) the companion supply law's
+pilot route — $74$ $\{4,9\}$ occurrences (rng-97, first at member
+$164$; static witness pinned as CHECK F) have NO disjoint
+sequential shortening-$1$ ear, and at the pinned witness the
+mechanism is exactly T5's self-block (the pilot host's own
+gap-$3$ ear is the menu's only shortening-$1$ ear); (ii) the
+route asymmetry — the $74$ failures are rescued by the $(7,-4)$
+route (long ear $+$ shortening-$(-4)$ companion), unobserved in
+the rng-94 census; route histogram $\{4,9\}$: $(2,1)$ $4{,}046$
+/ $(7,-4)$ $74$ (clean dichotomy), $\{4,7\}$: $(2,1)$ all
+$1{,}624$, $(5,-2)$ additionally in $72$; (iii) the $\{4,9\}$
+pilot typing — $960/4{,}120$ pilots ride $2$-spoke gap-$4$
+hosts. SURVIVED, zero violations in $5{,}744$: the R90 reuse law,
+statement (a), the $\{4,7\}$ pilot typing, and the LONG-ear
+$(1,7,8)$ typing ($5{,}744/5{,}744$ — the structural anchor).
+The supply core is now the ROUTE DISJUNCTION (Section 131's
+final-form paragraph, revised in the lemma): pilot route OR long
+route, with T5's self-block as the pilot route's one observed
+failure mechanism and the long route as its rescue. Next moves
+revised: (a\*) prove the disjunction, starting from the
+surviving anchor — the long ear's $(1,7,8)$ host — and the
+member-164 configuration as the hard case; (b\*) the
+falsification frontier moves to "a non-antipodal pair whose
+pilot route fails AND whose long route fails" — hunt deeper
+(seeds beyond 98, longer walks, n28r4 starts) before spending
+proof effort. Stop-criterion clock unchanged (session ONE of
+two: refutations recorded, no proved supply lemma).

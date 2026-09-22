@@ -187,8 +187,9 @@ the same engine statement (b) needs; the T2 degenerate mechanism
 (companion forced by the pair's own feet) is the model to
 generalize.
 
-**The companion supply law (open, R91 — the reuse law refined to
-one route).** Call the minimum-span ear of a non-antipodal
+**The companion supply law (R91 — REFUTED same round as a
+universal pilot-route law; see the refutation record below;
+survives as the dominant route).** Call the minimum-span ear of a non-antipodal
 s$2$/s$2$ pair its **pilot** ($\delta = 4$ for $\{4,7\}$ and
 $\{4,9\}$, $\delta = 7$ for the position-pinned $\{7,12\}$;
 pilot shortenings $2, 2, 5$). Claim: in an L1-less menu the pilot
@@ -240,7 +241,10 @@ $(1,8)\,\&\,(2,14)$ — the census says the $\delta 4$-pilot route
 is what the class actually supplies, and for $\{4,7\}$ it
 supplies it with a forced shape.
 
-**The E4-typing law (open, same round — census $141/141$).**
+**The E4-typing law (same round — census $141/141$; the pilot
+half for $\{4,9\}$ is REFUTED at fresh-seed scale, the long half
+and the $\{4,7\}$ pilot half survive — see the refutation record
+below).**
 In EVERY observed non-antipodal occurrence, the pilot's host (the
 outside vertex carrying its two spokes) is a $3$-spoke vertex of
 E4 arc-triple type $(1, 3, 12)$ — the pilot is its arc-$(3{+}1)$
@@ -272,13 +276,46 @@ disjoint supplier). In those $57$ menus supply has no redundancy
 shortening-$1$ ear" is the sharpest falsification target for
 statement (a).
 
-**Supply core, final form (R91).** Statement (a) for $\{4,7\}$
-and $\{4,9\}$ reduces to: an L1-less menu containing a
-$(1,3,12)$-hosted $\delta 4$ pilot and a $(1,7,8)$-hosted long
-ear at offset-sum $7$ contains a shortening-$1$ ear disjoint
-from the pilot's host and sequential with the pilot. (The
-$\{7,12\}$ case — no $\delta 4$ pilot, $(-2)$ companion —
-stays open on its single corpus datum.)
+**REFUTATION RECORD (R91, same round — the fresh-seed hunt; do
+not re-derive the killed sharpenings).** Immediately after the
+two laws above were drafted from the rng-91–95 census, the
+standing falsification walk was extended with three fresh seeds
+from n28r3 (rng $96$–$98$, $1{,}200$ accepted steps each). Deep
+n28r3 territory is DENSE in the stratum: $16{,}461$ L1-less
+menus carry $5{,}744$ non-antipodal occurrences ($\{4,7\}$:
+$1{,}624$, $\{4,9\}$: $4{,}120$) — vs $141$ in the 400-step
+walks. REFUTED: (i) the companion supply law's pilot route —
+$74$ $\{4,9\}$ occurrences (rng-97, first at member $164$) have
+NO disjoint sequential shortening-$1$ ear; at the pinned witness
+(CHECK F) the mechanism is exactly T5's self-block: the pilot
+host's own gap-$3$ ear is the menu's ONLY shortening-$1$ ear;
+(ii) the route asymmetry — those $74$ are rescued by the
+$(7,-4)$ route (long ear $+$ shortening-$(-4)$ companion), the
+route the rng-94 census realized $0/95$ times; realized-route
+histogram: $\{4,9\}$: $(2,1)$ $4{,}046$, $(7,-4)$ $74$ — a clean
+dichotomy summing to $4{,}120$; $\{4,7\}$: $(2,1)$ all
+$1{,}624$, $(5,-2)$ additionally in $72$; (iii) the pilot half
+of the E4-typing law for $\{4,9\}$ — $960/4{,}120$ pilots ride
+$2$-spoke gap-$4$ hosts (the $(1,3,12)$ typing was rng-94
+locality). SURVIVED at the $40\times$ scale, zero violations:
+the R90 reuse law ($5{,}744/5{,}744$), statement (a) (no
+L2-less menu carries a non-antipodal pair anywhere), the
+$\{4,7\}$ pilot typing ($1{,}624/1{,}624$ on $(1,3,12)$), and —
+the strongest survivor — the LONG-ear typing: every long ear in
+all $5{,}744$ occurrences rides a $(1,7,8)$ $3$-spoke host. T5
+stays proved and is now empirically load-bearing (it is the
+failure mechanism of the pilot route).
+
+**Supply core, final form (R91, post-refutation).** Statement
+(a) for $\{4,7\}/\{4,9\}$ reduces to the ROUTE DISJUNCTION:
+every valid non-antipodal pair in an L1-less menu has an ear
+completing a valid L2 — via the pilot route (disjoint sequential
+shortening-$1$ companion; $5{,}670$ of $5{,}744$) or the long
+route (shortening-$(-2)$/$(-4)$ companion; the $74$ pilot-route
+failures are all rescued this way). The census anchor for a
+proof is the surviving long-host typing: the long ear always
+rides a $(1,7,8)$ $3$-spoke vertex. (The $\{7,12\}$ case stays
+open on its single corpus datum.)
 <!-- CHECK
 # CHECK A - R89 placement law + catalog on the four hosting reps
 # (n26, n28r1, n28r3, n28r4 — every corpus L1&L2-less landing lives here):
@@ -1214,5 +1251,193 @@ print("CHECK E ok: rng-94 prefix — every non-antipodal pair has its pilot on",
       "exception triple); the pilot triple's own gap-3 ear is self-blocked",
       "(T5); a disjoint sequential shortening-1 companion exists in every",
       "occurrence; member-90/92 host positions pinned")
+CHECK
+-->
+
+<!-- CHECK
+# CHECK F - R91 refutation witness, STATIC: the seed-97 member-164 class
+# member (28 vertices, embedded flat string; found by the rng-97 fresh-seed
+# hunt, deterministically re-derivable but embedded to stay within the CHECK
+# budget; menu coordinates below are in this embedding's enumeration
+# orientation — the walk replay sees the p -> 15-p mirror). Asserts:
+# (i) the graph is cubic, connected, C4/C8-free; (ii) it has exactly 18
+# legal tau>=2 d=1 landings of which 2 are L1-less; (iii) exactly one
+# L1-less menu carries the {4,9} pair {(4,8),(5,14)}; in it: the ONLY
+# shortening-1 ear is (4,7,2), which shares its interior with the pilot
+# (4,8) (T5 self-block realized in the wild) — so the pilot has NO
+# disjoint sequential shortening-1 companion (the R91 pilot-route law is
+# REFUTED); the menu is NOT L2-less (statement (a) survives) and the
+# reuse law holds via the LONG ear: (5,14) [shortening 7] + (1,2,5)
+# [shortening -4] is a valid L2 — the (-4) route the rng-94 census never
+# realized. ~0.1s.
+from collections import deque
+def to_adj(flat, n):
+    nums = [int(x) for x in flat.split(",")]
+    adj = [[] for _ in range(n)]
+    for a, b in zip(nums[::2], nums[1::2]):
+        adj[a].append(b); adj[b].append(a)
+    return adj
+W164 = "0,4,0,20,0,2,1,15,1,14,1,16,2,25,2,23,3,24,3,25,3,9,4,20,4,15,5,8,5,27,5,12,6,26,6,19,6,11,7,18,7,27,7,21,8,23,8,17,9,26,9,24,10,26,10,16,10,13,11,22,11,19,12,25,12,21,13,24,13,16,14,15,14,18,17,21,17,19,18,27,20,22,22,23"
+def all_c16(adj):
+    n = len(adj); out = []
+    for s in range(n):
+        d = [n+1]*n; d[s] = 0; q = deque([s])
+        while q:
+            v = q.popleft()
+            for w in adj[v]:
+                if d[w] > d[v]+1: d[w] = d[v]+1; q.append(w)
+        stack = [(u, (1 << s) | (1 << u), [s, u]) for u in adj[s] if u > s]
+        while stack:
+            v, mask, path = stack.pop()
+            for w in adj[v]:
+                if w == s:
+                    if len(path) == 16 and path[1] < path[-1]:
+                        es = frozenset(frozenset(e) for e in zip(path, path[1:]+path[:1]))
+                        out.append((frozenset(path), es, tuple(path)))
+                    continue
+                if w < s or (mask >> w) & 1: continue
+                if len(path) + d[w] > 16: continue
+                stack.append((w, mask | (1 << w), path+[w]))
+    return out
+def dist_to(adj, v, S):
+    d = {v: 0}; q = deque([v])
+    while q:
+        u = q.popleft()
+        if u in S: return d[u]
+        for w in adj[u]:
+            if w not in d: d[w] = d[u]+1; q.append(w)
+    return 99
+def arc_dist(pathC, a, b):
+    g = abs(pathC.index(a) - pathC.index(b)) % 16
+    return min(g, 16 - g)
+def ears_full(adj, vsC, banned, maxs=10):
+    out = []
+    for x in range(len(adj)):
+        if x not in vsC: continue
+        for w in adj[x]:
+            if w in vsC or w in banned: continue
+            stack = [(w, [x, w])]
+            while stack:
+                cur, path = stack.pop()
+                for t in adj[cur]:
+                    if t in banned: continue
+                    if t in vsC:
+                        if t != x and len(path) <= maxs:
+                            out.append((x, t, len(path), frozenset(path[1:])))
+                        continue
+                    if t in path: continue
+                    if len(path) >= maxs: continue
+                    stack.append((t, path + [t]))
+    seen = set(); res = []
+    for x, y, s, iv in out:
+        k = (min(x, y), max(x, y), s, iv)
+        if k not in seen: seen.add(k); res.append((x, y, s, iv))
+    return res
+def hits1(EE):
+    return [e for e in EE if e[1] - e[0] - e[2] == 3]
+def hits2(EE):
+    return [(e1, e2) for e1 in EE for e2 in EE
+            if e1 is not e2 and e1[1] <= e2[0]
+            and (e1[1]-e1[0]-e1[2]) + (e2[1]-e2[0]-e2[2]) == 3
+            and not (e1[3] & e2[3])]
+def hits3(EE):
+    return [(e1, e2) for e1 in EE for e2 in EE
+            if e1 is not e2 and e1[0] < e2[0] <= e1[1] < e2[1]
+            and (e2[1]-e1[1]) + (e2[0]-e1[0]) == e1[2]+e2[2]+3
+            and not (e1[3] & e2[3])]
+def c4free(adj):
+    n = len(adj); bits = [0]*n
+    for a in range(n):
+        for b in adj[a]: bits[a] |= 1 << b
+    for a in range(n):
+        for b in range(a+1, n):
+            c = bits[a] & bits[b] & ~(1 << a) & ~(1 << b)
+            if c and (c & (c-1)): return False
+    return True
+def c8free(adj):
+    n = len(adj)
+    for s0 in range(n):
+        stack = [(u, (1 << s0) | (1 << u), 2) for u in adj[s0] if u > s0]
+        while stack:
+            vv, mask, ln = stack.pop()
+            for w in adj[vv]:
+                if w == s0:
+                    if ln == 8: return False
+                    continue
+                if w < s0 or (mask >> w) & 1 or ln >= 8: continue
+                stack.append((w, mask | (1 << w), ln+1))
+    return True
+def conn(adj):
+    seen = {0}; q = deque([0])
+    while q:
+        a = q.popleft()
+        for b in adj[a]:
+            if b not in seen: seen.add(b); q.append(b)
+    return len(seen) == len(adj)
+adj = to_adj(W164, 28)
+assert all(len(nb) == 3 for nb in adj) and conn(adj) and c4free(adj) and c8free(adj)
+n_land = n_l1less = 0
+hit = None
+for vs, es, path in all_c16(adj):
+    if any(b in vs and frozenset((a, b)) not in es
+           for a in path for b in adj[a]): continue
+    vsC = set(vs)
+    for v in range(28):
+        if v in vsC or any(t in vsC for t in adj[v]): continue
+        if dist_to(adj, v, vsC) != 2: continue
+        tn = [(w, [f for f in adj[w] if f in vsC]) for w in adj[v]]
+        tn = [(w, F) for w, F in tn if F]
+        if len(tn) < 2: continue
+        for a in range(len(tn)):
+            for b in range(a+1, len(tn)):
+                u1, F1 = tn[a]; u2, F2 = tn[b]
+                for f1 in F1:
+                    for f2 in F2:
+                        if arc_dist(path, f1, f2) != 1: continue
+                        i2 = path.index(f2); i1 = path.index(f1)
+                        if (i1 - i2) % 16 == 1:
+                            order = [path[(i2 - t) % 16] for t in range(16)]
+                        else:
+                            order = [path[(i2 + t) % 16] for t in range(16)]
+                        pm = {vtx: t for t, vtx in enumerate(order)}
+                        E = []
+                        for x, y, s, iv in ears_full(adj, vsC, {u1, v, u2}):
+                            px, py = pm[x], pm[y]
+                            if 1 <= px <= 14 and 1 <= py <= 14 and px != py:
+                                E.append((min(px, py), max(px, py), s, iv))
+                        n_land += 1
+                        if hits1(E): continue
+                        n_l1less += 1
+                        p3 = hits3(E)
+                        tgt = [(e1, e2) for e1, e2 in p3 if e1[2] == 2 == e2[2]
+                               and {(e1[0], e1[1]), (e2[0], e2[1])} == {(5, 14), (4, 8)}]
+                        if tgt:
+                            hit = (E, tgt[0], hits2(E))
+assert (n_land, n_l1less) == (18, 2), (n_land, n_l1less)
+assert hit is not None, "falsifier menu not found"
+E, (e1, e2), p2 = hit
+pilot = e1 if e1[1]-e1[0] == 4 else e2
+longe = e1 if e1[1]-e1[0] == 9 else e2
+assert (pilot[0], pilot[1]) == (4, 8) and (longe[0], longe[1]) == (5, 14)
+sh1 = [g for g in E if g[1]-g[0]-g[2] == 1]
+assert [(g[0], g[1], g[2]) for g in sh1] == [(4, 7, 2)], sh1
+assert all(g[3] & pilot[3] for g in sh1), "T5 self-block expected"
+comps = [g for g in E if (g[1]-g[0]-g[2]) == 1 and not (g[3] & pilot[3])
+         and (g[1] <= pilot[0] or g[0] >= pilot[1])]
+assert not comps, "pilot route unexpectedly available"
+assert p2, "menu unexpectedly L2-less"
+reuse = [(f1, f2) for f1, f2 in p2 if longe in (f1, f2) or pilot in (f1, f2)]
+assert reuse, "reuse law violated"
+routes = set()
+for f1, f2 in reuse:
+    pe = f1 if f1 in (e1, e2) else f2
+    comp = f2 if pe is f1 else f1
+    routes.add((pe[1]-pe[0]-pe[2], comp[1]-comp[0]-comp[2]))
+assert (7, -4) in routes, routes
+print("CHECK F ok: static member-164 witness — pilot (4,8) host's gap-3 ear",
+      "(4,7) is its only shortening-1 ear and is T5-self-blocked, so the",
+      "pilot route FAILS; the menu still has an L2 and the reuse law holds",
+      "via the long ear (5,14) + (1,2,5): the (7,-4) route; 18 landings,",
+      "2 L1-less as pinned")
 CHECK
 -->
