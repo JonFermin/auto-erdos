@@ -4541,7 +4541,13 @@ $\{4,7\}$ at member $92$; seeds n24, n26, n28r1, n28r4 produce
 none in $400$ steps each. Together with R90's finding that the
 empty family is n28r3-adjacent and $\{7,8\}/\{8,9\}$ are
 n28r4-adjacent, every exotic phenomenon of the placement problem
-clusters around two of the five corpus hosts. CHECK D of
+clusters around two of the five corpus hosts. The occurrences are
+NOT one recurring landing: $93$ distinct walk members, $60$
+distinct landing identities, $50$ distinct pair
+interior-vertex-sets, $37$ distinct companion-host vertex-sets —
+the invariant is the forced companion shape, not a recurring
+host (this is what separates the supply law's census weight from
+the rng-86 purity artifact R89 refuted). CHECK D of
 `template_placement` pins the deterministic witnesses (rng-94
 prefix, members $90$/$92$, $\sim 3$s) and re-verifies the
 companion supply law on every occurrence of the prefix.

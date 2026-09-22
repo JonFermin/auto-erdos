@@ -221,6 +221,14 @@ reproduce R90: $\{4,7\}$ $46$, $\{4,9\}$ $95$, $\{7,12\}$ $0$):
   NONE in $400$ steps each. Non-antipodal pairs are an
   n28r3-adjacent phenomenon, like the empty family (CHECK C) —
   the exotic strata cluster around the same host.
+- **Diversity (not one recurring landing).** The $141$
+  occurrences spread over $93$ distinct walk members, $60$
+  distinct landing identities, and $50$ distinct pair
+  interior-vertex-sets; the companion's host interior varies too
+  ($37$ distinct vertex-sets). Unlike the rng-86 purity artifact
+  (seed locality, refuted at 5-seed scale), the census weight
+  here is carried by genuinely distinct configurations — the
+  invariant is the forced companion SHAPE, not a recurring host.
 
 Proof target as sharpened: prove the short-$1$ companion for
 $\delta = 4$ pilots (covers $\{4,7\}$ and $\{4,9\}$) and the
