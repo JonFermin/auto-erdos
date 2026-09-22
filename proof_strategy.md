@@ -4503,12 +4503,14 @@ unchanged: two further critics-ON sessions without a proved
 supply lemma or a falsifying landing $\Rightarrow$ pivot to
 Q0905-082429-3.
 
-## Section 131 — R91: the companion supply law — the reuse law refined to one route; route asymmetry and n28r3 stratum locality (session s_0922-080602-4fe4)
+## Section 131 — R91: the companion supply law and the E4-typing law — the reuse law refined to one route on typed hosts; T5 self-block proved (session s_0922-080602-4fe4)
 
 R91 executes Section 130's next-move (a): a full companion-mining
-pass over the same 5-seed walk, per pair occurrence, asking not
+pass over the same 5-seed walk (its $7{,}678$ L1-less menus, plus
+the five seed hosts' own $22$ L1-less corpus landings —
+$7{,}700$ re-derived in all), per pair occurrence, asking not
 just WHETHER an ear of the pair joins an L2 (the reuse law) but
-WHICH ear, with WHICH companion, WHERE.
+WHICH ear, with WHICH companion, on WHICH host, WHERE.
 
 **The companion supply law (open, census 141/141).** Call the
 minimum-span ear of a non-antipodal s$2$/s$2$ pair its **pilot**
@@ -4552,25 +4554,53 @@ the rng-86 purity artifact R89 refuted). CHECK D of
 prefix, members $90$/$92$, $\sim 3$s) and re-verifies the
 companion supply law on every occurrence of the prefix.
 
-**Why this helps the proof.** Statement (a) of
-`template_placement` now reduces to: prove the short-$1$ companion
-for $\delta = 4$ pilots (covering $\{4,7\}$ and $\{4,9\}$) and the
-$(-2)$ companion for the pinned $\{7,12\}$ realization
-$(1,8)\,\&\,(2,14)$. The $\{4,7\}$ case's forced shape (companion
-always the $(3,2)$ gap-$3$ spoke pair at distance $4$ from the
-pilot) suggests the companion is not merely supplied but FORCED by
-the pair's geometry plus L1-lessness — the T2 degenerate mechanism
-one level up. Next mining question: WHICH outside vertex carries
-the forced companion (per-menu spoke structure at the companion's
-positions), and does an E4 arc-triple argument at the pilot's feet
-force it.
+**The E4-typing law (open, census $141/141$) and T5 (proved) —
+the same-round spoke-level answer.** The mining question "which
+outside vertex carries the companion" got a sharper answer one
+level down: the PAIR itself is typed. In every one of the $141$
+occurrences, the pilot's host is a $3$-spoke vertex of E4
+arc-triple type $(1, 3, 12)$ (the pilot is its arc-$(3{+}1)$
+composite ear; both position orientations occur) and the long
+ear's host is a $3$-spoke vertex of type $(1, 7, 8)$ — the E4
+EXCEPTION triple, the unique type with no small-shortening ear.
+Zero exceptions. The non-antipodal stratum is exactly "a
+$(1,3,12)$-vertex interleaved with a $(1,7,8)$-vertex at
+offset-sum $7$". At the position level the stratum is nearly
+frozen: $\{4,7\}$ realizes ONE skeleton per pair-position ($44$
+$+$ $2$), $\{4,9\}$ two-to-four skeletons per realization
+differing only in optional gap-$1$ ears. And a small proof fell
+out — **T5 (proved)**: the gap-$3$ ear of the pilot's own triple
+shares its interior (the host vertex) with the pilot, so L2's
+disjoint-interiors requirement blocks it as companion; the
+menu's most immediate shortening-$1$ supplier is structurally
+useless, which is exactly why companion supply is the hard core.
+Realized second sources: another $(1,3,12)$-triple's gap-$3$ ear
+($\{4,7\}$: $46/46$ unique; $\{4,9\}$: $38/95$) or an odd-length
+shortening-$1$ ear ($s{=}3$/$s{=}5$; $57/95$ have ONLY the
+$s{=}3$ ear). CHECK E pins host typings, T5, and supply on the
+deterministic rng-94 prefix.
 
-**Next moves (R92+).** (a) Spoke-level mining of the $44$
-A-realization menus: locate the companion's host vertex relative
-to the landing ($u_1/v/u_2$) and the pilot's interior vertex; if
-one mechanism explains $44/44$, formalize it as the next
-arithmetic layer (T5). (b) The $(8,3,5)$ empty-stratum floor
-(Section 129 (b')) stands. (c) Stop-criterion clock: this is
-critics-ON session ONE of two without a proved supply lemma since
-the R89/R90 reset; one more such session without a proved supply
-lemma or falsifying landing $\Rightarrow$ pivot to Q0905-082429-3.
+**Supply core, final form.** Statement (a) for $\{4,7\}/\{4,9\}$
+now reads: an L1-less menu containing a $(1,3,12)$-hosted
+$\delta 4$ pilot and a $(1,7,8)$-hosted long ear at offset-sum
+$7$ contains a shortening-$1$ ear disjoint from the pilot's host
+and sequential with the pilot. The $57$ single-supplier menus
+say a proof cannot ride redundancy; the sharpest falsification
+target is an L1-less menu with a non-antipodal pair and NO
+disjoint shortening-$1$ ear.
+
+**Next moves (R92+).** (a) Attack the supply core on its typed
+form: the menu provably has $\ge 12$ spokes (E3) of which the
+pair's hosts consume $6$ on $2$ vertices; mine what the OTHER
+$\ge 6$ spokes can be when NO disjoint shortening-$1$ ear exists
+— an E4 case analysis over the seven triple types under
+L1-lessness (types containing arc $5$ are constrained, $(1,7,8)$
+supplies nothing, $2$-spoke verts supply gaps
+$\notin \{2,5,6\}$), aiming either at a contradiction (supply
+proved) or at a constructible falsifier profile. (b) The
+$(8,3,5)$ empty-stratum floor (Section 129 (b')) stands. (c)
+Stop-criterion clock: this is critics-ON session ONE of two
+without a proved supply lemma since the R89/R90 reset (T5 is a
+proved obstruction, not the supply lemma); one more such session
+without a proved supply lemma or falsifying landing
+$\Rightarrow$ pivot to Q0905-082429-3.

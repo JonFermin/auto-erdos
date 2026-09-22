@@ -196,8 +196,11 @@ of every valid non-antipodal pair admits a sequential
 interior-disjoint companion of the complementary shortening
 ($3 - \mathrm{short}$: $+1$, $+1$, $-2$), hence joins a valid L2.
 This implies the reuse law and statement (a). R91 re-mining of the
-5-seed walk ($7{,}700$ L1-less menus re-derived; occurrence counts
-reproduce R90: $\{4,7\}$ $46$, $\{4,9\}$ $95$, $\{7,12\}$ $0$):
+5-seed walk plus the five seed hosts' own corpus landings
+($7{,}700$ L1-less menus re-derived $=$ the walk's $7{,}678$ plus
+the hosts' $22$; occurrence counts reproduce R90: $\{4,7\}$ $46$,
+$\{4,9\}$ $95$, $\{7,12\}$ $0$ — all on the walk, none on the
+hosts):
 
 - **Route asymmetry.** $\{4,7\}$: BOTH T3 routes are available in
   $46/46$ menus (short-$2$ ear $+$ short-$1$ companion AND
@@ -236,6 +239,46 @@ $(-2)$ route for the pinned $\{7,12\}$ realization
 $(1,8)\,\&\,(2,14)$ — the census says the $\delta 4$-pilot route
 is what the class actually supplies, and for $\{4,7\}$ it
 supplies it with a forced shape.
+
+**The E4-typing law (open, same round — census $141/141$).**
+In EVERY observed non-antipodal occurrence, the pilot's host (the
+outside vertex carrying its two spokes) is a $3$-spoke vertex of
+E4 arc-triple type $(1, 3, 12)$ — the pilot is its arc-$(3{+}1)$
+composite ear, host positions $\{\mathrm{lo}, \mathrm{lo}{+}1,
+\mathrm{lo}{+}4\}$ or $\{\mathrm{lo}, \mathrm{lo}{+}3,
+\mathrm{lo}{+}4\}$, both orientations realized — and the long
+ear's host is a $3$-spoke vertex of type $(1, 7, 8)$, the E4
+EXCEPTION triple (the unique type with no small-shortening ear):
+the $\delta 7$ ear is its arc-$7$ member, the $\delta 9$ ear its
+arc-$(8{+}1)$ composite. Zero exceptions in $141$ occurrences.
+The non-antipodal stratum is exactly a $(1,3,12)$-vertex and a
+$(1,7,8)$-vertex interleaved at offset-sum $7$.
+
+**T5 — the self-blocked companion (proved).** If the pilot rides
+a $3$-spoke host $w$ of type $(1,3,12)$, then the gap-$3$ member
+of $w$'s own ear triple — the menu's most immediate
+shortening-$1$ ear — has interior $\{w\}$, equal to the pilot's
+interior. L2 validity requires vertex-disjoint interiors, so the
+pilot's own triple can NEVER supply its companion. $\square$
+Consequence: the E3/E4 pigeonhole's first supplier is
+structurally blocked, and companion supply must come from a
+SECOND source. Census inventory of realized second sources:
+another $(1,3,12)$-triple's gap-$3$ $s{=}2$ ear ($\{4,7\}$:
+$46/46$, unique; $\{4,9\}$: $38/95$) or an odd-length
+shortening-$1$ ear ($s = 3$, $\delta = 4$, or $s = 5$,
+$\delta = 6$; $\{4,9\}$: $57/95$ have ONLY the $s{=}3$ ear as
+disjoint supplier). In those $57$ menus supply has no redundancy
+— "an L1-less menu with a non-antipodal pair and NO disjoint
+shortening-$1$ ear" is the sharpest falsification target for
+statement (a).
+
+**Supply core, final form (R91).** Statement (a) for $\{4,7\}$
+and $\{4,9\}$ reduces to: an L1-less menu containing a
+$(1,3,12)$-hosted $\delta 4$ pilot and a $(1,7,8)$-hosted long
+ear at offset-sum $7$ contains a shortening-$1$ ear disjoint
+from the pilot's host and sequential with the pilot. (The
+$\{7,12\}$ case — no $\delta 4$ pilot, $(-2)$ companion —
+stays open on its single corpus datum.)
 <!-- CHECK
 # CHECK A - R89 placement law + catalog on the four hosting reps
 # (n26, n28r1, n28r3, n28r4 — every corpus L1&L2-less landing lives here):
@@ -969,5 +1012,207 @@ print("CHECK D ok: rng-94 prefix (92 members) — no non-antipodal pair before",
       "no -4 route); two {4,7} occurrences at 92 (pilot (2,6), companion",
       "(10,13,2) unique, (1,3,4) is the -2 companion); companion supply law",
       "holds on every occurrence")
+CHECK
+-->
+
+<!-- CHECK
+# CHECK E - R91 E4-typing law + T5 self-block on the rng-94 prefix walk
+# (same 92 accepted steps as CHECK D, ~3s). For EVERY non-antipodal s2/s2
+# pair occurrence in an L1-less menu of the prefix: (i) the pilot's host
+# is a 3-spoke vertex of E4 type (1,3,12) and the long ear's host is a
+# 3-spoke vertex of type (1,7,8); (ii) the gap-3 ear of the pilot's own
+# triple shares its interior with the pilot (T5: self-blocked as an L2
+# companion); (iii) a shortening-1 ear disjoint from the pilot's host and
+# sequential with the pilot exists (supply core). Pinned host positions:
+# member 90 pilot (10,14) host {10,11,14}, long (4,13) host {4,12,13};
+# member 92 pilot (2,6) host {2,5,6}, long (4,11) host {4,11,12}.
+import random
+from collections import deque
+def to_adj(flat, n):
+    nums = [int(x) for x in flat.split(",")]
+    adj = [[] for _ in range(n)]
+    for a, b in zip(nums[::2], nums[1::2]):
+        adj[a].append(b); adj[b].append(a)
+    return adj
+N28R3 = "0,1,0,15,0,16,1,2,1,21,2,3,2,17,3,4,3,18,4,5,4,16,5,6,5,24,6,7,6,26,7,8,7,17,8,9,8,18,9,10,9,27,10,11,10,27,11,12,11,19,12,13,12,25,13,14,13,22,14,15,14,20,15,23,16,17,18,19,19,20,20,21,21,22,22,23,23,24,24,25,25,26,26,27"
+def all_c16(adj):
+    n = len(adj); out = []
+    for s in range(n):
+        d = [n+1]*n; d[s] = 0; q = deque([s])
+        while q:
+            v = q.popleft()
+            for w in adj[v]:
+                if d[w] > d[v]+1: d[w] = d[v]+1; q.append(w)
+        stack = [(u, (1 << s) | (1 << u), [s, u]) for u in adj[s] if u > s]
+        while stack:
+            v, mask, path = stack.pop()
+            for w in adj[v]:
+                if w == s:
+                    if len(path) == 16 and path[1] < path[-1]:
+                        es = frozenset(frozenset(e) for e in zip(path, path[1:]+path[:1]))
+                        out.append((frozenset(path), es, tuple(path)))
+                    continue
+                if w < s or (mask >> w) & 1: continue
+                if len(path) + d[w] > 16: continue
+                stack.append((w, mask | (1 << w), path+[w]))
+    return out
+def dist_to(adj, v, S):
+    d = {v: 0}; q = deque([v])
+    while q:
+        u = q.popleft()
+        if u in S: return d[u]
+        for w in adj[u]:
+            if w not in d: d[w] = d[u]+1; q.append(w)
+    return 99
+def arc_dist(pathC, a, b):
+    g = abs(pathC.index(a) - pathC.index(b)) % 16
+    return min(g, 16 - g)
+def ears_full(adj, vsC, banned, maxs=10):
+    out = []
+    for x in range(len(adj)):
+        if x not in vsC: continue
+        for w in adj[x]:
+            if w in vsC or w in banned: continue
+            stack = [(w, [x, w])]
+            while stack:
+                cur, path = stack.pop()
+                for t in adj[cur]:
+                    if t in banned: continue
+                    if t in vsC:
+                        if t != x and len(path) <= maxs:
+                            out.append((x, t, len(path), frozenset(path[1:])))
+                        continue
+                    if t in path: continue
+                    if len(path) >= maxs: continue
+                    stack.append((t, path + [t]))
+    seen = set(); res = []
+    for x, y, s, iv in out:
+        k = (min(x, y), max(x, y), s, iv)
+        if k not in seen: seen.add(k); res.append((x, y, s, iv))
+    return res
+def hits1(EE):
+    return [e for e in EE if e[1] - e[0] - e[2] == 3]
+def hits3(EE):
+    return [(e1, e2) for e1 in EE for e2 in EE
+            if e1 is not e2 and e1[0] < e2[0] <= e1[1] < e2[1]
+            and (e2[1]-e1[1]) + (e2[0]-e1[0]) == e1[2]+e2[2]+3
+            and not (e1[3] & e2[3])]
+def c4free(adj):
+    n = len(adj); bits = [0]*n
+    for a in range(n):
+        for b in adj[a]: bits[a] |= 1 << b
+    for a in range(n):
+        for b in range(a+1, n):
+            c = bits[a] & bits[b] & ~(1 << a) & ~(1 << b)
+            if c and (c & (c-1)): return False
+    return True
+def c8free(adj):
+    n = len(adj)
+    for s0 in range(n):
+        stack = [(u, (1 << s0) | (1 << u), 2) for u in adj[s0] if u > s0]
+        while stack:
+            vv, mask, ln = stack.pop()
+            for w in adj[vv]:
+                if w == s0:
+                    if ln == 8: return False
+                    continue
+                if w < s0 or (mask >> w) & 1 or ln >= 8: continue
+                stack.append((w, mask | (1 << w), ln+1))
+    return True
+def conn(adj):
+    seen = {0}; q = deque([0])
+    while q:
+        a = q.popleft()
+        for b in adj[a]:
+            if b not in seen: seen.add(b); q.append(b)
+    return len(seen) == len(adj)
+def d1_menus(adj):
+    n = len(adj)
+    for vs, es, path in all_c16(adj):
+        if any(b in vs and frozenset((a, b)) not in es
+               for a in path for b in adj[a]): continue
+        vsC = set(vs)
+        for v in range(n):
+            if v in vsC or any(t in vsC for t in adj[v]): continue
+            if dist_to(adj, v, vsC) != 2: continue
+            tn = [(w, [f for f in adj[w] if f in vsC]) for w in adj[v]]
+            tn = [(w, F) for w, F in tn if F]
+            if len(tn) < 2: continue
+            for a in range(len(tn)):
+                for b in range(a+1, len(tn)):
+                    u1, F1 = tn[a]; u2, F2 = tn[b]
+                    for f1 in F1:
+                        for f2 in F2:
+                            if arc_dist(path, f1, f2) != 1: continue
+                            i2 = path.index(f2); i1 = path.index(f1)
+                            if (i1 - i2) % 16 == 1:
+                                order = [path[(i2 - t) % 16] for t in range(16)]
+                            else:
+                                order = [path[(i2 + t) % 16] for t in range(16)]
+                            pm = {vtx: t for t, vtx in enumerate(order)}
+                            E = []
+                            for x, y, s, iv in ears_full(adj, vsC, {u1, v, u2}):
+                                px, py = pm[x], pm[y]
+                                if 1 <= px <= 14 and 1 <= py <= 14 and px != py:
+                                    E.append((min(px, py), max(px, py), s, iv))
+                            yield E
+TARGETS = {(4, 7), (4, 9), (7, 12)}
+rng = random.Random(94)
+wadj = to_adj(N28R3, 28)
+acc = att = 0
+hostpins = []
+while acc < 92 and att < 200000:
+    att += 1
+    eds = [(a, b) for a in range(28) for b in wadj[a] if a < b]
+    (a, b) = rng.choice(eds); (c, d) = rng.choice(eds)
+    if len({a, b, c, d}) != 4: continue
+    pr = ((a, c), (b, d)) if rng.random() < 0.5 else ((a, d), (b, c))
+    if any(y in wadj[x] for x, y in pr): continue
+    cand = [list(nb) for nb in wadj]
+    for x, y in ((a, b), (c, d)):
+        cand[x].remove(y); cand[y].remove(x)
+    for x, y in pr:
+        cand[x].append(y); cand[y].append(x)
+    if not (c4free(cand) and c8free(cand) and conn(cand)): continue
+    wadj = cand; acc += 1
+    for E in d1_menus(wadj):
+        if hits1(E): continue
+        for e1, e2 in hits3(E):
+            if e1[2] != 2 or e2[2] != 2: continue
+            sp = tuple(sorted((e1[1]-e1[0], e2[1]-e2[0])))
+            if sp not in TARGETS: continue
+            pilot = e1 if (e1[1]-e1[0]) <= (e2[1]-e2[0]) else e2
+            longe = e2 if pilot is e1 else e1
+            def host_pos(ear):
+                w = next(iter(ear[3]))
+                ps = set()
+                for g in E:
+                    if g[2] == 2 and next(iter(g[3])) == w:
+                        ps.add(g[0]); ps.add(g[1])
+                return tuple(sorted(ps))
+            hp, hl = host_pos(pilot), host_pos(longe)
+            def e4type(ps):
+                if len(ps) != 3: return ("not3spoke", ps)
+                return tuple(sorted([ps[1]-ps[0], ps[2]-ps[1], 16-(ps[2]-ps[0])]))
+            assert e4type(hp) == (1, 3, 12), ("pilot host typing", acc, sp, hp)
+            assert e4type(hl) == (1, 7, 8), ("long host typing", acc, sp, hl)
+            # T5 self-block: gap-3 ear of the pilot's triple shares interior
+            g3 = [g for g in E if g[2] == 2 and (g[0], g[1]) != (pilot[0], pilot[1])
+                  and set((g[0], g[1])) < set(hp) and g[1]-g[0] == 3]
+            assert g3 and all(g[3] & pilot[3] for g in g3), ("T5 self-block", acc, sp)
+            # supply core: disjoint sequential shortening-1 ear exists
+            comps = [g for g in E if (g[1]-g[0]-g[2]) == 1 and not (g[3] & pilot[3])
+                     and (g[1] <= pilot[0] or g[0] >= pilot[1])]
+            assert comps, ("supply core violated", acc, sp)
+            hostpins.append((acc, sp, hp, hl))
+assert acc == 92, acc
+assert ((90, (4, 9), (10, 11, 14), (4, 12, 13)) in hostpins), hostpins
+assert ((92, (4, 7), (2, 5, 6), (4, 11, 12)) in hostpins), hostpins
+assert len(hostpins) == 3, hostpins
+print("CHECK E ok: rng-94 prefix — every non-antipodal pair has its pilot on",
+      "a (1,3,12) 3-spoke host and its long ear on a (1,7,8) host (the E4",
+      "exception triple); the pilot triple's own gap-3 ear is self-blocked",
+      "(T5); a disjoint sequential shortening-1 companion exists in every",
+      "occurrence; member-90/92 host positions pinned")
 CHECK
 -->
