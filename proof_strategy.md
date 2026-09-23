@@ -4645,3 +4645,79 @@ pilot route fails AND whose long route fails" — hunt deeper
 (seeds beyond 98, longer walks, n28r4 starts) before spending
 proof effort. Stop-criterion clock unchanged (session ONE of
 two: refutations recorded, no proved supply lemma).
+
+## Section 132 — R92: EXPLORE round — `triangle_cover_witness_free` PROVED by hand; the full-triangle-cover stratum is empty inside the verifier box (session s_0923-080730-c4a7)
+
+Mandated rotation round (consecutive-exploit counter reached 2 at
+s_0922's close): this session claimed the explore qid
+Q0905-082429-3 (triangle-cover stratum) and released the
+arc-exchange program qid Q0905-082429-1 explicitly; arc-exchange
+resumes next session with the counter reset.
+
+**The result.** Lemma `triangle_cover_witness_free` (NEW, status:
+proved, self-contained): *every cubic graph on at most 21 vertices
+contains a cycle of length in $F = \{3,4,6,7,8\}$.* The qid had
+priced this as a computational certificate over the connected
+cubic girth-5 graphs on $10..20$ vertices; the lemma file instead
+gives a direct structural proof, so the census never has to be
+generated or trusted. Proof skeleton:
+
+1. **T1 girth pinning.** No $F$-cycle forces girth $5$: girths
+   $3,4,6,7,8$ are $F$-cycles, and girth $\ge 7$ costs
+   $1+3+6+12 = 22 > 20$ vertices by the layer count (only cycles
+   $\le 6$ are needed to keep the three layers simple, so this is
+   internal arithmetic, no cage citations).
+2. **T2 pentagon rigidity.** Distinct pentagons are edge-disjoint
+   (their symmetric difference has $10-2k$ edges and would have to
+   decompose into cycles of length $\ge 5$ outside $\{6,7,8\}$ —
+   impossible for $k \ge 1$) and then vertex-disjoint ($2+2 > 3$
+   edges at a shared vertex). So each vertex lies on $\le 1$
+   pentagon.
+3. **T3 neighborhood counting.** A pentagon $P$ has 5 distinct
+   outside neighbors $U$, $U$ independent with no second $P$-edge
+   (each violation closes a $C_3/C_4/C_6$ or a pentagon sharing
+   vertices with $P$, dead by T2), and every third-shell vertex
+   absorbs $\le 1$ of the 10 $U$-edges: $n \ge 5+5+10 = 20$, with
+   equality forcing the third shell $W$ to be $2$-regular with
+   cycle partition $\{5,5\}$ or $\{10\}$.
+4. **T4 endgame.** $\{5,5\}$: each inner pentagon's $U$-contacts
+   are distinct, so an adjacent $P$-pair closes a $C_6/C_7$.
+   $\{10\}$: every $U$-chord on the $C_{10}$ must span arc
+   distance exactly $3$ (lengths $5$/$9$ are the only legal
+   pair), and two distance-3 chord pairs cannot keep all four
+   cross separations $\ge 4$ on $\mathbb{Z}_{10}$ — an exhaustive
+   10-case check. Both branches die; no such graph exists.
+
+**Corollary (stratum kill).** The truncation $T(G)$ of a cubic $G$
+lifts a $p$-cycle to every length in $[2p, 3p]$ (choose 1 or 2
+triangle edges per visited vertex, independently). Each
+$p \in F$ puts a power of two in its band ($8 \in [6,9] \cap
+[8,12]$, $16 \in [12,18] \cap [14,21] \cap [16,24]$), so for every
+cubic $G$ on $\le 21$ vertices, $T(G)$ contains a $C_8$ or
+$C_{16}$. A $\le 64$-vertex witness of the form $T(G)$ needs
+$|V(G)| \le 21$: **the full-triangle-cover stratum inside the
+verifier box is empty**, and the girth-$\ge 5$ normalization that
+every incumbent hunt applies silently is now theorem-backed on
+this stratum. Scope guard: this settles ONE reverse-engineered
+witness shape; it is not evidence about the conjecture's truth,
+and non-truncation witnesses with triangles remain untouched.
+
+**Dual attack discharged in the same round.** CHECK A verifies
+every finite arithmetic step (chord separation menu, cross-
+separation clash, cycle partitions of 10, sym-diff decomposition,
+Moore count, corollary bands); CHECK B is the falsification probe
+(deterministic-seed configuration-model hunt, thousands of cubic
+samples on $n = 14..20$, dozens girth-$5$, zero falsifiers);
+CHECK C pins the boundary instances (Petersen has girth 5 and a
+$\{6,7,8\}$-cycle; the dodecahedral graph $GP(10,2)$ has girth 5,
+no $C_6$ needed — its $C_8$ is why $8$ must be in $F$) and
+constructs the lifted $C_{16}$ inside $T(GP(10,2))$ explicitly.
+
+**Bookkeeping.** Q0905-082429-3 resolved by this round. The
+explore quota is discharged; consecutive-exploit counter resets
+to 0. The Section 130/131 stop-criterion clock on the arc-exchange
+program is UNTOUCHED by this round (explore rounds don't feed it):
+arc-exchange re-enters at "critics-ON session ONE of two without a
+proved supply lemma", with Section 131's next moves (a*) route
+disjunction from the (1,7,8) anchor, (b*) deeper falsification
+hunts, unchanged.
