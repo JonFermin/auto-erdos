@@ -1,100 +1,90 @@
-# Session handoff (session s_0922-080602-4fe4)
+# Session handoff (session s_0923-080730-c4a7)
 
-**Stop reason**: logical milestone — one round (R91), one keep.
-The round proposed two sharpenings from the rng-94 census
-(companion supply law: pilot route always; E4-typing: pilot on
-(1,3,12), long ear on (1,7,8)), proved T5 (the pilot host's own
-gap-3 ear is self-blocked as L2 companion), then the fresh-seed
-hunt (rng 96-98 x 1,200 steps from n28r3) REFUTED the pilot-route
-law (74 failures, all {4,9}), the {4,9} pilot typing (960 2-spoke
-pilots), and the route asymmetry — while the R90 reuse law,
-statement (a), the {4,7} pilot typing, and the long-ear (1,7,8)
-typing SURVIVED all 5,744 occurrences (a 40x census expansion).
+**Stop reason**: logical milestone — one round (R92), one keep. The
+mandated explore rotation was executed: Q0905-082429-3 claimed and
+RESOLVED in the same round; Q0905-082429-1 (arc-exchange) explicitly
+released for re-claim.
 
-**program**: arc-exchange (exploit; qid Q0905-082429-1 stays
-claimed by this session's rows — re-claim or release explicitly
-next session).
+**Consecutive exploit sessions on current program**: 0
+(this session ran a pure explore round — R92 on the triangle-cover
+stratum — so the counter resets; the NEXT session is free to re-claim
+the arc-exchange program qid Q0905-082429-1.)
 
-**Consecutive exploit sessions on current program**: 2
-(s_0915 ran exploit -> 1; this session ran one exploit round ->
-2. The NEXT session MUST claim a kind: explore qid — Q85 or
-Q0905-082429-3 — or open with /erdos-proof-ideation and claim one
-of its explore qids, BEFORE any exploit round.)
+**What happened (Section 132; NEW lemma triangle_cover_witness_free,
+status: proved; record records/proof_erdos_gyarfas_4f7caef3aa24_5fc1873.json)**:
 
-**What happened (Section 131 + addendum; lemma
-template_placement revised in place)**:
+R92 (keep_progress, 608471b + record commit). The qid priced the
+triangle-cover stratum kill as a complete certificate over the
+(reportedly 6,299) connected cubic girth-5 graphs on 10..20 vertices.
+Instead the lemma is now a THEOREM with a direct structural proof,
+fully internal (no cage citations): (T1) girth pinning — no
+{3,4,6,7,8}-cycle forces girth 5, since girth >= 7 costs
+1+3+6+12 = 22 > 20 vertices; (T2) pentagon rigidity — distinct
+pentagons are edge-disjoint (sym-diff decomposition arithmetic) hence
+vertex-disjoint (2+2 > 3 pigeonhole at a shared vertex); (T3) a
+pentagon's five outside neighbors are distinct, independent, and their
+10 outward edges land on 10 distinct third-shell vertices: n >= 20;
+(T4) at n = 20 the third shell is 2-regular with cycle partition {5,5}
+or {10}, and both die (adjacent-pair C6/C7 in the {5,5} case;
+distance-3 chord arithmetic on Z10 — or, independently, five
+vertex-disjoint chord pentagons needing 20 > 10 vertices — in the {10}
+case). Corollary: T(G) lifts a p-cycle to every length in [2p,3p], so
+every cubic G on <= 21 vertices has T(G) containing a C8 or C16: the
+full-triangle-cover stratum inside the <= 64-vertex verifier box is
+EMPTY, and the incumbents' girth>=5 normalization is theorem-backed on
+this stratum. CHECKs A/B/C (arithmetic suite; configuration-model
+falsification probe, thousands of samples, zero falsifiers; Petersen +
+GP(10,2) instances with an explicit lifted C16) all pass, ~2s added to
+the suite.
 
-1. R91 (keep, 8a818be; record
-   records/proof_erdos_gyarfas_fc45bcf12685_8a818be.json).
-   Mining: per-occurrence companion statistics over the 5-seed
-   walk, then vertex/host-level typing, then the fresh-seed hunt.
-   Survivors are the load-bearing facts: EVERY long ear of a
-   non-antipodal pair rides a (1,7,8) 3-spoke host
-   (5,744/5,744, all seeds); reuse law and statement (a) at zero
-   violations; {4,7} pilots all on (1,3,12). The supply core is
-   now the ROUTE DISJUNCTION: pilot route (disjoint sequential
-   shortening-1 companion; 5,670/5,744) OR long route
-   (shortening -2/-4 companion; rescues all 74 pilot failures).
-   T5 (proved): the pilot triple's own gap-3 ear shares the host
-   vertex, so it can never be the companion — this is the
-   observed failure mechanism at the pinned witness.
-   CHECK D (rng-94 prefix witnesses, members 90/92), CHECK E
-   (host typing + T5 + supply on the prefix), CHECK F (STATIC
-   member-164 falsifier graph: pilot route fails, (7,-4) route
-   rescues) all pass, ~5.5s total added to the suite.
+**qid state**: Q0905-082429-3 resolved (this session).
+Q0905-082429-1 released — the natural exploit re-claim. Q85 open.
 
-2. Ledger discipline hardening (same round, commit 8a818be):
-   a strict ledger-critic draw blocked on Section 127's (R87)
-   external mod-4 citations. Reworded title + verdict + items to
-   claim-quoting form ("reportedly"), retirement grounded on
-   internal evidence alone. The subsequent draw returned [] —
-   keep this phrasing style for ALL external literature.
-
-**qid state**: Q0905-082429-1 claimed (this session). Q85,
-Q0905-082429-3 open — both are the natural explore claims for the
-mandated rotation.
-
-**Stop-criterion clock**: critics-ON session ONE of two without a
-proved supply lemma since the R89/R90 reset (T5 is an obstruction
-proof, not the supply lemma; refutation landings were found, but
-the clock language in Section 130 counts proved-supply-or-
-falsifying-landing — the fresh-seed refutations of R91's OWN
-sharpenings arguably reset nothing). One more critics-ON session
-without a proved supply lemma or a falsifying landing => pivot to
-Q0905-082429-3 (which is also the explore rotation target — the
-two pressures point the same way).
+**Stop-criterion clock (arc-exchange program)**: UNTOUCHED by this
+explore round — still "critics-ON session ONE of two without a proved
+supply lemma since the R89/R90 reset". IMPORTANT: the old pivot target
+on expiry was Q0905-082429-3, which is now RESOLVED; if the next
+arc-exchange session expires the clock, pivot to Q85 (branch-vertex
+program) or open with /erdos-proof-ideation to mint a fresh explore
+queue.
 
 **Suggested next moves**:
-1. MANDATORY: claim an explore qid (Q0905-082429-3
-   triangle-cover, or Q85), or run /erdos-proof-ideation.
-2. When arc-exchange resumes: prove the route disjunction from
-   the surviving anchor (long ear always on a (1,7,8) host); the
-   member-164 configuration (CHECK F) is the hard case — pilot
-   route dead by T5 self-block, (7,-4) rescue present.
-3. Falsification frontier: a non-antipodal pair where BOTH routes
-   fail. Hunt deeper (seeds >98, longer walks, n28r4 starts)
-   before spending proof effort on the disjunction.
+1. Re-claim Q0905-082429-1 (exploit): prove the route disjunction from
+   the surviving anchor (long ear always on a (1,7,8) host);
+   member-164 configuration (CHECK F in lemma template_placement) is
+   the hard case — pilot route dead by T5 self-block, (7,-4) rescue
+   present.
+2. Falsification frontier first (Section 131 next-move b*): hunt a
+   non-antipodal pair where BOTH routes fail (seeds > 98, longer
+   walks, n28r4 starts) before spending proof effort on the
+   disjunction.
+3. Optional cheap follow-up to R92: the truncation projection lemma
+   (spec(T(G)) ⊆ {3} ∪ ∪[2p,3p]) is stated with proof sketch in the
+   lemma file; formalizing it would let the witness generator prune
+   ALL triangle-heavy shapes, not just full covers.
 
 **Files modified this session**:
-- proof_strategy.md (Section 131 + addendum; Section 127 ledger
-  hardening)
-- proof_lemmas/lemma_template_placement__0915-080622-71a7.md
-  (companion supply + E4-typing sections with refutation record,
-  T5, CHECKs D/E/F)
-- records/proof_erdos_gyarfas_fc45bcf12685_8a818be.json (R91)
+- proof_strategy.md (Section 132)
+- proof_lemmas/lemma_triangle_cover_witness_free__0923-080730-c4a7.md (NEW, proved)
+- records/proof_erdos_gyarfas_4f7caef3aa24_5fc1873.json (R92 record)
 - proof_open_questions.jsonl, proof_journal.jsonl, notes channel
 
-**CRITIC INFRA (standing, carried forward + s_0922 measurements)**:
-prewarm ALL 7 critics BEFORE proof_prepare (cache replays; warm
-replay ~227s incl. ~25s CHECK suite). The self-contradictory-OK
-re-roll rule now has a sharper failure taxonomy: (a) checks using
-`sorted`/`frozenset` ALWAYS fail _sandboxed_eval (not in
-safe_builtins) — a NameError contradiction says nothing about the
-math; (b) genuine critic arithmetic typos; both need a re-roll
-with use_cache=False + explicit _cache_store (newest shadows).
-Falsify clean-draw rate this session ~1/4 (one 780s and one 900s
-timeout across ~8 calls; latency 370-900s). LEDGER critic draws
-vary in strictness: R87's external citations passed R89/R90's
-draws but blocked here until reworded to claim-quoting. PROOF_TAG
-on the SAME command line for EVERY helper; R-numbering by hand
-(next: R92).
+**CRITIC INFRA (standing, carried forward + s_0923 measurements)**:
+prewarm ALL 7 critics BEFORE proof_prepare (call_critics_parallel with
+timeout_s=1500; CRITIC_TIMEOUT_S=240 is too tight for falsify cold
+draws). This container: cold parallel draw of all 7 took ~9 min, zero
+timeouts; warm replay run ~196s. Re-roll taxonomy CONFIRMED AGAIN this
+session, one instance of each: (a) numerical critic emitted a
+numerical_check using `sorted` -> guaranteed _sandboxed_eval NameError
+-> spurious BLOCKING (says nothing about the math); (b) ledger critic
+strictness variance re-blocked Section 127's already-reworded external
+citations (the s_0922 claim-quoting fix had passed a clean draw).
+Both re-rolled clean on the first try (use_cache=False +
+_cache_store, newest shadows). CHECK-suite note: 3 pre-existing WARN
+timeouts (cyclic_orbit_avg_size, t3_min_overlap, tune8_short_paste
+blocks > 15s) on this container's slower CPU — not new failures.
+INFRA WARNING: ~/.cache/auto-erdos does NOT survive the daily
+container boundary — the cross-branch notes channel and critic cache
+start empty every session; durable state is ONLY what's committed.
+PROOF_TAG on the SAME command line for EVERY helper; R-numbering by
+hand (next: R93).
