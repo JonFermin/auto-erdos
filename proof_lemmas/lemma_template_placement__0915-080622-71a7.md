@@ -316,6 +316,81 @@ failures are all rescued this way). The census anchor for a
 proof is the surviving long-host typing: the long ear always
 rides a $(1,7,8)$ $3$-spoke vertex. (The $\{7,12\}$ case stays
 open on its single corpus datum.)
+
+**T6 — the route-shape and window catalog (proved, R93).** Call
+an ear $e' = (\mathrm{lo}', \mathrm{hi}', s')$ a **route
+companion** of a base ear $e$ (shortening $\sigma_e$) if
+$\sigma' = 3 - \sigma_e$, the interiors are disjoint, and $e'$ is
+sequential with $e$ ($\mathrm{hi}' \le \mathrm{lo}_e$ or
+$\mathrm{lo}' \ge \mathrm{hi}_e$) — i.e. $\{e, e'\}$ is a valid
+L2. Write $\delta' = \mathrm{hi}' - \mathrm{lo}'$.
+
+- **(i) Realizations.** T1's enumeration gives each non-antipodal
+  span pair exactly TWO position-order realizations
+  $(\delta_1, a)$, of fixed width $\delta_1 + (7 - a)$: $\{4,7\}$:
+  $(4,2)$, $(7,5)$, width $9$, $\mathrm{lo}_1 \in [1,5]$;
+  $\{4,9\}$: $(4,1)$, $(9,6)$, width $10$, $\mathrm{lo}_1 \in
+  [1,4]$; $\{7,12\}$: $(7,1)$, $(12,6)$, width $13$,
+  $\mathrm{lo}_1 = 1$ forced.
+- **(ii) Flank bounds.** A sequential companion of $e$ lives in a
+  flank of $e$, so $\delta' \le \max(\mathrm{lo}_e - 1,\ 14 -
+  \mathrm{hi}_e)$ (E1). Enumerating (i) over all legal
+  $\mathrm{lo}_1$: the PILOT's flanks sum to $9$ for
+  $\{4,7\}/\{4,9\}$ ($\delta' \le 9$) and to $6$ for $\{7,12\}$
+  ($\delta' \le 6$); the LONG ear's flank max is $\le 6$ for
+  $\{4,7\}$, $\le 4$ for $\{4,9\}$, and for $\{7,12\}$ the pair
+  covers $[1,14]$ up to a SINGLE width-$1$ flank (positions
+  $(1,2)$ or $(13,14)$): $\delta' = 1$.
+- **(iii) Shape spectra.** With $s' \ge 2$ and E2
+  ($c + s' \notin \{4, 8\}$, $c = \min(\delta', 16 - \delta')$;
+  for $\delta' \le 8$, $c = \delta'$):
+  pilot route of $\{4,7\}/\{4,9\}$ ($\sigma' = 1$):
+  $c + s' = 2\delta' - 1$ odd (and $= 15$ at $\delta' = 9$), never
+  obstructed — shapes $(\delta', \delta'-1)$, $\delta' \in [3,9]$;
+  long route of $\{4,7\}$ and pilot route of $\{7,12\}$
+  ($\sigma' = -2$): $c + s' = 2\delta' + 2$ kills
+  $\delta' \in \{1,3\}$ — shapes $(2,4), (4,6), (5,7), (6,8)$;
+  long route of $\{4,9\}$ ($\sigma' = -4$): $c + s' = 2\delta' + 4$
+  kills $\delta' = 2$ — shapes $(1,5), (3,7), (4,8)$ ONLY;
+  long route of $\{7,12\}$ ($\sigma' = -7$): the single shape
+  $(1,8)$, in the single width-$1$ flank. $\square$
+- **(iv) Corollary — probe soundness.** Every route companion of
+  every realization has $s' \le 8$, so the `ears_full` cap
+  `maxs=10` used by CHECKs B–G and all walk probes sees EVERY
+  candidate route companion: the recorded pilot-route failures
+  are real, not truncation artifacts.
+- **(v) Corollary — the $\{4,9\}$ both-routes-fail profile.** A
+  falsifier of the route disjunction at $\{4,9\}$ must be an
+  L1-less menu with a $\{4,9\}$ pair where ($\alpha$) every
+  shortening-$1$ ear with $\delta' \le 9$ shares the pilot's
+  interior or strictly straddles the pilot, AND ($\beta$) the
+  $\le 4$-wide flanks of the long ear carry no
+  $(1,5)/(3,7)/(4,8)$ ear interior-disjoint from it. Every
+  observed pilot-route failure realizes ($\alpha$) in its minimal
+  form — the menu's ONE shortening-$1$ ear is T5-self-blocked —
+  so a falsifier only needs to additionally starve the three
+  $(\beta)$ shapes out of $\le 4 + 4$ flank positions.
+
+**R93 census expansion (probe record; 18 fresh walks).** Twelve
+new n28r3 seeds (rng $99$–$110$, $1{,}200$ steps each), four
+n28r4 starts (rng $99$–$102$, $1{,}200$ each), and two
+$4{,}000$-step deep walks (rng $96$, $97$): $715{,}733$ menus,
+$99{,}860$ L1-less, $23{,}668$ non-antipodal occurrences
+($\{4,7\}$: $4{,}806$, $\{4,9\}$: $18{,}862$, $\{7,12\}$: $0$).
+ZERO route-disjunction failures. Sharper than the disjunction,
+the routes of $\{4,9\}$ are EXCLUSIVE: pilot-only $18{,}409$,
+long-only $453$, both $0$ — an XOR at $18{,}862/18{,}862$
+(consistent with R91's $4{,}046/74$ split, which also summed
+exactly); $\{4,7\}$'s pilot route never fails (pilot-only
+$4{,}156$, both $650$). All $453$ pilot-route failures have the
+SAME mechanism: the menu contains exactly ONE shortening-$1$
+ear and it is T5-self-blocked (shares the pilot's interior
+vertex) — profile ($\alpha$) of T6(v) is always realized in its
+minimal form. The long-ear $(1,7,8)$ typing holds
+$23{,}668/23{,}668$ (cumulative $29{,}553/29{,}553$), the
+$\{4,7\}$ pilot $(1,3,12)$ typing $4{,}806/4{,}806$, and n28r4
+still produces NO occurrence in $4{,}800$ further steps — the
+stratum stays n28r3-local.
 <!-- CHECK
 # CHECK A - R89 placement law + catalog on the four hosting reps
 # (n26, n28r1, n28r3, n28r4 — every corpus L1&L2-less landing lives here):
@@ -1439,5 +1514,235 @@ print("CHECK F ok: static member-164 witness — pilot (4,8) host's gap-3 ear",
       "pilot route FAILS; the menu still has an L2 and the reuse law holds",
       "via the long ear (5,14) + (1,2,5): the (7,-4) route; 18 landings,",
       "2 L1-less as pinned")
+CHECK
+-->
+
+<!-- CHECK
+# CHECK G - R93 route-shape and window catalog (T6): (1) pure-arithmetic
+# re-derivation of realizations, widths, flank bounds and shape spectra;
+# (2) census cross-check on the rng-94 prefix walk (92 members, ~3s): every
+# observed route companion (pilot and long, all occurrences) has its
+# (delta', s') in the T6 catalog and s' <= 8 (probe-soundness corollary).
+ALLOWED = {1, 3, 4, 7, 8, 9, 11, 12, 13}      # s=2 spans, T1 constraint (iii)
+def e2ok(dp, sp):
+    c = min(dp, 16 - dp)
+    return sp >= 2 and (c + sp) not in (4, 8)
+# (1a) realizations of the three non-antipodal span pairs from T1's system
+realz = {}
+for d1 in sorted(ALLOWED):
+    for a in range(1, min(6, d1) + 1):
+        d2 = d1 + 7 - 2 * a
+        if d2 not in ALLOWED or d1 + 7 - a > 13: continue
+        sp = tuple(sorted((d1, d2)))
+        if sp in {(4, 7), (4, 9), (7, 12)}:
+            realz.setdefault(sp, []).append((d1, a, d1 + (7 - a)))
+assert realz == {(4, 7): [(4, 2, 9), (7, 5, 9)],
+                 (4, 9): [(4, 1, 10), (9, 6, 10)],
+                 (7, 12): [(7, 1, 13), (12, 6, 13)]}, realz
+# (1b) flank bounds by exhaustive position enumeration
+fl = {}
+for sp, rs in realz.items():
+    pmax = lmax = 0
+    for d1, a, w in rs:
+        d2 = d1 + 7 - 2 * a
+        for lo1 in range(1, 15 - w):
+            e1 = (lo1, lo1 + d1); e2 = (lo1 + a, lo1 + a + d2)
+            pil, lng = (e1, e2) if d1 < d2 else (e2, e1)
+            pmax = max(pmax, pil[0] - 1, 14 - pil[1])
+            lmax = max(lmax, lng[0] - 1, 14 - lng[1])
+    fl[sp] = (pmax, lmax)
+assert fl == {(4, 7): (9, 6), (4, 9): (9, 4), (7, 12): (6, 1)}, fl
+# (1c) shape spectra = E2-legal shapes within the flank bound
+def spectrum(sigma, dmax):
+    return sorted((d, d - sigma) for d in range(1, dmax + 1)
+                  if e2ok(d, d - sigma))
+assert spectrum(1, 9) == [(3, 2), (4, 3), (5, 4), (6, 5), (7, 6),
+                          (8, 7), (9, 8)]
+assert spectrum(-2, 6) == [(2, 4), (4, 6), (5, 7), (6, 8)]
+assert spectrum(-4, 4) == [(1, 5), (3, 7), (4, 8)]
+assert spectrum(-7, 1) == [(1, 8)]
+CAT = {((4, 7), "P"): set(spectrum(1, 9)),
+       ((4, 7), "L"): set(spectrum(-2, 6)),
+       ((4, 9), "P"): set(spectrum(1, 9)),
+       ((4, 9), "L"): set(spectrum(-4, 4)),
+       ((7, 12), "P"): set(spectrum(-2, 6)),
+       ((7, 12), "L"): set(spectrum(-7, 1))}
+assert max(s for shapes in CAT.values() for _, s in shapes) == 8  # (iv)
+# (2) census cross-check on the rng-94 prefix (machinery as CHECK D)
+import random
+from collections import deque
+def to_adj(flat, n):
+    nums = [int(x) for x in flat.split(",")]
+    adj = [[] for _ in range(n)]
+    for a, b in zip(nums[::2], nums[1::2]):
+        adj[a].append(b); adj[b].append(a)
+    return adj
+N28R3 = "0,1,0,15,0,16,1,2,1,21,2,3,2,17,3,4,3,18,4,5,4,16,5,6,5,24,6,7,6,26,7,8,7,17,8,9,8,18,9,10,9,27,10,11,10,27,11,12,11,19,12,13,12,25,13,14,13,22,14,15,14,20,15,23,16,17,18,19,19,20,20,21,21,22,22,23,23,24,24,25,25,26,26,27"
+def all_c16(adj):
+    n = len(adj); out = []
+    for s in range(n):
+        d = [n+1]*n; d[s] = 0; q = deque([s])
+        while q:
+            v = q.popleft()
+            for w in adj[v]:
+                if d[w] > d[v]+1: d[w] = d[v]+1; q.append(w)
+        stack = [(u, (1 << s) | (1 << u), [s, u]) for u in adj[s] if u > s]
+        while stack:
+            v, mask, path = stack.pop()
+            for w in adj[v]:
+                if w == s:
+                    if len(path) == 16 and path[1] < path[-1]:
+                        es = frozenset(frozenset(e) for e in zip(path, path[1:]+path[:1]))
+                        out.append((frozenset(path), es, tuple(path)))
+                    continue
+                if w < s or (mask >> w) & 1: continue
+                if len(path) + d[w] > 16: continue
+                stack.append((w, mask | (1 << w), path+[w]))
+    return out
+def dist_to(adj, v, S):
+    d = {v: 0}; q = deque([v])
+    while q:
+        u = q.popleft()
+        if u in S: return d[u]
+        for w in adj[u]:
+            if w not in d: d[w] = d[u]+1; q.append(w)
+    return 99
+def arc_dist(pathC, a, b):
+    g = abs(pathC.index(a) - pathC.index(b)) % 16
+    return min(g, 16 - g)
+def ears_full(adj, vsC, banned, maxs=10):
+    out = []
+    for x in range(len(adj)):
+        if x not in vsC: continue
+        for w in adj[x]:
+            if w in vsC or w in banned: continue
+            stack = [(w, [x, w])]
+            while stack:
+                cur, path = stack.pop()
+                for t in adj[cur]:
+                    if t in banned: continue
+                    if t in vsC:
+                        if t != x and len(path) <= maxs:
+                            out.append((x, t, len(path), frozenset(path[1:])))
+                        continue
+                    if t in path: continue
+                    if len(path) >= maxs: continue
+                    stack.append((t, path + [t]))
+    seen = set(); res = []
+    for x, y, s, iv in out:
+        k = (min(x, y), max(x, y), s, iv)
+        if k not in seen: seen.add(k); res.append((x, y, s, iv))
+    return res
+def hits1(EE):
+    return [e for e in EE if e[1] - e[0] - e[2] == 3]
+def hits3(EE):
+    return [(e1, e2) for e1 in EE for e2 in EE
+            if e1 is not e2 and e1[0] < e2[0] <= e1[1] < e2[1]
+            and (e2[1]-e1[1]) + (e2[0]-e1[0]) == e1[2]+e2[2]+3
+            and not (e1[3] & e2[3])]
+def c4free(adj):
+    n = len(adj); bits = [0]*n
+    for a in range(n):
+        for b in adj[a]: bits[a] |= 1 << b
+    for a in range(n):
+        for b in range(a+1, n):
+            c = bits[a] & bits[b] & ~(1 << a) & ~(1 << b)
+            if c and (c & (c-1)): return False
+    return True
+def c8free(adj):
+    n = len(adj)
+    for s0 in range(n):
+        stack = [(u, (1 << s0) | (1 << u), 2) for u in adj[s0] if u > s0]
+        while stack:
+            vv, mask, ln = stack.pop()
+            for w in adj[vv]:
+                if w == s0:
+                    if ln == 8: return False
+                    continue
+                if w < s0 or (mask >> w) & 1 or ln >= 8: continue
+                stack.append((w, mask | (1 << w), ln+1))
+    return True
+def conn(adj):
+    seen = {0}; q = deque([0])
+    while q:
+        a = q.popleft()
+        for b in adj[a]:
+            if b not in seen: seen.add(b); q.append(b)
+    return len(seen) == len(adj)
+def d1_menus(adj):
+    n = len(adj)
+    for vs, es, path in all_c16(adj):
+        if any(b in vs and frozenset((a, b)) not in es
+               for a in path for b in adj[a]): continue
+        vsC = set(vs)
+        for v in range(n):
+            if v in vsC or any(t in vsC for t in adj[v]): continue
+            if dist_to(adj, v, vsC) != 2: continue
+            tn = [(w, [f for f in adj[w] if f in vsC]) for w in adj[v]]
+            tn = [(w, F) for w, F in tn if F]
+            if len(tn) < 2: continue
+            for a in range(len(tn)):
+                for b in range(a+1, len(tn)):
+                    u1, F1 = tn[a]; u2, F2 = tn[b]
+                    for f1 in F1:
+                        for f2 in F2:
+                            if arc_dist(path, f1, f2) != 1: continue
+                            i2 = path.index(f2); i1 = path.index(f1)
+                            if (i1 - i2) % 16 == 1:
+                                order = [path[(i2 - t) % 16] for t in range(16)]
+                            else:
+                                order = [path[(i2 + t) % 16] for t in range(16)]
+                            pm = {vtx: t for t, vtx in enumerate(order)}
+                            E = []
+                            for x, y, s, iv in ears_full(adj, vsC, {u1, v, u2}):
+                                px, py = pm[x], pm[y]
+                                if 1 <= px <= 14 and 1 <= py <= 14 and px != py:
+                                    E.append((min(px, py), max(px, py), s, iv))
+                            yield E
+def seq_comps(E, ear):
+    want = 3 - (ear[1] - ear[0] - ear[2])
+    return [g for g in E if g is not ear
+            and (g[1] - g[0] - g[2]) == want
+            and not (g[3] & ear[3])
+            and (g[1] <= ear[0] or g[0] >= ear[1])]
+TARGETS = {(4, 7), (4, 9), (7, 12)}
+rng = random.Random(94)
+wadj = to_adj(N28R3, 28)
+acc = att = 0
+nocc = nshapes = 0
+while acc < 92 and att < 200000:
+    att += 1
+    eds = [(a, b) for a in range(28) for b in wadj[a] if a < b]
+    (a, b) = rng.choice(eds); (c, d) = rng.choice(eds)
+    if len({a, b, c, d}) != 4: continue
+    pr = ((a, c), (b, d)) if rng.random() < 0.5 else ((a, d), (b, c))
+    if any(y in wadj[x] for x, y in pr): continue
+    cand = [list(nb) for nb in wadj]
+    for x, y in ((a, b), (c, d)):
+        cand[x].remove(y); cand[y].remove(x)
+    for x, y in pr:
+        cand[x].append(y); cand[y].append(x)
+    if not (c4free(cand) and c8free(cand) and conn(cand)): continue
+    wadj = cand; acc += 1
+    for E in d1_menus(wadj):
+        if hits1(E): continue
+        for e1, e2 in hits3(E):
+            if e1[2] != 2 or e2[2] != 2: continue
+            sp = tuple(sorted((e1[1]-e1[0], e2[1]-e2[0])))
+            if sp not in TARGETS: continue
+            nocc += 1
+            pilot = e1 if (e1[1]-e1[0]) <= (e2[1]-e2[0]) else e2
+            longe = e2 if pilot is e1 else e1
+            for base, tag in ((pilot, "P"), (longe, "L")):
+                for g in seq_comps(E, base):
+                    shape = (g[1]-g[0], g[2])
+                    assert shape in CAT[(sp, tag)], (sp, tag, shape, acc)
+                    assert g[2] <= 8, (sp, tag, g, acc)
+                    nshapes += 1
+assert acc == 92 and nocc == 3 and nshapes >= 4, (acc, nocc, nshapes)
+print("CHECK G ok: T6 catalog re-derived (realizations, widths, flank",
+      "bounds (9,6)/(9,4)/(6,1), spectra; max companion s' = 8); rng-94",
+      f"prefix cross-check — {nocc} occurrences, {nshapes} route companions,",
+      "every shape inside the catalog")
 CHECK
 -->

@@ -4721,3 +4721,90 @@ arc-exchange re-enters at "critics-ON session ONE of two without a
 proved supply lemma", with Section 131's next moves (a*) route
 disjunction from the (1,7,8) anchor, (b*) deeper falsification
 hunts, unchanged.
+
+## Section 133 — R93: the falsification frontier survived at 5× — the {4,9} route XOR, mechanism purity, and T6 (the route-shape and window catalog, proved) (session s_0924-080701-ca63)
+
+R93 re-claims Q0905-082429-1 and executes Section 131's next
+moves in the mandated order: (b\*) the falsification frontier
+FIRST, then (a\*) proof effort on the route disjunction.
+
+**The hunt (b\*, executed).** Eighteen fresh walks beyond every
+previously visited seed: twelve new n28r3 seeds (rng $99$–$110$,
+$1{,}200$ accepted steps each), four n28r4 starts (rng
+$99$–$102$, $1{,}200$ each — the first n28r4 probes beyond 400
+steps), and two $4{,}000$-step deep walks extending rng $96$ and
+rng $97$ (the seed that produced R91's 74 pilot-route failures).
+Totals: $715{,}733$ menus, $99{,}860$ L1-less, $23{,}668$
+non-antipodal occurrences ($\{4,7\}$ $4{,}806$, $\{4,9\}$
+$18{,}862$, $\{7,12\}$ still $0$ — cumulative $\sim 29{,}500$
+without a single $\{7,12\}$ sighting).
+
+**Survived, zero exceptions in $23{,}668$:** the route
+disjunction (NO both-routes-fail occurrence anywhere — the
+sharpest falsification target stays unrealized), the long-ear
+$(1,7,8)$ typing (now $29{,}553/29{,}553$ cumulative — the
+anchor hardens), the $\{4,7\}$ pilot $(1,3,12)$ typing
+($4{,}806/4{,}806$), and stratum locality (n28r4 produces
+nothing in $4{,}800$ further steps; every occurrence ever seen
+lives on an n28r3 walk).
+
+**NEW LAW (open, $18{,}862/18{,}862$) — the $\{4,9\}$ route
+XOR.** The census is sharper than the disjunction: for $\{4,9\}$
+the two routes are mutually EXCLUSIVE as well as exhaustive —
+pilot-only $18{,}409$, long-only $453$, both $0$. (R91's
+$4{,}046 + 74$ split obeyed the same XOR unremarked.) For
+$\{4,7\}$ the pilot route simply never fails (pilot-only
+$4{,}156$, both $650$). So the disjunction proof splits
+naturally: prove "$\{4,7\}$ pilot route always" and "$\{4,9\}$
+pilot-route failure $\Rightarrow$ long route", and the XOR says
+the second implication's hypothesis is structurally loaded — the
+long route EXISTS exactly when the pilot route dies.
+
+**Mechanism purity.** All $453$ pilot-route failures (across 7
+distinct seeds/depths) have the SAME mechanism, T5's self-block
+in minimal form: the menu contains exactly ONE shortening-$1$
+ear, and it lives on the pilot's own host (interior-sharing).
+Never two blocked ears, never a straddling-only miss. The
+pilot-route failure stratum is ONE configuration shape.
+
+**T6 proved (a\* progress — the route-shape and window catalog;
+lemma file, CHECK G).** Pure arithmetic now pins every route's
+degrees of freedom: (i) each non-antipodal span pair has exactly
+two position-order realizations of fixed width ($9/10/13$); (ii)
+flank bounds — pilot companions have $\delta' \le 9$
+($\{4,7\}/\{4,9\}$) or $\le 6$ ($\{7,12\}$), long companions
+$\delta' \le 6/4/1$ respectively; (iii) the shape spectra:
+$\sigma' = 1$ is never E2-obstructed (shapes
+$(\delta', \delta'-1)$, $\delta' \in [3,9]$), $\sigma' = -2$
+loses $\delta' \in \{1,3\}$ to E2 (four shapes), $\sigma' = -4$
+loses $\delta' = 2$ (shapes $(1,5)/(3,7)/(4,8)$ ONLY — matching
+the census), $\sigma' = -7$ has the SINGLE shape $(1,8)$ in a
+single width-$1$ slot; (iv) every route companion has
+$s' \le 8$, so the probes' `maxs=10` ear cap is provably
+exhaustive for route hunting — the $453$ failures are real, not
+truncation artifacts; (v) a $\{4,9\}$ both-routes-fail falsifier
+must starve three shapes out of $\le 8$ flank positions ON TOP
+of the T5-minimal configuration — the constructible falsifier
+profile Section 131 asked for.
+
+**Stop-criterion clock (arc-exchange program): EXPIRED.** This
+was critics-ON session TWO of two since the R89/R90 reset. T6 is
+a proved constraint catalog, not the supply lemma, and the hunt
+produced no falsifying landing — so per the pre-committed
+criterion the program PAUSES here and the next session pivots to
+Q85 (branch-vertex program) or opens with /erdos-proof-ideation.
+The arc-exchange record on pause: route disjunction + XOR at
+$\sim 29{,}500$ occurrences, mechanism purity, the $(1,7,8)$
+anchor, T5 + T6 proved, falsifier profile explicit.
+
+**Next moves (post-pivot, when the program resumes).** (a) Prove
+the $\{4,9\}$ XOR's forward half ("pilot route present
+$\Rightarrow$ no long companion in the $\le 4$ flanks") — it
+looks like window arithmetic plus C8-freeness on the
+$(1,5)/(3,7)/(4,8)$ shapes, and would explain the dichotomy
+structurally. (b) Prove the $\{7,12\}$ exclusion outright: width
+$13$ forces $\mathrm{lo}_1 = 1$, both ears pinned, and no
+occurrence in $\sim 29{,}500$ menus — a plausibly finite case
+analysis. (c) The supply core proper: show the T5-minimal
+configuration forces a $(1,5)/(3,7)/(4,8)$ ear in the long
+flanks (E3/E4 spoke counting on $\le 8$ positions).
