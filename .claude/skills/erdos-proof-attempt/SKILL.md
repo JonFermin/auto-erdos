@@ -295,6 +295,36 @@ if [ "$HAS_REMOTE" -eq 0 ] || git rev-parse --verify --quiet "refs/remotes/origi
 fi
 ```
 
+## Step 6 — PR handling after every push (standing auto-merge policy)
+
+After ANY push of the session branch — a `proof_session_end.py`
+milestone close mid-attempt or the Step 5 terminal archive — finish
+the PR lifecycle yourself. `gh` is usually absent in cloud sessions
+(`proof_session_end.py` prints "pr: skipped"); use the GitHub MCP
+tools (`mcp__github__*`) instead.
+
+1. **Ensure a PR exists**: if no OPEN pull request exists for the
+   branch (merged/closed ones don't count), create one as a draft,
+   base `master`.
+2. **Refresh the description**: update the PR title and body to
+   summarize what the branch actually contains since master — kept
+   rounds, proved/refuted lemmas (from the ledger), records, and the
+   standing caveat that partial results claim no witness/disproof.
+3. **Auto-merge — with one hard carve-out**:
+   - If the branch contains NO `keep_disproof` record: mark the PR
+     ready for review and MERGE it into master (merge commit, not
+     squash/rebase — journal/queue/ledger files are union-merged and
+     the round history is the artifact). Partial-result sessions do
+     not wait for a human.
+   - If ANY `keep_disproof` record exists: NEVER auto-merge. Leave
+     the PR as a draft with the human-verification warning in the
+     body (independent witness re-run + literature search first). A
+     claimed counterexample to an open conjecture always waits for a
+     human.
+4. After a merge, the next session's worktree must fork from the NEW
+   `origin/master` (session_start already warns when the base is
+   stale).
+
 ## Multi-session usage (the 80-minute case)
 
 If a single proof attempt takes longer than your token budget, the workflow is:
