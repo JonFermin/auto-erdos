@@ -4808,3 +4808,107 @@ occurrence in $\sim 29{,}500$ menus — a plausibly finite case
 analysis. (c) The supply core proper: show the T5-minimal
 configuration forces a $(1,5)/(3,7)/(4,8)$ ear in the long
 flanks (E3/E4 spoke counting on $\le 8$ positions).
+
+## Section 134 — R96: the branch-vertex program opens — `c16_branch_vertex_arithmetic` proved (absorption law, k-cap, the general L-menu, and the n=24 classification); the radius-1 hypothesis refuted; the mod-4 external citations formally quarantined (session s_0925-080736-22fb)
+
+The arc-exchange pause (Section 133) mandated the pivot to Q85. Two
+earlier drafts of this round were discarded by the gatekeeper this
+session: R94 (falsify-critic draw whose prose confirmed every attacked
+lemma while emitting malformed `numerical_check` lambdas that the
+harness rightly escalates) and R95 (three ledger BLOCKINGs on Section
+127's external mod-4 citations plus two 240s critic timeouts after the
+standing prewarm step was skipped). R96 re-lands the same proved
+mathematics, strengthened at $n = 24$, and adds the dependency
+quarantine the ledger critic has now asked for twice.
+
+### External-citation quarantine (mod-4 line; addresses the recurring ledger finding)
+
+The three external results named in Section 127 — Dean–Lesniak–Saito
+1993 (L-DLS), Choi–Chu 2026 (arXiv:2605.02731), and the
+Győri–Li–Salia–Tompkins–Varga–Zhu line (arXiv:2312.09999) — are NOT
+given_facts of `proofs/erdos_gyarfas.json` and are NOT usable as proof
+steps. Standing dependency audit, re-verified this round:
+
+1. `mod4_even_theta` T1/T2 are self-contained (pure parity
+   pigeonhole); only C1 mentions L-DLS, and C1 is stated as an
+   implication with an external antecedent ("IF L-DLS ...").
+2. Section 127's falsifier-arm retirement rests on the internal
+   evidence alone (the $n \le 7$ min-degree-3 exhaustion and the 21k
+   cubic samples), as that section states.
+3. Every downstream use (Section 127 item 3, Section 127 next-move
+   (c)) is explicitly marked conditional and none feeds any kept
+   round's keep decision or any proved lemma's proof body.
+4. Promoting L-DLS (and optionally Choi–Chu) to given_facts F4/F5 is
+   a maintainer action on the read-only spec, flagged in Section 127
+   and again in this session's handoff. Until then, NO round may cite
+   them unconditionally, and any future mod-4 resumption must
+   re-verify this quarantine as its step 0.
+
+### Probe first (18 in-hand members, 546 chordless $C_{16}$s)
+
+The committed CHECK blocks collectively store 18 class members (adj24;
+n26; pin + the twelve n28 reps; g5, tri, tp) — the whole committed
+corpus is census-able in $0.3$ s with no cache dependency. Per
+chordless $C_{16}$, the $0$-spoke count $k$ distributes as
+$\{0{:}25,\ 1{:}141,\ 2{:}188,\ 3{:}137,\ 4{:}27,\ 5{:}7,\ 6{:}19,\ 7{:}2\}$:
+**$k = 0$ is the 5% exception** — the zero-free completion
+(Sections 106–111) covered the rare regime, and Q85's $k \ge 1$ branch
+is where 95% of chordless $C_{16}$s live. TRI realizes $k = 7$ at
+$n = 30$, one below the pigeonhole cap.
+
+### The lemma (`c16_branch_vertex_arithmetic`, proved)
+
+For a chordless $C_{16}$ $C$ in a cubic $\{C_4, C_8\}$-free $G$, with
+$H = G - V(C)$ and $Z$ the $0$-spoke ("branch") vertices:
+
+- **(B1) absorption law**: $Z = \deg_3(H)$ exactly, and every
+  component $K$ of $H$ absorbs exactly $q(K) + 2 - 2\mu(K)$ spokes.
+  Summing: $c(H) - \mu(H) = (32 - n)/2$, so $H$ has $\ge (32-n)/2$
+  tree components; a tree component on $q$ vertices absorbs $q + 2$
+  spokes.
+- **(B2) branch-vertex cap**: $t \ge 6$ touched vertices,
+  $k \le n - 22$.
+- **(B3) the general $L$-menu**: any feet-path of length $L \ge 2$
+  with interior in $H$ between feet at arc distance $d$ has
+  $d \notin \{4 - L, 8 - L\}$ — and NOTHING more from $C_4/C_8$: the
+  long-arc cycle is always $\ge 10$, so the menu is exhausted at
+  $L = 8$. $L{=}2$ re-derives the R65 2-ear menu; $L{=}3$ extends
+  R65(f)'s outside-edge $\{1,5\}$-law from the $n = 32$ matching
+  corner to EVERY chordless $C_{16}$ at every $n$; $L{=}4$ is the new
+  dist-2 menu ($d \ne 4$). Creation events sit at $L = 16 - d$ and
+  $L = d$ (the arc-exchange language falls out as the
+  $C_{16}$-creation stratum of the same calculus). CHECK B falsified
+  the R94 draft's own over-claim ($d \ne L-8$ at $L \ge 9$; pin
+  realizes $(9,1)$) before commit.
+- **(B5) the $n = 24$ classification**: $\mu(H) \le 1$, $k \le 1$
+  (STRICTLY sharper than the pigeonhole cap $2$), and $k = 1$ forces
+  $H \in \{\,\{K_{1,3}, K_2, 2K_1\},\ \{S(2,1,1), 3K_1\},\
+  \{C_3{+}\text{pendant}, 4K_1\}\,\}$ — three explicit profiles.
+  adj24 realizes the first on all $3$ of its chordless $C_{16}$s
+  (CHECK C); the other two are feasibility targets for the feet menu.
+
+### The refutation (radius-1 hypothesis DEAD)
+
+"Every $0$-spoke vertex has a touched $H$-neighbor" fails $40/1199$ on
+the corpus: tp's chordless $C_{16}$s with bridged unvisited triangles
+put both bridge endpoints at $H$-distance $2$ from the touched set
+($H[Z]$ a size-6 two-triangles-plus-bridge component); $H[Z]$
+components reach size $7$ (tri). Attack (a)'s local analysis must be
+COMPONENT-level: the absorption law is the right currency, not vertex
+neighborhoods.
+
+### Program state after R96
+
+- Q85 claimed by s_0925; the arithmetic layer is proved, the $n = 24$
+  boundary is classified, and the census infrastructure is committed
+  (all three CHECK blocks re-derive everything from the 18 stored
+  members, no cache dependency).
+- Next moves: (i) kill or realize the two hypothetical $n = 24$
+  profiles — the spider and the pendant-triangle each pin their spoke
+  feet into simultaneous R65-menu + $L{=}3$/$L{=}4$-menu + (d)-triple
+  constraints: a finite constraint-satisfaction question, possibly
+  closable by hand or one SAT call; (ii) lift the classification to
+  $n = 26$ ($c - \mu = 3$, $k \le 4$: the same component enumeration,
+  more profiles); (iii) attack (c) at scale: regenerate the 106-member
+  $n = 30$ corpus (R69–R71 engines) and re-run the census for full-$k$
+  statistics.
