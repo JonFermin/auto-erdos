@@ -4912,3 +4912,162 @@ neighborhoods.
   more profiles); (iii) attack (c) at scale: regenerate the 106-member
   $n = 30$ corpus (R69–R71 engines) and re-run the census for full-$k$
   statistics.
+
+## Section 135 — R97: the $n = 24$ classification closed EXACTLY — TRIPEND killed, SPIDER realized by a NEW class member (spider24); the R96/pendant CHECK delimiters repaired (session s_0926-080800-6441)
+
+Q85 continuation, next-move (i) of Section 134: decide the two
+hypothetical $k = 1$ profiles at $n = 24$. Both are now decided, by
+`c16_n24_profile_resolution` (proved):
+
+### The finite decision procedure
+
+At $n = 24$ a feet assignment DETERMINES the graph ($V = C \sqcup H$,
+edges = cycle + profile + spokes; every $C$-vertex carries exactly ONE
+spoke — the (B0) restatement of `c16_dip_decomposition` (c) inside
+`c16_branch_vertex_arithmetic` — so the $16$ feet partition
+$\mathbb{Z}_{16}$). Every simple cycle of such
+a graph decomposes into $m$ arcs of $C$ alternating with $m$
+spoke–$H$-path–spoke segments of length $L = \ell + 2 \ge 2$, or lies
+inside $H$ (where both profiles only carry a $C_3$); $m \ge 3$ forces
+length $\ge 9$. So $\{C_4, C_8\}$-freeness is EXACTLY: (i) no
+one-segment configuration of length $4$/$8$ — the pairwise (B3) menu —
+and (ii) no two-segment $C_8$ with $L_1 + L_2 \le 6$ — a quadruple
+constraint the earlier menus never captured. A backtracker over
+positions $0..15$ with rotation anchoring (the cap-$1$ vertex at
+position $0$) and interchangeable-class ordering — both WLOG via
+rotation invariance and $H$-automorphisms — enumerates ALL normalized
+assignments. The model was validated against a direct whole-graph
+$C_4$/$C_8$ count on $3600$ seeded random assignments plus the full
+$32$-element dihedral orbit of the found witness: zero disagreements
+(CHECK B).
+
+### Results (CHECK A, $\sim 3$ s, $\sim 18{,}500$ search nodes)
+
+- **TRIPEND ($\{C_3{+}\text{pendant}, 4K_1\}$): ZERO valid
+  assignments — the profile is infeasible.** (P1)
+- **SPIDER ($\{S(2,1,1), 3K_1\}$): exactly TWO canonical assignments,
+  mirror images of each other** — one graph up to isomorphism:
+  **spider24**, the SECOND known class member at $n = 24$
+  ($3$ triangles vs adj24's $7$, so genuinely new; connected;
+  explicit edge list in CHECK C). It has exactly $3$ chordless
+  $C_{16}$s, ALL $k = 1$ with the SPIDER profile — a perfect mirror
+  of adj24 ($3$ chordless $C_{16}$s, all STAR). (P2, P3)
+- **Corollary (P4): the $n = 24$ classification is EXACT.** Every
+  chordless $C_{16}$ at $n = 24$ has $k \le 1$; the $k = 1$ profile
+  set is exactly $\{$STAR, SPIDER$\}$, and BOTH are realized, each
+  rigidly (adj24 and spider24 are each unique-up-to-symmetry
+  realizations of their profile; spider24's assignment is unique up
+  to dihedral $\times$ automorphism).
+
+Program consequence: the branch-vertex program's bottom stratum is no
+longer a classification with loose ends — it is a complete,
+two-member, rigid catalog. The corpus gains its 19th member and its
+second $n = 24$ point; the $n = 26$ lift (next move (ii)) now has a
+sharper template: enumerate component profiles from
+$c(H) - \mu(H) = 3$, then run the SAME decision procedure — the
+constraint model (i)+(ii) is profile-agnostic and the two-segment
+quadruple layer is now built and validated.
+
+### The two canonical spider24 assignments (explicit)
+
+With the spider labeled $c$ (center), $m$ (leg-2 middle), $e$ (leg-2
+end), $l_1, l_2$ (leg-1 leaves) and the three isolated apexes
+$x_1, x_2, x_3$, the rotation-normalized solutions ($m$'s foot at
+position $0$ of $\mathbb{Z}_{16}$) are:
+
+- $A_1$: $e \mapsto \{3,6\}$, $l_1 \mapsto \{1,2\}$,
+  $l_2 \mapsto \{11,15\}$, apexes
+  $\{4,7,8\}, \{5,9,12\}, \{10,13,14\}$ — this is spider24;
+- $A_2$: $e \mapsto \{10,13\}$, $l_1 \mapsto \{1,5\}$,
+  $l_2 \mapsto \{14,15\}$, apexes
+  $\{2,3,6\}, \{4,7,11\}, \{8,9,12\}$ — the mirror image of
+  $A_1$ under $p \mapsto -p$ (swap $l_1 \leftrightarrow l_2$).
+
+$A_2 = $ (reflection of $A_1$), and reflection is an element of the
+dihedral symmetry of $C$, so $A_1$ and $A_2$ yield the SAME graph up
+to isomorphism: the two rotation-canonical assignments collapse to
+ONE realization, spider24 — that is the precise content of (P3).
+
+Both $2$-ear feet pairs at arc distance $1$ ($l_1$, and one pair in
+each of two apexes) are $d = 1$ apexes — triangles sharing one edge
+with $C$ — accounting for spider24's $3$ triangles. The $e$-pair sits
+at $d = 3$ (a $C_5$/$C_{15}$ certificate), and the $m$–$e$ adjacent
+pair realizes the $L = 3$ menu at $d = 3$.
+
+The three isolated apexes are $3$-ear apexes, so their feet cut $C$
+into arc triples $(a, b, c)$, $a + b + c = 16$, with
+$a, b, c \notin \{2, 6, 10, 14\}$ (`chordless_c16_ear_geometry` (d)).
+Counting with $a \le b \le c$ (an ordered normal form; no
+deduplication needed), there are EXACTLY $7$ admissible triples:
+$(1,3,12), (1,4,11), (1,7,8), (3,4,9), (3,5,8), (4,4,8), (4,5,7)$.
+spider24's apexes realize $(1,3,12)$ twice (feet $\{4,7,8\}$ and
+$\{10,13,14\}$) and $(3,4,9)$ once (feet $\{5,9,12\}$).
+
+### Critic-draw record (methodology, s_0926)
+
+The first critics-on draw for this section returned $6/7$ clean; the
+falsify critic's response was a natural-language CONFIRMATION of every
+attacked lemma ("No falsifying counterexample survived; the elementary
+pigeonholes and arithmetic identities are tight", one WARN-worthy note
+that `c16_two_routes`' $n = 32$ extension is not CHECK-pinned) but
+contained NO JSON findings array, so `_parse_critic_response` rightly
+escalated to BLOCKING — the same falsify format-failure family as R94.
+Per the R96 methodology, the remedy is this REAL content addition (the
+explicit assignments above) followed by a single fresh draw of all
+seven critics on the changed prompt — never cache surgery, never
+re-rolling an unchanged prompt.
+
+The second draw parsed $7/7$ but produced two BLOCKING escalations of
+the SAME failing `numerical_check`: both the numerical and falsify
+critics encoded the $3$-ear triple census with `sorted(...)`, which
+`_sandboxed_eval`'s builtins whitelist does not expose
+(`NameError`) — the R94 malformed-lambda family, with correct
+mathematics ($7$ triples IS the right count) and a broken encoding.
+Remedy, again content: the census is now stated above in the
+`sorted`-free $a \le b \le c$ normal form, together with the two
+internal-critic nits fixed (the previously-undefined (B0) citation
+made self-contained; the $A_1$/$A_2$-vs-uniqueness sentence made
+explicit), followed by one fresh draw. The third draw fixed those
+($7/7$ parsed, all numerical checks passing) but the ledger critic
+re-raised Section 127's quarantined external citations as $4$
+BLOCKINGs — the documented R95 every-other-draw variance, on content
+this round does not touch, with the critic's own suggestions
+conceding the quarantine holds ("no proof step relies on them
+unconditionally"). Remedy, once more content, and this time durable:
+the quarantine is now MECHANIZED — a deterministic CHECK block in
+`lemma_mod4_even_theta` asserts the citations appear in NO other
+lemma file and that every dependent of that lemma uses only its
+self-contained T1/T2 interface (currently exactly
+`fragile_pair_geometry`, via T2). The spec-side fix (promote to
+given_facts F4/F5) remains flagged for the maintainer; until then
+the invariant is enforced by the harness on every round, not by
+prose. Standing note: sandbox
+builtins are `abs min max sum range len int float round pow all any
+list tuple set enumerate zip map filter` — state countable facts in
+a normal form that needs nothing else.
+
+### Infrastructure repair (CHECK delimiters)
+
+`proof_prepare.py` extracts CHECK blocks only when they close with
+`CHECK -->`; R96's three blocks and `pendant_9_cap`'s one closed with
+a bare `-->` and were silently NEVER run by the harness (0 extracted).
+All four were run manually this round (all pass, $< 0.5$ s total) and
+the delimiters fixed in place — 172 blocks are now strict-extractable
+repo-wide, up from 165. Standing note for future rounds: always close
+CHECK blocks with `CHECK -->`, and after writing a lemma, verify
+extraction with the harness's own `_CHECK_RE` before committing.
+
+### Next moves (Q85 continuation)
+
+1. **$n = 26$ profile decision** (Section 134 move (ii)): enumerate
+   the $k \ge 1$ profiles from $c(H) - \mu(H) = 3$ on $10$ vertices
+   ($k \le 4$), and run the decision procedure per profile. Same
+   determination argument (one spoke per $C$-vertex still forces the
+   feet partition); expect a mix of kills and realizations — each
+   realization is a new corpus member.
+2. **Census at scale** (move (iii)): regenerate the 106-member
+   $n = 30$ corpus with the R69–R71 engines for full-$k$ statistics.
+3. The rigidity of both $n = 24$ members (unique assignments up to
+   symmetry) suggests a *rigidity conjecture*: chordless-$C_{16}$
+   neighborhoods at small $n$ are combinatorially rigid — worth a
+   conjecture-register entry if $n = 26$ shows the same pattern.

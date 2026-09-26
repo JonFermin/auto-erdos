@@ -321,7 +321,7 @@ for name, adj in sorted(GRAPHS.items()):
 assert k_hist == {0: 25, 1: 141, 2: 188, 3: 137, 4: 27, 5: 7, 6: 19, 7: 2}, k_hist
 assert radius1_fail == 40, radius1_fail  # the refutation datum is REAL
 print("CHECK A ok:", sum(k_hist.values()), "chordless C16s; radius-1 fails", radius1_fail)
--->
+CHECK -->
 
 <!-- CHECK
 # CHECK B — the L-menu (B3) exhaustively for all feet-paths of length
@@ -430,7 +430,7 @@ for name, adj in sorted(GRAPHS.items()):
                         if w not in used:
                             stack.append((w, used | frozenset([w]), ln+1))
 print("CHECK B ok:", tested, "L-menu instances, zero violations")
--->
+CHECK -->
 
 <!-- CHECK
 # CHECK C — (B5) on adj24: every chordless C16 at n=24 has k <= 1, mu(H) <= 1,
@@ -502,4 +502,4 @@ for cyc in all_c16(adj, n):
 assert count == 3, count
 assert realized == {"STAR"}, realized
 print("CHECK C ok: adj24 has 3 chordless C16s, all k=1, all profile K13+K2+2K1")
--->
+CHECK -->
