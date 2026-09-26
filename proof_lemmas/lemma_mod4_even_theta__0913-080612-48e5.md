@@ -246,3 +246,40 @@ assert [m for m in range(4, 44, 4) if m & (m - 1)] == [12, 20, 24, 28, 36, 40]
 print("CHECK ok: T1 on real thetas (2<=a<=b<=c<=7) | T2 (d,ell) box | C1 profile")
 CHECK
 -->
+
+## Mechanized quarantine (added R97, per the s_0926 falsify-critic suggestion)
+
+The external mod-4 citations (L-DLS = Dean–Lesniak–Saito 1993,
+Choi–Chu arXiv:2605.02731, Győri et al. arXiv:2312.09999) are
+quarantined: they live ONLY in this lemma's literature ledger and in
+proof_strategy.md Sections 127/134 as quoted, unasserted claims. The
+CHECK below makes the quarantine deterministic: no OTHER lemma file
+may mention them, every lemma depending on `mod4_even_theta` must use
+only its self-contained parts (T1/T2 — currently exactly
+`fragile_pair_geometry`, via T2), and C1 must remain headed
+CONDITIONAL. If a maintainer promotes the citations to
+given_facts F4/F5, this section (and this CHECK) should be updated in
+the same commit.
+
+<!-- CHECK
+# Quarantine invariant: external mod-4 citations are confined to THIS file;
+# dependents of mod4_even_theta use only the self-contained interface.
+import glob, re
+MARKERS = ("2605.02731", "2312.09999", "Lesniak")
+SELF = "lemma_mod4_even_theta"
+dep_re = re.compile(r"^depends_on:\s*\[(.*?)\]", re.M)
+dependents = []
+for path in sorted(glob.glob("proof_lemmas/lemma_*.md")):
+    text = open(path, encoding="utf-8").read()
+    if SELF in path:
+        assert "CONDITIONAL" in text and "C1" in text, "C1 lost its CONDITIONAL header"
+        continue
+    for mk in MARKERS:
+        assert mk not in text, (path, mk, "external citation leaked outside the quarantine")
+    m = dep_re.search(text)
+    if m and "mod4_even_theta" in m.group(1):
+        dependents.append(path)
+        assert "T1" in text or "T2" in text, (path, "dependent must cite the self-contained T1/T2")
+assert dependents == ["proof_lemmas/lemma_fragile_pair_geometry__0913-080612-48e5.md"], dependents
+print("CHECK quarantine ok:", len(dependents), "dependent uses only the self-contained interface; citations confined")
+CHECK -->

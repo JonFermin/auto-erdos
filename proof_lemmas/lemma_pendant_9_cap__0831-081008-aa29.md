@@ -147,4 +147,4 @@ for key, v in fam.items():
 assert pset == {2, 3, 4, 6}, sorted(pset)
 assert gmax == 3, gmax
 print("pendant_9_cap falsification pin verified")
--->
+CHECK -->
