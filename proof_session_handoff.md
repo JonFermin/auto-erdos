@@ -1,97 +1,98 @@
-# Session handoff (session s_0925-080736-22fb)
+# Session handoff (session s_0926-080800-6441)
 
-**Stop reason**: logical milestone — one keep (R96) after two
-gatekeeper discards (R94, R95) of the same mathematics; the
-branch-vertex program (Q85) now has its proved arithmetic floor.
+**Stop reason**: logical milestone — one keep (R97) on the first
+logged round of the session (three critic-draw iterations before the
+log, each after a REAL content fix; nothing was logged or discarded).
 
-**Consecutive exploit sessions on current program**: 1
-(this session pivoted off the paused arc-exchange program per
-s_0924's stop-criterion, opening the branch-vertex program with an
-exploit round on Q85; the NEXT session may run one more exploit
-round on it before Variance policy §2 forces an explore pick.)
+**Consecutive exploit sessions on current program**: 2
+(s_0925 opened the branch-vertex program with an exploit round on
+Q85; this session ran one more exploit round on it. Variance policy
+§2 now BINDS: the NEXT session MUST claim a `kind: explore` qid — or
+stop and run /erdos-proof-ideation to mint one — before any further
+exploit round on the branch-vertex program.)
 
-**What happened (Section 134; new lemma
-`c16_branch_vertex_arithmetic` proved; record
-records/proof_erdos_gyarfas_a08e66a80cf5_a286de5.json)**:
+**What happened (Section 135; new lemma
+`c16_n24_profile_resolution` proved; record
+records/proof_erdos_gyarfas_a94f78a25396_7c11679.json)**:
 
-R96 (keep_progress, commit a286de5 + record follow-up caf8dde).
-Probe-first census over the 18 members recoverable from committed
-CHECK blocks (546 chordless C16s, 0.3s, no cache dependency):
-k-histogram {0:25, 1:141, 2:188, 3:137, 4:27, 5:7, 6:19, 7:2} —
-k=0 is the 5% exception, so Q85's k>=1 branch is the main regime.
-PROVED: (B1) Z=deg3(H), per-component absorption q+2-2mu,
-c(H)-mu(H)=(32-n)/2, >=(32-n)/2 tree components; (B2) k<=n-22
-(TRI realizes k=7 at n=30 — near-tight); (B3) the general L-menu
-d∉{4-L,8-L}, exhausted at L=8, unifying the R65 2-ear menu, the
-{1,5} outside-edge law (now every n), and the new dist-2 d≠4 menu;
-creation events at L=d, 16-d recover the arc-exchange language;
-(B5) n=24: mu(H)<=1, k<=1, and k=1 forces one of THREE explicit
-profiles — adj24 realizes only {K13,K2,2K1} on all 3 of its
-chordless C16s (CHECK C). REFUTED: the radius-1 hypothesis
-("every 0-spoke vertex has a touched neighbor") fails 40/1199 —
-tp's bridged unvisited triangles; H[Z] components reach size 7.
-Also: Section 134 formally quarantines Section 127's external
-mod-4 citations (L-DLS, Choi–Chu, Győri line): dependency audit
-re-verified, nothing unconditional relies on them.
+R97 (keep_progress, commit 7c11679 + record follow-up 78dfea4).
+Section 134's next-move (i) executed to completion: at n=24 a feet
+assignment DETERMINES the graph, and every C4/C8 decomposes into at
+most two arc+spoke-segment pieces (three segments force length >= 9),
+so pairwise menus PLUS a NEW two-segment C8 quadruple layer is
+EXACTLY {C4,C8}-freeness — an exhaustive normalized backtracker is a
+complete decision procedure. Results:
+- TRIPEND {C3+pendant, 4K1}: ZERO assignments — profile KILLED (P1).
+- SPIDER {S(2,1,1), 3K1}: exactly TWO canonical assignments, mirror
+  images — ONE graph up to iso: **spider24**, the 2nd known n=24
+  member (19th corpus member; 3 triangles vs adj24's 7; 3 chordless
+  C16s, ALL k=1 SPIDER — mirroring adj24's 3x STAR). Explicit edge
+  list in the lemma's CHECK C. (P2, P3 rigidity)
+- Corollary (P4): the n=24 k=1 classification is EXACT — {STAR,
+  SPIDER} both realized rigidly, TRIPEND dead.
+Model validated: 3600 seeded random assignments + the 32-element
+dihedral orbit, constraint model == direct C4/C8 count, zero
+disagreements (CHECK B).
 
-**Round discards this session (methodology, keep in mind)**:
-R94 died to a falsify-critic draw whose prose CONFIRMED every
-attacked lemma while emitting malformed numerical_check lambdas
-(vertex-set/cycle-length conflation on R62's compose lemma;
-gibberish tautology on R59) — _evaluate_numerical_findings rightly
-escalates failing checks to BLOCKING regardless of the critic's own
-flag. R95 died to 3 ledger BLOCKINGs on the (acknowledged,
-explicitly-conditional) Section 127 external citations plus
-internal/falsify 240s timeouts after the prewarm step was skipped
-on the fresh prompt. R96 = same math + the quarantine section +
-proper prewarm → 0 BLOCKING, 2 WARN. Auto-mode note: a scripted
-"re-roll critic until clean" loop was denied by the permission
-classifier (verdict-shopping); single fresh draws after a REAL
-content fix are the honest and, empirically, sufficient path.
+**INFRA (two durable repairs this session)**:
+1. CHECK blocks MUST close with `CHECK -->` — a bare `-->` is
+   silently NOT extracted by proof_prepare._CHECK_RE. R96's 3 blocks
+   and pendant_9_cap's 1 were orphaned (never ran in any verifier
+   pass); all four verified passing and repaired. 172 blocks now
+   strict-extractable repo-wide. Verify extraction before committing.
+2. The mod-4 external-citation quarantine is now MECHANIZED: a CHECK
+   in lemma_mod4_even_theta asserts the citations appear in no other
+   lemma file and dependents use only self-contained T1/T2. This was
+   the response to the ledger critic re-raising Section 127 as 4
+   BLOCKINGs (the R95 every-other-draw variance) — the draw after the
+   mechanization came back 0 BLOCKING / 12 WARN.
+
+**Critic-draw methodology (recorded in Section 135)**: three
+pre-log draws, each redrawn only after a REAL content change:
+(1) falsify returned confirming PROSE with no JSON array
+(unparseable -> BLOCKING); fix: explicit canonical assignments added.
+(2) numerical+falsify encoded the 3-ear triple census with
+`sorted(...)`, which _sandboxed_eval does NOT expose (NameError ->
+escalated BLOCKING; the math was right). Fix: census stated in
+sorted-free a<=b<=c normal form; sandbox builtins list now recorded
+in Section 135 (abs min max sum range len int float round pow all
+any list tuple set enumerate zip map filter — nothing else).
+(3) ledger re-raised the quarantined citations; fix: mechanized
+quarantine (above). PREWARM remains mandatory (577-813s per fresh
+prompt here, zero timeouts).
 
 **qid state**: Q85 released with continuation plan (program
-continues; it is NOT paused). Q81 released (background). Queue has
-no other live open qid — if Q85's next moves stall, run
-/erdos-proof-ideation.
+continues, NOT paused). Q81 released (background). No other live
+open qid — and the explore quota BINDS, so the next session should
+open with /erdos-proof-ideation (or claim its explore pick directly
+if one is queued by then).
 
-**Suggested next moves (Q85 continuation, in order)**:
-1. Kill or realize the two hypothetical n=24 profiles: the spider
-   S(2,1,1) (7 spokes: 2+1+2+2 from its vertices) and the pendant
-   triangle (4 spokes) + 4 singletons (3 each). Each pins ALL 16
-   feet positions into simultaneous constraints: R65 2-ear menu per
-   multi-spoke vertex, L=3/L=4 menus across H-edges/paths, (d)
-   3-ear triple exclusions for the singletons (3-spoke apexes).
-   Finite CSP on Z16 — try by hand, else python-sat.
-2. Lift the classification to n=26 (c-mu=3, k<=4, 10 outside
-   vertices — same component enumeration, more profiles).
-3. Attack (c) at scale: regenerate the 106-member n=30 corpus with
-   the R69–R71 engines and re-run the branch-vertex census for
-   full-k statistics (the 18 committed members are the fallback).
-
-**CRITIC INFRA (standing, updated s_0925)**: prewarm ALL 7 critics
-BEFORE proof_prepare on any fresh prompt (call_critics_parallel,
-timeout_s=1500; this container: 754s cold, zero timeouts, all
-seven clean first-draw). The harness's own 240s cap WILL time out
-internal/falsify here. NEW failure mode on file: falsify's
-numerical_check lambdas can be malformed while its prose verdict
-is OK — that escalates to BLOCKING by design; the fix is content
-(make the attacked claim's encoding unambiguous) or a fresh draw
-with the next content change, never cache surgery. ~/.cache does
-NOT survive the container boundary. PROOF_TAG on the SAME command
-line for EVERY helper. R-numbering by hand (next: R97).
+**Suggested next moves**:
+1. (BINDING FIRST) an explore round: run /erdos-proof-ideation for a
+   fresh explore qid, or claim an existing kind: explore one.
+2. Then Q85 continuation: the n=26 profile decision — enumerate
+   k>=1 profiles from c(H)-mu(H)=3 on 10 vertices (k<=4), run the
+   SAME decision procedure per profile (the constraint model is
+   profile-agnostic; only `profile()` changes). Each realization is
+   a new corpus member; expect a longer but still-seconds search.
+3. Then the n=30 census at scale (Section 134 move (iii)).
+4. Rigidity conjecture-register candidate: both n=24 members are
+   unique-up-to-symmetry realizations of their profile; if n=26
+   shows the same, register it.
 
 **Files modified this session**:
-- proof_strategy.md (Section 134, incl. the mod-4 citation
-  quarantine subsection)
+- proof_strategy.md (Section 135)
+- proof_lemmas/lemma_c16_n24_profile_resolution__0926-080800-6441.md
+  (NEW, proved, 3 CHECK blocks: decision search, model-equivalence
+  probe, spider24 witness verification)
 - proof_lemmas/lemma_c16_branch_vertex_arithmetic__0925-080736-22fb.md
-  (NEW, status: proved, 3 CHECK blocks re-deriving everything from
-  18 embedded members)
-- records/proof_erdos_gyarfas_a08e66a80cf5_a286de5.json (R96 record)
-- proof_open_questions.jsonl, proof_journal.jsonl, ledger,
-  notes channel
+  + lemma_pendant_9_cap__0831-081008-aa29.md (delimiter repair only)
+- proof_lemmas/lemma_mod4_even_theta__0913-080612-48e5.md (mechanized
+  quarantine section + CHECK)
+- records/proof_erdos_gyarfas_a94f78a25396_7c11679.json (R97 record)
+- proof_open_questions.jsonl, proof_journal.jsonl, ledger, notes
 
-**For maintainer**: promote Dean–Lesniak–Saito 1993 (and optionally
-Choi–Chu 2026) to given_facts F4/F5 in proofs/erdos_gyarfas.json —
-the ledger critic re-raises the unledgered citations roughly every
-other draw; the quarantine section mitigates but the spec-side fix
-ends it.
+**For maintainer (standing)**: promote Dean–Lesniak–Saito 1993 (and
+optionally Choi–Chu 2026) to given_facts F4/F5 in
+proofs/erdos_gyarfas.json; update lemma_mod4_even_theta's quarantine
+CHECK in the same commit.
