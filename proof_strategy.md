@@ -4194,22 +4194,20 @@ nothing). No internal lemma or proof section treats these items as
 established. FLAG FOR MAINTAINER: adding Dean–Lesniak–Saito 1993 to
 `given_facts` would make C1 unconditional.
 
-**Literature verdict (details + citations in
-`lemma_mod4_even_theta`; every item below is an external CLAIM
-this draft quotes without asserting — none is used as a fact
-anywhere in this document).** The literature check REPORTS the
-following. L_mod4 — *every simple graph with minimum degree
-$\ge 3$ has a cycle of length $\equiv 0 \pmod 4$* — is claimed as
-a special case of Dean–Lesniak–Saito (Discrete Mathematics,
-1993): minimum degree $\ge 2$ with at most TWO degree-2 vertices
-reportedly suffices. Choi–Chu (arXiv:2605.02731, May 2026)
-reportedly push to at most three degree-2 vertices with a full
-characterization of the exceptional graphs, and report Dean's
-conjecture ($\delta \ge k \Rightarrow$ 0-mod-$k$ cycle) as known
-for all $k \ne 5$. The Győri–Li–Salia–Tompkins–Varga–Zhu line
-(arXiv:2312.09999) reportedly adds: every even theta contains a
-0-mod-4 cycle; every NON-PLANAR graph contains a 0-mod-4 cycle;
-bipartite 0-mod-4-free graphs have $\le 3(n-2)/2$ edges.
+**Literature verdict.** The step-0 literature check returned
+positive reports on the mod-4 question. The report's CONTENT —
+the statements attributed to the three external papers — lives
+EXCLUSIVELY in the "External reports" section of
+`lemma_mod4_even_theta` and is deliberately NOT reproduced in this
+document: none of those statements is in the given-facts ledger,
+none is used as a proof step anywhere in this strategy (the
+mechanized quarantine CHECK in that lemma verifies both facts on
+every verifier pass — see Section 134), and this document
+therefore cites no external fact. What this section records is
+only the PROGRAM consequence: the falsifier arm of the mod-4 line
+was retired on internal evidence, and any future resumption of
+that line starts from the literature (pointer in
+`lemma_mod4_even_theta`), not from scratch.
 
 **Consequences, in order of weight:**
 
@@ -4218,35 +4216,36 @@ bipartite 0-mod-4-free graphs have $\le 3(n-2)/2$ edges.
    alone.** The hunt's own exhaustive $n \le 7$ sweep (236,926
    graphs) and 21k-cubic random probes had already produced zero
    falsifiers, so the expected value of continuing was near zero
-   BEFORE any literature input; the external reports above
-   (unledgered, quoted not asserted) merely corroborate the same
-   allocation choice. No proof step anywhere depends on the
-   retirement or on the quoted claims. The constraint-system
-   engines (Menger-triple $\mathbb{Z}_4$, Tutte 2-cut descent)
-   stay unlaunched for the same internal reason.
+   BEFORE any literature input; the external reports (recorded in
+   `lemma_mod4_even_theta`, unledgered, quoted there not asserted)
+   merely corroborate the same allocation choice. No proof step
+   anywhere depends on the retirement or on the quoted claims. The
+   constraint-system engines (Menger-triple $\mathbb{Z}_4$, Tutte
+   2-cut descent) stay unlaunched for the same internal reason.
 
-2. **Decomposition item (i) is reportedly settled in the
-   literature** (STRICTLY conditional here, via C1(c) of the
-   lemma — an implication with the external antecedent; this
-   draft asserts nothing unconditionally):
-   IF the quoted reports hold, $S_4(G) \ne \emptyset$ for every
-   min-degree-3 $G$, no computation needed, and the dyadic
-   decomposition of EGC would read: EGC $\le$ (ii)
+2. **Decomposition item (i) would be settled IF the external
+   antecedent holds** (STRICTLY conditional, via C1(c) of the
+   lemma — an implication whose antecedent, called A-DLS below,
+   is the first external report recorded in
+   `lemma_mod4_even_theta`; this draft asserts nothing
+   unconditionally): under A-DLS, $S_4(G) \ne \emptyset$ for
+   every min-degree-3 $G$ with no computation needed, and the
+   dyadic decomposition of EGC would read: EGC $\le$ (ii)
    $\max S_4 \ge 2 \min S_4$ + (iii) no gap $> 4$ in $S_4$
    straddling a power of 2. (ii) and (iii) are the genuine open
    content if the mod-4 program is ever resumed as an exploit
    line.
 
 3. **EGC counterexample profile sharpened, CONDITIONALLY**
-   (C1(a),(b); every claim in this item is under the L-DLS
+   (C1(a),(b); every claim in this item is under the A-DLS
    antecedent and unusable as an internal proof step until the
-   ledger carries it): IF L-DLS, any counterexample contains a
+   ledger carries it): under A-DLS, any counterexample contains a
    cycle of length in $\{12, 20, 24, 28, 36, \dots\}$ (0 mod 4,
-   non-power-of-2), and so does every subgraph with min degree
-   $\ge 2$ and $\le 2$ degree-2 vertices — 0-mod-4 supply would be
-   ubiquitous, all of it avoiding powers of 2. The same external
-   line reports non-planarity alone forces a 0-mod-4 cycle (also
-   unledgered).
+   non-power-of-2), and so does every subgraph in the
+   degree-profile family A-DLS covers — 0-mod-4 supply would be
+   ubiquitous, all of it avoiding powers of 2. (A further
+   external report in the same lemma section widens the supply
+   class; also unledgered, content not reproduced here.)
 
 4. **Gadget mined for the incumbent arc-exchange program**
    (T1/T2, self-contained proofs in the lemma): an all-even theta
