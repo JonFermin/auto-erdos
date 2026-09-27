@@ -5150,3 +5150,63 @@ outcome is next-round content, not this round's claim.
    $\{4,9\}$ instances the same way.
 3. **The supply core** (move (c)): T5-minimal forces a
    $(1,5)/(3,7)/(4,8)$ ear in the long flanks.
+
+## Section 137 — R99: the non-antipodal catalog RESOLVED at $n = 24$ — $\{4,9\}$ dead, $\{4,7\}$ realized, and the participation law (a) REFUTED by the new class member W24 (session s_0927-080724-6eee)
+
+R99 continues the same claimed qid with the method R98 built: the
+per-instance pinned completion sweep, run over BOTH remaining
+non-antipodal span pairs at $n = 24$. The results (new lemma
+`c16_nonantipodal_n24_resolution`, proved, 9 CHECKs; refutation
+record added to `template_placement`):
+
+- **$\{4,9\}$: DEAD at $n = 24$, unconditionally.** All four
+  translates UNSAT ($173$k–$213$k completions each, zero legal).
+  With R98's $\{7,12\}$, two of the three non-antipodal pairs are
+  now impossible at $n = 24$ with no menu hypothesis.
+- **$\{4,7\}$: the trichotomy.** Translates $\mathrm{lo} = 3, 5$
+  UNSAT; $\mathrm{lo} = 1, 2, 4$ SAT with explicit completions.
+  The census's "friendly pair" is the unique realizable one.
+- **The headline: W24 refutes the participation law (a).** The
+  $\mathrm{lo} = 4$ completion is a NEW $n = 24$ class member
+  ($6$ triangles vs adj24's $7$ and spider24's $3$ — the 3rd
+  $n = 24$ member, 20th of the class) whose landing menu is
+  L1&L2-less yet contains the valid non-antipodal $\{4,7\}$ pair.
+  Statement (a) of `template_placement` — the "attackable
+  structured half" — is FALSE. Independently re-verified through
+  a networkx code path (length-bounded `simple_cycles` census +
+  `all_simple_paths` ear enumeration, agreeing ear-for-ear).
+- **What survives.** Statement (b): W24's menu closes through its
+  only other valid pair — the antipodal TEMPLATE $\{3,8\}$. The
+  live participation law is exactly (b), which is also the L3 arm
+  of `c16_d1_ear_cover`'s supply conjecture. The falsification
+  frontier's census facts stand; their "(a) survived
+  $2{,}912/2{,}912$" was stratum locality (all walk occurrences
+  lived on n28r3; $n = 24$ was never sampled for non-antipodal
+  occurrences).
+
+**Method note.** One session, one method, three structurally
+different outcomes: an unconditional exclusion ($\{4,9\}$,
+$\{7,12\}$), a realizability trichotomy ($\{4,7\}$), and a law
+refutation (W24) — the pinned completion enumeration is now the
+program's sharpest tool below the walk strata. The dual-attack
+policy scored twice in one session: both R98's exclusion and
+R99's refutation came out of falsification probes run BEFORE
+proof effort.
+
+### Next moves (arc-exchange program, updated after W24)
+
+1. **W24 taxonomy**: compute its branch-vertex profile
+   ($k$, $c(H) - \mu(H)$) and reconcile with the R96/R97 $k = 1$
+   EXACT classification (W24 must be $k \ne 1$ or expose a gap —
+   either answer matters). Census its chordless $C_{16}$s.
+2. **Reformulate**: retarget the placement program at statement
+   (b) (antipodal-pair EXISTENCE, not universality) — W24 is a
+   consistency data point, and (b) at $n = 24$ may now be
+   decidable by the same completion enumeration applied to the
+   L1&L2-less landing family of all three $n = 24$ members.
+3. **$n = 26$ $\{7,12\}$ decision** (R98's in-flight probe;
+   the enumeration needs case-splitting for the CHECK budget).
+4. **$\{4,7\}$ SAT-family census at $n = 24$**: enumerate ALL
+   completions (not first-found) of the three SAT translates,
+   classify up to isomorphism, check how many are new class
+   members and how many refuting landings exist.

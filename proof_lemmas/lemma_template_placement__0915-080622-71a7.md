@@ -6,7 +6,32 @@ discharged_by_round: null
 introduced_at_round: 89
 ---
 
-# Lemma `template_placement` (open — the antipodal participation law; s=2/s=2 L3 catalog proved; the draft "template-only" placement law REFUTED same-round at 5-seed scale)
+# Lemma `template_placement` (open — statement (a) REFUTED at R99; the live claim is (b); s=2/s=2 L3 catalog T1/T2 proved; the draft "template-only" placement law REFUTED at R89)
+
+**REFUTATION RECORD (R99, session s_0927-080724-6eee — statement
+(a) is FALSE; do not spend proof effort on it).** The explicit
+$24$-vertex graph W24 (edge list and full verification in
+`c16_nonantipodal_n24_resolution`, CHECK D) is connected, cubic,
+$\{C_4, C_8\}$-free, carries a chordless $C_{16}$ with a legal
+$\tau \ge 2$, $d = 1$ landing whose menu admits NO L1 and NO L2,
+and that menu contains the valid s$2$/s$2$ L3 pair
+$\{(4,8,2), (6,13,2)\}$ with span pair $\{4,7\}$ — no antipodal
+ear. So (a)'s universal form dies at $n = 24$, OUTSIDE every walk
+stratum the $2{,}912/2{,}912$ census sampled (walk occurrences all
+lived on n28r3; the counterexample lives at $n = 24$ where walks
+never carried non-antipodal occurrences at all — seed locality,
+again, exactly as with the R89 template-only refutation below).
+What survives: statement (b) — W24's menu also admits the
+antipodal TEMPLATE pair $\{(5,8,2), (6,14,2)\}$ (span $\{3,8\}$),
+its only other valid L3 pair, so the landing closes through an
+antipodal pair as (b) predicts. T1 and T2 are proofs and are
+unaffected. Sibling result, same round: $\{4,9\}$ joins $\{7,12\}$
+as outright impossible at $n = 24$ (unconditional, per-instance
+exhaustive completion enumeration) — of the three non-antipodal
+catalog pairs only $\{4,7\}$ is realizable at $n = 24$, and it IS
+realized, law-(a)-breakingly. The census's $\{7,12\} = 0$ was a
+theorem in disguise; its "(a) survived $2{,}912/2{,}912$" was seed
+locality.
 
 **Setting.** As `c16_d1_ear_cover`: $G$ connected cubic
 $\{C_4, C_8\}$-free, $C$ a chordless $16$-cycle, a legal $\tau \ge 2$
