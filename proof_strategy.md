@@ -5071,3 +5071,83 @@ extraction with the harness's own `_CHECK_RE` before committing.
    symmetry) suggests a *rigidity conjecture*: chordless-$C_{16}$
    neighborhoods at small $n$ are combinatorially rigid — worth a
    conjecture-register entry if $n = 26$ shows the same pattern.
+
+## Section 136 — R98: EXPLORE round — the $\{7,12\}$ exclusion opens and closes at $n = 24$; the pair is third-foot-rigid everywhere (`c16_712_exclusion` proved) (session s_0927-080724-6eee)
+
+R98 discharges the binding explore quota (two consecutive exploit
+sessions on the branch-vertex program, s_0925 + s_0926) by
+re-claiming the paused arc-exchange qid Q0905-082429-1 — legal per
+its own pause note ("re-claim only after a rotation away", and two
+Q85 sessions ARE the rotation) and quota-valid because the qid's
+first row carries `kind: explore`. The round executes the
+pre-committed post-pivot move (b) of Section 133: prove the
+$\{7,12\}$ exclusion outright.
+
+**Dual-attack order was respected**: the decision enumeration ran
+as a falsification probe FIRST (a satisfying completion would have
+been an explicit $\{7,12\}$-realizing graph, i.e. a falsifier of
+the participation law's $\{7,12\}$ case). It returned UNSAT — so
+the probe IS the proof, and the lemma records it.
+
+**New lemma `c16_712_exclusion` (proved; 4 CHECKs, all passing in
+$< 5$ s total).** Contents:
+
+- **(a) Pinning**: $\{7,12\}$ has exactly TWO realizations in the
+  long-arc coordinate — $\{(1,8,2), (2,14,2)\}$ and its mirror
+  $\{(1,13,2), (7,14,2)\}$ under $j \mapsto 15 - j$ (= landing
+  reversal), so realization A is fully general. T1's width-13
+  arithmetic forces $\mathrm{lo}_1 = 1$, $\mathrm{hi}_2 = 14$: the
+  pair touches BOTH ends of the usable position range
+  simultaneously, which is what makes everything below finite.
+- **(b) Spoke pinning**: positions $1, 8 \to w_1$, $2, 14 \to w_2$
+  are unique outside edges; $w_1 w_2 \notin E$ ($C_4$).
+- **(c) Third-foot menus**: $w_1$'s third foot lies in
+  $\{4,5,9,12\}$ (E2 + one L1-kill at 13); $w_2$'s in
+  $\{3,6,10,13\}$ by PURE $C_4/C_8$ arithmetic — four cross-vertex
+  $C_8$ kills ($q = 5, 7, 9, 11$) beyond E2, no menu hypothesis.
+  The machine check found kills the hand pass missed ($q = 7, 9$
+  via a length-1 arc paired with the $1\,0\,15\,14$ wrap arc) —
+  the partial-graph cycle enumerator is the authority, and three
+  machine-found kills were hand-audited back.
+- **(d) Compatible-pair law**: if both $w_1, w_2$ are 3-spoke,
+  only SIX $(p,q)$ pairs survive of 16 — and $p = 12$ dies against
+  every $q$. Every survivor has $q \in \{3, 10, 13\}$.
+- **(e) $n = 24$ exclusion, UNCONDITIONAL**: exhaustive completion
+  enumeration (counting forces the whole shape: $|O| = 5$, every
+  degree exact, $x$-symmetry broken; $173{,}090$ completions reach
+  the full-graph test) — ZERO are connected cubic
+  $\{C_4,C_8\}$-free. No L1/L2-lessness needed: the pinned
+  $\{7,12\}$ geometry is flatly impossible at $n = 24$. The
+  participation law's $\{7,12\}$ case holds vacuously there.
+
+**Method note (new tool for the program).** This is the first use
+of *pinned-configuration completion enumeration* on the
+arc-exchange side: when a catalog object is position-pinned (width
+13 leaves zero translational freedom), the whole "does any graph in
+the box realize it?" question becomes a finite exact-degree
+enumeration, exactly the R97 branch-vertex methodology transplanted
+from profiles to menu pairs. $\{4,7\}$ (width 9, realizations
+$(4,2)/(7,5)$, positions $\mathrm{lo}_1 \in [1,5]$) and $\{4,9\}$
+(width 10, $\mathrm{lo}_1 \in [1,4]$) are NOT position-pinned, so
+this exact method does not transfer to them wholesale — but a
+per-$\mathrm{lo}_1$ sweep (5 resp. 4 pinned instances each) is the
+same computation five-fold, well within budget at $n = 24$.
+
+**Probe in flight**: the identical enumeration at $n = 26$
+($|O| = 7$, $O$–$O$ edges appear, search is larger) was launched
+this session; not complete at section-writing time. UNSAT extends
+the exclusion; SAT yields an explicit falsifier graph. Either
+outcome is next-round content, not this round's claim.
+
+### Next moves (arc-exchange program, updated)
+
+1. **$n = 26$ $\{7,12\}$ decision**: finish/CHECK-ify the $n = 26$
+   enumeration (may need per-case splitting to fit the 15 s CHECK
+   budget; orderly generation or profile-style case split on
+   $t = $ #u-feet).
+2. **$\{4,9\}$ XOR forward half** (Section 133 move (a)) — now
+   with the option of the per-$\mathrm{lo}_1$ pinned sweep at
+   $n = 24$ as a warm-up: kill or realize each of the 4 pinned
+   $\{4,9\}$ instances the same way.
+3. **The supply core** (move (c)): T5-minimal forces a
+   $(1,5)/(3,7)/(4,8)$ ear in the long flanks.
