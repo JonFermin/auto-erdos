@@ -4957,10 +4957,21 @@ $32$-element dihedral orbit of the found witness: zero disagreements
   rigidly (adj24 and spider24 are each unique-up-to-symmetry
   realizations of their profile; spider24's assignment is unique up
   to dihedral $\times$ automorphism).
+  **[R100 RETRACTION (Section 138): the "each rigidly /
+  unique-up-to-symmetry" clause of this bullet is FALSE for STAR.**
+  This session enumerated STAR only to feasibility
+  (`search("STAR", 1)`); the full census shows STAR has exactly TWO
+  realizations, adj24 and W24. SPIDER's rigidity stands — it is
+  (P3), proved by exhaustive enumeration. The corrected corollary
+  is: $k \le 1$; profile set exactly $\{$STAR, SPIDER$\}$; SPIDER
+  realized uniquely by spider24; STAR realized by exactly adj24 and
+  W24 (`c16_n24_catalog_completion` (T2)).]
 
 Program consequence: the branch-vertex program's bottom stratum is no
 longer a classification with loose ends — it is a complete,
-two-member, rigid catalog. The corpus gains its 19th member and its
+two-member, rigid catalog. [R100: read "two-member, rigid" as
+two-PROFILE; the member count at $n = 24$ is three — see the Section
+135 retraction above and Section 138.] The corpus gains its 19th member and its
 second $n = 24$ point; the $n = 26$ lift (next move (ii)) now has a
 sharper template: enumerate component profiles from
 $c(H) - \mu(H) = 3$, then run the SAME decision procedure — the
@@ -5226,8 +5237,16 @@ R100 scope note prepended to `c16_n24_profile_resolution`):
   `c16_n24_profile_resolution`'s CHECK A ran
   `search("STAR", 1)` — a feasibility probe capped at the first
   solution — and the session prose promoted "feasible, and adj24
-  realizes it" into "rigid". The formal (P1)–(P4) all survive
-  ((P3) claimed rigidity for SPIDER only).
+  realizes it" into "rigid". What survives and what is retracted,
+  precisely: (P1) (TRIPEND dead), (P2) (spider24 realizes SPIDER)
+  and (P3) (SPIDER rigid — the rigidity statement proved by
+  exhaustive enumeration) survive untouched; (P4)'s
+  classification-set content ($k \le 1$, profile set
+  $\{$STAR, SPIDER$\}$, both realized) survives, while the
+  rigidity clause that Section 135 attached to its (P4) bullet
+  ("each rigidly … unique-up-to-symmetry realizations of their
+  profile") is RETRACTED for STAR — a retraction bracket now sits
+  on that bullet in Section 135 itself.
 - **The full STAR census**: a SAT encoding of the R97 Step-2
   constraint model (exactly $\{C_4, C_8\}$-freeness; python-sat,
   no symmetry breaking, full model enumeration) returns $1536$

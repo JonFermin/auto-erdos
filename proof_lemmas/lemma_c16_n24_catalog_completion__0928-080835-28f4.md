@@ -28,14 +28,17 @@ R97.
 - **(T1) (W24 taxonomy — the gap located)** W24 has exactly $4$
   chordless $C_{16}$s, and EVERY one has $k = 1$ with the STAR profile.
   In particular W24 is a $k = 1$ STAR realization not isomorphic to
-  adj24 ($6$ vs $7$ triangles): the "unique realization per profile"
-  reading of R97 (Section 135's "each rigidly … unique-up-to-symmetry
-  realizations of their profile") is FALSE for STAR. The FORMAL
-  statements (P1)–(P4) of `c16_n24_profile_resolution` all survive:
-  (P3) claimed rigidity for SPIDER only, and (P4) claimed
-  realizability of the profile set $\{$STAR, SPIDER$\}$, not
-  uniqueness — the overstatement lived in the strategy prose, not in
-  the lemma. (CHECK A.)
+  adj24 ($6$ vs $7$ triangles): the rigidity clause that Section 135
+  attached to its (P4) bullet — "each rigidly …
+  unique-up-to-symmetry realizations of their profile" — is FALSE
+  for STAR and is RETRACTED (a retraction bracket now sits on that
+  bullet in Section 135). Of `c16_n24_profile_resolution`'s formal
+  statements: (P1), (P2) and (P3) survive untouched — (P3) is the
+  SPIDER rigidity statement, proved there by exhaustive
+  enumeration; (P4) survives in its classification-set content
+  ($k \le 1$, profile set $\{$STAR, SPIDER$\}$, both realized), and
+  its corrected multiplicity statement is (T2) below: SPIDER one
+  realization, STAR two. (CHECK A.)
 
 - **(T2) (STAR census — the corrected rigidity)** The exhaustive
   enumeration of STAR feet assignments — a SAT encoding of the
