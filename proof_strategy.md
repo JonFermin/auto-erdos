@@ -5210,3 +5210,73 @@ proof effort.
    completions (not first-found) of the three SAT translates,
    classify up to isomorphism, check how many are new class
    members and how many refuting landings exist.
+
+## Section 138 — R100: the $n = 24$ catalog COMPLETED — W24 is the second STAR realization (the R97 "rigid two-member" prose corrected), the $k = 0$ branch is EMPTY, and the class list at $n = 24$ is exactly $\{$adj24, spider24, W24$\}$ (session s_0928-080835-28f4)
+
+R100 executes Section 137's mandated next-move 1 (W24 taxonomy) and
+discovers it forces the full catalog question, which it then also
+closes (new lemma `c16_n24_catalog_completion`, proved, 7 CHECKs; an
+R100 scope note prepended to `c16_n24_profile_resolution`):
+
+- **W24 is $k = 1$ with the STAR profile** — on ALL of its chordless
+  $C_{16}$s, of which it has FOUR (adj24 and spider24 have three
+  each). So W24 did neither of the two things Section 137
+  anticipated (be $k \ne 1$, or expose a gap in the profile
+  arithmetic): instead it exposed that R97 never enumerated STAR.
+  `c16_n24_profile_resolution`'s CHECK A ran
+  `search("STAR", 1)` — a feasibility probe capped at the first
+  solution — and the session prose promoted "feasible, and adj24
+  realizes it" into "rigid". The formal (P1)–(P4) all survive
+  ((P3) claimed rigidity for SPIDER only).
+- **The full STAR census**: a SAT encoding of the R97 Step-2
+  constraint model (exactly $\{C_4, C_8\}$-freeness; python-sat,
+  no symmetry breaking, full model enumeration) returns $1536$
+  models $= 64$ $\mathrm{Aut}(H)$-classes $=$ exactly TWO graphs,
+  each with a free $32$-element dihedral orbit: **adj24 and W24**.
+  The encoding is validated by reproducing R97 exactly on the
+  decided profiles (TRIPEND UNSAT; SPIDER $384 = 32 \times 12$
+  models $=$ one graph, spider24) — and, independently, the R99
+  completion sweep found the same W24 from a different
+  parametrization entirely (a $\{4,7\}$ landing enumeration, not a
+  profile enumeration). Two engines, one new graph.
+- **The $k = 0$ branch of (B5) is EMPTY**: all six profiles (the
+  five path-forest partitions $(5,1,1,1) \dots (2,2,2,2)$ and
+  $\{C_3, K_2, 3K_1\}$) are UNSAT — SAT encoding and the R97
+  backtracker (with exact wreath-group symmetry-breaking) agreeing
+  on every one. Every chordless $C_{16}$ at $n = 24$ has $k = 1$.
+- **The complete catalog (T4)**: every $(G, C)$ at $n = 24$ has
+  $G \cong$ adj24, W24 (STAR) or spider24 (SPIDER). Censuses:
+  adj24 $3\times$STAR, spider24 $3\times$SPIDER, W24 $4\times$STAR.
+
+**Methodology (standing, added to the lemma's consequences).** A
+feasibility probe is not a census: "rigid"/"exact"/"$N$-membered"
+language must not attach to a profile until it is enumerated to
+exhaustion. The corpus's $n = 24$ member count was silently wrong
+($2$ vs $3$) for two sessions, and was caught only because the R99
+falsification sweep happened to build the missing graph. The
+rigidity conjecture (Section 135 next-move 3) dies in its naive
+$1{:}1$ form; what survives is finite multiplicity ($\le 2$
+realizations per profile at $n = 24$).
+
+### Next moves (Q85 / branch-vertex program, updated)
+
+1. **$n = 26$ profile decision by SAT** (Section 134 move (ii)):
+   the R100 SAT encoding lifts unchanged ($10$ outside vertices,
+   $c(H) - \mu(H) = 3$, $k \le 4$, feet partition of
+   $\mathbb{Z}_{16}$ still forced); enumerate the profile list
+   first (the (B1) absorption arithmetic on $10$ vertices), then
+   run one SAT decision per profile. Expect minutes, not hours —
+   and remember: enumerate to exhaustion, not to first solution.
+2. **W24's four $C_{16}$s as arc-exchange material**: three of the
+   four leave the spine — map the exchange graph (which $C_{16}$s
+   share arcs, what the exchange moves are) on the now-complete
+   three-member catalog. This is the cheapest concrete instance of
+   the share1/composition program (Q81/Q82's route) on real graphs.
+3. **Retarget the placement program at (b)** (Section 137 move 2):
+   with the catalog complete, the L1&L2-less landing families of
+   adj24, spider24, W24 are a FINITE list — (b) at $n = 24$ is now
+   plausibly a finite check over the three members' menus.
+4. **$\{4,7\}$ SAT-family census** (Section 137 move 4) — now
+   subsumed-in-part by T4: any completion of the three SAT
+   translates must be one of the three catalog members; verify
+   directly and count refuting landings per member.
