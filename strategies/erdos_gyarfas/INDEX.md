@@ -47,3 +47,4 @@ session_close's version — every session's narrative survives here.
 - s_0925-080736-22fb.md
 - s_0926-080800-6441.md
 - s_0927-080724-6eee.md
+- s_0929-080739-f9c8.md

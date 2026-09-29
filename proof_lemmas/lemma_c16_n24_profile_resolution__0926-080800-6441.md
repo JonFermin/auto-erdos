@@ -8,6 +8,19 @@ introduced_at_round: 97
 
 # Lemma `c16_n24_profile_resolution` (Q85: the $n=24$, $k=1$ classification is EXACT)
 
+> **R100 scope note** (`c16_n24_catalog_completion`): this round's
+> CHECK A ran STAR only to feasibility (`search("STAR", 1)`); the
+> full STAR census (R100) shows STAR is realized by exactly TWO
+> graphs, adj24 AND W24 (the R99 graph). Status of the formal
+> statements: (P1), (P2), (P3) stand — (P3) is SPIDER-only rigidity,
+> proved by exhaustive enumeration. (P4) stands in its
+> classification-set content ($k \le 1$, profile set
+> $\{$STAR, SPIDER$\}$, both realized); the rigidity clause attached
+> to (P4) in Section 135's prose ("each rigidly …
+> unique-up-to-symmetry realizations of their profile") is RETRACTED
+> for STAR. The corrected complete catalog, including the empty
+> $k = 0$ branch, is `c16_n24_catalog_completion`.
+
 **Setting.** $G$ cubic, $\{C_4, C_8\}$-free, $n = |V(G)| = 24$, $C$ a
 chordless $C_{16}$ in $G$, $H := G - V(C)$ (8 vertices), $k$ the number
 of $0$-spoke (branch) vertices. `c16_branch_vertex_arithmetic` (B5)
