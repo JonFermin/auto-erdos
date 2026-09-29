@@ -5299,3 +5299,66 @@ realizations per profile at $n = 24$).
    subsumed-in-part by T4: any completion of the three SAT
    translates must be one of the three catalog members; verify
    directly and count refuting landings per member.
+
+## Section 139 — R101: the $n = 26$ classification COMPLETE — 74 profiles, 30 realizable, exactly 22 graphs; $\mu(H) \le 1$ persists, $k \le 3$, and the $k = 0$ branch is INHABITED (once) (session s_0929-080739-f9c8)
+
+R101 executes Section 138's mandated next-move 1 (the $n = 26$ profile
+decision by SAT) and closes it in full — profile list, realizability
+decision, AND complete catalog (new lemma `c16_n26_classification`,
+proved, 8 CHECKs). The R100 SAT engine lifted verbatim to $10$ outside
+vertices; validated by reproducing the entire decided $n = 24$
+landscape (STAR $1536$ / SPIDER $384$ / TRIPEND $0$) before any
+$n = 26$ run.
+
+- **(N1) Profile arithmetic**: $e(H) = 7$ forces the profile universe;
+  exactly $74$ profiles ($k$: $17/29/24/4$ for $k = 0..3$ — the (B2)
+  cap $k \le 4$ is not even arithmetically attained; $\mu(H)$:
+  $36/34/4$).
+- **(N2) Decision**: $30$ realizable / $44$ not (by $k$:
+  $1/15/12/2$ of $17/29/24/4$). All four $\mu(H) = 2$ profiles die —
+  $\mu(H) \le 1$ now holds at BOTH decided sizes, and at $n = 26$ it
+  is a genuine geometric exclusion (absorption arithmetic permits
+  $\mu = 2$). Three of the four are re-decided in-harness every round.
+- **(N3) THE HEADLINE — $k = 0$ is realized**: profile
+  $\{P_5, C_3, 2K_1\}$, by exactly one graph, and exactly ONE
+  $(G, C)$ pair in the entire catalog has $k = 0$. The $n = 24$
+  emptiness of the $k = 0$ branch (R100 T3) is a finite-size
+  artifact, NOT a law of the class: supply falsifiers cannot assume
+  a branch vertex at general $n$. Q85's zero-free-completion
+  question is alive — but the single occurrence in $178$ censused
+  $C_{16}$s says $k = 0$ is heavily constrained.
+- **(N4) Catalog**: exactly $\mathbf{22}$ graphs at $n = 26$
+  (vs $3$ at $n = 24$), carrying $178$ chordless $C_{16}$s
+  ($k$-distribution $1/60/109/8$; per-member counts $3$–$12$;
+  triangles $1$–$8$). Full two-way census/decision consistency runs
+  in-harness (CHECK E): the census layer (pure cycle enumeration) and
+  the SAT layer agree in both directions on every profile a realized
+  graph touches.
+- **Methodology**: every profile enumerated to exhaustion (the R100
+  census rule — no feasibility caps); every representative directly
+  networkx-verified; profile "rigidity" fails wholesale at $n = 26$
+  (one profile carries $8$ distinct graphs).
+
+### Next moves (Q85 / branch-vertex program, updated)
+
+1. **The $k = 0$ mechanism**: the unique $k = 0$ pair is one $C_{16}$
+   of one graph whose other $10$ censused $C_{16}$s all have
+   $k \ge 1$. Extract WHY $\{P_5, C_3, 2K_1\}$ squeaks through where
+   all $16$ other $k = 0$ profiles die — a local obstruction
+   argument on the $16$ dead ones (starting from the all-path
+   profiles, which die fast) is the direct route to a general-$n$
+   $k = 0$ scarcity law.
+2. **$\mu(H) \le 1$ as a general-$n$ lemma**: now proved at
+   $n \in \{24, 26\}$ by enumeration; the four $n = 26$ deaths
+   (theta, dumbbell, and the two-triangle splits) all die against
+   the C4/C8 feet arithmetic — try a uniform proof via the (B3)
+   menu on the two independent cycles' feet.
+3. **$n = 28$ feasibility scan**: $e(H) = 10$, $c - \mu = 2$,
+   $k \le 6$ (B2). The profile universe will be substantially larger
+   (trees to $q = 11$ don't fit — $q \le 10$ over $12$ vertices);
+   enumerate the arithmetic layer first to size the SAT batch before
+   committing a round to it.
+4. **Arc-exchange material** (Section 138 move 2, still open): the
+   $n = 26$ catalog's $C_{16}$ multiplicities ($3$–$12$ per graph)
+   are exactly the exchange-graph raw material for the Q81/Q82
+   composition program — now with $22 + 3$ concrete graphs.
