@@ -2,6 +2,7 @@
 results.tsv
 run.log
 run_nocrit.log
+prewarm.log
 verifier_results.tsv
 
 # Track 2 (proof loop) per-branch state — same gitignore rationale as Track 1.
