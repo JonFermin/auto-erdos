@@ -1,78 +1,93 @@
-# Session handoff (session s_0929-080739-f9c8)
+# Session handoff (session s_0930-080754-5620)
 
-**Stop reason**: logical milestone — two keeps: R100 (graded here
-after the s_0928 orphan; the round's content was s_0928's) and R101
-(this session's round). The n=26 classification is COMPLETE.
+**Stop reason**: logical milestone — 2 keeps (R102 explore, R103 exploit) after a full ideation pass; strong clean stopping point.
 
-**Consecutive exploit sessions on current program**: 2
-(s_0928 exploit + s_0929 exploit; the s_0927 explore rotation reset
-the counter to 0 before those. THE NEXT SESSION MUST CLAIM A
-kind: explore QID — or open with /erdos-proof-ideation and claim one
-of its explore qids — BEFORE any exploit round. No explore qid is
-currently open: expect to run ideation first.)
+**Consecutive exploit sessions on current program**: 1
+(This session ran ideation + an EXPLORE keep (R102) BEFORE the exploit
+keep (R103), so the s_0928/s_0929 streak of 2 is RESET. Count is 1
+(R103). The next session MAY exploit, but the one after must watch the
+quota — re-check per Variance policy §2.)
 
 **What happened**:
 
-R100 (keep, 1a8b47b — grading of s_0928's committed-but-unlogged
-round): s_0928 died between its critic pass and proof_log_result.
-This session re-claimed Q85, prewarmed all 7 critics (cache is
-ephemeral in cloud containers), re-ran proof_prepare on the s_0928
-HEAD (0 blocking / 13 warn) and logged the keep. Ledger:
-c16_n24_catalog_completion -> proved. Record
-proof_erdos_gyarfas_a48a627d6606_1a8b47b.json. n=24 catalog is
-exactly {adj24, spider24, W24}.
+- **Ideation pass** (11 proposers: 7 spec lenses + analogy-miner /
+  wildcard / fresh-eyes / revivalist; 3-judge panel RIGOR/NOVELTY/
+  UPSIDE — three DISTINCT crowns). Queued three programs:
+  - **Q0930-083610-1 (exploit, DONE this session, R103)** —
+    charge-transport (analogy-miner, RIGOR's crown).
+  - **Q0930-083610-2 (explore, OPEN)** — spectral / Ihara–Bass
+    (NOVELTY's crown). tr B^8 = 16 c8 = n + tr p_8(A) for cubic
+    girth≥5; C8-free ⇔ tr p_8(A) = −n. L2 (a C16-supply obstruction)
+    must USE C8-freeness — the generic fixed-share version was
+    FALSIFIED by RIGOR (n=30 girth-5 cubic, share 0.024 < 1/16;
+    composite:simple ≈ 40:1; falsifier edge list in the notes digest).
+  - **Q0930-083610-3 (explore, OPENED+RELEASED, R102)** — the 2-adic
+    ladder. mod8_ladder_L3 is open with 5 passing CHECKs.
 
-R101 (keep, 8a99d51 — lemma c16_n26_classification, proved, 8
-CHECKs): Section 138 move 1 executed in full. e(H) = 7 forces a
-74-profile universe (k-dist 17/29/24/4 — B2's cap k<=4 unattained;
-mu-dist 36/34/4). Exhaustive SAT per profile (R100 engine lifted to
-10 outside vertices, validated by exact n=24 reproduction STAR
-1536 / SPIDER 384 / TRIPEND 0): 30 realizable (by k: 1/15/12/2),
-44 not, ALL FOUR mu(H)=2 profiles dead (3 re-decided in-harness
-every round). THE HEADLINE: the k=0 branch, EMPTY at n=24 (R100
-T3), is realized at n=26 by exactly ONE (G,C) pair of the 178
-censused C16s (profile P5+C3+2K1) — the n=24 emptiness is a
-finite-size artifact, not a class law; supply falsifiers cannot
-assume a branch vertex at general n. Catalog: exactly 22 graphs
-(vs 3 at n=24), per-member C16 counts 3-12, triangles 1-8, profile
-rigidity fails wholesale (one profile carries 8 graphs). CHECK E
-runs the complete two-way census/decision consistency in-harness
-(independent cycle-enumeration engine vs the SAT layer). Record
-proof_erdos_gyarfas_7eb98c654f4c_8a99d51.json.
+- **R102 (keep, explore)**: opened `mod8_ladder_L3` — every C4-free
+  δ≥3 graph has a cycle ≡ 0 mod 8 (first literature-free rung of the
+  ladder; conjecture ⇔ ∀k L_k). Status open; the proof engine (Ward
+  divisibility + ear residue-automaton) is sketched in the lemma file
+  with the judges' honest cautions.
 
-**INFRA (durable, re-confirmed)**: the critic prewarm from the
-s_0927 handoff WORKS and is MANDATORY in cloud containers: render
-prompts with proof_prepare._render_critic_prompt, fire via
-library._critic_subprocess.call_critics_parallel(items,
-timeout_s=1500) BEFORE proof_prepare (falsify took 787s on R101 —
-more than 3x the 240s harness cap). Prewarm ALL SEVEN critics, not
-just falsify+internal. ~/.cache/auto-erdos is ephemeral; the
-committed handoff + strategy remain the only durable channels.
+- **R103 (keep, exploit)**: proved `c16_charge_transport` — the
+  general-n identity μ(H) = n/2 − 16 + c(H) + s/2 − s_C (chordless
+  C16, H = G − V(C)). Consequences (RESCOPE of the open core):
+  1. "μ(H) ≤ 1" is DEAD as a general-n law — it's a finite-size
+     artifact (cubic μ(H) ≥ 2 for all n ≥ 34; the n=32, μ=2 boundary
+     is realized — CHECK B witness, independently re-verified). Same
+     epistemic shape as the "k=0 branch empty" claim R100 made and
+     R101 refuted — the SECOND finite-size mirage in two rounds.
+  2. k=0 is a FINITE question: cubic k=0 forces 24 ≤ n ≤ 32, and
+     μ(H) ≥ 0 sharpens this to c(H) ≥ 16 − n/2 (so k=0 at n=28 needs
+     H with ≥2 components; connected H impossible). Only the n=32
+     witness is verified here; n=28/30 inhabitation is the finite
+     residue of open-core item 1.
 
-**qid state**: Q85 released with continuation plan (program healthy,
-2 keeps). Q81 released (background). No explore qid open.
+**GRADING NOTE (durable, important)**: R103's grade was blocked THREE
+times by numerical/falsify critics fabricating `numerical_check`
+expressions with SANDBOX-FORBIDDEN builtins (frozenset, sorted,
+isinstance) — twice on legacy content (Section 101 pin census,
+c16_chord_equiv) and once via an invalid invented tuple. These
+auto-escalate to BLOCKING regardless of the finding's own OK flag.
+The fix that mattered was CONTENT (removed an imported P8 overclaim
+about n=28/30 k=0 existence; made the P5 share derivation explicit);
+the residual banned-builtin artifacts were cleared by busting the
+defective cached critic responses and re-firing (the numerical critic
+is stochastic — it drew compliant on re-roll). If a future session
+hits a lone BLOCKING whose reason cites a `numerical_check` with
+isinstance/frozenset/sorted on OLD content, it is this artifact — bust
+that critic's cache entry and re-fire, do not reset correct work.
 
-**Suggested next moves** (Section 139 has the full list; REMEMBER:
-explore quota first):
-1. (explore candidates via ideation — run /erdos-proof-ideation.)
-2. Exploit backlog, post-quota: (a) the k=0 mechanism — why
-   P5+C3+2K1 alone survives of the 17 k=0 profiles (local
-   obstruction on the 16 dead ones -> general-n k=0 scarcity law);
-   (b) mu(H)<=1 as a general-n lemma via the B3 menu on the two
-   independent cycles' feet; (c) n=28 arithmetic-layer sizing
-   (e(H)=10, c-mu=2, k<=6) BEFORE committing SAT rounds; (d)
-   arc-exchange / composition material for Q81/Q82 on the 25-graph
-   corpus.
+**qid state**: Q0930-083610-1 released (done). Q0930-083610-2 open
+(spectral, next exploit-or-explore target). Q0930-083610-3 released
+with continuation. Q81/Q85 released (background). Q0905-082429-1 closed.
+
+**INFRA (durable, re-confirmed)**: critic prewarm is MANDATORY in
+cloud containers (cache ephemeral; falsify alone took 585–822s, past
+the 240s harness cap). Prewarm ALL SEVEN via
+library._critic_subprocess.call_critics_parallel(items, timeout_s=1500)
+before proof_prepare. A pre-check loop that runs each critic's
+numerical_check through pp._sandboxed_eval BEFORE the full verifier
+catches the banned-builtin artifacts early (saves a 350s verifier run).
 
 **Files modified this session**:
-- proof_strategy.md (Section 139)
-- proof_lemmas/lemma_c16_n26_classification__0929-080739-f9c8.md
-  (NEW, proved, 8 CHECKs, max 10.3s each)
-- records/proof_erdos_gyarfas_a48a627d6606_1a8b47b.json,
-  records/proof_erdos_gyarfas_7eb98c654f4c_8a99d51.json
-- proof_open_questions.jsonl, proof_journal.jsonl, ledger
+- proof_strategy.md (Sections 140, 141)
+- proof_lemmas/lemma_mod8_ladder_L3__0930-080754-5620.md (NEW, open, 5 CHECKs)
+- proof_lemmas/lemma_c16_charge_transport__0930-080754-5620.md (NEW, proved, 4 CHECKs)
+- records/proof_erdos_gyarfas_c3fc59963984_47d06e6.json (charge_transport)
+- proof_open_questions.jsonl, proof_journal.jsonl, ledger, notes
 
-**For maintainer (standing, unchanged)**: promote Dean–Lesniak–Saito
-1993 (and optionally Choi–Chu 2026) to given_facts F4/F5 in
-proofs/erdos_gyarfas.json; update lemma_mod4_even_theta's quarantine
-CHECK in the same commit.
+**Suggested next moves**:
+1. **Finite k=0 census** (closes open-core item 1): enumerate cubic
+   C4/C8-free chordless-C16 carriers with k=0 at n=28 (c(H)≥2) and
+   n=30 (c(H)≥1) — SAT per profile, R100/R101 engine. A complete
+   window census settles item 1 outright.
+2. **Q0930-083610-2 spectral**: ledger the tr B^8 identity as a quick
+   proved lemma, then the C8-freeness-aware L2 hunt.
+3. **mod8_ladder_L3 probes** (Q0930-083610-3 continuation): run L3
+   against the n=24/26 catalog graphs (C4-free, most adversarial),
+   hill-climb mod-8-cycle-count → 0, subdivided-K4 (Z/8)^6 residue
+   census to size the ear-automaton tables.
+4. Honest general-n successor to the dead μ-law: a bound on c(H) /
+   excess degree (e.g. "every component of H meets C").
