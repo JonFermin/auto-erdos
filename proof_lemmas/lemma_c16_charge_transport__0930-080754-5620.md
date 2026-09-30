@@ -66,12 +66,20 @@ $n$-scaling form of the incumbent fixed-$n$ constant (B1).
    absorption bounds; the $\mu$-value itself grows linearly in $n$.
 2. Open-core item 1 (the $k = 0$ mechanism) is a FINITE question by
    (ii): for cubic $G$ the whole $k = 0$ branch lives in
-   $24 \le n \le 32$ ($n$ even). The $n = 26$ scarcity (1 of 178)
-   does NOT indicate a general-$n$ scarcity law — ideation's P8
-   probes report $k = 0$ examples at $n = 28, 30, 32$ (CHECK B is
-   the $n = 32$ one) — it indicates the window's interior filling
-   in. Closing item 1 means finite enumeration over the window, not
-   an asymptotic argument.
+   $24 \le n \le 32$ ($n$ even). Moreover $\mu(H) \ge 0$ turns (i)
+   into a POSITIVITY constraint on such a graph's outside structure:
+   for cubic $G$, $c(H) \ge 16 - n/2$, so a $k = 0$ carrier's outside
+   graph $H$ has at least $16 - n/2$ components — at least $2$ at
+   $n = 28$, at least $1$ at $n = 30$, unconstrained at $n = 32$
+   (the CHECK B witness has $c(H) = 2$). In particular a $k = 0$
+   graph at $n = 28$ CANNOT have connected $H$. The $n = 26$ scarcity
+   (1 of 178) therefore does NOT indicate a general-$n$ scarcity law;
+   it is the window's near-empty lower edge. Only the $n = 32$
+   witness is independently verified here (CHECK B); whether the
+   $n = 28, 30$ interior is actually inhabited (subject to the
+   component constraint above) is a finite enumeration — the concrete
+   remaining content of open-core item 1 — not an asymptotic
+   argument.
 3. Any general-$n$ supply/floor argument (Q81) must budget for
    $\mu(H) \sim n/2$ independent outside cycles; arguments that
    implicitly assume a forest-like or unicyclic $H$ cannot survive
@@ -175,4 +183,20 @@ for n, expect in ((24, 4), (26, 3), (32, 0)):
 # holds for all n >= 34
 for n in range(34, 66, 2):
     assert n // 2 - 16 + 1 >= 2
+CHECK -->
+
+<!-- CHECK
+# CHECK D - the positivity constraint on a cubic k=0 carrier: mu(H) >= 0
+# with the identity mu = n/2 - 16 + c forces c(H) >= 16 - n/2. So the
+# minimum component count of H over the k=0 window is:
+for n, cmin in ((24, 4), (26, 3), (28, 2), (30, 1), (32, 0)):
+    assert 16 - n // 2 == cmin
+# hence a k=0 graph at n=28 needs c(H) >= 2 (connected H is impossible):
+# the tuple (n=28, c=1) would give mu = -1 < 0, excluded.
+assert 28 // 2 - 16 + 1 < 0
+# and every VALID (n, c) with c >= max(1, 16 - n/2) yields mu >= 0:
+for n in range(24, 34, 2):
+    cmin = max(1, 16 - n // 2)
+    for c in range(cmin, cmin + 4):
+        assert n // 2 - 16 + c >= 0
 CHECK -->

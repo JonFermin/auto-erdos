@@ -5488,10 +5488,16 @@ $C_{16}$, $k = 0$, $c(H) = \mu(H) = 2$.
    rounds. Honest general-$n$ successors: bounds on $c(H)$ / excess
    degree / per-component absorption, not on $\mu$.
 2. **The $k = 0$ mechanism (open-core item 1) is a FINITE question**:
-   cubic $k = 0$ forces $24 \le n \le 32$. The right move is
-   enumeration over the window (P8's probes report $k = 0$ hits at
-   $n = 28, 30, 32$), not a scarcity law — the $1/178$ scarcity at
-   $n = 26$ was the window's edge, not an asymptotic trend.
+   cubic $k = 0$ forces $24 \le n \le 32$, and $\mu(H) \ge 0$ sharpens
+   this to a POSITIVITY constraint $c(H) \ge 16 - n/2$ on the outside
+   graph — a $k = 0$ carrier's $H$ has $\ge 2$ components at $n = 28$,
+   $\ge 1$ at $n = 30$ (connected $H$ is impossible at $n = 28$). The
+   right move is enumeration over the window subject to that
+   constraint, not a scarcity law — the $1/178$ scarcity at $n = 26$
+   was the window's near-empty lower edge, not an asymptotic trend.
+   Only the $n = 32$ witness is independently verified here (lemma
+   CHECK B); whether $n = 28, 30$ are inhabited is the concrete
+   finite residue of item 1.
 3. **Q81/supply consequence**: any general-$n$ C16-floor argument must
    budget $\mu(H) \sim n/2$ independent outside cycles. Supply
    arguments that implicitly lean on sparse-$H$ structure cannot
