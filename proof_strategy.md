@@ -5362,3 +5362,97 @@ $n = 26$ run.
    $n = 26$ catalog's $C_{16}$ multiplicities ($3$–$12$ per graph)
    are exactly the exchange-graph raw material for the Q81/Q82
    composition program — now with $22 + 3$ concrete graphs.
+
+## Section 140 — R102: EXPLORE round (mandated by the quota at 2) — the 2026-09-30 ideation pass, three new programs queued, and the 2-adic ladder opens (`mod8_ladder_L3`) (session s_0930-080754-5620)
+
+The exploit counter stood at 2 (s_0928, s_0929), so this session opened
+with the full ideation fan-out before any exploit work: 11 proposers
+(the 7 spec lenses plus analogy-miner / wildcard / fresh-eyes /
+revivalist), a 3-judge panel (RIGOR / NOVELTY / UPSIDE), and — the
+panel's design working as intended — THREE DISTINCT crowns. Queued:
+
+- **Q0930-083610-1 (exploit)** — Judge RIGOR's crown (9/10): the
+  **charge-transport identity** (analogy-miner, a Four-Colour-Theorem
+  port). For a chordless $C_{16}$ $C$ with $H = G - V(C)$,
+  $s = \sum_G(\deg - 3)$, $s_C = \sum_C(\deg - 3)$:
+  $$\mu(H) = n/2 - 16 + c(H) + s/2 - s_C, \qquad k \ge n - 32 - s_C.$$
+  RIGOR re-derived both by hand. Note this is the $n$-SCALING form of
+  our own (B1) ($c(H) - \mu(H) = (32 - n)/2$ at $s = s_C = 0$) — and
+  read as a law in $n$ it says: **"$\mu(H) \le 1$" CANNOT be a
+  general-$n$ law** (cubic: $\mu(H) = n/2 - 16 + c(H) \ge 2$ once
+  $n \ge 34$; the proposer pins an explicit cubic $C_4/C_8$-free
+  $n = 32$ graph with chordless $C_{16}$, $k = 0$, $\mu(H) = 2$, to be
+  re-verified in-harness), and **$k = 0$ is a FINITE phenomenon**
+  ($k = 0$ forces $n \le 32 + s_C$; claimed $k = 0$ examples at
+  $n = 28, 30, 32$). The proposer's $k$ (H-vertices with no neighbour
+  on $C$) IS our branch-vertex $k$ (0-spoke vertices) for cubic $G$.
+  Open-core items 1–2 are therefore RESCOPED, not open as stated:
+  item 1 becomes a finite enumeration window $24 \le n \le 32 + s_C$,
+  item 2 must be restated as a bound on $c(H)$ + excess degree.
+- **Q0930-083610-2 (explore)** — Judge NOVELTY's crown (9/10): the
+  **spectral program**. For cubic girth-$\ge 5$ $G$, Ihara–Bass gives
+  $\operatorname{tr} B^8 = 16\,c_8 = n + \operatorname{tr} p_8(A)$
+  (Hashimoto $B$; $p_k = \lambda p_{k-1} - 2 p_{k-2}$), so $C_8$-free
+  $\iff \operatorname{tr} p_8(A) = -n$ — an exact linear condition on
+  the spectral measure. L2 (a moment/LP obstruction forcing $C_{16}$
+  supply) must USE $C_8$-freeness: RIGOR falsified the generic
+  fixed-share version (P5) outright — an $n = 30$ girth-5 cubic graph
+  with $c_8 = 21$, $c_{16} = 64$, $\operatorname{tr} B^{16} = 84272$
+  (share $0.0244 < 1/16$; composite:simple $\approx 40{:}1$). The
+  falsifier edge list is archived in the notes digest.
+- **Q0930-083610-3 (explore, THIS ROUND)** — Judge UPSIDE's crown
+  (9/10): the **2-adic ladder**. See below.
+
+Panel post-mortem worth keeping: RIGOR killed two first-lemmas by probe
+(P5 above; P2's "distinct $C_5$s are edge-disjoint" — false, two $C_5$s
+sharing a 2-path make a legal $C_6$). Strong runner-up held in reserve:
+the triangle flex-gadget contraction (P7: a triangle contracts to give
+flex interval $[L+j, L+2j]$; box lemma over cubic $H$ on $m \le 16$ +
+all $X$ is decidable in $\sim 10^8$ interval checks; general form =
+"WLOG triangle-free", the hypothesis the whole $C_4/C_8$-free program
+silently leans on). Symmetry fences (P3 $\mathbb{Z}_2$-descent, P9
+odd-$\mathbb{Z}_m$ covers, 31{,}716 lifts passed) are sound but narrow.
+Side find: the double truncation of $K_{3,3}$ ($n = 54$, $C_4$-free)
+carries only 9 $C_{16}$s and 18 $C_8$s — a witness-search seed.
+Q0905-082429-1 closed (subsumed by R101). Q81/Q85 stay released.
+
+### R102 move — `mod8_ladder_L3` opened (kind: explore)
+
+The conjecture is EQUIVALENT to the ladder $\forall k\, L_k$, where
+$L_k$: "$\delta \ge 3$ and no $C_{2^j}$ for $2 \le j < k$ $\Rightarrow$
+some simple cycle $\equiv 0 \pmod{2^k}$" (pigeonhole on
+$2^k \le n < 2^{k+1}$ recovers an exact PO2 cycle; see the lemma file
+for both directions). $L_2$ is quarantined literature
+(Dean–Lesniak–Saito 1993); **$L_3$ — every $C_4$-free $\delta \ge 3$
+graph has a cycle $\equiv 0 \bmod 8$ — is the first rung with no
+literature claim**, strictly weaker than the conjecture, and killable.
+New lemma `mod8_ladder_L3` (status: open, 5 CHECKs, all sub-second):
+the hypothesis is load-bearing ($K_4$, $K_{3,3}$, prism: $\delta = 3$,
+no mod-8 cycle, all contain $C_4$ — CHECK A), truncated $K_4$ is tight
+(mod-8 set exactly $\{8\}$ — CHECK B), and the falsification sweeps
+(18 $C_4$-free $GP(n,k)$, truncated $K_{3,3}$/prism, 30 seeded random
+$C_4$-free cubic graphs at $n \le 20$) all pass (CHECKs C–E). Proof
+engine to develop: Ward divisibility on the cycle code (length mod 2
+linear, mod 4 the quadratic form $|x|/2$ with polar $|x \cap y| \bmod
+2$, mod 8 a cubic refinement) + a residue automaton over ear
+decompositions per minor type. Honest cautions from the panel are in
+the lemma file: no finiteness argument yet for the automaton; Ward
+identities do not by themselves make a residue-0 codeword a SINGLE
+simple cycle; near-$2^k$ rungs stay conjecture-hard.
+
+### Next moves (updated queue)
+
+1. **Q0930-083610-1** (exploit, next session or after this round):
+   re-verify the $n = 32$ charge-transport witness in-harness, ledger
+   `c16_charge_transport` as a proved identity lemma, and RESTATE
+   open-core items 1–2 accordingly. This rescopes Q85's continuation
+   plan items (1) and (2).
+2. **`mod8_ladder_L3` adversarial probes**: run L$_3$ against the
+   n=24/26 catalog graphs (they are $C_4$-free — the most adversarial
+   known population), hill-climb mod-8-cycle-count $\to 0$, and the
+   subdivided-$K_4$ residue census ($(\mathbb{Z}/8)^6$, 64 classes
+   after symmetry) to size the automaton tables.
+3. **Q0930-083610-2**: ledger the $\operatorname{tr} B^8$ identity
+   (quick provable lemma) and start the C8-freeness-aware L2 hunt.
+4. Q85 backlog items (3)–(4) (n=28 arithmetic sizing, arc-exchange
+   material) unchanged, AFTER the rescope in move 1.
