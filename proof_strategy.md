@@ -5397,9 +5397,12 @@ panel's design working as intended — THREE DISTINCT crowns. Queued:
   the spectral measure. L2 (a moment/LP obstruction forcing $C_{16}$
   supply) must USE $C_8$-freeness: RIGOR falsified the generic
   fixed-share version (P5) outright — an $n = 30$ girth-5 cubic graph
-  with $c_8 = 21$, $c_{16} = 64$, $\operatorname{tr} B^{16} = 84272$
-  (share $0.0244 < 1/16$; composite:simple $\approx 40{:}1$). The
-  falsifier edge list is archived in the notes digest.
+  with $c_8 = 21$, $c_{16} = 64$, $\operatorname{tr} B^{16} = 84272$.
+  Each simple $C_{16}$ contributes exactly $32$ closed non-backtracking
+  $16$-walks ($16$ starts $\times\ 2$ orientations), so the simple-cycle
+  share is $32 \cdot 64 / 84272 \approx 0.0243 < 1/16 = 0.0625$
+  (composite:simple $\approx 40{:}1$). The falsifier edge list is
+  archived in the notes digest.
 - **Q0930-083610-3 (explore, THIS ROUND)** — Judge UPSIDE's crown
   (9/10): the **2-adic ladder**. See below.
 
