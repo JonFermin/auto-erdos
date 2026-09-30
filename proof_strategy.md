@@ -5456,3 +5456,62 @@ simple cycle; near-$2^k$ rungs stay conjecture-hard.
    (quick provable lemma) and start the C8-freeness-aware L2 hunt.
 4. Q85 backlog items (3)–(4) (n=28 arithmetic sizing, arc-exchange
    material) unchanged, AFTER the rescope in move 1.
+
+## Section 141 — R103: `c16_charge_transport` PROVED — the general-$n$ charge identity; the open core RESCOPED ("$\mu(H) \le 1$" was a finite-size artifact, $k = 0$ is a finite window) (session s_0930-080754-5620)
+
+R103 executes Q0930-083610-1 (Judge RIGOR's ideation crown). New lemma
+`c16_charge_transport` (proved, 3 CHECKs, all sub-second): for any
+$\delta \ge 3$ graph with a CHORDLESS $C_{16}$ $C$ and $H = G - V(C)$,
+
+$$\mu(H) = \frac{n}{2} - 16 + c(H) + \frac{s}{2} - s_C,
+\qquad k \ge n - 32 - s_C,$$
+
+proved in five lines from the spoke count $16 + s_C$ (chordlessness)
+and the handshake $e(G) = (3n+s)/2$. This is the $n$-SCALING form of
+our fixed-$n$ (B1) constant ($c(H) - \mu(H) = (32-n)/2$ for cubic).
+Verified three ways: hand derivation here, Judge RIGOR's independent
+hand derivation at ideation, and CHECK A's 300+ random C16-carrying
+graphs with general degrees. CHECK B re-verifies (with fresh code)
+the explicit $n = 32$ witness: cubic, $C_4/C_8$-free, chordless
+$C_{16}$, $k = 0$, $c(H) = \mu(H) = 2$.
+
+**The rescope (this changes the program's target list):**
+
+1. **"$\mu(H) \le 1$" is DEAD as a general-$n$ law.** It was proved by
+   enumeration at $n = 24$ (R100) and $n = 26$ (R101) and looked like
+   a class law; the identity shows it is pure counting: cubic
+   $\mu(H) = n/2 - 16 + c(H)$, so $\mu \ge 2$ for EVERY cubic
+   C16-carrier at $n \ge 34$, with the $n = 32$, $\mu = 2$ boundary
+   case REALIZED (CHECK B). Exactly the same epistemic shape as the
+   "$k = 0$ branch is empty" claim that R100 made at $n = 24$ and
+   R101 refuted at $n = 26$ — the second finite-size mirage in two
+   rounds. Honest general-$n$ successors: bounds on $c(H)$ / excess
+   degree / per-component absorption, not on $\mu$.
+2. **The $k = 0$ mechanism (open-core item 1) is a FINITE question**:
+   cubic $k = 0$ forces $24 \le n \le 32$. The right move is
+   enumeration over the window (P8's probes report $k = 0$ hits at
+   $n = 28, 30, 32$), not a scarcity law — the $1/178$ scarcity at
+   $n = 26$ was the window's edge, not an asymptotic trend.
+3. **Q81/supply consequence**: any general-$n$ C16-floor argument must
+   budget $\mu(H) \sim n/2$ independent outside cycles. Supply
+   arguments that implicitly lean on sparse-$H$ structure cannot
+   survive past $n = 32$; this sharpens what the composition engine
+   (Q82 material) must actually deliver.
+
+Q85's continuation items (1) and (2) are superseded in this form;
+items (3) (n=28 arithmetic sizing) and (4) (arc-exchange material)
+stand, now with the caveat that n=28 SAT sizing should treat the
+$k$-range per the window, not per an extrapolated scarcity.
+
+### Next moves
+
+1. (Q0930-083610-3 continuation) `mod8_ladder_L3` adversarial probes:
+   catalog graphs, falsifier hill-climb, subdivided-$K_4$ residue
+   census.
+2. (Q0930-083610-2) ledger the $\operatorname{tr} B^8$ identity as a
+   quick provable lemma; start the C8-freeness-aware L2 hunt.
+3. Finite $k = 0$ window census (rescoped item 1): enumerate cubic
+   $C_4/C_8$-free chordless-C16 carriers with $k = 0$ at
+   $n \in \{28, 30, 32\}$ — P8's three hits seed it; a complete
+   window census would CLOSE open-core item 1 outright.
+4. Q85 items (3)–(4) as rescoped above.
