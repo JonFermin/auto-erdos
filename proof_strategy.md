@@ -5524,3 +5524,77 @@ $k$-range per the window, not per an extrapolated scarcity.
    $n \in \{28, 30, 32\}$ — P8's three hits seed it; a complete
    window census would CLOSE open-core item 1 outright.
 4. Q85 items (3)–(4) as rescoped above.
+
+## Section 142 — R104: the $k = 0$ window census — open-core item 1 CLOSES (`c16_k0_window_census` proved) (session s_1001-080744-81ed)
+
+R104 executes Section 141's next-move 3 (the finite $k = 0$ residue).
+New lemma `c16_k0_window_census` (proved): one SAT decision per $k = 0$
+profile over the ENTIRE window $22 \le n \le 30$, with the R100/R101
+engine lifted verbatim (parametric $|V(H)|$) and re-validated fresh
+this round in three independent ways before any new decision: (V1) the
+decided $n = 24$ landscape (SPIDER $384$/TRIPEND $0$), (V2) the full
+$n = 26$ $k = 0$ slice ($17$ profiles, exactly $1$ SAT, $= $ R101
+(N3)), (V3) the $n = 24$ $k = 0$ slice (all $6$ UNSAT $=$ R100 T3, by
+an independent per-profile route).
+
+**The inhabitation map (cubic $k = 0$ branch, complete):**
+
+| $n$ | profiles | SAT | realized $H$-shapes |
+|---|---|---|---|
+| 22 | 1 | 0 | — (window edge empty) |
+| 24 | 6 | 0 | — (= R100 T3, re-proved per-profile) |
+| 26 | 17 | 1 | $\{P_5, C_3, 2K_1\}$ (= R101 (N3)) |
+| 28 | 29 | 6 | ALL six two-path $P_a + P_b$, NO cycles — $\mu(H) = 0$ FORCED |
+| 30 | 27 | 16 | $P_{14}$; all single-cycle except $P_1{+}C_{13}$; 7 multi-cycle, each with a $C_3$; $\mu \in \{0,1,2,3\}$ |
+| 32 | — | $\ge 1$ | R103 CHECK B witness ($\mu = c = 2$); full census not run |
+
+**What closed.** Open-core item 1 asked for the $k = 0$ mechanism —
+why $\{P_5, C_3, 2K_1\}$ alone survived at $n = 26$. The answer is
+structural, not mechanistic: the branch fills the window monotonically
+from the empty lower edge ($0, 0, 1, 6, 16, \ge 1$), so the
+$n = 26$ singleton is the lower-edge effect R103 predicted, and there
+is no general-$n$ scarcity law to extract. The branch-vertex
+hypothesis ($k \ge 1$) is now EXACTLY delimited: usable at
+$n \le 24$ and $n \ge 34$, false in between.
+
+**New structure at $n = 28$ (K5):** $k = 0$ forces $H = $ two disjoint
+paths — $c(H) = 2$ attains the `c16_charge_transport` positivity floor
+exactly, $\mu(H) = 0$, and ALL six path-splits $P_a + P_b$
+($a + b = 12$) are realized. The cycle-free/cycle-bearing cut is
+clean: all $23$ cycle-containing profiles are UNSAT at $n = 28$.
+At $n = 30$ (K6) the picture inverts: cycles return, $\mu(H)$
+realizes every value $0$–$3$, every single-cycle profile except
+$P_1 + C_{13}$ is SAT, and the multi-cycle exclusion laws are clean —
+no two cycles of length $\ge 5$ coexist (all five such profiles
+UNSAT), and every realizable multi-cycle profile carries a $C_3$
+(though $C_3$ does not suffice: $\{3,9\}$, $\{3,3,5\}$,
+$\{3,3,7\}$, $\{3,5,5\}$, $\{3,3,3,3\}$ all die). Off-harness
+bonus (not lemma-claimed): exhaustive model enumeration of the six
+$n = 28$ SAT profiles ($1856$ models total, all complete) collapses
+to exactly $12$ distinct graphs carrying $23$ $k = 0$ pairs, with
+two-way census consistency (every censused $k = 0$ profile over the
+$12$ graphs is exactly the six two-path SATs; one carrier is
+triangle-FREE with four $k = 0$ pairs) — catalog raw material for
+next-move 1.
+
+**Scope, stated precisely** (R101 precedent): in-harness every round —
+profile arithmetic (universes $1/6/17/29/27$), the $n = 22$ edge
+UNSAT, a representative $n = 24$ UNSAT, and EVERY $n = 28$/$n = 30$
+SAT witness re-verified with independent non-SAT code. Off-harness —
+the cycle-bearing UNSATs at $n = 28$/$30$ ($38$–$1386$s each; full
+table in the lemma's data appendix).
+
+### Next moves
+
+1. The $n = 28$/$n = 30$ $k = 0$ catalogs (distinct graphs, their full
+   chordless-$C_{16}$ censuses) as composition-engine raw material for
+   Q81/Q82 — the $n = 28$ enumeration is cheap (model counts in the
+   dozens–hundreds per profile).
+2. The honest general-$n$ successor to the dead $\mu$-law (R103 item
+   4): with $k = 0$ mapped, the candidate law is on the path/cycle
+   split of $H$ near the window, e.g. per-component spoke-absorption
+   bounds.
+3. Q0930-083610-2 (spectral): ledger the $\operatorname{tr} B^8$
+   identity; the C8-aware L2 hunt.
+4. Q0930-083610-3 (mod-8 ladder): adversarial L3 probes on the
+   $n = 24/26$ catalogs.
