@@ -2348,8 +2348,8 @@ for $n \le 32$ only $\{5, 6, 9, 10, 17, 18\}$ exist. Against the
 demand stands **rigidity**: in a counterexample ($C_4$- and $C_8$-free
 by definition), short cycles interact only in constrained ways,
 capping the witness supply. Contradiction target: supply $<$ demand
-for $n \le 32$ would push Markström's cubic bound $30 \to 33$ by
-counting alone — the first *positive* theorem target this loop has
+for $n \le 32$ would push Markström's cubic bound (F3: $\ge 30$) to $33$ by
+counting alone — a TARGET this program sets, not a cited fact; the first *positive* theorem target this loop has
 had. The formal criticality lemma (bridge case, exact lift bookkeeping,
 the girth-$\ge 5$ case restriction, and what "predominantly cubic"
 from F3 adds) is R58's job, CHECK-first, under a NEW id
@@ -5598,3 +5598,51 @@ table in the lemma's data appendix).
    identity; the C8-aware L2 hunt.
 4. Q0930-083610-3 (mod-8 ladder): adversarial L3 probes on the
    $n = 24/26$ catalogs.
+
+## Section 143 — R105: the spectral program opens — `nb_trace_c8_identity` proved (L1 of Q0930-083610-2) (session s_1001-080744-81ed)
+
+R105 ledgers Judge NOVELTY's ideation crown L1, closing the "quick
+proved lemma" step of the spectral-Moore program. New lemma
+`nb_trace_c8_identity` (proved, 3 CHECKs, all sub-second): for cubic
+$G$ with Hashimoto matrix $B$ and $q_8(x) = x^8 - 16x^6 + 80x^4 -
+128x^2 + 32$ (the $k = 8$ power-sum polynomial of
+$x^2 - \lambda x + 2$):
+
+- (S1, no girth hypothesis) $\operatorname{tr} B^8 = n +
+  \operatorname{tr} q_8(A)$ — trace transfer via a SELF-CONTAINED
+  proof of the Bass determinant factorization in the lemma file
+  (incidence matrices $K, L$, reversal $J$, Weinstein–Aronszajn; the
+  name "Ihara–Bass" is descriptive, no external result is invoked;
+  CHECK D pins the full $B$-spectrum multiset on three graphs).
+- (S2) girth $\ge 5$ $\Rightarrow$ $\operatorname{tr} B^8 = 16 c_8$,
+  with a full hand proof of the folklore "cyclically-NB closed
+  $k$-walks are cycle traversals for $k < 2g$" (minimal-repeat +
+  spur-collapse argument), not a citation.
+- (S3) THE CRITERION: cubic girth $\ge 5$ is $C_8$-free $\iff$
+  $\operatorname{tr} q_8(A) = -n$ — an exact linear constraint on
+  the spectral measure; in general $c_8 = (n + \operatorname{tr}
+  q_8(A))/16$.
+- (S4) sharpness: both (S2)-failures at girth $3$ ($K_4$: $168$ vs
+  $0$) and girth $4$ ($K_{3,3}$: $648$ vs $0$) are pinned in-harness.
+
+Scope stated honestly per RIGOR's warning: the verifier class allows
+triangles, where composite NB walks dominate (the $40{:}1$
+falsifier); (S3) is exact on the triangle-free stratum and is the LP
+constraint for the L2 hunt ($q_8(3) = 257$ forces the non-Perron
+spectrum into the $q_8$-negative window on average).
+
+### Next moves (spectral program, L2)
+
+1. L2 target: a $C_8$-aware lower bound on $\operatorname{tr} B^{16}
+   - 32 c_{16}$ for cubic girth $\ge 5$: use
+   $\operatorname{tr} q_8(A) = -n$ plus the trivial spectral window
+   $|\lambda| \le 3$ to constrain $\operatorname{tr} q_{16}(A)$
+   (any Alon–Boppana-type refinement is QUARANTINED literature until
+   ledgered — not used in any proved claim); the question is which composite
+   $16$-walk families are EXCLUDED by $C_8$-freeness (the generic
+   share bound is falsified — only freeness-aware counting can work).
+2. Numerically map $\operatorname{tr} q_{16}(A)$ vs $32 c_{16}$ on
+   the n=24/26 catalog graphs' triangle-free relatives (if any) and
+   on random girth-5 cubic samples, conditioned on
+   $\operatorname{tr} q_8(A) = -n$ — hunt the bound's shape before
+   proving.
