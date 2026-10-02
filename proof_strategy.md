@@ -5714,3 +5714,52 @@ abstract tables shape-for-shape with zero residual.
    prove or refute by SAT (the engine from `c16_k0_window_census`
    adapts — decision problem "cubic, girth $\ge 5$, $c_8 = 0$,
    $n = 28$").
+
+## Section 145 — R108: the moment dictionary — `cubic_girth5_moment_dictionary` proved: $(c_5, c_6, c_7)$ is spectral at girth $\ge 5$, plus the $k = 32$ transfer (session s_1002-080739-d456)
+
+R108 executes Section 144's next-move 1 prerequisite (and re-lands
+R107, which the gatekeeper discarded on a single ledger draw that
+re-raised the Section 127 external citations — the SAME rotating
+finding R87/R96 formally quarantined in Section 134; the quarantine
+stands: those externals feed NO proved claim, this lemma included,
+and this re-land states so explicitly in its Setting). New lemma
+`cubic_girth5_moment_dictionary` (proved, 5 CHECKs, all sub-second):
+for cubic girth-$\ge 5$ graphs,
+$$\operatorname{tr} A^5 = 10 c_5, \quad
+  \operatorname{tr} A^6 = 87 n + 12 c_6, \quad
+  \operatorname{tr} A^7 = 140 c_5 + 14 c_7,$$
+via cyclic reduction: every closed $k$-walk ($k \le 7$) reduces to a
+tree walk (per-vertex constants $T_2, T_4, T_6 = 3, 15, 87$) or a
+single cycle traversal ($\ell < 2g$ re-uses the L1 injectivity
+argument verbatim); the $k = 7$ spur coefficient $140 = 70 + 5\cdot14$
+comes from the rigid "sun" neighborhood of a $C_5$ in a cubic
+girth-$5$ graph. Hence the dictionary
+$$c_5 = \operatorname{tr} A^5/10, \quad
+  c_6 = (\operatorname{tr} A^6 - 87n)/12, \quad
+  c_7 = \operatorname{tr} A^7/14 - \operatorname{tr} A^5,$$
+and with L1's criterion, $(c_5, c_6, c_7, c_8)$ is a linear
+functional of the spectrum. (M4) adds the $k = 32$ transfer:
+$\operatorname{tr} B^{32} = n + \operatorname{tr} q_{32}(A)$,
+$q_{32} = q_{16}^2 - 2^{17}$, Perron pin $q_{32}(3) = 2^{32} + 1$
+(transfer only — no $C_{32}$ census is claimed). The L3 squeeze is
+now a finite moment problem: spectral side (Perron pin $+$
+$\sum q_8 = -n$ $+$ the second-moment law) forces composite mass UP;
+the counting side must cap it via $c_5, c_6, c_7$ (spectral!) times
+per-cycle capacities (how many of the 39 composite types can share
+one short cycle — bounded local combinatorics, the next lemma).
+
+### Next moves (spectral program, L3 proper)
+
+1. **Capacity lemma**: for each of the 39 composite types $T$, bound
+   $N_T(G) \le \kappa(T) \cdot c_{\gamma(T)}$ where $\gamma(T) \in
+   \{5, 6, 7\}$ is a short cycle $T$ must contain and $\kappa(T)$
+   counts extensions in a cubic girth-5 host (finite local
+   enumeration per type, same machinery as R106's CHECK D).
+2. **The squeeze**: assemble (S5-lower $\le$ composite mass $\le$
+   capacity-upper) into a single inequality in
+   $(n, \operatorname{tr} A^5, \operatorname{tr} A^6,
+   \operatorname{tr} A^7)$ and the spectral constraints; test
+   feasibility numerically across the witness window $n \le 64$
+   BEFORE attempting an infeasibility proof.
+3. The $n = 28$ girth-5 $C_8$-free SAT decision (Section 144 move 3)
+   stays queued as the population-floor question.
