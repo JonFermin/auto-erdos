@@ -5646,3 +5646,71 @@ spectrum into the $q_8$-negative window on average).
    on random girth-5 cubic samples, conditioned on
    $\operatorname{tr} q_8(A) = -n$ — hunt the bound's shape before
    proving.
+
+## Section 144 — R106: the L2 census lands — `nb_trace_c16_support_census` proved: the EXACT composite decomposition of $\operatorname{tr} B^{16}$, and the forced-composite-mass law (session s_1002-080739-d456)
+
+R106 answers Section 143's next-move 1–2 completely. The "C8-aware
+lower bound on $\operatorname{tr} B^{16} - 32 c_{16}$" is not an
+inequality — it is an EXACT identity. New lemma
+`nb_trace_c16_support_census` (proved, 6 CHECKs, all $\le 4$s):
+
+- (S1) $\operatorname{tr} B^{16} = n + \operatorname{tr} q_{16}(A)$
+  with $q_{16} = q_8^2 - 512$ and the Perron pin
+  $q_{16}(3) = 65537 = 2^{16} + 1$.
+- (S2/S3) In cubic girth-$\ge 5$ $C_8$-free graphs, the support of a
+  cyclically-NB closed $16$-walk obeys $16 \ge e + \mu - 1$ and
+  $\mu \le 3$ ($\mu = 4$ dies by two hand arguments — no loops, no
+  parallel pairs in the suppressed $6$-vertex multigraph — plus an
+  exhaustive scan of all $70$ labeled simple cubic graphs on $6$
+  vertices with subdivision budget $4$: ZERO admissible; $\mu = 5$
+  dies by the Moore ball; $\mu \ge 6$ by $v_3 > v$). The complete
+  support zoo: $C_{16}$ (w $32$), five dumbbells $\ell_1 + \ell_2 +
+  2p = 16$ (w $64$ each), $14$ thetas (w $32$–$192$), $20$ $\mu = 3$
+  homeomorphism types (w $32$–$352$) — $40$ types total, weights by
+  the Möbius recursion over path-unions, cross-validated by direct
+  full-support DFS AND whole-graph walk censuses.
+- (S4) $\operatorname{tr} B^{16} = 32 c_{16} + \sum_T w(T) N_T(G)
+  \ge 32 c_{16}$ — the freeness-aware replacement for the falsified
+  generic share bound.
+- (S5) SECOND-MOMENT LAW: girth $\ge 5$ + $C_8$-free $\Rightarrow$
+  $\sum_i q_8(\lambda_i)^2 = 511 n + \operatorname{tr} B^{16}$.
+  Adding $C_{16}$-freeness and Cauchy–Schwarz on the non-Perron
+  spectrum: composite mass $\sum_T w(T) N_T(G) \ge 66049 +
+  (n + 257)^2/(n - 1) - 511 n$, POSITIVE through $n \le 128$. Every
+  composite type contains a $5$-, $6$-, or $7$-cycle. So a
+  $\{C_4, C_8, C_{16}\}$-free cubic graph in the verifier window is
+  FORCED to be short-cycle-rich: at $n = 30$, composite mass
+  $\ge 53559$, i.e. $\ge 153$ composite subgraphs; the witness
+  hunt's "spread the girth" intuition is now a theorem-grade
+  obstruction in the triangle-free stratum.
+
+The numerical map (Section 143 next-move 2, executed first as the
+qid demanded): 11 distinct girth-$\ge 5$ $C_8$-free cubic samples,
+$n \in [30, 40]$ (two window-census carriers + nine annealed-swap
+random graphs; NONE found below $n = 30$ — two independent $n = 30$
+searches converged to isomorphic graphs, suggesting the population
+floor sits at $n = 30$; recorded as conjecture-grade).
+$\operatorname{tr} B^{16} \in [64000, 67776]$ throughout (Perron
+dominance), composite share $63\% \to 46\%$ as $n: 30 \to 40$.
+Five whole-graph walk censuses (incl. $n = 36, 40$) matched the
+abstract tables shape-for-shape with zero residual.
+
+### Next moves (spectral program, L3)
+
+1. The TWO-SIDED SQUEEZE: (S5) forces composite mass UP (spectral
+   side); the counting side must bound the same mass DOWN via
+   short-cycle counts ($c_5, c_6, c_7$) — each composite type embeds
+   a short cycle, so composite mass $\le$ (local count functional of
+   $c_5, c_6, c_7$ and their incidences). If moment constraints
+   ($\operatorname{tr} A^k$, $k \le 7$, girth-pinned;
+   $\operatorname{tr} q_8(A) = -n$) cap $c_5, c_6, c_7$ hard enough,
+   the window closes for the triangle-free stratum of the witness
+   class. Quantify: how many dumbbells/thetas can a single $C_5$
+   carry?
+2. Port (S5) to $k = 32$: $q_{32} = q_{16}^2 - 2 \cdot 2^{16}$,
+   Perron pin $q_{32}(3) = 65537^2 - 131072$; the $C_{32}$-free
+   constraint stacks a fourth moment identity on the same spectrum.
+3. The $n = 30$ girth-$5$ $C_8$-free population floor (scope note 3):
+   prove or refute by SAT (the engine from `c16_k0_window_census`
+   adapts — decision problem "cubic, girth $\ge 5$, $c_8 = 0$,
+   $n = 28$").
