@@ -5763,3 +5763,62 @@ one short cycle — bounded local combinatorics, the next lemma).
    BEFORE attempting an infeasibility proof.
 3. The $n = 28$ girth-5 $C_8$-free SAT decision (Section 144 move 3)
    stays queued as the population-floor question.
+
+## Section 146 — R109 (explore round): mod-8 ladder probes land — no falsifier, the residue census sizes the ear automaton, and RESIDUE-RIGIDITY becomes the reduction target (session s_1003-080720-4945)
+
+Explore round per Variance policy §2 (exploit counter stood at 2):
+claimed Q0930-083610-3 and executed all three queued probes of
+`mod8_ladder_L3` (full data + 4 new CHECKs F–I in the lemma file).
+
+**Probe outcomes.**
+
+1. **Catalog probe**: adj24 / spider24 / W24 (cubic, $C_4$-free,
+   $C_8$-free — the complete $n = 24$ catalog) satisfy L$_3$ with
+   slack 231 / 342 / 213 mod-8 cycles, mass almost all at length 16.
+2. **Falsifier hunt** (swap-anneal over cubic $C_4$-free graphs,
+   objective = #cycles $\equiv 0 \bmod 8$): floors 10 / 10 / 13 /
+   23 / 42 / 42 at $n = 16 / 20 / 24 / 28 / 30 / 32$ — never near 0.
+   Markström (F3) already excludes cubic falsifiers for $n \le 29$;
+   the live hunt window is cubic $n \in \{30, 31\}$ + non-cubic
+   $\delta \ge 3$, and the anneal saturates far from 0 there too.
+3. **Residue census** (the automaton's step-(i) tables): $K_4$ —
+   $101136/8^6 = 38.6\%$ survivor patterns (no cycle $\equiv 0
+   \bmod 8$), 4906 $S_4$-orbits, NO mod-2 obstruction (all 64 parity
+   classes populated); theta — $342/512$; one ear on $K_4$, both
+   classes, EXACT: prism $14.70\%$, $K_{3,3}$ $12.58\%$; cube
+   $2.15\%$, Petersen $0.036\%$ (MC). Per-ear decay $0.326 \to
+   0.146 \to 0.017$ — SUPERexponential in $\mu$, so a falsifier is a
+   measure-zero conspiracy; this is the quantitative content behind
+   probes 1–2.
+
+**The new concept — mod-8 residue-rigidity.** $H$ is rigid if NO
+$w \colon E(H) \to \mathbb{Z}/8$ avoids a zero-sum simple cycle.
+Rigidity of $H$ implies: EVERY host graph containing a topological
+$H$ has a simple cycle of length $\equiv 0 \bmod 8$ (subdivision
+path lengths realize every residue pattern, $\ell_e \ge 1$). So L$_3$
+reduces to a structure theorem over a finite rigid-core catalog.
+Current ledger: Petersen, Heawood NOT rigid (explicit certificates,
+CHECK I); Möbius–Kantor / Pappus / Desargues resist 2M samples AND
+steepest-descent (best 2 / 4 / 51 zero-sum cycles, never 0) — their
+rigidity is exactly SAT-decidable (one-hot + running-sum automaton,
+~4e5 clauses for MK) but CaDiCaL had not decided MK after 15
+CPU-minutes in-session. $\delta \ge 3$ guarantees only $TK_4$ (not
+rigid), so rigid cores anchor the kill-list, not the whole proof.
+
+### Next moves (mod-8 ladder program)
+
+1. **Decide MK / Pappus / Desargues rigidity** offline-grade: longer
+   SAT runs (hours, not minutes), symmetry-broken encoding (factor
+   out the LCF automorphism), or a binary-adder encoding; a single
+   rigid cubic core would be the first unconditional mod-8 theorem
+   of the attempt.
+2. **Rigid-core catalog below $\mu = 9$**: the cube ($\mu = 5$) and
+   Petersen survive, but MULTIGRAPH skeletons (theta-chains,
+   dumbbells with constrained residues) may be rigid earlier; sweep
+   the cubic multigraph skeletons $\mu \le 6$ exactly ($8^{|E|} \le
+   8^{12}$ chunked, numpy).
+3. **Step (ii) prototype on the real table**: for each of the 4906
+   surviving $K_4$-orbits, compute which ear placements keep it
+   alive — the transition structure of the actual automaton, now
+   finite and census-backed.
+
