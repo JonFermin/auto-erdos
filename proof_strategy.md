@@ -5822,3 +5822,59 @@ rigid), so rigid cores anchor the kill-list, not the whole proof.
    alive — the transition structure of the actual automaton, now
    finite and census-backed.
 
+
+## Section 147 — R110: the capacity dictionary — `c16_capacity_girth9` proved: $N_T \le \kappa(T)\,c_{\gamma(T)}$ for all $39$ composite types, the squeeze verdict, and the girth-$9$ $C_{16}$ theorem (session s_1004-080734-fd2b)
+
+R110 executes Section 145's next-moves 1–2 (the qid Q0930-083610-2
+continuation) in one round. New lemma `c16_capacity_girth9`
+(proved, 4 CHECKs, worst 17 s):
+
+- **(K1/K2) the capacity bound.** Every composite type $T$ of the
+  census has girth $\gamma(T) \in \{5,6,7\}$; for ANY finite simple
+  cubic host, $N_T(G) \le \kappa(T)\, c_{\gamma(T)}(G)$, where
+  $\kappa(T) = 2\gamma \prod (3 - d^{\mathrm{proc}})$ is the
+  embedding-exploration constant (dihedral anchor on the designated
+  short cycle, then edge-by-edge extension with cubic-degree
+  factors; any processing order is valid, the canonical one is
+  frozen in CHECK A). $\kappa \in [10, 1280]$ over the table.
+  Validated with zero violations on 124 host–type pairs (CHECK B).
+- **(K3) aggregate.** For cubic girth-$\ge 5$ $C_8$-free $G$:
+  composite mass $= \operatorname{tr} B^{16} - 32 c_{16} \le
+  K_5 c_5 + K_6 c_6 + K_7 c_7$ with $(K_5, K_6, K_7) =
+  (367360,\, 104448,\, 53760)$ — via the moment dictionary this cap
+  is a pure spectral functional.
+- **(K4) THE GIRTH-9 $C_{16}$ THEOREM (unconditional).** Every
+  connected cubic graph with girth $\ge 9$ on $n \le 130$ vertices
+  contains a $16$-cycle. Proof: girth $\ge 9$ kills $c_5, c_6, c_7$,
+  so (K3) forces composite mass $\le 0$ under $C_{16}$-freeness,
+  while census (S5) forces $\operatorname{tr} B^{16} \ge 66049 +
+  (n+257)^2/(n-1) - 511n > 0$ through $n \le 130$ (exact
+  arithmetic, sharp: negative at $n = 132$). Program meaning: NO
+  cubic Erdős–Gyárfás counterexample with girth $\ge 9$ and
+  $n \le 130$ — combined with Markström ($n \le 29$), any cubic
+  counterexample on $\le 130$ vertices has girth $\in \{3,5,6,7\}$.
+  This is the attempt's first unconditional power-of-2-cycle
+  theorem beyond finite catalogs.
+- **The squeeze verdict (qid step 2 — numeric test BEFORE
+  infeasibility effort, executed, NEGATIVE for girth 5).** On the
+  $n = 30$ carrier the capacity cap overshoots actual composite
+  mass $83.9\times$ ($3520256$ vs $41952$); since even $K_5 \cdot 1
+  = 367360$ dwarfs the (S5) requirement ($\approx 5.4 \cdot 10^4$),
+  the generic-host squeeze cannot close ANY stratum with
+  $c_5 + c_6 + c_7 \ge 1$. The girth-$\ge 9$ stratum (K4) is its
+  honest, exact extent. No infeasibility proof was attempted on the
+  girth-5 stratum — correctly, per the qid's own protocol.
+
+### Next moves (spectral program, post-L3)
+
+1. **Host-aware capacity**: the $83.9\times$ gap lives in extension
+   steps that a girth-$\ge 5$ $C_8$-free host forbids (subdivided
+   cycles closing at length $3, 4, 8$; prescribed far endpoints).
+   Per-$Z$ dart-budget accounting (a $C_5$ has only $5$ off-cycle
+   darts; every type's extensions consume them) could cut $K_5$ by
+   orders of magnitude — bounded local combinatorics, one round.
+2. **Stack the $k = 32$ moment**: $q_{32}$ transfer is proved (M4);
+   a $C_{32}$-free third moment could extend (K4)'s window beyond
+   $n = 130$ or trade girth $9$ down to girth $7$.
+3. The $n = 28$ girth-5 $C_8$-free SAT population-floor decision
+   stays queued (Section 144 move 3).
