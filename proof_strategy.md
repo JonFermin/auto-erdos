@@ -5878,3 +5878,42 @@ continuation) in one round. New lemma `c16_capacity_girth9`
    $n = 130$ or trade girth $9$ down to girth $7$.
 3. The $n = 28$ girth-5 $C_8$-free SAT population-floor decision
    stays queued (Section 144 move 3).
+
+## Section 148 — R111: host-aware dart-budget capacity — `c16_dart_budget`: $K_5, K_6, K_7 \to 89464, 28848, 29536$ and the first nontrivial population floors (session s_1005-080741-14d1)
+
+R110's capacity constants bounded per-type copies in an ARBITRARY cubic
+host; this round replaces them by an anchored-walk accounting that uses
+the host class (girth $\ge 5$, $C_8$-free) itself. Three moves:
+
+1. **Attribution.** The composite mass $M = \operatorname{tr} B^{16} -
+   32 c_{16}$ counts rooted closed NB $16$-walks with composite
+   support; each such support has girth $\ell \in \{5,6,7\}$ (R110
+   (K1)), so mapping every walk to the canonical MINIMUM cycle of its
+   support gives $M \le \sum_\ell \sum_{Z\ \ell\text{-cycle}}
+   W_\ell(Z)$ with $W_\ell(Z)$ = walks whose support contains $Z$ AND
+   has girth exactly $\ell$ — a per-anchor quantity.
+2. **Host-independent bound on $W_\ell(Z)$** by exhaustive canonical
+   pattern enumeration (16 steps, $Z$ pre-labeled, externals labeled by
+   first appearance) with a slot-allocation realization bound (each of
+   the $\le 3 - \deg_{\mathrm{known}}$ unknown cubic slots is one host
+   vertex: fresh-class value usable per slot, each identification
+   usable once), pruned by (i) host girth/C8 (known graph $\subseteq$
+   host, all new cycles pass through the new edge: path check
+   $\{2,3,7\}$), (ii) support girth $= \ell$ (no shorter cycle among
+   traversed edges), (iii) census cycle-rank $\le 3$ with guaranteed
+   future increments from uncovered $Z$-edges, (iv) rotation-offset
+   weights $17 - L$ replacing the blanket $16\times$.
+3. **Result** (`c16_dart_budget`, CHECKs re-derive everything):
+   $$K_5' = 89464\ (4.11\times),\quad K_6' = 28848\ (3.62\times),\quad
+     K_7' = 29536\ (1.82\times).$$
+   Carrier squeeze re-test: cap $1029784$ vs mass $41952$ —
+   $24.5\times$ overshoot (was $83.9\times$); girth-$5$ verdict
+   unchanged (negative), $K_5'$ still above $R(30) = 53559.3$. NEW
+   unconditional content: population floors — any cubic counterexample
+   with girth $6$ (resp. $7$) on even $n \in [30, 74]$ has
+   $c_6 + c_7 \ge 2$ (resp. $c_7 \ge 2$); first floors above the
+   definitional $\ge 1$. Empirical tightness on the carrier:
+   anchored actuals $4032/2240/896$ — the remaining $\sim 13$–$33\times$
+   sits in the fresh-step factor-$2$s, which an ear-automaton
+   (Section 146 residue tables) or the $k = 32$ moment census would
+   attack next.
