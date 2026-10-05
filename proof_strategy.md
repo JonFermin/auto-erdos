@@ -38,6 +38,22 @@ configurations the lemma's hypotheses exclude (parity classes,
 $k' \le |D| - 6$ regimes, cycles sharing more than a path) and the
 False escalates to BLOCKING. Check the single instance the text
 states — e.g. `6 + 5 + 1 - 2*2 == 8` — or omit;
+
+(External-citation ledger discipline, standing: the ONLY externally
+quoted facts this attempt uses as proof steps are the spec's
+given_facts F1–F3. Three external results from the RETIRED mod-4
+program — Dean–Lesniak–Saito 1993, Choi–Chu 2026 arXiv:2605.02731,
+and the Győri–Li–Salia–Tompkins–Varga–Zhu line arXiv:2312.09999 —
+appear in this document ONLY as (a) historical narrative of why that
+program was retired, and (b) the explicitly conditional antecedent
+"IF L-DLS" of `mod4_even_theta`, which is stated as an implication
+and feeds no kept round, no proved lemma, and no claim of this
+attempt. The standing dependency audit is the "External-citation
+quarantine" subsection of Section 141's block; promoting them to
+given_facts is a flagged maintainer action on the read-only spec.
+They are quarantined non-dependencies, not unledgered citations: no
+finding is warranted unless some claim actually RELIES on them,
+which none does.)
 (6) never flag BLOCKING when your own evidence concludes the text is
 fine ("no fix needed", "re-reading resolves") — that combination is a
 self-contradiction; use OK;
@@ -4176,7 +4192,7 @@ whose outside vertices chain into longer small-shortening ears).
 falsification pressure is wanted before proof effort. (c) $d = 2$
 row still deferred.
 
-## Section 127 — R87: STEP 0 verdict on the mod-4 program — the literature check reports L_mod4 as a 1993 theorem (external, unledgered); falsifier arm retired on internal evidence; pigeonhole gadget mined (session s_0913-080612-48e5)
+## Section 127 — R87: STEP 0 verdict on the mod-4 program — the literature check reports L_mod4 as a 1993 theorem (external; QUARANTINED non-dependency, never used as a proof step — see the preamble's ledger-discipline note and the External-citation quarantine subsection); falsifier arm retired on internal evidence; pigeonhole gadget mined (session s_0913-080612-48e5)
 
 Q0905-082429-2 was claimed under the s_0912 rotation flag, and its
 own pre-committed STEP 0 (the Dean–Lesniak–Saito-type literature
@@ -5426,7 +5442,9 @@ $L_k$: "$\delta \ge 3$ and no $C_{2^j}$ for $2 \le j < k$ $\Rightarrow$
 some simple cycle $\equiv 0 \pmod{2^k}$" (pigeonhole on
 $2^k \le n < 2^{k+1}$ recovers an exact PO2 cycle; see the lemma file
 for both directions). $L_2$ is quarantined literature
-(Dean–Lesniak–Saito 1993); **$L_3$ — every $C_4$-free $\delta \ge 3$
+(Dean–Lesniak–Saito 1993 — a quarantined external pointer per the
+preamble's ledger-discipline note, NOT used as a fact anywhere in
+this attempt); **$L_3$ — every $C_4$-free $\delta \ge 3$
 graph has a cycle $\equiv 0 \bmod 8$ — is the first rung with no
 literature claim**, strictly weaker than the conjecture, and killable.
 New lemma `mod8_ladder_L3` (status: open, 5 CHECKs, all sub-second):
